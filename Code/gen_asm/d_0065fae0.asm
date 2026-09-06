@@ -788,17 +788,6 @@ public ?d_006726b0@@YAXXZ
     db 0FFh, 5Fh, 5Eh, 5Bh, 0C3h
 ?d_006726b0@@YAXXZ ENDP
 
-; ghidra: FUN_00a72fc0  retail @ 0x00672FC0 size 90
-public ?d_00672fc0@@YAXXZ
-?d_00672fc0@@YAXXZ PROC
-    db 53h, 55h, 56h, 8Bh, 71h, 04h, 85h, 0F6h, 57h, 74h, 3Dh, 8Bh, 6Ch, 24h, 1Ch, 8Ah
-    db 5Ch, 24h, 18h, 66h, 8Bh, 7Ch, 24h, 14h, 8Bh, 06h, 8Bh, 40h, 14h, 50h, 0E8h, 8Fh
-    db 2Bh, 9Ah, 0FFh, 83h, 0C4h, 04h, 84h, 0C0h, 74h, 17h, 8Bh, 06h, 66h, 39h, 78h, 10h
-    db 75h, 0Fh, 8Bh, 50h, 0Ch, 0Fh, 0B6h, 0CBh, 3Bh, 0D1h, 75h, 05h, 39h, 68h, 08h, 74h
-    db 10h, 8Bh, 76h, 04h, 85h, 0F6h, 75h, 0D0h, 5Fh, 5Eh, 5Dh, 33h, 0C0h, 5Bh, 0C2h, 0Ch
-    db 00h, 5Fh, 8Bh, 0C6h, 5Eh, 5Dh, 5Bh, 0C2h, 0Ch, 00h
-?d_00672fc0@@YAXXZ ENDP
-
 ; ghidra: FUN_00a73550  retail @ 0x00673550 size 36
 public ?d_00673550@@YAXXZ
 ?d_00673550@@YAXXZ PROC
