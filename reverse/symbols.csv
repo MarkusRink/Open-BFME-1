@@ -84323,7 +84323,5 @@ g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeAllowBV@@YADH@Z,0x00015B72,pin
-?__digit_val_table@_STL@@3QBEB,0x0112F3B0,STLport digit table referenced by __get_integer at 0x00834F50
-?bfmeGetBS@BfmeInnerBS@@QAEPAVBfmeCtxBS@@XZ,0x000022BB,pin
 ?getText@Rva00788290Allocation@@QAE?AVUnicodeString@@XZ,0x00005380,Rva00788290Allocation APT display-text getter call uses the existing ILT
 ?bfme_bindAptText@WindowManager@@QAEXABVAsciiString@@ABVUnicodeString@@PAVAptTextListener@@@Z,0x00023362,Rva00788290Allocation destructor calls the existing APT listener bind ILT
