@@ -84369,3 +84369,6 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ??_7BfmeOwnCE@@6BSubsystemInterface@@,0x00C89644,pin
 ??_7BfmeOwnCE@@6BBfmeBaseVUQ@@,0x00C89630,pin
 ?bfmeShutdownCE@BfmeOwnCE@@QAEXXZ,0x000066E0,pin
+??0BfmeTmpCF@@QAE@XZ,0x0001CF8A,pin
+?bfmeRunCF@BfmeTmpCF@@QAEXPAX0@Z,0x0002AF72,pin
+??1BfmeTmpCF@@QAE@XZ,0x00012EB3,pin
