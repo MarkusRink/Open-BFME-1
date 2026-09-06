@@ -1083,7 +1083,6 @@ Bool ProcessAnimateWindowSpiral::updateAnimateWindow( AnimateWindow *animWin )
 #endif
 
 //-----------------------------------------------------------------------------
-// ?reverseAnimateWindow@ProcessAnimateWindowSpiral@@UAE_NPAVAnimateWindow@@@Z present-unmatched
 Bool ProcessAnimateWindowSpiral::reverseAnimateWindow( AnimateWindow *animWin )
 {
 	
@@ -1097,10 +1096,9 @@ Bool ProcessAnimateWindowSpiral::reverseAnimateWindow( AnimateWindow *animWin )
 	if(animWin->isFinished())
 		return TRUE;
 
+	if(timeGetTime() < animWin->getStartTime())
+		return FALSE;
 
-
-	// it's set that the window is passed in as it's current position being it's rest position
-	// so save off the rest position
 	GameWindow *win = animWin->getGameWindow();
 	if(!win)
 	{
@@ -1115,23 +1113,26 @@ Bool ProcessAnimateWindowSpiral::reverseAnimateWindow( AnimateWindow *animWin )
 	curPos.x = (vel.y * cos(vel.x)) + endPos.x; 
 	curPos.y = (vel.y * sin(vel.x)) + endPos.y;
 
-	vel.x = vel.x - m_deltaTheta;
-	vel.y +=5;
+	vel.x = vel.x + m_deltaTheta;
+	vel.y -= 5;
 	
 	ICoord2D size;
 	win->winGetSize(&size.x, &size.y);
-//	Int m_max = min(size.x/2, size.y/2);
+	Int halfWidth = size.y / 2;
+	Int halfHeight = size.x / 2;
+	Int *m_max = halfHeight < halfWidth ? &halfHeight : &halfWidth;
 
-	if(vel.y > m_maxR)
+	if(vel.y < *m_max)
 	{
-		//ICoord2D restPos = animWin->getRestPos();
+		ICoord2D restPos = animWin->getRestPos();
 		animWin->setFinished( TRUE );
-		//win->winSetPosition(restPos.x, restPos.y);
+		win->winSetPosition(restPos.x, restPos.y);
 		return TRUE;
 	}
 	win->winSetPosition(curPos.x, curPos.y);
 	animWin->setCurPos(curPos);
-	animWin->setVel(vel);
+	Coord2D storedVel = {vel.x, vel.y};
+	animWin->setVel(storedVel);
 	return FALSE;
 }
 
