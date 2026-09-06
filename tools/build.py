@@ -1651,7 +1651,18 @@ def verify_functions(only=None):
     patches = []
     renumbered = []
     for row in rows:
-        patch = compile_function(row, symbol_map, row_object(row))
+        try:
+            patch = compile_function(row, symbol_map, row_object(row))
+        except (ValueError, SystemExit) as unreadable:
+            # A row whose body cannot even be READ is red -- it never passed and
+            # still does not -- but until now the first one aborted the whole run
+            # before a single result line was printed, so a full gate reported
+            # nothing about the other 161,000 rows. Reporting, not comparison:
+            # the pass/fail decision for every row is untouched.
+            failures += 1
+            print(f"  FAIL {row['name']} ({row['source']})")
+            print(f"    {unreadable}")
+            continue
         target = patch["target"]
         compiled = patch["bytes"]
 
