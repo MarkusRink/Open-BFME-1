@@ -84493,3 +84493,4 @@ g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeCheckFH@BfmeCheckFH@@QAEDPAX@Z,0x0003E80B,pin
 ?bfmeNoteGK@BfmeAgentGK@@QAEXPAVBfmeItemGK@@@Z,0x00015D02,pin
+?bfmeGetHM@BfmeHolderHM@@QAEPAVBfmeItemHM@@XZ,0x0000E570,pin
