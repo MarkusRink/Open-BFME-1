@@ -169320,3 +169320,4 @@ _malloc,0x009F6C34,retail malloc import the pooled operator new glue calls (slot
 ??0WeaponBonusUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00034EDC,ModuleFactory ILT thunk to 0x007583A0; the byte-verified retail caller encodes it
 ??0BfmeModuleFactoryBase@@QAE@XZ,0x009A1A30,ModuleFactory TU-local name for the base constructor its ModuleData ctors run
 ??1BfmeModuleFactoryBase@@QAE@XZ,0x00887940,same TU-local base; the destructor ??1WorkerAIUpdateModuleData@@UAE@XZ encodes
+??0SnapshotDupReplica@@QAE@XZ,0x007E86B0,"the 16-byte base ctor at 0x007E86B0 (vftable 0x01129358, zero at +4); functions.csv already records this spelling as that body's object symbol"

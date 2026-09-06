@@ -1,10 +1,10 @@
 // cl: /DNDEBUG /MD /EHsc
 // Open-BFME5: Energy's default constructor, retail 0x00808880.
 //
-// Shape: call the Snapshot constructor at 0x007E86B0, zero four dwords at +4,
+// Shape: call the SnapshotDupReplica constructor at 0x007E86B0, zero four dwords at +4,
 // +8, +0xc and +0x10, then store the vtable at +0. Zero Hour's Energy::Energy
 // assigns exactly four members -- m_energyProduction, m_energyConsumption,
-// m_owner, m_powerSabotagedTillFrame -- and with the Snapshot vptr at +0 those
+// m_owner, m_powerSabotagedTillFrame -- and with the SnapshotDupReplica vptr at +0 those
 // four offsets are exactly what gets written.
 //
 // Retail writes them in the order 8, 0xc, 4, 0x10. A constructor body emits its
@@ -18,15 +18,20 @@
 // NOT on the vtable: the address stored there, 0x011296B0, is also what
 // ??0GhostObjectManager@@QAE@XZ at 0x007E87F0 stores, so the two vtables are
 // COMDAT-folded and the operand distinguishes nothing. It is a relocation and
-// masked from the comparison anyway. A "Snapshot constructor, zero N dwords,
-// set vtable" body is boilerplate shared by every Snapshot subclass with N
+// masked from the comparison anyway. A "SnapshotDupReplica constructor, zero N dwords,
+// set vtable" body is boilerplate shared by every SnapshotDupReplica subclass with N
 // scalar members; N is the only discriminator these bytes carry.
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Snapshot.h
-class Snapshot
+// Retail runs the 16-byte base constructor at 0x007E86B0 here (vftable
+// 0x01129358 plus a zeroed word at +4), not the 9-byte vptr-only body the
+// ledger carries as ??0Snapshot@@QAE@XZ. SnapshotDupReplica is the
+// TU-local spelling functions.csv already records as that body's object
+// symbol.
+class SnapshotDupReplica
 {
 public:
-	Snapshot();										///< 0x007E86B0
+	SnapshotDupReplica();										///< 0x007E86B0
 	virtual void crc() {}
 	virtual void xfer() {}
 	virtual void loadPostProcess() {}
@@ -35,7 +40,7 @@ public:
 class Player;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Energy.h
-class Energy : public Snapshot
+class Energy : public SnapshotDupReplica
 {
 public:
 	Energy();
