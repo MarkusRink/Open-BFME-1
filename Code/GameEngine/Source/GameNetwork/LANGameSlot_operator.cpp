@@ -5,6 +5,24 @@
 
 #include "PreRTS.h"
 
+// UnicodeString is StringBase<WideChar>, and retail inlined the one-line
+// forwarder away: every member copy below encodes
+// ?set@?$StringBase@G@@QAEXABV1@@Z at 0x00888530 directly, not the ZH
+// ?set@UnicodeString@@QAEXABV1@@Z spelling (which resolves to the NARROW
+// StringBase<char> body at 0x00887C90).
+template <typename Char>
+class StringBase
+{
+public:
+	void set( const StringBase<Char> &src );
+};
+
+inline void UnicodeString::set( const UnicodeString &stringSrc )
+{
+	reinterpret_cast<StringBase<WideChar> &>( *this ).set(
+		reinterpret_cast<const StringBase<WideChar> &>( stringSrc ) );
+}
+
 enum LANGameSlotState { LAN_SLOT_OPEN, LAN_SLOT_CLOSED, LAN_SLOT_EASY_AI, LAN_SLOT_MED_AI, LAN_SLOT_BRUTAL_AI, LAN_SLOT_PLAYER };
 
 struct LANGameSlotConnectInfo

@@ -56,6 +56,35 @@
 #include "GameClient/Gadget.h"
 #include "GameClient/GameWindowManager.h"
 
+// UnicodeString is StringBase<WideChar>, and retail inlined its one-line
+// forwarders away: the call sites below encode the StringBase<WideChar> bodies
+// directly, not the ZH UnicodeString spellings (which resolve to the NARROW
+// StringBase<char> bodies).
+template <typename Char>
+class StringBase
+{
+public:
+	void set( const StringBase<Char> &src );
+private:
+	friend class UnicodeString;
+	StringBase( const StringBase<Char> &src );
+};
+
+// ?set@?$StringBase@G@@QAEXABV1@@Z at 0x00888530
+inline void UnicodeString::set( const UnicodeString &stringSrc )
+{
+	reinterpret_cast<StringBase<WideChar> &>( *this ).set(
+		reinterpret_cast<const StringBase<WideChar> &>( stringSrc ) );
+}
+
+// ??0?$StringBase@G@@AAE@ABV0@@Z at 0x00888400 -- private, which is what
+// mangles it AAE.
+inline UnicodeString::UnicodeString( const UnicodeString &stringSrc )
+{
+	((StringBase<WideChar> *)this)->StringBase<WideChar>::StringBase(
+		*(const StringBase<WideChar> *)&stringSrc );
+}
+
 // DEFINES ////////////////////////////////////////////////////////////////////
 
 // PRIVATE TYPES //////////////////////////////////////////////////////////////
