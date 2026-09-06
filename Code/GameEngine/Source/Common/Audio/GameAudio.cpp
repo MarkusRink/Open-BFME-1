@@ -45,6 +45,36 @@
 //----------------------------------------------------------------------------
 
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+
+// BFME de-pooled this glue: retail's per-class `operator delete(void*, MagicEnum)`
+// is one 12-byte body (0x007EFFF0) that calls the CRT free IMPORT THUNK -- a
+// `call rel32` into `jmp [__imp__free]` -- where ::operator delete (0x00881EB0)
+// is a different function. <stdlib.h> declares free __declspec(dllimport) under
+// /MD, which compiles to the `ff 15` indirect form instead, so the C-linkage
+// redeclaration below is what names `_free` for the linker's thunk; it is
+// namespaced so every other free() call in this TU keeps the indirect form
+// retail also uses. Same TU-scoped override Team.cpp already carries.
+// Retail's pooled operator new here is 14 bytes at 0x007EFFE0 calling the
+// MSVCR71 malloc import thunk at 0x009F6C34, the same shape as the delete side.
+namespace BfmePoolGlue { extern "C" void __cdecl free(void *); extern "C" void *__cdecl malloc(size_t); }
+#undef MEMORY_POOL_GLUE_WITHOUT_GCMP
+#define MEMORY_POOL_GLUE_WITHOUT_GCMP(ARGCLASS) \
+protected: \
+	virtual ~ARGCLASS(); \
+public: \
+	enum ARGCLASS##MagicEnum { ARGCLASS##_GLUE_NOT_IMPLEMENTED = 0 }; \
+public: \
+	inline void *operator new(size_t s, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ return BfmePoolGlue::malloc(s); } \
+public: \
+	inline void operator delete(void *p, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ BfmePoolGlue::free(p); } \
+protected: \
+	inline void *operator new(size_t s) { return ::operator new(s); } \
+	inline void operator delete(void *p) { ::operator delete(p); } \
+private: \
+	virtual MemoryPool *getObjectMemoryPool() { return ARGCLASS::getClassMemoryPool(); } \
+public:
 #include "Common/GameAudio.h"
 
 #include "Common/AudioAffect.h"
