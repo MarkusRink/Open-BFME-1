@@ -1,5 +1,5 @@
-// cl: /MD -Ireference/shims/gamespy
-/* GameSpy SDK, 2004 vintage -- pristine upstream C source.
+// cl: /MD -Ireference/shims/gamespy /ICode/GameEngine/Source/GameNetwork/GameSpy/gstats
+/* GameSpy SDK, 2004 vintage -- upstream C source with retail challenge-response behavior.
    Sourced from the Area 51 (Inevitable Entertainment / Midway) source release,
    github.com/bisc67/Area51, Support/NetworkMgr/GameSpy -- the only public
    carrier found with the pre-2005 SDK layout (top-level nonport.c, no common/).
@@ -964,7 +964,7 @@ static int SendChallengeResponse(char *indata, int gameport)
 	static char challengestr[] = {'\0','h','a','l','l','e','n','g','e','\0'};
 	char *challenge;
 	char resp[128];
-	char md5val[33];
+	char md5val[33]; char gameName[12]; char secretKey[8];
 
 	/* make this harder to find in the string table */
 	char respformat[] = "\xC\x13\x1A\x1E\xD\x3F\x28\x26\x11\x5\x0\x16\x31\x1F\xA\x36\x40\x10\x28\x33\x15\x1B\x15\x17\x3E\x1\xA\x36\x40\x10\x28\x31\x1F\x1A\x11\x24\x75\x16\x33\x3\x1\x3F\x45";
@@ -976,20 +976,20 @@ static int SendChallengeResponse(char *indata, int gameport)
 	if (challenge == NULL)
 	{
 		closesocket(sock);
-        sock=INVALID_SOCKET;
+        /* Retail retains the socket value after closing. */
 		return GE_DATAERROR;
 	}
 	
-	len = sprintf(resp, "%d%s",g_crc32(challenge,(int)strlen(challenge)), gcd_secret_key);
+	gameName[0]='l'; gameName[1]='o'; gameName[2]='t'; gameName[3]='r'; gameName[4]='b'; gameName[5]='m'; gameName[6]='e'; gameName[7]='\0'; secretKey[0]='h'; secretKey[1]='3'; secretKey[2]='D'; secretKey[3]='7'; secretKey[4]='L'; secretKey[5]='c'; secretKey[6]='\0'; 	len = sprintf(resp, "%d%s",g_crc32(challenge,(int)strlen(challenge)), secretKey);
 	
 	MD5Digest((unsigned char *)resp, (unsigned int)len, md5val);
 	DOXCODE(respformat, sizeof(respformat)-1, enc3);
-	len = sprintf(resp,respformat,gcd_gamename, md5val, gameport);
+	len = sprintf(resp,respformat,gameName, md5val, gameport);
 	
 	if ( DoSend(resp, len) <= 0 )
 	{
 		closesocket(sock);
-        sock=INVALID_SOCKET;
+        /* Retail retains the socket value after closing. */
 		return GE_NOCONNECT;
 	}
 
