@@ -84384,3 +84384,6 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ??1BfmeBaseCH@@QAE@XZ,0x0001A910,pin
 ??0BfmeGuardCJ@@QAE@PAVBfmeThingCJ@@PAX@Z,0x00039B12,pin
 ??1BfmeGuardCJ@@QAE@XZ,0x00008B84,pin
+??0BfmeScopeCN@@QAE@PAXPAVBfmeTargetCN@@0@Z,0x000120C1,pin
+?bfmeCloseCN@BfmeInnerCN@@QAEXPAX@Z,0x0000871A,pin
+?bfmeStepCN@BfmeTargetCN@@QAEDH@Z,0x00028BFA,pin
