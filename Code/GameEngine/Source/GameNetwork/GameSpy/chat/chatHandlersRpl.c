@@ -75,7 +75,9 @@ typedef struct ciServerMessage
 {
     unsigned char reserved0[8];
     char *nick;
-    unsigned char reserved0c[0x20 - 0x0c];
+    char *user;
+    char *host;
+    unsigned char reserved14[0x20 - 0x14];
     char **params;
     int numParams;
 } ciServerMessage;
@@ -2860,4 +2862,114 @@ void ciRplUserIPHandler(CHAT chat, const ciServerMessage *message)
 	}
 
 	ciSendNickAndUser(chat);
+}
+
+typedef struct ciJoinConnection
+{
+    unsigned char beforeChatSocket[0x1c];
+    unsigned char chatSocket;
+    unsigned char betweenSocketAndNick[0x36c - 0x1d];
+    char nick[64];
+} ciJoinConnection;
+typedef struct JOINData
+{
+    chatChannelCallbacks callbacks;
+    CHATBool joined;
+    char password[1];
+} JOINData;
+CHATBool ciIsEnteringChannel(CHAT chat, const char *channel);
+void ciChannelEntered(CHAT chat, const char *channel, chatChannelCallbacks *callbacks);
+
+void ciJoinHandler(CHAT chat, const ciServerMessage *message)
+{
+	char *channel;
+	char *nick;
+	char *user;
+	char *address;
+	int mode;
+	chatChannelCallbacks *callbacks;
+	ciJoinConnection *connection = (ciJoinConnection *)chat;
+
+	assert(message->numParams == 1);
+	if (message->numParams != 1)
+		return;
+
+	channel = message->params[0];
+	nick = message->nick;
+	user = message->user;
+	address = message->host;
+
+	if (*nick == '@')
+	{
+		mode = CHAT_OP;
+		nick++;
+		assert(*nick != '\0');
+	}
+	else if (*nick == '+')
+	{
+		mode = CHAT_VOICE;
+		nick++;
+		assert(*nick != '\0');
+	}
+	else
+	{
+		mode = 0; /* CHAT_NORMAL */
+	}
+
+	if (strcmp(nick, connection->nick) == 0)
+	{
+		ciServerMessageFilter *filter;
+		ciFilterMatch match;
+
+		if (!ciIsEnteringChannel(chat, channel))
+			return;
+
+		memset(&match, 0, sizeof(ciFilterMatch));
+		match.type = TYPE_JOIN;
+		match.name = channel;
+
+		filter = ciFindFilter(chat, 1, &match);
+		if (filter != NULL)
+		{
+			JOINData *data;
+
+			data = (JOINData *)filter->data;
+			ciChannelEntered(chat, channel, &data->callbacks);
+			ciSetChannelPassword(chat, channel, data->password);
+			data->joined = CHATTrue;
+			ciSocketSendf(&connection->chatSocket, "MODE %s", channel);
+		}
+
+		return;
+	}
+
+	if (ciInChannel(chat, channel))
+		ciUserEnteredChannel(chat, nick, channel, mode, user, address);
+
+	if (ciWasJoinCallbackCalled(chat, channel))
+	{
+		callbacks = ciGetChannelCallbacks(chat, channel);
+		if (callbacks != NULL)
+		{
+			if (callbacks->userJoined != NULL)
+			{
+				ciCallbackUserJoinedParams params;
+				params.channel = channel;
+				params.user = nick;
+				params.mode = mode;
+				ciAddCallback(chat, CALLBACK_USER_JOINED,
+					callbacks->userJoined, &params, callbacks->param, 0,
+					channel);
+			}
+
+			if (callbacks->userListUpdated != NULL)
+			{
+				ciCallbackUserListUpdatedParams params;
+				params.channel = channel;
+				ciAddCallback(chat, CALLBACK_USER_LIST_UPDATED,
+					callbacks->userListUpdated, &params, callbacks->param, 0,
+					channel);
+			}
+		}
+	}
 }
