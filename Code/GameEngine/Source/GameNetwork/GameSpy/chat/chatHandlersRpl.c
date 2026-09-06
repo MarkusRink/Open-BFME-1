@@ -2814,3 +2814,50 @@ void ciRplWhoReplyHandler(CHAT chat, const ciServerMessage *message)
 		return;
 	}
 }
+
+typedef void (__cdecl *ciFillInUserCallback)(CHAT chat, unsigned long IP,
+	char *user, void *param);
+
+typedef struct ciRplUserIPConnection
+{
+	unsigned char beforeFillInUser[0x10];
+	ciFillInUserCallback fillInUserCallback;
+	void *connectCallback;
+	void *connectParam;
+	unsigned char chatSocket;
+	unsigned char beforeUser[0x42c - 0x1d];
+	char user[0x80];
+} ciRplUserIPConnection;
+
+unsigned long __stdcall inet_addr(const char *address);
+__declspec(dllimport) char *strncpy(char *dest, const char *source,
+	unsigned int len);
+void ciSendNickAndUser(CHAT chat);
+
+
+void ciRplUserIPHandler(CHAT chat, const ciServerMessage *message)
+{
+	char *IP;
+	ciRplUserIPConnection *connection = (ciRplUserIPConnection *)chat;
+
+	assert(message->numParams >= 1);
+	if (message->numParams < 1)
+		return;
+
+	IP = strchr(message->params[message->numParams - 1], '@');
+	if (IP)
+	{
+		IP++;
+
+		if (connection->fillInUserCallback)
+		{
+			char user[0x80];
+			connection->fillInUserCallback(chat, inet_addr(IP), user,
+				connection->connectParam);
+			strncpy(connection->user, user, 0x80);
+			connection->user[0x7f] = '\0';
+		}
+	}
+
+	ciSendNickAndUser(chat);
+}
