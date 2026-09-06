@@ -169295,23 +169295,6 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?g_bfmeReadyAG@@3PAXA,0x00EF4B44,pin
-?bfmeRunAG@BfmeMgr19E@@QAEXXZ,0x000290D2,pin
-?bfmeNotifyAH@BfmeOwnAH@@QAEXXZ,0x0001F181,pin
-?g_bfmeEscAI@@3PADA,0x00D063E4,pin
-?bfmeAddAI@BfmeMgr19E@@QAEXPAXPADH11111@Z,0x00015235,pin
-?bfmeCloseAI@BfmeOwnAI@@QAEXH@Z,0x00011E14,pin
-?g_bfmeFmtAJ@@3PADA,0x00D090FC,pin
-?bfmeAddAJ@BfmeMgr19E@@QAEXPAXPADH11111@Z,0x00015235,pin
-?bfmeCloseAJ@BfmeOwnAJ@@QAEXH@Z,0x0003D811,pin
-?bfmeStopAK@@YAXPAXHH@Z,0x000439C3,pin
-?bfmeStartAK@@YAHPAX@Z,0x0002CAAC,pin
-?setKeyFromName@EventFlagEntry@@QAEXPBD@Z,0x002DFA00,shared 25-byte name-key store body used by Rva002E2970Host::initEventKeys
-?parseLadder@@YAPAVLadderInfo@@VAsciiString@@@Z,0x0062AD50,checkLadder direct call at 0x0062BCDC and the file-local parser in GameNetwork/GameSpy/LadderDefs.cpp
-?push_back@?$list@PAVLadderInfo@@V?$allocator@PAVLadderInfo@@@_STL@@@_STL@@QAEXABQAVLadderInfo@@@Z,0x0002C5E8,checkLadder inserts into LadderList::m_localLadders at 0x0062BD96
-?size@?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QBEIXZ,0x0000D2BF,checkLadder tests the validMaps list at LadderInfo offset 0x1C
-?bfmeFindAN@GameLogic@@QAEPAVBfmeObjAN@@H@Z,0x0001F253,pin
-?g_bfmeFileAO@@3PADA,0x00CAA908,pin
 _malloc,0x009F6C34,retail malloc import the pooled operator new glue calls (slot 0x0135944C)
 ??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x000668C0,zhstl per-site callee copy (body proven byte-equal)
 ??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x00068BE0,zhstl per-site callee copy (body proven byte-equal)
