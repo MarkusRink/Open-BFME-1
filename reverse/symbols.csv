@@ -10838,6 +10838,7 @@ name,address,notes
 ?Rva00897330NotifyFree@@YAXPAX@Z,0x00897330,address decoded from the retail REL32 call site; name is address-derived
 ?Rva008FCE00SurfaceOperation@@YAXXZ,0x008FCE00,address-derived ABI alias for unnamed W3DRadarResetSurface operation used by 0x00732B00
 ?Rva00906E70ComputeCaps@DX8Wrapper@@KAXPAX@Z,0x00906E70,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0090ADC0 calls; autopin
+?Init@DX8Wrapper@@SA_NPAX_N@Z,0x0090AB60,WW3D::Init calls the BFME DX8 initializer at the retail helper body
 ?Rva0090C610Invoke@@YGXPAX@Z,0x0090C610,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006D4FF0 calls; autopin
 ?Rva0090F260Nop@@YAXXZ,0x0090F260,alias for already-matched thiscall stub Gen_0090f260::m (single ret) called here with no this-setup at 0x00907960; static/cdecl call shape at this site
 ?Rva0090F760Init@@YAXXZ,0x0090F760,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0090ADC0 calls; autopin
