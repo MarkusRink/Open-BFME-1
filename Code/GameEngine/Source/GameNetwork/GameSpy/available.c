@@ -1,5 +1,5 @@
-// cl: /MD -Ireference/shims/gamespy
-/* GameSpy SDK, 2004 vintage -- pristine upstream C source.
+// cl: /MD -Ireference/shims/gamespy /ICode/GameEngine/Source/GameNetwork/GameSpy
+/* GameSpy SDK, 2004 vintage -- upstream C source with retail availability-check behavior.
    Sourced from the Area 51 (Inevitable Entertainment / Midway) source release,
    github.com/bisc67/Area51, Support/NetworkMgr/GameSpy -- the only public
    carrier found with the pre-2005 SDK layout (top-level nonport.c, no common/).
@@ -178,7 +178,7 @@ GSIACResult GSIAvailableCheckThink(void)
 		{
 			// we got a valid response, clean up
 			closesocket(AC.sock);
-            AC.sock = INVALID_SOCKET;
+            /* Retail leaves the closed socket value unchanged here. */
 
 			// set the result based on the bit flags
 			if(disabledservices & 1)
@@ -201,7 +201,7 @@ GSIACResult GSIAvailableCheckThink(void)
 		{
 			// default to available
 			closesocket(AC.sock);
-            AC.sock = INVALID_SOCKET;
+            /* Retail leaves the closed socket value unchanged here. */
 			__GSIACResult = GSIACAvailable;
 			return __GSIACResult;
 		}
