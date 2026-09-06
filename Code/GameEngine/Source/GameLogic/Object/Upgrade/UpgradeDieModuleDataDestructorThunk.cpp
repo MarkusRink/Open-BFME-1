@@ -1,10 +1,18 @@
 // cl: /DNDEBUG /MD /EHsc
 // Open-BFME5: UpgradeDieModuleData dtor. PropagandaTower SEH pattern.
 
-class Buffer
+// Retail destroys this member with a direct call to
+// StringBase<char>::releaseBuffer (0x00887940) -- the member is a retail
+// AsciiString, not the WWLib Buffer whose own destructor is the 40-byte
+// body at 0x009E1E30, so name it the way the other lifted ModuleData
+// destructors already do.
+class BFMERetailAsciiString
 {
 public:
-	~Buffer();
+	~BFMERetailAsciiString() { releaseBuffer(); }
+
+private:
+	void releaseBuffer();
 };
 
 class UpgradeDieModuleDataBase
@@ -20,7 +28,7 @@ class __declspec(novtable) UpgradeDieModuleData : public UpgradeDieModuleDataBas
 public:
 	virtual ~UpgradeDieModuleData();
 private:
-	Buffer m_member;
+	BFMERetailAsciiString m_member;
 };
 
 // ??1UpgradeDieModuleData@@UAE@XZ

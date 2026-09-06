@@ -1,26 +1,33 @@
 // cl: /DNDEBUG /MD /EHsc
 // Open-BFME5: DynamicShroudClearingRangeUpdateModuleData dtor.
-// Nested dual-Buffer @+0x28.
+// Nested dual-BFMERetailAsciiString @+0x28.
 
-class Buffer
+// Retail destroys this member with a direct call to
+// StringBase<char>::releaseBuffer (0x00887940) -- the member is a retail
+// AsciiString, not the WWLib Buffer whose own destructor is the 40-byte
+// body at 0x009E1E30, so name it the way the other lifted ModuleData
+// destructors already do.
+class BFMERetailAsciiString
 {
 public:
-	~Buffer();
+	~BFMERetailAsciiString() { releaseBuffer(); }
+
 private:
+	void releaseBuffer();
 	unsigned char m_pad[4];
 };
 
 class NestedBuffers
 {
 public:
-	~NestedBuffers();
-private:
-	Buffer m_a;
-	Buffer m_b;
-};
+	// Defined in-class: retail has no out-of-line body for it, and an
+	// out-of-line definition here is a function the ledger does not declare.
+	~NestedBuffers() {}
 
-// force NestedBuffers dtor to be out-of-line? empty body with members generates SEH
-NestedBuffers::~NestedBuffers() {}
+private:
+	BFMERetailAsciiString m_a;
+	BFMERetailAsciiString m_b;
+};
 
 class DynamicShroudClearingRangeUpdateModuleDataBase
 {

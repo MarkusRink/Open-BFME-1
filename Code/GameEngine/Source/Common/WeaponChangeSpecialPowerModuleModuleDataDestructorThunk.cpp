@@ -1,11 +1,18 @@
 // cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: WeaponChangeSpecialPowerModuleModuleData dtor. 2x Buffer then base.
+// Open-BFME5: WeaponChangeSpecialPowerModuleModuleData dtor. 2x BFMERetailAsciiString then base.
 
-class Buffer
+// Retail destroys this member with a direct call to
+// StringBase<char>::releaseBuffer (0x00887940) -- the member is a retail
+// AsciiString, not the WWLib Buffer whose own destructor is the 40-byte
+// body at 0x009E1E30, so name it the way the other lifted ModuleData
+// destructors already do.
+class BFMERetailAsciiString
 {
 public:
-	~Buffer();
+	~BFMERetailAsciiString() { releaseBuffer(); }
+
 private:
+	void releaseBuffer();
 	unsigned char m_pad[4];
 };
 
@@ -22,8 +29,8 @@ class __declspec(novtable) WeaponChangeSpecialPowerModuleModuleData : public Wea
 public:
 	virtual ~WeaponChangeSpecialPowerModuleModuleData();
 private:
-	Buffer m_0;
-	Buffer m_1;
+	BFMERetailAsciiString m_0;
+	BFMERetailAsciiString m_1;
 };
 
 // ??1WeaponChangeSpecialPowerModuleModuleData@@UAE@XZ
