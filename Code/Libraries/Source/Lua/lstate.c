@@ -53,18 +53,19 @@ static int errormessage (lua_State *L) {
 /*
 ** open parts that may cause memory-allocation errors
 */
+extern void bfmeGoUPC (lua_State *L, int n);
 static void f_luaopen (lua_State *L, void *ud) {
   int stacksize = *(int *)ud;
   if (stacksize == 0)
     stacksize = DEFAULT_STACK_SIZE;
   else
     stacksize += LUA_MINSTACK;
-  L->gt = luaH_new(L, 10, 10);  /* table of globals */
+  L->gt = luaH_new(L, 10, 0);  /* table of globals */
   luaD_init(L, stacksize);
   luaS_init(L);
   luaX_init(L);
   luaT_init(L);
-  lua_newtable(L);
+  bfmeGoUPC(L, 0);
   lua_ref(L, 1);  /* create registry */
   lua_register(L, LUA_ERRORMESSAGE, errormessage);
 #ifdef LUA_DEBUG
