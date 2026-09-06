@@ -1,62 +1,64 @@
-// ?d_0029be60@@YAXXZ
-// partial score=0.94 date=2026-09-04
-// cl: /DNDEBUG /MD /EHsc
-
-class BfmeHelperD77
+// ?bfmeRunFH@BfmeOwnerFH@@QAEXPAVBfmeCheckFH@@@Z (identity unknown)
+// partial score=0.94 date=2026-09-07
+// 70/70 bytes; every instruction matches except the argument/vftable register
+// pair in the virtual-call block: retail mov ecx,[esi+0x10] / mov eax,[ebx] /
+// push ecx / call [eax+0x20]; MSVC gives eax/edx/push eax/call [edx+0x20].
+// Shape is settled: the advance must be DUPLICATED into both arms (a single
+// `next` at the top of the loop body leaves the load above the compare and
+// costs 5 bytes). Naming the argument in a local, /G7, /Oy and /Os all leave
+// the register pair unchanged; a __thiscall function-pointer vftable is
+// rejected by VC7.1 (C4234). Argument-shuttle register class.
+class BfmeNodeFH
 {
 public:
-	char query(void *);
+	int m_bfmeSelfFH;
+	int m_bfmeKindFH;
+	void *m_bfmeKeyFH;
+	int m_bfmeSpareFH;
+	void *m_bfmeValueFH;
+	unsigned char m_bfmeGapFH[0x28];
+	BfmeNodeFH *m_bfmeNextFH;
 };
 
-struct Gen0029BE60Node
-{
-	void *m_unused0;
-	int m_type;
-	void *m_key;
-	void *m_unused0C;
-	void *m_payload;
-	unsigned char m_pad14[0x28];
-	Gen0029BE60Node *m_next;
-};
-
-class Gen0029BE60
+class BfmeCheckFH
 {
 public:
-	virtual void slot00();
-	virtual void slot04();
-	virtual void slot08();
-	virtual void slot0C();
-	virtual void slot10();
-	virtual void slot14();
-	virtual void slot18();
-	virtual void slot1C();
-	virtual void applyPayload(void *payload);
-
-	void walk(BfmeHelperD77 *target);
-
-private:
-	void *m_unused4;
-	Gen0029BE60Node *m_head;
+	char bfmeCheckFH(void *key);
 };
 
-void Gen0029BE60::walk(BfmeHelperD77 *target)
+class BfmeOwnerFH
 {
-	Gen0029BE60Node *node = m_head;
-	if (!node)
-		return;
-	do
+public:
+	virtual void bfmeV0FH(void);
+	virtual void bfmeV1FH(void);
+	virtual void bfmeV2FH(void);
+	virtual void bfmeV3FH(void);
+	virtual void bfmeV4FH(void);
+	virtual void bfmeV5FH(void);
+	virtual void bfmeV6FH(void);
+	virtual void bfmeV7FH(void);
+	virtual void bfmeApplyFH(void *value);
+
+	void bfmeRunFH(BfmeCheckFH *other);
+
+	int m_bfmeSpareFH;
+	BfmeNodeFH *m_bfmeListFH;
+};
+
+void BfmeOwnerFH::bfmeRunFH(BfmeCheckFH *other)
+{
+	BfmeNodeFH *node = m_bfmeListFH;
+
+	while (node)
 	{
-		if (node->m_type == 1)
+		if (node->m_bfmeKindFH == 1 && other->bfmeCheckFH(node->m_bfmeKeyFH))
 		{
-			if (target->query(node->m_key))
-			{
-				void *payload = node->m_payload;
-				Gen0029BE60Node *next = node->m_next;
-				applyPayload(payload);
-				node = next;
-				continue;
-			}
+			BfmeNodeFH *next = node->m_bfmeNextFH;
+
+			bfmeApplyFH(node->m_bfmeValueFH);
+			node = next;
 		}
-		node = node->m_next;
-	} while (node);
+		else
+			node = node->m_bfmeNextFH;
+	}
 }
