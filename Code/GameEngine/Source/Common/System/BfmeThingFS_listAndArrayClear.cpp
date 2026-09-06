@@ -7,6 +7,10 @@
 // allocator.  The sentinel is then reset to self-links and the cookie-prefixed
 // 0xC-element array at this+8 is torn down with the EH vector destructor.
 
+// Retail frees these arrays through operator delete[] (??_V@YAXPAX@Z,
+// 0x00881EF0). Without the declaration cl falls back to scalar
+// operator delete for the block, which is a different body at 0x00881EB0.
+void __cdecl operator delete[](void *block);
 void __cdecl bfmeDeallocate(void *block, unsigned int bytes);
 
 class BfmeOwnedPtr

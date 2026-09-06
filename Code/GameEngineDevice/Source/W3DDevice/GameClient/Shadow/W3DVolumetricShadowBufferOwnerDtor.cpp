@@ -2,6 +2,10 @@
 
 #include <new>
 
+// Retail frees these four blocks through operator delete[]
+// (??_V@YAXPAX@Z, 0x00881EF0), not the scalar operator delete at
+// 0x00881EB0 -- a different 21-byte body.
+void __cdecl operator delete[](void *block);
 class BfmeShadowBufferOwnerBase
 {
 public:
@@ -57,10 +61,10 @@ BfmeVolumetricShadowBufferOwner::~BfmeVolumetricShadowBufferOwner()
 	for (int i = 0; i < m_entryCount; ++i)
 	{
 		m_entries[i].resource->Release_Ref();
-		::operator delete(m_entries[i].allocation0);
-		::operator delete(m_entries[i].allocation1);
-		::operator delete(m_entries[i].allocation2);
+		::operator delete[](m_entries[i].allocation0);
+		::operator delete[](m_entries[i].allocation1);
+		::operator delete[](m_entries[i].allocation2);
 	}
 
-	::operator delete(m_entries);
+	::operator delete[](m_entries);
 }
