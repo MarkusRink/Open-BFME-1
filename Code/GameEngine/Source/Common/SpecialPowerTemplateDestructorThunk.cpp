@@ -16,10 +16,14 @@ private:
 class AudioEventRTS
 {
 private:
-	unsigned char m_data[0x6c];
+	unsigned char m_data[0x70];
 
 public:
-	virtual ~AudioEventRTS();
+	// Non-virtual local view: retail encodes the ILT at 0x00026F35,
+	// which the ledger names ??1AudioEventRTS@@QAE@XZ for the body at
+	// 0x000B31F0. The vptr the virtual spelling added is folded back
+	// into the padding so the layout is unchanged.
+	~AudioEventRTS();
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Overridable.h
