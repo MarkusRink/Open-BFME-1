@@ -56,6 +56,28 @@
 #include "GameLogic/Scripts.h"
 #include "GameLogic/SidesList.h"
 
+// Retail's AsciiString is a StringBase<char> with no members of its own, so its
+// copy ctor at 0x0005EE50 only forwards to the base body at 0x00887B60, and
+// retail inlines that forwarder here. asciistring_copyctor_outofline leaves the
+// copy ctor undefined on purpose for the TUs that need the forwarder call;
+// defining it here puts the delegation in front of the use in this TU alone.
+template <typename T>
+class StringBase
+{
+	friend class AsciiString;
+
+private:
+	StringBase(const StringBase<T> &src);
+
+	void *m_data;
+};
+
+inline AsciiString::AsciiString(const AsciiString &stringSrc)
+{
+	((StringBase<char> *)this)->StringBase<char>::StringBase(
+		*(const StringBase<char> *)&stringSrc);
+}
+
 static const Int K_SIDES_DATA_VERSION_1 = 1;
 static const Int K_SIDES_DATA_VERSION_2 = 2;	// includes Team list.
 static const Int K_SIDES_DATA_VERSION_3 = 3;	// includes Team list.

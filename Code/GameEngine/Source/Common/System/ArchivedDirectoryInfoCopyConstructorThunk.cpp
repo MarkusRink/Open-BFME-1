@@ -17,6 +17,28 @@
 #include "Common/FileSystem.h"
 #include "Common/STLTypedefs.h"
 
+// Retail's AsciiString is a StringBase<char> with no members of its own, so its
+// copy ctor at 0x0005EE50 only forwards to the base body at 0x00887B60 -- and
+// retail inlines that forwarder here, encoding the base call directly. The
+// asciistring_thin shim leaves the copy ctor undefined; defining it in this TU
+// puts the delegation in front of the use without changing the shared header.
+template <typename T>
+class StringBase
+{
+	friend class AsciiString;
+
+private:
+	StringBase(const StringBase<T> &src);
+
+	void *m_data;
+};
+
+inline AsciiString::AsciiString(const AsciiString &stringSrc)
+{
+	((StringBase<char> *)this)->StringBase<char>::StringBase(
+		*(const StringBase<char> *)&stringSrc);
+}
+
 class ArchivedDirectoryInfo;
 typedef std::map<AsciiString, ArchivedDirectoryInfo> ArchivedDirectoryInfoMap;
 typedef std::map<AsciiString, AsciiString> ArchivedFileLocationMap;
