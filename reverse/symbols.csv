@@ -78561,6 +78561,7 @@ name,address,notes
 ?g_rva012F49B4@@3PAURva012F49B4Thing@@A,0x012F49B4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0051D4A0 calls; autopin
 ?g_rva8D0D80CreateTag@@3DA,0x01338610,decorated address-derived Apt creation tag passed by 0x008D0D80
 ?g_s5Head0059D9E0@@3HA,0x0110C878,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0059D9E0 calls; autopin
+?s5Table0059D600@@3UFieldParse@@B,0x0110C83C,Open-BFME7 retail field table used by the body at 0x0059D600; autopin
 ?g_s5Head0059DE10@@3HA,0x0110C920,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0059DE10 calls; autopin
 ?g_s5Head0059FB50@@3HA,0x0110CBEC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0059FB50 calls; autopin
 ?g_spyVisionSourceFile@@3DB,0x010A1C70,SpyVisionUpdate retail source-file literal
