@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD -Ireference/shims/gamespy
+// cl: /ICode/GameEngine/Source/GameNetwork/GameSpy/gp /DNDEBUG /MD -Ireference/shims/gamespy
 /* GameSpy SDK, 2004 vintage -- pristine upstream C source.
    Sourced from the Area 51 (Inevitable Entertainment / Midway) source release,
    github.com/bisc67/Area51, Support/NetworkMgr/GameSpy -- the only public
@@ -598,8 +598,8 @@ gpiSaveDiskProfile(
 		fprintf(fp, "marriedid=%d\n", profile->cache->marriedid);
 		fprintf(fp, "childcount=%d\n", profile->cache->childcount);
 		fprintf(fp, "interests1=%d\n", profile->cache->interests1);
-		fprintf(fp, "ownership1=%d\n", profile->cache->childcount);
-		fprintf(fp, "conntypeid=%d\n", profile->cache->interests1);
+		fprintf(fp, "ownership1=%d\n", profile->cache->ownership1);
+		fprintf(fp, "conntypeid=%d\n", profile->cache->conntypeid);
 	}
 
 	// End this profile.
