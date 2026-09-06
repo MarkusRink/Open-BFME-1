@@ -2488,3 +2488,87 @@ void ciNickHandler(CHAT chat, const ciServerMessage *message)
 
 	ciUserChangedNick(chat, oldNick, newNick);
 }
+
+/* KICK shares the channel bookkeeping/callback ABI with chatPrivmsgHandler.c.
+   The retail connection stores its nick at +0x36c; keep that slice local so
+   this handler does not make a layout claim about unrelated connection data. */
+typedef struct ciKickHandlerConnection
+{
+	unsigned char beforeNick[0x36c];
+	char nick[64];
+} ciKickHandlerConnection;
+
+void ciUserLeftChannel(CHAT chat, const char *user, const char *channel);
+CHATBool ciWasJoinCallbackCalled(CHAT chat, const char *channel);
+void ciChannelLeft(CHAT chat, const char *channel);
+
+
+void ciKickHandler(CHAT chat, const ciServerMessage *message)
+{
+	char *channel;
+	char *kicker;
+	char *kickee;
+	char *reason;
+	chatChannelCallbacks *callbacks;
+	ciKickHandlerConnection *connection = (ciKickHandlerConnection *)chat;
+
+	assert((message->numParams == 2) || (message->numParams == 3));
+	if ((message->numParams != 2) && (message->numParams != 3))
+		return;
+
+	channel = message->params[0];
+	kicker = message->nick;
+	kickee = message->params[1];
+	if (message->numParams == 3)
+		reason = message->params[2];
+	else
+		reason = "";
+
+	ciUserLeftChannel(chat, kickee, channel);
+	callbacks = ciGetChannelCallbacks(chat, channel);
+	if (callbacks != NULL)
+	{
+		if (_stricmp(kickee, connection->nick) == 0)
+		{
+			if (callbacks->kicked != NULL)
+			{
+				ciCallbackKickedParams params;
+				params.channel = channel;
+				params.user = kicker;
+				params.reason = reason;
+				ciAddCallback(chat, CALLBACK_KICKED,
+					(void *)callbacks->kicked, &params,
+					callbacks->param, 0, NULL);
+			}
+
+			ciChannelLeft(chat, channel);
+		}
+		else
+		{
+			if (ciWasJoinCallbackCalled(chat, channel))
+			{
+				if (callbacks->userParted != NULL)
+				{
+					ciCallbackUserPartedParams params;
+					params.channel = channel;
+					params.user = kickee;
+					params.why = 2;
+					params.reason = reason;
+					params.kicker = kicker;
+					ciAddCallback(chat, CALLBACK_USER_PARTED,
+						(void *)callbacks->userParted, &params,
+						callbacks->param, 0, channel);
+				}
+
+				if (callbacks->userListUpdated != NULL)
+				{
+					ciCallbackUserListUpdatedParams params;
+					params.channel = channel;
+					ciAddCallback(chat, CALLBACK_USER_LIST_UPDATED,
+						(void *)callbacks->userListUpdated, &params,
+						callbacks->param, 0, channel);
+				}
+			}
+		}
+	}
+}
