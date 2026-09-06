@@ -59,6 +59,18 @@ ObjectTypes::ObjectTypes(const AsciiString& listName) : m_listName(listName)
 	// Nada
 }
 
+// The vector<AsciiString> COMDAT this TU reaches is the _M_insert_overflow copy
+// at 0x00063700 -- the one whose element copy calls StringBase<char>'s
+// constructor out of line, which 38 retail sites encode -- not the inlined-copy
+// twin at 0x00757C70. No pin can bridge the two (pin_consistency:
+// divergent-bodies at +0x77), so spell the element with the name the ledger
+// carries at 0x00063700. Deriving keeps the layout and both string callees.
+class Open2Elem063700 : public AsciiString
+{
+public:
+	Open2Elem063700( const Open2Elem063700 &other ) : AsciiString( other ) {}
+};
+
 //-------------------------------------------------------------------------------------------------
 void ObjectTypes::addObjectType(const AsciiString &objectType)
 {
@@ -67,8 +79,8 @@ void ObjectTypes::addObjectType(const AsciiString &objectType)
 	}
 
 	// same +0x08 overlay as isInSet below
-	struct BFMEObjectTypes { char pad[0x08]; AsciiStringVec m_objectTypes; };
-	((BFMEObjectTypes *)this)->m_objectTypes.push_back(objectType);
+	struct BFMEObjectTypes { char pad[0x08]; std::vector<Open2Elem063700> m_objectTypes; };
+	((BFMEObjectTypes *)this)->m_objectTypes.push_back(*(const Open2Elem063700 *)&objectType);
 }
 
 //-------------------------------------------------------------------------------------------------
