@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD -Ireference/shims/gamespy
+// cl: /ICode/GameEngine/Source/GameNetwork/GameSpy/peer /DNDEBUG /MD -Ireference/shims/gamespy
 // Upstream: GameSpy Peer SDK peerPlayers.c, 2004 release.
 
 #include <ctype.h>
