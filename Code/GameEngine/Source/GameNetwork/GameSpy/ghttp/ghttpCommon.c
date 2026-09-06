@@ -441,53 +441,40 @@ GHITrySendResult ghiTrySendThenBuffer
 	return GHITrySendBuffered;
 }
 
-GHTTPBool ghiSetProxy
-(
-	const char * server
-)
+static GHTTPBool bfmeParseProxy_87C8A0(const char *server, char **address, unsigned short *port)
 {
-	// Free any existing proxy address.
-	///////////////////////////////////
-	if(ghiProxyAddress)
-	{
-		gsifree(ghiProxyAddress);
-		ghiProxyAddress = NULL;
-	}
-	ghiProxyPort = 0;
+    char *strPort;
+    *address = goastrdup(server);
+    if(!*address)
+        return GHTTPFalse;
+    strPort = strchr(*address, ':');
+    if(strPort)
+    {
+        *strPort++ = '\0';
+        *port = (unsigned short)atoi(strPort);
+        if(!*port)
+        {
+            gsifree(*address);
+            *address = NULL;
+            return GHTTPFalse;
+        }
+    }
+    else
+        *port = GHI_DEFAULT_PORT;
+    return GHTTPTrue;
+}
 
-	if(server && *server)
-	{
-		char * strPort;
-
-		// Copy off the server address.
-		///////////////////////////////
-		ghiProxyAddress = goastrdup(server);
-		if(!ghiProxyAddress)
-			return GHTTPFalse;
-
-		// Check for a port.
-		////////////////////
-		if((strPort = strchr(ghiProxyAddress, ':')) != NULL)
-		{
-			*strPort++ = '\0';
-
-			// Try getting the port.
-			////////////////////////
-			ghiProxyPort = (unsigned short)atoi(strPort);
-			if(!ghiProxyPort)
-			{
-				gsifree(ghiProxyAddress);
-				ghiProxyAddress = NULL;
-				return GHTTPFalse;
-			}
-		}
-		else
-		{
-			ghiProxyPort = GHI_DEFAULT_PORT;
-		}
-	}
-
-	return GHTTPTrue;
+GHTTPBool ghiSetProxy(const char *server)
+{
+    if(ghiProxyAddress)
+    {
+        gsifree(ghiProxyAddress);
+        ghiProxyAddress = NULL;
+    }
+    ghiProxyPort = 0;
+    if(server && *server)
+        return bfmeParseProxy_87C8A0(server, &ghiProxyAddress, &ghiProxyPort);
+    return GHTTPTrue;
 }
 
 void ghiThrottleSettings
