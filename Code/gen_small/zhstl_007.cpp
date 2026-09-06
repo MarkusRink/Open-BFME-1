@@ -80,3 +80,17 @@ class Gen_ve_000de000 {};
 template class _STL::vector<Gen_ve_000de000 * >;
 class Gen_ve_000de0a0 {};
 template class _STL::vector<Gen_ve_000de0a0 * >;
+
+// vector<Object *>::vector(const vector &) -- one stand-in element per duplicate.
+// Retail emits this copy constructor five times; each copy calls the copy of
+// get_allocator and of _Vector_base's constructor nearest itself, so the four
+// duplicates diverge from 0x00135A10 (which Code/GameEngine/Source/Common/RTS/
+// Player.cpp claims) at those two rel32 slots and one name cannot pin all five.
+class Gen_ve_00135ab0 {};
+template class _STL::vector<Gen_ve_00135ab0 * >;
+class Gen_ve_001f9520 {};
+template class _STL::vector<Gen_ve_001f9520 * >;
+class Gen_ve_003628f0 {};
+template class _STL::vector<Gen_ve_003628f0 * >;
+class Gen_ve_0039d5d0 {};
+template class _STL::vector<Gen_ve_0039d5d0 * >;

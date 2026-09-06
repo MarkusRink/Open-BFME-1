@@ -161244,7 +161244,6 @@ name,address,notes
 ?classify@Rva005329Classify@@QAEXPAVRva005329C0Obj@@H@Z,0x00047807,ILT for 15B classify wrappers at 0x005329C0/E0
 ?classify@Rva005329Classify@@QAEXPAXH@Z,0x00047807,ILT for 15B classify wrappers at 0x005329C0/E0
 ?classifyMapCell@Pathfinder@@SAXHHPAVPathfindCell@@@Z,0x003F7630,Pathfinder map classifier called by classifyMap at 0x003F9140
-?classifyObjectFootprint@Pathfinder@@IAEXPAVObject@@_N@Z,0x00004EE9,hit-decoded x3 (thunk)
 ?cleanUpReplayFile@RecorderClass@@QAEXXZ,0x0003CC9A,Recorder cleanup invoked by the GameEngine::execute catch-all path
 ?cleanUpSlotPointers@GameSpyStagingRoom@@QAEXXZ,0x00022507,addStagingRoom call target (incremental-link thunk)
 ?cleanup@BuffEntryTail@@QAEXXZ,0x00015479,BuffEntry embedded iterator clear ILT
@@ -169682,3 +169681,13 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ??$__copy@PAUQuantityModifier@@PAU1@H@_STL@@YAPAUQuantityModifier@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00021DEB,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x00003378, which is __copy<FXBoneInfo*>'s own body"
 ??0W3DTracerDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x00048B9E,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x00004D36, which is ??0SiegeDockingBehavior@@QAE@PAVThing@@PBVModuleData@@@Z's own body"
 ??4?$PrimitiveAnimationChannelClass@VVector2@@@@QAEABV0@ABV0@@Z,0x0000D828,pinharvest x3 (thunk)
+?classifyObjectFootprint@Pathfinder@@IAEXPAVObject@@_N@Z,0x00047D2A,"ILT to the 331-byte body at 0x0051F1C0 that both inline wrappers encode; replaces 0x00004EE9, which routes to the 103-byte SimpleDynVecClass::Add body"
+??1BfmePlayerAudioEvent@@QAE@XZ,0x00026F35,"Player.cpp TU-local name for the AudioEventRTS destructor: ILT 0x00026F35 -> the 162-byte body at 0x000B31F0 that disableRadar/enableRadar/removeRadar encode; the ledger spells that body ??1AudioEventRTS@@QAE@XZ and the UAE spelling names the 77-byte body at 0x000CFA40"
+??0?$_Vector_base@PAVGen_ve_00135ab0@@V?$allocator@PAVGen_ve_00135ab0@@@_STL@@@_STL@@QAE@IABV?$allocator@PAVGen_ve_00135ab0@@@1@@Z,0x00020EA0,"ILT the vector copy ctor at 0x00135AB0 encodes; one stand-in instantiation per duplicate so each name pins exactly one address"
+?get_allocator@?$vector@PAVGen_ve_00135ab0@@V?$allocator@PAVGen_ve_00135ab0@@@_STL@@@_STL@@QBE?AV?$allocator@PAVGen_ve_00135ab0@@@2@XZ,0x00039789,"ILT the vector copy ctor at 0x00135AB0 encodes"
+??0?$_Vector_base@PAVGen_ve_001f9520@@V?$allocator@PAVGen_ve_001f9520@@@_STL@@@_STL@@QAE@IABV?$allocator@PAVGen_ve_001f9520@@@1@@Z,0x000212D3,"ILT the vector copy ctor at 0x001F9520 encodes; one stand-in instantiation per duplicate so each name pins exactly one address"
+?get_allocator@?$vector@PAVGen_ve_001f9520@@V?$allocator@PAVGen_ve_001f9520@@@_STL@@@_STL@@QBE?AV?$allocator@PAVGen_ve_001f9520@@@2@XZ,0x0003CF51,"ILT the vector copy ctor at 0x001F9520 encodes"
+??0?$_Vector_base@PAVGen_ve_003628f0@@V?$allocator@PAVGen_ve_003628f0@@@_STL@@@_STL@@QAE@IABV?$allocator@PAVGen_ve_003628f0@@@1@@Z,0x0004485F,"ILT the vector copy ctor at 0x003628F0 encodes; one stand-in instantiation per duplicate so each name pins exactly one address"
+?get_allocator@?$vector@PAVGen_ve_003628f0@@V?$allocator@PAVGen_ve_003628f0@@@_STL@@@_STL@@QBE?AV?$allocator@PAVGen_ve_003628f0@@@2@XZ,0x0001D534,"ILT the vector copy ctor at 0x003628F0 encodes"
+??0?$_Vector_base@PAVGen_ve_0039d5d0@@V?$allocator@PAVGen_ve_0039d5d0@@@_STL@@@_STL@@QAE@IABV?$allocator@PAVGen_ve_0039d5d0@@@1@@Z,0x0002D178,"ILT the vector copy ctor at 0x0039D5D0 encodes; one stand-in instantiation per duplicate so each name pins exactly one address"
+?get_allocator@?$vector@PAVGen_ve_0039d5d0@@V?$allocator@PAVGen_ve_0039d5d0@@@_STL@@@_STL@@QBE?AV?$allocator@PAVGen_ve_0039d5d0@@@2@XZ,0x00027DA4,"ILT the vector copy ctor at 0x0039D5D0 encodes"

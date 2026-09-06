@@ -3430,11 +3430,26 @@ Bool Player::okToPlayRadarEdgeSound( void )
 // 0x64).  A padded wrapper buys retail's frame without touching the class: the
 // event sits at offset 0, so its address, constructor and destructor are
 // unchanged.
-struct BfmeAudioEventStorage
+// The destructor these three bodies call is the 162-byte body at 0x000B31F0
+// (ILT 0x00026F35) -- ??0AudioEventRTS@@QAE@ABV0@@Z at 0x000B2FB0 copy-builds
+// the very same object two instructions earlier, so the destructor is that
+// class's.  The ledger spells that body ??1AudioEventRTS@@QAE@XZ, while
+// ??1AudioEventRTS@@UAE@XZ -- the spelling the vendored header's virtual
+// destructor emits -- names a different 77-byte body at 0x000CFA40, and no pin
+// can join a 162-byte body to a 77-byte one.  So this translation unit gives
+// the object a name of its own, the way DozerAIUpdateDestructorThunk.cpp does
+// at the same address, and constructs it with AudioEventRTS' own copy ctor.
+class BfmePlayerAudioEvent
 {
-	BfmeAudioEventStorage( const AudioEventRTS &src ) : e(src) { }
-	AudioEventRTS e;
-	UnsignedByte _bfme_tail[12];
+public:
+	BfmePlayerAudioEvent( const AudioEventRTS &src )
+	{ ((AudioEventRTS *)this)->AudioEventRTS::AudioEventRTS( src ); }
+	~BfmePlayerAudioEvent();
+
+	AudioEventRTS &event( void ) { return *(AudioEventRTS *)this; }
+
+private:
+	UnsignedByte _bfme_body[ sizeof(AudioEventRTS) + 12 ];
 };
 
 // getMiscAudio is a VIRTUAL at vtable +0x124 where the vendored header makes it
@@ -3562,10 +3577,10 @@ void Player::removeRadar( Bool disableProof )
 	if( hadRadar && !hasRadar()	&& okToPlayRadarEdgeSound() ) 
 	{
 		// This player just lost radar, so play the "You lost Radar!" sound
-		BfmeAudioEventStorage soundToPlay( BFME_MISC_SOUND(
+		BfmePlayerAudioEvent soundToPlay( BFME_MISC_SOUND(
 			((BfmeAudioManagerView *)TheAudio)->getMiscAudio(), 0x1c0) );
-		soundToPlay.e.setPlayerIndex(getPlayerIndex());
-		((BfmeAudioManagerView *)TheAudio)->addAudioEvent(&soundToPlay.e);
+		soundToPlay.event().setPlayerIndex(getPlayerIndex());
+		((BfmeAudioManagerView *)TheAudio)->addAudioEvent(&soundToPlay.event());
 	}
 }  // end removeRadar
 
@@ -3579,10 +3594,10 @@ void Player::disableRadar()
 		&& !hasRadar() && okToPlayRadarEdgeSound() ) 
 	{
 		// This player just lost radar, so play the "You lost Radar!" sound
-		BfmeAudioEventStorage soundToPlay( BFME_MISC_SOUND(
+		BfmePlayerAudioEvent soundToPlay( BFME_MISC_SOUND(
 			((BfmeAudioManagerView *)TheAudio)->getMiscAudio(), 0x1c0) );
-		soundToPlay.e.setPlayerIndex(getPlayerIndex());
-		((BfmeAudioManagerView *)TheAudio)->addAudioEvent(&soundToPlay.e);
+		soundToPlay.event().setPlayerIndex(getPlayerIndex());
+		((BfmeAudioManagerView *)TheAudio)->addAudioEvent(&soundToPlay.event());
 	}
 }
 
@@ -3595,10 +3610,10 @@ void Player::enableRadar()
 	if( !hadRadar && hasRadar() && okToPlayRadarEdgeSound() )  
 	{
 		// This player just got radar, so play the "You have Radar!" sound
-		BfmeAudioEventStorage soundToPlay( BFME_MISC_SOUND(
+		BfmePlayerAudioEvent soundToPlay( BFME_MISC_SOUND(
 			((BfmeAudioManagerView *)TheAudio)->getMiscAudio(), 0x150) );
-		soundToPlay.e.setPlayerIndex(getPlayerIndex());
-		((BfmeAudioManagerView *)TheAudio)->addAudioEvent(&soundToPlay.e);
+		soundToPlay.event().setPlayerIndex(getPlayerIndex());
+		((BfmeAudioManagerView *)TheAudio)->addAudioEvent(&soundToPlay.event());
 	}
 }
 
