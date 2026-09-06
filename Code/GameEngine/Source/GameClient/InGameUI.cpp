@@ -36,6 +36,49 @@
 
 #define DEFINE_SHADOW_NAMES
 
+// BFME's placement operator delete is one shared 12-byte body that calls the
+// CRT free import directly; ZH's macro routes it through ::operator delete,
+// which is a different (and here, wrong) callee.  InGameUI.h is pulled in here,
+// ahead of every other header, so the override reaches its four pooled classes
+// and nothing else.
+#pragma push_macro("MEMORY_POOL_GLUE_WITHOUT_GCMP")
+#undef MEMORY_POOL_GLUE_WITHOUT_GCMP
+extern "C" void free(void *);
+#define MEMORY_POOL_GLUE_WITHOUT_GCMP(ARGCLASS) \
+protected: \
+	virtual ~ARGCLASS(); \
+public: \
+	enum ARGCLASS##MagicEnum { ARGCLASS##_GLUE_NOT_IMPLEMENTED = 0 }; \
+public: \
+	inline void *operator new(size_t s, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ \
+		DEBUG_ASSERTCRASH(s == sizeof(ARGCLASS), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly")); \
+		return MP_GLUE_ALLOCATE(ARGCLASS); \
+	} \
+public: \
+	inline void operator delete(void *p, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ \
+		free(p); \
+	} \
+protected: \
+	inline void *operator new(size_t s) \
+	{ \
+		DEBUG_ASSERTCRASH(s == sizeof(ARGCLASS), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly")); \
+		return ::operator new(s); \
+	} \
+	inline void operator delete(void *p) \
+	{ \
+		::operator delete(p); \
+	} \
+private: \
+	virtual MemoryPool *getObjectMemoryPool() \
+	{ \
+		return ARGCLASS::getClassMemoryPool(); \
+	} \
+public:
+#include "GameClient/InGameUI.h"
+#pragma pop_macro("MEMORY_POOL_GLUE_WITHOUT_GCMP")
+
 #include "Common/ActionManager.h"
 #include "Common/GameAudio.h"
 #include "Common/GameEngine.h"
@@ -94,6 +137,52 @@
 #include "GameLogic/Module/MobMemberSlavedUpdate.h"//ML
 
 #include "Common/UnitTimings.h" //Contains the DO_UNIT_TIMINGS define jba.		 
+
+// UnicodeString is StringBase<WideChar>, and retail inlined the one-line
+// forwarder away: every call site here encodes ?set@?$StringBase@G@@QAEXABV1@@Z
+// at 0x00888530 directly, not the ZH ?set@UnicodeString@@QAEXABV1@@Z spelling
+// (which resolves to the NARROW StringBase<char> body at 0x00887C90).
+template <typename Char>
+class StringBase
+{
+public:
+	void set( const StringBase<Char> &src );
+	void set( const Char *text, Int length );
+};
+
+inline void UnicodeString::set( const UnicodeString &stringSrc )
+{
+	reinterpret_cast<StringBase<WideChar> &>( *this ).set(
+		reinterpret_cast<const StringBase<WideChar> &>( stringSrc ) );
+}
+
+// The 39-byte body at 0x00493FC0 has the same shape as UIMessage::operator= but
+// copies a NARROW string -- it calls ?set@?$StringBase@D@@QAEXABV1@@Z at
+// 0x00887C90, where UIMessage::fullText is a UnicodeString and the BFME body at
+// 0x0043AC00 calls the wide set at 0x00888530.  Two bodies, two callees, so it
+// is a separate 16-byte AsciiString-headed record, not a duplicate of this
+// file's UIMessage.  Address-derived name; the layout is all the retail bytes
+// disclose.
+// ??4Rva00493FC0Message@@QAEAAU0@ABU0@@Z
+struct Rva00493FC0Message
+{
+	void *fullText;
+	void *displayString;
+	UnsignedInt timestamp;
+	UnsignedInt color;
+
+	Rva00493FC0Message &operator=( const Rva00493FC0Message &that );
+};
+
+Rva00493FC0Message &Rva00493FC0Message::operator=( const Rva00493FC0Message &that )
+{
+	reinterpret_cast<StringBase<char> &>( *this ).set(
+		reinterpret_cast<const StringBase<char> &>( that ) );
+	displayString = that.displayString;
+	timestamp = that.timestamp;
+	color = that.color;
+	return *this;
+}
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -2472,13 +2561,6 @@ void InGameUI::freeMessageResources( void )
 // srj sez: passing as const-ref screws up varargs for some reason. dunno why. just pass by value.
 // BFME reserves a larger formatting buffer than Zero Hour for all three message
 // entry points; keeping the size local avoids changing every UnicodeString user.
-template <typename Char>
-class StringBase
-{
-public:
-	void set( const Char *text, Int length );
-};
-
 static __forceinline const char *bfmeMessageText( const AsciiString &text )
 {
 	const char *data = *reinterpret_cast<const char *const *>( &text );

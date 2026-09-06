@@ -169410,3 +169410,4 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?_M_insert_overflow@?$vector@UWeaponRecoilInfo@W3DModelDraw@@V?$allocator@UWeaponRecoilInfo@W3DModelDraw@@@_STL@@@_STL@@IAEXPAUWeaponRecoilInfo@W3DModelDraw@@ABU34@ABU__false_type@2@I_N@Z,0x0000E868,pinharvest x1 (thunk)
 ?_M_insert_overflow@?$vector@V?$BitFlags@$0HF@@@V?$allocator@V?$BitFlags@$0HF@@@@_STL@@@_STL@@IAEXPAV?$BitFlags@$0HF@@@ABV3@ABU__false_type@2@I_N@Z,0x0000AE93,pinharvest x1 (thunk)
 ??0ModelConditionInfo@@QAE@ABU0@@Z,0x000087C4,site-decoded x1 (thunk)
+?bfmeCopyBTB@BfmeSubBTB@@QAEXABU1@@Z,0x00047B27,"the ILT the BTB copy body at 0x00133BB0 encodes for its +4 member; same TU-local BTB spelling as ?bfmeSetBTB@BfmeSubBTB@@QAEXPAX0@Z"
