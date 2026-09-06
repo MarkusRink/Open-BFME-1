@@ -1560,6 +1560,18 @@ turned 111 byte-matched rows red, 110 reaching a pin it had just deleted.
 **A byte-verified caller outranks a byte-verified identity row.** `--clear-cut`
 emits candidates, not verdicts; retract in small batches, full-gate each one.
 
+**A pin the pin-collapse deleted is not always restorable.** AIUpdate.cpp is red
+on three rows because retail reaches
+`??0?$_Vector_base@PBVLocomotorTemplate@@...@Z` through ILT stubs 0x00020EA0 and
+0x0003F418, and `d27ae4b7b` deleted both. Restoring them was measured: the three
+bodies (0x00135180, 0x00135270, 0x001D6A70) are separate per-TU instantiations,
+not ICF copies -- `--check` answers `divergent-bodies: size=130; first divergence
+at +0x1F` and the baseline may only grow to accept it, which is forbidden.
+`route=` does not buy the exemption either: `route_verdict` requires the ledger
+to NAME the jumped-to body with the pinned symbol, and each body is owned by its
+own `Gen_t_<rva>_p4cd` gen-tgrid row. The unblock is to give those three bodies
+their real template identity first; the pin can only follow the row.
+
 ## A work packet's callee pins were matched by name, not followed
 
 A packet listed `??0AttackNugget@@QAE@XZ,0x000047A5 (already in the ledger)`.
