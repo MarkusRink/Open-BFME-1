@@ -84447,3 +84447,6 @@ _bfmeVftCVb,0x00D35D68,pin
 ?bfmeCheckCX@BfmeSubCX@@QAEHPAX@Z,0x000220C5,pin
 ?bfmeApplyCZ@BfmeOwnCZ@@QAEXPAXHH@Z,0x00032010,pin
 ?bfmeInfoDB@BfmeItemDB@@QAEPAVBfmeInfoDB@@XZ,0x00020824,pin
+?bfmeGetDC@BfmeSrcDC@@QAEPAVBfmeHolderDC@@H@Z,0x00009C41,pin
+?bfmeOkDC@BfmeSubDC@@QAEDXZ,0x00028F74,pin
+?g_bfmeFactorDC@@3MA,0x00C96490,pin
