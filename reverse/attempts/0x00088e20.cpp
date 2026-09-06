@@ -1,66 +1,66 @@
-// ??0BfmeParserRegDefaultVE_88E20@@QAE@PAX00@Z
-// partial score=0.55 date=2026-09-05
-// cl: /DNDEBUG /MD /EHsc
-// Family of small BfmeParserRegistrationVE-shaped wrapper constructors: build
-// a display name from a fixed string literal, default the parent label to
-// AsciiString::TheEmptyString (0x01336E50) when the caller passes null, call
-// the shared registerParser thunk (0x00415BD1), then re-stamp the vtable for
-// the derived slot. Base class mirrors Gen_000872C0_parserRegistrationCtor.cpp
-// but is written inline here (implicit inline linkage, safe to redefine per
-// TU) so the compiler folds the base construction into the derived ctor the
-// way retail does -- a real base subobject also reproduces retail's partial-
-// construction EH bookkeeping (this-pointer stack spill) that a flat, single
-// class without inheritance did not emit.
-// IDENTITY IS NOT RECOVERED: class name is address-derived.
+// ??0BfmeScopeCS@@QAE@PAX0PAURva002E5FF0Str@@@Z (identity unknown)
+// partial score=0.75 date=2026-09-07
+// 144 bytes against retail's 146, structure essentially recovered: the null
+// data parameter falls back to the global Rva01336E50Str, a string temporary
+// is built from the literal at 0x0107C7C4, the base half of the scope object
+// (vfptr = _bfmeVftVE, inner pointer) is filled in, a four-argument stdcall
+// registrar is called with a function pointer (thunk 0x0001579E) and `this`,
+// its result and the third parameter are stored, and finally the derived
+// vftable 0x0107C804 is written.
+// Blocker: retail uses SEH prologue Form A (`push -1` first) plus a `push ecx`
+// frame slot for the string; a named local gives Form B here and a
+// const-reference temporary gives Form B as well and loses six more bytes.
+// That contradicts the direction recorded in seh-prologue-has-two-forms, so
+// the form is evidently not decided by named-vs-temporary alone.
+// Five siblings share this size (0x00088F50, 0x00450460, 0x0074A2C0,
+// 0x0074A3B0, 0x0074A590) so cracking the prologue form is worth six bodies.
+extern "C" int _bfmeVftVE[];
+extern "C" int _bfmeVftCS[];
+extern "C" char _bfmeLitCS[];
 
-class UserParser;
-class DataChunkInput;
-typedef bool (*BfmeParserCallback)(DataChunkInput &, void *, void *);
-
-class DataChunkInput
+struct Rva002E5FF0Str
 {
-public:
-	UserParser *registerParser(void *name, void *label, BfmeParserCallback callback, void *userData);
+	int m_bfmeDataCS;
 };
 
-class BFMERetailAsciiString
+extern Rva002E5FF0Str Rva01336E50Str;
+
+class BfmeStrCS
 {
 public:
-	BFMERetailAsciiString(const char *s);
-	~BFMERetailAsciiString();
-private:
-	void *m_data;
+	BfmeStrCS(const char *text);
+	~BfmeStrCS();
+
+	int m_bfmeTextCS;
 };
 
-class BfmeParserRegistrationVE
+void __cdecl bfmeCallbackCS(void);
+
+void * __stdcall bfmeRegisterCS(BfmeStrCS *name, Rva002E5FF0Str *data, void *fn,
+	void *owner);
+
+class BfmeScopeCS
 {
 public:
-	BfmeParserRegistrationVE(DataChunkInput *table, void *name, void *label)
-	{
-		m_vftable = (void *)0x0107C7D0;
-		m_table = table;
-		m_parser = table->registerParser(name, label, (BfmeParserCallback)0x0041579E, this);
-	}
-protected:
-	void *m_vftable;
-	DataChunkInput *m_table;
-	UserParser *m_parser;
+	BfmeScopeCS(void *extra, void *inner, Rva002E5FF0Str *data);
+
+	int *m_bfmeVfCS;
+	void *m_bfmeInnerCS;
+	void *m_bfmeArgCS;
+	void *m_bfmeExtraCS;
+	int m_bfmePadCS;
 };
 
-class BfmeParserRegDefaultVE_88E20 : public BfmeParserRegistrationVE
+BfmeScopeCS::BfmeScopeCS(void *extra, void *inner, Rva002E5FF0Str *data)
 {
-public:
-	BfmeParserRegDefaultVE_88E20(void *a, void *b, void *c);
-private:
-	void *m_third;
-};
+	if (data == 0)
+		data = &Rva01336E50Str;
 
-// ?d_00088e20@@YAXXZ (candidate real name unknown; installs vtable(s) 0x0107C7D0, 0x0107C804)
-BfmeParserRegDefaultVE_88E20::BfmeParserRegDefaultVE_88E20(void *a, void *b, void *c)
-	: BfmeParserRegistrationVE((DataChunkInput *)b,
-		&BFMERetailAsciiString((const char *)0x0107C7C4),
-		c ? c : (void *)0x01336E50)
-{
-	m_third = a;
-	m_vftable = (void *)0x0107C804;
+	BfmeStrCS name(_bfmeLitCS);
+
+	m_bfmeVfCS = _bfmeVftVE;
+	m_bfmeInnerCS = inner;
+	m_bfmeArgCS = bfmeRegisterCS(&name, data, (void *)&bfmeCallbackCS, this);
+	m_bfmeExtraCS = extra;
+	m_bfmeVfCS = _bfmeVftCS;
 }
