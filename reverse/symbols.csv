@@ -84443,3 +84443,5 @@ _bfmeVftCVa,0x00D36058,pin
 _bfmeVftCVb,0x00D35D68,pin
 ?bfmeFindCW@BfmeVecCW@@QAEHPAX@Z,0x000329FC,pin
 ?bfmeCheckCW@BfmeSubCW@@QAEHPAX@Z,0x000220C5,pin
+?bfmeFindCX@BfmeVecCX@@QAEHPAX@Z,0x000072F7,pin
+?bfmeCheckCX@BfmeSubCX@@QAEHPAX@Z,0x000220C5,pin
