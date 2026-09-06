@@ -169265,8 +169265,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?size@?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QBEIXZ,0x0000D2BF,checkLadder tests the validMaps list at LadderInfo offset 0x1C
 ?bfmeFindAN@GameLogic@@QAEPAVBfmeObjAN@@H@Z,0x0001F253,pin
 ?g_bfmeFileAO@@3PADA,0x00CAA908,pin
-??0BfmeRoomAB@@QAE@ABV0@@Z,0x00887B60,pin
-?bfmeFindAB@BfmeOwnAB@@QAEPAVBfmeNodeAB@@PAXVBfmeRoomAB@@@Z,0x0002CB97,pin
-??0BfmeRoomAC@@QAE@ABV0@@Z,0x00887B60,pin
-?bfmeRunAD@Gen_00609320@@QAEXPAXVBfmePairAD@@HHH@Z,0x00021CEC,pin
 _malloc,0x009F6C34,retail malloc import the pooled operator new glue calls (slot 0x0135944C)
