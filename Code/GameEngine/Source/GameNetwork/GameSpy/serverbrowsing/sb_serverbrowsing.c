@@ -1,5 +1,5 @@
-// cl: /MD -Ireference/shims/gamespy
-/* GameSpy SDK, 2004 vintage -- pristine upstream C source.
+// cl: /ICode/GameEngine/Source/GameNetwork/GameSpy/serverbrowsing /MD -Ireference/shims/gamespy
+/* GameSpy SDK, 2004 vintage -- upstream C source with the retail pending-query check.
    Sourced from the Area 51 (Inevitable Entertainment / Midway) source release,
    github.com/bisc67/Area51, Support/NetworkMgr/GameSpy -- the only public
    carrier found with the pre-2005 SDK layout (top-level nonport.c, no common/).
@@ -30,7 +30,7 @@ static void ListCallback(SBServerList *serverlist, SBListCallbackReason reason, 
 	{
 	case slc_serveradded:
 		sb->BrowserCallback(sb, sbc_serveradded, server, sb->instance);
-		if ((server->state & (STATE_BASICKEYS|STATE_FULLKEYS)) == 0) //we need to do an update
+		if ((server->state & (STATE_BASICKEYS|STATE_FULLKEYS|STATE_PENDINGBASICQUERY|STATE_PENDINGFULLQUERY)) == 0) //retail avoids queuing an already-pending update
 		{
 			if (!sb->dontUpdate) //if this flag is set, we don't want to trigger updates
 			{
