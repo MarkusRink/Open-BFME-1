@@ -146,7 +146,7 @@ private:
 	ArmorTemplateMap m_armorTemplates;		// +0x08
 };
 
-// ??1ArmorStore@@UAE@XZ
+// ??1ArmorStore@@UAE@XZ present-unmatched
 ArmorStore::~ArmorStore()
 {
 	m_armorTemplates.clear();

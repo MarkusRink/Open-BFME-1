@@ -37,12 +37,40 @@ public:
 extern SubtitleDebugManager *TheGen001336E5C;
 void _bfme_debugRecordCallsite(int kind);
 
+// Retail's AsciiString copy constructor is the 19-byte forwarder at 0x0005EE50
+// that retail INLINED at every call site, so a call here has to encode
+// StringBase<char>'s body at 0x00887B60 directly. A declared-only copy ctor
+// emits a call to the forwarder instead, and no pin can repair that -- see
+// docs/lessons.md, "The same lever decides the CALL TARGET".
+template <typename T>
+class StringBase
+{
+	friend class AsciiString;
+
+private:
+	StringBase(const StringBase<T> &src);
+
+	struct Header
+	{
+		int ref_count;
+		unsigned short length;
+		unsigned short capacity;
+		T data[1];
+	};
+
+	Header *m_data;
+};
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
 class AsciiString
 {
 public:
 	AsciiString() : m_data(0) {}
-	AsciiString(const AsciiString &that);
+	AsciiString(const AsciiString &other)
+	{
+		((StringBase<char> *)this)->StringBase<char>::StringBase(
+			*(const StringBase<char> *)&other);
+	}
 	~AsciiString();
 	AsciiString &operator=(const AsciiString &that);
 

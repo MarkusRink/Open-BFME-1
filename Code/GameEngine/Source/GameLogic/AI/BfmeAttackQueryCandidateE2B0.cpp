@@ -54,6 +54,10 @@ class PathfindLayer
 {
 public:
 	PathfindCell *getCell(Int x, Int y);
+	// The name of the pad below says +4, but nothing occupied +0, so the layer
+	// was 0x40 bytes and m_zoneManager landed at +0xC5C instead of retail's
+	// +0xC9C -- 16 layers x the missing dword.
+	Int m_field00;
 	unsigned char m_pad04[0x40];
 };
 
@@ -89,7 +93,8 @@ private:
 	PathfindZoneManager m_zoneManager;
 };
 
-// ?fillCellAlongLine@BfmeAttackQuery@@QAEXPBUICoord2D@@0HPAUBfmeCellResult@@@Z
+// ?fillCellAlongLine@BfmeAttackQuery@@QAEXPBUICoord2D@@0HPAUBfmeCellResult@@@Z present-unmatched
+// (the matched checkCandidate calls it, so retail has a body; address unlocated)
 void BfmeAttackQuery::fillCellAlongLine(const ICoord2D *from,
 	const ICoord2D *to, Int layer, BfmeCellResult *result)
 {

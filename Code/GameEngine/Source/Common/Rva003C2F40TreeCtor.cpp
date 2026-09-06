@@ -1,4 +1,5 @@
-// ?d_003c2f40@@YAXXZ
+// Open-BFME: ??0Rva003C2F40Owner@@QAE@XZ at retail 0x003C2F40; the row was
+// repointed off the ?d_003c2f40 dump name and the header marker never followed.
 // cl: /DNDEBUG /MD /O2 /EHsc
 // The body is the EH-framed construction of the red-black header embedded at
 // +0x0c.  Its vtable and the two preceding scalar members are established by
@@ -23,6 +24,7 @@ struct Rva003C2F40Tree
 	Rva003C2F40Tree();
 };
 
+// ??0Rva003C2F40Tree@@QAE@XZ absent-from-retail (inlined whole into the matched owner ctor)
 Rva003C2F40Tree::Rva003C2F40Tree()
 {
 	m_header = 0;
@@ -45,14 +47,17 @@ public:
 	char m_bfme08;
 };
 
+// ??0Rva003C2F40Base@@QAE@XZ absent-from-retail (empty scaffold base, emits no code)
 Rva003C2F40Base::Rva003C2F40Base()
 {
 }
 
+// ??1Rva003C2F40Base@@UAE@XZ present-unmatched (vtable slot; retail body unlocated)
 Rva003C2F40Base::~Rva003C2F40Base()
 {
 }
 
+// ?handle@Rva003C2F40Base@@UAEXXZ present-unmatched (vtable slot; retail body unlocated)
 void Rva003C2F40Base::handle()
 {
 }
@@ -65,10 +70,12 @@ public:
 	Rva003C2F40Tree m_tree;
 };
 
+// ??0Rva003C2F40Owner@@QAE@XZ
 Rva003C2F40Owner::Rva003C2F40Owner()
 {
 }
 
+// ??1Rva003C2F40Owner@@UAE@XZ present-unmatched
 Rva003C2F40Owner::~Rva003C2F40Owner()
 {
 }

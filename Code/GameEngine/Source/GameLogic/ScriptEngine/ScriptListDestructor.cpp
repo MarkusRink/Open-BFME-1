@@ -53,6 +53,8 @@ private:
 	ScriptGroupPoolObject *m_firstScript;
 };
 
+// ??1ScriptListBase@@QAE@XZ absent-from-retail (split scaffold; its code is the
+// body of the matched ??1ScriptList@@QAE@XZ, which has nothing of its own)
 ScriptListBase::~ScriptListBase()
 {
 	ScriptGroupPoolObject *script = m_firstScript;

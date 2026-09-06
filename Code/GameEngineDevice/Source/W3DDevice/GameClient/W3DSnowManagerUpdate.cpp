@@ -171,7 +171,8 @@ void W3DSnowManager::extraAfterFmod(void)
 	}
 }
 
-// ?extraTail@W3DSnowManager@@QAEXXZ
+// ?extraTail@W3DSnowManager@@QAEXXZ present-unmatched (retail 0x00723B60 via thunk
+// 0x000092AF, still held by the ?d_00723b60 gen-dump row)
 void W3DSnowManager::extraTail(void)
 {
 	register const BFMEWeatherOverride *d = g_bfmeGlo012F15F8;
@@ -202,6 +203,7 @@ void W3DSnowManager::extraTail(void)
 	m_48 = (int)((WWMath::Random_Float() * g_bfmeK1121004 + g_bfmeK075C6C) * f->m_50 + g_bfmeK07533C);
 }
 
+// ?transitionTBA@W3DSnowManager@@QAEXXZ present-unmatched (retail address not yet assigned)
 void W3DSnowManager::transitionTBA(void)
 {
 	BFMEWeatherOverride *f = g_bfmeGlo012F15F8;
