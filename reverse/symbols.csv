@@ -84438,3 +84438,6 @@ _bfmeLit2CT,0x00CF71F8,pin
 ??0BfmeElemCU@@QAE@XZ,0x00892B80,pin
 ??1BfmeElemCU@@QAE@XZ,0x000463AD,pin
 ??1BfmeHeadCU@@QAE@XZ,0x000463AD,pin
+??1BfmeMemCV@@QAE@XZ,0x0089CC70,pin
+_bfmeVftCVa,0x00D36058,pin
+_bfmeVftCVb,0x00D35D68,pin
