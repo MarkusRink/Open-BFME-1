@@ -70,6 +70,26 @@
 
 // PRIVATE PROTOTYPES /////////////////////////////////////////////////////////
 
+// The five checkbox image getters are `inline` in GadgetCheckBox.h, so MSVC
+// emits a body for one only where it is odr-used. W3DGadgetCheckBoxImageDraw
+// reads the fields directly (retail loads the colour slot, four bytes past the
+// image), which since 1949cbad6 left five retail bodies claimed from this file
+// with no definition in the object at all. Naming them keeps them emitted
+// without touching a byte of the draw path.
+// External linkage on purpose: a file-static table nothing reads is discarded
+// before it can pull the getters in, and then the object still has no bodies.
+typedef const Image *(*CheckBoxImageGetter)( GameWindow * );
+extern const CheckBoxImageGetter theW3DCheckBoxImageGetters[];
+const CheckBoxImageGetter theW3DCheckBoxImageGetters[] =
+{
+	&GadgetCheckBoxGetEnabledCheckedBoxImage,
+	&GadgetCheckBoxGetDisabledUncheckedBoxImage,
+	&GadgetCheckBoxGetDisabledCheckedBoxImage,
+	&GadgetCheckBoxGetHiliteUncheckedBoxImage,
+	&GadgetCheckBoxGetHiliteCheckedBoxImage,
+};
+
+
 // drawCheckBoxText ===========================================================
 /** Draw the text for a checkbox */
 //=============================================================================
