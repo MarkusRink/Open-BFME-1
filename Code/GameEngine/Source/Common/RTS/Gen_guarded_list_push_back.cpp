@@ -16,7 +16,6 @@
 //
 // The lever that makes this shape reproducible is _STLP_NO_EXCEPTIONS; see
 // ResourceGatheringManager_addSupply.cpp in this directory for the mechanism.
-#define _STLP_USE_NEWALLOC 1
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
 #include <algorithm>

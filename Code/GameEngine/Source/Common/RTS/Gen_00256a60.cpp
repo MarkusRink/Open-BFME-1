@@ -15,7 +15,6 @@
 //
 // See ResourceGatheringManager_addSupply.cpp in this directory for why
 // _STLP_NO_EXCEPTIONS is what makes this shape reachable at all.
-#define _STLP_USE_NEWALLOC 1
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
 

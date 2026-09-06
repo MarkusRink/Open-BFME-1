@@ -17,9 +17,11 @@
 // no source lever" was measured on a hand-written flat replica of the list
 // splice; the real header does not behave that way.)
 //
-// _STLP_USE_NEWALLOC picks the plain-new allocator, so the node allocation is
-// the single `push 0xc` / cdecl call that retail has, not the node-pool path.
-#define _STLP_USE_NEWALLOC 1
+// The node allocation is the default node-pool path: retail's `push 0xc` is
+// followed by a call to __node_alloc<true,0>::_M_allocate (0x0082E540), which
+// is what the stock allocator emits once the ternary in __node_alloc::allocate
+// folds on the constant node size.  _STLP_USE_NEWALLOC used to be defined here
+// and looked right only because ??2@YAPAXI@Z was also pinned at 0x0082E540.
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
 
