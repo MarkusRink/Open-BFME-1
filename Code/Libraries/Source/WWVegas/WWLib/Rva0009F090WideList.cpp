@@ -57,6 +57,8 @@ private:
 	void releaseBuffer();
 	int compareNoCaseRaw(const T *left, const T *right, int length) const throw();
 
+	StringBase(const StringBase<T> &src);
+
 	Header *m_data;
 };
 
@@ -64,7 +66,13 @@ private:
 class UnicodeString
 {
 public:
-	UnicodeString(const UnicodeString &other);
+	// Retail inlines this forwarder, so the call site encodes
+	// StringBase<WideChar>'s copy ctor at 0x00888400 directly.
+	UnicodeString(const UnicodeString &other)
+	{
+		((StringBase<WideChar> *)this)->StringBase<WideChar>::StringBase(
+			*(const StringBase<WideChar> *)&other);
+	}
 	~UnicodeString() { ((StringBase<WideChar> *)this)->releaseBuffer(); }
 
 	int compareNoCase(const UnicodeString &other) const throw()
