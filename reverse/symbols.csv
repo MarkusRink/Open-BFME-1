@@ -73678,6 +73678,7 @@ name,address,notes
 ?bfmeCurIdVHT@BfmeChunkVHT@@QAEIXZ,0x009E1440,pin
 ?bfmeCurrentCU@@YAIXZ,0x0000E3D1,ILT thunk to CurrentCU getter 0x00421E10
 ?bfmeDeallocEU@@YAXPAXI@Z,0x0082E5F0,pin
+?bfmeDeltaTo@BfmeDeltaOwner@@QAEXPAXPAD@Z,0x0002EB59,Open-BFME local thiscall declaration reaches the retail delta helper thunk
 ?bfmeDeallocV46@BfmeStrV46@@QAEXXZ,0x0001EACE,Open-BFME5 thiscall dealloc pin for 0x0082FE50
 ?bfmeDeallocV48@BfmeStrV48@@QAEXXZ,0x0001EACE,Open-BFME5 thiscall dealloc pin for 0x0082FBB0
 ?bfmeDeallocV49@BfmeStrV49@@QAEXXZ,0x0001EACE,Open-BFME5 thiscall dealloc pin for 0x00830410
