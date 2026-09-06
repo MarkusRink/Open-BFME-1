@@ -3,7 +3,8 @@
 
 #include <vector>
 
-void *__cdecl operator new(unsigned int);
+// Retail allocates this node out of STLport's node pool
+// (__node_alloc<true,0>::_M_allocate, 0x0082E540), not ::operator new.
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
 class AsciiString
@@ -72,7 +73,7 @@ public:
 	ModuleDataListStandIn()
 	{
 		m_node = 0;
-		m_node = (Node *)operator new(sizeof(Node));
+		m_node = (Node *)_STL::_Node_alloc::allocate(sizeof(Node));
 		m_count = 0;
 		m_node->m_flag = 0;
 		m_node->m_value = 0;
