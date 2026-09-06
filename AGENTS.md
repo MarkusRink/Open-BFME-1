@@ -39,16 +39,19 @@ shared header edit costs a full gate: edit every dependent body, pay once.
    Check every new ledger source is tracked.
 3b. **A green byte-match says nothing about the NAME.** A pin on the wrong
    function still compiles to retail's bytes, so no other check can see that
-   class of defect. Four detectors find it, and the commit hook now runs the two
+   class of defect. Five detectors find it, and the commit hook now runs the three
    fast ones through `tools/identity_guard.py`, baselined in
    `reverse/identity_baseline.txt`; the slow one runs in the full gate. Those
    counts only go DOWN — raising one to go green is the ORPHAN_BASELINE move, and
    lowering one belongs in the same commit as the fix. Run them by hand when a
    row's identity is in doubt: `tools/multi_name.py` (one address, several names),
-   `tools/null_reloc.py` (our vftable store where retail wrote a literal zero;
-   ~70s), `tools/size_outlier.py` (a body far smaller than its family), and
-   `tools/find_emitter.py` (which TU could own an orphaned row). None proves
-   identity on its own — **a matched caller naming the symbol outranks all four.**
+   `tools/ctor_vtable.py` (a constructor whose body installs another class's
+   vtable — the one shape `multi_name` cannot see, because build.py masks the
+   vftable operand that separates them), `tools/null_reloc.py` (our vftable store
+   where retail wrote a literal zero; ~70s), `tools/size_outlier.py` (a body far
+   smaller than its family), and `tools/find_emitter.py` (which TU could own an
+   orphaned row). None proves identity on its own — **a matched caller naming the
+   symbol outranks all five.**
 
 3a. **Never `git stash pop` bare, and prefer not to stash at all.** Separate
    worktrees isolate the working tree and the index; they do NOT isolate the

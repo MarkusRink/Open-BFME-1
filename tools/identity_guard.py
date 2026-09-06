@@ -2,11 +2,11 @@
 """Fail when a byte-verified row starts naming the wrong function.
 
 The byte gate cannot see this class: a pin naming the wrong function still
-byte-matches, so a green build proves nothing about identity. Three detectors
+byte-matches, so a green build proves nothing about identity. Four detectors
 find it, and before this guard existed they ran only when somebody remembered
 them -- which made them reports rather than checks.
 
-Two are fast enough for the commit hook (~4s together) and run here.
+Three are fast enough for the commit hook (~6s together) and run here.
 null_reloc.py takes ~70s and runs in the full gate instead; see tools/build.py.
 
 Counts only ever go DOWN. Raising a baseline to go green is the same prohibited
@@ -42,6 +42,19 @@ CHECKS = [
      "size_outlier.py",
      re.compile(r"none same-method or same-class=(\d+)"),
      None),
+    # multi_name cannot reach this one: the constructors it clears as a
+    # structural fold ARE one shape, because build.py masks the vftable operand
+    # that separates them. ctor_vtable reads that operand instead.
+    ("ctor_vtable.contradicted",
+     "ctor_vtable.py",
+     re.compile(r"^\s+(\d+)\s+the vtable it installs names a DIFFERENT class", re.M),
+     re.compile(r"^matched constructor rows with a plain class name: \d+", re.M)),
+    # A coverage floor, not a defect count: a body the sweep cannot read is one
+    # it reports clean without looking. Same lesson as null_reloc.max_unreadable.
+    ("ctor_vtable.unreadable",
+     "ctor_vtable.py",
+     re.compile(r"^\s+(\d+)\s+body could not be read - NOT a clean result", re.M),
+     re.compile(r"^matched constructor rows with a plain class name: \d+", re.M)),
 ]
 
 
