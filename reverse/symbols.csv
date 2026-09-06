@@ -9744,10 +9744,13 @@ name,address,notes
 ??_C@_0CB@IDCCCMML@SupplyWarehouseCripplingBehavior@,0x00C90948,pool-glue cascade static (back-solved)
 ??_C@_0CB@LIPKINCO@DynamicShroudClearingRangeUpdate@,0x00C90758,pool-glue cascade static (back-solved)
 ??_C@_0CB@MOCKBGLE@SupplyCenterProductionExitUpdate@,0x00C90234,pool-glue cascade static (back-solved)
+??_C@_0CE@EFCNBDCP@Expected?5additional?5data?5after?5?8@,0x01130350,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00852C10 calls; autopin
 ??_C@_0CE@MMFOENO@AnimatedParticleSysBoneClientUpd@,0x00C8F7CC,pool-glue cascade static (back-solved)
 ??_C@_0CG@HNFICCF@RemoveModule?5?$CFs?5was?5not?5found?5fo@,0x010940F8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x001431D0 calls; autopin
 ??_C@_0CK@IOLAIFDE@Expected?5oldMode?5to?5be?5MODULEPAR@,0x010940B0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x001431D0 calls; autopin
 ??_C@_0CK@KMEDCNIN@ParseForceBattle?3?3Invalid?5data?5p@,0x010ECE94,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B7DC0 calls; autopin
+??_C@_0CK@KOJDPLHL@invalid?5Real?5value?5?$CF1?47f?5?9?9?5expe@,0x01130820,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00852C10 calls; autopin
+??_C@_0CK@NEFDKIBL@invalid?5Real?5value?5?$CF1?47f?5?9?9?5expe@,0x0113084C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00852CA0 calls; autopin
 ??_C@_0CL@DBKGJBJE@ParseEnableRegion?3?3Invalid?5data?5@,0x010E8FB0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B7BA0 calls; autopin
 ??_C@_0CN@CBOMGKEP@ParseMergeArmyBlock?3?3Invalid?5dat@,0x010ED21C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B8500 calls; autopin
 ??_C@_0CN@DIIOJJIK@ParseWorldTextBlock?3?3Invalid?5dat@,0x010ED2C4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B8610 calls; autopin
@@ -9761,6 +9764,7 @@ name,address,notes
 ??_C@_0DF@IABNOJPE@ControlPoint?3?3ParseINIBlock?3?3Inv@,0x0107538C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00064680 calls; autopin
 ??_C@_0DH@BBNHFHPD@ParseRegionReinforcementBlock?3?3I@,0x010ED658,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BABE0 calls; autopin
 ??_C@_0DI@KDAAEBDM@ReplaceModule?5?$CFs?5was?5not?5found?5f@,0x01094128,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00143320 calls; autopin
+??_C@_0DJ@DJHFAHIJ@SplineEffect?3?3ParseGeometryName?3@,0x010ED800,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BB680 calls; autopin
 ??_C@_0DK@MIJFPIGG@invalid?5GameLODLevel?5token?5?$CFs?5?9?9@,0x01076BCC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0007BCF0 calls; autopin
 ??_C@_0DO@NADNCPBE@Unknown?5command?5?8?$CFs?8?5found?5in?5co@,0x010FB7C4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0049C7C0 calls; autopin
 ??_C@_0L@BJCDJCGK@UpgradeDie?$AA@,0x00C90838,pool-glue cascade static (back-solved)
@@ -82098,6 +82102,7 @@ name,address,notes
 ?setFullyObscuredByShroud@W3DModelDraw@@UAEX_N@Z,0x0003EF77,ILT; base call from W3DTankTruckDraw::setFullyObscuredByShroud
 ?setGameMessageType@NetGameCommandMsg@@QAEXH@Z,0x00673730,identified from readGameMessage's call site
 ?setGamePaused@BfmeGameLogicPause@@QAEX_NH0@Z,0x00006F50,BFME three-argument GameLogic::setGamePaused; ILT thunk to body 0x00383490
+?setGeometryName@Rva003BB680Owner@@QAEXAAVAsciiString@@@Z,0x00003EBD,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BB680 calls; autopin
 ?setGoalObject@Rva00170460GoalHelper@@QAEXPBVObject@@@Z,0x00027B42,Rva00170460State clear restores its goal object through the retail ILT
 ?setGoalObject@StateMachine@@QAEXPBVObject@@@Z,0x00035A1C,StateMachine goal-object setter ILT; caller 0x002737B0 sets the attack victim and body 0x001705A0 updates the safetied pointer
 ?setGoalObject@StateMachine_2BC5D0@@QAEXPBX@Z,0x00035A1C,StateMachine goal-object setter ILT near-twin pin (const void* param spelling for 0x002BC5D0 run())
