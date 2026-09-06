@@ -84513,3 +84513,9 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ??_7Rva003BA660Record@@6B@,0x010EC84C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BA660 calls; autopin
 ??1Rva003AB460Tree@@QAE@XZ,0x000451F1,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BA660 calls; autopin
 ??_C@_0DF@OCNJKEMF@SplineCamera?3?3ParseINIBlock?3?3Inv@,0x010ED480,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BA660 calls; autopin
+??_C@_0DE@HDIMJNMP@ParseLivingWorldCampaignAct?3?3No?5@,0x010ECB24,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B2BB0 calls; autopin
+??0Rva003B2BB0Record@@QAE@ABVAsciiString@@@Z,0x0003A0F8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B2BB0 calls; autopin
+?Rva003B2BB0FieldParseTable@@3QBUFieldParse@@B,0x010EC9B8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B2BB0 calls; autopin
+?append@Rva003B2BB0Owner@@QAEXPAVRva003B2BB0Record@@@Z,0x00044A17,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B2BB0 calls; autopin
+??1Rva003B2BB0Record@@QAE@XZ,0x0000817A,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B2BB0 calls; autopin
+??_C@_0DF@HGBHHIJA@ParseLivingWorldCampaignAct?3?3Inv@,0x010EC978,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B2BB0 calls; autopin
