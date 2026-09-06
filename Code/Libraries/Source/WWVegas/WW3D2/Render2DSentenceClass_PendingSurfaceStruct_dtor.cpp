@@ -23,6 +23,10 @@
 // at +0x0C; and the flag at +0x11 that has to be set before the buffer is
 // worth releasing.
 
+// MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
+// form is declared where it can see it; retail calls ??_V@YAXPAX@Z here.
+void operator delete[]( void *block );
+
 typedef int Int;
 typedef bool Bool;
 

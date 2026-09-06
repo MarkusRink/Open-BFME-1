@@ -11,6 +11,10 @@
 //
 // The deleting stub still uses the scalar form for `this`, which is what tells
 // the two calls apart: one is `delete [] m_proxies`, the other is `delete this`.
+// MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
+// form is declared where it can see it; retail calls ??_V@YAXPAX@Z here.
+void operator delete[]( void *block );
+
 class ProxyArrayClass
 {
 public:

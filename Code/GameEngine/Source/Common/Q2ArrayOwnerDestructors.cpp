@@ -5,7 +5,7 @@
 //   push esi / mov esi,ecx
 //   mov eax,[esi+8] / push eax
 //   mov [esi],<DERIVED VFTABLE>
-//   call ??3@YAXPAX@Z / add esp,4
+//   call ??_V@YAXPAX@Z / add esp,4
 //   mov [esi],<BASE VFTABLE>
 //   pop esi / ret
 //
@@ -23,13 +23,13 @@
 // The BASE vftable is the same address in all seven rows, so there is one base
 // class.  The DERIVED vftable is the only axis.
 //
-// WHAT THE BYTES DO NOT DECIDE.  `delete p` and `delete [] p` on a pointer to
-// a type with no destructor compile to the identical 29 bytes -- the same call,
-// to the same body, which retail also reaches from `operator delete[]` sites
-// (0x00881EF0 carries both names).  The freed member is typed `char *` because
-// nothing here says what it points at.  The dword at this+4 is never touched
-// and is unidentified.  17 of the 29 bytes are concrete; the call displacement
-// and the two vftable dwords are resolved from the target.
+// WHICH DEALLOCATOR.  The call goes to 0x00881EF0, `operator delete[]`, and
+// not to 0x00881EB0, `operator delete` -- two distinct retail bodies -- so the
+// member is an ARRAY and the expression is `delete [] p`.  The freed member is
+// typed `char *` because nothing here says what it points at.  The dword at
+// this+4 is never touched and is unidentified.  17 of the 29 bytes are
+// concrete; the call displacement and the two vftable dwords are resolved from
+// the target.
 //
 // TWO ROWS SHARE A DERIVED VFTABLE: 0x006D7B00 and 0x006D87C0 both store
 // 0x0111E09C, so by every byte here they destroy the same class -- but one
@@ -38,6 +38,10 @@
 // the same duplicate-translation-unit pattern the range-loop family shows.
 //
 // IDENTITY IS NOT RECOVERED.  Every name is derived from an address.
+
+// Declared so MSVC 7.1 lowers `delete []` to ??_V@YAXPAX@Z; without a visible
+// array-form declaration it folds the array delete onto the scalar ??3.
+void operator delete[]( void *block );
 
 class Q2ArrayOwnerBase
 {
@@ -56,7 +60,7 @@ public:
 	};                                                                    \
 	NAME::~NAME()                                                         \
 	{                                                                     \
-		delete m_block;                                                   \
+		delete [] m_block;                                                   \
 	}
 
 Q2_ARRAY_OWNER_DESTRUCTOR( Rva005F3B50 )

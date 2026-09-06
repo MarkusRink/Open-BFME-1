@@ -19,6 +19,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/pivot.h
+// MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
+// form is declared where it can see it; retail calls ??_V@YAXPAX@Z here.
+void operator delete[]( void *block );
+
 struct PivotClass
 {
 	// User-declared, so `delete []' still has to walk the array -- but empty, so
