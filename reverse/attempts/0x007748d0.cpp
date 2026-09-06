@@ -11,9 +11,10 @@
 
 namespace _STL
 {
-	struct __declspec(align(4)) random_access_iterator_tag
-{
-};
+	struct input_iterator_tag {};
+	struct forward_iterator_tag : public input_iterator_tag {};
+	struct bidirectional_iterator_tag : public forward_iterator_tag {};
+	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 }
 
 struct Gen007748D0Range
@@ -50,6 +51,19 @@ struct Gen_t_00777e90_p32cd
 		m_last = other.m_last;
 		return *this;
 	}
+
+	Gen_t_00777e90_p32cd &copyFrom(const Gen_t_00777e90_p32cd &other, int &count)
+	{
+		m_first = other.m_first;
+		if (&other.m_range != &m_range)
+		{
+			m_range.assign(other.m_range.m_begin, other.m_range.m_end,
+				reinterpret_cast<const _STL::random_access_iterator_tag &>(count));
+		}
+		m_tail = other.m_tail;
+		m_last = other.m_last;
+		return *this;
+	}
 };
 
 namespace _STL
@@ -60,7 +74,7 @@ OutputIterator __copy(InputIterator first, InputIterator volatile last,
 {
 	for (Distance count = last - first; count > 0;
 		--count, ++first, ++result)
-		*result = *first;
+		result->copyFrom(*first, count);
 	return result;
 }
 
