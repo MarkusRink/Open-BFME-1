@@ -105,11 +105,6 @@ public:
 	BfmeMemberAI *m_bfmeAI;
 };
 
-__forceinline BfmeMemberSlotState *bfmeGetSlotState( const Object *member )
-{
-	return member->m_bfmeAI->m_bfmeSlotState;
-}
-
 class BfmeHordeContainPoll
 {
 public:
@@ -128,16 +123,14 @@ Bool BfmeHordeContainPoll::bfmeAllMembersReady( void )
 	for ( _STL::_Rb_tree_node_base *node = m_bfmeIdSet->m_bfmeLeft; node != m_bfmeIdSet;
 		node = _STL::_Rb_global<bool>::_M_increment( node ) )
 	{
-		Object *member;
 		ObjectID id = ( (BfmeIdNode *)node )->m_bfmeId;
 
 		if ( id == 0 )
 			continue;
 
-		member = TheGameLogic->findObjectByID( id );
+		Object *member = TheGameLogic->findObjectByID( id );
 		if ( member != 0 )
 		{
-			BfmeMemberSlotState *state = bfmeGetSlotState( member );
 			BfmeMemberQueue *queue = member->m_bfmeAI->m_bfmeSlotState->m_bfmeQueue;
 
 			anyResolved = true;
@@ -148,7 +141,7 @@ Bool BfmeHordeContainPoll::bfmeAllMembersReady( void )
 					continue;
 			}
 
-			queue = ((BfmeMemberSlotStateVolatile *)state)->m_bfmeQueue;
+			queue = ((BfmeMemberSlotStateVolatile *)member->m_bfmeAI->m_bfmeSlotState)->m_bfmeQueue;
 
 			if ( queue == 0 || queue->m_bfmeCount != 1 ||
 				( member->m_bfmeStatus & 0x10000000 ) )
