@@ -84512,3 +84512,5 @@ g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeResolveMR@BfmeInnerMR@@QAEPAVBfmeKeyMR@@XZ,0x000022BB,pin
 ?bfmeLookupMR@BfmeTableMR@@QAEXPAPAVBfmeNodeMR@@PAPAVBfmeKeyMR@@@Z,0x0001FF05,pin
+?bfmeBusyNW@BfmeCheckerNW@@QAEDXZ,0x00006EEC,pin
+?bfmeResolveNW@BfmeInnerNW@@QAEPAVBfmeThingNW@@XZ,0x000022BB,pin
