@@ -163927,7 +163927,6 @@ name,address,notes
 ?getChipset@BfmeChipsetQuery@@SA?AW4ChipsetType@@XZ,0x000162A7,alias of ?getChipset@W3DShaderManager@@SA?AW4ChipsetType@@XZ pinned at the same ILT; declared-only view so the call keeps the ordinary convention where the same-TU definition would use MSVC's private one
 ?getChipset@W3DShaderManager@@SA?AW4ChipsetType@@XZ,0x000162A7
 ?getChunkNumber@NetWrapperCommandMsg@@QAEIXZ,0x0003F814
-?getClassMemoryPool@Anim2D@@CAPAVMemoryPool@@XZ,0x00AFF960,pinharvest x3 (body)
 ?getClassMemoryPool@ObjectDefectionHelper@@SAPAVMemoryPool@@XZ,0x0000B9CE,pinharvest x1 (thunk)
 ?getClassMemoryPool@VertexMaterialClass@@CAPAXXZ,0x6B22FA14,packet 00921eba callee pin
 ?getClosestObject@PartitionManager@@QAEPAVObject@@PBUCoord3D@@MHPAVPartitionFilter@@@Z,0x009F26A0,findSupplyCenter 4-arg thiscall; 33B wrapper already matched as bfmeGo1050D
