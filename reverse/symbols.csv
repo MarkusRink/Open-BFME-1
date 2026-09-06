@@ -2829,6 +2829,7 @@ name,address,notes
 ??0MaterialRemapperClass@@QAE@PAVMaterialInfoClass@@0@Z,0x0092FD60,callee of the byte-proven clone_materials 0x96DDC0; ecx=stack temp and args are (srcmesh.MatInfo this->MatInfo) with EH state 0
 ??0MaxHealthUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z,0x0003BEDA,module ctor (friend_newModuleInstance retail call target)
 ??0MeshClass@@QAE@XZ,0x0092C270,BFME MeshClass constructor called by the prototype mesh loader
+??0MeshGeometryClass@@QAE@XZ,0x00924880,MeshModelClass default constructor callee at retail RVA 0x0094EAE0
 ??0MeshGeometryClass@@QAE@ABV0@@Z,0x009267E0,base copy ctor; REL32 target of MeshModelClass copy ctor at 0x0094EC44
 ??0MeshLoadContextClass@@AAE@XZ,0x00970180,BFME mesh-load context constructor called by MeshModelClass::Load_W3D
 ??0MeshMatDescClass@@QAE@ABV0@@Z,0x0092C0D0,REL32 target of MeshModelClass copy ctor at 0x0094ECE0 and 0x0094ED1F

@@ -80,12 +80,14 @@ MeshModelClass::MeshModelClass(void) :
 	MatInfo(NULL),
 	GapFiller(NULL)
 {
+	*((void **)((char *)this + 0xC0)) = NULL;
+	*((bool *)((char *)this + 0xC4)) = false;
 	Set_Flag(DIRTY_BOUNDS,true);
 
 	DefMatDesc = W3DNEW MeshMatDescClass;
 	CurMatDesc = DefMatDesc;
 	
-	MatInfo = NEW_REF( MaterialInfoClass, () );
+	MatInfo = ::new MaterialInfoClass;
 	
 	return ;
 }
