@@ -428,3 +428,46 @@ void BfmeHashResizeAnchor00852340( Rva00852340Table &table, UnsignedInt count )
 	table.resize( count );
 }
 
+struct BfmeCharRange009D7BC0
+{
+	const char *begin;
+	const char *end;
+};
+
+struct BfmeCharRangeHash009D7BC0
+{
+	unsigned int operator()( const BfmeCharRange009D7BC0 &key ) const
+	{
+		unsigned int value = 0;
+		unsigned int length = static_cast<unsigned int>( key.end - key.begin );
+		unsigned int base = reinterpret_cast<unsigned int>( key.begin );
+		for ( unsigned int i = 0; i < length; ++i )
+			value = value * 5 + *reinterpret_cast<const signed char *>( i + base );
+		return value;
+	}
+};
+
+struct BfmeCharRangeValue009D7BC0
+{
+	BfmeCharRange009D7BC0 key;
+	unsigned int mapped[2];
+};
+
+struct BfmeCharRangeExtract009D7BC0
+{
+	const BfmeCharRange009D7BC0 &operator()( const BfmeCharRangeValue009D7BC0 &value ) const
+	{
+		return value.key;
+	}
+};
+
+typedef _STL::hashtable<BfmeCharRangeValue009D7BC0, BfmeCharRange009D7BC0,
+	BfmeCharRangeHash009D7BC0, BfmeCharRangeExtract009D7BC0,
+	_STL::equal_to<BfmeCharRange009D7BC0>,
+	_STL::allocator<BfmeCharRangeValue009D7BC0> > BfmeCharRangeTable009D7BC0;
+
+// retail 0x009D7BC0
+void BfmeHashResizeAnchor009D7BC0( BfmeCharRangeTable009D7BC0 &table, UnsignedInt count )
+{
+	table.resize( count );
+}
