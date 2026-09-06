@@ -1,4 +1,4 @@
-// cl: /MD -Ireference/shims/gamespy
+// cl: /ICode/GameEngine/Source/GameNetwork/GameSpy/gp /MD -Ireference/shims/gamespy
 /* GameSpy SDK, 2004 vintage -- pristine upstream C source.
    Sourced from the Area 51 (Inevitable Entertainment / Midway) source release,
    github.com/bisc67/Area51, Support/NetworkMgr/GameSpy -- the only public
@@ -517,14 +517,14 @@ gpiDeleteBuddy(
 	// Need to fix up the buddy indexes.
 	////////////////////////////////////
 	index = pProfile->buddyStatus->buddyIndex;
-	assert(index >= 0);
+	/* Retail omits the two SDK debug checks in this cleanup path. */
 	freeclear(pProfile->buddyStatus->statusString);
 	freeclear(pProfile->buddyStatus->locationString);
 	freeclear(pProfile->buddyStatus);
 	if(gpiCanFreeProfile(pProfile))
 		gpiRemoveProfile(connection, pProfile);
 	iconnection->profileList.numBuddies--;
-	assert(iconnection->profileList.numBuddies >= 0);
+	/* No retail buddy-count assertion. */
 	gpiProfileMap(connection, gpiFixBuddyIndices, (void *)index);
 
 	return GP_NO_ERROR;
