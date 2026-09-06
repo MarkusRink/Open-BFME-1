@@ -4,8 +4,11 @@
 // Zero Hour's AIStates.cpp has the two outer steps -- clear the panicking model
 // condition on the machine owner, then chain to AIInternalMoveToState::onExit --
 // and BFME wraps them in extra work: nothing runs unless bit 0x2000 of the word
-// at Object+0x98 is set, a second model condition is cleared, and a kind-of test
+// at Object+0x98 is set, a second status bit is cleared, and a kind-of test
 // gates one further call.
+//
+// The ILT at 0x00031F7A was re-adjudicated as Object::clearStatus, not
+// clearModelConditionState -- the body it fronts builds an ObjectStatusMaskType.
 //
 // Retail pins the chain: the state machine is at this+0x1C and its owner at
 // machine+0x10. isKindOf and the base onExit were already pinned by other work.
@@ -30,6 +33,11 @@ enum KindOfType
 enum ModelConditionFlagType
 {
 	MODELCONDITION_FIRST = 0
+};
+
+enum ObjectStatusTypes
+{
+	OBJECT_STATUS_NONE = 0
 };
 
 class ModelConditionFlags
@@ -69,7 +77,7 @@ public:
 class Object : public Thing
 {
 public:
-	void clearModelConditionState(ModelConditionFlagType);	///< ILT thunk at 0x00031F7A
+	void clearStatus(ObjectStatusTypes);					///< ILT thunk at 0x00031F7A
 
 	// Unidentified two-argument body at 0x000F20F0, reached via 0x00019C54.
 	__declspec(noinline) void unidentified_000F20F0(Int, Int);
@@ -112,8 +120,8 @@ void AIPanicState::onExit(StateExitType status)
 	Object *obj = getMachineOwner();
 	if (obj && (obj->m_statusBits & 0x2000))
 	{
-		obj->clearModelConditionState((ModelConditionFlagType)0x4D);
-		obj->clearModelConditionState((ModelConditionFlagType)3);
+		obj->clearStatus((ObjectStatusTypes)0x4D);
+		obj->clearStatus((ObjectStatusTypes)3);
 
 		if (obj->isKindOf((KindOfType)0x6C))
 		{
