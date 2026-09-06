@@ -1,36 +1,38 @@
-// ?handle@Gen00362760@@QAEXHPAX@Z
-// partial score=0.95 date=2026-09-02
-// cl: /DNDEBUG /MD /EHsc
-
-class Gen00362760Elem
+// ?bfmeAtBX@BfmeOwnBX@@QAEXHPAX@Z (identity unknown)
+// partial score=0.8 date=2026-09-06
+// 59 bytes from MSVC against retail's 62. The whole magic-division block is
+// byte-exact -- `m_end - m_begin` on an 0x58-byte element type produces
+// retail's 0x2e8ba2e9 / sar 4 / shr 31 / add sequence for free, and the
+// `jae` needs the unsigned cast on both sides of the bound check.
+// Residue: retail saves esi at entry and keeps `this` there; MSVC shrink-wraps
+// the push past the first guard and puts `this` in eax. Tried an early-return
+// pair, a single && chain (signed and unsigned), a named self local and a
+// named begin local; the push always shrink-wraps.
+class BfmeElemBX
 {
 public:
-	void handle(void *arg);
+	void bfmeApplyBX(void *value);
 
-private:
-	unsigned char m_data[0x58];
+	unsigned char m_bfmeHeadBX[0x58];
 };
 
-class Gen00362760
+class BfmeOwnBX
 {
 public:
-	void handle(int index, void *arg);
+	void bfmeAtBX(int index, void *value);
 
-private:
-	unsigned char m_pad[0x18];
-	Gen00362760Elem *m_begin;
-	Gen00362760Elem *m_end;
+	unsigned char m_bfmeHeadBX[0x18];
+	BfmeElemBX *m_bfmeBeginBX;
+	BfmeElemBX *m_bfmeEndBX;
 };
 
-// @?handle@Gen00362760@@QAEXHPAX@Z 0x00362760
-void Gen00362760::handle(int index, void *arg)
+void BfmeOwnBX::bfmeAtBX(int index, void *value)
 {
-	unsigned char *self = (unsigned char *)this;
 	if (index < 0)
 		return;
-	Gen00362760Elem *begin = *(Gen00362760Elem **)(self + 0x18);
-	Gen00362760Elem *end = *(Gen00362760Elem **)(self + 0x1c);
-	if ((unsigned int)index >= (unsigned int)(end - begin))
+
+	if ((unsigned int)index >= (unsigned int)(m_bfmeEndBX - m_bfmeBeginBX))
 		return;
-	(*(Gen00362760Elem **)(self + 0x18))[index].handle(arg);
+
+	m_bfmeBeginBX[index].bfmeApplyBX(value);
 }
