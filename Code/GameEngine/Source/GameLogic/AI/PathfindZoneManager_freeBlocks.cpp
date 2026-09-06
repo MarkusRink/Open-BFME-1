@@ -16,6 +16,10 @@
 // The store clearing the first pointer lands between the push and the call of
 // the second free; that is scheduling, not order.
 
+// MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
+// form is declared where it can see it; retail calls ??_V@YAXPAX@Z here.
+void operator delete[]( void *block );
+
 class Rva004029F0
 {
 public:

@@ -8,6 +8,10 @@
 // they are body statements and not member initialisers -- members would have
 // been initialised in declaration order, ahead of the list at +0x10.
 
+// MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
+// form is declared where it can see it; retail calls ??_V@YAXPAX@Z here.
+void operator delete[]( void *block );
+
 void *bfmeAllocNode(unsigned int bytes);			// retail 0x0082E540
 void __cdecl bfmeDeallocate(void *block, unsigned int bytes);	// retail 0x0082E5F0
 
