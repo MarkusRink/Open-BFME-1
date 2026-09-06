@@ -84506,3 +84506,5 @@ g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeSendJP@@YAXPAXPAHH@Z,0x00048D38,pin
 ?bfmeDoKQ@BfmeSubKQ@@QAEXHHH@Z,0x0004A12E,pin
+?bfmeCheckALT@BfmeHolderLT@@QAEDMMH@Z,0x0004198E,pin
+?bfmeCheckBLT@BfmeHolderLT@@QAEDMM@Z,0x0003BEA8,pin
