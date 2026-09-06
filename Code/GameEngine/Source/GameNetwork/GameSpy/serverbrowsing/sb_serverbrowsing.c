@@ -280,7 +280,7 @@ SBError ServerBrowserAuxUpdateIPA(ServerBrowser sb, const char *ip, unsigned sho
 		}
 		else
 		{
-			server = SBServerListNth(&sb->list, i);
+			server = SBServerListNth(&sb->list, i); SBQueryEngineRemoveServerFromFIFOs(&sb->engine, server);
 			SBQueryEngineUpdateServer(&sb->engine, server, 1, (fullUpdate) ? QTYPE_FULL : QTYPE_BASIC);
 		}
 	} else //do a master update
