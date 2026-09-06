@@ -43,6 +43,10 @@
 // which is a different (and here, wrong) callee.  The two headers that declare
 // this TU's four pooled classes are pulled in here so the override reaches them
 // and nothing else.
+// GameMemory.h must be resolved BEFORE the override: every header below
+// reaches it transitively, and its own #define would otherwise land after
+// ours and silently restore ZH's ::operator delete routing.
+#include "Common/GameMemory.h"
 #pragma push_macro("MEMORY_POOL_GLUE_WITHOUT_GCMP")
 #undef MEMORY_POOL_GLUE_WITHOUT_GCMP
 extern "C" void free(void *);

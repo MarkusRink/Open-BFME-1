@@ -41,6 +41,10 @@
 // which is a different (and here, wrong) callee.  InGameUI.h is pulled in here,
 // ahead of every other header, so the override reaches its four pooled classes
 // and nothing else.
+// GameMemory.h must be resolved BEFORE the override: every header below
+// reaches it transitively, and its own #define would otherwise land after
+// ours and silently restore ZH's ::operator delete routing.
+#include "Common/GameMemory.h"
 #pragma push_macro("MEMORY_POOL_GLUE_WITHOUT_GCMP")
 #undef MEMORY_POOL_GLUE_WITHOUT_GCMP
 extern "C" void free(void *);
