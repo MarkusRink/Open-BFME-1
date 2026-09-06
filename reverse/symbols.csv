@@ -84445,3 +84445,4 @@ _bfmeVftCVb,0x00D35D68,pin
 ?bfmeCheckCW@BfmeSubCW@@QAEHPAX@Z,0x000220C5,pin
 ?bfmeFindCX@BfmeVecCX@@QAEHPAX@Z,0x000072F7,pin
 ?bfmeCheckCX@BfmeSubCX@@QAEHPAX@Z,0x000220C5,pin
+?bfmeApplyCZ@BfmeOwnCZ@@QAEXPAXHH@Z,0x00032010,pin
