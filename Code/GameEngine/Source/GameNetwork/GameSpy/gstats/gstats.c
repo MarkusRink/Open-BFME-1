@@ -232,7 +232,7 @@ char *GenerateAuthW(char* challenge,  unsigned short *password, char response[33
 int InitStatsAsync(int theGamePort, gsi_time theInitTimeout)
 {
 	struct sockaddr_in saddr;
-	char tempHostname[128];
+	char tempHostname[128]; char gameName[12];
 	int  ret;
 		
 	gameport = theGamePort;
@@ -255,11 +255,11 @@ int InitStatsAsync(int theGamePort, gsi_time theInitTimeout)
 	if (sock != INVALID_SOCKET)
 		CloseStatsConnection();
 
-	rcvlen = 0; //make sure ther receive buffer is cleared
+	rcvlen = 0; gameName[0]='l'; gameName[1]='o'; gameName[2]='t'; gameName[3]='r'; gameName[4]='b'; gameName[5]='m'; gameName[6]='e'; gameName[7]='\0'; // BFME hostname prefix
 
 	if (inet_addr(StatsServerHostname) == INADDR_NONE)
 	{
-		strcpy(tempHostname, gcd_gamename);
+		strcpy(tempHostname, gameName);
 		strcat(tempHostname,".");
 		strcat(tempHostname,StatsServerHostname);
 	} else
@@ -282,7 +282,7 @@ int InitStatsAsync(int theGamePort, gsi_time theInitTimeout)
 		{
 			stats_initstate = init_failed;
 			closesocket(sock);
-            sock=INVALID_SOCKET;
+            /* Retail keeps the closed handle here. */
 			return GE_NOCONNECT;
 		}
 	}
