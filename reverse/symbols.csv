@@ -164198,6 +164198,8 @@ name,address,notes
 ?getTemplateName@BuildListInfo@@QBE?AVAsciiString@@XZ,0x00049EFE,"Root full32B narrow-string getter proof at161DC0; matched caller36E650 identifies BuildListInfo templateName+8, hiddenreturnbuffer and887B60 copy"
 ?getTerrain@Rva0074D210Owner@@QAE?AVRva0074D210Handle@@XZ,0x00040953,Open-BFME5 getTerrainTexture ILT used by 0x0074D210 alpha-texture getter
 ?getTerrain@Rva0074D210Owner@@QAEXPAVRva0074D210Handle@@@Z,0x00040953,Open-BFME5 getTerrainTexture ILT used by 0x0074D210 alpha-texture getter
+?getTerrainTexture@WorldHeightMap@@QAE?AVTerrainTextureRef@@XZ,0x00040953,WorldHeightMap::getTerrainTexture ILT; both lazy getters at 0x0074D210 and 0x0074D270 generate through it
+?getTerrainTexture@WorldHeightMap@@QAEXPAVTerrainTextureRef@@@Z,0x00040953,WorldHeightMap::getTerrainTexture ILT, sret spelling of the same thunk
 ?getTerrainColorAt@WorldHeightMap@@QAEXMMPAURGBColor@@@Z,0x007477E0,thunk-resolved body (via 0x197ae)
 ?getText@INILineBuffer@@QBEPBDH@Z,0x009CBC60,the INI line array accessor readLine copies from
 ?getText@NetChatCommandMsg@@QAE?AVUnicodeString@@XZ,0x00025338,ILT thunk; the by-value UnicodeString getter NetPacket::isRoomForChatMessage calls, beside the ledgered NetDisconnectChatCommandMsg twin
