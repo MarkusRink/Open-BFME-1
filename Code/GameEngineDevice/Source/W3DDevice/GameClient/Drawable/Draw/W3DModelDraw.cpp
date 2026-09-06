@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /MD /EHsc /Ireference/shims/w3dmodeldraw /Ireference/shims/asciistring8 /Ireference/shims/sweep /ICode/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /DBFME_STLP_NODE_ALLOC /MD /EHsc /Ireference/shims/stlp_nodealloc /Ireference/shims/w3dmodeldraw /Ireference/shims/asciistring8 /Ireference/shims/sweep /ICode/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -5705,3 +5705,23 @@ void W3DModelDrawModuleData::xfer( Xfer *x )
 void W3DModelDrawModuleData::loadPostProcess( void )
 {
 }
+
+//-------------------------------------------------------------------------------------------------
+// Retail emits pair<const _K, X>'s copy constructor five times and _Construct
+// over it three times.  Three of those copies call a different second-member
+// copy constructor from the one this map's does -- 0x002E0F20 and 0x0073DAB0
+// against the 0x00887B60 the other five reach -- so they are other
+// instantiations of the same shape rather than other placements of this one,
+// and one name cannot pin three divergent bodies.  Each gets a stand-in second
+// type instead, the way Code/gen_small/zhstl_007.cpp does for the same problem:
+// the pointed-to type changes every decorated name in the instantiation and not
+// one byte of its code, so each name pins exactly one address.
+struct Gen_mci_002e1140 { Gen_mci_002e1140( const Gen_mci_002e1140 & ); };
+struct Gen_mci_007408f0 { Gen_mci_007408f0( const Gen_mci_007408f0 & ); };
+
+// ??$_Construct@U?$pair@$$CB_KUGen_mci_002e1140@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CB_KUGen_mci_002e1140@@@0@ABU10@@Z present-unmatched
+template void std::_Construct( std::pair<const unsigned __int64, Gen_mci_002e1140> *,
+	const std::pair<const unsigned __int64, Gen_mci_002e1140> & );
+// ??$_Construct@U?$pair@$$CB_KUGen_mci_007408f0@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CB_KUGen_mci_007408f0@@@0@ABU10@@Z present-unmatched
+template void std::_Construct( std::pair<const unsigned __int64, Gen_mci_007408f0> *,
+	const std::pair<const unsigned __int64, Gen_mci_007408f0> & );

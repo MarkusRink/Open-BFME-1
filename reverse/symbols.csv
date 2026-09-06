@@ -169442,14 +169442,6 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ??1RoadType@@QAE@XZ,0x00018FCF,exact retail rel32 target of ??_ERoadType@@QAEPAXI@Z; the same row's already-matching DIR32 push of 0x00418FCF names this address as the per-element destructor
 ??1BfmeDrawableSnapshot@@QAE@XZ,0x009A1A40,"Drawable.cpp TU-local name for the polymorphic Snapshot base ~TintEnvelope destroys: vptr store then tail-jump to the AsciiString release"
 ?clear@BfmeDrawableIconInfoClear@@QAEXXZ,0x00037565,"Drawable.cpp TU-local name for BFME's own DrawableIconInfo::clear body at 0x001DDD60; the vendored ZH twin's copy folded with ?makeEmpty@SimpleObjectIterator@@QAEXXZ, so one name cannot carry both"
-??1W3DAnimationInfo@@QAE@XZ,0x00020018,ILT thunk used by call site
-?countIntersection@?$BitFlags@$0HF@@@QBEHABV1@@Z,0x00003873,pinharvest x1 (thunk)
-?countInverseIntersection@?$BitFlags@$0HF@@@QBEHABV1@@Z,0x00003873,pinharvest x1 (thunk)
-??$__copy@PAUParticleSysBoneInfo@@PAU1@H@_STL@@YAPAUParticleSysBoneInfo@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00003378,pinharvest x1 (thunk)
-??$__copy@PBUParticleSysBoneInfo@@PAU1@H@_STL@@YAPAUParticleSysBoneInfo@@PBU1@0PAU1@ABUrandom_access_iterator_tag@0@PAH@Z,0x00030F26,hit-decoded x2 (thunk)
-?_M_insert_overflow@?$vector@UWeaponRecoilInfo@W3DModelDraw@@V?$allocator@UWeaponRecoilInfo@W3DModelDraw@@@_STL@@@_STL@@IAEXPAUWeaponRecoilInfo@W3DModelDraw@@ABU34@ABU__false_type@2@I_N@Z,0x0000E868,pinharvest x1 (thunk)
-?_M_insert_overflow@?$vector@V?$BitFlags@$0HF@@@V?$allocator@V?$BitFlags@$0HF@@@@_STL@@@_STL@@IAEXPAV?$BitFlags@$0HF@@@ABV3@ABU__false_type@2@I_N@Z,0x0000AE93,pinharvest x1 (thunk)
-??0ModelConditionInfo@@QAE@ABU0@@Z,0x000087C4,site-decoded x1 (thunk)
 ?bfmeCopyBTB@BfmeSubBTB@@QAEXABU1@@Z,0x00047B27,"the ILT the BTB copy body at 0x00133BB0 encodes for its +4 member; same TU-local BTB spelling as ?bfmeSetBTB@BfmeSubBTB@@QAEXPAX0@Z"
 ??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@1@@Z,0x0006E5F0,zhstl_006 per-site _Rb_tree_base ctor copy
 ??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@1@@Z,0x0006EF70,zhstl_006 per-site _Rb_tree_base ctor copy
@@ -169691,3 +169683,14 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?get_allocator@?$vector@PAVGen_ve_003628f0@@V?$allocator@PAVGen_ve_003628f0@@@_STL@@@_STL@@QBE?AV?$allocator@PAVGen_ve_003628f0@@@2@XZ,0x0001D534,"ILT the vector copy ctor at 0x003628F0 encodes"
 ??0?$_Vector_base@PAVGen_ve_0039d5d0@@V?$allocator@PAVGen_ve_0039d5d0@@@_STL@@@_STL@@QAE@IABV?$allocator@PAVGen_ve_0039d5d0@@@1@@Z,0x0002D178,"ILT the vector copy ctor at 0x0039D5D0 encodes; one stand-in instantiation per duplicate so each name pins exactly one address"
 ?get_allocator@?$vector@PAVGen_ve_0039d5d0@@V?$allocator@PAVGen_ve_0039d5d0@@@_STL@@@_STL@@QBE?AV?$allocator@PAVGen_ve_0039d5d0@@@2@XZ,0x00027DA4,"ILT the vector copy ctor at 0x0039D5D0 encodes"
+??0ModelConditionInfo@@QAE@ABU0@@Z,0x00887B60,"ILT-less direct body retail encodes at the pair/_Construct copy sites"
+??1W3DAnimationInfo@@QAE@XZ,0x00034AE0,"ILT the _Destroy loop encodes"
+??$__copy@PBUParticleSysBoneInfo@@PAU1@H@_STL@@YAPAUParticleSysBoneInfo@@PBU1@0PAU1@ABUrandom_access_iterator_tag@0@PAH@Z,0x0003DB1D,"ILT the __copy_ptrs forwarder encodes"
+?countIntersection@?$BitFlags@$0HF@@@QBEHABV1@@Z,0x000497D3,"ILT the SparseMatchFinder count forwarder encodes"
+?countInverseIntersection@?$BitFlags@$0HF@@@QBEHABV1@@Z,0x000497D3,"ILT the SparseMatchFinder count forwarder encodes"
+?_M_insert_overflow@?$vector@UWeaponRecoilInfo@W3DModelDraw@@V?$allocator@UWeaponRecoilInfo@W3DModelDraw@@@_STL@@@_STL@@IAEXPAUWeaponRecoilInfo@W3DModelDraw@@ABU34@ABU__false_type@2@I_N@Z,0x00017FB2,"ILT the push_back site encodes"
+?_M_insert_overflow@?$vector@V?$BitFlags@$0HF@@@V?$allocator@V?$BitFlags@$0HF@@@@_STL@@@_STL@@IAEXPAV?$BitFlags@$0HF@@@ABV3@ABU__false_type@2@I_N@Z,0x0000FCAE,"ILT the push_back site encodes"
+??$__copy@PAUParticleSysBoneInfo@@PAU1@H@_STL@@YAPAUParticleSysBoneInfo@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00021DEB,"ILT the vector erase site encodes"
+??1ParticleSysBoneInfo@@QAE@XZ,0x00022FE3,"ILT the vector erase site encodes"
+??0Gen_mci_002e1140@@QAE@ABU0@@Z,0x0000B537,"stand-in second type for the pair/_Construct copies at 0x002E1140 and 0x002E1520; ILT to the 111-byte copy ctor at 0x002E0F20 those two encode"
+??0Gen_mci_007408f0@@QAE@ABU0@@Z,0x000087C4,"stand-in second type for the pair copy at 0x007408F0; ILT to the 31-byte copy ctor at 0x0073DAB0 it encodes"
