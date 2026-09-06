@@ -11274,3 +11274,4 @@ _AsciiToUCS2String	0x0085C5B0	68	landed	landed concurrently by another machine i
 @Rva00385FB0Initialize@4	0x00385FB0	0	landed	landed by another machine in Code/GameEngine/Source/Common/Bfme/Rva00385FB0State.cpp; stale stash dropped
 ?match@Gen003BD7D0Node@@QAE_NH@Z	0x003A43C0	0	landed	landed by another machine in Code/GameEngine/Source/Common/Rva003A43C0NodeMatch.cpp; stale stash dropped
 ?s5parse0059D600@@YAXPAVINI@@PAUGen_00489270@@@Z	0x0059D600	0	landed	landed by another machine in Code/GameEngine/Source/Common/S5Parse0059D600.cpp; stale stash dropped
+?getTeamPrototypeNamed@ScriptEngine@@QAEPAVTeamPrototype@@VAsciiString@@@Z	0x0034C670	125	converted	ScriptEngine vtable 0x010E7A30 slot 16 reaches this body through ILT 0x0002FAF4, and build-team and recruit-team callers name getTeamPrototypeNamed. The exact C++ body canonicalizes the by-value AsciiString then performs the two-key TheTeamFactory lookup. t=12min model=gpt-5
