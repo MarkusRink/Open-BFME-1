@@ -93557,6 +93557,7 @@ name,address,notes
 ??1Rva00459D50Member@@QAE@XZ,0x0001A933,ILT thunk to the tgrid member destructor 0x00459D50 called by 0x007461B0
 ??1Rva0045C1B0Base@@UAE@XZ,0x0003732B,ILT thunk to the primary base destructor 0x0045C1B0 called at the end of 0x007461B0
 ??1Rva0045C9E0CameraMarker@@QAE@XZ,0x00028984,BFME camera marker node destructor ILT called by list clear
+??1CameraMarker@@QAE@XZ,0x00028984,BFME camera marker node destructor ILT called by CameraMarkerList::clear
 ??1Rva0048C200String@@QAE@XZ,0x00887940,StringBase compatible destructor body
 ??1Rva00490470@@UAE@XZ,0x0004634E,ILT thunk to the window-owner destructor body 0x00490470 (tail-jumped from ~Rva00490A30 0x00490AC0)
 ??1Rva00491DB0Base@@UAE@XZ,0x0004634E,Rva00491DB0 linked base destructor thunk
