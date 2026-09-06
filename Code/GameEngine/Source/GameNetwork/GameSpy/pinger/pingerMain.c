@@ -328,6 +328,19 @@ static __declspec(noinline) void piProcessTrip3(piUDPPing *udpPing,
 	ArrayDeleteAt(piActivePingList, index);
 }
 
+/* Local spelling disambiguates this pingerMain helper from peerPing.c's
+ * unrelated static piProcessPing. */
+static void pingerProcessPing(piUDPPing *udpPing,
+	const char *data, SOCKADDR_IN *from, unsigned int recvTime)
+{
+	if (udpPing->trip == 1)
+		piProcessTrip1(udpPing, data, from, recvTime);
+	else if (udpPing->trip == 2)
+		piProcessTrip2(udpPing, data, from, recvTime);
+	else if (udpPing->trip == 3)
+		piProcessTrip3(udpPing, data, from, recvTime);
+}
+
 static __declspec(noinline) void piProcessIncoming(void)
 {
 	int rcode;
@@ -356,14 +369,7 @@ static __declspec(noinline) void piProcessIncoming(void)
 
 		recvTime = current_time();
 		if (piBytesToPing(buffer, &udpPing, data))
-		{
-			if (udpPing.trip == 1)
-				piProcessTrip1(&udpPing, data, &from, recvTime);
-			else if (udpPing.trip == 2)
-				piProcessTrip2(&udpPing, data, &from, recvTime);
-			else if (udpPing.trip == 3)
-				piProcessTrip3(&udpPing, data, &from, recvTime);
-		}
+			pingerProcessPing(&udpPing, data, &from, recvTime);
 	}
 
 	piLastThinkTime = current_time();
