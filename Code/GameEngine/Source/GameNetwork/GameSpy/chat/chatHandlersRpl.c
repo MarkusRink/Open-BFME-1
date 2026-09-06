@@ -2625,3 +2625,30 @@ void ciErrNickInUseHandler(CHAT chat, const ciServerMessage *message)
 			ciNickError(chat, CHAT_IN_USE, connection->nick, 0, NULL);
 	}
 }
+
+void ciTopicHandler(CHAT chat, const ciServerMessage *message)
+{
+	char *channel;
+	char *topic;
+	chatChannelCallbacks *callbacks;
+
+	assert(message->numParams == 2);
+	if (message->numParams != 2)
+		return;
+
+	channel = message->params[0];
+	topic = message->params[1];
+
+	ciSetChannelTopic(chat, channel, topic);
+
+	callbacks = ciGetChannelCallbacks(chat, channel);
+	if ((callbacks != NULL) && (callbacks->topicChanged != NULL))
+	{
+		ciCallbackTopicChangedParams params;
+		params.channel = channel;
+		params.topic = topic;
+		ciAddCallback(chat, CALLBACK_TOPIC_CHANGED,
+			(void *)callbacks->topicChanged, &params,
+			callbacks->param, 0, channel);
+	}
+}
