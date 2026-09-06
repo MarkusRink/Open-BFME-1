@@ -3,7 +3,7 @@
 // Open-BFME5: UnitCrateCollideModuleData's constructor, retail 0x002F1B10, 87
 // bytes, from the zh_sweep packet for that address.
 //
-// The Snapshot base runs, the derived vtable goes over it, the byte at +0x08 is
+// The GenBase009A1A30 base runs, the derived vtable goes over it, the byte at +0x08 is
 // cleared and the AsciiString at +0x0C -- nulled by its own constructor first --
 // is assigned from a global. That global is pinned with this row; the packet
 // left it unresolved because the sweep blanks relocation slots before comparing.
@@ -27,11 +27,15 @@ private:
 extern AsciiString TheBfmeCrateNameDefault;			// 0x01336E50
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Snapshot.h
-class Snapshot
+// Retail runs the 16-byte base constructor at 0x009A1A30 here (vptr
+// 0x01141640 plus a zeroed word at +4), not the 9-byte vptr-only body the
+// ledger carries as ??0Snapshot@@QAE@XZ. GenBase009A1A30 is the neutral,
+// address-derived spelling symbols.csv already pins at that body.
+class GenBase009A1A30
 {
 public:
-	Snapshot();						// retail 0x009A1A30
-	~Snapshot();
+	GenBase009A1A30();						// retail 0x009A1A30
+	~GenBase009A1A30();
 
 	virtual void bfmeSlot0(void);
 
@@ -39,7 +43,7 @@ private:
 	char m_bfmePad[0x08 - 0x04];
 };
 
-class Gen_002F1B10 : public Snapshot
+class Gen_002F1B10 : public GenBase009A1A30
 {
 public:
 	Gen_002F1B10();

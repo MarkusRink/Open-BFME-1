@@ -1,17 +1,21 @@
 // cl: /O2 /Ob0
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Snapshot.h
-class Snapshot
+// Retail runs the 16-byte base constructor at 0x009A1A30 here (vptr
+// 0x01141640 plus a zeroed word at +4), not the 9-byte vptr-only body the
+// ledger carries as ??0Snapshot@@QAE@XZ. GenBase009A1A30 is the neutral,
+// address-derived spelling symbols.csv already pins at that body.
+class GenBase009A1A30
 {
 public:
-	Snapshot();
+	GenBase009A1A30();
 	virtual void handle();
 
 private:
 	int m_04;
 };
 
-class Rva0045A8F0 : public Snapshot
+class Rva0045A8F0 : public GenBase009A1A30
 {
 	int m_08;
 	int m_0C;
