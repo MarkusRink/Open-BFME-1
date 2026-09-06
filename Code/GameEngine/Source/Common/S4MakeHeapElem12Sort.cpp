@@ -39,6 +39,14 @@ template <class RandomAccessIterator, class Distance, class Tp, class Compare>
 void __adjust_heap(RandomAccessIterator first, Distance holeIndex,
 	Distance len, Tp val, Compare comp);
 
+template <class RandomAccessIterator, class Distance, class Tp, class Compare>
+void __pop_heap(RandomAccessIterator first, RandomAccessIterator last,
+	RandomAccessIterator result, Tp value, Compare comp, Distance *)
+{
+	*result = *first;
+	__adjust_heap(first, 0, last - first, value, comp);
+}
+
 }
 
 void gen005726F0(void *firstVoid, void *lastVoid, void *compState, int, int)
@@ -63,3 +71,7 @@ void gen005726F0(void *firstVoid, void *lastVoid, void *compState, int, int)
 		--parent;
 	}
 }
+
+template void _STL::__pop_heap<S4SortElem12 *, int, S4SortElem12, S4Cmp00573A30>(
+	S4SortElem12 *, S4SortElem12 *, S4SortElem12 *, S4SortElem12,
+	S4Cmp00573A30, int *);
