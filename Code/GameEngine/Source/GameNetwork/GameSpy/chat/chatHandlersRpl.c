@@ -2572,3 +2572,56 @@ void ciKickHandler(CHAT chat, const ciServerMessage *message)
 		}
 	}
 }
+
+/* ERR_NICKNAMEINUSE uses the same connection fields as the main Chat
+   connection, but only this handler's proven +0x04 and +0x36c fields are
+   modeled here. */
+typedef struct ciErrNickInUseConnection
+{
+	int connected;
+	CHATBool connecting;
+	unsigned char beforeNick[0x36c - 0x08];
+	char nick[64];
+} ciErrNickInUseConnection;
+
+enum { CHAT_IN_USE = 0 };
+
+
+void ciErrNickInUseHandler(CHAT chat, const ciServerMessage *message)
+{
+	char *oldNick;
+	char *newNick;
+	ciServerMessageFilter *filter;
+	ciFilterMatch match;
+	ciErrNickInUseConnection *connection =
+		(ciErrNickInUseConnection *)chat;
+
+	assert(message->numParams == 3);
+	if (message->numParams != 3)
+		return;
+
+	oldNick = message->params[0];
+	newNick = message->params[1];
+
+	memset(&match, 0, sizeof(ciFilterMatch));
+	match.type = TYPE_NICK;
+	match.name = oldNick;
+	match.name2 = newNick;
+
+	filter = ciFindFilter(chat, 1, &match);
+	if (filter != NULL)
+	{
+		ciCallbackChangeNickParams params;
+		params.success = CHATFalse;
+		params.oldNick = oldNick;
+		params.newNick = newNick;
+
+		FINISH_FILTER;
+	}
+	else
+	{
+		assert(connection->connecting);
+		if (connection->connecting)
+			ciNickError(chat, CHAT_IN_USE, connection->nick, 0, NULL);
+	}
+}
