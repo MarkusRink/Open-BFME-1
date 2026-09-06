@@ -33,11 +33,26 @@ Bfme5MaterialPass::Bfme5MaterialPass(int a, int b)
 	++g_bfme5MatPassCount;
 }
 
+// Retail copies this member with ??0?$StringBase@D@@AAE@ABV0@@Z (0x00887B60),
+// having inlined the one-line MultiplayerColorDefinition copy ctor away, so the
+// member is a narrow string header and the copy has to be spelled through the
+// base.  The base copy ctor is private, which is what mangles it AAE.
+template <typename Char>
+class StringBase
+{
+	friend class MultiplayerColorDefinition;
+	StringBase( const StringBase<Char> &src );
+};
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/MultiplayerSettings.h
 class MultiplayerColorDefinition
 {
 public:
-	MultiplayerColorDefinition(const MultiplayerColorDefinition &o);
+	MultiplayerColorDefinition(const MultiplayerColorDefinition &o)
+	{
+		((StringBase<char> *)this)->StringBase<char>::StringBase(
+			*(const StringBase<char> *)&o );
+	}
 
 	int m_bfmeColor;
 };

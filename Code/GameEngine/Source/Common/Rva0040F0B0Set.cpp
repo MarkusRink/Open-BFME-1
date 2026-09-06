@@ -1,6 +1,32 @@
-// cl: /DNDEBUG /MD /O2 /EHsc /Ireference/shims/stringinline
+// cl: /DNDEBUG /MD /O2 /EHsc
 
-#include "StringInline.h"
+// Retail assigns the live member at +0xAC with ?set@?$StringBase@G@@QAEXABV1@@Z
+// (0x00888530), not with the copy ctor.  StringBase is declared here rather
+// than pulled from reference/shims/stringinline because that shim's copy has no
+// public set(), and a shim edit would take the full gate.
+
+template <typename Char>
+class StringBase
+{
+public:
+	void set( const StringBase<Char> &src );
+
+protected:
+	StringBase();
+	StringBase( const StringBase<Char> &other );
+	~StringBase();
+
+	void *m_data;
+};
+
+class UnicodeString : public StringBase<unsigned short>
+{
+public:
+	UnicodeString();
+	UnicodeString( const UnicodeString &other );
+	~UnicodeString();
+
+};
 
 class BfmeObjEE
 {
@@ -18,7 +44,8 @@ public:
 
 void BfmeObjEE::bfmeSetF0B0(UnicodeString s, int a, int b, int c, int d, int e)
 {
-	m_ac.UnicodeString::UnicodeString(s);
+	StringBase<unsigned short> *dst = &m_ac;
+	dst->set( s );
 	m_b0 = c;
 	m_b4 = d;
 	m_b8 = e;

@@ -32,6 +32,14 @@
 // Desc:   Keeps track of experience points so Veterance levels can be gained
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+// BFME's ModuleData base is not Zero Hour's Snapshot: every module-data
+// constructor in retail calls the 16-byte body at 0x009A1A30 (the one
+// SubsystemInterface's constructor folds onto), and its destructor calls
+// 0x009A1A40.  Renaming the base for this TU alone gives those two calls a
+// name of their own instead of borrowing Snapshot's, whose 9-byte body at
+// 0x0006B180 is a different function.
+#define Snapshot BfmeModuleDataSnapshotBase
+
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 
 #include "Common/Xfer.h"

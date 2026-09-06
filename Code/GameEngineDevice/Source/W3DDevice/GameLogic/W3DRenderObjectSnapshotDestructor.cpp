@@ -1,11 +1,15 @@
 // cl: /DNDEBUG /MD /EHsc
 
+// BFME's base here is not Zero Hour's Snapshot: retail's base destructor call
+// goes to the 14-byte body at 0x009A1A40 (the one ??1SubsystemInterface@@UAE@XZ
+// folds onto), while Snapshot's own body at 0x0006B180/0x009A1A40 is claimed by
+// a different name.  Address-derived local name so the call has one of its own.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Snapshot.h
-class Snapshot
+class BfmeModuleDataSnapshotBase
 {
 public:
 	virtual void anchor();
-	~Snapshot();
+	~BfmeModuleDataSnapshotBase();
 };
 
 class Gen_dtor_009eb9e0
@@ -14,7 +18,7 @@ public:
 	~Gen_dtor_009eb9e0();
 };
 
-class W3DRenderObjectSnapshot : public Snapshot
+class W3DRenderObjectSnapshot : public BfmeModuleDataSnapshotBase
 {
 public:
 	virtual ~W3DRenderObjectSnapshot();
