@@ -628,14 +628,37 @@ Int bfme_force_ini_scan_int_emission(const char *token) { return INI::scanInt(to
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+// Retail's element here is AsciiString, but the vector<AsciiString> COMDAT this
+// TU reaches is the copy at 0x00063700 -- the one whose element copy calls
+// StringBase<char>'s constructor out of line, which 38 retail sites encode. The
+// ledger names that instantiation after its address, so spell the element with
+// that name or the REL32 resolver walks to the other copy at 0x00757C70.
+class Open2Elem063700
+{
+public:
+	Open2Elem063700( const Open2Elem063700 &source )
+	{
+		((AsciiString *)this)->AsciiString::AsciiString( *(const AsciiString *)&source );
+	}
+
+	~Open2Elem063700()
+	{
+		((AsciiString *)this)->AsciiString::~AsciiString();
+	}
+
+private:
+	void *m_text;
+};
+
 void INI::parseAsciiStringVectorAppend( INI* ini, void * /*instance*/, void *store, const void* /*userData*/ )
 {
-	std::vector<AsciiString>* asv = (std::vector<AsciiString>*)store;
+	std::vector<Open2Elem063700>* asv = (std::vector<Open2Elem063700>*)store;
 	// nope, don't clear. duh.
 	// asv->clear();
 	for (const char *token = ini->getNextTokenOrNull(); token != NULL; token = ini->getNextTokenOrNull())
 	{
-		asv->push_back(token);
+		AsciiString value(token);
+		asv->push_back(*(const Open2Elem063700 *)&value);
 	}
 }
 
