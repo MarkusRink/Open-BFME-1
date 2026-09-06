@@ -84435,3 +84435,6 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ??1BfmeStrCT@@QAE@XZ,0x00887940,pin
 _bfmeLit1CT,0x00CF7200,pin
 _bfmeLit2CT,0x00CF71F8,pin
+??0BfmeElemCU@@QAE@XZ,0x00892B80,pin
+??1BfmeElemCU@@QAE@XZ,0x000463AD,pin
+??1BfmeHeadCU@@QAE@XZ,0x000463AD,pin
