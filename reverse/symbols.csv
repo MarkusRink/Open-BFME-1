@@ -84375,3 +84375,7 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ??0BfmeStrCG@@QAE@PBD@Z,0x00888BC0,pin
 ??1BfmeStrCG@@QAE@XZ,0x00887940,pin
 ?bfmeSendCG@ParticleSystemManager@@QAEXABVBfmeStrCG@@PAX@Z,0x0000EAB6,pin
+??0BfmeTmpACH@@QAE@PAX@Z,0x0000AF47,pin
+?bfmeUseCH@BfmeTmpACH@@QAEXPAX@Z,0x0001EC40,pin
+??1BfmeMemCH@@QAE@XZ,0x0002D6A5,pin
+??1BfmeBaseCH@@QAE@XZ,0x0001A910,pin
