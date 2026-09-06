@@ -2,6 +2,30 @@
 
 inline void *operator new( size_t, void *where ) { return where; }
 
+// The group itself is a plain ::operator new (retail: push 0x14; call
+// 0x00881F30), but the list node beside it comes from STLport's node pool:
+// push 0xc; call 0x0082E540, __node_alloc<true,0>::_M_allocate, which buckets
+// by (n-1)>>3 into the free-list array at 0x0130B1C0.  Shape copied from
+// vendor/stlport/stl/_alloc.h, ternary included -- the node size is a constant
+// under _MAX_BYTES, so it folds to the one direct call retail encodes.
+void *__cdecl operator new( unsigned int );
+
+namespace _STL
+{
+template <bool __threads, int __inst>
+class __node_alloc
+{
+	enum { _MAX_BYTES = 128 };
+	static void *__cdecl _M_allocate( unsigned int __n );
+
+public:
+	static void *__cdecl allocate( unsigned int __n )
+	{ return (__n > (unsigned int)_MAX_BYTES) ? ::operator new( __n ) : _M_allocate( __n ); }
+};
+
+typedef __node_alloc<true, 0> _Node_alloc;
+}
+
 template <typename T> class StringBase
 {
 friend class BFMETransitionAsciiString;
@@ -67,7 +91,8 @@ BFMETransitionGroup *BFMETransitionHandler::getNewGroup( BFMETransitionAsciiStri
 	group->setName( name );
 
 	BFMETransitionGroupNode *head = m_groupHead;
-	BFMETransitionGroupNode *node = new BFMETransitionGroupNode;
+	BFMETransitionGroupNode *node = static_cast<BFMETransitionGroupNode *>(
+		_STL::_Node_alloc::allocate( sizeof(BFMETransitionGroupNode) ) );
 	new ( &node->m_value ) BFMETransitionGroup *( group );
 	BFMETransitionGroupNode *previous = head->m_previous;
 	node->m_previous = previous;
