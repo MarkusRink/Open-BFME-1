@@ -169399,6 +169399,9 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?b_00213aa0@@YAXXZ,0x00213AA0,gen-thunk body
 ?b_00218190@@YAXXZ,0x00218190,gen-thunk body
 ?b_001c1170@@YAXXZ,0x001C1170,gen-thunk body
+??1RoadType@@QAE@XZ,0x00018FCF,exact retail rel32 target of ??_ERoadType@@QAEPAXI@Z; the same row's already-matching DIR32 push of 0x00418FCF names this address as the per-element destructor
+??1BfmeDrawableSnapshot@@QAE@XZ,0x009A1A40,"Drawable.cpp TU-local name for the polymorphic Snapshot base ~TintEnvelope destroys: vptr store then tail-jump to the AsciiString release"
+?clear@BfmeDrawableIconInfoClear@@QAEXXZ,0x00037565,"Drawable.cpp TU-local name for BFME's own DrawableIconInfo::clear body at 0x001DDD60; the vendored ZH twin's copy folded with ?makeEmpty@SimpleObjectIterator@@QAEXXZ, so one name cannot carry both"
 ??1W3DAnimationInfo@@QAE@XZ,0x00020018,ILT thunk used by call site
 ?countIntersection@?$BitFlags@$0HF@@@QBEHABV1@@Z,0x00003873,pinharvest x1 (thunk)
 ?countInverseIntersection@?$BitFlags@$0HF@@@QBEHABV1@@Z,0x00003873,pinharvest x1 (thunk)
@@ -169407,4 +169410,3 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?_M_insert_overflow@?$vector@UWeaponRecoilInfo@W3DModelDraw@@V?$allocator@UWeaponRecoilInfo@W3DModelDraw@@@_STL@@@_STL@@IAEXPAUWeaponRecoilInfo@W3DModelDraw@@ABU34@ABU__false_type@2@I_N@Z,0x0000E868,pinharvest x1 (thunk)
 ?_M_insert_overflow@?$vector@V?$BitFlags@$0HF@@@V?$allocator@V?$BitFlags@$0HF@@@@_STL@@@_STL@@IAEXPAV?$BitFlags@$0HF@@@ABV3@ABU__false_type@2@I_N@Z,0x0000AE93,pinharvest x1 (thunk)
 ??0ModelConditionInfo@@QAE@ABU0@@Z,0x000087C4,site-decoded x1 (thunk)
-??1RoadType@@QAE@XZ,0x00018FCF,exact retail rel32 target of ??_ERoadType@@QAEPAXI@Z; the same row's already-matching DIR32 push of 0x00418FCF names this address as the per-element destructor
