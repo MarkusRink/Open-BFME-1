@@ -1,4 +1,6 @@
+// cl: /GS
 #include <string.h>
+#include <stdio.h>
 
 // EA FESL client SDK ("jabba") -- transaction request builders.
 //
@@ -65,6 +67,12 @@ struct Rva007F30F0Owner
 	int ownerType;
 };
 
+struct Rva007F3B50Attribute
+{
+	const char *key;
+	const char *value;
+};
+
 extern const char * const g_Rva0130A678;
 extern const char * const g_Rva0130A6D8;
 extern const char * const g_Rva0130A750;
@@ -74,6 +82,7 @@ extern const char * const g_Rva0130A720;
 extern const char * const g_Rva0130A72C;
 extern const char * const g_Rva0130A738;
 extern const char * const g_Rva0130A744;
+extern const char * const g_Rva0130A75C;
 extern const char * const g_Rva0130A774;
 extern const char * const g_Rva0130A798;
 extern const char * const g_Rva0130A7A4;
@@ -142,6 +151,29 @@ void __stdcall Rva007F3A80( Rva007E8810Message *msg, FeslInt64 clubId, FeslInt64
 	msg->addInt64( "clubId", clubId );
 	msg->addInt64( "userId", userId );
 	msg->addInt( "state", state );
+}
+
+void __stdcall Rva007F3B50( Rva007E8810Message *msg, FeslInt64 clubId,
+	FeslInt64 userId, const Rva007F3B50Attribute *attributes, unsigned int count )
+{
+	const char *txn = g_Rva0130A75C;
+	unsigned int i;
+
+	msg->reset();
+	msg->m_category = 'club';
+	msg->addString( "TXN", txn );
+	msg->addInt64( "clubId", clubId );
+	msg->addInt64( "userId", userId );
+	msg->addInt( "attributes.[]", count );
+	for( i = 0; i < count; ++i )
+	{
+		char key[ 0x40 ] = "";
+
+		sprintf( key, "attributes.%d.key", i );
+		msg->addString( key, attributes[ i ].key );
+		sprintf( key, "attributes.%d.value", i );
+		msg->addString( key, attributes[ i ].value );
+	}
 }
 
 void __stdcall Rva007F2D10( Rva007E8810Message *msg, const char *key, int periodId )
