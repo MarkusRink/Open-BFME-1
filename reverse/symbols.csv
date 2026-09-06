@@ -84441,3 +84441,5 @@ _bfmeLit2CT,0x00CF71F8,pin
 ??1BfmeMemCV@@QAE@XZ,0x0089CC70,pin
 _bfmeVftCVa,0x00D36058,pin
 _bfmeVftCVb,0x00D35D68,pin
+?bfmeFindCW@BfmeVecCW@@QAEHPAX@Z,0x000329FC,pin
+?bfmeCheckCW@BfmeSubCW@@QAEHPAX@Z,0x000220C5,pin
