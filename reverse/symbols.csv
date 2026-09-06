@@ -77394,6 +77394,7 @@ name,address,notes
 ?findLightPointLevel@@YGPAVLightPointLevel@@PAXPAVAsciiString@@@Z,0x00028AF6,Reviewed39C1A0 full153B pointer-range search and AsciiString comparison; ignoresECX andret8
 ?findMap@MapCache@@QAEPBVMapMetaData@@VAsciiString@@@Z,0x00019880
 ?bfme_getDisplayName@MapMetaData@@QAE?AVUnicodeString@@XZ,0x0000A6FA,map metadata display-name accessor; ILT resolves to verified 0x00451240; filename +0x50 and player count +0x20 confirmed by 0x005216B0 and MapMetaData layout
+?bfme_getDescriptionFirstLine@MapMetaData@@QAE?AVUnicodeString@@XZ,0x000036BB,ILT to 0x00452000; obtains cached map.str text and returns its prefix before the first newline
 ?findMapping@DataChunkTableOfContents@@AAEPAVMapping@@ABVAsciiString@@@Z,0x0001587A
 ?findMemoryPool@MemoryPoolFactory@@QAEPAVMemoryPool@@PBD@Z,0x0003ADD7,pool-glue cascade callee (from retail call site)
 ?findModule@Object@@IBEPAVModule@@W4NameKeyType@@@Z,0x0002AE23
