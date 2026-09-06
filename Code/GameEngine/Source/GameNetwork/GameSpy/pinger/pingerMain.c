@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD -Ireference/shims/gamespy
+// cl: /ICode/GameEngine/Source/GameNetwork/GameSpy/pinger /DNDEBUG /MD -Ireference/shims/gamespy
 /* GameSpy Ping SDK response-trip implementation. */
 
 #include <winsock.h>
