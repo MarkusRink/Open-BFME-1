@@ -996,18 +996,20 @@ public:
 	void setBorderShroudLevel30BC(UnsignedByte level);
 };
 
+// All three releases go to 0x00881EF0, the ARRAY operator delete, not to the
+// scalar 0x00881EB0 next to it: these members are arrays.
 void BaseHeightMapResetShroud::reset30BC()
 {
 	if (m_field18) {
-		::operator delete(m_field18);
+		::operator delete[](m_field18);
 	}
 	m_field18 = NULL;
 	if (m_field38) {
-		::operator delete(m_field38);
+		::operator delete[](m_field38);
 	}
 	m_field38 = NULL;
 	if (m_field3c) {
-		::operator delete((void *)m_field3c);
+		::operator delete[]((void *)m_field3c);
 	}
 	m_field3c = NULL;
 	*(UnsignedByte *)((char *)this + 0x35) = 1;

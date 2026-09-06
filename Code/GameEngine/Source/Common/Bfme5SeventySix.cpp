@@ -3,6 +3,10 @@
 // Six more: a delta adjustment, two bounds-checked cell-range operations, a
 // hash-bucket lookup, an append to a global table, and another clamped read.
 
+// MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
+// form is declared where it can see it; retail calls ??_V@YAXPAX@Z here.
+void operator delete[]( void *block );
+
 typedef float Real;
 
 extern "C" __declspec(dllimport) double __cdecl floor(double value);

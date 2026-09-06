@@ -51,6 +51,10 @@
 // from the sibling thunk, and 0x005CE780 is free the moment it is found.
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/ClientRandomValue.h
+// MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
+// form is declared where it can see it; retail calls ??_V@YAXPAX@Z here.
+void operator delete[]( void *block );
+
 class GameClientRandomVariable
 {
 public:
