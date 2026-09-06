@@ -1,4 +1,6 @@
-// Eleven array-owning destructors.
+// Ten array-owning destructors. (The eleventh, at 0x00938040, was identified
+// as DynamicVectorClass<TextureStatisticsStruct>::Clear and now lives in
+// Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVector.cpp.)
 //
 // Each frees an owned array with delete[] only when the pointer at +0x04 is
 // non-null AND the ownership byte at +0x0D is set, then clears the ownership
@@ -13,6 +15,10 @@
 // The element size pushed to the iterator gives each element type's width.
 
 typedef bool Bool;
+
+// MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
+// form is declared where it can see it; retail calls ??_V@YAXPAX@Z here.
+void operator delete[](void *block);
 
 
 class BfmeElementA
@@ -139,21 +145,6 @@ private:
 	char m_bfmeGap;						// +0x0C
 	Bool m_bfmeOwns;					// +0x0D
 	char m_bfmeGap2[2];
-};
-
-class Gen_00938040
-{
-public:
-	~Gen_00938040(void);
-
-private:
-	char m_bfmeHead[4];
-	BfmeElementC *m_bfmeArray;				// +0x04
-	int m_bfmeCount;					// +0x08
-	char m_bfmeGap;						// +0x0C
-	Bool m_bfmeOwns;					// +0x0D
-	char m_bfmeGap2[2];
-	int m_bfmeExtra;					// +0x10
 };
 
 class Gen_009380E0
@@ -293,22 +284,6 @@ Gen_00936DA0::~Gen_00936DA0(void)
 // ??1Gen_00936E40@@QAE@XZ
 Gen_00936E40::~Gen_00936E40(void)
 {
-	if (m_bfmeArray && m_bfmeOwns)
-	{
-		delete [] m_bfmeArray;
-
-		m_bfmeArray = 0;
-	}
-
-	m_bfmeOwns = false;
-	m_bfmeCount = 0;
-}
-
-// ??1Gen_00938040@@QAE@XZ
-Gen_00938040::~Gen_00938040(void)
-{
-	m_bfmeExtra = 0;
-
 	if (m_bfmeArray && m_bfmeOwns)
 	{
 		delete [] m_bfmeArray;
