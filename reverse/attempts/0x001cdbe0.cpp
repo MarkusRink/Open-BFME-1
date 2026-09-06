@@ -1,46 +1,49 @@
-// ?bfmeReadyBW@BfmeOwnBW@@QAEDXZ (identity unknown)
-// partial score=0.7 date=2026-09-06
-// 48 bytes from MSVC against retail's 56. The structure is certain: a null
-// check on TheBfmeGameLogic kept in a callee-saved register across the call,
-// a busy predicate called with 0x25, and an unsigned frame-versus-due
-// comparison.
-// Residue: retail BRANCHES on the last comparison (two full epilogues, one
-// `mov eax,1` and one `xor eax,eax`) while MSVC folds it branchlessly into
-// `sbb al,al` / `inc al`, eight bytes shorter. Tried: the guard both
-// polarities, char and int return types, a `2 - 1` true value, a named self
-// local, and the flags /G7 /Ob1 /Ot /Oy-. Also note esi/edi are swapped
-// relative to retail (this in esi there, the logic local in esi here).
+// ?rva001CDBE0@Object@@QBE_NXZ
+// partial score=0.75 date=2026-09-02
+// cl: /DNDEBUG /MD /EHsc
+// True when TheGameLogic is live, testStatus(0x25) is clear, and
+// GameLogic::m_frame >= Object::m_safeOcclusionFrame at this+0x334.
+
+typedef bool Bool;
+typedef unsigned int UnsignedInt;
+
+enum ObjectStatusTypes
+{
+	OBJECT_STATUS_BIT_25 = 0x25
+};
+
 class GameLogic
 {
 public:
-	unsigned char m_bfmeHeadBW[0x3c];
-	unsigned int m_bfmeFrameBW;
+	unsigned char m_pad[0x3c];
+	UnsignedInt m_frame;
 };
 
-extern GameLogic *TheBfmeGameLogic;
+extern GameLogic *TheGameLogic;
 
-class BfmeOwnBW
+class Object
 {
 public:
-	char bfmeReadyBW(void);
-	char bfmeBusyBW(int kind);
+	Bool testStatus(ObjectStatusTypes s) const;
+	Bool rva001CDBE0() const;
 
-	unsigned char m_bfmeHeadBW[0x334];
-	unsigned int m_bfmeDueBW;
+private:
+	unsigned char m_pad[0x334];
+	UnsignedInt m_safeOcclusionFrame;
 };
 
-char BfmeOwnBW::bfmeReadyBW(void)
+Bool Object::rva001CDBE0() const
 {
-	GameLogic *logic = TheBfmeGameLogic;
-
-	if (logic == 0)
-		return 0;
-
-	if (bfmeBusyBW(0x25))
-		return 0;
-
-	if (logic->m_bfmeFrameBW < m_bfmeDueBW)
-		return 0;
-
-	return 1;
+	register Object *self;
+	const GameLogic *gameLogic;
+	self = (Object *)this;
+	gameLogic = TheGameLogic;
+	if (gameLogic == 0)
+		return false;
+	if (self->testStatus(OBJECT_STATUS_BIT_25))
+		return false;
+	Bool result = true;
+	if (gameLogic->m_frame < self->m_safeOcclusionFrame)
+		result = false;
+	return result;
 }

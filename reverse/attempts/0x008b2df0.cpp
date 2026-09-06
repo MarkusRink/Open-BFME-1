@@ -1,63 +1,46 @@
-// ??1BfmeOwnCV@@QAE@XZ (identity unknown)
-// partial score=0.9 date=2026-09-07
-// 97 bytes exact, structure recovered. Modelling notes worth reusing:
-//  - the two vftable stores are NOT compiler-generated: model the class as
-//    non-polymorphic with an explicit `int *m_vf` member, the derived value
-//    written in the body and the base value written by the base's inline
-//    destructor. A real virtual hierarchy puts the vfptr store first, where
-//    retail has it after two member stores.
-//  - the member stores must be volatile or MSVC sinks them past the notify
-//    call (eight diffs instead of fourteen).
-// Residue: the EH this-slot store `mov [esp+8],esi` lands before `xor ebx,ebx`
-// in MSVC and after it in retail, and one push is ordered differently as a
-// consequence. Same this-slot residue as the SEH constructors.
-// notify is ?notify@Q4Base00D35D68@@QAEXHH@Z, so the base class name is
-// forced; its vftable is 0x01135D68 and the derived one 0x01136058.
-extern "C" int _bfmeVftCVa[];
-extern "C" int _bfmeVftCVb[];
+// ??1Rva008B2DF0TailBase@@QAE@XZ
+// partial score=0.75 date=2026-09-02
+// cl: /EHsc
+
+class Q4Sub00C9CC70
+{
+public:
+	~Q4Sub00C9CC70();
+};
 
 class Q4Base00D35D68
 {
 public:
-	~Q4Base00D35D68(void)
-	{
-		m_bfmeVfCV = _bfmeVftCVb;
-	}
-
-	void notify(int first, int second);
-
-	int *volatile m_bfmeVfCV;
-	unsigned char m_bfmeHeadCV[4];
+	virtual void v0();
+	virtual void v1();
+	virtual void v2();
+	virtual void v3();
+	virtual void v4();
+	virtual void v5();
+	void notify(int a, int b);
+	~Q4Base00D35D68() {}
 };
 
-class BfmeMemCV
+class Rva008B2DF0TailBase : public Q4Base00D35D68
 {
 public:
-	~BfmeMemCV();
-
-	unsigned char m_bfmeHeadCV[0x10];
+	virtual void v3();
+	virtual void v4();
+	virtual void v5();
+	~Rva008B2DF0TailBase();
+	char m_gap0[8 - 4];
+	Q4Sub00C9CC70 m_sub;
+	char m_gap1[0x18 - 9];
+	int m_flag;
+	char m_gap2[0x20 - 0x1C];
+	int m_20;
+	int m_24;
 };
 
-class BfmeOwnCV : public Q4Base00D35D68
+Rva008B2DF0TailBase::~Rva008B2DF0TailBase()
 {
-public:
-	~BfmeOwnCV(void);
-
-	BfmeMemCV m_bfmeMemCV;
-	volatile int m_bfmeCCV;
-	unsigned char m_bfmePadCV[4];
-	volatile int m_bfmeACV;
-	volatile int m_bfmeBCV;
-};
-
-BfmeOwnCV::~BfmeOwnCV(void)
-{
-	m_bfmeACV = 0;
-	m_bfmeBCV = 0;
-
-	m_bfmeVfCV = _bfmeVftCVa;
-
+	m_20 = 0;
+	m_24 = 0;
 	notify(0, 0);
-
-	m_bfmeCCV = 0;
+	m_flag = 0;
 }

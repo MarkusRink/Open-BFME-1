@@ -703,8 +703,11 @@ name,address,notes
 ??$_M_range_initialize@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEXPBD0ABUforward_iterator_tag@1@@Z,0x0002A531
 ??$_S_sort@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@V?$allocator@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@U?$less@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@@_STL@@YAXAAV?$list@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@V?$allocator@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@@0@U?$less@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@0@@Z,0x0000F8B7,derived-ICF
 ??$_S_unique@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@V?$allocator@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@U?$equal_to@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@@_STL@@YAXAAV?$list@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@V?$allocator@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@@0@U?$equal_to@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@0@@Z,0x0000F8B7,ILT thunk; real body 0x77F960
+??$__adjust_heap@PAHHHU?$less@H@_STL@@@_STL@@YAXPAHHHHU?$less@H@0@@Z,0x0002ACA7,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00513580 calls; autopin
+??$__adjust_heap@PAHHHUQ4Cmp00344A60@@@_STL@@YAXPAHHHHUQ4Cmp00344A60@@@Z,0x0000A20E,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00349230 calls; autopin
 ??$__adjust_heap@PAHHHUQ4Cmp00344A60@@@_STL@@YAXPAHHHHUQ4Cmp00344A60@@@Z,0x00342D60,__adjust_heap instantiation called by the 83-byte STLport __make_heap family (Q4MakeHeap.cpp); address-derived template argument; identity not recovered
 ??$__adjust_heap@PAHHHUQ4Cmp003CE510@@@_STL@@YAXPAHHHHUQ4Cmp003CE510@@@Z,0x003CDD00,__adjust_heap instantiation called by the 83-byte STLport __make_heap family (Q4MakeHeap.cpp); address-derived template argument; identity not recovered
+??$__adjust_heap@PAHHHUQ4Cmp00453BB0@@@_STL@@YAXPAHHHHUQ4Cmp00453BB0@@@Z,0x0002B6D4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00454680 calls; autopin
 ??$__adjust_heap@PAHHHUQ4Cmp00453BB0@@@_STL@@YAXPAHHHHUQ4Cmp00453BB0@@@Z,0x00453200,__adjust_heap instantiation called by the 83-byte STLport __make_heap family (Q4MakeHeap.cpp); address-derived template argument; identity not recovered
 ??$__adjust_heap@PAHHHUQ4Cmp00453C20@@@_STL@@YAXPAHHHHUQ4Cmp00453C20@@@Z,0x00453290,__adjust_heap instantiation called by the 83-byte STLport __make_heap family (Q4MakeHeap.cpp); address-derived template argument; identity not recovered
 ??$__adjust_heap@PAHHHUQ4Cmp00483480@@@_STL@@YAXPAHHHHUQ4Cmp00483480@@@Z,0x0047E4F0,__adjust_heap instantiation called by the 83-byte STLport __make_heap family (Q4MakeHeap.cpp); address-derived template argument; identity not recovered
@@ -712,8 +715,10 @@ name,address,notes
 ??$__adjust_heap@PAHHHUQ4Cmp00513B40@@@_STL@@YAXPAHHHHUQ4Cmp00513B40@@@Z,0x005135F0,__adjust_heap instantiation called by the 83-byte STLport __make_heap family (Q4MakeHeap.cpp); address-derived template argument; identity not recovered
 ??$__adjust_heap@PAHHHUQ4Cmp00531BE0@@@_STL@@YAXPAHHHHUQ4Cmp00531BE0@@@Z,0x00530200,__adjust_heap instantiation called by the 83-byte STLport __make_heap family (Q4MakeHeap.cpp); address-derived template argument; identity not recovered
 ??$__adjust_heap@PAHHHUQ4Cmp00753DD0@@@_STL@@YAXPAHHHHUQ4Cmp00753DD0@@@Z,0x007538A0,__adjust_heap instantiation called by the 83-byte STLport __make_heap family (Q4MakeHeap.cpp); address-derived template argument; identity not recovered
+??$__adjust_heap@PAHHHUQ4Sort003D15A0@@@_STL@@YAXPAHHHHUQ4Sort003D15A0@@@Z,0x0003D40B,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003CFA90 calls; autopin
 ??$__adjust_heap@PAHHHUQ4Sort004567A0@@@_STL@@YAXPAHHHHUQ4Sort004567A0@@@Z,0x00453290,ICF-folded with the Q4Cmp00453C20 instantiation at the same address; resolved via decode_calls at __partial_sort<Q4Sort004567A0>
 ??$__adjust_heap@PAPAVBfmeRecAU@@HPAV1@VBfmeCompAU@@@_STL@@YAXPAPAVBfmeRecAU@@HHPAV1@VBfmeCompAU@@@Z,0x0001A618,dedicated ILT to the 259-byte BfmeRecAU pointer adjust-heap body at 0x005135F0; its tail call names the exact BfmeCompAU push-heap specialization
+??$__adjust_heap@PAPAVBfmeRecAU@@HPAV1@VBfmeCompAV@@@_STL@@YAXPAPAVBfmeRecAU@@HHPAV1@VBfmeCompAV@@@Z,0x000113F1,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00532890 calls; autopin
 ??$__adjust_heap@PAPAVRva00532DF0Rec@@HPAV1@VRva00532DF0Comp@@@_STL@@YAXPAPAVRva00532DF0Rec@@HHPAV1@VRva00532DF0Comp@@@Z,0x000113F1,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00532DF0 calls; autopin
 ??$__adjust_heap@PAUS4SortElem12@@HU1@US4Cmp00573A30@@@_STL@@YAXPAUS4SortElem12@@HHU1@US4Cmp00573A30@@@Z,0x0003DF00,"Full166B571B70 twelve-byte adjust_heap: signed first-word compare and full three-word moves,7dword cdecl arguments"
 ??$__adjust_heap@PAUS4SortElem8@@HU1@US4Cmp00261140@@@_STL@@YAXPAUS4SortElem8@@HHU1@US4Cmp00261140@@@Z,0x00260D80,S4 STLport sort-layer callee (address-derived name; target read from the REL32 at its call site and followed through its ILT thunk)
@@ -73548,6 +73553,7 @@ name,address,notes
 ?bfmeCheckCPC@BfmeThingCPC@@QAE_NH@Z,0x0003251F,pin
 ?bfmeCheckCW@BfmeSubCW@@QAEHPAX@Z,0x000220C5,pin
 ?bfmeCheckCX@BfmeSubCX@@QAEHPAX@Z,0x000220C5,pin
+?bfmeCheckFH@BfmeCheckFH@@QAEDPAX@Z,0x0003E80B,pin
 ?bfmeCheckStrVHR@@YAPBDPAUBfmeLuaVHR@@HPAI@Z,0x0099A840,pin
 ?bfmeChk1064@BfmeQ1064@@QAEDXZ,0x0001E533,pin
 ?bfmeChk1079@BfmeM1079@@QAEDXZ,0x000279CB,pin
@@ -73626,6 +73632,7 @@ name,address,notes
 ?bfmeCloseAJ@BfmeOwnAJ@@QAEXH@Z,0x0003D811,pin
 ?bfmeCloseCN@BfmeInnerCN@@QAEXPAX@Z,0x0000871A,pin
 ?bfmeCloseFY@BfmeSlotFY@@QAEXH@Z,0x00013633,pin
+?bfmeCloseHV@ClientRoot4120@@QAEXXZ,0x0003C16E,pin
 ?bfmeCloseUDC@BfmeSrcUDC@@QAEXXZ,0x009EB7A0,pin
 ?bfmeCloseVHT@BfmeChunkVHT@@QAEXXZ,0x009E13E0,pin
 ?bfmeCloseVHX@BfmeHandleVHX@@QAEXXZ,0x009DB5A0,pin
@@ -74593,6 +74600,7 @@ name,address,notes
 ?bfmeGetFFG@BfmeHeldFFG@@QAEPAVBfmeMidFFG@@XZ,0x00020824,pin
 ?bfmeGetFinalOverride@BfmeSubInnerEFF@@QAEPAXXZ,0x000022BB,pin
 ?bfmeGetFormationRefreshValue@BfmeHordeOwner@@QAEIXZ,0x00023727,Open-BFME5 retail ILT called by HordeContain refresh threshold check
+?bfmeGetHM@BfmeHolderHM@@QAEPAVBfmeItemHM@@XZ,0x0000E570,pin
 ?bfmeGetHordeMemberCount@Object@@QBEHXZ,0x00030715,Open-BFME5 ILT thunk to body 0x001BFDF0; Object m_contain at +0x1FC asks virtual slot +0x68 for a horde interface then calls its count slot +0x150 with false; bfme prefix records unrecovered retail spelling
 ?bfmeGetID@BfmeDrawableWithID@@QAEIXZ,0x00009B01,Open-BFME5 ILT both drawable lookup-table wrappers at 0x00431C20 and 0x00430B50 read the id through
 ?bfmeGetInterface@Object@@QAEPAVBfmeRelationInterface@@XZ,0x0000B3E3,Open-BFME5 relation interface lookup called by 0x002875C0
@@ -75135,6 +75143,7 @@ name,address,notes
 ?bfmeNote1023@BfmeJ1023@@QAEXPAVBfmeH1023@@@Z,0x00010F46,pin
 ?bfmeNote1029@@YAXHD@Z,0x0001136A,pin
 ?bfmeNote1049@@YGXHH@Z,0x00047807,pin
+?bfmeNoteGK@BfmeAgentGK@@QAEXPAVBfmeItemGK@@@Z,0x00015D02,pin
 ?bfmeNoteVJI@BfmeSubVJI@@QAEXPBD@Z,0x00808BF0,pin
 ?bfmeNoteWD@BfmeThingWD@@QAEXXZ,0x0002191D,pin
 ?bfmeNotify1280@BfmeA1280@@QAEXH@Z,0x00019574,pin
@@ -75264,6 +75273,7 @@ name,address,notes
 ?bfmeOneWE@BfmeNodeWE@@QAEXPAUBfmeDestWE@@@Z,0x00887C90,pin
 ?bfmeOpen1071@BfmeR1071@@QAEXPAVBfmeX1071@@@Z,0x0002144A,pin
 ?bfmeOpen1085@BfmeR1085@@QAEXPAVBfmeX1085@@@Z,0x0002144A,pin
+?bfmeOpenHV@ClientRoot4120@@QAEXXZ,0x0000D350,pin
 ?bfmeOpenVHT@BfmeChunkVHT@@QAE_NXZ,0x009E1380,pin
 ?bfmeOptimizeDir@Path@@QAEXPBVObject@@PBUCoord3D@@H_N@Z,0x00049DEB,ILT to the BFME-only second optimize pass over the unit direction vector; called by Pathfinder::buildActualPath at 0x003E10F0; no ZH twin
 ?bfmeOtherANA@BfmeThingANA@@QAEHHH@Z,0x00025CD4,pin
@@ -75640,6 +75650,7 @@ name,address,notes
 ?bfmeSetGM@BfmeDerivedGM@@QAEXPAX@Z,0x007F9590,pin
 ?bfmeSetGoalPosition@BfmeSub30_7F0@@QAEXPBUCoord3D@@@Z,0x0000314D,address-derived sink goal setter used by 0x002BCE00
 ?bfmeSetGoalPosition@StateMachine@@QAEXPBUCoord3D@@@Z,0x0000314D,TU ABI alias for authentic StateMachine::setGoalPosition ILT used by retail setGoalPositionClipped
+?bfmeSetHV@Rva005A63D0Mouse@@QAEXH@Z,0x0003D578,pin
 ?bfmeSetIndicatorOn@Drawable@@AAEX_N@Z,0x00018CF5,Open-BFME5 ILT thunk to body 0x004115A0; ?setIndicatorColor@Drawable@@QAEXI@Z at 0x004186E0 calls it on this from both of its arms with a true or a false; address-derived name
 ?bfmeSetIndicatorOn@Drawable@@QAEX_N@Z,0x00018CF5,public spelling used by the BFME GameLogic object indicator conversion
 ?bfmeSetLocsUGB@BfmeStreakUGB@@QAEXIPAX@Z,0x0091A300,pin
@@ -84491,9 +84502,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeCheckFH@BfmeCheckFH@@QAEDPAX@Z,0x0003E80B,pin
-?bfmeNoteGK@BfmeAgentGK@@QAEXPAVBfmeItemGK@@@Z,0x00015D02,pin
-?bfmeGetHM@BfmeHolderHM@@QAEPAVBfmeItemHM@@XZ,0x0000E570,pin
-?bfmeCloseHV@ClientRoot4120@@QAEXXZ,0x0003C16E,pin
-?bfmeOpenHV@ClientRoot4120@@QAEXXZ,0x0000D350,pin
-?bfmeSetHV@Rva005A63D0Mouse@@QAEXH@Z,0x0003D578,pin

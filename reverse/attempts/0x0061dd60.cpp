@@ -1,11 +1,8 @@
-// ?d_0061dd60@@YAXXZ
-// partial score=0.95 date=2026-09-06
+// ?applyField@BfmeApplyFieldHolder@@QAEXABVRva0060FD30Base@@@Z
+// partial score=0.92 date=2026-09-04
 // ?applyField@BfmeApplyFieldHolder@@QAEXABVRva0060FD30Base@@@Z
 // partial score=0.92 date=2026-09-02
 // cl: /DNDEBUG /MD /EHsc
-
-class Gen00001B18;
-Gen00001B18 *Make00001B18(void);
 
 class Rva0060FD30Base
 {
@@ -13,13 +10,6 @@ public:
 	Rva0060FD30Base(const Rva0060FD30Base &other);
 	unsigned char *m_ptr;
 	unsigned char m_rest[8];
-
-	Gen00001B18 *operator->() const
-	{
-		if (!m_ptr)
-			return Make00001B18();
-		return (Gen00001B18 *)m_ptr;
-	}
 };
 
 class Gen00001B18
@@ -47,6 +37,10 @@ void BfmeApplyFieldHolder::applyField(const Rva0060FD30Base &src)
 	if (src.m_ptr)
 	{
 		m_obj.Rva0060FD30Base::Rva0060FD30Base(src);
-		m_field20 = m_obj->m_fieldAc;
+		Gen00001B18 *p = (Gen00001B18 *)m_obj.m_ptr;
+		if (!p)
+			m_field20 = Make00001B18()->m_fieldAc;
+		else
+			m_field20 = p->m_fieldAc;
 	}
 }

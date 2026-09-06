@@ -1,57 +1,57 @@
-// ??0BfmeOwnBH@@QAE@PAVBfmeHostBH@@@Z (identity unknown)
-// partial score=0.82 date=2026-09-06
-// 40/48 at exact size. The base constructor with its two arguments, the store
-// set and the three-step chain through the parameter are all modelled.
-// Residue is the same wall as 0x008087D0: retail loads the parameter into ecx
-// BEFORE the zero constant is materialised and keeps it there across the
-// stores, while MSVC emits the zeros first and loads the parameter late into
-// eax. That also drags the chain registers one step out of line.
-extern int g_bfmeVftBH;
+// ??0Rva008B5880@@QAE@PAURva008B5880Arg@@@Z
+// partial score=0.81 date=2026-09-02
+// cl: /O2 /DNDEBUG /MD
 
-class BfmeInnerBH
+extern "C" void *bfmeVft008B5880[];
+
+struct Rva008B5880Inner
 {
-public:
-	unsigned char m_bfmeHeadBH[4];
-	int m_bfmeValueBH;
+	char m_pad[4];
+	void *m_04;
 };
 
-class BfmeMidBH
+struct Rva008B5880Mid
 {
-public:
-	unsigned char m_bfmeHeadBH[0xc];
-	BfmeInnerBH *m_bfmeInnerBH;
+	char m_pad[0x0c];
+	Rva008B5880Inner *m_0c;
 };
 
-class BfmeHostBH
+struct Rva008B5880Arg
 {
-public:
-	unsigned char m_bfmeHeadBH[0x50];
-	BfmeMidBH *m_bfmeMidBH;
+	char m_pad[0x50];
+	Rva008B5880Mid *m_50;
+
+	__forceinline void *pick()
+	{
+		return m_50->m_0c->m_04;
+	}
 };
 
-class BfmeBaseBH
+class Rva899F00Base
 {
 public:
-	BfmeBaseBH(int kind, int size);
+	Rva899F00Base(const char *id, int kind);
 };
 
-class BfmeOwnBH : public BfmeBaseBH
+class Rva008B5880 : public Rva899F00Base
 {
 public:
-	BfmeOwnBH(BfmeHostBH *host);
+	Rva008B5880(Rva008B5880Arg *arg);
 
-	int *m_bfmeVfBH;
-	unsigned char m_bfmeHeadBH[0x1c];
-	int m_bfmeCBH;
-	int m_bfmeABH;
-	int m_bfmeBBH;
+	void *m_vfptr;
+	char m_pad04[0x1c];
+	void *m_20;
+	int m_24;
+	int m_28;
 };
 
-BfmeOwnBH::BfmeOwnBH(BfmeHostBH *host)
-	: BfmeBaseBH(0x15, 8)
+Rva008B5880::Rva008B5880(Rva008B5880Arg *arg) :
+	Rva899F00Base(reinterpret_cast<const char *>(0x15), 8)
 {
-	m_bfmeABH = 0;
-	m_bfmeVfBH = &g_bfmeVftBH;
-	m_bfmeBBH = 0;
-	m_bfmeCBH = host->m_bfmeMidBH->m_bfmeInnerBH->m_bfmeValueBH;
+	int z = 0;
+	m_24 = z;
+	m_vfptr = bfmeVft008B5880;
+	void *v = arg->pick();
+	m_28 = z;
+	m_20 = v;
 }

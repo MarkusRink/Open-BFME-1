@@ -1,23 +1,17 @@
-// ?bfmeFwdBK@@YGXPAXPAVBfmeSrcBK@@0000@Z (identity unknown)
+// ?bfmeFwdEQC@@YGHHPAUBfmeSrcEQC@@HHHH@Z (identity unknown)
 // partial score=0.9 date=2026-09-06
-// 43/43 in size, structure exact: six parameters forwarded plus a dereference
-// of the second and a trailing zero, seven arguments in all.
-// Residue is the argument-shuttle pattern already logged at 0x0047C9F0:
-// retail loads each stack parameter into edx one at a time, pushing between
-// the loads (same displacement, different esp), while MSVC preloads three of
-// them into eax, ecx and edx first. 0x003F0F00 is the adjacent twin.
-class BfmeSrcBK
+// exact size 43/43; residue is the argument-shuttle register choice only.
+// Pin needed: ?bfmeInnerEQC@@YGHHHHHHH@Z,0x0001FA14,pin
+struct BfmeSrcEQC
 {
-public:
-	unsigned char m_bfmeHeadBK[0x10];
-	void *m_bfmeValueBK;
+	unsigned char m_bfmeHeadEQC[0x10];
+	int m_bfmeKindEQC;
 };
 
-void __stdcall bfmeRunBK(void *first, void *value, void *third, void *fourth,
-	void *fifth, void *sixth, void *seventh);
+int __stdcall bfmeInnerEQC(int a, int kind, int b, int c, int d, int e, int f);
 
-void __stdcall bfmeFwdBK(void *first, BfmeSrcBK *source, void *third, void *fourth,
-	void *fifth, void *sixth)
+int __stdcall bfmeFwdEQC(int a, BfmeSrcEQC *src, int b, int c, int d, int e)
 {
-	bfmeRunBK(first, source->m_bfmeValueBK, third, fourth, fifth, sixth, 0);
+	int kind = src->m_bfmeKindEQC;
+	return bfmeInnerEQC(a, kind, b, c, d, e, 0);
 }

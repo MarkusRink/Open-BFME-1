@@ -1,51 +1,37 @@
-// ??0BfmeOwnCB@@QAE@XZ (identity unknown)
-// partial score=0.88 date=2026-09-06
-// 74/84 at exact size. This is a CONSTRUCTOR, not a destructor: it returns
-// this and its unwind states count UP (0 then 1) as sub-objects are built.
-// Everything is modelled -- the pinned vftable, a 4-byte member at +4 whose
-// ctor zeroes it, an 8-byte member at +8 whose ctor writes {1, 0}, and a body
-// call to releaseBuffer on the member at +4.
-// Residue: retail writes each unwind state BEFORE the member it protects and
-// stores `this` into the frame slot first; MSVC writes the state AFTER the
-// member is built and sinks the this-slot store past the vftable store. Tried
-// an explicit member-init list on the owner, init lists inside both members,
-// and throw() on both member ctors -- identical ten-line permutation each time.
-class BfmeStrCB
+// ??0Rva0034C5E0@@QAE@XZ
+// partial score=0.6 date=2026-09-06
+// cl: /DNDEBUG /MD /EHsc
+// Open-BFME5: near-twin of ??0DelayedLuaEventList (0x000EDBB0); constructor installs
+// vtable 0x010E7D00 (name getter neighbour at 0x0034C660 identifies AttackPriorityInfo),
+// default-constructs a string-shaped member at +4, sets a flag at +8 to 1 and a
+// count/id at +0xc to 0.
+
+class BfmeStrCVE
 {
 public:
-	BfmeStrCB(void) throw() { m_bfmeDataCB = 0; }
-	~BfmeStrCB();
-
-	void bfmeClearCB(void);
-
-	int m_bfmeDataCB;
+	BfmeStrCVE() { m_data = 0; }
+	~BfmeStrCVE() { bfmeInitCVE(); }
+	void bfmeInitCVE();
+	void *m_data;
 };
 
-class BfmeFlagsCB
+class Rva0034C5E0
 {
 public:
-	BfmeFlagsCB(void) throw()
-	{
-		m_bfmeACB = 1;
-		m_bfmeBCB = 0;
-	}
-	~BfmeFlagsCB();
+	virtual void bfmeSlot00();
 
-	int m_bfmeACB;
-	int m_bfmeBCB;
+	Rva0034C5E0();
+
+private:
+	BfmeStrCVE m_str;
+	int m_flag;
+	int m_zero;
 };
 
-class BfmeOwnCB
+// ?d_0034c5e0@@YAXXZ
+Rva0034C5E0::Rva0034C5E0()
 {
-public:
-	BfmeOwnCB(void);
-	virtual void bfmePureCB(void) = 0;
-
-	BfmeStrCB m_bfmeStrCB;
-	BfmeFlagsCB m_bfmeFlagsCB;
-};
-
-BfmeOwnCB::BfmeOwnCB(void)
-{
-	m_bfmeStrCB.bfmeClearCB();
+	m_flag = 1;
+	m_zero = 0;
+	m_str.bfmeInitCVE();
 }

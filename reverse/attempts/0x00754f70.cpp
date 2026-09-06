@@ -1,90 +1,53 @@
-// ??0BfmeOwnCL@@QAE@XZ (identity unknown)
-// partial score=0.91 date=2026-09-07
-// Exact size (102) once the layout is right. The EH frame only appears when
-// the FIRST member has a destructor: without it MSVC drops the frame entirely
-// and the body is 58 bytes. So this class is
-//   BfmeHeadCL (3 ints, ctor zeroes them, dtor declared)  at +0
-//   BfmeListCL (allocates a 0x14 node and self-links it)  at +0xc
-//   six plain ints                                        at +0x10..+0x24
-// and the single unwind state 0 is set after the head member and before the
-// allocating list constructor, which is the only thing that can throw.
-// Residue: the EH this-slot store `mov [esp+8], esi` lands in the middle of
-// the head member's three stores in retail and before them in MSVC -- the
-// same constructor residue as 0x0034C5E0 and 0x000FB260.
-namespace _STL
-{
+// ??0Rva00754F70Owner@@QAE@XZ
+// partial score=0.79 date=2026-09-06
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/stringinline
+// stlport
+// Open-BFME7: default constructor zero-initializing nine int members and one
+// embedded STLport list<12-byte record>, retail 0x00754F70, 102 bytes.  The
+// list's 20-byte sentinel node (8 overhead + 12 value) self-links (next =
+// prev = the node itself) through __node_alloc::_M_allocate.  The element is
+// only known to be twelve trivially copyable bytes, so it carries an
+// address-derived tag; owning class is unidentified.
 
-class __new_alloc
+#define _STLP_NO_EXCEPTIONS 1
+#include <list>
+#include "StringInline.h"
+
+struct Rva00754F70Elem
 {
-public:
-	static void *allocate(unsigned int size);
+	int m_a;
+	int m_b;
+	int m_c;
 };
 
-}
+typedef _STL::list<Rva00754F70Elem, _STL::allocator<Rva00754F70Elem> > Rva00754F70List;
 
-class BfmeNodeCL
+class Rva00754F70Owner
 {
 public:
-	BfmeNodeCL *m_bfmeNextCL;
-	BfmeNodeCL *m_bfmePrevCL;
-	unsigned char m_bfmePadCL[0xc];
+	Rva00754F70Owner();
+private:
+	AsciiString m_f0;
+	int m_f4;
+	int m_f8;
+	Rva00754F70List m_list;
+	int m_f10;
+	int m_f14;
+	int m_f18;
+	int m_f1c;
+	int m_f20;
+	int m_f24;
 };
 
-class BfmeListCL
+Rva00754F70Owner::Rva00754F70Owner() :
+	m_f0(),
+	m_f4( 0 ),
+	m_f8( 0 )
 {
-public:
-	BfmeListCL(void)
-	{
-		m_bfmeNodeCL = 0;
-
-		BfmeNodeCL *node = (BfmeNodeCL *)_STL::__new_alloc::allocate(0x14);
-
-		node->m_bfmeNextCL = node;
-		node->m_bfmePrevCL = node;
-		m_bfmeNodeCL = node;
-	}
-	~BfmeListCL();
-
-	BfmeNodeCL *m_bfmeNodeCL;
-};
-
-class BfmeHeadCL
-{
-public:
-	BfmeHeadCL(void)
-	{
-		m_bfmeACL = 0;
-		m_bfmeBCL = 0;
-		m_bfmeCCL = 0;
-	}
-	~BfmeHeadCL();
-
-	int m_bfmeACL;
-	int m_bfmeBCL;
-	int m_bfmeCCL;
-};
-
-class BfmeOwnCL
-{
-public:
-	BfmeOwnCL(void);
-
-	BfmeHeadCL m_bfmeHeadCL;
-	BfmeListCL m_bfmeListCL;
-	int m_bfmeDCL;
-	int m_bfmeECL;
-	int m_bfmeFCL;
-	int m_bfmeGCL;
-	int m_bfmeHCL;
-	int m_bfmeICL;
-};
-
-BfmeOwnCL::BfmeOwnCL(void)
-{
-	m_bfmeDCL = 0;
-	m_bfmeECL = 0;
-	m_bfmeFCL = 0;
-	m_bfmeGCL = 0;
-	m_bfmeHCL = 0;
-	m_bfmeICL = 0;
+	m_f10 = 0;
+	m_f14 = 0;
+	m_f18 = 0;
+	m_f1c = 0;
+	m_f20 = 0;
+	m_f24 = 0;
 }
