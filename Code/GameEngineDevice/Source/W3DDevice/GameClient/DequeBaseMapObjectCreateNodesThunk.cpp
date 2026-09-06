@@ -8,6 +8,25 @@ class MapObject
 
 namespace _STL
 {
+// Retail takes this node from STLport's node pool, not ::operator new: the
+// call at this site is __node_alloc<true,0>::_M_allocate (0x0082E540), which
+// buckets by (n-1)>>3 into the free-list array at 0x0130B1C0.  Shape copied
+// from vendor/stlport/stl/_alloc.h, including the ternary in allocate() --
+// every node size here is a compile-time constant under _MAX_BYTES, so it
+// folds and leaves retail's single direct call.
+template <bool __threads, int __inst>
+class __node_alloc
+{
+	enum { _MAX_BYTES = 128 };
+	static void *__cdecl _M_allocate(unsigned int __n);
+
+public:
+	static void *__cdecl allocate(unsigned int __n)
+	{ return (__n > (unsigned int)_MAX_BYTES) ? ::operator new(__n) : _M_allocate(__n); }
+};
+
+typedef __node_alloc<true, 0> _Node_alloc;
+
 template <class Type>
 class allocator
 {
@@ -26,7 +45,7 @@ void _Deque_base<MapObject *, allocator<MapObject *> >::_M_create_nodes(MapObjec
 	MapObject ***p = start;
 	while (p < finish)
 	{
-		*p = reinterpret_cast<MapObject **>(::operator new(0x78));
+		*p = reinterpret_cast<MapObject **>(_Node_alloc::allocate(0x78));
 		++p;
 	}
 }
