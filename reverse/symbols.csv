@@ -84494,3 +84494,6 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeCheckFH@BfmeCheckFH@@QAEDPAX@Z,0x0003E80B,pin
 ?bfmeNoteGK@BfmeAgentGK@@QAEXPAVBfmeItemGK@@@Z,0x00015D02,pin
 ?bfmeGetHM@BfmeHolderHM@@QAEPAVBfmeItemHM@@XZ,0x0000E570,pin
+?bfmeCloseHV@ClientRoot4120@@QAEXXZ,0x0003C16E,pin
+?bfmeOpenHV@ClientRoot4120@@QAEXXZ,0x0000D350,pin
+?bfmeSetHV@Rva005A63D0Mouse@@QAEXH@Z,0x0003D578,pin
