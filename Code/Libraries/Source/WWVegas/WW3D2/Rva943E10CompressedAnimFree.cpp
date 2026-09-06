@@ -1,3 +1,4 @@
+// cl: /DNDEBUG /MD /EHsc
 // Without an explicit declaration MSVC reaches for the scalar ??3 here; retail
 // frees the block through operator delete[] (??_V) at 0x00881EF0.
 void __cdecl operator delete[](void *);

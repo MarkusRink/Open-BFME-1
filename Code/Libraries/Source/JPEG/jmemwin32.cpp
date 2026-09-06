@@ -11,6 +11,11 @@
  * calls through.
  */
 
+// /MD makes the CRT headers declare free() __declspec(dllimport), which
+// compiles to an indirect `ff 15` through the IAT; retail calls the import
+// thunk at 0x009F6C3A directly, so drop the attribute for this TU.
+#define _CRTIMP
+
 extern "C" {
 #include "jinclude.h"
 #include "jpeglib.h"
@@ -27,7 +32,9 @@ jpeg_free_small (j_common_ptr cinfo, void * object, size_t sizeofobject)
 		unsigned char * aligned = (unsigned char *) object;
 		unsigned char offset = aligned[-1];
 
-		delete [] (aligned - offset);
+		/* retail releases the over-allocated block through the CRT free
+		   import at 0x009F6C3A, not through operator delete[]. */
+		free(aligned - offset);
 	}
 }
 

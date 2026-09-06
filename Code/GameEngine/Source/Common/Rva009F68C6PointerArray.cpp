@@ -1,7 +1,9 @@
 // cl: /O1
 // Clean reconstruction of the three-field pointer-array RemoveAll operation.
 
-void __cdecl operator delete(void *memory);
+// BFME releases this array through the CRT free import at 0x009F6C3A, not
+// through ::operator delete.
+extern "C" void __cdecl free(void *memory);
 
 class Rva009F68C6PointerArray
 {
@@ -17,7 +19,7 @@ private:
 void Rva009F68C6PointerArray::RemoveAll()
 {
 	if (values != 0) {
-		::operator delete(values);
+		free(values);
 		values = 0;
 	}
 	count = 0;

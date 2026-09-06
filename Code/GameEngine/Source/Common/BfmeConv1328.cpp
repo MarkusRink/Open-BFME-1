@@ -1,4 +1,10 @@
+// cl: /DNDEBUG /MD /EHsc
 // Open-BFME5 conversions.
+
+// MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
+// form is declared where it can see it AND the TU is built with /EHsc;
+// retail calls ??_V@YAXPAX@Z at 0x00881EF0 in both bodies below.
+void operator delete[]( void *block );
 
 extern void *g_bfmeVftTZA[];
 extern void *g_bfmeVftTZB[];
