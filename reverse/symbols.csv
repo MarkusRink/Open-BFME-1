@@ -88555,7 +88555,6 @@ name,address,notes
 ??0W3DSupplyDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x0001F659,pinharvest x1 (thunk)
 ??0W3DSupplyDrawModuleData@@QAE@XZ,0x0001235A,pinharvest x1 (thunk)
 ??0W3DSupplyDrawModuleDataBase@@QAE@XZ,0x0000289C,Open-BFME5 the incremental-link thunk that constructor encodes
-??0W3DTankDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x00006C85,pinharvest x1 (thunk)
 ??0W3DTankDrawModuleData@@QAE@XZ,0x00018322,pinharvest x1 (thunk)
 ??0W3DTankDrawModuleDataBase@@QAE@XZ,0x0000289C,Open-BFME5 address-derived base whose constructor W3DTankDrawModuleData reaches through the incremental-link thunk at 0x0000289C
 ??0W3DTerrainBackground@@QAE@XZ,0x0004149D,FlatHeightMap 0xC4-element m_tiles vector constructor ILT
@@ -94020,7 +94019,6 @@ name,address,notes
 ??1TextureRef@@QAE@XZ,0x00975010,BfmeThingVGX texture-reference destructor call target
 ??1ThreadClass@@QAE@XZ,0x009DB530,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0063CF10 calls; autopin
 ??1ThreadClass@@UAE@XZ,0x009DB530,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0010BC80 calls; autopin
-??1TimeCodedMorphKeysClass@@QAE@XZ,0x00029BEA,pinharvest x1 (thunk)
 ??1ToggleHiddenSpecialAbilityUpdate@@MAE@XZ,0x0003610B,destructor ILT to 0x0026C030
 ??1TooltipUpgradeModuleDataBase@@UAE@XZ,0x0001B97D,Open-BFME5 pin
 ??1TooltipUpgradeModuleDataMemberA@@QAE@XZ,0x0001B97D,Open-BFME5 pin
@@ -169682,3 +169680,5 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?b_00217620@@YAXXZ,0x00217620,gen-thunk body
 ?query@BfmeSub1CC_EC3@@QAEMPAX@Z,0x000230AB,exact retail rel32 target of the three callers; the body at 0x001B7E90 carries no other name
 ?logGameEnd@RecorderClass@@IAEXXZ,0x0000800D,exact retail rel32 target of ?stopRecording@RecorderClass@@QAEXXZ; the body at 0x00097280 is still the unclaimed dump ?d_00097280@@YAXXZ
+??0W3DTankDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000CC2F,"exact retail rel32 target of ?friend_newModuleInstance@W3DTankDraw@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z, which is byte-verified everywhere else; replaces a pinharvest x1 guess at 0x00006C85 whose body 0x0026D670 is WeaponFireSpecialAbilityUpdate's own constructor"
+??1TimeCodedMorphKeysClass@@QAE@XZ,0x0002BFF3,exact retail rel32 target of ??_ETimeCodedMorphKeysClass@@QAEPAXI@Z -- a deleting destructor calls its own class's scalar body and nothing else; replaces a pinharvest x1 guess at 0x00029BEA whose body 0x005D6280 is ??1SphereEmissionVolumeModuleTemplate@FXParticleSystem@@UAE@XZ
