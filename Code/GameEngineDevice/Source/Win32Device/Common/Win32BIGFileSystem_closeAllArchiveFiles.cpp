@@ -55,20 +55,49 @@ protected:
 	ArchiveFileMap m_archiveFileMap;	// +0x04
 };
 
+// The vector<AsciiString> COMDAT this TU reaches is the copy at 0x00063700 --
+// the one whose element copy calls StringBase<char>'s constructor out of line,
+// which 38 retail sites encode -- not the inlined-copy twin at 0x00757C70. No
+// pin can bridge the two (pin_consistency: divergent-bodies at +0x77), so spell
+// the element with the name the ledger carries at 0x00063700.
+class Open2Elem063700
+{
+public:
+	Open2Elem063700( const Open2Elem063700 &source )
+	{
+		((AsciiString *)this)->AsciiString::AsciiString( *(const AsciiString *)&source );
+	}
+
+	~Open2Elem063700()
+	{
+		((AsciiString *)this)->AsciiString::~AsciiString();
+	}
+
+private:
+	void *m_text;
+};
+
+// A reference cast, so the caller's temporary still dies at the end of its own
+// full expression rather than at the end of the block.
+static const Open2Elem063700 &asElement( const AsciiString &s )
+{
+	return *(const Open2Elem063700 *)&s;
+}
+
 // ?closeAllArchiveFiles@Win32BIGFileSystem@@UAEXXZ
 void Win32BIGFileSystem::closeAllArchiveFiles( void )
 {
-	std::vector<AsciiString> names;
+	std::vector<Open2Elem063700> names;
 
 	ArchiveFileMap::iterator it = m_archiveFileMap.begin();
 	while (it != m_archiveFileMap.end()) {
-		names.push_back( it->second->getName() );
+		names.push_back( asElement( it->second->getName() ) );
 		++it;
 	}
 
-	std::vector<AsciiString>::iterator n = names.begin();
+	std::vector<Open2Elem063700>::iterator n = names.begin();
 	while (n != names.end()) {
-		closeArchiveFile( n->str() );
+		closeArchiveFile( ((const AsciiString *)&*n)->str() );
 		++n;
 	}
 }
