@@ -37,10 +37,70 @@
 #include "stdlib.h"
 #include "string.h"
 #include "Compression.h"
+// BFME's placement operator delete is one shared 12-byte body that calls the
+// CRT free import at 0x009F6C3A directly; ZH's macro routes it through
+// ::operator delete, which is a different (and here, wrong) callee.  Scoped to
+// the one header that declares this TU's pooled classes.
+#pragma push_macro("MEMORY_POOL_GLUE_WITHOUT_GCMP")
+#undef MEMORY_POOL_GLUE_WITHOUT_GCMP
+extern "C" void free(void *);
+#define MEMORY_POOL_GLUE_WITHOUT_GCMP(ARGCLASS) \
+protected: \
+	virtual ~ARGCLASS(); \
+public: \
+	enum ARGCLASS##MagicEnum { ARGCLASS##_GLUE_NOT_IMPLEMENTED = 0 }; \
+public: \
+	inline void *operator new(size_t s, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ \
+		DEBUG_ASSERTCRASH(s == sizeof(ARGCLASS), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly")); \
+		return MP_GLUE_ALLOCATE(ARGCLASS); \
+	} \
+public: \
+	inline void operator delete(void *p, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ \
+		free(p); \
+	} \
+protected: \
+	inline void *operator new(size_t s) \
+	{ \
+		DEBUG_ASSERTCRASH(s == sizeof(ARGCLASS), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly")); \
+		return ::operator new(s); \
+	} \
+	inline void operator delete(void *p) \
+	{ \
+		::operator delete(p); \
+	} \
+private: \
+	virtual MemoryPool *getObjectMemoryPool() \
+	{ \
+		return ARGCLASS::getClassMemoryPool(); \
+	} \
+public:
 #include "Common/DataChunk.h"
+#pragma pop_macro("MEMORY_POOL_GLUE_WITHOUT_GCMP")
 #include "Common/File.h"
 #include "Common/FileSystem.h"
 #include "Common/GameEngine.h"
+
+// UnicodeString is StringBase<WideChar>, and retail inlined its one-line
+// forwarders away: the call sites below encode the StringBase<WideChar> bodies
+// directly, not the ZH UnicodeString spellings (which resolve to the NARROW
+// StringBase<char> bodies).
+template <typename Char>
+class StringBase
+{
+private:
+	friend class UnicodeString;
+	StringBase( const StringBase<Char> &src );
+};
+
+// ??0?$StringBase@G@@AAE@ABV0@@Z at 0x00888400 -- private, which is what
+// mangles it AAE.
+inline UnicodeString::UnicodeString( const UnicodeString &stringSrc )
+{
+	((StringBase<WideChar> *)this)->StringBase<WideChar>::StringBase(
+		*(const StringBase<WideChar> *)&stringSrc );
+}
 
 // If verbose, lots of debug logging.
 #define not_VERBOSE

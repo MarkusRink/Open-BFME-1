@@ -1,6 +1,17 @@
 // cl: /DNDEBUG /MD /EHsc
 // Open-BFME: Horde transport admission and linked-member update, retail 0x0024AA70.
 
+// Retail allocates these list nodes through the STL node allocator at
+// 0x0082E540 (?allocate@__new_alloc@_STL@@SAPAXI@Z), not through the global
+// operator new.
+namespace _STL {
+class __new_alloc
+{
+public:
+	static void *__cdecl allocate( unsigned int size );
+};
+}
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Object.h
 class Object
 {
@@ -102,7 +113,7 @@ void Rva0024AA70::update(Object *object)
 	{
 		BfmeRvaAA70Node *sentinel = m_sentinel;
 		BfmeRvaAA70Node *node =
-			(BfmeRvaAA70Node *)operator new(12);
+			(BfmeRvaAA70Node *)_STL::__new_alloc::allocate(12);
 		Object **slot = &node->m_object;
 		if (slot != 0)
 			*slot = object;

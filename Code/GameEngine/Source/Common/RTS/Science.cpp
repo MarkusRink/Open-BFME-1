@@ -35,6 +35,24 @@
 #include "Common/Player.h"
 #include "Common/Science.h"
 
+// UnicodeString is StringBase<WideChar>, and retail inlined its one-line
+// forwarders away: the call sites below encode the StringBase<WideChar> bodies
+// directly, not the ZH UnicodeString spellings (which resolve to the NARROW
+// StringBase<char> bodies).
+template <typename Char>
+class StringBase
+{
+public:
+	void set( const StringBase<Char> &src );
+};
+
+// ?set@?$StringBase@G@@QAEXABV1@@Z at 0x00888530
+inline void UnicodeString::set( const UnicodeString &stringSrc )
+{
+	reinterpret_cast<StringBase<WideChar> &>( *this ).set(
+		reinterpret_cast<const StringBase<WideChar> &>( stringSrc ) );
+}
+
 ScienceStore* TheScienceStore = NULL;
 
 #ifdef _INTERNAL

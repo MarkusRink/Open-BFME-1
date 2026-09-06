@@ -35,6 +35,17 @@ public:
 extern WeaponStore *TheWeaponStore;
 
 void *__cdecl operator new(unsigned int);
+
+// Retail allocates these list nodes through the STL node allocator at
+// 0x0082E540 (?allocate@__new_alloc@_STL@@SAPAXI@Z), not through the global
+// operator new.
+namespace _STL {
+class __new_alloc
+{
+public:
+	static void *__cdecl allocate( unsigned int size );
+};
+}
 inline void *__cdecl operator new(unsigned int, void *p) { return p; }
 
 struct Rva001F01D0Payload
@@ -72,7 +83,7 @@ void Rva001F01D0::fireAndRecord(Object *target)
 	TheWeaponStore->createAndFireTempWeapon(m_template, &m_sourcePos, m_source, &target->m_position, m_extra);
 	int id = target->m_id;
 	Rva001F01D0Node *sent = m_sentinel;
-	Rva001F01D0Node *node = (Rva001F01D0Node *)::operator new(sizeof(Rva001F01D0Node));
+	Rva001F01D0Node *node = (Rva001F01D0Node *)_STL::__new_alloc::allocate(sizeof(Rva001F01D0Node));
 	new (&node->payload) Rva001F01D0Payload(id);
 	Rva001F01D0Node *prev = sent->prev;
 	node->next = sent;
