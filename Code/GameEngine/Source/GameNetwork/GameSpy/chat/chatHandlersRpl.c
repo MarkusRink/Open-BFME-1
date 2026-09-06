@@ -2652,3 +2652,79 @@ void ciTopicHandler(CHAT chat, const ciServerMessage *message)
 			callbacks->param, 0, channel);
 	}
 }
+
+enum { CHATEnterSuccess = 0 };
+void ciJoinCallbackCalled(CHAT chat, const char *channel);
+void ciUserEnteredChannel(CHAT chat, const char *user, const char *channel,
+	int mode, const char *userName, const char *address);
+
+
+void ciEndOfNamesHandler(CHAT chat, const ciServerMessage *message)
+{
+	ciFilterMatch matches[4];
+	ciServerMessageFilter *filter;
+	char *channel;
+
+	assert(message->numParams == 3);
+	if (message->numParams != 3)
+		return;
+
+	channel = message->params[1];
+
+	if (strcmp(channel, "*") == 0)
+		channel = NULL;
+
+	memset(matches, 0, sizeof(matches));
+	matches[0].type = TYPE_JOIN;
+	matches[0].name = channel;
+	matches[1].type = TYPE_UNQUIET;
+	matches[1].name = channel;
+	matches[2].type = TYPE_NAMES;
+	matches[2].name = channel;
+	matches[3].type = TYPE_NAMES;
+
+	filter = ciFindFilter(chat, 4, matches);
+	if (!filter)
+		return;
+
+	if (filter->type == TYPE_JOIN)
+	{
+		ciCallbackEnterChannelParams params;
+		params.success = CHATTrue;
+		params.result = CHATEnterSuccess;
+		params.channel = channel;
+
+		if (!filter->callback)
+			ciJoinCallbackCalled(chat, channel);
+
+		FINISH_FILTER;
+		return;
+	}
+
+	if (filter->type == TYPE_UNQUIET)
+	{
+		NAMESData *data = (NAMESData *)filter->data;
+		ciCallbackNewUserListParams params;
+		params.channel = channel;
+		params.numUsers = data->numUsers;
+		params.users = data->users;
+		params.modes = data->modes;
+
+		FINISH_FILTER;
+		return;
+	}
+
+	if (filter->type == TYPE_NAMES)
+	{
+		NAMESData *data = (NAMESData *)filter->data;
+		ciCallbackEnumUsersParams params;
+		params.success = CHATTrue;
+		params.channel = channel;
+		params.numUsers = data->numUsers;
+		params.users = data->users;
+		params.modes = data->modes;
+
+		FINISH_FILTER;
+		return;
+	}
+}
