@@ -66,6 +66,18 @@ public:
 
 extern WindowManager *g_theWindowManager;
 
+// The vector<AsciiString> COMDAT this TU reaches is the _M_insert_overflow copy
+// at 0x00063700 -- the one whose element copy calls StringBase<char>'s
+// constructor out of line, which 38 retail sites encode -- not the inlined-copy
+// twin at 0x00757C70. No pin can bridge the two (pin_consistency:
+// divergent-bodies at +0x77), so spell the element with the name the ledger
+// carries at 0x00063700. Deriving keeps the layout and both string callees.
+class Open2Elem063700 : public AsciiString
+{
+public:
+	Open2Elem063700( const Open2Elem063700 &other ) : AsciiString( other ) {}
+};
+
 class _bfme_AptGameWindow
 {
 public:
@@ -76,8 +88,8 @@ public:
 		Rva0050F920FunctorHolder callback );
 
 private:
-	_STL::vector<AsciiString> m_names;
-	_STL::vector<AsciiString> m_namesWithArg;
+	_STL::vector<Open2Elem063700> m_names;
+	_STL::vector<Open2Elem063700> m_namesWithArg;
 };
 
 void _bfme_AptGameWindow::_bfme_showAptScreen( const AsciiString &name,
@@ -85,7 +97,7 @@ void _bfme_AptGameWindow::_bfme_showAptScreen( const AsciiString &name,
 {
 	if( g_theWindowManager )
 	{
-		m_names.push_back( name );
+		m_names.push_back( *(const Open2Elem063700 *)&name );
 		g_theWindowManager->bindShown( name, callback );
 	}
 }
@@ -95,7 +107,7 @@ void _bfme_AptGameWindow::_bfme_showAptScreenWithArg( const AsciiString &name,
 {
 	if( g_theWindowManager )
 	{
-		m_namesWithArg.push_back( name );
+		m_namesWithArg.push_back( *(const Open2Elem063700 *)&name );
 		g_theWindowManager->bindShownWithArg( name, argument, callback );
 	}
 }

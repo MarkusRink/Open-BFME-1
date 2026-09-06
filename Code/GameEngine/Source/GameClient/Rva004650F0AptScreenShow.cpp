@@ -47,6 +47,18 @@ public:
 
 extern WindowManager *g_theWindowManager;
 
+// The vector<AsciiString> COMDAT this TU reaches is the _M_insert_overflow copy
+// at 0x00063700 -- the one whose element copy calls StringBase<char>'s
+// constructor out of line, which 38 retail sites encode -- not the inlined-copy
+// twin at 0x00757C70. No pin can bridge the two (pin_consistency:
+// divergent-bodies at +0x77), so spell the element with the name the ledger
+// carries at 0x00063700. Deriving keeps the layout and both string callees.
+class Open2Elem063700 : public AsciiString
+{
+public:
+	Open2Elem063700( const Open2Elem063700 &other ) : AsciiString( other ) {}
+};
+
 class Rva004650F0GameWindow
 {
 public:
@@ -56,7 +68,7 @@ public:
 
 private:
 	unsigned char m_pad[0x18];
-	_STL::vector<AsciiString> m_names;
+	_STL::vector<Open2Elem063700> m_names;
 };
 
 // address-derived: real ZH method name not recovered
@@ -65,7 +77,7 @@ void Rva004650F0GameWindow::showAptScreenRva004650F0( const AsciiString &name,
 {
 	if( g_theWindowManager )
 	{
-		m_names.push_back( name );
+		m_names.push_back( *(const Open2Elem063700 *)&name );
 		g_theWindowManager->bfmeBindRva004650F0( name, callback );
 	}
 }
