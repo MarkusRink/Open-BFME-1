@@ -4213,6 +4213,7 @@ name,address,notes
 ??1EnvironmentMapperClass@@UAE@XZ,0x00921FA0,constructor 0x00921460 installs vtable 0x0113BFD8 whose first slot is deleting wrapper 0x00921F80; that wrapper directly calls this scalar body
 ??1EvaCheckInfoVec@@QAE@XZ,0x00002D15,ILT thunk to the retail vector<EvaCheckInfo> destructor at 0x00426220; unidentified beyond its shape
 ??1EvaSideSoundsVec@@QAE@XZ,0x0003763C,ILT thunk to the retail Eva side-sound container destructor at 0x00424890; unidentified beyond its shape
+??1ExperienceDefaultLevel@@QAE@XZ,0x00016E6E,ExperienceLevelSystem owned level record destructor call target
 ??1FXBoneInfo@@QAE@XZ,0x00007928,resweep callee back-solved
 ??1FXNugget@@UAE@XZ,0x000033F0,ILT to FXNugget dtor body 0x00427390; callee of ParticleSystemFXNugget dtor
 ??1FellBeastSwoopPower@@MAE@XZ,0x00039BCB,destructor ILT to 0x0025CFA0
@@ -76397,6 +76398,7 @@ name,address,notes
 ?cleanUpReplayFile@RecorderClass@@QAEXXZ,0x0003CC9A,Recorder cleanup invoked by the GameEngine::execute catch-all path
 ?cleanUpSlotPointers@GameSpyStagingRoom@@QAEXXZ,0x00022507,addStagingRoom call target (incremental-link thunk)
 ?cleanup@BuffEntryTail@@QAEXXZ,0x00015479,BuffEntry embedded iterator clear ILT
+?cleanup@ExperienceLevelSystem@@QAEXXZ,0x00002568,ExperienceLevelSystem cleanup call before scalar vector release
 ?cleanup@Gen0013BF00Owner@@QAEXXZ,0x0013BF00,no-argument __thiscall member run first by the 27-byte node-pool release family (Q2NodePoolReleases.cpp); target read from the call site REL32 through its incremental-link thunk; address-derived name; identity not recovered
 ?cleanup@Gen0056D960Owner@@QAEXXZ,0x0056D960,no-argument __thiscall member run first by the 27-byte node-pool release family (Q2NodePoolReleases.cpp); target read from the call site REL32 through its incremental-link thunk; address-derived name; identity not recovered
 ?cleanup@Gen00627270Owner@@QAEXXZ,0x00627270,no-argument __thiscall member run first by the 27-byte node-pool release family (Q2NodePoolReleases.cpp); target read from the call site REL32 through its incremental-link thunk; address-derived name; identity not recovered
