@@ -18,14 +18,20 @@ private:
 	int m0, m1, m2, m3, m4, m5;
 };
 
+class MultiIniFieldParse;
+
+// Retail's module-data factories reach INI through initFromINIMultiProc
+// (0x00852130), which takes the class's buildFieldParse proc; the
+// FieldParse-table overload this TU used to name lives at 0x008520A0.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/INI.h
 class INI
 {
 public:
-	void initFromINI(void *what, const void *parseTable);
+	void initFromINIMultiProc(void *what,
+		void (__cdecl *buildFieldParse)(MultiIniFieldParse &));
 };
 
-extern "C" char SupplyCenterProductionExitUpdateFieldParse;
+extern "C" void __cdecl SupplyCenterProductionExitUpdateFieldParse(MultiIniFieldParse &parse);
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/SupplyCenterProductionExitUpdate.h
 class SupplyCenterProductionExitUpdate
@@ -43,6 +49,6 @@ ModuleData *SupplyCenterProductionExitUpdate::friend_newModuleData(INI *ini)
 {
 	SupplyCenterProductionExitUpdateModuleData *data = new SupplyCenterProductionExitUpdateModuleData;
 	if (ini)
-		ini->initFromINI(data, &SupplyCenterProductionExitUpdateFieldParse);
+		ini->initFromINIMultiProc(data, &SupplyCenterProductionExitUpdateFieldParse);
 	return (ModuleData *)data;
 }

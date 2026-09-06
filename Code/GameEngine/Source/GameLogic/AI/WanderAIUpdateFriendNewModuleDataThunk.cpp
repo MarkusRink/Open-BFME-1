@@ -43,14 +43,20 @@ WanderAIUpdateModuleData::WanderAIUpdateModuleData()
 	*((unsigned char *)this + 0x6C) = 1;
 }
 
+class MultiIniFieldParse;
+
+// Retail's module-data factories reach INI through initFromINIMultiProc
+// (0x00852130), which takes the class's buildFieldParse proc; the
+// FieldParse-table overload this TU used to name lives at 0x008520A0.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/INI.h
 class INI
 {
 public:
-	void initFromINI(void *what, const void *parseTable);
+	void initFromINIMultiProc(void *what,
+		void (__cdecl *buildFieldParse)(MultiIniFieldParse &));
 };
 
-extern "C" char WanderAIUpdateFieldParse;
+extern "C" void __cdecl WanderAIUpdateFieldParse(MultiIniFieldParse &parse);
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/WanderAIUpdate.h
 class WanderAIUpdate
@@ -63,6 +69,6 @@ ModuleData *WanderAIUpdate::friend_newModuleData(INI *ini)
 {
 	WanderAIUpdateModuleData *data = new WanderAIUpdateModuleData;
 	if (ini)
-		ini->initFromINI(data, &WanderAIUpdateFieldParse);
+		ini->initFromINIMultiProc(data, &WanderAIUpdateFieldParse);
 	return (ModuleData *)data;
 }

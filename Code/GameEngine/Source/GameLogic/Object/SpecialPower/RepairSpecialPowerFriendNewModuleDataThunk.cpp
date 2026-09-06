@@ -12,11 +12,17 @@ public:
 private:
 	unsigned char m_pad[0x20C];
 };
-class INI { public: void initFromINI(void *what, const void *parseTable); };
-extern "C" char RepairSpecialPowerFieldParse;
+class MultiIniFieldParse;
+
+// Retail's module-data factories reach INI through initFromINIMultiProc
+// (0x00852130), which takes the class's buildFieldParse proc; the
+// FieldParse-table overload this TU used to name lives at 0x008520A0.
+class INI { public: void initFromINIMultiProc(void *what,
+	void (__cdecl *buildFieldParse)(MultiIniFieldParse &)); };
+extern "C" void __cdecl RepairSpecialPowerFieldParse(MultiIniFieldParse &parse);
 class RepairSpecialPower { public: static ModuleData *friend_newModuleData(INI *ini); };
 ModuleData *RepairSpecialPower::friend_newModuleData(INI *ini) {
 	RepairSpecialPowerModuleData *data = new RepairSpecialPowerModuleData;
-	if (ini) ini->initFromINI(data, &RepairSpecialPowerFieldParse);
+	if (ini) ini->initFromINIMultiProc(data, &RepairSpecialPowerFieldParse);
 	return (ModuleData *)data;
 }

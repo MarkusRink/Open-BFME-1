@@ -16,15 +16,21 @@ private:
 	int m_pad; // force 8-byte allocation like retail
 };
 
+class MultiIniFieldParse;
+
+// Retail's module-data factories reach INI through initFromINIMultiProc
+// (0x00852130), which takes the class's buildFieldParse proc; the
+// FieldParse-table overload this TU used to name lives at 0x008520A0.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/INI.h
 class INI
 {
 public:
-	void initFromINI(void *what, const void *parseTable);
+	void initFromINIMultiProc(void *what,
+		void (__cdecl *buildFieldParse)(MultiIniFieldParse &));
 };
 
 // Retail field-parse table address
-extern "C" char BridgeTowerBehaviorFieldParse;
+extern "C" void __cdecl BridgeTowerBehaviorFieldParse(MultiIniFieldParse &parse);
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/BridgeTowerBehavior.h
 class BridgeTowerBehavior
@@ -42,6 +48,6 @@ ModuleData *BridgeTowerBehavior::friend_newModuleData(INI *ini)
 {
 	BridgeTowerBehaviorModuleData *data = new BridgeTowerBehaviorModuleData;
 	if (ini)
-		ini->initFromINI(data, &BridgeTowerBehaviorFieldParse);
+		ini->initFromINIMultiProc(data, &BridgeTowerBehaviorFieldParse);
 	return (ModuleData *)data;
 }

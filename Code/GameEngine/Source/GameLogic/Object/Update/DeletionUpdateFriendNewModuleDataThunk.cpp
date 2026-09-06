@@ -19,14 +19,20 @@ private:
 	unsigned int m_b;
 };
 
+class MultiIniFieldParse;
+
+// Retail's module-data factories reach INI through initFromINIMultiProc
+// (0x00852130), which takes the class's buildFieldParse proc; the
+// FieldParse-table overload this TU used to name lives at 0x008520A0.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/INI.h
 class INI
 {
 public:
-	void initFromINI(void *what, const void *parseTable);
+	void initFromINIMultiProc(void *what,
+		void (__cdecl *buildFieldParse)(MultiIniFieldParse &));
 };
 
-extern "C" char DeletionUpdateFieldParse;
+extern "C" void __cdecl DeletionUpdateFieldParse(MultiIniFieldParse &parse);
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DeletionUpdate.h
 class DeletionUpdate
@@ -46,6 +52,6 @@ ModuleData *DeletionUpdate::friend_newModuleData(INI *ini)
 {
 	DeletionUpdateModuleData *data = new DeletionUpdateModuleData;
 	if (ini)
-		ini->initFromINI(data, &DeletionUpdateFieldParse);
+		ini->initFromINIMultiProc(data, &DeletionUpdateFieldParse);
 	return (ModuleData *)data;
 }

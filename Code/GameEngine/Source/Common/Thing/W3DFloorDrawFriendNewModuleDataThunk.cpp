@@ -26,14 +26,20 @@ private:
 	unsigned char m_pad[0x10];
 };
 
+class MultiIniFieldParse;
+
+// Retail's module-data factories reach INI through initFromINIMultiProc
+// (0x00852130), which takes the class's buildFieldParse proc; the
+// FieldParse-table overload this TU used to name lives at 0x008520A0.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/INI.h
 class INI
 {
 public:
-	void initFromINI(void *what, const void *parseTable);
+	void initFromINIMultiProc(void *what,
+		void (__cdecl *buildFieldParse)(MultiIniFieldParse &));
 };
 
-extern "C" char W3DFloorDrawFieldParse;
+extern "C" void __cdecl W3DFloorDrawFieldParse(MultiIniFieldParse &parse);
 
 class W3DFloorDraw
 {
@@ -46,6 +52,6 @@ ModuleData *W3DFloorDraw::friend_newModuleData(INI *ini)
 {
 	W3DFloorDrawModuleData *data = new W3DFloorDrawModuleData;
 	if (ini)
-		ini->initFromINI(data, &W3DFloorDrawFieldParse);
+		ini->initFromINIMultiProc(data, &W3DFloorDrawFieldParse);
 	return (ModuleData *)data;
 }

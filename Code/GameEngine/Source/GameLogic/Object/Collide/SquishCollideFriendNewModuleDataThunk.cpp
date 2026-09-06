@@ -17,14 +17,20 @@ private:
 	unsigned char m_pad[0x4];
 };
 
+class MultiIniFieldParse;
+
+// Retail's module-data factories reach INI through initFromINIMultiProc
+// (0x00852130), which takes the class's buildFieldParse proc; the
+// FieldParse-table overload this TU used to name lives at 0x008520A0.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/INI.h
 class INI
 {
 public:
-	void initFromINI(void *what, const void *parseTable);
+	void initFromINIMultiProc(void *what,
+		void (__cdecl *buildFieldParse)(MultiIniFieldParse &));
 };
 
-extern "C" char SquishCollideFieldParse;
+extern "C" void __cdecl SquishCollideFieldParse(MultiIniFieldParse &parse);
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/SquishCollide.h
 class SquishCollide
@@ -38,6 +44,6 @@ ModuleData *SquishCollide::friend_newModuleData(INI *ini)
 {
 	SquishCollideModuleData *data = new SquishCollideModuleData;
 	if (ini)
-		ini->initFromINI(data, &SquishCollideFieldParse);
+		ini->initFromINIMultiProc(data, &SquishCollideFieldParse);
 	return (ModuleData *)data;
 }
