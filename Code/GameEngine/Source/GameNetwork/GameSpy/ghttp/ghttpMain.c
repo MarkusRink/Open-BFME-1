@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /MD -Ireference/shims/gamespy
+// cl: /ICode/GameEngine/Source/GameNetwork/GameSpy/ghttp /DNDEBUG /DWIN32 /MD -Ireference/shims/gamespy
 /* GameSpy SDK, 2004 vintage -- pristine upstream C source.
    Sourced from the Area 51 (Inevitable Entertainment / Midway) source release,
    github.com/bisc67/Area51, Support/NetworkMgr/GameSpy -- the only public
@@ -288,6 +288,7 @@ GHTTPRequest ghttpGetW
 }
 #endif
 
+/* Retail 0x0087A6C0: complete 360-byte extended GET implementation. */
 GHTTPRequest ghttpGetExA
 (
 	const char * URL,
