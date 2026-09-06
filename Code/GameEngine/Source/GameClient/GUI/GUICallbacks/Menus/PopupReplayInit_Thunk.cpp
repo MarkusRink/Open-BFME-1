@@ -1,398 +1,138 @@
-// cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// Retail 0x004DE270. This clean callback keeps PopupReplay's name-key, window,
+// and replay-list setup while using the inline UnicodeString shape from retail.
 
-class WindowLayout;
-void PopupReplayInit(WindowLayout *, void *);
-
-// ?PopupReplayInit@@YAXPAVWindowLayout@@PAX@Z
-__declspec(naked) void PopupReplayInit(WindowLayout *, void *)
+template <typename T> class StringBase
 {
-	__asm {
-		__emit 0x51
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x00
-		__emit 0xd6
-		__emit 0x2e
-		__emit 0x01
-		__emit 0x56
-		__emit 0x68
-		__emit 0x54
-		__emit 0x12
-		__emit 0x10
-		__emit 0x01
-		__emit 0xe8
-		__emit 0x55
-		__emit 0xcb
-		__emit 0xb5
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x00
-		__emit 0xd6
-		__emit 0x2e
-		__emit 0x01
-		__emit 0x68
-		__emit 0x34
-		__emit 0x12
-		__emit 0x10
-		__emit 0x01
-		__emit 0xa3
-		__emit 0x4c
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0xe8
-		__emit 0x40
-		__emit 0xcb
-		__emit 0xb5
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x00
-		__emit 0xd6
-		__emit 0x2e
-		__emit 0x01
-		__emit 0x68
-		__emit 0x10
-		__emit 0x12
-		__emit 0x10
-		__emit 0x01
-		__emit 0xa3
-		__emit 0x50
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0xe8
-		__emit 0x2b
-		__emit 0xcb
-		__emit 0xb5
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x00
-		__emit 0xd6
-		__emit 0x2e
-		__emit 0x01
-		__emit 0x68
-		__emit 0xe4
-		__emit 0x11
-		__emit 0x10
-		__emit 0x01
-		__emit 0xa3
-		__emit 0x54
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0xe8
-		__emit 0x16
-		__emit 0xcb
-		__emit 0xb5
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x00
-		__emit 0xd6
-		__emit 0x2e
-		__emit 0x01
-		__emit 0x68
-		__emit 0xbc
-		__emit 0x11
-		__emit 0x10
-		__emit 0x01
-		__emit 0xa3
-		__emit 0x58
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0xe8
-		__emit 0x01
-		__emit 0xcb
-		__emit 0xb5
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x40
-		__emit 0x1b
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x11
-		__emit 0x50
-		__emit 0x6a
-		__emit 0x00
-		__emit 0xff
-		__emit 0x92
-		__emit 0xdc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x40
-		__emit 0x1b
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x11
-		__emit 0x50
-		__emit 0xa3
-		__emit 0x5c
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0xff
-		__emit 0x92
-		__emit 0xb0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x00
-		__emit 0xd6
-		__emit 0x2e
-		__emit 0x01
-		__emit 0x68
-		__emit 0x94
-		__emit 0x11
-		__emit 0x10
-		__emit 0x01
-		__emit 0xe8
-		__emit 0xcc
-		__emit 0xca
-		__emit 0xb5
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x40
-		__emit 0x1b
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x11
-		__emit 0x50
-		__emit 0x6a
-		__emit 0x00
-		__emit 0xff
-		__emit 0x92
-		__emit 0xdc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x85
-		__emit 0xc0
-		__emit 0xa3
-		__emit 0x60
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x74
-		__emit 0x09
-		__emit 0x6a
-		__emit 0x01
-		__emit 0x8b
-		__emit 0xc8
-		__emit 0xe8
-		__emit 0xfc
-		__emit 0x9b
-		__emit 0xb4
-		__emit 0xff
-		__emit 0xa1
-		__emit 0x40
-		__emit 0x1b
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x00
-		__emit 0xd6
-		__emit 0x2e
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x30
-		__emit 0x68
-		__emit 0x6c
-		__emit 0x11
-		__emit 0x10
-		__emit 0x01
-		__emit 0xe8
-		__emit 0x92
-		__emit 0xca
-		__emit 0xb5
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x5c
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x50
-		__emit 0x51
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x40
-		__emit 0x1b
-		__emit 0x2f
-		__emit 0x01
-		__emit 0xff
-		__emit 0x96
-		__emit 0xdc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x6a
-		__emit 0x01
-		__emit 0x8b
-		__emit 0xc8
-		__emit 0xe8
-		__emit 0x99
-		__emit 0xbe
-		__emit 0xb6
-		__emit 0xff
-		__emit 0xa1
-		__emit 0x54
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x40
-		__emit 0x1b
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x11
-		__emit 0x50
-		__emit 0x6a
-		__emit 0x00
-		__emit 0xff
-		__emit 0x92
-		__emit 0xdc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x50
-		__emit 0xe8
-		__emit 0x2c
-		__emit 0xb1
-		__emit 0xb5
-		__emit 0xff
-		__emit 0xa1
-		__emit 0x58
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x40
-		__emit 0x1b
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x11
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x04
-		__emit 0x50
-		__emit 0xa1
-		__emit 0x5c
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x50
-		__emit 0xff
-		__emit 0x92
-		__emit 0xdc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x51
-		__emit 0x89
-		__emit 0x64
-		__emit 0x24
-		__emit 0x08
-		__emit 0x8b
-		__emit 0xcc
-		__emit 0x68
-		__emit 0x54
-		__emit 0x6e
-		__emit 0x33
-		__emit 0x01
-		__emit 0x8b
-		__emit 0xf0
-		__emit 0xe8
-		__emit 0x52
-		__emit 0xa0
-		__emit 0x3a
-		__emit 0x00
-		__emit 0x56
-		__emit 0xe8
-		__emit 0xc0
-		__emit 0xe4
-		__emit 0xb2
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x40
-		__emit 0x1b
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x11
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0x56
-		__emit 0xff
-		__emit 0x92
-		__emit 0xb0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x15
-		__emit 0x50
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x40
-		__emit 0x1b
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x01
-		__emit 0x52
-		__emit 0x8b
-		__emit 0x15
-		__emit 0x5c
-		__emit 0x40
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x52
-		__emit 0xff
-		__emit 0x90
-		__emit 0xdc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x85
-		__emit 0xc0
-		__emit 0x74
-		__emit 0x09
-		__emit 0x6a
-		__emit 0x00
-		__emit 0x8b
-		__emit 0xc8
-		__emit 0xe8
-		__emit 0x0c
-		__emit 0xbe
-		__emit 0xb6
-		__emit 0xff
-		__emit 0x5e
-		__emit 0x59
-		__emit 0xc3
-	}
+    friend class UnicodeString;
+
+private:
+    StringBase() : m_data(0) {}
+    StringBase(const StringBase<T> &other);
+    ~StringBase();
+
+    void *m_data;
+};
+
+class UnicodeString : private StringBase<unsigned short>
+{
+public:
+    static UnicodeString TheEmptyString;
+
+    UnicodeString() : StringBase<unsigned short>() {}
+    UnicodeString(const UnicodeString &other)
+        : StringBase<unsigned short>(other)
+    {
+    }
+    ~UnicodeString() {}
+};
+
+typedef bool Bool;
+
+#define DEBUG_ASSERTCRASH(condition, message) ((void)0)
+
+enum NameKeyType
+{
+    NAMEKEY_INVALID = 0,
+    FORCE_NAMEKEYTYPE_LONG = 0x7fffffff
+};
+
+class NameKeyGenerator
+{
+public:
+    NameKeyType nameToKey(const char *name);
+};
+
+class GameWindow;
+class WindowLayout;
+
+class GameWindowManager
+{
+public:
+    virtual void slot00() = 0; virtual void slot01() = 0;
+    virtual void slot02() = 0; virtual void slot03() = 0;
+    virtual void slot04() = 0; virtual void slot05() = 0;
+    virtual void slot06() = 0; virtual void slot07() = 0;
+    virtual void slot08() = 0; virtual void slot09() = 0;
+    virtual void slot10() = 0; virtual void slot11() = 0;
+    virtual void slot12() = 0; virtual void slot13() = 0;
+    virtual void slot14() = 0; virtual void slot15() = 0;
+    virtual void slot16() = 0; virtual void slot17() = 0;
+    virtual void slot18() = 0; virtual void slot19() = 0;
+    virtual void slot20() = 0; virtual void slot21() = 0;
+    virtual void slot22() = 0; virtual void slot23() = 0;
+    virtual void slot24() = 0; virtual void slot25() = 0;
+    virtual void slot26() = 0; virtual void slot27() = 0;
+    virtual void slot28() = 0; virtual void slot29() = 0;
+    virtual void slot30() = 0; virtual void slot31() = 0;
+    virtual void slot32() = 0; virtual void slot33() = 0;
+    virtual void slot34() = 0; virtual void slot35() = 0;
+    virtual void slot36() = 0; virtual void slot37() = 0;
+    virtual void slot38() = 0; virtual void slot39() = 0;
+    virtual void slot40() = 0; virtual void slot41() = 0;
+    virtual void slot42() = 0; virtual void slot43() = 0;
+    virtual int winSetFocus(GameWindow *window);
+    virtual void slot45() = 0; virtual void slot46() = 0;
+    virtual void slot47() = 0; virtual void slot48() = 0;
+    virtual void slot49() = 0; virtual void slot50() = 0;
+    virtual void slot51() = 0; virtual void slot52() = 0;
+    virtual void slot53() = 0; virtual void slot54() = 0;
+    virtual GameWindow *winGetWindowFromId(GameWindow *window, int id);
+};
+
+class GameWindow
+{
+public:
+    int winEnable(Bool enable);
+    int winHide(Bool hide);
+};
+
+extern NameKeyGenerator *TheNameKeyGenerator;
+extern GameWindowManager *TheWindowManager;
+extern void PopulateReplayFileListbox(GameWindow *listbox);
+extern void GadgetTextEntrySetText(GameWindow *window, UnicodeString text);
+
+static NameKeyType buttonBackKey = NAMEKEY_INVALID;
+static NameKeyType buttonSaveKey = NAMEKEY_INVALID;
+static NameKeyType listboxGamesKey = NAMEKEY_INVALID;
+static NameKeyType textEntryReplayNameKey = NAMEKEY_INVALID;
+static GameWindow *parent;
+static GameWindow *replaySavedParent;
+
+void PopupReplayInit(WindowLayout *layout, void *userData)
+{
+    buttonBackKey = TheNameKeyGenerator->nameToKey("PopupReplay.wnd:ButtonBack");
+    buttonSaveKey = TheNameKeyGenerator->nameToKey("PopupReplay.wnd:ButtonSave");
+    listboxGamesKey = TheNameKeyGenerator->nameToKey("PopupReplay.wnd:ListboxGames");
+    textEntryReplayNameKey = TheNameKeyGenerator->nameToKey("PopupReplay.wnd:TextEntryReplayName");
+
+    NameKeyType parentID = TheNameKeyGenerator->nameToKey("PopupReplay.wnd:PopupReplayMenu");
+    parent = TheWindowManager->winGetWindowFromId(0, parentID);
+    TheWindowManager->winSetFocus(parent);
+
+    NameKeyType replaySavedParentID = TheNameKeyGenerator->nameToKey("PopupReplay.wnd:PopupReplaySaved");
+    replaySavedParent = TheWindowManager->winGetWindowFromId(0, replaySavedParentID);
+    if (replaySavedParent == 0)
+        DEBUG_ASSERTCRASH(false, ("replaySavedParent == NULL"));
+
+    if (replaySavedParent != 0)
+        replaySavedParent->winHide(true);
+
+    GameWindow *buttonFrame = TheWindowManager->winGetWindowFromId(parent,
+        TheNameKeyGenerator->nameToKey("PopupReplay.wnd:MenuButtonFrame"));
+    buttonFrame->winEnable(true);
+
+    GameWindow *listboxGames = TheWindowManager->winGetWindowFromId(0, listboxGamesKey);
+    if (listboxGames == 0)
+        DEBUG_ASSERTCRASH(false, ("PopupReplayInit - Unable to find games listbox\n"));
+    PopulateReplayFileListbox(listboxGames);
+
+    GameWindow *textEntryReplayName = TheWindowManager->winGetWindowFromId(
+        parent, textEntryReplayNameKey);
+    GadgetTextEntrySetText(textEntryReplayName, UnicodeString::TheEmptyString);
+    TheWindowManager->winSetFocus(textEntryReplayName);
+
+    GameWindow *control = TheWindowManager->winGetWindowFromId(parent, buttonSaveKey);
+    if (control)
+        control->winEnable(false);
 }
