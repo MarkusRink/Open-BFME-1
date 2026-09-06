@@ -167542,17 +167542,17 @@ name,address,notes
 ?winNextTab@GameWindow@@QAEHXZ,0x0000D297
 ?winPrevTab@GameWindow@@QAEHXZ,0x00010550
 ?winSetDisabledBorderColor@GameWindow@@QAEHHH@Z,0x0003178C,ILT/thunk used by GadgetComboBoxSetColors
-?winSetDisabledColor@GameWindow@@QAEHHH@Z,0x00014867,site-decoded x2 (thunk)
-?winSetDisabledImage@GameWindow@@QAEHHPBVImage@@@Z,0x0000B406,site-decoded x23 (thunk)
+?winSetDisabledColor@GameWindow@@QAEHHH@Z,0x0001EAEC,e9 thunk -> body 0x004790A0 which stores m_instData.m_disabledDrawData[i].color@0xB8; 0x00014867 is enabledBorderColor's thunk and was wrong here
+?winSetDisabledImage@GameWindow@@QAEHHPBVImage@@@Z,0x0003E36F,e9 thunk -> body 0x00479070 which stores m_instData.m_disabledDrawData[i].image@0xB4; 22 matched GameWindowManager callers encode it; 0x0000B406 is hiliteImage's thunk and was wrong here
 ?winSetDisabledTextColors@GameWindow@@QAEXHH@Z,0x0001B694
-?winSetEnabledBorderColor@GameWindow@@QAEHHH@Z,0x00014867,ILT/thunk used by GadgetComboBoxSetColors
-?winSetEnabledColor@GameWindow@@QAEHHH@Z,0x00014867,site-decoded x2 (thunk)
+?winSetEnabledBorderColor@GameWindow@@QAEHHH@Z,0x00014867,e9 thunk -> body 0x00479040 which stores m_instData.m_enabledDrawData[i].borderColor@0x50; the one true owner of this thunk
+?winSetEnabledColor@GameWindow@@QAEHHH@Z,0x000262B0,e9 thunk -> body 0x00479010 which stores m_instData.m_enabledDrawData[i].color@0x4C; 0x00014867 is enabledBorderColor's thunk and was wrong here
 ?winSetEnabledImage@GameWindow@@QAEHHPBVImage@@@Z,0x00035E09
 ?winSetEnabledImage@GameWindow@@QAEXHPBVImage@@@Z,0x00035E09,small scale transition enabled image ILT
 ?winSetEnabledTextColors@GameWindow@@QAEXHH@Z,0x00017459
 ?winSetFont@GameWindow@@UAEXPAVGameFont@@@Z,0x0004047B
 ?winSetHiliteBorderColor@GameWindow@@QAEHHH@Z,0x000047D2,ILT/thunk used by GadgetComboBoxSetColors
-?winSetHiliteColor@GameWindow@@QAEHHH@Z,0x00014867,site-decoded x2 (thunk)
+?winSetHiliteColor@GameWindow@@QAEHHH@Z,0x000248B1,e9 thunk -> body 0x00479150 which stores m_instData.m_hiliteDrawData[i].color@0x124; 0x00014867 is enabledBorderColor's thunk and was wrong here
 ?winSetHiliteImage@GameWindow@@QAEHHPBVImage@@@Z,0x0000B406,caller-derived (36 matched callers agree, e9 thunk)
 ?winSetHiliteTextColors@GameWindow@@QAEXHH@Z,0x000268B9
 ?winSetIMECompositeTextColors@GameWindow@@QAEXHH@Z,0x00014C13

@@ -1855,6 +1855,13 @@ Int GameWindow::winSetEnabledImage( Int index, const Image *image )
 // GameWindow::winSetEnabledColor =============================================
 /** set color for enabled state at index */
 //=============================================================================
+// This TU resolves GameClient/GameWindow.h to the ZH-layout reference header,
+// whose m_instData lands at +0x2c instead of BFME's +0x30, so every draw-data
+// store below is four bytes -- one WinDrawData member -- early. That is how
+// four of these nine came to claim the NEXT setter's retail body. The BFME
+// -layout owners are GameWindowFields.cpp (image/color) and
+// GameWindowBorderColorSetters.cpp (borderColor); these stay for readability.
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp
 // ?winSetEnabledColor@GameWindow@@QAEHHH@Z present-unmatched
 Int GameWindow::winSetEnabledColor( Int index, Color color )
 {
@@ -1877,6 +1884,8 @@ Int GameWindow::winSetEnabledColor( Int index, Color color )
 // GameWindow::winSetEnabledBorderColor =======================================
 /** set border color for state at this index */
 //=============================================================================
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/GUI/GameWindowBorderColorSetters.cpp
+// ?winSetEnabledBorderColor@GameWindow@@QAEHHH@Z present-unmatched
 Int GameWindow::winSetEnabledBorderColor( Int index, Color color )
 {
 
@@ -1898,6 +1907,7 @@ Int GameWindow::winSetEnabledBorderColor( Int index, Color color )
 // GameWindow::winSetDisabledImage ============================================
 /** Set an disabled image into the draw data for the disabled state */
 //=============================================================================
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp
 // ?winSetDisabledImage@GameWindow@@QAEHHPBVImage@@@Z present-unmatched
 Int GameWindow::winSetDisabledImage( Int index, const Image *image )
 {
@@ -1920,6 +1930,8 @@ Int GameWindow::winSetDisabledImage( Int index, const Image *image )
 // GameWindow::winSetDisabledColor ============================================
 /** set color for disabled state at index */
 //=============================================================================
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp
+// ?winSetDisabledColor@GameWindow@@QAEHHH@Z present-unmatched
 Int GameWindow::winSetDisabledColor( Int index, Color color )
 {
 
@@ -1941,6 +1953,8 @@ Int GameWindow::winSetDisabledColor( Int index, Color color )
 // GameWindow::winSetDisabledBorderColor ======================================
 /** set border color for state at this index */
 //=============================================================================
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/GUI/GameWindowBorderColorSetters.cpp
+// ?winSetDisabledBorderColor@GameWindow@@QAEHHH@Z present-unmatched
 Int GameWindow::winSetDisabledBorderColor( Int index, Color color )
 {
 
@@ -1985,6 +1999,7 @@ Int GameWindow::winSetHiliteImage( Int index, const Image *image )
 // GameWindow::winSetHiliteColor ==============================================
 /** set color for hilite state at index */
 //=============================================================================
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp
 // ?winSetHiliteColor@GameWindow@@QAEHHH@Z present-unmatched
 Int GameWindow::winSetHiliteColor( Int index, Color color )
 {
@@ -2007,6 +2022,8 @@ Int GameWindow::winSetHiliteColor( Int index, Color color )
 // GameWindow::winSetHiliteBorderColor ========================================
 /** set border color for state at this index */
 //=============================================================================
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/GUI/GameWindowBorderColorSetters.cpp
+// ?winSetHiliteBorderColor@GameWindow@@QAEHHH@Z present-unmatched
 Int GameWindow::winSetHiliteBorderColor( Int index, Color color )
 {
 

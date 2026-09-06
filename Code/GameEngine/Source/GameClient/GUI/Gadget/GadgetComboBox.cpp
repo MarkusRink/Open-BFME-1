@@ -520,26 +520,10 @@ void GadgetComboBoxSetMaxDisplay( GameWindow *comboBox, Int maxDisplay )
 
 }//void GadgetComboBoxSetMaxDisplay( GameWindow *comboBox, Int maxDisplay );
 
-// GadgetComboBoxGetText =======================================================
-/** Get the text the Combo Box */
-//=============================================================================
-UnicodeString GadgetComboBoxGetText( GameWindow *comboBox )
-{
-
-	// sanity
-	if( comboBox == NULL )
-		return UnicodeString::TheEmptyString;
-
-	// verify that this is a combo box
-	if( BitTest( comboBox->winGetStyle(), GWS_COMBO_BOX ) == FALSE )
-		return UnicodeString::TheEmptyString;
-	
-	ComboBoxData *comboBoxData = (ComboBoxData *)comboBox->winGetUserData();
-	return GadgetTextEntryGetText(
-		comboBoxData && *(GameWindow **)((char *)comboBoxData + 0x28)
-			? *(GameWindow **)((char *)comboBoxData + 0x28)
-			: NULL );
-}
+// ?GadgetComboBoxGetText@@YA?AVUnicodeString@@PAVGameWindow@@@Z
+// Exact retail body emitted by GadgetComboBoxGetTextThunk.cpp: the empty-string
+// return copy-constructs through StringBase<WideChar>, which needs the
+// languagefilter UnicodeString shim this TU does not see.
 
 // ?GadgetComboBoxSetText@@YAXPAVGameWindow@@VUnicodeString@@@Z
 // Exact retail helper emitted by GadgetComboBoxSetTextThunk.cpp.

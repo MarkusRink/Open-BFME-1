@@ -12,10 +12,10 @@
 // eight Zero Hour's MAX_DRAW_DATA has.
 //
 // GameWindow.cpp compiles these from Zero Hour's own WinInstanceData, whose
-// draw data lands four bytes lower, so its rows are all one slot off: what it
-// calls winSetEnabledColor is really the image setter, and the third of each
-// group has no row at all. Those three are the bodies claimed here, under
-// dup_ names because GameWindow.cpp holds the real ones.
+// draw data lands four bytes lower, so its stores are all one slot off: what it
+// calls winSetEnabledColor lands on the image setter's body. Four of its rows
+// were named that way and have now been repointed; the three borderColor
+// bodies -- the third of each group -- are claimed here under their real names.
 
 typedef int Int;
 typedef int Color;			// HHH, so signed here

@@ -244,18 +244,63 @@ Int GameWindow::winSetHiliteImage( Int index, const Image *image )
 	return WIN_ERR_OK;
 }
 
-// Retail's winSetDisabledImage body ICF-folds byte-for-byte with winSetHiliteImage
-// above (both thunks resolve to the identical body at 0x479120, verified via
-// objdump: index math -> m_instData offset 0x130 = &m_hiliteDrawData[index].image).
-// BFME never wrote a distinct disabled-image path here; write the same field so
-// our object code folds the same way and matches the retail bytes.
-// ?winSetDisabledImage@GameWindow@@QAEHHPBVImage@@@Z present-unmatched
+// The nine draw-data setters are one run of distinct bodies, not an ICF fold:
+// each thunk lands on its own body and each body stores at its own displacement,
+// which is what says WHICH array and WHICH member it writes.
+//
+//   0x00478FE0 +0x48   0x00479010 +0x4C   0x00479040 +0x50    enabled
+//   0x00479070 +0xB4   0x004790A0 +0xB8   0x004790E0 +0xBC    disabled
+//   0x00479120 +0x120  0x00479150 +0x124  0x00479190 +0x128   hilite
+//
+// +0x48 is m_instData(+0x30) + m_enabledDrawData(+0x18); the three arrays are
+// 9 x sizeof(WinDrawData) = 0x6C apart and the members 4 apart, so the
+// displacement names the slot outright. GadgetButtonSetDisabledSelectedImage
+// (and 21 more callers in GameWindowManager.cpp) encodes winSetDisabledImage as
+// 0x0003E36F -> 0x00479070 and winSetEnabledImage as 0x00035E09 -> 0x00478FE0
+// in the same body: 0xB4 - 0x48 is exactly one array, so 0x00479070 is the
+// DISABLED image setter. It was written here as a fold of winSetHiliteImage
+// because symbols.csv pinned it at hilite's thunk 0x0000B406.
+
+// ?winSetDisabledImage@GameWindow@@QAEHHPBVImage@@@Z
 Int GameWindow::winSetDisabledImage( Int index, const Image *image )
 {
 	if( index < 0 || index >= MAX_DRAW_DATA )
 		return WIN_ERR_INVALID_PARAMETER;
 
-	m_instData.m_hiliteDrawData[ index ].image = image;
+	m_instData.m_disabledDrawData[ index ].image = image;
+
+	return WIN_ERR_OK;
+}
+
+// ?winSetEnabledColor@GameWindow@@QAEHHH@Z
+Int GameWindow::winSetEnabledColor( Int index, Color color )
+{
+	if( index < 0 || index >= MAX_DRAW_DATA )
+		return WIN_ERR_INVALID_PARAMETER;
+
+	m_instData.m_enabledDrawData[ index ].color = color;
+
+	return WIN_ERR_OK;
+}
+
+// ?winSetDisabledColor@GameWindow@@QAEHHH@Z
+Int GameWindow::winSetDisabledColor( Int index, Color color )
+{
+	if( index < 0 || index >= MAX_DRAW_DATA )
+		return WIN_ERR_INVALID_PARAMETER;
+
+	m_instData.m_disabledDrawData[ index ].color = color;
+
+	return WIN_ERR_OK;
+}
+
+// ?winSetHiliteColor@GameWindow@@QAEHHH@Z
+Int GameWindow::winSetHiliteColor( Int index, Color color )
+{
+	if( index < 0 || index >= MAX_DRAW_DATA )
+		return WIN_ERR_INVALID_PARAMETER;
+
+	m_instData.m_hiliteDrawData[ index ].color = color;
 
 	return WIN_ERR_OK;
 }
