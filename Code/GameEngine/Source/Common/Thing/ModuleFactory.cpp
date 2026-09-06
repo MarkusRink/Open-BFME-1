@@ -95,6 +95,7 @@ class InstantDeathBehavior;
 class KeepObjectDie;
 class LaserUpdate;
 class LifetimeUpdate;
+class LockWeaponCreate;
 class OCLUpdate;
 class OpenContain;
 class ProductionUpdate;
@@ -145,6 +146,7 @@ template <> struct BFMEFactoryInstanceSize<InstantDeathBehavior> { enum { VALUE 
 template <> struct BFMEFactoryInstanceSize<KeepObjectDie> { enum { VALUE = 0x14 }; };
 template <> struct BFMEFactoryInstanceSize<LaserUpdate> { enum { VALUE = 0x54 }; };
 template <> struct BFMEFactoryInstanceSize<LifetimeUpdate> { enum { VALUE = 0x28 }; };
+template <> struct BFMEFactoryInstanceSize<LockWeaponCreate> { enum { VALUE = 0x18 }; };
 template <> struct BFMEFactoryInstanceSize<OCLUpdate> { enum { VALUE = 0x28 }; };
 template <> struct BFMEFactoryInstanceSize<OpenContain> { enum { VALUE = 0xD4 }; };
 template <> struct BFMEFactoryInstanceSize<ProductionUpdate> { enum { VALUE = 0xE8 }; };
