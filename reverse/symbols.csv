@@ -13261,6 +13261,8 @@ name,address,notes
 ?attackOptimizedTarget@AIStateTargetDispatch@@QAEXPAVThing@@@Z,0x0027E070,address-derived optimized target dispatch callee
 ?attackOrdinaryTarget@AIStateTargetDispatch@@QAEXPAVThing@@@Z,0x0027CF60,address-derived ordinary target dispatch callee
 ?attemptToPurchaseScience@Player@@QAE_NW4ScienceType@@@Z,0x00004BC4,ILT thunk to Player::attemptToPurchaseScience; identity from Zero Hour ScriptActions.cpp doPlayerPurchaseScience
+?attemptDamage@BodyModuleInterface@@UAEXPAVDamageInfo@@@Z,0x0003B372,ABI facade for PorcupineFormationBodyModule::attemptDamage base dispatch
+?apply@PorcupineDamageHelper@@QAEXPAVDamageInfo@@@Z,0x0002B35A,ABI facade for the private Porcupine damage helper
 ?audioManagerAddEventHelper@@YGIPBVAudioEventRTS@@HHH@Z,0x00020B08,AudioManager addAudioEvent helper YGI stdcall
 ?awaken@GameLogicAwakenUpdateModuleShim@@QAEXPAVObject@@PAVUpdateModule@@I@Z,0x0038D870,GameLogic friend_awakenUpdateModule incremental-link thunk target through a TU-local forwarding shim
 ?awardInitialCaptureBonus@AutoDepositUpdate@@QAEXPAVPlayer@@@Z,0x00038A87,Player::becomingTeamMember direct-call ILT thunk
@@ -82384,6 +82386,7 @@ name,address,notes
 ?stopMoveDebris@W3DTankDraw@@IAEXXZ,0x00042D52,Open-BFME5 ILT called by W3DTankDraw shroud transition
 ?stopRotOrPitchSound@TurretAI@@AAEXXZ,0x0018D460,"Lead traced32B18D460: checks audio event atthis+20, TheAudio remove-event slot4C with handle+2C; matches ZH stopRotOrPitchSound"
 ?store@Gen000A9490Owner@@QAEXVQ2AsciiString@@H@Z,0x000A9490,two-argument __thiscall member taking a four-byte string class by value and an int flag; every row of the 33-byte temporary key-store family (Q2TemporaryKeyStores.cpp) calls this one body; target read from the call site REL32 through its incremental-link thunk; address-derived name; identity not recovered
+?store@Rva00802B30Element@@QAEXPBVRva007FBEF0GameRecord@@@Z,0x00802B30,FESL browser game element stores the game-key record
 ?storeImage@Anim2DTemplate@@QAEXPBVImage@@@Z,0x0001CF0D
 ?strtrim@@YAPADPAD@Z,0x009E7EB0
 ?structureCollapseBuildNonDupRandomIndexList@@YAXHHQAH@Z,0x002AE160,StructureCollapse doPhaseStuff retail file-local index builder
