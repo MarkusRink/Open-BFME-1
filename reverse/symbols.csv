@@ -85812,7 +85812,6 @@ name,address,notes
 ??$__copy@PAUNugget@Rva001417F0ModuleInfo@@PAU12@H@_STL@@YAPAUNugget@Rva001417F0ModuleInfo@@PAU12@00ABUrandom_access_iterator_tag@0@PAH@Z,0x0000EE03,Open-BFME5 pin: templated __copy helper instantiated for Rva001417F0ModuleInfo::clearModuleInfo erase-in-place shift at 0x001417F0 (thunks_006.cpp target)
 ??$__copy@PAUPayload@DeliverPayloadNugget@@PAU12@H@_STL@@YAPAUPayload@DeliverPayloadNugget@@PAU12@00ABUrandom_access_iterator_tag@0@PAH@Z,0x000097CD,rel32 pin for exact-ambiguous landing
 ??$__copy@PAUPrereqUnitRec@ProductionPrerequisite@@PAU12@H@_STL@@YAPAUPrereqUnitRec@ProductionPrerequisite@@PAU12@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00027598,retail target of vector<PrereqUnitRec>::erase call to __copy over pointer-to-PrereqUnitRec
-??$__copy@PAUQuantityModifier@@PAU1@H@_STL@@YAPAUQuantityModifier@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00003378,pinharvest x1 (thunk)
 ??$__copy@PAURva004262F0Elem@@PAU1@H@_STL@@YAPAURva004262F0Elem@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x0001B888,address-derived __copy<Rva004262F0Elem*> shift helper for vector::erase at 0x004262F0
 ??$__copy@PAUVideo@@PAU1@H@_STL@@YAPAUVideo@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x000112FC
 ??$__copy@PAV?$BitFlags@$0HB@@@PAV1@H@_STL@@YAPAV?$BitFlags@$0HB@@@PAV1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00024BE5,BFME PathfindZoneManager pending-cell vector clear ILT
@@ -87844,7 +87843,6 @@ name,address,notes
 ??0MissileAIUpdateModuleDataBase@@QAE@XZ,0x0003C556,MissileAIUpdateModuleData base ctor
 ??0MissileLauncherBuildingUpdateModuleData@@QAE@XZ,0x0003025B,derived-ICF
 ??0MissingAnimClass@@QAE@PBD@Z,0x00034559,callers use this thunk (like findMemoryPool 0x3ADD7); real body drift candidate 0x9723BF
-??0MissingGeomClass@@QAE@PBD@Z,0x00034559,pinharvest x1 (thunk)
 ??0MissingTextureClass@@QAE@PBD@Z,0x00042C3A,pinharvest x1 (thunk)
 ??0MobMemberSlavedUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0002A379,pinharvest x1 (thunk)
 ??0ModelConditionSoundSelectorClientBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x00002874,ModelConditionSoundSelectorClientBehavior ctor for friend_new
@@ -87989,7 +87987,6 @@ name,address,notes
 ??0PropagandaTowerBehaviorModuleData@@QAE@XZ,0x00010B2C
 ??0QuadDrawModuleTemplate@FXParticleSystem@@QAE@ABV01@@Z,0x0002218D,QuadDrawModuleTemplate clone copy-ctor pin
 ??0QueueProductionExitUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0002D40C,pinharvest x1 (thunk)
-??0QueuedDownload@@QAE@ABV0@@Z,0x0001005F,pinharvest x1 (thunk)
 ??0QuickMatchPreferences@@QAE@XZ,0x0002E802
 ??0QuitMenuHolder@@QAE@UFunctorBinding@@@Z,0x00015870,0x0056A2F0 assigned callback-holder constructor ILT
 ??0RAMFile@@QAE@XZ,0x009E6990,pinharvest x1 (body)
@@ -88560,7 +88557,6 @@ name,address,notes
 ??0W3DTerrainBackground@@QAE@XZ,0x0004149D,FlatHeightMap 0xC4-element m_tiles vector constructor ILT
 ??0W3DTerrainVisual@@QAE@XZ,0x00024DC0
 ??0W3DTerrainVisualBase@@QAE@XZ,0x0001693C,Open-BFME5 the incremental-link thunk that constructor encodes
-??0W3DTracerDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x00004D36,pinharvest x1 (thunk)
 ??0W3DTreeDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x00034C25,link thunk to the W3DTreeDraw constructor; named from the draw-module registration that pairs "W3DTreeDraw" with factory 0x006BF690
 ??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x00036AED,link thunk to the W3DTruckDraw constructor; named from the draw-module registration that pairs "W3DTruckDraw" with factory 0x006BF470
 ??0W3DTruckDrawModuleData@@QAE@XZ,0x0003616F,"the ILT the matched factory ?friend_newModuleData@W3DTruckDraw@@ encodes; it reaches the 181-byte body at 0x0077F830. The harvested 0x0000CC3E reaches a 50-byte body already owned by ??0DetachableRiderBodyModuleData@@QAE@XZ and ??0FlightDeckBehaviorModuleData@@QAE@XZ, which cannot also be this ctor"
@@ -93838,7 +93834,6 @@ name,address,notes
 ??1S4SortElem20@@QAE@XZ,0x0002AB2B,"Lead reviewed matched76B2E9E10 destructor; tail+8 then string+0,20B element"
 ??1ST_MemberObj@@QAE@XZ,0x00026F35,Open-BFME5 pin
 ??1SalvageCrateCollide@@MAE@XZ,0x00006578,destructor ILT to 0x00218090
-??1SaveLoadSubSystemClass@@UAE@XZ,0x00029555,pinharvest x1 (thunk)
 ??1ScaleTextureMapperClass@@UAE@XZ,0x00921620,constructor 0x00964600 installs vtable 0x0113E3BC whose first slot is deleting wrapper 0x00964650; that wrapper directly calls this scalar body
 ??1ScavengerSpecialPower@@MAE@XZ,0x00028961,destructor ILT to 0x00265930
 ??1ScienceVecStandIn@@QAE@XZ,0x00016B58,ScienceInfo ScienceVec destructor ILT
@@ -94151,8 +94146,6 @@ name,address,notes
 ??3Gen_uws960_008979b0@@SAXPAXI@Z,0x008979B0,gen-uw-pin dtor target read from the retail funclet bytes
 ??3Rva00803080Request@@SAXPAXI@Z,0x007F0190,FESL Rva00803080Request sized delete alias of Gen007F0190
 ??4?$PrimitiveAnimationChannelClass@M@@QAEABV0@ABV0@@Z,0x000026AD,pinharvest x2 (thunk)
-??4?$PrimitiveAnimationChannelClass@UAlphaVectorStruct@@@@QAEABV0@ABV0@@Z,0x0001F90B,pinharvest x1 (thunk)
-??4?$PrimitiveAnimationChannelClass@VVector2@@@@QAEABV0@ABV0@@Z,0x0000D828,pinharvest x3 (thunk)
 ??4?$PrimitiveAnimationChannelClass@VVector3@@@@QAEABV0@ABV0@@Z,0x000026AD,pinharvest x2 (thunk)
 ??4?$VectorClass@H@@QAEAAV0@ABV0@@Z,0x00905C80,pinharvest x1 (body)
 ??4?$VectorClass@PAVRender2DClass@@@@QAEAAV0@ABV0@@Z,0x00905C80,pinharvest x1 (body)
@@ -94803,8 +94796,6 @@ name,address,notes
 ??_C@_0P@NPFAECDL@SpecialAbility?$AA@,0x00C9025C,pool-glue cascade static (back-solved)
 ??_C@_19DICJPJO@?$AAT?$AAE?$AAS?$AAT?$AA?$AA@,0x00D035F0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0050CA80 calls; autopin
 ??_EProxyArrayClass@@UAEPAXI@Z,0x0097C9B0,pinharvest (call-site decode from ??_EProxyArrayClass@@WBA@AEPAXI@Z adjustor thunk at 0x97B7B0; body already matched as gen-dtor ??_GGen_dtor_0097c9b0)
-??_ERTS2DScene@@UAEPAXI@Z,0x0000B9DD,pinharvest x1 (thunk)
-??_ERTS3DScene@@UAEPAXI@Z,0x0000B9DD,pinharvest x1 (thunk)
 ??_ETexProjectClass@@UAEPAXI@Z,0x00007D88,pinharvest x1 (thunk)
 ??_GAttributeModifierAuraUpdate@@MAEPAXI@Z,0x00018FDE,primary class vtable slot zero ILT to 0x002802A0
 ??_GAutoPickUpUpdate@@MAEPAXI@Z,0x00030783,primary class vftable slot zero ILT to 0x00281C50
@@ -165705,7 +165696,6 @@ name,address,notes
 ?insert_unique@?$_Rb_tree@W4NameKeyType@@U?$pair@$$CBW4NameKeyType@@VObjectCreationList@@@_STL@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@VObjectCreationList@@@_STL@@@3@U?$less@W4NameKeyType@@@3@V?$allocator@U?$pair@$$CBW4NameKeyType@@VObjectCreationList@@@_STL@@@3@@_STL@@QAE?AU?$pair@U?$_Rb_tree_iterator@U?$pair@$$CBW4NameKeyType@@VObjectCreationList@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBW4NameKeyType@@VObjectCreationList@@@_STL@@@2@@_STL@@_N@2@ABU?$pair@$$CBW4NameKeyType@@VObjectCreationList@@@2@@Z,0x0003E090,Open-BFME5 pin
 ?insert_unique@?$_Rb_tree@W4NameKeyType@@U?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@_STL@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@_STL@@@3@U?$less@W4NameKeyType@@@3@V?$allocator@U?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@_STL@@@3@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@_STL@@@2@@2@U32@ABU?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@2@@Z,0x000290B4,rel32 pin for exact-ambiguous landing
 ?insert_unique@?$_Rb_tree@W4NameKeyType@@U?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@_STL@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@_STL@@@3@U?$less@W4NameKeyType@@@3@V?$allocator@U?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@_STL@@@3@@_STL@@QAE?AU?$pair@U?$_Rb_tree_iterator@U?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@_STL@@@2@@_STL@@_N@2@ABU?$pair@$$CBW4NameKeyType@@W4VeterancyLevel@@@2@@Z,0x0003E090,Open-BFME5 pin
-?insert_unique@?$_Rb_tree@W4ObjectID@@U?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@_STL@@U?$_Select1st@U?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@_STL@@@3@U?$less@W4ObjectID@@@3@V?$allocator@U?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@_STL@@@3@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@_STL@@@2@@2@U32@ABU?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@2@@Z,0x0000ED2C,pinharvest x1 (thunk)
 ?insert_unique@?$_Rb_tree@W4Open2Key6148F0@@U?$pair@$$CBW4Open2Key6148F0@@I@_STL@@U?$_Select1st@U?$pair@$$CBW4Open2Key6148F0@@I@_STL@@@3@U?$less@W4Open2Key6148F0@@@3@V?$allocator@U?$pair@$$CBW4Open2Key6148F0@@I@_STL@@@3@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBW4Open2Key6148F0@@I@_STL@@U?$_Nonconst_traits@U?$pair@$$CBW4Open2Key6148F0@@I@_STL@@@2@@2@U32@ABU?$pair@$$CBW4Open2Key6148F0@@I@2@@Z,0x00046A47,Open2 0x6148f0 map twin callee
 ?insert_unique@Rva004255F0Map@@QAE?AURva004255F0InsertResult@@ABURva004255F0Record@@@Z,0x0002A6B2,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x004255F0 calls; autopin
 ?insert_unique_noresize@?$hashtable@U?$pair@$$CBHUGen_t_0008fdd0_p12cd@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHUGen_t_0008fdd0_p12cd@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHUGen_t_0008fdd0_p12cd@@@_STL@@@2@@_STL@@QAE?AU?$pair@U?$_Ht_iterator@U?$pair@$$CBHUGen_t_0008fdd0_p12cd@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHUGen_t_0008fdd0_p12cd@@@_STL@@@2@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHUGen_t_0008fdd0_p12cd@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHUGen_t_0008fdd0_p12cd@@@_STL@@@2@@_STL@@_N@2@ABU?$pair@$$CBHUGen_t_0008fdd0_p12cd@@@2@@Z,0x0008FAB0,gen-tgrid payload member
@@ -169682,3 +169672,13 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?logGameEnd@RecorderClass@@IAEXXZ,0x0000800D,exact retail rel32 target of ?stopRecording@RecorderClass@@QAEXXZ; the body at 0x00097280 is still the unclaimed dump ?d_00097280@@YAXXZ
 ??0W3DTankDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000CC2F,"exact retail rel32 target of ?friend_newModuleInstance@W3DTankDraw@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z, which is byte-verified everywhere else; replaces a pinharvest x1 guess at 0x00006C85 whose body 0x0026D670 is WeaponFireSpecialAbilityUpdate's own constructor"
 ??1TimeCodedMorphKeysClass@@QAE@XZ,0x0002BFF3,exact retail rel32 target of ??_ETimeCodedMorphKeysClass@@QAEPAXI@Z -- a deleting destructor calls its own class's scalar body and nothing else; replaces a pinharvest x1 guess at 0x00029BEA whose body 0x005D6280 is ??1SphereEmissionVolumeModuleTemplate@FXParticleSystem@@UAE@XZ
+??1SaveLoadSubSystemClass@@UAE@XZ,0x0003692B,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x00029555, which is ??1SmudgeManager@@UAE@XZ's own body"
+??0QueuedDownload@@QAE@ABV0@@Z,0x000451D3,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x0001005F, which is the pair<const AsciiString,ArchivedFileInfo> constructor's body"
+?insert_unique@?$_Rb_tree@W4ObjectID@@U?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@_STL@@U?$_Select1st@U?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@_STL@@@3@U?$less@W4ObjectID@@@3@V?$allocator@U?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@_STL@@@3@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@_STL@@@2@@2@U32@ABU?$pair@$$CBW4ObjectID@@W4ObjectEnterExitType@@@2@@Z,0x000296BD,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x0000ED2C, which is a different tree instantiation's body"
+??_ERTS2DScene@@UAEPAXI@Z,0x00015DC0,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x0000B9DD, which is the body ?m@Gen_001b3e30@@QAEXH@Z owns"
+??_ERTS3DScene@@UAEPAXI@Z,0x00015DC0,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x0000B9DD, which is the body ?m@Gen_001b3e30@@QAEXH@Z owns"
+??0MissingGeomClass@@QAE@PBD@Z,0x00042C3A,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x00034559, which is ??0MissingAnimClass@@QAE@PBD@Z's own body"
+??4?$PrimitiveAnimationChannelClass@UAlphaVectorStruct@@@@QAEABV0@ABV0@@Z,0x00021468,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x0001F90B, which is an unclaimed neighbouring body"
+??$__copy@PAUQuantityModifier@@PAU1@H@_STL@@YAPAUQuantityModifier@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00021DEB,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x00003378, which is __copy<FXBoneInfo*>'s own body"
+??0W3DTracerDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x00048B9E,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x00004D36, which is ??0SiegeDockingBehavior@@QAE@PAVThing@@PBVModuleData@@@Z's own body"
+??4?$PrimitiveAnimationChannelClass@VVector2@@@@QAEABV0@ABV0@@Z,0x0000D828,pinharvest x3 (thunk)
