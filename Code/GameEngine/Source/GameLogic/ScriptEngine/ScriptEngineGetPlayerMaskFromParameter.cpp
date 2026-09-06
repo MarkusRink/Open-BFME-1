@@ -16,15 +16,27 @@ typedef unsigned short PlayerMaskType;
 template <typename Char>
 class StringBase
 {
+	friend class AsciiString;
+
 public:
 	int compare(const Char *) const;
+
+private:
+	StringBase(const StringBase<Char> &src);
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
 class AsciiString
 {
 public:
-	AsciiString(const AsciiString &);
+	// Retail's AsciiString adds no members to StringBase<char>: a copy of one
+	// encodes the base copy ctor at 0x00887B60 directly, so the delegation has
+	// to be visible here.
+	AsciiString(const AsciiString &other)
+	{
+		((StringBase<char> *)this)->StringBase<char>::StringBase(
+			*(const StringBase<char> *)&other);
+	}
 	~AsciiString();
 
 private:

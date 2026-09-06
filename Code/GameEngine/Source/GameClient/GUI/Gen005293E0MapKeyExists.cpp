@@ -33,7 +33,10 @@ class AsciiString : private StringBase<char>
 {
 public:
 	AsciiString(const char *data);
-	AsciiString(const AsciiString &other);
+	// Retail's AsciiString adds no members to StringBase<char>: a copy of one
+	// encodes the base copy ctor at 0x00887B60 directly, so the delegation has
+	// to be visible here.
+	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
 	~AsciiString();
 
 	void set(const char *text, int length);

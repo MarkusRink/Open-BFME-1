@@ -11,13 +11,40 @@
 #include <memory>
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
+// Retail's AsciiString derives from StringBase<char> and its copy is the
+// trivial forwarder at 0x0005EE50, so a call site that copies one encodes the
+// base body at 0x00887B60 directly. The delegation has to be visible here for
+// this TU to encode the same call.
+template <typename T>
+class StringBase
+{
+	friend class AsciiString;
+
+private:
+	StringBase(const StringBase<T> &src);
+
+	struct Header
+	{
+		int ref_count;
+		unsigned short length;
+		unsigned short capacity;
+		T data[1];
+	};
+
+	Header *m_data;
+};
+
 class AsciiString
 {
 private:
 	void *m_data;
 
 public:
-	AsciiString(const AsciiString &other);
+	AsciiString(const AsciiString &other)
+	{
+		((StringBase<char> *)this)->StringBase<char>::StringBase(
+			*(const StringBase<char> *)&other);
+	}
 	~AsciiString();
 };
 

@@ -7,7 +7,10 @@ typedef int Int;
 class AsciiString
 {
 public:
-	AsciiString( const AsciiString &other );
+	// Retail's AsciiString adds no members to StringBase<char>: a copy of one
+	// encodes the base copy ctor at 0x00887B60 directly, so the delegation has
+	// to be visible here.
+	AsciiString( const AsciiString &other ) : m_string( other.m_string ) {}
 	~AsciiString();
 
 	void concat( const char *text, Int length );
