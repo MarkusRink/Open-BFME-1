@@ -2973,3 +2973,99 @@ void ciJoinHandler(CHAT chat, const ciServerMessage *message)
 		}
 	}
 }
+
+enum { CHAT_NORMAL = 0 };
+
+void ciNameReplyHandler(CHAT chat, const ciServerMessage *message)
+{
+	ciFilterMatch matches[4];
+	ciServerMessageFilter *filter;
+	char *channel;
+	NAMESData *data = NULL;
+	char *names;
+	char *nick;
+	char *str;
+	void *tempPtr;
+	int mode;
+	int len;
+
+	assert(message->numParams == 4);
+	if (message->numParams != 4)
+		return;
+
+	channel = message->params[2];
+	names = message->params[3];
+
+	memset(matches, 0, sizeof(matches));
+	matches[0].type = TYPE_JOIN;
+	matches[0].name = channel;
+	matches[1].type = TYPE_UNQUIET;
+	matches[1].name = channel;
+	matches[2].type = TYPE_NAMES;
+	matches[2].name = channel;
+	matches[3].type = TYPE_NAMES;
+
+	filter = ciFindFilter(chat, 4, matches);
+	if (!filter)
+		return;
+
+	if (filter->type != TYPE_JOIN)
+		data = (NAMESData *)filter->data;
+
+	nick = strtok(names, " ");
+	while (nick != NULL)
+	{
+		assert(nick[0] != '\0');
+
+		if (nick[0] == '@')
+		{
+			assert(nick[1] != '\0');
+			mode = CHAT_OP;
+			nick++;
+		}
+		else if (nick[0] == '+')
+		{
+			assert(nick[1] != '\0');
+			mode = CHAT_VOICE;
+			nick++;
+		}
+		else
+			mode = CHAT_NORMAL;
+
+		if (filter->type != TYPE_JOIN)
+		{
+			if (data->numUsers == data->len)
+			{
+				tempPtr = (char **)realloc(data->users,
+					sizeof(char *) * (data->len + 100));
+				if (tempPtr == NULL)
+					return;
+				data->users = (char **)tempPtr;
+				tempPtr = (char **)realloc(data->modes,
+					sizeof(int) * (data->len + 100));
+				if (tempPtr == NULL)
+					return;
+				data->modes = (int *)tempPtr;
+				data->len += 100;
+			}
+
+			len = (int)(strlen(nick) + 1);
+			str = (char *)malloc((unsigned int)len);
+			if (str == NULL)
+				return;
+			memcpy(str, nick, (unsigned int)len);
+
+			data->users[data->numUsers] = str;
+			data->modes[data->numUsers] = mode;
+			data->numUsers++;
+		}
+
+		if ((filter->type == TYPE_JOIN) ||
+			(filter->type == TYPE_UNQUIET))
+		{
+			ciUserEnteredChannel(chat, nick, channel, mode, NULL, NULL);
+		}
+
+		nick = strtok(NULL, " ");
+	}
+}
