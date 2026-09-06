@@ -58,6 +58,28 @@
 #include "GameClient/keyboard.h"
 #include "GameClient/GameText.h"
 #include "Common/AudioEventRTS.h"
+
+// Open-BFME: retail's AsciiString is a StringBase<char> with no members of its
+// own, so its copy ctor at 0x0005EE50 only forwards to the base body at
+// 0x00887B60 -- and retail inlines that forwarder at the by-value returns in
+// this file, encoding the base call directly. Common/AsciiString.h declares the
+// copy ctor without defining it, so the delegation goes here, in this TU alone.
+template <typename T>
+class StringBase
+{
+	friend class AsciiString;
+
+private:
+	StringBase(const StringBase<T> &src);
+
+	void *m_data;
+};
+
+inline AsciiString::AsciiString(const AsciiString &stringSrc)
+{
+	((StringBase<char> *)this)->StringBase<char>::StringBase(
+		*(const StringBase<char> *)&stringSrc);
+}
 //-----------------------------------------------------------------------------
 // DEFINES ////////////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
