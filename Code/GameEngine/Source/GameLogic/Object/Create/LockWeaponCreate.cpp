@@ -12,3 +12,12 @@ LockWeaponCreateModuleData::LockWeaponCreateModuleData()
 LockWeaponCreate::~LockWeaponCreate()
 {
 }
+
+// 0x0024FC20. The base call reaches CreateModule's constructor at 0x0024F450
+// through ILT 0x00026CAB, and the three vtable stores that follow are this
+// class's own (0x010B18E4 / 0x010B1820 / 0x010B180C) -- the constructor the
+// name getter, destructor and pool glue at 0x0024FC60..0x0024FD70 belong to.
+LockWeaponCreate::LockWeaponCreate( Thing *thing, const ModuleData *moduleData )
+	: CreateModule( thing, moduleData )
+{
+}
