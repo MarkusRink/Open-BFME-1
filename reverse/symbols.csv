@@ -84510,3 +84510,8 @@ _bfmeLitCS,0x00C7C7C4,pin
 ??_C@_0BH@LMPBAOC@Emotion?5type?5expected?4?$AA@,0x010EA3C8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0037AD00 calls; autopin
 ?Rva0037AD60LookupEmotionAIType@@YAHPBD@Z,0x000070A9,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0037AD60 calls; autopin
 ??_C@_0BK@DHHGCDHJ@Emotion?5AI?5type?5expected?4?$AA@,0x010EA3E4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0037AD60 calls; autopin
+??0Rva003BB730Record@@QAE@XZ,0x00046A88,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BB730 calls; autopin
+?Rva003BB730RecordFieldParseTable@@3QBUFieldParse@@B,0x010ED888,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BB730 calls; autopin
+?addEffect@Rva003BB730Owner@@QAEXAAVAsciiString@@PAVRva003BB730Record@@@Z,0x0001FD4D,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BB730 calls; autopin
+??_C@_0DF@HPOOAKGG@SplineEffect?3?3ParseINIBlock?3?3Inv@,0x010ED844,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BB730 calls; autopin
+??_C@_0BN@NAKLABLH@ControlBar?4wnd?3ButtonGeneral?$AA@,0x010FB844,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0059B980 calls; autopin
