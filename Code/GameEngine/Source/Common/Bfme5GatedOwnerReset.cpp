@@ -10,9 +10,9 @@ enum CommandSourceType
 	COMMAND_SOURCE_SCRIPT = 2
 };
 
-enum ModelConditionFlagType
+enum ObjectStatusTypes
 {
-	MODEL_CONDITION_RESET = 0x49
+	OBJECT_STATUS_RESET = 0x49
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
@@ -45,7 +45,10 @@ class Object
 public:
 	BfmeRelationInterface *bfmeGetInterface(void);
 	void bfmePrepare(int value);
-	void clearModelConditionState(ModelConditionFlagType condition);
+	// The ILT at 0x00031F7A this call encodes was re-adjudicated in 49a76649f: it
+	// fronts 0x00162CD0, which builds an 86-bit ObjectStatusMaskType, so the member
+	// is Object::clearStatus(ObjectStatusTypes) -- not clearModelConditionState.
+	void clearStatus(ObjectStatusTypes condition);
 	void bfmeFinish(int value);
 
 	char m_bfmeFields[0x204];
@@ -91,7 +94,7 @@ void Gen_002875C0::bfmeRun(void)
 
 			secondary->bfmeFinish(0x40);
 			object->bfmePrepare(0x3F);
-			object->clearModelConditionState(MODEL_CONDITION_RESET);
+			object->clearStatus(OBJECT_STATUS_RESET);
 			object->bfmeFinish(0x49);
 			object->m_bfmeAI->m_bfmeCommands.aiIdle(COMMAND_SOURCE_SCRIPT);
 		}

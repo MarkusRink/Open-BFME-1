@@ -20,10 +20,10 @@ enum KindOfType
 	KINDOF_AIRCRAFT = 0x09
 };
 
-enum ModelConditionFlagType
+enum ObjectStatusTypes
 {
-	MODELCONDITION_2 = 2,
-	MODELCONDITION_3 = 3
+	OBJECT_STATUS_2 = 2,
+	OBJECT_STATUS_3 = 3
 };
 
 class Object;
@@ -75,7 +75,10 @@ public:
 class Object
 {
 public:
-	void clearModelConditionState(ModelConditionFlagType flag);
+	// The ILT at 0x00031F7A this call encodes was re-adjudicated in 49a76649f: it
+	// fronts 0x00162CD0, which builds an 86-bit ObjectStatusMaskType, so the member
+	// is Object::clearStatus(ObjectStatusTypes) -- not clearModelConditionState.
+	void clearStatus(ObjectStatusTypes flag);
 	void setMode(int a, int b);
 	void unidentified_000F20F0(int a, int b);
 
@@ -128,14 +131,14 @@ void QueueProductionExitUpdate::releaseLastExit()
 	HostIface *iface = reinterpret_cast<HostIface *>(host->getAltAI()->getInterface());
 	if (!iface)
 	{
-		host->clearModelConditionState(MODELCONDITION_3);
-		host->clearModelConditionState(MODELCONDITION_2);
+		host->clearStatus(OBJECT_STATUS_3);
+		host->clearStatus(OBJECT_STATUS_2);
 		return;
 	}
 
 	iface->notify(!reinterpret_cast<Thing *>(host)->isKindOf(KINDOF_AIRCRAFT));
-	host->clearModelConditionState(MODELCONDITION_3);
-	host->clearModelConditionState(MODELCONDITION_2);
+	host->clearStatus(OBJECT_STATUS_3);
+	host->clearStatus(OBJECT_STATUS_2);
 
 	if (!m_rallyPointExists)
 		return;

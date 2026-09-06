@@ -37,16 +37,19 @@ struct BfmeAIHolder
 	AICommandInterface m_bfmeCommands;
 };
 
-enum ModelConditionFlagType
+enum ObjectStatusTypes
 {
-	MODEL_CONDITION_RESET = 0x49
+	OBJECT_STATUS_RESET = 0x49
 };
 
 class Object
 {
 public:
 	void bfmePrepare(int value);
-	void clearModelConditionState(ModelConditionFlagType condition);
+	// The ILT at 0x00031F7A this call encodes was re-adjudicated in 49a76649f: it
+	// fronts 0x00162CD0, which builds an 86-bit ObjectStatusMaskType, so the member
+	// is Object::clearStatus(ObjectStatusTypes) -- not clearModelConditionState.
+	void clearStatus(ObjectStatusTypes condition);
 	void bfmeFinish(int value);
 
 	char m_bfmeFields[0x98];
@@ -85,7 +88,7 @@ int Gen_00287670::bfmeUpdate(void)
 		Object *owner = *reinterpret_cast<Object **>(
 			reinterpret_cast<char *>(this) - 8);
 		owner->bfmePrepare(0x3F);
-		owner->clearModelConditionState(MODEL_CONDITION_RESET);
+		owner->clearStatus(OBJECT_STATUS_RESET);
 		owner->bfmeFinish(0x49);
 		owner->m_bfmeAI->m_bfmeCommands.aiIdle(COMMAND_SOURCE_SCRIPT);
 	}

@@ -14,16 +14,19 @@ enum NameKeyType
 };
 typedef float Real;
 
-enum ModelConditionFlagType
+enum ObjectStatusTypes
 {
-	MODEL_CONDITION_FLAG_UNUSED = 0
+	OBJECT_STATUS_UNUSED = 0
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Object.h
 class Object
 {
 public:
-	void clearModelConditionState(ModelConditionFlagType flag);
+	// The ILT at 0x00031F7A this call encodes was re-adjudicated in 49a76649f: it
+	// fronts 0x00162CD0, which builds an 86-bit ObjectStatusMaskType, so the member
+	// is Object::clearStatus(ObjectStatusTypes) -- not clearModelConditionState.
+	void clearStatus(ObjectStatusTypes flag);
 };
 
 class BfmeKeyThing
@@ -61,8 +64,8 @@ void Gen_00371090::bfmeRemove(BfmeKeyThing *value)
 		BfmeKeyFindMap::iterator found = findMap->find(value->getKey());
 		if (found != findMap->end())
 		{
-			((Object *)value)->clearModelConditionState(
-				(ModelConditionFlagType)0x54);
+			((Object *)value)->clearStatus(
+				(ObjectStatusTypes)0x54);
 			BfmeKeySet::iterator erasePosition =
 				*(BfmeKeySet::iterator *)(void *)&found;
 			m_map.erase(erasePosition);
