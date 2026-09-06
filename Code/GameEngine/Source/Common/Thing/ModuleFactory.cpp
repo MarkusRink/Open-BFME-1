@@ -1,5 +1,13 @@
 // cl: /DNDEBUG /MD /EHsc /Ireference/shims/asciistring8 /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 // stlport
+// BFME: retail's ModuleData constructors run a 16-byte base constructor at
+// 0x009A1A30 -- vptr store plus a zeroed dword at +4 -- and every byte-verified
+// caller in this TU encodes it. The ZH headers spell that base `Snapshot`, whose
+// own ledger body (0x0006B180, 9 bytes) no retail call site reaches at all, so
+// the TU-local spelling below is what carries the address; eight other TUs pin
+// their own stand-in name at 0x009A1A30 the same way.
+#define Snapshot BfmeModuleFactoryBase
+
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.

@@ -34,6 +34,14 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+// BFME: retail's ModuleData constructors run a 16-byte base constructor at
+// 0x009A1A30 -- vptr store plus a zeroed dword at +4 -- and every byte-verified
+// caller in this TU encodes it. The ZH headers spell that base `Snapshot`, whose
+// own ledger body (0x0006B180, 9 bytes) no retail call site reaches at all, so
+// the TU-local spelling below is what carries the address; eight other TUs pin
+// their own stand-in name at 0x009A1A30 the same way.
+#define Snapshot BfmeModuleFactoryBase
+
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 

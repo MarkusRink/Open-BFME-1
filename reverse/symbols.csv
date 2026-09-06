@@ -86874,7 +86874,6 @@ name,address,notes
 ??0ActiveBody@@QAE@PAVThing@@PBVModuleData@@@Z,0x00211A50,BFME ActiveBody constructor body
 ??0ActiveBodyModuleData@@QAE@XZ,0x00001780,pinharvest x1 (thunk)
 ??0ActiveShroudUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z,0x0004709B
-??0ActiveShroudUpgradeModuleData@@QAE@XZ,0x00010C80,pinharvest x1 (thunk)
 ??0AdaptiveDeltaMotionChannelClass@@QAE@XZ,0x00978340
 ??0AnimSet@GenericObjectCreationNugget@@QAE@ABU01@@Z,0x001D6B80,BFME2 three-string AnimSet copy constructor used by parseAnimSet
 ??0AnimalAIUpdateBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000292A3,AnimalAIUpdate ctor base call
@@ -86882,7 +86881,6 @@ name,address,notes
 ??0Animatable3DObjClass@@QAE@PBD@Z,0x00981EF0
 ??0AnimateWindow@@QAE@XZ,0x0002DD44,ILT thunk -> 0x45CEE0; retail call sites use the thunk
 ??0AnimatedParticleSysBoneClientUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000727A,link thunk to the AnimatedParticleSysBoneClientUpdate constructor; named from the ModuleFactory registration that pairs "AnimatedParticleSysBoneClientUpdate" with factory 0x00121A70
-??0AnimationSteeringUpdateModuleData@@QAE@XZ,0x0001FABE,pinharvest x1 (thunk)
 ??0AppendLockClass@IndexBufferClass@@QAE@PAV1@II@Z,0x0091CF70,retail AppendLockClass index constructor target used by constructVolumeVB
 ??0AppendLockClass@VertexBufferClass@@QAE@PAV1@IIH@Z,0x0091DE90,DX8VertexBufferClass Copy direct call target
 ??0ArchiveFile@@QAE@XZ,0x009D10B0
@@ -87200,7 +87198,6 @@ name,address,notes
 ??0CivilianSpawnCollideBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,CivilianSpawnCollide ctor base
 ??0CleanupAreaPowerModuleData@@QAE@XZ,0x0001ABF9,pinharvest x1 (thunk)
 ??0CleanupHazardUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00004C9B,pinharvest x1 (thunk)
-??0CleanupHazardUpdateModuleData@@QAE@XZ,0x000118E7,pinharvest x1 (thunk)
 ??0ClearanceTestingSlowDeathBehaviorBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000447FB,ClearanceTestingSlowDeathBehavior ctor base (ICF74 shared)
 ??0ClientUpdateModule@@QAE@PAVThing@@PBVModuleData@@@Z,0x00002874,Open-BFME5 SwayClientUpdate base ctor pin
 ??0CloudBreakSpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z,0x000383C0,link thunk to the CloudBreakSpecialPower constructor; named from the ModuleFactory registration that pairs "CloudBreakSpecialPower" with factory 0x001205F0
@@ -87219,7 +87216,6 @@ name,address,notes
 ??0ControlBarSchemeImage@@QAE@XZ,0x00028489,parseAnimatingPartImage callee ILT thunk to 0x4ACD00
 ??0ConvertToCarBombCrateCollide@@QAE@PAVThing@@PBVModuleData@@@Z,0x0001D3AE,pinharvest x1 (thunk)
 ??0ConvertToHijackedVehicleCrateCollide@@QAE@PAVThing@@PBVModuleData@@@Z,0x0001D3AE,pinharvest x1 (thunk)
-??0CostModifierUpgradeModuleData@@QAE@XZ,0x0000B997,pinharvest x1 (thunk)
 ??0CountermeasuresBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x00006780,pinharvest x1 (thunk)
 ??0CountermeasuresBehaviorBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000447FB,CountermeasuresBehavior ctor base (ICF74 shared)
 ??0CountermeasuresBehaviorModuleData@@QAE@XZ,0x0003025B,derived-ICF
@@ -87247,7 +87243,6 @@ name,address,notes
 ??0DX8IndexBufferClass@@QAE@GW4UsageType@0@@Z,0x0091D0A0,BFME DynamicIB unsigned-short constructor call-site identity; retail direct call at 0x006D7885 and source definition in dx8indexbuffer.cpp
 ??0DX8IndexBufferClass@@QAE@IW4UsageType@0@@Z,0x0091D0A0,BFME DynamicIB uint-width call-site ABI alias for the unsigned-short constructor
 ??0DamDie@@QAE@PAVThing@@PBVModuleData@@@Z,0x0001D3AE,pinharvest x1 (thunk)
-??0DamDieModuleData@@QAE@XZ,0x000015FA,pinharvest x1 (thunk)
 ??0DamageInfo@@QAE@XZ,0x0002C9D5,Open-BFME5 the thunk Object kill constructs its DamageInfo through; Zero Hour names the same constructor
 ??0DamageInfoInput@@QAE@XZ,0x0002C3A9,DamageInfo constructor retail call ILT reaches the input constructor body at 0x000ED2D0
 ??0DarknessSpecialPowerModuleDataBase@@QAE@XZ,0x00015C44,DarknessSpecialPowerModuleData base ctor
@@ -87273,7 +87268,6 @@ name,address,notes
 ??0DetachableRiderUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0004773F,link thunk to the DetachableRiderUpdate constructor; named from the ModuleFactory registration that pairs "DetachableRiderUpdate" with factory 0x0011CAF0
 ??0DetailedArchivedDirectoryInfo@@QAE@ABV0@@Z,0x009CA8F0,pinharvest x1 (body)
 ??0DevastateSpecialPowerModuleDataBase@@QAE@XZ,0x00015C44,DevastateSpecialPowerModuleData base ctor
-??0DieModuleData@@QAE@XZ,0x000015FA,pinharvest x1 (thunk)
 ??0DieMuxData@@QAE@XZ,0x000057B8,pinharvest x1 (thunk)
 ??0DirectInputKeyboard@@QAE@XZ,0x000120D0,DirectInputKeyboard ctor thunk; createKeyboard@W3DGameClient factory REL32
 ??0Display@@QAE@XZ,0x000110FE,ILT to Display ctor body 0x005CBF60
@@ -87291,10 +87285,7 @@ name,address,notes
 ??0DrawableModule@@QAE@PAVThing@@PBVModuleData@@@Z,0x00002874,SwayClientUpdate base ctor from retail call site
 ??0DynamicDecalFXNugget@@QAE@XZ,0x00428FA0,constructor run on the 0xF8-byte allocation in DynamicDecalFXNugget::parse at 0x0042BF50; the INI keyword table at 0x00CF2130 names that parse callback DynamicDecal
 ??0DynamicGeometryInfoUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00048338
-??0DynamicGeometryInfoUpdateModuleData@@QAE@XZ,0x00022B15,pinharvest x1 (thunk)
-??0EMPUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00004D36,pinharvest x1 (thunk)
 ??0EjectPilotDie@@QAE@PAVThing@@PBVModuleData@@@Z,0x0001D3AE,pinharvest x1 (thunk)
-??0EjectPilotDieModuleData@@QAE@XZ,0x00022B15,pinharvest x1 (thunk)
 ??0ElvenWoodSpecialPowerModuleDataBase@@QAE@XZ,0x00015C44,ElvenWood SpecialPower base (shared 0x15c44)
 ??0Emotion@@QAE@PAVObject@@PAVEmotionTrackerUpdateEntry@@@Z,0x0002DD08,EmotionSystem::createEmotion allocates 0x34-byte Emotion and calls this Object-first constructor through its ILT; body at 0x0037BF60
 ??0EmotionNugget@@QAE@XZ,0x0001193C,derived from the REL32 displacement at 0x0037B8A0
@@ -87317,7 +87308,6 @@ name,address,notes
 ??0FatalErrorContext@@QAE@XZ,0x00013A8E,error context constructed before fatal timed-operation reports
 ??0FeslEchoMessage@@QAE@PADH@Z,0x007E8850,FESL message buffer constructor
 ??0FileSystem@@QAE@XZ,0x00022CA5
-??0FireOCLAfterWeaponCooldownUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00004D36,pinharvest x1 (thunk)
 ??0FireOCLAfterWeaponCooldownUpdateModuleData@@QAE@XZ,0x0000B997,pinharvest x1 (thunk)
 ??0FireSpreadUpdateModuleData@@QAE@XZ,0x000104B5,module-glue cascade callee (from retail call site)
 ??0FireWeaponCollide@@QAE@PAVThing@@PBVModuleData@@@Z,0x00008878,pinharvest x1 (thunk)
@@ -87331,7 +87321,6 @@ name,address,notes
 ??0FirestormDynamicGeometryInfoUpdateModuleDataBase@@QAE@XZ,0x00048A3B,FirestormDynamicGeometryInfoUpdateModuleData base ctor
 ??0FirewallHelperClass@@QAE@XZ,0x00003AD5
 ??0FlammableUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00011ACC,Ghidra-owned constructor thunk
-??0FlammableUpdateModuleData@@QAE@XZ,0x0000497B,pinharvest x1 (thunk)
 ??0FlightDeckBehaviorModuleData@@QAE@XZ,0x0000CC3E
 ??0FloatUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x01DF84,module ctor (friend_newModuleInstance retail call target)
 ??0FloatUpdateModuleData@@QAE@XZ,0x0004601A,module-glue cascade callee (from retail call site)
@@ -87648,7 +87637,6 @@ name,address,notes
 ??0HeroDieBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,HeroDie ctor base
 ??0HighlanderBody@@QAE@PAVThing@@PBVModuleData@@@Z,0x0001BE3C,link thunk to the HighlanderBody constructor; named from the ModuleFactory registration that pairs "HighlanderBody" with factory 0x0011F4B0
 ??0HijackerUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0003A382,module ctor (friend_newModuleInstance retail call target)
-??0HiveStructureBodyModuleData@@QAE@XZ,0x00022B15,pinharvest x1 (thunk)
 ??0HordeAIUpdateBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000292A3,HordeAIUpdate ctor base call
 ??0HordeGarrisonContainModuleData@@QAE@XZ,0x0000DF7B,HordeGarrisonContain ModuleData ctor
 ??0HordeGarrisonContainModuleDataBase@@QAE@XZ,0x0003D055,Open-BFME5 the incremental-link thunk that constructor encodes
@@ -87730,7 +87718,6 @@ name,address,notes
 ??0MeshMatDescClass@@QAE@XZ,0x0092A2B0
 ??0MeshModelClass@@QAE@ABV0@@Z,0x0094EC20,Open-BFME5 retail MeshModelClass copy constructor pin
 ??0MessageStream@@QAE@XZ,0x000132B4,pinharvest x2 (thunk)
-??0MinefieldBehaviorModuleData@@QAE@XZ,0x00022B15,pinharvest x1 (thunk)
 ??0MissileAIUpdateModuleData@@QAE@XZ,0x00025EBE
 ??0MissileAIUpdateModuleDataBase@@QAE@XZ,0x0003C556,MissileAIUpdateModuleData base ctor
 ??0MissileLauncherBuildingUpdateModuleData@@QAE@XZ,0x0003025B,derived-ICF
@@ -87838,7 +87825,6 @@ name,address,notes
 ??0OptionPreferences@@QAE@XZ,0x0003713C
 ??0OrthoEmissionVelocityModuleTemplate@FXParticleSystem@@QAE@ABV01@@Z,0x00021CB0,OrthoEmissionVelocity copy ctor pin
 ??0OverchargeBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x00037619,derived-ICF
-??0OverchargeBehaviorModuleData@@QAE@XZ,0x0000FA5B,pinharvest x1 (thunk)
 ??0PB_DeepBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,Open-BFME5 pin
 ??0PLEMT_Base@FXParticleSystem@@QAE@XZ,0x0004B024,Open-BFME5 pin
 ??0PPB_DeepBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,ParkingPlaceBehavior constructor calls the shared ObjectModule constructor ILT
@@ -87860,7 +87846,6 @@ name,address,notes
 ??0PhysicsBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x0003C3BC
 ??0PhysicsBehaviorModuleData@@QAE@XZ,0x00007FF4,pinharvest x1 (thunk)
 ??0PickAndPlayInfo@@QAE@XZ,0x0000F164,BFME PickAndPlayInfo constructor; target call follows local DrawableList construction and precedes field population in three adjacent voice response helpers
-??0PilotFindVehicleUpdateModuleData@@QAE@XZ,0x000118E7,pinharvest x1 (thunk)
 ??0Pinger@@QAE@XZ,0x00029C12,pinharvest x1 (thunk)
 ??0PivotClass@@QAE@ABU0@@Z,0x00972D70,derived from HTreeClass::Alter_Avatar_HTree
 ??0PlayerTemplate@@QAE@ABV0@@Z,0x0001449D
@@ -87872,7 +87857,6 @@ name,address,notes
 ??0PoisonedBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x041547,module ctor (friend_newModuleInstance retail call target)
 ??0PoisonedBehaviorModuleData@@QAE@XZ,0x0002EA73,module-glue cascade callee (from retail call site)
 ??0PopupMessageData@@QAE@XZ,0x00046FC4,constructor ILT to 0x0043F460; matched InGameUI::popupMessage independently inlines the same construction
-??0PowerPlantUpdateModuleData@@QAE@XZ,0x0001FABE,pinharvest x1 (thunk)
 ??0PreorderCreate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0002070C,link thunk to the PreorderCreate constructor; named from the ModuleFactory registration that pairs "PreorderCreate" with factory 0x0011E700
 ??0ProcessAnimateWindowSpiral@@QAE@XZ,0x00495590,ILT 0x43815->body; AnimateWindowManager ctor callee
 ??0ProductionPrerequisite@@QAE@ABV0@@Z,0x00031B06,ProductionPrerequisite copy constructor via ILT thunk
@@ -87902,17 +87886,13 @@ name,address,notes
 ??0RadiusDecal@@QAE@XZ,0x00036DD1
 ??0RadiusDecalTemplate@@QAE@XZ,0x00029C71,Open-BFME5 DynamicShroud decal member constructor pin
 ??0RadiusDecalUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000EF5C,pinharvest x1 (thunk)
-??0RailedTransportAIUpdateModuleData@@QAE@XZ,0x00022B15,pinharvest x1 (thunk)
-??0RailedTransportDockUpdateModuleData@@QAE@XZ,0x0001999D,RailedTransportDockUpdateModuleData constructor ILT to 0x002CE760
 ??0RainOfFireUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000A0E2,retail ModuleFactory cp081 constructor thunk
 ??0RandomSoundSelectorClientBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x0002C1E7,link thunk to the RandomSoundSelectorClientBehavior constructor; named from the ModuleFactory registration that pairs "RandomSoundSelectorClientBehavior" with factory 0x00122040
 ??0RandomSoundSelectorClientBehaviorModuleData@@QAE@XZ,0x0001F528,module-data constructor called by RandomSoundSelectorClientBehavior::friend_newModuleData at 0x0012BE60
 ??0RankInfo@@QAE@XZ,0x00026FDA,harvested from friend_parseRankDefinition (thunk)
 ??0RayEffectFXNugget@@QAE@XZ,0x00428BC0,constructor run on the 0xD0-byte allocation in RayEffectFXNugget::parse at 0x0042BD10; the INI keyword table at 0x00CF2130 names that parse callback RayEffect
 ??0RebuildHoleBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x0002D40C,pinharvest x1 (thunk)
-??0RebuildHoleBehaviorModuleData@@QAE@XZ,0x000118E7,pinharvest x1 (thunk)
 ??0RebuildHoleExposeDie@@QAE@PAVThing@@PBVModuleData@@@Z,0x0001D3AE,pinharvest x1 (thunk)
-??0RebuildHoleExposeDieModuleData@@QAE@XZ,0x00022B15,pinharvest x1 (thunk)
 ??0RecorderClass@@QAE@XZ,0x00033F9B,Open-BFME5 retail recorder constructor pin
 ??0ReflectDamage@@QAE@PAVThing@@PBVModuleData@@@Z,0x00035B7F,link thunk to the ReflectDamage constructor; named from the ModuleFactory registration that pairs "ReflectDamage" with factory 0x0011E900
 ??0ReflectDamageModuleData@@QAE@XZ,0x0003E4A5,module-data constructor called by ReflectDamage::friend_newModuleData at 0x0011E980
@@ -88345,7 +88325,6 @@ name,address,notes
 ??0TaintSpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z,0x00006014,link thunk to the TaintSpecialPower constructor; named from the ModuleFactory registration that pairs "TaintSpecialPower" with factory 0x00120700
 ??0TaintSpecialPowerModuleData@@QAE@XZ,0x00021012,module-data constructor called by TaintSpecialPower::friend_newModuleData at 0x00120780
 ??0TeamPrototype@@QAE@PAVTeamFactory@@ABVAsciiString@@1PAVPlayer@@_NPAVDict@@H@Z,0x000F3E40,call displacement in initTeam @0x000F8213
-??0TechBuildingBehaviorModuleData@@QAE@XZ,0x0000FA5B,pinharvest x1 (thunk)
 ??0TensileFormationUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00013750,pinharvest x1 (thunk)
 ??0TensileFormationUpdateModuleData@@QAE@XZ,0x000028AB
 ??0TerrainLogic@@QAE@XZ,0x00011C75,createTerrainLogic REL32 pin (thunk); body 0x6BE070 inits [esi+0xC] and [esi+0x18FC], sizeof 0x1904
@@ -88379,7 +88358,6 @@ name,address,notes
 ??0U4Made005EA530@@QAE@PAVU4Maker005EA530@@@Z,0x005EA560,U4 lane: constructor run on the 0xB0 block allocated at 0x005EA530; address-derived name
 ??0U4Thing0060CD80@@QAE@XZ,0x0060CCC0,U4 lane: default constructor run on the 0x74 block allocated at 0x0060CD80; address-derived name
 ??0UDP@@QAE@XZ,0x0001FFFA
-??0UndeadBodyModuleData@@QAE@XZ,0x000015FA,pinharvest x1 (thunk)
 ??0UnicodeString@@QAE@ABV0@@Z,0x00887B60,site-decoded x3 (body)
 ??0UnicodeString@@QAE@PBG@Z,0x00888DE0,Open-BFME5 GameTextManager failed-message constructor callee
 ??0UnicodeStringWK@@QAE@ABV0@@Z,0x00888400,pin
@@ -88404,7 +88382,6 @@ name,address,notes
 ??0VertexBufferClass@@IAE@IIGI@Z,0x0091DC50,DX8VertexBufferClass ctor base call
 ??0VertexMaterialClass@@QAE@XZ,0x00921820,packet 00921eba callee pin
 ??0VeterancyCrateCollide@@QAE@PAVThing@@PBVModuleData@@@Z,0x0003C37B,module ctor (friend_newModuleInstance retail call target)
-??0VeterancyGainCreateModuleData@@QAE@XZ,0x0000FA5B,pinharvest x1 (thunk)
 ??0VictoryConditions@@QAE@XZ,0x0035F430,SubsystemInterface ctor then m_victoryConditions@+0x08=0 (VictoryConditionsInterface ctor inlined) vtable 0x010E8D90 at 0x0035F45D; BFME-only +0x0C end-screen-shown byte and +0x10 shown-time cleared; tail calls reset 0x0035F1E0 via ILT 0x0003CE0C (ZH ctor = reset())
 ??0VictorySystem@@QAE@XZ,0x001E0160,called by GameEngine::init 0x0007A1C3 right before initSubsystem<VictorySystem> with &TheVictorySystem 0x012EF734 (0x0007A1E5); SubsystemInterface ctor; vtable 0x0109FD8C at 0x001E0194 and Snapshot sub-object vtable 0x0109FD78 at +0x08; zeroes +0x0C..+0x1C +0x24[16] +0x64[16] +0xA4[16] +0xE4..+0xFC; +0x20=1.0f; FactionVictoryParameters vector +0xEC/+0xF0/+0xF4 via the 0x18-byte __copy 0x001DE760
 ??0W3DAnimationInfo@@QAE@ABV0@@Z,0x0003F170,REL32 pin for W3DAnimationInfo copy helper
@@ -88473,7 +88450,6 @@ name,address,notes
 ??0WUU_DeepBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,WallUpgradeUpdate constructor calls the shared ObjectModule constructor ILT
 ??0Watchdog@@QAE@HHH@Z,0x0010B9C0,GameEngine::init passes timeout 300 and warning values 10/10 through the 0x0010BBF0 allocation factory
 ??0Weapon@@QAE@PBVWeaponTemplate@@W4WeaponSlotType@@@Z,0x00002B03,Open-BFME5 Weapon ctor pin
-??0WeaponBonusUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00008878,pinharvest x1 (thunk)
 ??0WeaponBonusUpdateModuleData@@QAE@XZ,0x0003CA01,pinharvest x1 (thunk)
 ??0WeaponBonusUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z,0x000375B5,module ctor (friend_newModuleInstance retail call target)
 ??0WeaponFireSpecialAbilityUpdateModuleDataBase@@QAE@XZ,0x0003F503,WeaponFireSpecialAbilityUpdateModuleData ctor base
@@ -169266,3 +169242,81 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeFindAN@GameLogic@@QAEPAVBfmeObjAN@@H@Z,0x0001F253,pin
 ?g_bfmeFileAO@@3PADA,0x00CAA908,pin
 _malloc,0x009F6C34,retail malloc import the pooled operator new glue calls (slot 0x0135944C)
+??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x000668C0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x00068BE0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x0006EEB0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x0006EEC0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x0006EEE0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x0006EF10,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@VAsciiString@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@1@PAU?$_Rb_tree_node@VAsciiString@@@1@@Z,0x0006EF60,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@PAUAudioRequest@@@_STL@@U12@V?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@1@PAU?$_List_node@PAUAudioRequest@@@1@@Z,0x00092C20,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x00094CD0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@PAUAudioRequest@@@_STL@@U12@V?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@1@PAU?$_List_node@PAUAudioRequest@@@1@@Z,0x00098BD0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@PAUAudioRequest@@@_STL@@U12@V?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@1@PAU?$_List_node@PAUAudioRequest@@@1@@Z,0x0009ED80,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@PAUAudioRequest@@@_STL@@U12@V?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@1@PAU?$_List_node@PAUAudioRequest@@@1@@Z,0x000CCB10,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@PAUAudioRequest@@@_STL@@U12@V?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@1@PAU?$_List_node@PAUAudioRequest@@@1@@Z,0x000CCD30,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@PAUAudioRequest@@@_STL@@U12@V?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@1@PAU?$_List_node@PAUAudioRequest@@@1@@Z,0x000CCD70,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@PAUAudioRequest@@@_STL@@U12@V?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@PAUAudioRequest@@@_STL@@@1@PAU?$_List_node@PAUAudioRequest@@@1@@Z,0x000CCDB0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@U12@V?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@1@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@1@@Z,0x000CCDF0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@VAsciiString@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@1@PAU?$_Rb_tree_node@VAsciiString@@@1@@Z,0x000EE300,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@U12@V?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@1@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@1@@Z,0x0010DEA0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@VAsciiString@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@1@PAU?$_Rb_tree_node@VAsciiString@@@1@@Z,0x0013EB90,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@U12@V?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@1@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@1@@Z,0x0014B4B0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@U12@V?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@1@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@1@@Z,0x001507E0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@1@@Z,0x00193480,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@1@@Z,0x001934D0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@U12@V?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@1@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@1@@Z,0x001C2A20,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@U12@V?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@U?$pair@VAsciiString@@M@_STL@@@_STL@@@1@PAU?$_List_node@U?$pair@VAsciiString@@M@_STL@@@1@@Z,0x001C2A40,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@1@@Z,0x001D6B20,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@UCoord3D@@@_STL@@U12@V?$allocator@U?$_List_node@UCoord3D@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@UCoord3D@@@_STL@@@1@PAU?$_List_node@UCoord3D@@@1@@Z,0x001F2730,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@UCoord3D@@@_STL@@U12@V?$allocator@U?$_List_node@UCoord3D@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@UCoord3D@@@_STL@@@1@PAU?$_List_node@UCoord3D@@@1@@Z,0x001F27C0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@1@@Z,0x0021A920,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@VAsciiString@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@1@PAU?$_Rb_tree_node@VAsciiString@@@1@@Z,0x002346F0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@1@@Z,0x00234710,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@VAsciiString@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@1@PAU?$_Rb_tree_node@VAsciiString@@@1@@Z,0x0025B740,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@VAsciiString@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@1@PAU?$_Rb_tree_node@VAsciiString@@@1@@Z,0x00296420,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@1@@Z,0x002A18E0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@1@@Z,0x0033A460,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@1@@Z,0x0033A470,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@1@@Z,0x0033A480,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@1@@Z,0x0033A490,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@1@@Z,0x0036D3F0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@1@@Z,0x0036D400,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@VAsciiString@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@VAsciiString@@@_STL@@@1@PAU?$_Rb_tree_node@VAsciiString@@@1@@Z,0x0036D420,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@UCoord3D@@@_STL@@U12@V?$allocator@U?$_List_node@UCoord3D@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@UCoord3D@@@_STL@@@1@PAU?$_List_node@UCoord3D@@@1@@Z,0x0037DB70,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@UCoord3D@@@_STL@@U12@V?$allocator@U?$_List_node@UCoord3D@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@UCoord3D@@@_STL@@@1@PAU?$_List_node@UCoord3D@@@1@@Z,0x003BE680,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@1@@Z,0x003D3380,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@UCoord3D@@@_STL@@U12@V?$allocator@U?$_List_node@UCoord3D@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@UCoord3D@@@_STL@@@1@PAU?$_List_node@UCoord3D@@@1@@Z,0x0058C620,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VHotKey@@@_STL@@@1@@Z,0x005B2710,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@UCoord3D@@@_STL@@U12@V?$allocator@U?$_List_node@UCoord3D@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@UCoord3D@@@_STL@@@1@PAU?$_List_node@UCoord3D@@@1@@Z,0x005C2590,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_List_node@UCoord3D@@@_STL@@U12@V?$allocator@U?$_List_node@UCoord3D@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_List_node@UCoord3D@@@_STL@@@1@PAU?$_List_node@UCoord3D@@@1@@Z,0x00753160,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@1@@Z,0x0094C1B0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VDetailedArchivedDirectoryInfo@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VDetailedArchivedDirectoryInfo@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VDetailedArchivedDirectoryInfo@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VDetailedArchivedDirectoryInfo@@@_STL@@@1@@Z,0x009C9300,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VDetailedArchivedDirectoryInfo@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VDetailedArchivedDirectoryInfo@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VDetailedArchivedDirectoryInfo@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VDetailedArchivedDirectoryInfo@@@_STL@@@1@@Z,0x009CECA0,zhstl per-site callee copy (body proven byte-equal)
+??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@1@@Z,0x009CECF0,zhstl per-site callee copy (body proven byte-equal)
+??0FlammableUpdateModuleData@@QAE@XZ,0x0004A250,ModuleFactory ILT thunk to 0x001F6C70; the byte-verified retail caller encodes it
+??0ActiveShroudUpgradeModuleData@@QAE@XZ,0x00023DCB,ModuleFactory ILT thunk to 0x00201650; the byte-verified retail caller encodes it
+??0AnimationSteeringUpdateModuleData@@QAE@XZ,0x0001FEB0,ModuleFactory ILT thunk to 0x001FABC0; the byte-verified retail caller encodes it
+??0CleanupHazardUpdateModuleData@@QAE@XZ,0x000261CA,ModuleFactory ILT thunk to 0x0020D580; the byte-verified retail caller encodes it
+??0CostModifierUpgradeModuleData@@QAE@XZ,0x00025D47,ModuleFactory ILT thunk to 0x002D5180; the byte-verified retail caller encodes it
+??0DamDieModuleData@@QAE@XZ,0x0004A426,ModuleFactory ILT thunk to 0x001F7810; the byte-verified retail caller encodes it
+??0DieModuleData@@QAE@XZ,0x0004A426,ModuleFactory ILT thunk to 0x001F7810; the byte-verified retail caller encodes it
+??0DynamicGeometryInfoUpdateModuleData@@QAE@XZ,0x0002AE6E,ModuleFactory ILT thunk to 0x0036CDD0; the byte-verified retail caller encodes it
+??0EjectPilotDieModuleData@@QAE@XZ,0x0002AE6E,ModuleFactory ILT thunk to 0x0036CDD0; the byte-verified retail caller encodes it
+??0HiveStructureBodyModuleData@@QAE@XZ,0x0002AE6E,ModuleFactory ILT thunk to 0x0036CDD0; the byte-verified retail caller encodes it
+??0MinefieldBehaviorModuleData@@QAE@XZ,0x0002AE6E,ModuleFactory ILT thunk to 0x0036CDD0; the byte-verified retail caller encodes it
+??0OverchargeBehaviorModuleData@@QAE@XZ,0x0002EA73,ModuleFactory ILT thunk to 0x002029B0; the byte-verified retail caller encodes it
+??0PilotFindVehicleUpdateModuleData@@QAE@XZ,0x000261CA,ModuleFactory ILT thunk to 0x0020D580; the byte-verified retail caller encodes it
+??0PowerPlantUpdateModuleData@@QAE@XZ,0x0001FEB0,ModuleFactory ILT thunk to 0x001FABC0; the byte-verified retail caller encodes it
+??0RailedTransportAIUpdateModuleData@@QAE@XZ,0x0002AE6E,ModuleFactory ILT thunk to 0x0036CDD0; the byte-verified retail caller encodes it
+??0RailedTransportDockUpdateModuleData@@QAE@XZ,0x0002C9D0,ModuleFactory ILT thunk to 0x00295500; the byte-verified retail caller encodes it
+??0RebuildHoleBehaviorModuleData@@QAE@XZ,0x000261CA,ModuleFactory ILT thunk to 0x0020D580; the byte-verified retail caller encodes it
+??0RebuildHoleExposeDieModuleData@@QAE@XZ,0x0002AE6E,ModuleFactory ILT thunk to 0x0036CDD0; the byte-verified retail caller encodes it
+??0TechBuildingBehaviorModuleData@@QAE@XZ,0x0002EA73,ModuleFactory ILT thunk to 0x002029B0; the byte-verified retail caller encodes it
+??0UndeadBodyModuleData@@QAE@XZ,0x0004A426,ModuleFactory ILT thunk to 0x001F7810; the byte-verified retail caller encodes it
+??0VeterancyGainCreateModuleData@@QAE@XZ,0x0002EA73,ModuleFactory ILT thunk to 0x002029B0; the byte-verified retail caller encodes it
+??0EMPUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00048B9E,ModuleFactory ILT thunk to 0x001EE950; the byte-verified retail caller encodes it
+??0FireOCLAfterWeaponCooldownUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00048B9E,ModuleFactory ILT thunk to 0x001EE950; the byte-verified retail caller encodes it
+??0WeaponBonusUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00034EDC,ModuleFactory ILT thunk to 0x007583A0; the byte-verified retail caller encodes it
+??0BfmeModuleFactoryBase@@QAE@XZ,0x009A1A30,ModuleFactory TU-local name for the base constructor its ModuleData ctors run
+??1BfmeModuleFactoryBase@@QAE@XZ,0x00887940,same TU-local base; the destructor ??1WorkerAIUpdateModuleData@@UAE@XZ encodes
