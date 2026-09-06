@@ -2465,3 +2465,29 @@ matched ShowDisconnectWindow earlier. Retail's callees confirm it: the calls go 
 to AsciiString-named bodies. Apply to every "EH stack-save and ctor-this swapped"
 partial with a by-value AsciiString/UnicodeString argument (UnicodeString =
 StringBase<unsigned short>).
+
+**The same lever decides the CALL TARGET, and a symbols.csv pin is not allowed to
+substitute for it.** `AsciiString::AsciiString(const AsciiString&)` really does have
+its own body -- the 19-byte forwarder at 0x0005EE50, which pushes its argument and
+`call`s 0x00887B60 -- so a TU that declares the copy ctor without a body emits
+`call ??0AsciiString@@QAE@ABV0@@Z` while retail, having inlined the forwarder,
+encoded the base body directly. That is one displacement wrong and nothing else, and
+it was 81 red rows across 65 sources. **Do not reach for a pin.** Appending
+0x00887B60 as a candidate for the AsciiString spelling is refused by
+`pin_consistency --check` -- `size-disagreement: 0x0005EE50=19(matched);
+0x00887B60=121(matched)` -- and `route=` is refused too, because route_verdict reads
+the image: *"0x00887B60 begins 568b -- neither an `FF 25` import thunk nor an `E9`
+jump stub, so it is a function body and a pin on it is an identity claim, not a
+route."* Both refusals are correct: the two addresses are different functions. The
+fix is per-TU source, and it is mechanical -- give the TU's local slice the
+delegation `ascii_string.h` already uses (`((StringBase<char> *)this)->
+StringBase<char>::StringBase(*(const StringBase<char> *)&other);`, with a
+`friend class AsciiString` on a locally declared `template <typename T> class
+StringBase` whose copy ctor is private, so it mangles `AAE` and lands the matched
+0x00887B60 row). Two wrinkles: under **/Ob0** nothing gets inlined, so spell the
+member as the `StringBase<char>` it copies (`typedef StringBase<char> AsciiString;`)
+rather than relying on a forwarder disappearing; and where AsciiString comes from a
+shim that leaves the copy ctor declared-only (`asciistring_thin`,
+`asciistring_copyctor_outofline`, Generals' own `Common/AsciiString.h`), define
+`inline AsciiString::AsciiString(const AsciiString&)` in the .cpp after the
+includes -- a new shim directory would take the full gate, and a .cpp does not.
