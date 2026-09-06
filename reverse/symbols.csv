@@ -1035,6 +1035,7 @@ name,address,notes
 ??$__find@PAW4ObjectID@@W41@@_STL@@YAPAW4ObjectID@@PAW41@0ABW41@ABUrandom_access_iterator_tag@0@@Z,0x0001BFC7,Open-BFME5 ILT; called by ?removeObject@Squad@@QAEXPAVObject@@@Z at 0x0018B620
 ??$__find@PBGG@_STL@@YAPBGPBG0ABGABUrandom_access_iterator_tag@0@@Z,0x00844DC0,STLport 4.5.3 num_get wchar digit-search helper
 ??$__find@PBVAsciiString@@V1@@_STL@@YAPBVAsciiString@@PBV1@0ABV1@ABUrandom_access_iterator_tag@0@@Z,0x0004B29A,Open-BFME5 ILT; called by ?isInSet@ObjectTypes@@QBE_NABVAsciiString@@@Z at 0x001DC2D0
+??$__find@U?$_List_iterator@UBFMEFindAsciiStringView@@U?$_Nonconst_traits@UBFMEFindAsciiStringView@@@_STL@@@_STL@@UBFMEFindAsciiStringView@@@_STL@@YA?AU?$_List_iterator@UBFMEFindAsciiStringView@@U?$_Nonconst_traits@UBFMEFindAsciiStringView@@@_STL@@@0@U10@0ABUBFMEFindAsciiStringView@@ABUinput_iterator_tag@0@@Z,0x0002D66E,getAllSideStrings call uses the BFME view spelling while retail's thunk targets the verified const-iterator BFME find body
 ??$__find@U?$_List_iterator@VAsciiString@@U?$_Const_traits@VAsciiString@@@_STL@@@_STL@@VAsciiString@@@_STL@@YA?AU?$_List_iterator@VAsciiString@@U?$_Const_traits@VAsciiString@@@_STL@@@0@U10@0ABVAsciiString@@ABUinput_iterator_tag@0@@Z,0x0004093A,derived-ICF
 ??$__find@U?$_List_iterator@VAsciiString@@U?$_Nonconst_traits@VAsciiString@@@_STL@@@_STL@@VAsciiString@@@_STL@@YA?AU?$_List_iterator@VAsciiString@@U?$_Nonconst_traits@VAsciiString@@@_STL@@@0@U10@0ABVAsciiString@@ABUinput_iterator_tag@0@@Z,0x00027BAB,pinharvest x1 (thunk)
 ??$__find@U?$_Rb_tree_iterator@HU?$_Const_traits@H@_STL@@@_STL@@H@_STL@@YA?AU?$_Rb_tree_iterator@HU?$_Const_traits@H@_STL@@@0@U10@0ABHABUinput_iterator_tag@0@@Z,0x0004093A
@@ -9449,6 +9450,8 @@ name,address,notes
 ??_7BfmeEntVTB@@6B@,0x010EC784,Open-BFME5 retail vftable stored by the 0x003A9370 copy helper
 ??_7BfmeF1124@@6B@,0x00D2FBB8,pin
 ??_7BfmeOwnCA@@6B@,0x00CF7650,pin
+??_7BfmeOwnCB@@6B@,0x00CE7D00,pin
+??_7BfmeOwnCC@@6B@,0x00C86090,pin
 ??_7BfmeOwnVSV@@6B@,0x010EC778,Open-BFME5 retail vftable stored by the 0x003B8090 constructor
 ??_7BfmeOwnVSW@@6B@,0x01075D50,Open-BFME5 retail vftable stored by the 0x0061F0C0 constructor
 ??_7BfmeOwnVTU@@6B@,0x01143B3C,Open-BFME5 retail vftable stored by the 0x009CC220 constructor
@@ -73486,6 +73489,7 @@ name,address,notes
 ?bfmeClearAVHW@BfmeSubAVHW@@QAEXXZ,0x00801570,pin
 ?bfmeClearBF@AsciiStringBF@@QAEXXZ,0x00887940,pin
 ?bfmeClearBVHW@BfmeSubBVHW@@QAEXXZ,0x00800630,pin
+?bfmeClearCB@BfmeStrCB@@QAEXXZ,0x00887940,pin
 ?bfmeClearEFG@BfmeThingEFG@@QAEXXZ,0x0001D4B7,pin
 ?bfmeClearELAa@BfmeThingELAa@@QAEXXZ,0x0004278A,pin
 ?bfmeClearELAa@BfmeThingELAb@@QAEXXZ,0x0004278A,pin
@@ -74736,6 +74740,7 @@ name,address,notes
 ?bfmeInitBodyA@@YAXPAUBfmeNodeBody@@PAX@Z,0x000012D5,Open-BFME5 ILT the node maker at 0x0046A070 initialises through
 ?bfmeInitBodyB@@YAXPAUBfmeNodeBody@@PAX@Z,0x0000C568,Open-BFME5 ILT the node maker at 0x0046B1C0 initialises through
 ?bfmeInitBodyC@@YAXPAUBfmeNodeBody@@PAX@Z,0x00926750,Open-BFME5 the routine the node maker at 0x00927760 initialises through
+?bfmeInitCC@BfmeSubCC@@QAEXHH@Z,0x0001D63D,pin
 ?bfmeInitCMC@BfmeItemCMC@@QAEXPAX@Z,0x00027B01,pin
 ?bfmeInitD70@@YAXPAX0@Z,0x009A5D70,init helper called from bfmeMakeBZB copies 14 dwords then size fields
 ?bfmeInitDGD@BfmeThingDGD@@QAEPAV1@PAX@Z,0x007F7FA0,pin
@@ -84358,7 +84363,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-??_7BfmeOwnCB@@6B@,0x00CE7D00,pin
-?bfmeClearCB@BfmeStrCB@@QAEXXZ,0x00887940,pin
-??_7BfmeOwnCC@@6B@,0x00C86090,pin
-?bfmeInitCC@BfmeSubCC@@QAEXHH@Z,0x0001D63D,pin

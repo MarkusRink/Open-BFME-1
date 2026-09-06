@@ -1,5 +1,3 @@
-// ?getAllSideStrings@PlayerTemplateStore@@QAEXPAV?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@@Z
-// partial score=0.98 date=2026-09-06
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 // stlport
 
@@ -21,6 +19,43 @@ public:
 
 private:
 	void *m_data;
+};
+
+class BFMERetailAsciiString
+{
+public:
+	void releaseBuffer();
+};
+
+template <class T>
+class BFMERetailStringBase
+{
+public:
+	BFMERetailStringBase(const BFMERetailStringBase &source);
+	~BFMERetailStringBase()
+	{
+		reinterpret_cast<BFMERetailAsciiString *>(this)->releaseBuffer();
+	}
+
+protected:
+	T *m_data;
+};
+
+struct BFMEFindAsciiStringView : private BFMERetailStringBase<char>
+{
+	BFMEFindAsciiStringView(const BFMEFindAsciiStringView &source)
+		: BFMERetailStringBase<char>(source)
+	{
+	}
+
+	~BFMEFindAsciiStringView()
+	{
+	}
+	bool operator==(const BFMEFindAsciiStringView &other) const
+	{
+		return strcmp(static_cast<const char *>(m_data) + 4,
+			static_cast<const char *>(other.m_data) + 4) == 0;
+	}
 };
 
 template <typename T>
@@ -49,9 +84,9 @@ private:
 
 class PlayerTemplate
 {
-	public:
+public:
 	char m_prefix[8];
-	AsciiString m_side;
+	BFMEFindAsciiStringView m_side;
 	char m_suffix[0x118];
 };
 
@@ -72,13 +107,12 @@ private:
 	PlayerTemplateVector<PlayerTemplate> m_playerTemplates;
 };
 
-// ?getAllSideStrings@PlayerTemplateStore@@QAEXPAV?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@@Z
 void PlayerTemplateStore::getAllSideStrings(std::list<AsciiString> *outStringList)
 {
 	if (!outStringList)
 		return;
 
-	std::list<AsciiString> tmpList;
+	std::list<BFMEFindAsciiStringView> tmpList;
 	int numTemplates = m_playerTemplates.size();
 	for (int i = 0; i < numTemplates; ++i)
 	{
@@ -88,5 +122,7 @@ void PlayerTemplateStore::getAllSideStrings(std::list<AsciiString> *outStringLis
 		if (std::find(tmpList.begin(), tmpList.end(), pt->m_side) == tmpList.end())
 			tmpList.push_back(pt->m_side);
 	}
-	outStringList->splice(outStringList->end(), tmpList);
+	std::list<BFMEFindAsciiStringView> *outViewList =
+		reinterpret_cast<std::list<BFMEFindAsciiStringView> *>(outStringList);
+	outViewList->splice(outViewList->end(), tmpList);
 }
