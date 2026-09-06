@@ -2503,3 +2503,63 @@ shim that leaves the copy ctor declared-only (`asciistring_thin`,
 `asciistring_copyctor_outofline`, Generals' own `Common/AsciiString.h`), define
 `inline AsciiString::AsciiString(const AsciiString&)` in the .cpp after the
 includes -- a new shim directory would take the full gate, and a .cpp does not.
+
+## Count the call sites before you decide which ICF copy owns a name
+
+Two questions kept coming back as "divergent-bodies" or "size-disagreement" from
+`pin_consistency`, and in both the ledger had simply put the real name on the
+copy almost nobody calls. Counting is cheap -- scan `.text` for `E8`/`E9`
+displacements landing on each address, bucket the sites into matched
+`functions.csv` rows -- and it settles the argument in a minute.
+
+**`vector<AsciiString>::_M_insert_overflow` exists twice.** `0x00063700` has 38
+retail call sites across 29 claimed sources; `0x00757C70` has 2. They are the
+same 268-byte template body and differ only in three rel32 slots: the copy at
+`0x00063700` reaches an out-of-line `_Construct<AsciiString>` (`0x000620B0`,
+which calls `StringBase<char>`'s constructor at `0x00887B60`), while
+`0x00757C70` reaches the one that inlined the refcount bump (`0x00756D90`). The
+ledger names `0x00757C70` with the AsciiString spelling and `0x00063700` after
+its own address, so eight TUs that spell `std::vector<AsciiString>` resolved to
+the wrong copy. No pin bridges them and none should. **The fix is per-TU source
+and it is already the house pattern** (`Rva002638B0AsciiStringVectorParse.cpp`,
+`LibraryMapParse.cpp`): declare a four-byte element view named for the body --
+
+    class Open2Elem063700 : public AsciiString      // shim AsciiString: derive
+    { public: Open2Elem063700( const Open2Elem063700 &o ) : AsciiString( o ) {} };
+
+-- and cast at the call: `v.push_back( *(const Open2Elem063700 *)&value )`.
+Deriving keeps the layout and both string callees, so only the mangled callee
+changes. `??1?$vector@VOpen2Elem063700@@...@XZ` needed one pin (0x000658A0, the
+same unfolded destructor body the AsciiString spelling already pins). That took
+ini_parsers, both Win32BIGFileSystem TUs, all three Apt/Palantir screens,
+GameLogicPopulateGameReport and ObjectTypes to OK n/n.
+
+**`??1AudioEventRTS@@UAE@XZ` is 0x000B31F0, not 0x000CFA40.** 234 retail sites
+in 113 claimed sources reach `0x000B31F0` through ILT `0x00026F35`; three reach
+the 77-byte `0x000CFA40` that currently carries the name and the pin. The
+`.rdata` agrees: `0x000B31F0` stores vftable `0x01081D40`, which sits directly
+after the `\gameengine\Source\Common\Audio\AudioEventRTS.cpp` path literal, and
+it releases five AsciiStrings plus the refcounted AudioEventInfo where the
+77-byte body releases two strings and stores no vptr. Player.cpp's three radar
+bodies are byte-identical to retail apart from that one displacement. **This is
+not fixable from Player.cpp**: the destructor mangles `UAE` because the vendored
+header declares it virtual, `route=` is refused (the ledger names `0x000B31F0`
+`??1AudioEventRTS@@QAE@XZ`), and a second pin is refused on the size
+disagreement. It needs the 77-byte body renamed off the AudioEventRTS spelling
+first -- an identity retraction, not a resolution fix.
+
+## A harvested pin with no row behind it loses to any byte-verified caller
+
+`pinharvest x1 (thunk)` means one harvested hit and nothing else -- no
+`functions.csv` row carries the name. Eleven such pins pointed at a body that
+another *named* function owns outright (`??1SmudgeManager@@UAE@XZ`'s body under
+`??1SaveLoadSubSystemClass@@UAE@XZ`, `??0MissingAnimClass`'s under
+`??0MissingGeomClass`, `__copy<FXBoneInfo*>`'s under `__copy<QuantityModifier*>`)
+while a caller that is byte-identical everywhere else encoded a different
+address. Swapping those is safe *and checkable without the full gate*:
+`tools/delta_sources.py --staged --pins` names every source a deletion can
+redden, and building that set before and after is the whole verification. Ten of
+eleven landed with 0 newly red rows; the eleventh
+(`??4PrimitiveAnimationChannelClass<Vector2>`) moved a red row from one caller in
+`ringobj.cpp` to another and was reverted -- when two callers need two addresses,
+a swap trades one red for another and the answer is a TU-local name, not a pin.
