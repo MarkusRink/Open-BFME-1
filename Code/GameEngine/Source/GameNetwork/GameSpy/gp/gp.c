@@ -1,5 +1,5 @@
-// cl: /MD -Ireference/shims/gamespy
-/* GameSpy SDK, 2004 vintage -- pristine upstream C source.
+// cl: /MD -Ireference/shims/gamespy /ICode/GameEngine/Source/GameNetwork/GameSpy/gp
+/* GameSpy SDK, 2004 vintage -- upstream C source with retail buddy-status behavior.
    Sourced from the Area 51 (Inevitable Entertainment / Midway) source release,
    github.com/bisc67/Area51, Support/NetworkMgr/GameSpy -- the only public
    carrier found with the pre-2005 SDK layout (top-level nonport.c, no common/).
@@ -1449,13 +1449,11 @@ GPResult gpGetNumBuddies(
 
 GPResult gpGetBuddyStatus(
   GPConnection * connection,
-  int index, 
+  int index,
   GPBuddyStatus * status
 )
 {
 	GPIConnection * iconnection;
-	int num;
-	GPIProfile * profile;
 	GPIBuddyStatus * buddyStatus;
 
 	// Error check.
@@ -1469,7 +1467,6 @@ GPResult gpGetBuddyStatus(
 
 	// Check for simulation mode.
 	/////////////////////////////
-	iconnection = (GPIConnection*)*connection;
 	if(iconnection->simulation)
 	{
 		memset(status, 0, sizeof(GPBuddyStatus));
@@ -1483,19 +1480,21 @@ GPResult gpGetBuddyStatus(
 
 	// Check the buddy index.
 	/////////////////////////
-	num = iconnection->profileList.numBuddies;
-	if((index < 0) || (index >= num))
+	if((index < 0) || (index >= iconnection->profileList.numBuddies))
 		Error(connection, GP_PARAMETER_ERROR, "Invalid index.");
 
 	// Find the buddy with this index.
 	//////////////////////////////////
-	profile = gpiFindBuddy(connection, index);
-	if(!profile)
-		Error(connection, GP_PARAMETER_ERROR, "Invalid index.");
+	{
+		GPIProfile * profile;
+		profile = gpiFindBuddy(connection, index);
+		if(!profile)
+			Error(connection, GP_PARAMETER_ERROR, "Invalid index.");
 
-	buddyStatus = profile->buddyStatus;
-	assert(buddyStatus);
-	status->profile = (GPProfile)profile->profileId;
+		buddyStatus = profile->buddyStatus;
+		/* Retail has no buddy-status debug assertion. */
+		status->profile = (GPProfile)profile->profileId;
+	}
 	status->status = buddyStatus->status;
 #ifndef GSI_UNICODE
 	if(buddyStatus->statusString)
@@ -1521,6 +1520,7 @@ GPResult gpGetBuddyStatus(
 
 	return GP_NO_ERROR;
 }
+
 
 GPResult gpGetBuddyIndex(
   GPConnection * connection, 
