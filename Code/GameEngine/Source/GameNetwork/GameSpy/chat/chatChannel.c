@@ -433,3 +433,19 @@ void ciUserLeftChannel(CHAT chat, const char *user, const char *channel)
 	chatUser.name[127] = '\0';
 	TableRemove(channelData->users, &chatUser);
 }
+
+int ArrayLength(void *array);
+void *ArrayNth(void *array, int index);
+CHATBool ciIsEnteringChannel(CHAT chat, const char *channel)
+{
+    ciConnection *connection = (ciConnection *)chat;
+    int length = ArrayLength(connection->enteringChannelList);
+    int i;
+    for(i = 0; i < length; i++)
+    {
+        ciChatChannel *entry = (ciChatChannel *)ArrayNth(connection->enteringChannelList, i);
+        if(_strcmpi(entry->name, channel) == 0)
+            return CHATTrue;
+    }
+    return CHATFalse;
+}
