@@ -204,6 +204,18 @@ extern const char *g_crcLogFile;
 
 extern UnsignedByte Rva00882F40GetFlag( void );
 
+// The vector<AsciiString> COMDAT this TU reaches is the _M_insert_overflow copy
+// at 0x00063700 -- the one whose element copy calls StringBase<char>'s
+// constructor out of line, which 38 retail sites encode -- not the inlined-copy
+// twin at 0x00757C70. No pin can bridge the two (pin_consistency:
+// divergent-bodies at +0x77), so spell the element with the name the ledger
+// carries at 0x00063700. Deriving keeps the layout and both string callees.
+class Open2Elem063700 : public AsciiString
+{
+public:
+	Open2Elem063700( const Open2Elem063700 &other ) : AsciiString( other ) {}
+};
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/GameLogic.h
 class GameLogic
 {
@@ -212,7 +224,7 @@ public:
 
 	unsigned char m_unreconstructed_0000[0x50];
 	AsciiString m_gameReport;
-	std::vector<AsciiString> m_gameReportDetails;
+	std::vector<Open2Elem063700> m_gameReportDetails;
 	AsciiString m_commandLineArguments;
 	AsciiString m_gameReportTrailer;
 	Bool m_gameReportReady;
@@ -294,7 +306,7 @@ void GameLogic::bfmePopulateGameReport( GameInfo *game, Int *localSlot )
         report.concat( line.str(), line.getLength() );
     }
 
-	self->m_gameReportDetails.push_back( report );
+	self->m_gameReportDetails.push_back( *(const Open2Elem063700 *)&report );
 
 	self->m_commandLineArguments.format( (AsciiString)"  Important CommandLine Arguments:\n    System:" );
 	if ( Rva00882F40GetFlag() )
