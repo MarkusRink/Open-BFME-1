@@ -6,6 +6,7 @@ private:
     unsigned int m_value;
 };
 
+// ?d_0013d360@@YAXXZ
 Rva13D360PointerAssign *Rva13D360PointerAssign::assign(const unsigned int *value)
 {
     m_value = *value;

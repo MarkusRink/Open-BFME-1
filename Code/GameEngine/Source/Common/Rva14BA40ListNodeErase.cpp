@@ -17,6 +17,7 @@ struct Rva14BA40List
     Rva14BA40ListIterator *erase(Rva14BA40ListIterator *result, Rva14BA40ListNode *node);
 };
 
+// ?d_0014ba40@@YAXXZ
 Rva14BA40ListIterator *Rva14BA40List::erase(Rva14BA40ListIterator *result, Rva14BA40ListNode *node)
 {
     Rva14BA40ListNode *next = node->next;

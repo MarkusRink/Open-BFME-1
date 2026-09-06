@@ -20,12 +20,14 @@ struct DualIndexedDispatchThunk
     void dispatchSix(void *target);
 };
 
+// ?d_00643c10@@YAXXZ
 void DualIndexedDispatchThunk::dispatch(void *target)
 {
     dispatchIndexedValue(target, 1, value, 2, &DualIndexedDispatchFirst, &DualIndexedDispatchSecond);
     dispatchIndexedValue(target, 2, value, 2, &DualIndexedDispatchFirst, &DualIndexedDispatchSecond);
 }
 
+// ?d_00643bc0@@YAXXZ
 void DualIndexedDispatchThunk::dispatchSix(void *target)
 {
     dispatchIndexedValue(target, 1, value, 6, &DualIndexedDispatchSixFirst, &DualIndexedDispatchSixSecond);

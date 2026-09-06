@@ -17,6 +17,7 @@ struct InlineRangeResetThunk
     void resetFourth();
 };
 
+// ?d_0036d330@@YAXXZ
 void InlineRangeResetThunk::reset()
 {
     state->flag = false;
@@ -25,6 +26,7 @@ void InlineRangeResetThunk::reset()
     state->end = state;
 }
 
+// ?d_0036d370@@YAXXZ
 void InlineRangeResetThunk::resetAlternate()
 {
     state->flag = false;
@@ -33,6 +35,7 @@ void InlineRangeResetThunk::resetAlternate()
     state->end = state;
 }
 
+// ?d_0036d3a0@@YAXXZ
 void InlineRangeResetThunk::resetThird()
 {
     state->flag = false;
@@ -41,6 +44,7 @@ void InlineRangeResetThunk::resetThird()
     state->end = state;
 }
 
+// ?d_0036d3d0@@YAXXZ
 void InlineRangeResetThunk::resetFourth()
 {
     state->flag = false;

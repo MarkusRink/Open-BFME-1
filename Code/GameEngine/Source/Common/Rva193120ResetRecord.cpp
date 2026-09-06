@@ -16,6 +16,7 @@ private:
     Rva193120Record *m_record;
 };
 
+// ?d_00193120@@YAXXZ
 void Rva193120RecordOwner::reset()
 {
     m_record->first = 0;

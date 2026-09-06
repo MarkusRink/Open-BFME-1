@@ -18,6 +18,7 @@ struct Rva14BAD0List
     Rva14BAD0List *initialize(char *flag, int value);
 };
 
+// ?d_0014bad0@@YAXXZ
 Rva14BAD0List::Rva14BAD0List(int)
 {
     char flag;

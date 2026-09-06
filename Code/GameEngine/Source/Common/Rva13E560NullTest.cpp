@@ -8,6 +8,7 @@ private:
     void *m_value;
 };
 
+// ?d_0013e560@@YAXXZ
 bool Rva13E560NullTest::empty() const
 {
     return m_value == 0;

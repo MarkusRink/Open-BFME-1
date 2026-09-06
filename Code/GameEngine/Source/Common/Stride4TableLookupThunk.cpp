@@ -18,21 +18,25 @@ private:
 	Stride4TableEntry *m_entries;
 };
 
+// ?d_000c9d80@@YAXXZ
 Stride4TableEntry *Stride4Table::lookup(unsigned int index) const
 {
 	return &m_entries[index];
 }
 
+// ?d_000c9e00@@YAXXZ
 Stride4TableEntry *Stride4Table::alternateLookup(unsigned int index) const
 {
 	return &m_entries[index];
 }
 
+// ?d_000c9f80@@YAXXZ
 Stride4TableEntry *Stride4Table::thirdLookup(unsigned int index) const
 {
 	return &m_entries[index];
 }
 
+// ?d_000c9f90@@YAXXZ
 Stride4TableEntry *Stride4Table::fourthLookup(unsigned int index) const
 {
 	return &m_entries[index];

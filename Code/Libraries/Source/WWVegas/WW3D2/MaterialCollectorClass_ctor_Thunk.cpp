@@ -54,6 +54,7 @@ private:
 	bool VectorClassPad[2];
 };
 
+// ?construct@TextureVectorBaseCtorShim@@QAEXHH@Z
 TextureVectorBaseCtorShim::TextureVectorBaseCtorShim(int size, TextureVectorCell const *array)
 {
 	*(unsigned int *)this = 0x0113c5fc;

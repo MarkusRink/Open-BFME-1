@@ -47,6 +47,7 @@ bool W3DShaderManager::filterPostRender(FilterTypes filter, FilterModes mode, Co
 	return false;
 }
 
+// ?filterPostRender@W3DShaderManager@@SA_NW4FilterTypes@@W4FilterModes@@AAUCoord2D@@AA_N@Z
 bool W3DShaderManager::filterPostRenderRetail(FilterTypes filter, FilterModes mode, Coord2D &scrollDelta,
 	bool &doExtraRender, int callerStackWord)
 {

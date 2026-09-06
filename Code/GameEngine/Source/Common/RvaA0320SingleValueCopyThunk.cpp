@@ -5,6 +5,7 @@ struct RvaA0320SingleValueCopyThunk
     RvaA0320SingleValueCopyThunk *copy(const RvaA0320SingleValueCopyThunk *source);
 };
 
+// ?d_000a0320@@YAXXZ
 RvaA0320SingleValueCopyThunk *RvaA0320SingleValueCopyThunk::copy(
     const RvaA0320SingleValueCopyThunk *source)
 {

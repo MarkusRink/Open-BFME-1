@@ -44,6 +44,7 @@ public:
 	int m_bfme38;
 };
 
+// ?bfmeBaseSJ@BfmeThingSJ@@QAEXH@Z
 BfmeThingSJ::BfmeThingSJ(int what)
 	: GenBase009EB7D0(),
 	  m_bfme14(0),

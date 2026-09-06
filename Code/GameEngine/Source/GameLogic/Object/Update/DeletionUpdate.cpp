@@ -6,6 +6,7 @@
 #include "GameLogic/Object.h"
 #include "GameLogic/Module/DeletionUpdate.h"
 
+// ?d_0028c6e0@@YAXXZ
 void DeletionUpdate::setLifetimeRange(UnsignedInt minFrames, UnsignedInt maxFrames)
 {
 	UnsignedInt delay = calcSleepDelay(minFrames, maxFrames);

@@ -6,6 +6,7 @@ private:
     unsigned int m_value;
 };
 
+// ?d_000bed50@@YAXXZ
 unsigned int *RvaBED50ValueCopy::copy(unsigned int *output)
 {
     *output = m_value;

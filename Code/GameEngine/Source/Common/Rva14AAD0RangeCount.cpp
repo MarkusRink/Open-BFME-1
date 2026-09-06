@@ -17,6 +17,7 @@ struct Rva14AAD0RangeView
     int count();
 };
 
+// ?d_0014aad0@@YAXXZ
 int Rva14AAD0RangeView::count()
 {
     return range->end - range->begin;

@@ -7,6 +7,7 @@ private:
     unsigned char *m_value;
 };
 
+// ?d_00192e50@@YAXXZ
 unsigned char *Rva192E50PointerOwner::offset()
 {
     return m_value + 16;

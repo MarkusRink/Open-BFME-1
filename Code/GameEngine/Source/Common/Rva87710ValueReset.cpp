@@ -7,6 +7,7 @@ private:
     unsigned int value;
 };
 
+// ?d_00087710@@YAXXZ
 unsigned int *Rva87710ValueReset::reset()
 {
     value = 0;

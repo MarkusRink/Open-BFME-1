@@ -19,6 +19,7 @@ struct Rva14BA70StoredIterator
     void eraseCurrent();
 };
 
+// ?d_0014ba70@@YAXXZ
 void Rva14BA70StoredIterator::eraseCurrent()
 {
     Rva14BA70ListNode *node = iterator->node;

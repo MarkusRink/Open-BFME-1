@@ -12,6 +12,7 @@ private:
     Rva13E540Record *m_records;
 };
 
+// ?d_0013e540@@YAXXZ
 Rva13E540Record *Rva13E540RecordIndex::at(unsigned int index)
 {
     return m_records + index;

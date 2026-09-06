@@ -15,6 +15,7 @@ struct ScalarStateResetThunk
     unsigned long reset();
 };
 
+// ?d_0005c190@@YAXXZ
 unsigned long ScalarStateResetThunk::reset()
 {
     unsigned long result = first;

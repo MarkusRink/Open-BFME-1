@@ -6,6 +6,7 @@ private:
     unsigned int m_value;
 };
 
+// ?d_000bed60@@YAXXZ
 RvaBED60SecondArgumentStore *RvaBED60SecondArgumentStore::store(unsigned int, unsigned int value)
 {
     m_value = value;

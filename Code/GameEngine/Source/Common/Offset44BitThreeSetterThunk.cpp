@@ -6,6 +6,7 @@ struct Offset44BitThreeSetterThunk
     void set_bit_three();
 };
 
+// ?d_00087460@@YAXXZ
 void Offset44BitThreeSetterThunk::set_bit_three()
 {
     flags |= 8;

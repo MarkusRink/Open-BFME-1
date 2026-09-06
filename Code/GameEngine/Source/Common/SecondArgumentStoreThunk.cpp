@@ -5,6 +5,7 @@ struct SecondArgumentStoreThunk
     SecondArgumentStoreThunk *setFromSecondArgument(unsigned long unused, unsigned long newValue);
 };
 
+// ?d_00415b60@@YAXXZ
 SecondArgumentStoreThunk *SecondArgumentStoreThunk::setFromSecondArgument(unsigned long, unsigned long newValue)
 {
     value = newValue;

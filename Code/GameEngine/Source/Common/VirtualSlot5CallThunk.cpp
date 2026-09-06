@@ -25,6 +25,7 @@ struct VirtualSlot5CallThunk
     void invokeOne();
 };
 
+// ?d_0016bb20@@YAXXZ
 void VirtualSlot5CallThunk::invokeOne()
 {
     invoke(1);
@@ -52,41 +53,49 @@ struct VirtualSlot8CallThunk
     void invokeZeroSeventh();
 };
 
+// ?d_001fb260@@YAXXZ
 void VirtualSlot8CallThunk::invokeZero()
 {
     invoke(0);
 }
 
+// ?d_001fbb80@@YAXXZ
 void VirtualSlot8CallThunk::invokeZeroAlternate()
 {
     invoke(0);
 }
 
+// ?d_002043e0@@YAXXZ
 void VirtualSlot8CallThunk::invokeZeroThird()
 {
     invoke(0);
 }
 
+// ?d_0020a800@@YAXXZ
 void VirtualSlot8CallThunk::invokeOne()
 {
     invoke(1);
 }
 
+// ?d_0020a810@@YAXXZ
 void VirtualSlot8CallThunk::invokeZeroFourth()
 {
     invoke(0);
 }
 
+// ?d_0027ffa0@@YAXXZ
 void VirtualSlot8CallThunk::invokeZeroFifth()
 {
     invoke(0);
 }
 
+// ?d_002899f0@@YAXXZ
 void VirtualSlot8CallThunk::invokeZeroSixth()
 {
     invoke(0);
 }
 
+// ?d_002d7a50@@YAXXZ
 void VirtualSlot8CallThunk::invokeZeroSeventh()
 {
     invoke(0);
@@ -101,6 +110,7 @@ struct VirtualSlot2CallThunk
     void invokeIgnoringArgument(int unused);
 };
 
+// ?d_0025a2a0@@YAXXZ
 void VirtualSlot2CallThunk::invokeIgnoringArgument(int)
 {
     invoke();
@@ -116,11 +126,13 @@ struct VirtualSlot2IntCallThunk
     void invokeSixAlternate();
 };
 
+// ?d_0059f200@@YAXXZ
 void VirtualSlot2IntCallThunk::invokeSix()
 {
     invoke(6);
 }
 
+// ?d_0059f5b0@@YAXXZ
 void VirtualSlot2IntCallThunk::invokeSixAlternate()
 {
     invoke(6);
@@ -142,6 +154,7 @@ struct VirtualSlot9CallThunk
     void invokeOne();
 };
 
+// ?d_00695640@@YAXXZ
 void VirtualSlot9CallThunk::invokeOne()
 {
     invoke(1);
@@ -165,6 +178,7 @@ struct VirtualSlot11CallThunk
     void invokeZeroOne();
 };
 
+// ?d_002a5a30@@YAXXZ
 void VirtualSlot11CallThunk::invokeZeroOne()
 {
     invoke(0, 1);
@@ -189,41 +203,49 @@ struct VirtualSlot2MemberCallThunk
     void invokeMemberEighth();
 };
 
+// ?d_0059d3b0@@YAXXZ
 void VirtualSlot2MemberCallThunk::invokeMember()
 {
     invoke(value);
 }
 
+// ?d_0059d950@@YAXXZ
 void VirtualSlot2MemberCallThunk::invokeMemberAlternate()
 {
     invoke(value);
 }
 
+// ?d_0059dd80@@YAXXZ
 void VirtualSlot2MemberCallThunk::invokeMemberThird()
 {
     invoke(value);
 }
 
+// ?d_0059e1e0@@YAXXZ
 void VirtualSlot2MemberCallThunk::invokeMemberFourth()
 {
     invoke(value);
 }
 
+// ?d_0059e7b0@@YAXXZ
 void VirtualSlot2MemberCallThunk::invokeMemberFifth()
 {
     invoke(value);
 }
 
+// ?d_0059f8e0@@YAXXZ
 void VirtualSlot2MemberCallThunk::invokeMemberSixth()
 {
     invoke(value);
 }
 
+// ?d_0059fd20@@YAXXZ
 void VirtualSlot2MemberCallThunk::invokeMemberSeventh()
 {
     invoke(value);
 }
 
+// ?d_005a0420@@YAXXZ
 void VirtualSlot2MemberCallThunk::invokeMemberEighth()
 {
     invoke(value);
@@ -249,6 +271,7 @@ struct VirtualSlot10IncrementedMemberCallThunk
     void invokeNext();
 };
 
+// ?d_007e4730@@YAXXZ
 void VirtualSlot10IncrementedMemberCallThunk::invokeNext()
 {
     invoke(value + 1);
@@ -274,6 +297,7 @@ struct EmbeddedVirtualSlot1CallOwner : EmbeddedVirtualSlot1Thunk, EmbeddedVirtua
 {
 };
 
+// ?d_0011a180@@YAXXZ
 void EmbeddedVirtualSlot1CallFacet::invokeIgnoringArgument(int)
 {
     EmbeddedVirtualSlot1Thunk *owner = reinterpret_cast<EmbeddedVirtualSlot1Thunk *>(
@@ -281,6 +305,7 @@ void EmbeddedVirtualSlot1CallFacet::invokeIgnoringArgument(int)
     owner->invoke();
 }
 
+// ?d_00214cf0@@YAXXZ
 void EmbeddedVirtualSlot1CallFacet::invokeIgnoringArgumentAlternate(int)
 {
     EmbeddedVirtualSlot1Thunk *owner = reinterpret_cast<EmbeddedVirtualSlot1Thunk *>(
@@ -303,6 +328,7 @@ struct EmbeddedVirtualSlot2CallOwner
     void invokeIgnoringArgument(int unused);
 };
 
+// ?d_001fe4d0@@YAXXZ
 void EmbeddedVirtualSlot2CallOwner::invokeIgnoringArgument(int)
 {
     embedded.invoke();
@@ -338,6 +364,7 @@ struct SecondaryBaseVirtualSlot11Owner : SecondaryBaseVirtualSlot11Primary,
 {
 };
 
+// ?d_00202ec0@@YAXXZ
 void SecondaryBaseVirtualSlot11Facet::invokeIgnoringArgument(int)
 {
     SecondaryBaseVirtualSlot11Primary *owner = reinterpret_cast<SecondaryBaseVirtualSlot11Primary *>(
@@ -357,6 +384,7 @@ struct VirtualSlot2ArgumentCallOwner
     void invokeArgument(VirtualSlot2ArgumentThunk *target);
 };
 
+// ?d_007b77e0@@YAXXZ
 void VirtualSlot2ArgumentCallOwner::invokeArgument(VirtualSlot2ArgumentThunk *target)
 {
     target->invoke();
@@ -375,6 +403,7 @@ struct VirtualSlot4GlobalCallThunk
     void invokeTerrainLogic();
 };
 
+// ?d_00107270@@YAXXZ
 void VirtualSlot4GlobalCallThunk::invokeTerrainLogic()
 {
     invoke(TheTerrainLogic);
@@ -401,21 +430,25 @@ struct VirtualSlot11SecondArgumentCallThunk
     void invokeSecondFourth(int unused, int value);
 };
 
+// ?d_00259760@@YAXXZ
 void VirtualSlot11SecondArgumentCallThunk::invokeSecond(int, int value)
 {
     invoke(value);
 }
 
+// ?d_00263fc0@@YAXXZ
 void VirtualSlot11SecondArgumentCallThunk::invokeSecondAlternate(int, int value)
 {
     invoke(value);
 }
 
+// ?d_0026b0a0@@YAXXZ
 void VirtualSlot11SecondArgumentCallThunk::invokeSecondThird(int, int value)
 {
     invoke(value);
 }
 
+// ?d_0026cd20@@YAXXZ
 void VirtualSlot11SecondArgumentCallThunk::invokeSecondFourth(int, int value)
 {
     invoke(value);
@@ -447,6 +480,7 @@ struct VirtualSlot3FlagThunk
     void invokeAndSet();
 };
 
+// ?d_00739d90@@YAXXZ
 void VirtualSlot3FlagThunk::invokeAndSet()
 {
     invoke();
@@ -481,6 +515,7 @@ struct VirtualSlot21FirstArgumentThunk
     void invokeFirst(int value, int unused1, int unused2, int unused3, int unused4, int unused5);
 };
 
+// ?d_0045bab0@@YAXXZ
 void VirtualSlot21FirstArgumentThunk::invokeFirst(int value, int, int, int, int, int)
 {
     invoke(value);
@@ -521,6 +556,7 @@ struct VirtualSlot25EmbeddedArgumentsThunk
     void invokeEmbedded();
 };
 
+// ?d_002206d0@@YAXXZ
 void VirtualSlot25EmbeddedArgumentsThunk::invokeEmbedded()
 {
     invoke(reinterpret_cast<unsigned char *>(this) + 0x38, &second);
@@ -534,6 +570,7 @@ struct Offset24IntegerSetterThunk
     void setValue(int newValue);
 };
 
+// ?d_0045ba20@@YAXXZ
 void Offset24IntegerSetterThunk::setValue(int newValue)
 {
     value = newValue;
@@ -547,6 +584,7 @@ struct Offset68BooleanSetterThunk
     void setValue(bool newValue);
 };
 
+// ?d_0045b9e0@@YAXXZ
 void Offset68BooleanSetterThunk::setValue(bool newValue)
 {
     value = newValue;
@@ -560,6 +598,7 @@ struct Offset64IntegerSetterThunk
     void setValue(int newValue);
 };
 
+// ?d_0045bd90@@YAXXZ
 void Offset64IntegerSetterThunk::setValue(int newValue)
 {
     value = newValue;
@@ -573,6 +612,7 @@ struct Offset117BooleanSetterThunk
     void setValue(bool newValue);
 };
 
+// ?d_0045bdc0@@YAXXZ
 void Offset117BooleanSetterThunk::setValue(bool newValue)
 {
     value = newValue;
@@ -586,6 +626,7 @@ struct Offset108IntegerSetterThunk
     void setValue(int newValue);
 };
 
+// ?d_0045be10@@YAXXZ
 void Offset108IntegerSetterThunk::setValue(int newValue)
 {
     value = newValue;
@@ -599,6 +640,7 @@ struct Offset118FlagSetterThunk
     void set();
 };
 
+// ?d_0045be60@@YAXXZ
 void Offset118FlagSetterThunk::set()
 {
     value = true;
@@ -613,6 +655,7 @@ struct Offset96IntegerPairSetterThunk
     void setValues(int firstValue, int secondValue);
 };
 
+// ?d_0045be70@@YAXXZ
 void Offset96IntegerPairSetterThunk::setValues(int firstValue, int secondValue)
 {
     first = firstValue;
@@ -630,6 +673,7 @@ struct SparseIntegerResetThunk
     void reset();
 };
 
+// ?d_0045bed0@@YAXXZ
 void SparseIntegerResetThunk::reset()
 {
     first = 0;
@@ -645,6 +689,7 @@ struct Offset116BooleanSetterThunk
     void setValue(bool newValue);
 };
 
+// ?d_0045bee0@@YAXXZ
 void Offset116BooleanSetterThunk::setValue(bool newValue)
 {
     value = newValue;
@@ -658,6 +703,7 @@ struct Offset112IntegerSetterThunk
     void setValue(int newValue);
 };
 
+// ?d_0045bf20@@YAXXZ
 void Offset112IntegerSetterThunk::setValue(int newValue)
 {
     value = newValue;
@@ -671,6 +717,7 @@ struct Offset132BooleanGetterThunk
     bool get() const;
 };
 
+// ?d_0045bf60@@YAXXZ
 bool Offset132BooleanGetterThunk::get() const
 {
     return value;
@@ -684,6 +731,7 @@ struct Offset136IntegerGetterThunk
     int get() const;
 };
 
+// ?d_0045bf80@@YAXXZ
 int Offset136IntegerGetterThunk::get() const
 {
     return value;
@@ -697,6 +745,7 @@ struct Offset432IntegerGetterThunk
     int get() const;
 };
 
+// ?d_004647f0@@YAXXZ
 int Offset432IntegerGetterThunk::get() const
 {
     return value;
@@ -710,6 +759,7 @@ struct Offset592IntegerGetterThunk
     int get() const;
 };
 
+// ?d_00465a70@@YAXXZ
 int Offset592IntegerGetterThunk::get() const
 {
     return value;
@@ -724,6 +774,7 @@ struct Offset140IntegerPairSetterThunk
     void setValues(int firstValue, int secondValue);
 };
 
+// ?d_0045bfb0@@YAXXZ
 void Offset140IntegerPairSetterThunk::setValues(int firstValue, int secondValue)
 {
     first = firstValue;
@@ -739,6 +790,7 @@ struct Offset140IntegerPairValidityThunk
     bool isValid() const;
 };
 
+// ?d_0045bff0@@YAXXZ
 bool Offset140IntegerPairValidityThunk::isValid() const
 {
     return first != -1 && second != -1;
@@ -759,6 +811,7 @@ struct Offset140IntegerTripleCopyThunk
     int *copyTo(int *destination);
 };
 
+// ?d_0045c020@@YAXXZ
 int *Offset140IntegerTripleCopyThunk::copyTo(int *destination)
 {
     *reinterpret_cast<IntegerTripleCopyValue *>(destination) = value;
@@ -773,6 +826,7 @@ struct Offset152IntegerResetThunk
     void reset();
 };
 
+// ?d_0045c0c0@@YAXXZ
 void Offset152IntegerResetThunk::reset()
 {
     value = 0;
@@ -787,6 +841,7 @@ struct Offset172IntegerPairSetterThunk
     void setValues(int firstValue, int secondValue);
 };
 
+// ?d_0045c100@@YAXXZ
 void Offset172IntegerPairSetterThunk::setValues(int firstValue, int secondValue)
 {
     first = firstValue;
@@ -801,6 +856,7 @@ struct Offset156FloatGetterThunk
     float get() const;
 };
 
+// ?d_0045c140@@YAXXZ
 float Offset156FloatGetterThunk::get() const
 {
     return value;
@@ -814,6 +870,7 @@ struct Offset164FloatGetterThunk
     float get() const;
 };
 
+// ?d_0045c150@@YAXXZ
 float Offset164FloatGetterThunk::get() const
 {
     return value;
@@ -827,6 +884,7 @@ struct TwoIntegerClearThunk
     TwoIntegerClearThunk();
 };
 
+// ?d_0045c420@@YAXXZ
 TwoIntegerClearThunk::TwoIntegerClearThunk() :
     first(0),
     second(0)
@@ -849,6 +907,7 @@ struct VirtualSlot9NoArgumentCallThunk
     void call();
 };
 
+// ?d_0045c410@@YAXXZ
 void VirtualSlot9NoArgumentCallThunk::call()
 {
     invoke();
@@ -862,12 +921,14 @@ struct OffsetZeroIntegerSetterReturningThisThunk
     OffsetZeroIntegerSetterReturningThisThunk *setValueAlternate(int newValue);
 };
 
+// ?d_0045cb90@@YAXXZ
 OffsetZeroIntegerSetterReturningThisThunk *OffsetZeroIntegerSetterReturningThisThunk::setValue(int newValue)
 {
     value = newValue;
     return this;
 }
 
+// ?d_0045e100@@YAXXZ
 OffsetZeroIntegerSetterReturningThisThunk *OffsetZeroIntegerSetterReturningThisThunk::setValueAlternate(int newValue)
 {
     value = newValue;
@@ -882,6 +943,7 @@ struct Offset40IntegerSetterThunk
     void setValue(int newValue);
 };
 
+// ?d_0045cd70@@YAXXZ
 void Offset40IntegerSetterThunk::setValue(int newValue)
 {
     value = newValue;
@@ -895,6 +957,7 @@ struct Offset60IntegerSetterThunk
     void setValue(int newValue);
 };
 
+// ?d_0045cd80@@YAXXZ
 void Offset60IntegerSetterThunk::setValue(int newValue)
 {
     value = newValue;
@@ -908,6 +971,7 @@ struct Offset4IntegerSetterThunk
     void setValue(int newValue);
 };
 
+// ?d_0045cd90@@YAXXZ
 void Offset4IntegerSetterThunk::setValue(int newValue)
 {
     value = newValue;
@@ -921,6 +985,7 @@ struct Offset65BooleanSetterThunk
     void setValue(bool newValue);
 };
 
+// ?d_0045cda0@@YAXXZ
 void Offset65BooleanSetterThunk::setValue(bool newValue)
 {
     value = newValue;
@@ -934,6 +999,7 @@ struct Offset64BooleanSetterThunk
     void setValue(bool newValue);
 };
 
+// ?d_0045cdb0@@YAXXZ
 void Offset64BooleanSetterThunk::setValue(bool newValue)
 {
     value = newValue;
@@ -946,6 +1012,7 @@ struct OffsetZeroIntegerSetterReturningThisAlternateThunk
     OffsetZeroIntegerSetterReturningThisAlternateThunk *setValue(int newValue);
 };
 
+// ?d_0045cfc0@@YAXXZ
 OffsetZeroIntegerSetterReturningThisAlternateThunk *OffsetZeroIntegerSetterReturningThisAlternateThunk::setValue(int newValue)
 {
     value = newValue;
@@ -960,12 +1027,14 @@ struct OffsetZeroIntegerCopyReturningThisThunk
     OffsetZeroIntegerCopyReturningThisThunk *copyFromAlternate(const OffsetZeroIntegerCopyReturningThisThunk *other);
 };
 
+// ?d_0045cfd0@@YAXXZ
 OffsetZeroIntegerCopyReturningThisThunk *OffsetZeroIntegerCopyReturningThisThunk::copyFrom(const OffsetZeroIntegerCopyReturningThisThunk *other)
 {
     value = other->value;
     return this;
 }
 
+// ?d_0045dff0@@YAXXZ
 OffsetZeroIntegerCopyReturningThisThunk *OffsetZeroIntegerCopyReturningThisThunk::copyFromAlternate(const OffsetZeroIntegerCopyReturningThisThunk *other)
 {
     value = other->value;
@@ -983,30 +1052,35 @@ struct OffsetZeroSecondIntegerSetterReturningThisThunk
     OffsetZeroSecondIntegerSetterReturningThisThunk *setSecondFifth(int unused, int newValue);
 };
 
+// ?d_0045cff0@@YAXXZ
 OffsetZeroSecondIntegerSetterReturningThisThunk *OffsetZeroSecondIntegerSetterReturningThisThunk::setSecond(int, int newValue)
 {
     value = newValue;
     return this;
 }
 
+// ?d_0045e960@@YAXXZ
 OffsetZeroSecondIntegerSetterReturningThisThunk *OffsetZeroSecondIntegerSetterReturningThisThunk::setSecondAlternate(int, int newValue)
 {
     value = newValue;
     return this;
 }
 
+// ?d_0045e970@@YAXXZ
 OffsetZeroSecondIntegerSetterReturningThisThunk *OffsetZeroSecondIntegerSetterReturningThisThunk::setSecondThird(int, int newValue)
 {
     value = newValue;
     return this;
 }
 
+// ?d_0045e980@@YAXXZ
 OffsetZeroSecondIntegerSetterReturningThisThunk *OffsetZeroSecondIntegerSetterReturningThisThunk::setSecondFourth(int, int newValue)
 {
     value = newValue;
     return this;
 }
 
+// ?d_0045ea70@@YAXXZ
 OffsetZeroSecondIntegerSetterReturningThisThunk *OffsetZeroSecondIntegerSetterReturningThisThunk::setSecondFifth(int, int newValue)
 {
     value = newValue;
@@ -1028,6 +1102,7 @@ struct IndirectIntegerCopyThunk
     int *copyTo(int *destination) const;
 };
 
+// ?d_0045d110@@YAXXZ
 int *IndirectIntegerCopyThunk::copyTo(int *destination) const
 {
     *destination = *source;
@@ -1041,6 +1116,7 @@ struct DirectIntegerCopyThunk
     int *copyTo(int *destination) const;
 };
 
+// ?d_0045e7e0@@YAXXZ
 int *DirectIntegerCopyThunk::copyTo(int *destination) const
 {
     *destination = value;
@@ -1081,6 +1157,7 @@ struct OwnerPairInitializerThunk
     OwnerPairValue *initializeTwentySecond(OwnerPairValue *destination);
 };
 
+// ?d_0045f3c0@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initialize(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1088,6 +1165,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initialize(OwnerPairValue *destinatio
     return destination;
 }
 
+// ?d_0045f3f0@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeAlternate(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1095,6 +1173,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeAlternate(OwnerPairValue *d
     return destination;
 }
 
+// ?d_0045f480@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeThird(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1102,6 +1181,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeThird(OwnerPairValue *desti
     return destination;
 }
 
+// ?d_0045f970@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeFourth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1109,6 +1189,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeFourth(OwnerPairValue *dest
     return destination;
 }
 
+// ?d_0045f990@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeFifth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1116,6 +1197,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeFifth(OwnerPairValue *desti
     return destination;
 }
 
+// ?d_0045f9b0@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeSixth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1123,6 +1205,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeSixth(OwnerPairValue *desti
     return destination;
 }
 
+// ?d_004677f0@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeSeventh(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1130,6 +1213,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeSeventh(OwnerPairValue *des
     return destination;
 }
 
+// ?d_00467820@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeEighth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1137,6 +1221,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeEighth(OwnerPairValue *dest
     return destination;
 }
 
+// ?d_00467840@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeNinth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1144,6 +1229,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeNinth(OwnerPairValue *desti
     return destination;
 }
 
+// ?d_00467870@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeTenth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1151,6 +1237,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeTenth(OwnerPairValue *desti
     return destination;
 }
 
+// ?d_00467900@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeEleventh(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1158,6 +1245,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeEleventh(OwnerPairValue *de
     return destination;
 }
 
+// ?d_00467920@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeTwelfth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1165,6 +1253,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeTwelfth(OwnerPairValue *des
     return destination;
 }
 
+// ?d_00467940@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeThirteenth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1172,6 +1261,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeThirteenth(OwnerPairValue *
     return destination;
 }
 
+// ?d_00467960@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeFourteenth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1179,6 +1269,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeFourteenth(OwnerPairValue *
     return destination;
 }
 
+// ?d_00467980@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeFifteenth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1186,6 +1277,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeFifteenth(OwnerPairValue *d
     return destination;
 }
 
+// ?d_004681c0@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeSixteenth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1193,6 +1285,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeSixteenth(OwnerPairValue *d
     return destination;
 }
 
+// ?d_004681e0@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeSeventeenth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1200,6 +1293,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeSeventeenth(OwnerPairValue 
     return destination;
 }
 
+// ?d_00468200@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeEighteenth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1207,6 +1301,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeEighteenth(OwnerPairValue *
     return destination;
 }
 
+// ?d_00468220@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeNineteenth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1214,6 +1309,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeNineteenth(OwnerPairValue *
     return destination;
 }
 
+// ?d_00468240@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeTwentieth(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1221,6 +1317,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeTwentieth(OwnerPairValue *d
     return destination;
 }
 
+// ?d_00468260@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeTwentyFirst(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1228,6 +1325,7 @@ OwnerPairValue *OwnerPairInitializerThunk::initializeTwentyFirst(OwnerPairValue 
     return destination;
 }
 
+// ?d_00468280@@YAXXZ
 OwnerPairValue *OwnerPairInitializerThunk::initializeTwentySecond(OwnerPairValue *destination)
 {
     destination->value = 0;
@@ -1251,6 +1349,7 @@ struct IndirectSelfLinkedResetThunk
     void reset();
 };
 
+// ?d_0045e990@@YAXXZ
 void IndirectSelfLinkedResetThunk::reset()
 {
     state->active = false;
@@ -1266,6 +1365,7 @@ struct OffsetEightIndirectIntegerCopyThunk
     int *copyTo(int *destination) const;
 };
 
+// ?d_0045e7c0@@YAXXZ
 int *OffsetEightIndirectIntegerCopyThunk::copyTo(int *destination) const
 {
     *destination = *reinterpret_cast<const int *>(source + 8);
@@ -1284,6 +1384,7 @@ struct LinkedNodePopThunk
     LinkedNodePopValue **popTo(LinkedNodePopValue **destination, int unused);
 };
 
+// ?d_0045d130@@YAXXZ
 LinkedNodePopValue **LinkedNodePopThunk::popTo(LinkedNodePopValue **destination, int)
 {
     LinkedNodePopValue *oldHead = head;
@@ -1302,16 +1403,20 @@ struct VirtualMinusOneConstructorThunk
     VirtualMinusOneConstructorThunk(const VirtualMinusOneConstructorThunk &other);
 };
 
+// ?d_0045dcf0@@YAXXZ
 VirtualMinusOneConstructorThunk::VirtualMinusOneConstructorThunk() :
     value(-1)
 {
 }
 
+// ?d_0045e070@@YAXXZ
 VirtualMinusOneConstructorThunk::VirtualMinusOneConstructorThunk(const VirtualMinusOneConstructorThunk &other) :
     value(other.value)
 {
 }
 
+// ??1VirtualMinusOneConstructorThunk@@UAE@XZ present-unmatched (only the
+// deleting destructor ??_G has a row here, at ?d_0045dd20)
 VirtualMinusOneConstructorThunk::~VirtualMinusOneConstructorThunk()
 {
 }
@@ -1340,6 +1445,7 @@ struct ReferencePointerReleaseThunk
     void releaseSixth();
 };
 
+// ?d_0045de60@@YAXXZ
 void ReferencePointerReleaseThunk::release()
 {
     ReferenceCountedReleaseValue *current = value;
@@ -1352,6 +1458,7 @@ void ReferencePointerReleaseThunk::release()
     }
 }
 
+// ?d_0045de80@@YAXXZ
 void ReferencePointerReleaseThunk::releaseAlternate()
 {
     ReferenceCountedReleaseValue *current = value;
@@ -1364,6 +1471,7 @@ void ReferencePointerReleaseThunk::releaseAlternate()
     }
 }
 
+// ?d_0045def0@@YAXXZ
 void ReferencePointerReleaseThunk::releaseThird()
 {
     ReferenceCountedReleaseValue *current = value;
@@ -1376,6 +1484,7 @@ void ReferencePointerReleaseThunk::releaseThird()
     }
 }
 
+// ?d_0045e610@@YAXXZ
 void ReferencePointerReleaseThunk::releaseFourth()
 {
     ReferenceCountedReleaseValue *current = value;
@@ -1388,6 +1497,7 @@ void ReferencePointerReleaseThunk::releaseFourth()
     }
 }
 
+// ?d_0045e630@@YAXXZ
 void ReferencePointerReleaseThunk::releaseFifth()
 {
     ReferenceCountedReleaseValue *current = value;
@@ -1400,6 +1510,7 @@ void ReferencePointerReleaseThunk::releaseFifth()
     }
 }
 
+// ?d_0045e650@@YAXXZ
 void ReferencePointerReleaseThunk::releaseSixth()
 {
     ReferenceCountedReleaseValue *current = value;
@@ -1420,6 +1531,7 @@ struct ReferencePointerAssignmentThunk
     ReferencePointerAssignmentThunk *assignAlternate(const ReferencePointerAssignmentThunk *other);
 };
 
+// ?d_0045dea0@@YAXXZ
 ReferencePointerAssignmentThunk *ReferencePointerAssignmentThunk::assign(const ReferencePointerAssignmentThunk *other)
 {
     if (this != other)
@@ -1442,6 +1554,7 @@ ReferencePointerAssignmentThunk *ReferencePointerAssignmentThunk::assign(const R
     return this;
 }
 
+// ?d_0045e670@@YAXXZ
 ReferencePointerAssignmentThunk *ReferencePointerAssignmentThunk::assignAlternate(const ReferencePointerAssignmentThunk *other)
 {
     if (this != other)
@@ -1471,6 +1584,7 @@ struct RetainedReferenceCopyConstructorThunk
     RetainedReferenceCopyConstructorThunk(const RetainedReferenceCopyConstructorThunk &other);
 };
 
+// ?d_0045e1c0@@YAXXZ
 RetainedReferenceCopyConstructorThunk::RetainedReferenceCopyConstructorThunk(const RetainedReferenceCopyConstructorThunk &other) :
     value(other.value)
 {
@@ -1487,6 +1601,7 @@ struct RetainedReferenceCopyConstructorAlternateThunk
     RetainedReferenceCopyConstructorAlternateThunk(const RetainedReferenceCopyConstructorAlternateThunk &other);
 };
 
+// ?d_0045ea50@@YAXXZ
 RetainedReferenceCopyConstructorAlternateThunk::RetainedReferenceCopyConstructorAlternateThunk(const RetainedReferenceCopyConstructorAlternateThunk &other) :
     value(other.value)
 {
@@ -1503,6 +1618,7 @@ struct RetainedReferenceCopyConstructorThirdThunk
     RetainedReferenceCopyConstructorThirdThunk(const RetainedReferenceCopyConstructorThirdThunk &other);
 };
 
+// ?d_0045f4c0@@YAXXZ
 RetainedReferenceCopyConstructorThirdThunk::RetainedReferenceCopyConstructorThirdThunk(const RetainedReferenceCopyConstructorThirdThunk &other) :
     value(other.value)
 {
@@ -1519,6 +1635,7 @@ struct RetainedReferenceCopyConstructorFourthThunk
     RetainedReferenceCopyConstructorFourthThunk(const RetainedReferenceCopyConstructorFourthThunk &other);
 };
 
+// ?d_004679b0@@YAXXZ
 RetainedReferenceCopyConstructorFourthThunk::RetainedReferenceCopyConstructorFourthThunk(const RetainedReferenceCopyConstructorFourthThunk &other) :
     value(other.value)
 {
@@ -1537,6 +1654,7 @@ struct RetainedReferenceSetterThunk
     RetainedReferenceSetterThunk *setValueThird(ReferenceCountedReleaseValue *newValue);
 };
 
+// ?d_0045e480@@YAXXZ
 RetainedReferenceSetterThunk *RetainedReferenceSetterThunk::setValue(ReferenceCountedReleaseValue *newValue)
 {
     value = newValue;
@@ -1547,6 +1665,7 @@ RetainedReferenceSetterThunk *RetainedReferenceSetterThunk::setValue(ReferenceCo
     return this;
 }
 
+// ?d_0045e4a0@@YAXXZ
 RetainedReferenceSetterThunk *RetainedReferenceSetterThunk::setValueAlternate(ReferenceCountedReleaseValue *newValue)
 {
     value = newValue;
@@ -1557,6 +1676,7 @@ RetainedReferenceSetterThunk *RetainedReferenceSetterThunk::setValueAlternate(Re
     return this;
 }
 
+// ?d_0045e4c0@@YAXXZ
 RetainedReferenceSetterThunk *RetainedReferenceSetterThunk::setValueThird(ReferenceCountedReleaseValue *newValue)
 {
     value = newValue;
@@ -1604,156 +1724,187 @@ struct PointerPayloadGetterThunk
     unsigned char *getFourthPayload() const;
 };
 
+// ?d_0045e010@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayload() const
 {
     return base + 4;
 }
 
+// ?d_0045e020@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadAlternate() const
 {
     return base + 4;
 }
 
+// ?d_0045e030@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadThird() const
 {
     return base + 4;
 }
 
+// ?d_0045e0b0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadFourth() const
 {
     return base + 4;
 }
 
+// ?d_0045e6f0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadFifth() const
 {
     return base + 4;
 }
 
+// ?d_0045e700@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadSixth() const
 {
     return base + 4;
 }
 
+// ?d_0045e710@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadSeventh() const
 {
     return base + 4;
 }
 
+// ?d_004660b0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadEighth() const
 {
     return base + 4;
 }
 
+// ?d_004660c0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadNinth() const
 {
     return base + 4;
 }
 
+// ?d_004660d0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTenth() const
 {
     return base + 4;
 }
 
+// ?d_004660e0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadEleventh() const
 {
     return base + 4;
 }
 
+// ?d_004660f0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTwelfth() const
 {
     return base + 4;
 }
 
+// ?d_00466100@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadThirteenth() const
 {
     return base + 4;
 }
 
+// ?d_00466110@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadFourteenth() const
 {
     return base + 4;
 }
 
+// ?d_00466120@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadFifteenth() const
 {
     return base + 4;
 }
 
+// ?d_00466130@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadSixteenth() const
 {
     return base + 4;
 }
 
+// ?d_00466140@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadSeventeenth() const
 {
     return base + 4;
 }
 
+// ?d_004669e0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadEighteenth() const
 {
     return base + 4;
 }
 
+// ?d_004669f0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadNineteenth() const
 {
     return base + 4;
 }
 
+// ?d_00466a00@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTwentieth() const
 {
     return base + 4;
 }
 
+// ?d_00466a10@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTwentyFirst() const
 {
     return base + 4;
 }
 
+// ?d_00466a20@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTwentySecond() const
 {
     return base + 4;
 }
 
+// ?d_00466a30@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTwentyThird() const
 {
     return base + 4;
 }
 
+// ?d_00466a40@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTwentyFourth() const
 {
     return base + 4;
 }
 
+// ?d_00466a50@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTwentyFifth() const
 {
     return base + 4;
 }
 
+// ?d_00472850@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTwentySixth() const
 {
     return base + 4;
 }
 
+// ?d_004728a0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTwentySeventh() const
 {
     return base + 4;
 }
 
+// ?d_004728f0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getPayloadTwentyEighth() const
 {
     return base + 4;
 }
 
+// ?d_0045e0c0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getSecondPayload() const
 {
     return base + 8;
 }
 
+// ?d_0045e0d0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getThirdPayload() const
 {
     return base + 12;
 }
 
+// ?d_0045e6e0@@YAXXZ
 unsigned char *PointerPayloadGetterThunk::getFourthPayload() const
 {
     return base + 16;
@@ -1767,11 +1918,13 @@ struct PointerPresenceThunk
     bool hasValueAlternate() const;
 };
 
+// ?d_0045e0a0@@YAXXZ
 bool PointerPresenceThunk::hasValue() const
 {
     return value != 0;
 }
 
+// ?d_0045e770@@YAXXZ
 bool PointerPresenceThunk::hasValueAlternate() const
 {
     return value != 0;
@@ -1786,26 +1939,31 @@ struct IntegerArgumentIdentityThunk
     int identityFifth(int value) const;
 };
 
+// ?d_0045e0e0@@YAXXZ
 int IntegerArgumentIdentityThunk::identity(int value) const
 {
     return value;
 }
 
+// ?d_0045e220@@YAXXZ
 int IntegerArgumentIdentityThunk::identityAlternate(int value) const
 {
     return value;
 }
 
+// ?d_0045e360@@YAXXZ
 int IntegerArgumentIdentityThunk::identityThird(int value) const
 {
     return value;
 }
 
+// ?d_0045e410@@YAXXZ
 int IntegerArgumentIdentityThunk::identityFourth(int value) const
 {
     return value;
 }
 
+// ?d_0045e420@@YAXXZ
 int IntegerArgumentIdentityThunk::identityFifth(int value) const
 {
     return value;
@@ -1821,11 +1979,13 @@ struct Offset4IntegerPointerRangeThunk
     int sizeAlternate() const;
 };
 
+// ?d_0045e370@@YAXXZ
 int Offset4IntegerPointerRangeThunk::size() const
 {
     return end - begin;
 }
 
+// ?d_0045e4e0@@YAXXZ
 int Offset4IntegerPointerRangeThunk::sizeAlternate() const
 {
     return end - begin;
@@ -1914,6 +2074,7 @@ struct FluentIntegerBooleanCopyThunk
     FluentIntegerBooleanCopyThunk *copyFrom(const int *integerSource, const bool *booleanSource);
 };
 
+// ?d_0045e500@@YAXXZ
 FluentIntegerBooleanCopyThunk *FluentIntegerBooleanCopyThunk::copyFrom(const int *integerSource, const bool *booleanSource)
 {
     integerValue = *integerSource;
@@ -1935,6 +2096,7 @@ struct VirtualZeroDerivedThunk : ZeroValueBaseThunk
     VirtualZeroDerivedThunk();
 };
 
+// ?d_0045e520@@YAXXZ
 VirtualZeroDerivedThunk::VirtualZeroDerivedThunk()
 {
 }
@@ -1946,6 +2108,7 @@ struct VirtualZeroDerivedAlternateThunk : ZeroValueBaseThunk
     VirtualZeroDerivedAlternateThunk();
 };
 
+// ?d_0045e570@@YAXXZ
 VirtualZeroDerivedAlternateThunk::VirtualZeroDerivedAlternateThunk()
 {
 }
@@ -1957,6 +2120,7 @@ struct VirtualZeroDerivedThirdThunk : ZeroValueBaseThunk
     VirtualZeroDerivedThirdThunk();
 };
 
+// ?d_0045e5c0@@YAXXZ
 VirtualZeroDerivedThirdThunk::VirtualZeroDerivedThirdThunk()
 {
 }
@@ -1978,6 +2142,7 @@ struct FluentIntegerPairSetterThunk
     FluentIntegerPairSetterThunk *copyFromFourth(const FluentIntegerPairSetterThunk *other);
 };
 
+// ?d_0045e160@@YAXXZ
 FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValues(int firstValue, int secondValue)
 {
     first = firstValue;
@@ -1985,6 +2150,7 @@ FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValues(int firstV
     return this;
 }
 
+// ?d_0045e180@@YAXXZ
 FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValuesAlternate(int firstValue, int secondValue)
 {
     first = firstValue;
@@ -1992,6 +2158,7 @@ FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValuesAlternate(i
     return this;
 }
 
+// ?d_0045e1a0@@YAXXZ
 FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValuesThird(int firstValue, int secondValue)
 {
     first = firstValue;
@@ -1999,6 +2166,7 @@ FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValuesThird(int f
     return this;
 }
 
+// ?d_0045e9f0@@YAXXZ
 FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValuesFourth(int firstValue, int secondValue)
 {
     first = firstValue;
@@ -2006,6 +2174,7 @@ FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValuesFourth(int 
     return this;
 }
 
+// ?d_0045ea10@@YAXXZ
 FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValuesFifth(int firstValue, int secondValue)
 {
     first = firstValue;
@@ -2013,6 +2182,7 @@ FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValuesFifth(int f
     return this;
 }
 
+// ?d_0045ea30@@YAXXZ
 FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValuesSixth(int firstValue, int secondValue)
 {
     first = firstValue;
@@ -2020,6 +2190,7 @@ FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::setValuesSixth(int f
     return this;
 }
 
+// ?d_0045e3d0@@YAXXZ
 FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::copyFrom(const FluentIntegerPairSetterThunk *other)
 {
     first = other->first;
@@ -2027,6 +2198,7 @@ FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::copyFrom(const Fluen
     return this;
 }
 
+// ?d_0045e3f0@@YAXXZ
 FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::copyFromAlternate(const FluentIntegerPairSetterThunk *other)
 {
     first = other->first;
@@ -2034,6 +2206,7 @@ FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::copyFromAlternate(co
     return this;
 }
 
+// ?d_0045e430@@YAXXZ
 FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::copyFromThird(const FluentIntegerPairSetterThunk *other)
 {
     first = other->first;
@@ -2041,6 +2214,7 @@ FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::copyFromThird(const 
     return this;
 }
 
+// ?d_0045e450@@YAXXZ
 FluentIntegerPairSetterThunk *FluentIntegerPairSetterThunk::copyFromFourth(const FluentIntegerPairSetterThunk *other)
 {
     first = other->first;
@@ -2055,6 +2229,7 @@ struct SingleIntegerZeroConstructorThunk
     SingleIntegerZeroConstructorThunk();
 };
 
+// ?d_0045e110@@YAXXZ
 SingleIntegerZeroConstructorThunk::SingleIntegerZeroConstructorThunk() :
     value(0)
 {
@@ -2067,6 +2242,7 @@ struct SingleIntegerZeroConstructorAlternateThunk
     SingleIntegerZeroConstructorAlternateThunk();
 };
 
+// ?d_0045e950@@YAXXZ
 SingleIntegerZeroConstructorAlternateThunk::SingleIntegerZeroConstructorAlternateThunk() :
     value(0)
 {
@@ -2079,6 +2255,7 @@ struct SingleIntegerZeroConstructorThirdThunk
     SingleIntegerZeroConstructorThirdThunk();
 };
 
+// ?d_0045f3e0@@YAXXZ
 SingleIntegerZeroConstructorThirdThunk::SingleIntegerZeroConstructorThirdThunk() :
     value(0)
 {
@@ -2091,6 +2268,7 @@ struct SingleIntegerZeroConstructorFourthThunk
     SingleIntegerZeroConstructorFourthThunk();
 };
 
+// ?d_004679a0@@YAXXZ
 SingleIntegerZeroConstructorFourthThunk::SingleIntegerZeroConstructorFourthThunk() :
     value(0)
 {
@@ -2103,6 +2281,7 @@ struct SingleIntegerZeroConstructorFifthThunk
     SingleIntegerZeroConstructorFifthThunk();
 };
 
+// ?d_00466150@@YAXXZ
 SingleIntegerZeroConstructorFifthThunk::SingleIntegerZeroConstructorFifthThunk() :
     value(0)
 {
@@ -2115,6 +2294,7 @@ struct SingleIntegerZeroConstructorSixthThunk
     SingleIntegerZeroConstructorSixthThunk();
 };
 
+// ?d_00466170@@YAXXZ
 SingleIntegerZeroConstructorSixthThunk::SingleIntegerZeroConstructorSixthThunk() :
     value(0)
 {
@@ -2127,6 +2307,7 @@ struct SingleIntegerZeroConstructorSeventhThunk
     SingleIntegerZeroConstructorSeventhThunk();
 };
 
+// ?d_004661a0@@YAXXZ
 SingleIntegerZeroConstructorSeventhThunk::SingleIntegerZeroConstructorSeventhThunk() :
     value(0)
 {
@@ -2139,6 +2320,7 @@ struct SingleIntegerZeroConstructorEighthThunk
     SingleIntegerZeroConstructorEighthThunk();
 };
 
+// ?d_004661f0@@YAXXZ
 SingleIntegerZeroConstructorEighthThunk::SingleIntegerZeroConstructorEighthThunk() :
     value(0)
 {
@@ -2151,6 +2333,7 @@ struct SingleIntegerZeroConstructorNinthThunk
     SingleIntegerZeroConstructorNinthThunk();
 };
 
+// ?d_00466af0@@YAXXZ
 SingleIntegerZeroConstructorNinthThunk::SingleIntegerZeroConstructorNinthThunk() :
     value(0)
 {
@@ -2163,6 +2346,7 @@ struct SingleIntegerZeroConstructorTenthThunk
     SingleIntegerZeroConstructorTenthThunk();
 };
 
+// ?d_00466b70@@YAXXZ
 SingleIntegerZeroConstructorTenthThunk::SingleIntegerZeroConstructorTenthThunk() :
     value(0)
 {
@@ -2175,6 +2359,7 @@ struct SingleIntegerZeroConstructorEleventhThunk
     SingleIntegerZeroConstructorEleventhThunk();
 };
 
+// ?d_00466ba0@@YAXXZ
 SingleIntegerZeroConstructorEleventhThunk::SingleIntegerZeroConstructorEleventhThunk() :
     value(0)
 {
@@ -2187,6 +2372,7 @@ struct SingleIntegerZeroConstructorTwelfthThunk
     SingleIntegerZeroConstructorTwelfthThunk();
 };
 
+// ?d_00466bf0@@YAXXZ
 SingleIntegerZeroConstructorTwelfthThunk::SingleIntegerZeroConstructorTwelfthThunk() :
     value(0)
 {
@@ -2199,6 +2385,7 @@ struct SingleIntegerZeroConstructorThirteenthThunk
     SingleIntegerZeroConstructorThirteenthThunk();
 };
 
+// ?d_00467700@@YAXXZ
 SingleIntegerZeroConstructorThirteenthThunk::SingleIntegerZeroConstructorThirteenthThunk() :
     value(0)
 {
@@ -2211,6 +2398,7 @@ struct SingleIntegerZeroConstructorFourteenthThunk
     SingleIntegerZeroConstructorFourteenthThunk();
 };
 
+// ?d_00467810@@YAXXZ
 SingleIntegerZeroConstructorFourteenthThunk::SingleIntegerZeroConstructorFourteenthThunk() :
     value(0)
 {
@@ -2223,6 +2411,7 @@ struct SingleIntegerZeroConstructorFifteenthThunk
     SingleIntegerZeroConstructorFifteenthThunk();
 };
 
+// ?d_00467860@@YAXXZ
 SingleIntegerZeroConstructorFifteenthThunk::SingleIntegerZeroConstructorFifteenthThunk() :
     value(0)
 {
@@ -2235,6 +2424,7 @@ struct SingleIntegerZeroConstructorSixteenthThunk
     SingleIntegerZeroConstructorSixteenthThunk();
 };
 
+// ?d_00472630@@YAXXZ
 SingleIntegerZeroConstructorSixteenthThunk::SingleIntegerZeroConstructorSixteenthThunk() :
     value(0)
 {
@@ -2247,6 +2437,7 @@ struct SingleIntegerZeroConstructorSeventeenthThunk
     SingleIntegerZeroConstructorSeventeenthThunk();
 };
 
+// ?d_00472810@@YAXXZ
 SingleIntegerZeroConstructorSeventeenthThunk::SingleIntegerZeroConstructorSeventeenthThunk() :
     value(0)
 {
@@ -2297,206 +2488,247 @@ struct FluentNoOpThunk
     FluentNoOpThunk *ignoreFortyFirst(int unused);
 };
 
+// ?d_0045e120@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignore(int)
 {
     return this;
 }
 
+// ?d_0045e130@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreAlternate(int)
 {
     return this;
 }
 
+// ?d_0045e140@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThird(int)
 {
     return this;
 }
 
+// ?d_0045e200@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreFourth(int)
 {
     return this;
 }
 
+// ?d_0045e2f0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreFifth(int)
 {
     return this;
 }
 
+// ?d_0045e300@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreSixth(int)
 {
     return this;
 }
 
+// ?d_0045e310@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreSeventh(int)
 {
     return this;
 }
 
+// ?d_0045e320@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreEighth(int)
 {
     return this;
 }
 
+// ?d_0045e330@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreNinth(int)
 {
     return this;
 }
 
+// ?d_0045e340@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTenth(int)
 {
     return this;
 }
 
+// ?d_0045e350@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreEleventh(int)
 {
     return this;
 }
 
+// ?d_00466180@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwelfth(int)
 {
     return this;
 }
 
+// ?d_00466190@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirteenth(int)
 {
     return this;
 }
 
+// ?d_004661b0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreFourteenth(int)
 {
     return this;
 }
 
+// ?d_004661c0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreFifteenth(int)
 {
     return this;
 }
 
+// ?d_004661d0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreSixteenth(int)
 {
     return this;
 }
 
+// ?d_004661e0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreSeventeenth(int)
 {
     return this;
 }
 
+// ?d_00466200@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreEighteenth(int)
 {
     return this;
 }
 
+// ?d_00466490@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreNineteenth(int)
 {
     return this;
 }
 
+// ?d_004664a0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwentieth(int)
 {
     return this;
 }
 
+// ?d_004664b0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwentyFirst(int)
 {
     return this;
 }
 
+// ?d_004664c0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwentySecond(int)
 {
     return this;
 }
 
+// ?d_004664d0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwentyThird(int)
 {
     return this;
 }
 
+// ?d_004664e0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwentyFourth(int)
 {
     return this;
 }
 
+// ?d_004664f0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwentyFifth(int)
 {
     return this;
 }
 
+// ?d_00466500@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwentySixth(int)
 {
     return this;
 }
 
+// ?d_00466510@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwentySeventh(int)
 {
     return this;
 }
 
+// ?d_00466520@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwentyEighth(int)
 {
     return this;
 }
 
+// ?d_00466530@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreTwentyNinth(int)
 {
     return this;
 }
 
+// ?d_00466540@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirtieth(int)
 {
     return this;
 }
 
+// ?d_00466550@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirtyFirst(int)
 {
     return this;
 }
 
+// ?d_00466560@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirtySecond(int)
 {
     return this;
 }
 
+// ?d_00470a00@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirtyThird(int)
 {
     return this;
 }
 
+// ?d_00470a10@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirtyFourth(int)
 {
     return this;
 }
 
+// ?d_004729d0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirtyFifth(int)
 {
     return this;
 }
 
+// ?d_00472a10@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirtySixth(int)
 {
     return this;
 }
 
+// ?d_00472a40@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirtySeventh(int)
 {
     return this;
 }
 
+// ?d_00472a70@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirtyEighth(int)
 {
     return this;
 }
 
+// ?d_00472ae0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreThirtyNinth(int)
 {
     return this;
 }
 
+// ?d_00472af0@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreFortieth(int)
 {
     return this;
 }
 
+// ?d_00472b00@@YAXXZ
 FluentNoOpThunk *FluentNoOpThunk::ignoreFortyFirst(int)
 {
     return this;

@@ -14,6 +14,7 @@ struct RvaCD440VirtualDispatchThunk
     void dispatch();
 };
 
+// ?d_000cd440@@YAXXZ
 void RvaCD440VirtualDispatchThunk::dispatch()
 {
     target();

@@ -12,6 +12,7 @@ struct Rva18C160NestedOffset56ByteGetter
     unsigned char get_value();
 };
 
+// ?d_0018c160@@YAXXZ
 unsigned char Rva18C160NestedOffset56ByteGetter::get_value()
 {
     return nested->value;

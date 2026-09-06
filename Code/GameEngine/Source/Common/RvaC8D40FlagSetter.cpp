@@ -6,6 +6,7 @@ struct RvaC8D40FlagSetter
     void set_enabled();
 };
 
+// ?d_000c8d40@@YAXXZ
 void RvaC8D40FlagSetter::set_enabled()
 {
     enabled = true;

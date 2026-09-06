@@ -13,16 +13,19 @@ private:
 	void **m_end;
 };
 
+// ?d_000c9db0@@YAXXZ
 unsigned int PointerRangeCount::size() const
 {
 	return m_end - m_begin;
 }
 
+// ?d_000c9e40@@YAXXZ
 unsigned int PointerRangeCount::alternateSize() const
 {
 	return m_end - m_begin;
 }
 
+// ?d_000c9f70@@YAXXZ
 unsigned int PointerRangeCount::thirdSize() const
 {
 	return m_end - m_begin;

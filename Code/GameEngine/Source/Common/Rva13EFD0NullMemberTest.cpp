@@ -7,6 +7,7 @@ private:
     void *m_value;
 };
 
+// ?d_0013efd0@@YAXXZ
 bool Rva13EFD0NullMemberTest::empty() const
 {
     return m_value == 0;

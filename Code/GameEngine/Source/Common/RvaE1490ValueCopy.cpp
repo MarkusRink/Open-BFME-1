@@ -6,6 +6,7 @@ private:
     unsigned int m_value;
 };
 
+// ?d_000e1490@@YAXXZ
 unsigned int *RvaE1490ValueCopy::copy(unsigned int *output)
 {
     *output = m_value;

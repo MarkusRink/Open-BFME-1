@@ -6,6 +6,7 @@ struct Rva14B400Pair
     Rva14B400Pair *reset();
 };
 
+// ?d_0014b400@@YAXXZ
 Rva14B400Pair *Rva14B400Pair::reset()
 {
     first = 0;

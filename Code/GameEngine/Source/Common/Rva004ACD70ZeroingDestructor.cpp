@@ -16,6 +16,7 @@ public:
     int m_value;
 };
 
+// ?dup_00580830@@YAXXZ
 Rva004ACD70Object::~Rva004ACD70Object()
 {
     m_value = 0;

@@ -8,6 +8,7 @@ struct FourWordInitializerThunk
     FourWordInitializerThunk *initialize(unsigned long firstValue, unsigned long secondValue, unsigned long thirdValue);
 };
 
+// ?d_0005bac0@@YAXXZ
 FourWordInitializerThunk *FourWordInitializerThunk::initialize(
     unsigned long firstValue, unsigned long secondValue, unsigned long thirdValue)
 {

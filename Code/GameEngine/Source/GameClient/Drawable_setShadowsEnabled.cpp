@@ -30,6 +30,7 @@ public:
 	void setShadowsEnabled(Bool enable);
 };
 
+// ?setShadowsEnabled@Drawable@@QAEX_N@Z
 void BfmeDrawableForShadows::setShadowsEnabled(Bool enable)
 {
 	UnsignedInt &status = *reinterpret_cast<UnsignedInt *>((unsigned char *)this + 0x110);

@@ -16,16 +16,19 @@ struct NestedFieldGetterThunk
     unsigned long getThird() const;
 };
 
+// ?d_0036cf40@@YAXXZ
 unsigned long NestedFieldGetterThunk::getFirst() const
 {
     return values->first;
 }
 
+// ?d_0036cf50@@YAXXZ
 unsigned long NestedFieldGetterThunk::getSecond() const
 {
     return values->second;
 }
 
+// ?d_0036cf60@@YAXXZ
 unsigned long NestedFieldGetterThunk::getThird() const
 {
     return values->third;

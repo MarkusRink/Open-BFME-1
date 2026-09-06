@@ -6,6 +6,7 @@ struct Rva87430Bit4Getter
     unsigned int get_value();
 };
 
+// ?d_00087430@@YAXXZ
 unsigned int Rva87430Bit4Getter::get_value()
 {
     return (flags >> 4) & 1;

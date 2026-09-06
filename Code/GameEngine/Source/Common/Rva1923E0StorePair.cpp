@@ -8,6 +8,7 @@ private:
     unsigned char m_byte;
 };
 
+// ?d_001923e0@@YAXXZ
 Rva1923E0StorePair *Rva1923E0StorePair::store(unsigned int *word, unsigned char *byte)
 {
     m_word = *word;

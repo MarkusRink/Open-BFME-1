@@ -14,6 +14,7 @@ public:
     const Coord3D *get() const;
 };
 
+// ?j_0004b12d@@YAXXZ
 const Coord3D *BFMERopeDrawable::getPosition() const
 {
     return ((const BFMERopeDrawableGetPositionShim *)this)->get();

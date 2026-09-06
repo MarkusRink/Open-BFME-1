@@ -26,6 +26,7 @@ struct RvaA22F0FieldReset
     void reset();
 };
 
+// ?d_000a22f0@@YAXXZ
 void RvaA22F0FieldReset::reset()
 {
     value0C = 0;

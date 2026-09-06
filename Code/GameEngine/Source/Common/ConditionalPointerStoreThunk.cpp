@@ -10,6 +10,7 @@ struct ConditionalPointerStoreThunk
     void assignSecond(void *value);
 };
 
+// ?d_0005bb30@@YAXXZ
 void *ConditionalPointerStoreThunk::storeIfNotNull(void *value)
 {
     if (value)
@@ -21,11 +22,13 @@ void *ConditionalPointerStoreThunk::storeIfNotNull(void *value)
     return 0;
 }
 
+// ?d_0005bdb0@@YAXXZ
 void ConditionalPointerStoreThunk::assignSecond(void *value)
 {
     second = value;
 }
 
+// ?d_0005bda0@@YAXXZ
 void *ConditionalPointerStoreThunk::takeStored()
 {
     void *result = stored;
@@ -33,6 +36,7 @@ void *ConditionalPointerStoreThunk::takeStored()
     return result;
 }
 
+// ?d_0005bb70@@YAXXZ
 void *ConditionalPointerStoreThunk::storeSecondIfNotNull(void *value)
 {
     if (value)

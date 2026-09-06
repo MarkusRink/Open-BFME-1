@@ -11,6 +11,7 @@ struct Rva18C170NestedFloatGetter
     float get_value();
 };
 
+// ?d_0018c170@@YAXXZ
 float Rva18C170NestedFloatGetter::get_value()
 {
     return nested->value;

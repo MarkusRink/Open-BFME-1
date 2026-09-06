@@ -15,6 +15,7 @@ private:
     Rva13E7C0Node *m_node;
 };
 
+// ?d_0013e7c0@@YAXXZ
 void Rva13E7C0NodeReset::reset()
 {
     m_node->flag = 0;

@@ -12,6 +12,7 @@ struct Rva18C200NestedOffset76Getter
     unsigned int get_value();
 };
 
+// ?d_0018c200@@YAXXZ
 unsigned int Rva18C200NestedOffset76Getter::get_value()
 {
     return nested->value;

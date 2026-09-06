@@ -12,6 +12,7 @@ struct Rva18C1D0NestedOffset64FloatGetter
     float get_value();
 };
 
+// ?d_0018c1d0@@YAXXZ
 float Rva18C1D0NestedOffset64FloatGetter::get_value()
 {
     return nested->value;

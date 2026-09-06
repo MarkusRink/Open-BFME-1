@@ -16,6 +16,7 @@ private:
     Rva192F90Record *m_record;
 };
 
+// ?d_00192f90@@YAXXZ
 void Rva192F90RecordOwner::reset()
 {
     m_record->first = 0;

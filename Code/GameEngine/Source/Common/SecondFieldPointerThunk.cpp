@@ -16,6 +16,7 @@ private:
 	TwoFieldRecord *m_record;
 };
 
+// ?d_000ca040@@YAXXZ
 unsigned int *SecondFieldPointer::get() const
 {
 	return &m_record->second;

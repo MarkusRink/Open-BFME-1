@@ -14,6 +14,7 @@ struct Rva14B600Interface
     void forward();
 };
 
+// ?d_0014b600@@YAXXZ
 void Rva14B600Interface::forward()
 {
     dispatch();

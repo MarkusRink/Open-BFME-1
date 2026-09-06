@@ -12,6 +12,7 @@ struct TripleIndexThunk
     TripleIndexValue *at(unsigned long index) const;
 };
 
+// ?d_0036d0b0@@YAXXZ
 TripleIndexValue *TripleIndexThunk::at(unsigned long index) const
 {
     return values + index;

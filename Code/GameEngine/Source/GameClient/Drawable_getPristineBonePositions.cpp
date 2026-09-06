@@ -48,6 +48,7 @@ public:
 		Coord3D *positions, Matrix3D *transforms, Int maxBones) const;
 };
 
+// ?getPristineBonePositions@Drawable@@QBEHPBDHPAUCoord3D@@PAVMatrix3D@@H@Z
 Int BfmeDrawableForPristine::getPristineBonePositions(const char *boneNamePrefix,
 	Int startIndex, Coord3D *positions, Matrix3D *transforms, Int maxBones) const
 {

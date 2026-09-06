@@ -30,6 +30,7 @@ struct Rva220840DispatchThunk
 	bool invoke(unsigned int first, unsigned int second);
 };
 
+// ?d_00220840@@YAXXZ
 bool Rva220840DispatchThunk::invoke(unsigned int first, unsigned int second)
 {
 	Rva220840Request request;

@@ -6,6 +6,7 @@ struct Offset44BitTwoSetterThunk
     void set_bit_two();
 };
 
+// ?d_00087450@@YAXXZ
 void Offset44BitTwoSetterThunk::set_bit_two()
 {
     flags |= 4;

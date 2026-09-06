@@ -16,6 +16,7 @@ private:
     Rva1A6CD0Record *m_record;
 };
 
+// ?d_001a6cd0@@YAXXZ
 void Rva1A6CD0RecordOwner::reset()
 {
     m_record->first = 0;

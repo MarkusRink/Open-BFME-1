@@ -31,6 +31,7 @@ struct Rva7F4CC0ConstructorThunk : Rva7F4CC0Primary, Rva7F4CC0Child
 	Rva7F4CC0ConstructorThunk();
 };
 
+// ?d_007f4cc0@@YAXXZ
 Rva7F4CC0ConstructorThunk::Rva7F4CC0ConstructorThunk()
 {
 	Rva7F4CC0Child::normalize();

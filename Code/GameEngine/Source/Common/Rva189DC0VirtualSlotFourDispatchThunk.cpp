@@ -9,6 +9,7 @@ struct Rva189DC0VirtualSlotFourDispatchThunk
     void dispatch();
 };
 
+// ?d_00189dc0@@YAXXZ
 void Rva189DC0VirtualSlotFourDispatchThunk::dispatch()
 {
     invoke();

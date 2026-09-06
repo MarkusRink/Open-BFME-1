@@ -6,6 +6,7 @@ struct RvaA21A0Offset280Getter
     unsigned int get_value();
 };
 
+// ?d_000a21a0@@YAXXZ
 unsigned int RvaA21A0Offset280Getter::get_value()
 {
     return value;

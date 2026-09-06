@@ -10,6 +10,7 @@ struct Rva14AAB0ListHead
     Rva14AAB0ListHead *advance();
 };
 
+// ?d_0014aab0@@YAXXZ
 Rva14AAB0ListHead *Rva14AAB0ListHead::advance()
 {
     head = head->next;

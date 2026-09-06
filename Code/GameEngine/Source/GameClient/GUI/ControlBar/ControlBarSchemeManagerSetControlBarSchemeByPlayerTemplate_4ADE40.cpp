@@ -149,6 +149,7 @@ private:
 	ControlBarSchemeList m_schemeList;
 };
 
+// ?setControlBarSchemeByPlayerTemplate@ControlBarSchemeManager@@QAEXPBVPlayerTemplate@@_N@Z
 void ControlBarSchemeManagerSetControlBarSchemeByPlayerTemplate::setControlBarSchemeByPlayerTemplate(
 	const PlayerTemplate *pt, Bool useSmall)
 {

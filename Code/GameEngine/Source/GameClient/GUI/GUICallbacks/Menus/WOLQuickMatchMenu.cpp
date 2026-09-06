@@ -221,6 +221,7 @@ struct BfmeQuickMatchHideInfoGadgetsBody
 	void hide(Bool doIt);
 };
 
+// ?hideInfoGadgets@@YAX_N@Z
 void BfmeQuickMatchHideInfoGadgetsBody::hide(Bool doIt)
 {
 	m_stats->winHide(doIt);
@@ -260,6 +261,7 @@ struct BfmeQuickMatchHideOptionsGadgetsBody
 	void hide(Bool doIt);
 };
 
+// ?hideOptionsGadgets@@YAX_N@Z
 void BfmeQuickMatchHideOptionsGadgetsBody::hide(Bool doIt)
 {
 	m_22c->winHide(doIt);
@@ -285,6 +287,7 @@ struct BfmeQuickMatchInputBody
 	WindowMsgHandledType input(UnsignedInt msg, WindowMsgData mData1, WindowMsgData mData2);
 };
 
+// ?WOLQuickMatchMenuInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z
 WindowMsgHandledType BfmeQuickMatchInputBody::input(UnsignedInt msg, WindowMsgData mData1, WindowMsgData mData2)
 {
 	if (msg != GWM_CHAR)
@@ -326,6 +329,7 @@ struct BfmeQuickMatchUpdateStartButtonBody
 	void update(void);
 };
 
+// ?UpdateStartButton@@YAXXZ
 void BfmeQuickMatchUpdateStartButtonBody::update(void)
 {
 	if (!m_comboLadder || !m_buttonStart || !m_listboxMapSelect)
@@ -2252,6 +2256,7 @@ private:
 	GameWindow *m_parentStats;
 };
 
+// ?PopulateQMLadderListBox@BfmeAptScreenQuickMatchMenu@@QAEXPAVGameWindow@@@Z present-unmatched
 void BfmeAptScreenQuickMatchMenu::PopulateQMLadderListBox( GameWindow *win )
 {
 	if (!m_ladder)
@@ -2338,6 +2343,7 @@ void BfmeAptScreenQuickMatchMenu::PopulateQMLadderListBox( GameWindow *win )
 	isPopulatingLadderBox = false;
 }
 
+// ?_bfme_initGadgets@BfmeAptScreenQuickMatchMenu@@QAEXXZ present-unmatched
 void BfmeAptScreenQuickMatchMenu::_bfme_initGadgets( void )
 {
 	BfmeThingEGD *lookup = (BfmeThingEGD *)this;

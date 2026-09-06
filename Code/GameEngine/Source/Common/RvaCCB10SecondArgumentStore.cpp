@@ -6,6 +6,7 @@ private:
     unsigned int m_value;
 };
 
+// ?d_000ccb10@@YAXXZ
 RvaCCB10SecondArgumentStore *RvaCCB10SecondArgumentStore::store(unsigned int, unsigned int value)
 {
     m_value = value;

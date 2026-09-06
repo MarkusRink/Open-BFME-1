@@ -12,6 +12,7 @@ struct Rva18C190NestedOffset4FloatGetter
     float get_value();
 };
 
+// ?d_0018c190@@YAXXZ
 float Rva18C190NestedOffset4FloatGetter::get_value()
 {
     return nested->value;

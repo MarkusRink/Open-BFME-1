@@ -16,6 +16,7 @@ struct OrderedTreeFindThunk
     OrderedTreeNode *findThird(const long *key);
 };
 
+// ?d_0036d880@@YAXXZ
 OrderedTreeNode *OrderedTreeFindThunk::find(const long *key)
 {
     OrderedTreeNode *node = header->root;
@@ -37,6 +38,7 @@ OrderedTreeNode *OrderedTreeFindThunk::find(const long *key)
     return candidate;
 }
 
+// ?d_0036d8d0@@YAXXZ
 OrderedTreeNode *OrderedTreeFindThunk::findAlternate(const long *key)
 {
     OrderedTreeNode *node = header->root;
@@ -58,6 +60,7 @@ OrderedTreeNode *OrderedTreeFindThunk::findAlternate(const long *key)
     return candidate;
 }
 
+// ?d_0036d930@@YAXXZ
 OrderedTreeNode *OrderedTreeFindThunk::findThird(const long *key)
 {
     OrderedTreeNode *node = header->root;

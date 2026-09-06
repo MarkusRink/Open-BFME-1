@@ -35,6 +35,7 @@ public:
 	iterator erase(iterator first, iterator last);
 };
 
+// ?erase@?$list@UGen_t_00381e80_p12cd@@V?$allocator@UGen_t_00381e80_p12cd@@@_STL@@@_STL@@QAE?AU?$_List_iterator@UGen_t_00381e80_p12cd@@U?$_Nonconst_traits@UGen_t_00381e80_p12cd@@@_STL@@@2@U32@0@Z
 iterator list::erase(iterator first, iterator last)
 {
 	_List_node_base *l = last._M_node;

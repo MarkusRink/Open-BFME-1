@@ -6,6 +6,7 @@ struct Offset5E24ByteSetterThunk
     void setValue(unsigned char newValue);
 };
 
+// ?d_0005c470@@YAXXZ
 void Offset5E24ByteSetterThunk::setValue(unsigned char newValue)
 {
     value = newValue;

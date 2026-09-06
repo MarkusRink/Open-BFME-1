@@ -8,6 +8,7 @@ struct ScalarByteAssignThunk
     ScalarByteAssignThunk &assignThird(const unsigned long *newScalar, const unsigned char *newFlag);
 };
 
+// ?d_0036d6f0@@YAXXZ
 ScalarByteAssignThunk &ScalarByteAssignThunk::assign(
     const unsigned long *newScalar,
     const unsigned char *newFlag)
@@ -17,6 +18,7 @@ ScalarByteAssignThunk &ScalarByteAssignThunk::assign(
     return *this;
 }
 
+// ?d_0036d750@@YAXXZ
 ScalarByteAssignThunk &ScalarByteAssignThunk::assignAlternate(
     const unsigned long *newScalar,
     const unsigned char *newFlag)
@@ -26,6 +28,7 @@ ScalarByteAssignThunk &ScalarByteAssignThunk::assignAlternate(
     return *this;
 }
 
+// ?d_0036d7b0@@YAXXZ
 ScalarByteAssignThunk &ScalarByteAssignThunk::assignThird(
     const unsigned long *newScalar,
     const unsigned char *newFlag)

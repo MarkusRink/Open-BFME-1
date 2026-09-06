@@ -9,6 +9,7 @@ private:
     unsigned int m_third;
 };
 
+// ?d_0013d970@@YAXXZ
 void Rva13D970TripleStore::store(unsigned int first, unsigned int second, unsigned int third)
 {
     m_first = first;

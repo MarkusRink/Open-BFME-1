@@ -7,6 +7,7 @@ private:
     unsigned char m_member;
 };
 
+// ?d_0013d260@@YAXXZ
 unsigned char *Rva13D260MemberAddress::member()
 {
     return &m_member;

@@ -8,6 +8,7 @@ private:
     unsigned char m_flag;
 };
 
+// ?d_0013ed70@@YAXXZ
 Rva13ED70PairAssign *Rva13ED70PairAssign::assign(const unsigned int *value, const unsigned char *flag)
 {
     m_value = *value;

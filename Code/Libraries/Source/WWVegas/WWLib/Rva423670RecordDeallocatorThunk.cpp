@@ -15,6 +15,7 @@ struct Rva423670RecordStorage
 	Rva423670Record *end;
 };
 
+// ?d_00423670@@YAXXZ
 void Rva423670RecordStorage::deallocate()
 {
 	if (begin != 0) {

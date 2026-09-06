@@ -20,6 +20,7 @@ struct Rva8BB1A0BoundsCheckThunk
 	int y;
 };
 
+// ?d_008bb1a0@@YAXXZ
 bool Rva8BB1A0BoundsCheckThunk::contains(Rva8BB1A0BoundsSource *source, void *)
 {
 	Rva8BB1A0Bounds bounds;

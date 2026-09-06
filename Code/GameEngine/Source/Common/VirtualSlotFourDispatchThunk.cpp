@@ -9,6 +9,7 @@ struct VirtualSlotFourDispatchThunk
     void dispatch();
 };
 
+// ?d_00189b50@@YAXXZ
 void VirtualSlotFourDispatchThunk::dispatch()
 {
     invoke();

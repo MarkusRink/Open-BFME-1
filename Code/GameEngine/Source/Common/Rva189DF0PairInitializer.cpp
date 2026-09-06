@@ -6,6 +6,7 @@ struct Rva189DF0PairInitializer
     Rva189DF0PairInitializer *initialize();
 };
 
+// ?d_00189df0@@YAXXZ
 Rva189DF0PairInitializer *Rva189DF0PairInitializer::initialize()
 {
     type = 0x0109B558;

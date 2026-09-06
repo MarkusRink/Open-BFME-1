@@ -118,6 +118,7 @@ __forceinline void rva00958200Cleanup(BfmeThingTXA *self, PAVISTREAM stream)
 	self->m_bfmeA = 0;
 }
 
+// ?d_00958200@@YAXXZ
 BfmeThingTXA::BfmeThingTXA(const char *filename, int width, int height, int bitcount,
 	float framerate, int count, bool compressed)
 {
@@ -176,7 +177,7 @@ BfmeThingTXA::BfmeThingTXA(const char *filename, int width, int height, int bitc
 	if (hr != 0)
 	{
 		char error[256];
-		sprintf(error, "Unable to create AVI stream\n");
+		sprintf(error, "Unable to create stream\n");
 		OutputDebugStringA(error);
 		bfmeReleaseBTXA(m_bfmeB);
 		m_bfmeB = 0;
@@ -199,7 +200,7 @@ BfmeThingTXA::BfmeThingTXA(const char *filename, int width, int height, int bitc
 		if (hr != 0)
 		{
 			char error[256];
-			sprintf(error, "Unable to compress AVI stream\n");
+			sprintf(error, "Unable to create compressed stream\n");
 			OutputDebugStringA(error);
 			rva00958200Cleanup(this, stream);
 			return;
@@ -231,7 +232,7 @@ BfmeThingTXA::BfmeThingTXA(const char *filename, int width, int height, int bitc
 	if (hr != 0)
 	{
 		char error[256];
-		sprintf(error, "Unable to set AVI format\n");
+		sprintf(error, "Unable to set stream format\n");
 		OutputDebugStringA(error);
 		rva00958200Cleanup(this, m_bfmeA);
 		return;
@@ -241,7 +242,7 @@ BfmeThingTXA::BfmeThingTXA(const char *filename, int width, int height, int bitc
 	if (m_bfmeBuf == 0)
 	{
 		char error[256];
-		sprintf(error, "Unable to allocate AVI buffer\n");
+		sprintf(error, "Unable to allocate buffer\n");
 		OutputDebugStringA(error);
 	}
 }

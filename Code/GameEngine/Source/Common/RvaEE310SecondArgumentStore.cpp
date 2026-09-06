@@ -6,6 +6,7 @@ private:
     unsigned int m_value;
 };
 
+// ?d_000ee310@@YAXXZ
 RvaEE310SecondArgumentStore *RvaEE310SecondArgumentStore::store(unsigned int, unsigned int value)
 {
     m_value = value;
