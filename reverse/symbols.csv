@@ -169493,3 +169493,4 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ??4?$vector@UPmICoord2D@@V?$allocator@UPmICoord2D@@@_STL@@@_STL@@QAEAAV01@ABV01@@Z,0x00026C6A,"ILT to the eight-byte-element vector assign 0x001E7330 (sar edi,3), which ??4WtVecCoord2D@@QAEAAV0@ABV0@@Z already pins; PartitionOffsetVecCopy.cpp's view of vector<ICoord2D>"
 ??0BfmeModuleDataSnapshotBase@@QAE@XZ,0x009A1A30,"BFME module-data base constructor: the 16-byte body every ModuleData ctor calls, folded with ??0SubsystemInterface@@QAE@XZ"
 ??1BfmeModuleDataSnapshotBase@@QAE@XZ,0x009A1A40,"BFME module-data base destructor: the 14-byte body, folded with ??1SubsystemInterface@@UAE@XZ"
+??1BfmeWWLibBuffer@@QAE@XZ,0x00887940,BFME WWLib Buffer destructor: the 134-byte body ?releaseBuffer@?$StringBase@D@@AAEXXZ folds onto

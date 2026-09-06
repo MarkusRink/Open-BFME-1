@@ -21,6 +21,12 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// BFME's Buffer destructor is the 134-byte body at 0x00887940 that
+// ?releaseBuffer@?$StringBase@D@@AAEXXZ folds onto; the ZH ??1Buffer@@QAE@XZ
+// spelling resolves elsewhere.  Renaming the class for this TU alone gives
+// the call a name of its own.
+#define Buffer BfmeWWLibBuffer
+
 #include <stdio.h>
 #include <math.h>
 #include "pot.h"
