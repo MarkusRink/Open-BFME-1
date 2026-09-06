@@ -2728,3 +2728,89 @@ void ciEndOfNamesHandler(CHAT chat, const ciServerMessage *message)
 		return;
 	}
 }
+
+void ciSetUserBasicInfo(CHAT chat, const char *nick, const char *user,
+	const char *address);
+
+
+void ciRplWhoReplyHandler(CHAT chat, const ciServerMessage *message)
+{
+	char *channel;
+	char *nick;
+	char *user;
+	char *address;
+	ciServerMessageFilter *filter;
+	ciFilterMatch matches[3];
+
+	assert(message->numParams == 8);
+	if (message->numParams != 8)
+		return;
+
+	channel = message->params[1];
+	user = message->params[2];
+	address = message->params[3];
+	nick = message->params[5];
+
+	ciSetUserBasicInfo(chat, nick, user, address);
+
+	memset(matches, 0, sizeof(matches));
+	matches[0].type = TYPE_UMODE;
+	matches[0].name = nick;
+	matches[0].name2 = channel;
+	matches[1].type = TYPE_WHO;
+	matches[1].name = nick;
+	matches[2].type = TYPE_CWHO;
+	matches[2].name = channel;
+
+	filter = ciFindFilter(chat, 3, matches);
+	if (!filter)
+		return;
+
+	if (filter->type == TYPE_UMODE)
+	{
+		ciCallbackGetUserModeParams params;
+		int mode;
+
+		mode = 0;
+		if (strchr(message->params[6], '@'))
+			mode |= CHAT_OP;
+		if (strchr(message->params[6], '+'))
+			mode |= CHAT_VOICE;
+
+		params.success = CHATTrue;
+		params.channel = channel;
+		params.user = nick;
+		params.mode = mode;
+
+		FINISH_FILTER;
+		return;
+	}
+
+	if (filter->type == TYPE_WHO)
+	{
+		ciCallbackGetBasicUserInfoParams params;
+		params.success = CHATTrue;
+		params.nick = nick;
+		params.user = user;
+		params.address = address;
+
+		ciAddCallback(chat, CALLBACK_GET_BASIC_USER_INFO, filter->callback,
+			&params, filter->param, filter->ID, NULL);
+		filter->callback = NULL;
+		return;
+	}
+
+	if ((filter->type == TYPE_CWHO) && filter->callback)
+	{
+		ciCallbackGetChannelBasicUserInfoParams params;
+		params.success = CHATTrue;
+		params.channel = filter->name;
+		params.nick = nick;
+		params.user = user;
+		params.address = address;
+
+		ciAddCallback(chat, CALLBACK_GET_CHANNEL_BASIC_USER_INFO,
+			filter->callback, &params, filter->param, filter->ID, NULL);
+		return;
+	}
+}
