@@ -41,6 +41,10 @@ private:
 	friend class UnicodeString;
 
 	StringBase();
+	// Private, so it mangles ??0?$StringBase@G@@AAE@ABV0@@Z -- the body at
+	// 0x00888400 that getName's return copy encodes, retail having inlined
+	// UnicodeString's one-line forwarder away.
+	StringBase(const StringBase<T> &that);
 	~StringBase();
 
 	T *m_str;
@@ -50,7 +54,7 @@ private:
 class UnicodeString : public StringBase<unsigned short>
 {
 public:
-	UnicodeString(const UnicodeString &that);
+	UnicodeString(const UnicodeString &that) : StringBase<unsigned short>(that) {}
 	~UnicodeString() {}
 
 	int compareNoCase(const UnicodeString &that) const throw()

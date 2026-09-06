@@ -59,6 +59,22 @@
 #include "GameNetwork/LANAPI.h"
 #include "GameNetwork/LANAPICallbacks.h"
 
+// UnicodeString is StringBase<WideChar>, and retail inlined its one-line
+// forwarders away: the call sites below encode ?set@?$StringBase@G@@QAEXABV1@@Z
+// (0x00888530) and ??0?$StringBase@G@@AAE@ABV0@@Z (0x00888400) directly.  The
+// StringBase template itself comes from the shim this TU already uses.
+inline void UnicodeString::set( const UnicodeString &stringSrc )
+{
+	reinterpret_cast<StringBase<WideChar> &>( *this ).set(
+		reinterpret_cast<const StringBase<WideChar> &>( stringSrc ) );
+}
+
+inline UnicodeString::UnicodeString( const UnicodeString &stringSrc )
+{
+	((StringBase<WideChar> *)this)->StringBase<WideChar>::StringBase(
+		*(const StringBase<WideChar> *)&stringSrc );
+}
+
 #ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)

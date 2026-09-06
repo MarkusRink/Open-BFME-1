@@ -66,6 +66,31 @@
 #include "GameClient/GameWindowGlobal.h"
 #include "GameClient/Keyboard.h"
 
+// UnicodeString is StringBase<WideChar>, and retail inlined its one-line
+// forwarders away: the call sites below encode the StringBase<WideChar> bodies
+// directly, not the ZH UnicodeString spellings (which resolve to the NARROW
+// StringBase<char> bodies).
+template <typename Char>
+class StringBase
+{
+private:
+	friend class UnicodeString;
+	StringBase( const StringBase<Char> &src );
+};
+
+// ??0?$StringBase@G@@AAE@ABV0@@Z at 0x00888400 -- private, which is what
+// mangles it AAE.
+inline UnicodeString::UnicodeString( const UnicodeString &stringSrc )
+{
+	((StringBase<WideChar> *)this)->StringBase<WideChar>::StringBase(
+		*(const StringBase<WideChar> *)&stringSrc );
+}
+
+// MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array form
+// is declared where it can see it; retail calls ??_V@YAXPAX@Z at 0x00881EF0 in
+// the three multi-select bodies below.
+void operator delete[]( void *block );
+
 #ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)
@@ -474,7 +499,7 @@ static Int moveRowsDown(ListboxData *list, Int startingRow)
 	char *buf = NEW char[copyLen];
 	memcpy(buf, *(ListEntryRow **)((char *)list + 0x18) + startingRow, copyLen);
 	memcpy(*(ListEntryRow **)((char *)list + 0x18) + startingRow + 1, buf, copyLen );
-	delete buf;
+	delete [] buf;
 
 	(*(Short *)((char *)list + 0x2C))++;
 	*(Short *)((char *)list + 0x2E) = *(Short *)((char *)list + 0x2C);
@@ -2215,7 +2240,7 @@ void GadgetListBoxAddMultiSelect( GameWindow *listbox )
 	if( *selections == NULL )
 	{
 		ListEntryRow **listData = (ListEntryRow **)((char *)listboxData + 0x18);
-		delete( *listData );
+		delete [] ( *listData );
 		return;
 
 	}  // end if
@@ -2248,7 +2273,7 @@ void GadgetListBoxRemoveMultiSelect( GameWindow *listbox )
 		if( *selections )
 		{
 
-			delete( *selections );
+			delete [] ( *selections );
 			*selections = NULL;
 
 		}  // end if
