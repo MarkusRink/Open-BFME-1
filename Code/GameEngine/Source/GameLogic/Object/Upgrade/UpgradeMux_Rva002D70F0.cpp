@@ -63,7 +63,7 @@ public:
 	Bool rva002d70f0( const UpgradeMaskType &keyMask ) const;
 };
 
-// ?d_002d70f0@@YAXXZ
+// ?rva002d70f0@Rva002D70F0Mux@@QBE_NABV?$BitFlags@$0MA@@@@Z
 Bool Rva002D70F0Mux::rva002d70f0( const UpgradeMaskType &keyMask ) const
 {
 	UpgradeMaskType activation, conflicting;

@@ -49,7 +49,7 @@ private:
 	Rva006D5280TextureRef m_texture;
 };
 
-// ?d_006d5280@@YAXXZ
+// ??0Rva006D5280@@QAE@III@Z
 Rva006D5280::Rva006D5280(unsigned a, unsigned b, unsigned c)
 {
 	Rva006D5280TextureBase *texture = new Rva006D5280Texture(b, a, c, 3, 1, 0);

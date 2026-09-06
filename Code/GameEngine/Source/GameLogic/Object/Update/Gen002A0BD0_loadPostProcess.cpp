@@ -97,7 +97,7 @@ public:
 	float m_mul;
 };
 
-// ?loadPostProcess@Gen002A0BD0@@QAEXXZ
+// ?loadPostProcess@Gen002A0BD0@@UAEXXZ
 void Gen002A0BD0::loadPostProcess()
 {
 	UpdateModule::loadPostProcess();

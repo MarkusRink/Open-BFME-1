@@ -62,7 +62,7 @@ private:
 	DozerDockPointInfo m_dockPoint[DOZER_NUM_TASKS][DOZER_NUM_DOCK_POINTS];	// +0x98
 };
 
-// ?internalTaskComplete@DozerAIUpdate@@UAEXW4DozerTask@@@Z
+// ?internalTaskComplete@DozerAIUpdateView@@UAEXW4DozerTask@@@Z
 void DozerAIUpdateView::internalTaskComplete(DozerTask task)
 {
 	internalTaskCompleteOrCancelled(task);

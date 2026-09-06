@@ -45,7 +45,7 @@ private:
 	void *m_listener;
 };
 
-// ?createListener@MilesAudioManager@@AAEXXZ
+// ?createListener@MilesAudioManager@@QAEXXZ
 void MilesAudioManager::createListener()
 {
 	if (!(isOn(4) && m_selectedProvider < m_providerCount))

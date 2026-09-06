@@ -21,7 +21,7 @@ public:
 	void applyOrFallback(void *a, int b, void *c, void *d);
 };
 
-// ?applyOrFallback@Rva0015A190Owner@@QAEXPAXHPAX1@Z
+// ?applyOrFallback@Rva0015A190Owner@@QAEXPAXH00@Z
 void Rva0015A190Owner::applyOrFallback(void *a, int b, void *c, void *d)
 {
 	if (tryGroupSpecial(a, b, 0, c, d))

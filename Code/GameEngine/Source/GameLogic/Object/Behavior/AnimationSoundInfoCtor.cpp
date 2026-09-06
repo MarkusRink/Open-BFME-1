@@ -49,7 +49,7 @@ private:
 	unsigned char m_hasModelConditions;
 };
 
-// ??0AnimationSoundInfo@@QAE@ABUAudioEventInfoRef@@ABVAsciiString@@MABVModelConditionFlags@@1@Z
+// ??0AnimationSoundInfo@@QAE@ABUAudioEventInfoRef@@ABVAsciiString@@MABVModelConditionFlags@@2@Z
 AnimationSoundInfo::AnimationSoundInfo(const AudioEventInfoRef &sound,
 	const AsciiString &animation, float frame,
 	const ModelConditionFlags &required,

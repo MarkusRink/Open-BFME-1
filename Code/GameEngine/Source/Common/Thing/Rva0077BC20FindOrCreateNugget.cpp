@@ -105,7 +105,7 @@ private:
 	_STL::vector<ModuleInfo::Nugget> m_info;
 };
 
-// ?findOrCreateNugget@Rva0077BC20Owner@@QAEPAVNugget@ModuleInfo@@ABVAsciiString@@@Z
+// ?findOrCreateNugget@Rva0077BC20Owner@@QAEPAUNugget@ModuleInfo@@ABVAsciiString@@@Z
 ModuleInfo::Nugget *Rva0077BC20Owner::findOrCreateNugget(const AsciiString &name)
 {
 	ModuleInfo::Nugget *it = m_info.begin();

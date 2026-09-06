@@ -69,7 +69,7 @@ protected:
 	Bool m_inLobby; // +0x3d
 };
 
-// ?handleRequestLobbyLeave@LANAPI@@IAEXPAULANMessage@@PAVBfmeNetAddress@@@Z
+// ?handleRequestLobbyLeave@LANAPI@@IAEXPAULANMessage@@PAUBfmeNetAddress@@@Z
 void LANAPI::handleRequestLobbyLeave(LANMessage *msg, BfmeNetAddress *sender)
 {
 	if (m_inLobby)

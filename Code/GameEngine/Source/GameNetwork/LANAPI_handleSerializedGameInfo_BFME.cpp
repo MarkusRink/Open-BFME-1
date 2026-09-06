@@ -114,7 +114,7 @@ protected:
 	LANGameInfo *m_currentGame;
 };
 
-// ?_bfme_handleSerializedGameInfo_0068ADE0@LANAPI@@IAEXPAULANMessage@@PBUTTransportAddress@@@Z
+// ?_bfme_handleSerializedGameInfo_0068ADE0@LANAPI@@IAEXPAULANMessage@@PBUTransportAddress@@@Z
 void LANAPI::_bfme_handleSerializedGameInfo_0068ADE0(
 	LANMessage *message, const TransportAddress *sender)
 {

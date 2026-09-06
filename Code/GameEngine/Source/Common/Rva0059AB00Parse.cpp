@@ -49,7 +49,7 @@ private:
 	int m_24;
 };
 
-// ?parse@Rva0059AB00@@SAXPAVINI@@PAVRva0059AB00List@@@Z
+// ?parse@Rva0059AB00@@SAXPAVINI@@PAVGen_00489270@@@Z
 void Rva0059AB00::parse( INI *ini, Gen_00489270 *list )
 {
 	Rva0059AB00 *nugget = new Rva0059AB00;

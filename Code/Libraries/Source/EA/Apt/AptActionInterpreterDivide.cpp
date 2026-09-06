@@ -56,7 +56,7 @@ extern const float BfmeZeroRange;
 unsigned int Rva00892370Get();
 void __cdecl d_008a4cd0(void);
 
-// ?d_008c7060@@YAXXZ
+// ?_FunctionRva008C7060@AptActionInterpreter@@SAXPAV1@PAULocalContextT@1@@Z
 void AptActionInterpreter::_FunctionRva008C7060(
 	AptActionInterpreter *interpreter, LocalContextT *)
 {

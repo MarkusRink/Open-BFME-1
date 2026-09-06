@@ -77,7 +77,7 @@ public:
 			PathfindLayerEnum layer, Rva003D7680Struct *info);	///< ILT thunk at 0x00048419
 };
 
-// ?tightenLine@Pathfinder@@QAEXPAVObject@@PBUCoord3D@@PAU2@@Z
+// ?tightenLine@Pathfinder@@QAEXPAVObject@@PBUCoord3D@@PAU3@@Z
 void Pathfinder::tightenLine(Object *obj, const Coord3D *from, Coord3D *to)
 {
 	TightenLineWork w;

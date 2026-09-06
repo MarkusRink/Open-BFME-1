@@ -73,7 +73,7 @@ public:
     Debug &LogBegin(const char *);
 };
 
-// ?LogBegin@Debug@@QAAAV1@PBD@Z
+// ?LogBegin@Debug@@QAEAAV1@PBD@Z
 Debug &Debug::LogBegin(const char *fileOrGroup)
 {
     WaitForSingleObject(m_mutex,100);

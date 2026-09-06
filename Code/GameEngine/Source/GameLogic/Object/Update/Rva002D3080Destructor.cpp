@@ -91,7 +91,7 @@ private:
 	unsigned int m_field2c;
 };
 
-// ?d_002d3080@@YAXXZ
+// ??1Rva002D3080@@UAE@XZ
 Rva002D3080::~Rva002D3080()
 {
 	if (TheAudioClientUpdate)

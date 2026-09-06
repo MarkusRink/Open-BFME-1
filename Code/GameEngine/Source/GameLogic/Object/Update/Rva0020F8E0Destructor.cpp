@@ -68,7 +68,7 @@ private:
 	std::vector<Gen_p12pod> m_vector;			///< retail this+0xC0
 };
 
-// ?d_0020f8e0@@YAXXZ
+// ??1Rva0020F8E0Owner@@UAE@XZ
 Rva0020F8E0Owner::~Rva0020F8E0Owner()
 {
 }

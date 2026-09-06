@@ -37,7 +37,7 @@ private:
 	DozerDockPointInfo m_dockPoint[3][3];	// +0x98
 };
 
-// ?getDockPoint@DozerAIUpdate@@UAEPBUCoord3D@@W4DozerTask@@W4DozerDockPoint@@@Z
+// ?getDockPoint@DozerAIUpdateView@@QAEPBUCoord3D@@W4DozerTask@@W4DozerDockPoint@@@Z
 const Coord3D *DozerAIUpdateView::getDockPoint(DozerTask task, DozerDockPoint point)
 {
 	if (task < 0 || task >= DOZER_NUM_TASKS)

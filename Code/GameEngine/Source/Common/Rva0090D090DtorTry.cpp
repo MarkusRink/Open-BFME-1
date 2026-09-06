@@ -46,7 +46,7 @@ private:
 	StringClass m_str;
 };
 
-// ?d_0090d090@@YAXXZ
+// ??1Rva0090D090@@UAE@XZ
 Rva0090D090::~Rva0090D090()
 {
 	if (m_owned)

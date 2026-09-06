@@ -38,7 +38,7 @@ private:
 	void initLaserInner(void *a, const Coord3D *parentPos, const Coord3D *targetPos, void *d);
 };
 
-// ?initFromDrawables@LaserUpdate@@QAEXPAXPAVDrawable@@1PAX@Z
+// ?initFromDrawables@LaserUpdate@@QAEXPAXPAVDrawable@@10@Z
 void LaserUpdate::initFromDrawables(void *a, Drawable *parent, Drawable *target, void *d)
 {
 	if (parent)

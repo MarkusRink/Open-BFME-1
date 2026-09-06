@@ -88,7 +88,7 @@ private:
 	unsigned char m_bfmeRest[4];		// 0x28
 };
 
-// ?d_0016d780@@YAXXZ
+// ?bfmeTakeKV0016D780@BfmeThingKV0016D780@@QAEXPAVBfmeItemKV@@@Z
 void BfmeThingKV0016D780::bfmeTakeKV0016D780(BfmeItemKV *item)
 {
 	if (item->bfmeIsKV() != 0)

@@ -1,4 +1,4 @@
-// ?copy@Rva009EF6D0@@QAEPAU1@PAU1@@Z
+// ?copy@Rva009EF6D0@@QAEPAV1@PAV1@@Z
 // cl: /DNDEBUG /MD /EHsc
 
 #pragma intrinsic(_ReadWriteBarrier)

@@ -79,7 +79,7 @@ class SlavedUpdate
 	Coord3D m_guardPointOffset;
 };
 
-// ?stopSlavedEffects@SlavedUpdate@@QAEXXZ
+// ?stopSlavedEffects@SlavedUpdate@@AAEXXZ
 void SlavedUpdate::stopSlavedEffects()
 {
 	m_slaver = 0;

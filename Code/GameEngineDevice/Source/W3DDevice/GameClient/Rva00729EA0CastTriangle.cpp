@@ -48,7 +48,7 @@ public:
 		const Vector3 &p0, const Vector3 &p1, const Vector3 &p2);
 };
 
-// ?castTriangle@Rva00729EA0@@SG_NAAVRayCollisionTestClass@@ABVVector3@@11@Z
+// ?castTriangle@Rva00729EA0@@SG_NAAVRayCollisionTestClass@@ABUVector3@@11@Z
 bool __stdcall Rva00729EA0::castTriangle(RayCollisionTestClass &raytest,
 	const Vector3 &p0, const Vector3 &p1, const Vector3 &p2)
 {

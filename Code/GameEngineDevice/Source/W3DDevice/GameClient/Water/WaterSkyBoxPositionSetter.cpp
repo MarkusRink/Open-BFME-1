@@ -43,7 +43,7 @@ private:
 
 extern GlobalData *TheWritableGlobalData;
 
-// ?setSkyBoxPosition@WaterSkyBoxPositionAccessor@@QAEXABVVector3@@@Z
+// ?setSkyBoxPosition@WaterSkyBoxPositionAccessor@@QAEXABUVector3@@@Z
 void WaterSkyBoxPositionAccessor::setSkyBoxPosition(const Vector3 &position)
 {
     if (TheWritableGlobalData->m_drawSkyBox != 0.0f)

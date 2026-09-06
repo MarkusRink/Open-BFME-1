@@ -58,7 +58,7 @@ private:
 	}
 };
 
-// ?getRequiredScience@Gen0026AC90Owner@@QBE?AW4ScienceType@@XZ
+// ?getRequiredScience@Gen0026AC90Owner@@QBEHXZ
 ScienceType Gen0026AC90Owner::getRequiredScience(void) const
 {
 	return getModuleData()->m_specialPowerTemplate->getRequiredScience();

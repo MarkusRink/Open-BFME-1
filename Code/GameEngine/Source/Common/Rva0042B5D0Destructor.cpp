@@ -42,7 +42,7 @@ private:
 	Rva0042B5D0MemberC m_c;    // +0x18
 };
 
-// ?d_0042b5d0@@YAXXZ
+// ??1Rva0042B5D0@@UAE@XZ
 Rva0042B5D0::~Rva0042B5D0()
 {
 	j_00048efa();

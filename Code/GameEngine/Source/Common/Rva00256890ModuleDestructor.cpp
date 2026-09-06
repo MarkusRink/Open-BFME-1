@@ -32,7 +32,7 @@ private:
 	_STL::list<int> m_list;
 };
 
-// ?d_00256890@@YAXXZ
+// ??1Rva00256890Module@@UAE@XZ
 Rva00256890Module::~Rva00256890Module()
 {
 }

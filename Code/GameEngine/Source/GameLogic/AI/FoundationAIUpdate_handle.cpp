@@ -7,9 +7,13 @@ enum KindOfType
 	KINDOF_FOUNDATION = 0x95
 };
 
-enum ModelConditionFlagType
+// Retail calls 0x00162CD0, which the ledger identifies as Object::clearStatus,
+// not the model-condition setter an earlier reading assumed. Bit 3 is
+// UNSELECTABLE on BFME's enum (ZH index 4, shifted by the dropped NONE), which
+// the setSelectable(TRUE) two lines below corroborates.
+enum ObjectStatusTypes
 {
-	MODELCONDITION_FOUNDATION = 3
+	OBJECT_STATUS_UNSELECTABLE = 3
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/Drawable.h
@@ -42,7 +46,7 @@ public:
 	virtual void objectSlot24() = 0;
 	virtual Drawable *getDrawable() const = 0;
 
-	void clearModelConditionState(ModelConditionFlagType flag);
+	void clearStatus(ObjectStatusTypes status);
 };
 
 class BfmeA1057
@@ -119,7 +123,7 @@ public:
 	virtual void handle();
 };
 
-// ?handle@FoundationAIUpdate@@QAEXXZ
+// ?handle@FoundationAIUpdate@@UAEXXZ
 void FoundationAIUpdate::handle()
 {
 	if (m_pendingFoundation != 0)
@@ -129,7 +133,7 @@ void FoundationAIUpdate::handle()
 		if (((Thing *)owner)->isKindOf(KINDOF_FOUNDATION))
 			return;
 
-		owner->clearModelConditionState(MODELCONDITION_FOUNDATION);
+		owner->clearStatus(OBJECT_STATUS_UNSELECTABLE);
 		Drawable *drawable = m_object->getDrawable();
 		if (drawable == 0)
 			return;

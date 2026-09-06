@@ -54,7 +54,7 @@ public:
 	Rva00595160Slot m_slots[ 18 ];
 };
 
-// ?update@Rva00595160@@QAEXPAVRva00595160Argument@@@Z
+// ?update@Rva00595160@@QAEXPAURva00595160Argument@@@Z
 void Rva00595160::update( Rva00595160Argument *argument )
 {
 	Rva00595160Template *object = argument->m_template;

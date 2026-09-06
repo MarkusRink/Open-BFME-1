@@ -137,7 +137,7 @@ public:
 	int m_clear58;
 };
 
-// ?run@Rva001EFF60@@QAEXPAVObject@@PAX0W4WeaponSlotType@@HPAXHPAVBfmeSubC1054@@@Z
+// ?run@Rva001EFF60@@QAEXPAVObject@@PAX0W4WeaponSlotType@@H1HPAVBfmeSubC1054@@@Z
 void Rva001EFF60::run(Object *victim, void *arg2, Object *source, WeaponSlotType wslot,
 	Int barrel, void *a6, int a7, BfmeSubC1054 *a8)
 {

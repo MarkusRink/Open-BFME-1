@@ -1,4 +1,4 @@
-// ?addProp@BaseHeightMapRenderObjClass@@QAEXHVCoord3D@@MMABVAsciiString@@@Z
+// ?addProp@BaseHeightMapRenderObjClass@@QAEXHUCoord3D@@MMABVAsciiString@@@Z
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 // readable body of ?addProp@BaseHeightMapRenderObjClass@@QAEXHUCoord3D@@MMABVAsciiString@@@Z: Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMap.cpp

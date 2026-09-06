@@ -60,7 +60,7 @@ extern void j_000479ba();
 
 typedef Rva002BBC40Point *(__fastcall *Rva002BBC40Lookup)( void *key );
 
-// ?check@Rva002BBC40Owner@@QAE_NPAX@Z
+// ?check@Rva002BBC40Owner@@QAEEPAX@Z
 unsigned char Rva002BBC40Owner::check( void *key )
 {
 	Rva002BBC40Point *point =

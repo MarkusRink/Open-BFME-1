@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHs-c-
-// ?attach@Rva00065C50Owner@@AAEXPAX@Z
+// ?attach@Rva00065C50Owner@@AAEPAV1@PAX@Z
 //
 // Copy-assign a (char*, dword) pair: self-assignment guard, operator delete[]
 // the old buffer, operator new[] + byte copy when the source buffer is live,

@@ -107,7 +107,7 @@ private:
 	unsigned int m_field24;
 };
 
-// ?d_001feb50@@YAXXZ
+// ??1Rva001FEB50@@UAE@XZ
 Rva001FEB50::~Rva001FEB50()
 {
 	if (m_object)

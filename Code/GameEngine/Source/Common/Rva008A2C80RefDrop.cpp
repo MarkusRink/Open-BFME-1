@@ -29,7 +29,7 @@ private:
 	int *m_ptr;
 };
 
-// ?d_008a2c80@@YAXXZ
+// ??1Rva008A2C80@@UAE@XZ
 Rva008A2C80::~Rva008A2C80()
 {
 	if (m_ptr)

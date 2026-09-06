@@ -1,4 +1,4 @@
-// ?d_003c5890@@YAXXZ
+// ?append@Rva003C5890Owner@@QAEXPBVRva003C5890Item@@@Z
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 

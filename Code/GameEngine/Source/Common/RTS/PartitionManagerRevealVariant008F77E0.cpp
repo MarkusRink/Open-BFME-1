@@ -73,7 +73,7 @@ private:
 	Rva008F77E0ShroudImpl *m_impl;
 };
 
-// ?d_008f77e0@@YAXXZ
+// ?revealVariantFromPosition@Rva008F77E0PartitionManager@@QAEXPBUCoord3D@@MHHI@Z
 void Rva008F77E0PartitionManager::revealVariantFromPosition(
 	const Coord3D *position, Real radius, Int a4, Int a5,
 	UnsignedInt playerMask)

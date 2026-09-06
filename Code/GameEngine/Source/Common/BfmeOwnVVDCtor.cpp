@@ -82,7 +82,7 @@ private:
 
 extern BfmeOwnVVD *g_bfmeSingletonVVD;
 
-// ?d_005b5470@@YAXXZ
+// ??0BfmeOwnVVD@@QAE@XZ
 BfmeOwnVVD::BfmeOwnVVD()
 	: m_1c(0), m_38(0), m_39(0), m_3a(0), m_3b(0), m_3c(0), m_40(0), m_44(0)
 {

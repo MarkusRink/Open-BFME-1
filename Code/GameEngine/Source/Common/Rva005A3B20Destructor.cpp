@@ -33,7 +33,7 @@ private:
 	std::vector<Rva005A3B20Entry> m_entries;
 };
 
-// ?d_005a3b20@@YAXXZ
+// ??1Rva005A3B20@@UAE@XZ
 Rva005A3B20::~Rva005A3B20()
 {
 }

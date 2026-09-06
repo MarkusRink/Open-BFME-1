@@ -40,7 +40,7 @@ public:
 	Int m_gameMode;
 };
 
-// ?_bfme_isInLivingWorldCampaign@GameLogic@@QAEEXZ
+// ?_bfme_isInLivingWorldCampaign@GameLogic@@QAE_NXZ
 ByteBool GameLogic::_bfme_isInLivingWorldCampaign(void)
 {
 	GameLogic *self = this;
