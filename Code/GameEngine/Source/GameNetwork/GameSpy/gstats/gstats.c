@@ -333,7 +333,7 @@ int InitStatsThink()
 			}
 
 			// Otherwise connected
-			assert(aResult == 1 && aWriteFlag == 1);
+			/* Retail proceeds to challenge state without this SDK debug assertion. */
 			stats_initstate = init_awaitchallenge;
 			// fall through
 		}
