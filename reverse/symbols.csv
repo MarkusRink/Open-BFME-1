@@ -82302,6 +82302,8 @@ name,address,notes
 ?setMouseText@Mouse@@QAEXVUnicodeString@@PBURGBAColorInt@@1@Z,0x0002FBD0,ILT thunk to body 0x005A5950
 ?setName@BFMETransitionGroup@@QAEXVBFMETransitionAsciiString@@@Z,0x00489B60,retail TransitionGroup::setName
 ?setName@Image@@QAEXVAsciiString@@@Z,0x0003EDBA,thunk to 0x000C2420; the body is byte-identical to three other setName instantiations so the call site is what pins it - the MappedImage parser at 0x000C2480 calls this one
+?setFilename@Image@@QAEXVAsciiString@@@Z,0x00008C15,Image filename setter; ILT resolves to 0x00450270 and writes the string at Image+8
+?_bfme_setTexture@Image@@QAEXABVRva0044F4D0@@@Z,0x0002C9C1,Image texture assignment; ILT resolves to verified 0x005D2330; allocates the Image+0x2C holder then retains and replaces its texture
 ?setName@MapObject@@QAEXABVAsciiString@@@Z,0x0004340F,handleNameChange at 0x00388970 calls the MapObject name setter ILT; WorldHeightMap.cpp provides the matching setter body
 ?setName@Object@@QAEXVAsciiString@@@Z,0x00027BBA,Open-BFME5 Object by-value name setter called by replacement-state transfer at 0x001C5620
 ?setNameAndType@DictPair@Dict@@QAEXW4NameKeyType@@W4DataType@2@@Z,0x00038D02,retail DictPair::setNameAndType body (unclaimed, called by setPrep/remove)
