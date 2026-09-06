@@ -59,6 +59,29 @@
 #include "GameClient/GameWindowManager.h"
 #include "GameClient/IMEManager.h"
 
+// Retail's UnicodeString derives from StringBase<unsigned short> and holds
+// nothing of its own, so its copy ctor is a forwarder retail inlines at every
+// by-value-return and member-copy site: the bytes encode the base body at
+// 0x00888400 (??0?$StringBase@G@@AAE@ABV0@@Z) directly. The vendored
+// UnicodeString.h leaves the copy ctor declared and undefined, so without this
+// cl emits an out-of-line call to ??0UnicodeString@@QAE@ABV0@@Z instead.
+template <typename BfmeWideChar>
+class StringBase
+{
+	friend class UnicodeString;
+
+private:
+	StringBase(const StringBase<BfmeWideChar> &src);
+
+	void *m_data;
+};
+
+inline UnicodeString::UnicodeString(const UnicodeString &stringSrc)
+{
+	((StringBase<unsigned short> *)this)->StringBase<unsigned short>::StringBase(
+		*(const StringBase<unsigned short> *)&stringSrc);
+}
+
 // DEFINES ////////////////////////////////////////////////////////////////////
 
 // PRIVATE TYPES //////////////////////////////////////////////////////////////
