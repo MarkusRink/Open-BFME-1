@@ -30,6 +30,30 @@
 // type was never recovered -- so the class keeps the upstream Body name and
 // nothing more is claimed for it.
 //
+// One half of that is now settled, and it is the half that mattered.
+// ScriptConditionsCompare.cpp reads this same (Object+0x210)+0x28 and calls it
+// m_health, which cannot be right: Object's body module is not at +0x210 at
+// all. ?getBodyModule@Object@@QBEPAVBodyModuleInterface@@XZ at 0x00478720 is
+// the whole accessor, `mov eax, [ecx+0x194]; ret`, so the body module lives at
+// +0x194 and health is reached through THAT pointer. Zero Hour's
+// evaluateUnitHealth agrees about the route -- it calls getBodyModule() twice,
+// for getHealth() and getInitialHealth(), and divides to a percentage -- and
+// the retail body at 0x00324020 does none of it: one load of
+// (Object+0x210)+0x28, then a six-case jump table comparing it as a SIGNED
+// INTEGER with setl/setle/sete/setge against Parameter+0x08. No second field,
+// no division, no float anywhere. An integer read directly and compared is
+// what a rank level looks like, not a health percentage, so m_health is the
+// name to distrust here and m_rankLevel is the one the bytes fit.
+//
+// What +0x210 points at is still open, and the obvious route is closed: the
+// only one-line `mov eax, [ecx+0x210]; ret` accessors in .text are a dup_
+// placeholder at 0x000C88C0, an unclaimed body at 0x000F91F0, and
+// ?winGetLayout@GameWindow@@ at 0x00478E20, which is a different class whose
+// identical one-liner folded onto the same shape and so names nothing here.
+// Identifying either that accessor or the unclaimed callers between 0x0032D643
+// and 0x003307E0 -- the two conditions are reached only through ILT thunks
+// 0x000361A1 and 0x00044DC3, called from bodies in that gap -- would finish it.
+//
 // Parameter drifted as usual: two files spelled it as a flat 0x10-byte run to
 // the string, one as the Int at +0x08 with four unnamed bytes after it, and one
 // never modelled it at all.
