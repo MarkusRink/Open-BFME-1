@@ -81841,9 +81841,9 @@ name,address,notes
 ?read_chunks@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096FF70,BFME mesh chunk dispatcher called by Load_W3D
 ?read_data_file@@YAHXZ,0x008760A0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00878530 calls; autopin
 ?read_material_pass@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096FB60,BFME bool-returning material pass loader called by read_prelit_material
-?read_shaders@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096EB30,BFME bool-returning shader loader called by read_prelit_material
+?read_shaders@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096EA60,BFME prelit chunk0x29 table96FD00 -> arm96FCAE; W3dShaderStruct array and Convert_Shader prove identity
 ?read_textures@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096EC40,BFME bool-returning texture loader called by read_prelit_material
-?read_vertex_materials@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096EA60,BFME bool-returning vertex-material loader called by read_prelit_material
+?read_vertex_materials@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096EB30,BFME prelit chunk0x2A table96FD04 -> arm96FCA3; VertexMaterial constructor and Load_W3D prove identity
 ?ready@GenOwner@@QAE_NXZ,0x0004425B,S3 back-step guarded virtual float family predicate (address-derived name)
 ?ready@Rva00412010Inner@@QAE_NXZ,0x00019B5F,Open-BFME5 ILT callee of Rva00412010::test; gen-thunk target FUN_005c9980
 ?realMapPathToPortableMapPath@GameState@@QBE?AV?$StringBase@D@@ABV2@@Z,0x0010F280,same body as the AsciiString-typed ledger row; BFME AsciiString is StringBase<char> so the callee mangles with the instantiation

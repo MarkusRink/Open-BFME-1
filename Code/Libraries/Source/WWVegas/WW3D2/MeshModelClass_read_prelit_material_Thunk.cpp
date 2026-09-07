@@ -1,4 +1,10 @@
 // cl: /DNDEBUG /MD /EHsc
+// BFME chunk 0x29 selects table slot 1 at 0x0096FD00 -> arm 0x0096FCAE,
+// calling the shader-array reader at 0x0096EA60 (16-byte W3dShaderStructs
+// and Convert_Shader). Chunk 0x2A selects slot 2 -> arm 0x0096FCA3, calling
+// the vertex-material reader at 0x0096EB30 (constructor and Load_W3D).
+// Keep this case ordering to preserve retail arm layout without swapping
+// the two callee identities. Both cases retain the original W3D chunk IDs.
 
 class ChunkLoadClass
 {
@@ -52,11 +58,11 @@ bool MeshModelClass::read_prelit_material(ChunkLoadClass &cload, MeshLoadContext
 					error = true;
 				}
 				break;
-			case 0x29:
-				error = read_shaders(cload, context);
-				break;
 			case 0x2a:
 				error = read_vertex_materials(cload, context);
+				break;
+			case 0x29:
+				error = read_shaders(cload, context);
 				break;
 			case 0x30:
 				error = read_textures(cload, context);
