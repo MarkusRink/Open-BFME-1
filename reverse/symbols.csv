@@ -85637,3 +85637,9 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeFindERI@BfmeThingERI@@QAEPAVBfmeModuleERI@@H@Z,0x0002AE23,pin
 ?bfmeSetERI@BfmeModuleERI@@QAEXHH@Z,0x00040DC2,pin
 ?g_bfmeKeyGenERI@@3PAVBfmeKeyGenERI@@A,0x00EED600,pin
+?bfmeNameToKeyERJ@BfmeKeyGenERJ@@QAEHPBD@Z,0x0003ADD7,pin
+?g_bfmeKeyGenERJ@@3PAVBfmeKeyGenERJ@@A,0x00EED600,pin
+?g_bfmeEmptyERJ@@3PADA,0x00C7388B,pin
+?bfmeNthERJ@BfmePlayersERJ@@QAEPAVBfmePlayerERJ@@H@Z,0x00044F30,pin
+?g_bfmePlayersERJ@@3PAVBfmePlayersERJ@@A,0x00EED748,pin
+?g_bfmeTableERJ@@3PAVBfmeTableERJ@@A,0x00EEF428,pin
