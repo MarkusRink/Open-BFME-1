@@ -76,7 +76,8 @@ def arity_contradicts(symbol, data):
     want, _convention = audit_ret_arity.expected_ret(symbol)
     if want is None:                      # varargs, drifted parse: no opinion
         return False
-    got = actual_ret(data)
+    got = (audit_ret_arity.decoded_actual_ret(data)
+           if _convention == "__cdecl" else actual_ret(data))
     if got is None:                       # tail call: nothing to compare
         return False
     return got != want

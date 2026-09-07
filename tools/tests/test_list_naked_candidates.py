@@ -74,8 +74,17 @@ def test_cdecl_arity_filter_rejects_the_real_script_list_ret16_body():
     body = b"\x55\x8b\xec\xc2\x10\x00"
     assert queue.arity_contradicts(SCRIPT_LIST, body)
     assert not queue.arity_contradicts(SCRIPT_LIST, b"\x55\x8b\xec\xc3")
+    assert not queue.arity_contradicts(
+        "?scalar@@YAHH@Z", bytes.fromhex("e9 00 c2 10 00"))
+    assert not queue.arity_contradicts(
+        "?scalar@@YAHH@Z", bytes.fromhex("b8 01 c2 10 00"))
     # An unsupported return ABI remains an opinion-free queue item.
     assert not queue.arity_contradicts("?make@@YA?AVRecord@@XZ", body)
+
+
+def test_legacy_callee_cleanup_still_uses_the_raw_tail_rule():
+    assert not queue.arity_contradicts(
+        "?g@C@@QAEXHH@Z", bytes.fromhex("55 8b ec c2 08 00"))
 
 
 def test_partial_survives_the_legacy_three_field_filter(tmp_path, monkeypatch):

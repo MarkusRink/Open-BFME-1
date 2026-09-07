@@ -229,6 +229,31 @@ def actual_ret(body):
     return None
 
 
+def decoded_actual_ret(body):
+    """Decode a complete body and read cleanup only from its final instruction.
+
+    This is intentionally separate from ``actual_ret``: the legacy callee-
+    cleaned audit keeps its established raw-tail behavior, while caller-cleaned
+    cdecl checking must not mistake an immediate or displacement for a return.
+    A missing decoder is an error, not an opinion-free result that could report
+    a false green queue.
+    """
+    import capstone
+
+    disassembler = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+    instructions = list(disassembler.disasm(bytes(body), 0))
+    if not instructions or sum(ins.size for ins in instructions) != len(body):
+        return None
+    tail = instructions[-1]
+    if tail.address + tail.size != len(body) or tail.mnemonic != "ret":
+        return None
+    if tail.bytes == b"\xc3":
+        return 0
+    if len(tail.bytes) == 3 and tail.bytes[0] == 0xC2:
+        return struct.unpack_from("<H", tail.bytes, 1)[0]
+    return None
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=40)
@@ -252,7 +277,9 @@ def main():
             offset = rva_to_offset(data, int(rva_text, 16))
             if offset is None or size < 1:
                 continue
-            got = actual_ret(data[offset:offset + size])
+            body = data[offset:offset + size]
+            got = (decoded_actual_ret(body) if convention == "__cdecl"
+                   else actual_ret(body))
             if got is None:
                 skipped += 1                 # tail call or non-returning body
                 continue

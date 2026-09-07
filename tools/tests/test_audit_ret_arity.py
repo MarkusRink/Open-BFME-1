@@ -21,6 +21,23 @@ def test_script_list_is_a_known_cdecl_even_with_reference_and_pointer_args():
 
 
 @pytest.mark.parametrize(
+    "body",
+    [
+        bytes.fromhex("e9 00 c2 10 00"),  # jmp rel32, not ret 16
+        bytes.fromhex("b8 01 00 00 c3"),  # mov eax, imm32 ending in c3
+        bytes.fromhex("b8 01 c2 10 00"),  # mov eax, imm32 ending in c2 10 00
+    ],
+)
+def test_decoded_tail_does_not_read_return_like_bytes_from_other_instructions(body):
+    assert arity.decoded_actual_ret(body) is None
+
+
+def test_decoded_tail_accepts_complete_cdecl_returns_only():
+    assert arity.decoded_actual_ret(bytes.fromhex("55 8b ec c3")) == 0
+    assert arity.decoded_actual_ret(bytes.fromhex("55 8b ec c2 10 00")) == 16
+
+
+@pytest.mark.parametrize(
     "symbol",
     [
         "?scalar@@YAHH@Z",                         # int(int)
