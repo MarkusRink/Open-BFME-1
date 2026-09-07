@@ -1878,109 +1878,31 @@ L08_6661B3:
 	}
 }
 
-// Real body, reached in retail through the ILT thunk at 0x0003F17A that the
-// ledger used to claim on its own. Attaches the message, and when its execution
-// frame is still -1 stamps max(TheGameLogic->getFrame(), 2) into it, then clears
-// the local slot out of the relay mask before queueing.
-__declspec(naked) void ConnectionManager::sendLocalCommandDirect(NetCommandMsg *msg, unsigned char relay)
+// Direct sending preserves an assigned execution frame; otherwise it uses the
+// current logic frame, with a minimum of 2. Local synchronized commands enter
+// frame storage, and each requested remote connection gets its own relay bit.
+void ConnectionManager::sendLocalCommandDirect(NetCommandMsg *msg, unsigned char relay)
 {
-	__asm {
-		push ebx
-		push ebp
-		mov ebp, dword ptr [esp+0Ch]
-		push esi
-		push edi
-		mov edi, ecx
-		mov ecx, ebp
-		__emit 0E8h
-		__emit 08Fh
-		__emit 0A0h
-		__emit 09Ah
-		__emit 0FFh   // call 0xD3A0
-		cmp dword ptr [ebp+8h], 0FFFFFFFFh
-		jne L00_66332C
-		__emit 0A1h
-		__emit 098h
-		__emit 008h
-		__emit 02Fh
-		__emit 001h   // mov eax, dword ptr [0x12f0898]
-		mov eax, dword ptr [eax+3Ch]
-		cmp eax, 2h
-		ja L01_663329
-		mov eax, 2h
-L01_663329:
-		mov dword ptr [ebp+8h], eax
-L00_66332C:
-		mov ecx, dword ptr [edi+12028h]
-		movzx ebx, byte ptr [esp+18h]
-		mov edx, 1h
-		shl edx, cl
-		__emit 085h
-		__emit 0D3h   // test ebx, edx
-		je L02_66336E
-		mov eax, dword ptr [ebp+14h]
-		push eax
-		__emit 0E8h
-		__emit 06Eh
-		__emit 0ECh
-		__emit 099h
-		__emit 0FFh   // call 0x1FB9
-		add esp, 4h
-		test al, al
-		je L02_66336E
-		mov eax, dword ptr [edi+12028h]
-		cmp eax, 8h
-		jae L02_66336E
-		mov ecx, dword ptr [edi+eax*4+120E4h]
-		test ecx, ecx
-		je L02_66336E
-		push ebp
-		__emit 0E8h
-		__emit 0EFh
-		__emit 0C7h
-		__emit 09Ch
-		__emit 0FFh   // call 0x2FB5D
-L02_66336E:
-		xor esi, esi
-		add edi, 4h
-L04_663373:
-		mov eax, 1h
-		mov ecx, esi
-		shl eax, cl
-		__emit 085h
-		__emit 0C3h   // test ebx, eax
-		je L03_663395
-		mov eax, dword ptr [edi]
-		test eax, eax
-		je L03_663395
-		xor edx, edx
-		mov dl, 1h
-		shl dl, cl
-		mov ecx, eax
-		push edx
-		push ebp
-		__emit 0E8h
-		__emit 0A7h
-		__emit 039h
-		__emit 09Ch
-		__emit 0FFh   // call 0x26D3C
-L03_663395:
-		inc esi
-		add edi, 4h
-		cmp esi, 8h
-		jl L04_663373
-		mov ecx, ebp
-		__emit 0E8h
-		__emit 0FFh
-		__emit 0CCh
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		pop edi
-		pop esi
-		pop ebp
-		pop ebx
-		ret 8h
+	msg->attach();
+	if (msg->getExecutionFrame() == (unsigned int)-1)
+	{
+		unsigned int frame = TheGameLogic->getFrame();
+		if (frame <= 2)
+			frame = 2;
+		msg->setExecutionFrame(frame);
 	}
+	int relayMask = relay;
+	if ((relayMask & (1 << m_localSlot)) != 0 &&
+		IsCommandSynchronized(msg->getNetCommandType()) &&
+		m_localSlot < 8 && m_frameData[m_localSlot] != 0)
+		m_frameData[m_localSlot]->addNetCommandMsg(msg);
+
+	for (int i = 0; i < 8; ++i)
+	{
+		if ((relayMask & (1 << i)) != 0 && m_connections[i] != 0)
+			m_connections[i]->sendNetCommandMsg(msg, (unsigned char)(1 << i));
+	}
+	msg->detach();
 }
 
 void ConnectionManager::sendLocalCommand(NetCommandMsg *msg, unsigned char relay)
