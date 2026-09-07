@@ -124,7 +124,9 @@ public:
 // because MSVC emits an out-of-line copy of it, and the ledger declares that copy
 // under ?getTemplate@Thing@@QBEPBVThingTemplate@@XZ (0x00098E50, owned by
 // Thing_isKindOf.cpp). Renaming it to Object::getTemplate produces a defined
-// function with no row, which the commit hook refuses -- correctly.
+// function with no row, which the commit hook refuses -- correctly. The rule this
+// is an instance of: a merge may move a body between files but must not rename
+// what the body emits alongside itself.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Thing.h
 class Thing
 {
