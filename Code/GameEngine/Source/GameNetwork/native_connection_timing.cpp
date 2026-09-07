@@ -399,6 +399,39 @@ public:
 private:
 	UnicodeString m_text;
 };
+// These BFME-only request/reply messages carry narrow strings at +0x1C/+0x20.
+class BFMENetRequestGameSpyStatsAuthKeyCommandMsg : public NetCommandMsg
+{
+public:
+	AsciiString getText1C();
+};
+class BFMENetGameSpyStatsAuthKeyCommandMsg : public NetCommandMsg
+{
+public:
+	BFMENetGameSpyStatsAuthKeyCommandMsg();
+	void setText1C(AsciiString text);
+	void setText20(AsciiString text);
+private:
+	AsciiString m_text1C;
+	AsciiString m_text20;
+};
+// BFME adds two C-string accessors after the reference interface's eleven slots.
+// Their names describe use here; no claim of recovered retail source names.
+class GameSpyBuddyMessageQueueInterface
+{
+public:
+	virtual void unknown00(); virtual void unknown04(); virtual void unknown08();
+	virtual void unknown0C(); virtual void unknown10(); virtual void unknown14();
+	virtual void unknown18(); virtual void unknown1C(); virtual void unknown20();
+	virtual void unknown24(); virtual void unknown28();
+	virtual const char *getReplyIdentityText();
+	virtual const char *getAuthSecretText();
+};
+extern GameSpyBuddyMessageQueueInterface *TheGameSpyBuddyMessageQueue;
+extern "C" char *goastrdup(const char *text) throw();
+extern "C" char *GenerateAuthA(char *challenge, char *password, char *response);
+extern "C" __declspec(dllimport) void __cdecl free(void *memory);
+
 class NetChatCommandMsg : public NetCommandMsg
 {
 public:
@@ -6112,197 +6145,28 @@ void BFMEConnectionManager::sendChat(UnicodeString text, int playerMask)
 	msg->detach();
 }
 
-// Sends command type 6 (GAMESPY_STATS_AUTHKEY), built by 0x00675BE0. Named from the type its message carries.
-__declspec(naked) void BFMEConnectionManager::sendGameSpyStatsAuthKey(void *key)
+// Replies to the request's challenge using the GameSpy authentication helper.
+void BFMEConnectionManager::sendGameSpyStatsAuthKey(void *command)
 {
-	__asm {
-		push 0FFFFFFFFh
-		mov eax, dword ptr fs:[0h]
-		push 104422Eh
-		push eax
-		mov dword ptr fs:[0h], esp
-		sub esp, 108h
-		push ebx
-		mov ebx, dword ptr [esp+11Ch]
-		push ebp
-		push esi
-		push edi
-		lea eax,  [esp+14h]
-		mov ebp, ecx
-		push eax
-		mov ecx, ebx
-		__emit 0E8h
-		__emit 02Eh
-		__emit 0AAh
-		__emit 09Bh
-		__emit 0FFh   // call 0x204D2
-		mov eax, dword ptr [eax]
-		test eax, eax
-		je L00_665AAF
-		add eax, 8h
-		jmp L01_665AB4
-L00_665AAF:
-		mov eax, 107388Bh
-L01_665AB4:
-		push eax
-		__emit 0E8h
-		__emit 0F6h
-		__emit 0E8h
-		__emit 01Eh
-		__emit 000h   // call 0x8543B0
-		add esp, 4h
-		lea ecx,  [esp+14h]
-		mov esi, eax
-		__emit 0E8h
-		__emit 078h
-		__emit 01Eh
-		__emit 022h
-		__emit 000h   // call 0x887940
-		__emit 08Bh
-		__emit 00Dh
-		__emit 0B4h
-		__emit 071h
-		__emit 02Fh
-		__emit 001h   // mov ecx, dword ptr [0x12f71b4]
-		mov edx, dword ptr [ecx]
-		call dword ptr [edx+30h]
-		push eax
-		__emit 0E8h
-		__emit 0D7h
-		__emit 0E8h
-		__emit 01Eh
-		__emit 000h   // call 0x8543B0
-		mov edi, eax
-		lea eax,  [esp+1Ch]
-		push eax
-		push edi
-		push esi
-		__emit 0E8h
-		__emit 0C9h
-		__emit 0CFh
-		__emit 036h
-		__emit 000h   // call 0x9D2AB0
-		push esi
-		__emit 08Bh
-		__emit 035h
-		__emit 0D4h
-		__emit 093h
-		__emit 035h
-		__emit 001h   // mov esi, dword ptr [0x13593d4]
-		call esi
-		push edi
-		call esi
-		push 24h
-		__emit 0E8h
-		__emit 036h
-		__emit 0C4h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 1Ch
-		mov dword ptr [esp+10h], eax
-		xor esi, esi
-		cmp eax, esi
-		mov dword ptr [esp+120h], esi
-		je L02_665B17
-		mov ecx, eax
-		__emit 0E8h
-		__emit 084h
-		__emit 0CCh
-		__emit 09Dh
-		__emit 0FFh   // call 0x42799
-		mov esi, eax
-L02_665B17:
-		mov ecx, dword ptr [ebp+12028h]
-		or eax, 0FFFFFFFFh
-		mov dword ptr [esp+120h], eax
-		mov dword ptr [esi+8h], eax
-		mov eax, dword ptr [esi+14h]
-		push eax
-		mov dword ptr [esi+0Ch], ecx
-		__emit 0E8h
-		__emit 03Ch
-		__emit 000h
-		__emit 09Bh
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L03_665B46
-		__emit 0E8h
-		__emit 016h
-		__emit 0AAh
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L03_665B46:
-		push ecx
-		lea edx,  [esp+1Ch]
-		mov dword ptr [esp+14h], esp
-		mov ecx, esp
-		push edx
-		__emit 0E8h
-		__emit 069h
-		__emit 030h
-		__emit 022h
-		__emit 000h   // call 0x888BC0
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0C5h
-		__emit 098h
-		__emit 09Ch
-		__emit 0FFh   // call 0x2F423
-		__emit 08Bh
-		__emit 00Dh
-		__emit 0B4h
-		__emit 071h
-		__emit 02Fh
-		__emit 001h   // mov ecx, dword ptr [0x12f71b4]
-		mov eax, dword ptr [ecx]
-		call dword ptr [eax+2Ch]
-		push ecx
-		mov dword ptr [esp+14h], esp
-		mov ecx, esp
-		push eax
-		__emit 0E8h
-		__emit 04Ah
-		__emit 030h
-		__emit 022h
-		__emit 000h   // call 0x888BC0
-		mov ecx, esi
-		__emit 0E8h
-		__emit 09Eh
-		__emit 015h
-		__emit 09Bh
-		__emit 0FFh   // call 0x1711B
-		mov ecx, dword ptr [ebx+0Ch]
-		cmp ecx, 8h
-		jae L04_665B94
-		xor edx, edx
-		mov dl, 1h
-		shl dl, cl
-		mov ecx, ebp
-		push edx
-		push esi
-		__emit 0E8h
-		__emit 043h
-		__emit 0B6h
-		__emit 09Dh
-		__emit 0FFh   // call 0x411D7
-L04_665B94:
-		mov ecx, esi
-		__emit 0E8h
-		__emit 009h
-		__emit 0A5h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		mov ecx, dword ptr [esp+118h]
-		pop edi
-		pop esi
-		pop ebp
-		mov dword ptr fs:[0h], ecx
-		pop ebx
-		add esp, 114h
-		ret 4h
-	}
+	BFMENetRequestGameSpyStatsAuthKeyCommandMsg *request =
+		static_cast<BFMENetRequestGameSpyStatsAuthKeyCommandMsg *>(command);
+	char *challenge = goastrdup(request->getText1C().str());
+	char *secret = goastrdup(TheGameSpyBuddyMessageQueue->getAuthSecretText());
+	char response[256];
+	GenerateAuthA(challenge, secret, response);
+	free(challenge);
+	free(secret);
+	BFMENetGameSpyStatsAuthKeyCommandMsg *msg = new BFMENetGameSpyStatsAuthKeyCommandMsg;
+	msg->setPlayerID(m_localSlot);
+	msg->setExecutionFrame(-1);
+	if (DoesCommandRequireACommandID(msg->getNetCommandType()))
+		msg->setID(GenerateNextCommandID());
+	msg->setText1C(AsciiString(response));
+	msg->setText20(AsciiString(TheGameSpyBuddyMessageQueue->getReplyIdentityText()));
+	if (request->getPlayerID() < 8)
+		reinterpret_cast<ConnectionManager *>(this)->sendLocalCommandDirect(msg,
+			(unsigned char)(1 << request->getPlayerID()));
+	msg->detach();
 }
 
 // Sends command type 4 (GAMECOMMAND), built by the constructor at 0x00674A40.
