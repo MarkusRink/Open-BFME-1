@@ -85655,3 +85655,10 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeNameToKeyERM@BfmeKeyGenERM@@QAEHPBD@Z,0x0003ADD7,pin
 ?g_bfmeKeyGenERM@@3PAVBfmeKeyGenERM@@A,0x00EED600,pin
 ?bfmeFindERM@BfmeThingERM@@QAEPAVBfmeModERM@@H@Z,0x0002AE23,pin
+?g_bfmeGlobalERN@@3PAVBfmeGlobalERN@@A,0x00EF076C,pin
+?bfmeNameToKeyERN@BfmeKeyGenERN@@QAEHPBD@Z,0x0003ADD7,pin
+?g_bfmeKeyGenERN@@3PAVBfmeKeyGenERN@@A,0x00EED600,pin
+?bfmeFindERN@BfmeThingERN@@QAEPAVBfmeModERN@@H@Z,0x0002AE23,pin
+??0BfmeHandleERN@@QAE@XZ,0x0003E306,pin
+?bfmeSendERN@@YAXPAXPAVBfmeObjERN@@@Z,0x0003DF4B,pin
+?bfmeTestERN@BfmeModERN@@QAEDPAVBfmeObjERN@@@Z,0x0000659B,pin
