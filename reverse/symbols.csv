@@ -85358,3 +85358,4 @@ _g_bfmeDirtyZR,0x00EEF418
 ?TheBfmeViewZT@@3PAVBfmeViewZT@@A,0x00EF1600
 ?bfmeFreeZU@BfmeValueZU@@QAEXXZ,0x00013994
 ?bfmeDeallocZU@@YAXPAXI@Z,0x0082E5F0
+?bfmeHasZW@BfmeThingZW@@QAEDH@Z,0x0003251F
