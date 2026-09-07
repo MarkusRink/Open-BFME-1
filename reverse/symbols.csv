@@ -85418,3 +85418,7 @@ _bfmeXferAY,0x00004B79
 ?bfmeBeginAZ@BfmeHostAZ@@QAEXPAVBfmeAgentAZ@@@Z,0x000044C1
 _bfmeXferHeadAZ,0x0004A200
 _bfmeXferTailAZ,0x0000C9B4
+_bfmeXferOneBA,0x0002097D
+_bfmeXferTwoBA,0x0003E81F
+_bfmeXferThreeBA,0x00008D14
+_bfmeXferFourBA,0x00035814
