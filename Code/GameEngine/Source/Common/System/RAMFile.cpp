@@ -39,6 +39,8 @@ public:
     AsciiString() : StringBase<char>() {}
     ~AsciiString() { releaseBuffer(); }
 
+    AsciiString &operator=(const AsciiString &other);
+
     void concat(const char *text, Int length)
     {
         StringBase<char>::concat(text, length);
@@ -72,7 +74,11 @@ public:
     virtual void unlock(void);
 
 protected:
-    unsigned char m_fileState[0x10];
+    AsciiString m_nameStr;
+    Int m_access;
+    Bool m_open;
+    Bool m_deleteOnClose;
+    void *m_mutex;
 };
 
 class RAMFile : public File
@@ -101,6 +107,11 @@ protected:
 };
 
 extern "C" __declspec(dllimport) double __cdecl atof(const char *text);
+void *operator new[](unsigned int bytes);
+void __cdecl operator delete[](void *block);
+
+extern unsigned int bfmeReadYU(const unsigned char *data);
+extern void d_009d12e0();
 
 // ?scanReal@RAMFile@@UAE_NAAM@Z
 Bool RAMFile::scanReal(Real &newReal)
@@ -139,4 +150,61 @@ Bool RAMFile::scanReal(Real &newReal)
 
     newReal = (Real)atof(tempstr.str());
     return TRUE;
+}
+
+// ?openFromArchive@RAMFile@@UAE_NPAVFile@@ABVAsciiString@@HH@Z
+Bool RAMFile::openFromArchive(File *archiveFile, const AsciiString &filename,
+                               Int offset, Int size)
+{
+    if (archiveFile == NULL)
+    {
+        return FALSE;
+    }
+
+    if (File::open(filename.str(), 0x41) == FALSE)
+    {
+        return FALSE;
+    }
+
+    if (m_data != NULL)
+    {
+        delete [] m_data;
+        m_data = NULL;
+    }
+
+    if (size > 0)
+    {
+        Char *data = new Char[size];
+        m_data = data;
+
+        if (archiveFile->seek(offset, 0) != offset)
+        {
+            return FALSE;
+        }
+
+        if (archiveFile->read(m_data, size) != size)
+        {
+            return FALSE;
+        }
+
+        m_size = size;
+
+        if (size > 6)
+        {
+            Int decodedSize = (Int)bfmeReadYU((const unsigned char *)m_data);
+            if (decodedSize > 0)
+            {
+                Char *decoded = new Char[decodedSize];
+                ((void (__cdecl *)(const Char *, Char *))d_009d12e0)(m_data, decoded);
+                delete [] m_data;
+                m_data = decoded;
+                m_size = decodedSize;
+            }
+        }
+
+        m_nameStr = filename;
+        return TRUE;
+    }
+
+    return FALSE;
 }
