@@ -2970,17 +2970,6 @@ void HLodClass::Prepare_LOD(CameraClass &camera)
 		int minlod = Calculate_Cost_Value_Arrays(norm_area, Value, Cost);
 		if (CurLod < minlod) Set_LOD_Level(minlod);
 
-
-		/*
-		** Add myself to the LOD optimizer:
-		*/
-		PredictiveLODOptimizerClass::Add_Object(this);
-
-	} else {
-
-		// Not added to optimizer, need to add cost
-		PredictiveLODOptimizerClass::Add_Cost(Get_Cost());
-
 	}
 
 	/*
