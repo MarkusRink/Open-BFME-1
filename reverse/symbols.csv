@@ -10789,6 +10789,7 @@ name,address,notes
 ?Rva0025CD50CopyConstruct@@YAXPAURva0025CDB0Entry@@ABU1@@Z,0x0001B99B,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0025CDB0 calls; autopin
 ?Rva002B7240FindModule@@YAPAURva002B7240Module@@PAVObject@@@Z,0x00010424,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002B7240 calls; autopin
 ?Rva002B7240Lookup@@YAPAURva002B7240Source@@H@Z,0x00042424,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002B7240 calls; autopin
+?Rva001E33FSetBool@Rva002E6B70Object@@QAEX_N@Z,0x0001E33F,TU-local Object ABI view for ObjectSetEnragedState; ILT routes to retail body RVA 0x001C1EA0 whose EnragedBehavior literal identifies the state setter; public method spelling unrecovered
 ?Rva002EBEF0Intro@@YAXPAUS4SortElem20@@00HUS4Cmp002EB8E0@@@Z,0x00047343,address-derived STLport introsort callee for 0x002EBEF0
 ?Rva002EE330ThePlayers@@3PAURva002EE330PlayerList@@A,0x012ED748,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EE330 calls; autopin
 ?Rva002EEDA0TheShroudManager@@3PAURva002EEDA0ShroudManager@@A,0x012ED5BC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EEDA0 calls; autopin

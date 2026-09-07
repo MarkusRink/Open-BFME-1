@@ -252,11 +252,14 @@ unsigned Rva00990210Lookup( lua_State *range, int index );
 class Rva002E6B70Object : public Object
 {
 public:
-	void j_0001e33f( bool flag );
+	// The retail call is through ILT RVA 0x0001E33F to body RVA 0x001C1EA0.
+	// Its public Object method name is not recovered; the body references the
+	// EnragedBehavior module literal, so retain an address-derived ABI view.
+	void Rva001E33FSetBool( bool flag );
 };
 
-// ?Rva002E6B70ObjectSetFlag@@YAHPAUlua_State@@@Z
-int Rva002E6B70ObjectSetFlag( lua_State *state )
+// ?ObjectSetEnragedState@@YAHPAUlua_State@@@Z
+int ObjectSetEnragedState( lua_State *state )
 {
 	if( lua_gettop( state ) < 2 )
 		return 0;
@@ -267,7 +270,7 @@ int Rva002E6B70ObjectSetFlag( lua_State *state )
 	if( !object )
 		return 0;
 	bool flag = Rva00990210Lookup( state, 2 ) != 0;
-	object->j_0001e33f( flag );
+	object->Rva001E33FSetBool( flag );
 	return 1;
 }
 
