@@ -58,11 +58,13 @@ class ScriptEngine
 public:
 	bool isSpecialPowerTriggered( int playerIndex, const AsciiString &completedPower, bool removeFromList, int sourceObj );
 	bool isSpecialPowerMidway( int playerIndex, const AsciiString &completedPower, bool removeFromList, int sourceObj );
+	bool isSpecialPowerComplete( int playerIndex, const AsciiString &completedPower, bool removeFromList, int sourceObj );
 
 private:
 	char m_pad[ 0x17274 ];
 	Rva0034DEB0List m_triggeredSpecialPowers[ 32 ];
 	Rva0034DEB0List m_midwaySpecialPowers[ 32 ];
+	Rva0034DEB0List m_finishedSpecialPowers[ 32 ];
 };
 
 class Rva0034DEB0OwnerA
@@ -134,6 +136,28 @@ bool ScriptEngine::isSpecialPowerMidway( int playerIndex, const AsciiString &com
 		return false;
 
 	Rva0034DEB0List *specialList = &m_midwaySpecialPowers[ playerIndex ];
+	for( Rva0034DEB0List::iterator it = specialList->begin(); it != specialList->end(); ++it )
+	{
+		Rva0034DEB0Elem elem = *it;
+		register int elemExtra = elem.m_extra;
+		if( elem.m_name.compare( completedPower ) == 0 && ( sourceObj == 0 || sourceObj == elemExtra ) )
+		{
+			if( removeFromList )
+			{
+				specialList->erase( it );
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
+bool ScriptEngine::isSpecialPowerComplete( int playerIndex, const AsciiString &completedPower, bool removeFromList, int sourceObj )
+{
+	if( playerIndex < 0 || playerIndex >= 32 )
+		return false;
+
+	Rva0034DEB0List *specialList = &m_finishedSpecialPowers[ playerIndex ];
 	for( Rva0034DEB0List::iterator it = specialList->begin(); it != specialList->end(); ++it )
 	{
 		Rva0034DEB0Elem elem = *it;
