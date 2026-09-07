@@ -1,10 +1,7 @@
-// ?postRender@ScreenMotionBlurFilter@@UAE_NW4FilterModes@@AAUCoord2D@@AA_NH@Z
-// partial score=0.95 date=2026-09-03
 // cl: /DNDEBUG /MD
-//
-// Retail 0x007D88B0: ScreenMotionBlurFilter::postRender.  BFME's caller
-// forwards one caller-stack word after the normal filter arguments; retail
-// uses it as the display-size pair when it builds the filter quad.
+// Retail 0x007D88B0: ScreenMotionBlurFilter::postRender.  BFME's filter
+// wrapper forwards a fourth Coord2D* display-size argument; this concrete
+// declaration follows the proven BW/CrossFade postRender ABI.
 
 #include <math.h>
 #include "d3dx8math.h"
@@ -77,13 +74,30 @@ public:
 
 #define TheTacticalView (*(BfmeTacticalView **)0x012F1600)
 
-struct BfmeGameLogic
+struct BfmeSubsystem
 {
-	char pad000[0x3c];
-	Int frame;
+	virtual void slot00() = 0;
 };
 
-#define TheGameLogic (*(BfmeGameLogic **)0x012F0898)
+struct BfmeSnapshot
+{
+	virtual void slot00() = 0;
+};
+
+class GameLogic : public BfmeSubsystem, public BfmeSnapshot
+{
+public:
+	Int getFrame(void) const
+	{
+		return m_frame;
+	}
+
+private:
+	char pad008[0x34];
+	Int m_frame;
+};
+
+extern GameLogic *TheGameLogic;
 #define ZoomToValid (*(Bool *)0x013072F8)
 #define ZoomToPosition ((void *)0x01307318)
 
@@ -94,7 +108,7 @@ public:
 	static void Apply_Render_State_Changes(void);
 };
 
-extern "C" void *__cdecl bfmeEndRenderToTexture(void);
+void *__cdecl bfmeEndRenderToTexture(void);
 
 class ScreenMotionBlurFilter
 {
@@ -102,7 +116,7 @@ public:
 	virtual Int init();
 	virtual Int shutdown();
 	virtual Bool preRender(Bool &, Int &);
-	virtual Bool postRender(FilterModes, Coord2D &, Bool &, Int);
+	virtual Bool postRender(FilterModes, Coord2D &, Bool &, Coord2D *);
 	virtual Bool setup(FilterModes);
 	virtual Int set(FilterModes);
 	virtual void reset();
@@ -117,8 +131,9 @@ public:
 	Int m_panFactor;
 };
 
+// ?postRender@ScreenMotionBlurFilter@@UAE_NW4FilterModes@@AAUCoord2D@@AA_NPAU3@@Z
 Bool ScreenMotionBlurFilter::postRender(FilterModes mode, Coord2D &scrollDelta,
-	Bool &doExtraRender, Int callerStackWord)
+	Bool &doExtraRender, Coord2D *displaySize)
 {
 	void *tex = bfmeEndRenderToTexture();
 	if (!tex)
@@ -146,26 +161,22 @@ Bool ScreenMotionBlurFilter::postRender(FilterModes mode, Coord2D &scrollDelta,
 	width = widthView->getWidth();
 	height = TheTacticalView->getHeight();
 
-	Coord2D *displaySize = (Coord2D *)callerStackWord;
 	// bottom right
 	v[0].p = D3DXVECTOR4(xpos + width - 0.5f, ypos + height - 0.5f,
 		0.0f, 1.0f);
 	v[0].u = (Real)(xpos + width) / displaySize->x;
 	v[0].v = (Real)(ypos + height) / displaySize->y;
 	// top right
-	v[1].p = D3DXVECTOR4(xpos + width - 0.5f, ypos - 0.5f,
-		0.0f, 1.0f);
+	v[1].p = D3DXVECTOR4(xpos + width - 0.5f, ypos - 0.5f, 0.0f, 1.0f);
 	v[1].u = (Real)(xpos + width) / displaySize->x;
 	v[1].v = (Real)ypos / displaySize->y;
 	// bottom left
-	v[2].p = D3DXVECTOR4(xpos - 0.5f,
-		ypos + height - 0.5f,
+	v[2].p = D3DXVECTOR4(xpos - 0.5f, ypos + height - 0.5f,
 		0.0f, 1.0f);
 	v[2].u = (Real)xpos / displaySize->x;
 	v[2].v = (Real)(ypos + height) / displaySize->y;
 	// top left
-	v[3].p = D3DXVECTOR4(xpos - 0.5f, ypos - 0.5f,
-		0.0f, 1.0f);
+	v[3].p = D3DXVECTOR4(xpos - 0.5f, ypos - 0.5f, 0.0f, 1.0f);
 	v[3].u = (Real)xpos / displaySize->x;
 	v[3].v = (Real)ypos / displaySize->y;
 	v[0].color = 0xffffffff;
@@ -213,7 +224,7 @@ Bool ScreenMotionBlurFilter::postRender(FilterModes mode, Coord2D &scrollDelta,
 	}
 
 	m_skipRender = false;
-	if (!pan && m_lastFrame != TheGameLogic->frame) {
+	if (!pan && m_lastFrame != *(Int *)((char *)TheGameLogic + 0x3c)) {
 		if (m_decrement) {
 			m_maxCount -= 5;
 			if (m_maxCount < 1) {
@@ -284,7 +295,7 @@ Bool ScreenMotionBlurFilter::postRender(FilterModes mode, Coord2D &scrollDelta,
 				sizeof(_TRANS_LIT_TEX_VERTEX));
 		}
 	}
-	m_lastFrame = TheGameLogic->frame;
+	m_lastFrame = TheGameLogic->getFrame();
 	if (pan)
 		m_skipRender = false;
 	reset();
