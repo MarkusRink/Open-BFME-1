@@ -73062,6 +73062,7 @@ name,address,notes
 ?bfmeAddBFC@BfmeSinkBFC@@QAEXPAUBfmeSubBFC@@@Z,0x0001D606,pin
 ?bfmeAddCFE@BfmeSubCFE@@QAEXPAXH@Z,0x0003D735,pin
 ?bfmeAddCQE@BfmeSubCQE@@QAEXPAVBfmeArgCQE@@@Z,0x00005C22,pin
+?bfmeAddHF@BfmeListHF@@QAEXPAVBfmeValueHF@@@Z,0x00029C08,pin
 ?bfmeAddKey@LargeGroupAudioKeyMap@@QAEXABVAsciiString@@@Z,0x000133D1,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003D4920 calls; autopin
 ?bfmeAddVHI@BfmeMultiVHI@@QAEXPBUBfmeParseVHI@@I@Z,0x00850920,pin
 ?bfmeAddVMO@BfmeListVMO@@QAEXPAVBfmeSvcVMO@@@Z,0x007EA550,pin
@@ -73568,6 +73569,7 @@ name,address,notes
 ?bfmeCanAffect@Weapon@@QBE_NPBVObject@@0@Z,0x00025EE1,ILT used by WeaponSet::chooseBestWeaponForTarget
 ?bfmeCanAttackTarget@BfmeAttackQuery@@QBE_NPBVObject@@PBUCoord3D@@0PBX@Z,0x0002DB1E,Object BFME attack query calls this protected ILT for source-target permission
 ?bfmeCanAutoFire@AutoAbilityBehavior@@QBE_NXZ,0x00008ECC,Open-BFME5 ILT thunk to body 0x001EDC00; AutoAbilityBehavior Object+8 AsciiString+0x20 command-ready predicate; bfme prefix records unrecovered retail spelling
+?bfmeCanHF@BfmeActorHF@@QAEDH@Z,0x0003251F,pin
 ?bfmeCast2EVB@@YAPAUBfmeObjEVB@@PAX@Z,0x00010424,pin
 ?bfmeCastEVB@@YAPAUBfmeObjEVB@@PAX@Z,0x00042424,pin
 ?bfmeCatVHH@BfmeLayoutVHH@@QAEXPBDH@Z,0x00887D60,pin
@@ -75044,6 +75046,7 @@ name,address,notes
 ?bfmeLookupBI@@YGPAVBfmeThingBI@@H@Z,0x00005024,Open-BFME5 the key lookup the name-for-key at 0x007696B0 makes
 ?bfmeLookupBN@BfmeOtherBN@@QAEPAXABVAsciiStringBN@@@Z,0x00028560,Open-BFME5 the second lookup the resolve at 0x002DE300 makes
 ?bfmeLookupC@@YAHPAX@Z,0x00031246,Open-BFME5 ILT the bit setter at 0x0020EC60 looks up through
+?bfmeLookupHF@Rva00367E30Logic@@QAEPAVBfmeValueHF@@PAXH@Z,0x0001F253,pin
 ?bfmeLookupMR@BfmeTableMR@@QAEXPAPAVBfmeNodeMR@@PAPAVBfmeKeyMR@@@Z,0x0001FF05,pin
 ?bfmeLookupPerUnitSound@BfmeOverridable@@QAEPBVAudioEventRTS@@ABVAsciiString@@@Z,0x0003B548,Open-BFME5 ILT the override-side lookup in ThingTemplate::getPerUnitSound at 0x00416FE0 goes through; it jumps to 0x001462D0
 ?bfmeLookupSound@ThingTemplate@@ABEPBVAudioEventRTS@@H@Z,0x0000286A,Open-BFME5 ILT ThingTemplate::getSound at 0x00416FA0 looks the sound up through; it jumps to 0x00416F20
@@ -75516,6 +75519,7 @@ name,address,notes
 ?bfmeResize@Gen009D7B80@@AAEXI@Z,0x009D7BC0,hashtable resize callee of Gen009D7B80 insert
 ?bfmeResolve1281@BfmeSlotDispatcher1281@@QAEXHHPAPAXPA_N@Z,0x008BC3E0,address-derived resolver callee; argument shape decoded from the 0x008BCCC0 retail call site
 ?bfmeResolveGA@BfmeItemGA@@QAEPAVBfmeThingGA@@XZ,0x00003B52,pin
+?bfmeResolveHF@BfmeInnerHF@@QAEPAVBfmeThingHF@@XZ,0x000022BB,pin
 ?bfmeResolveKZ@BfmeInnerKZ@@QAEPAVBfmeThingKZ@@XZ,0x000022BB,pin
 ?bfmeResolveLU@BfmeInnerLU@@QAEPAVBfmeThingLU@@XZ,0x000022BB,pin
 ?bfmeResolveMD@BfmeInnerMD@@QAEPAVBfmeThingMD@@XZ,0x000022BB,pin
@@ -84620,7 +84624,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolveHF@BfmeInnerHF@@QAEPAVBfmeThingHF@@XZ,0x000022BB,pin
-?bfmeCanHF@BfmeActorHF@@QAEDH@Z,0x0003251F,pin
-?bfmeLookupHF@Rva00367E30Logic@@QAEPAVBfmeValueHF@@PAXH@Z,0x0001F253,pin
-?bfmeAddHF@BfmeListHF@@QAEXPAVBfmeValueHF@@@Z,0x00029C08,pin
