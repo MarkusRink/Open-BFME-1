@@ -8,6 +8,7 @@ typedef bool Bool;
 class BFMENetworkQueue;
 class BFMENetworkQueue1;
 class BFMENetwork;
+struct BFMENetworkList;
 
 namespace _STL
 {
@@ -24,6 +25,9 @@ public:
 template <bool threads, int inst>
 class __node_alloc
 {
+	friend struct ::BFMENetworkList;
+	static void *_M_allocate(unsigned int bytes);
+
 public:
 	static void _M_deallocate(void *p, unsigned int bytes);
 };
@@ -62,7 +66,7 @@ struct BFMENetworkList
 {
 	BFMENetworkList() : head(0)
 	{
-		head = static_cast<BFMENetworkListNode *>(::operator new(0x18));
+		head = new (_STL::__node_alloc<true, 0>::_M_allocate(0x18)) BFMENetworkListNode;
 		size = 0;
 		head->flag = false;
 		head->value = 0;
@@ -875,6 +879,8 @@ BFMENetwork::BFMENetwork() :
 	m_unknown68 = 0;
 }
 
+// The ledger retains a shim alias with this destructor as its object-symbol.
+// ?destroy@BFMENetworkDestructorShim@@QAEXXZ
 BFMENetwork::~BFMENetwork()
 {
 	if (m_backend) {
