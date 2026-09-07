@@ -84787,3 +84787,6 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?Get_Single_Texture@MeshModelClass@@QBE?AVBfmeHandleCX@@HH@Z,0x0092CA90,Mesh replacement94F300 call94F39A; existing43B MeshModel getter forwards hidden owning handle and pass/stage to CurMatDesc Get_Single_Texture92C9D0
 ?Change_Polygon_Renderer_Texture@DX8FVFCategoryContainer@@QAEXAAV?$MultiListClass@VDX8PolygonRendererClass@@@@ABVBfmeHandleCX@@1II@Z,0x00947E50,Mesh replacement94F300 call94F40B; original renderer-category migration body and typed list plus two handle refs; unsigned pass/stage from GeneralsMD declaration
 ?Change_Polygon_Renderer_Material@DX8FVFCategoryContainer@@QAEXAAV?$MultiListClass@VDX8PolygonRendererClass@@@@PAVVertexMaterialClass@@1I@Z,0x00948220,MeshModel material replacement94F450 call94F4F7; GeneralsMD category material migration body with typed list and old/new material pointers plus unsigned pass
+?bfmeFindVK@Rva00367E30Logic@@QAEPAVBfmePlayerVK@@PAX@Z,0x0001F253,pin
+?bfmeAddPlayerVK@BfmeListVK@@QAEXPAVBfmePlayerVK@@H@Z,0x00044A44,pin
+?bfmeAddSetVK@BfmeListVK@@QAEXPAUBfmeSetVK@@H@Z,0x000339FB,pin
