@@ -858,11 +858,14 @@ int AABoxRenderObjClass::Class_ID(void) const
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?Render@AABoxRenderObjClass@@UAEXAAVRenderInfoClass@@@Z present-unmatched
 void AABoxRenderObjClass::Render(RenderInfoClass & rinfo)
 {
+	Vector3 translation;
+	translation.Z = Transform.Get_Z_Translation();
+	translation.X = Transform.Get_X_Translation();
+	translation.Y = Transform.Get_Y_Translation();
 	Matrix3D temp(1);
-	temp.Translate(Transform.Get_Translation());
+	temp.Translate(translation);
 	DX8Wrapper::Set_Transform(D3DTS_WORLD,temp);
 	render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
 }
