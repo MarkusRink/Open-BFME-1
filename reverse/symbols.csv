@@ -85850,3 +85850,13 @@ _bfmeVtblEVD,0x00CF3920,pin vftable data for BfmeConv1995
 ?bfmeNotifyEVH@BfmeSinkEVH@@QAEX_N@Z,0x0004326B,pin notify thunk for BfmeConv1998
 ?bfmeResolveEVI@@YIPAVBfmeThingEVI@@PAVBfmeSubEVI@@@Z,0x000022BB,pin resolve thunk for BfmeConv1999
 ?bfmeNotifyEVI@BfmeSinkEVI@@QAEX_N@Z,0x0004326B,pin notify thunk for BfmeConv1999
+?bfmeInitAEVJ@BfmeHostEVJ@@QAEXPAV1@@Z,0x0003F6D9,pin base copy for BfmeConv2000
+?bfmeInitBEVJ@BfmeSubEVJ@@QAEXPAV1@@Z,0x000388E8,pin second base copy for BfmeConv2000
+_bfmeVftAEVJ,0x00D12D14,pin vftable for BfmeConv2000
+_bfmeVftBEVJ,0x00D12D10,pin vftable for BfmeConv2000
+_bfmeVftCEVJ,0x00D12CFC,pin vftable for BfmeConv2000
+?bfmeInitAEVK@BfmeHostEVK@@QAEXPAV1@@Z,0x0003F6D9,pin base copy for BfmeConv2001
+?bfmeInitBEVK@BfmeSubEVK@@QAEXPAV1@@Z,0x000344E6,pin second base copy for BfmeConv2001
+_bfmeVftAEVK,0x00D12DBC,pin vftable for BfmeConv2001
+_bfmeVftBEVK,0x00D12DB8,pin vftable for BfmeConv2001
+_bfmeVftCEVK,0x00D12DA4,pin vftable for BfmeConv2001
