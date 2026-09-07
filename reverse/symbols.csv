@@ -85321,3 +85321,6 @@ _bfmeCbBZC,0x007F4740
 ?bfmeStepZH@BfmeSubZH@@QAEXXZ,0x000107C6
 ?doPush@Shell@@IAEXVAsciiString@@@Z,0x00026792,Shell doPush ILT reached by Shell::shutdownComplete
 ?bfmeLockZI@BfmeSurfaceZI@@QAEPAXPAHHHHH@Z,0x008FC710
+?bfmeStopZJ@BfmeBaseZJ@@QAEXXZ,0x0003C740
+?bfmeClearZJ@BfmeBaseZJ@@QAEXXZ,0x00041970
+?bfmeTopZJ@BfmeHostZJ@@QAEPAVBfmeTargetZJ@@XZ,0x0000DE9F
