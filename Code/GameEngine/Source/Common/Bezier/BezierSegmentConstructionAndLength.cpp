@@ -82,11 +82,11 @@ class Rva000B6D50BezierSegment
 // The difference vectors retail spills are NOT contiguous on the stack, so the
 // locals are a plain aggregate whose fields the optimiser scalarises -- not the
 // ctor/dtor-bearing element type m_controlPoints is made of.
-struct W4Vec
+struct BezierDifferenceVector
 {
 	Real x, y, z;
 
-	W4Vec( Real _x, Real _y, Real _z ) { x = _x; y = _y; z = _z; }
+	BezierDifferenceVector( Real _x, Real _y, Real _z ) { x = _x; y = _y; z = _z; }
 
 	Real length( void ) const { return (Real)sqrt( x*x + y*y + z*z ); }
 };
@@ -162,13 +162,13 @@ Rva000B6D50BezierSegment::Rva000B6D50BezierSegment(const Coord3D& cp0,
 //-------------------------------------------------------------------------------------------------
 Real BezierSegment::getApproximateLength(Real withinTolerance) const
 {
-	W4Vec p0p1( m_controlPoints[1].x - m_controlPoints[0].x, m_controlPoints[1].y - m_controlPoints[0].y, m_controlPoints[1].z - m_controlPoints[0].z );
+	BezierDifferenceVector p0p1( m_controlPoints[1].x - m_controlPoints[0].x, m_controlPoints[1].y - m_controlPoints[0].y, m_controlPoints[1].z - m_controlPoints[0].z );
 
-	W4Vec p1p2( m_controlPoints[2].x - m_controlPoints[1].x, m_controlPoints[2].y - m_controlPoints[1].y, m_controlPoints[2].z - m_controlPoints[1].z );
+	BezierDifferenceVector p1p2( m_controlPoints[2].x - m_controlPoints[1].x, m_controlPoints[2].y - m_controlPoints[1].y, m_controlPoints[2].z - m_controlPoints[1].z );
 
-	W4Vec p2p3( m_controlPoints[3].x - m_controlPoints[2].x, m_controlPoints[3].y - m_controlPoints[2].y, m_controlPoints[3].z - m_controlPoints[2].z );
+	BezierDifferenceVector p2p3( m_controlPoints[3].x - m_controlPoints[2].x, m_controlPoints[3].y - m_controlPoints[2].y, m_controlPoints[3].z - m_controlPoints[2].z );
 
-	W4Vec p0p3( m_controlPoints[3].x - m_controlPoints[0].x, m_controlPoints[3].y - m_controlPoints[0].y, m_controlPoints[3].z - m_controlPoints[0].z );
+	BezierDifferenceVector p0p3( m_controlPoints[3].x - m_controlPoints[0].x, m_controlPoints[3].y - m_controlPoints[0].y, m_controlPoints[3].z - m_controlPoints[0].z );
 
 	Real length0 = p0p3.length();
 	Real length1 = p0p1.length() + p1p2.length() + p2p3.length();
