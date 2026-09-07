@@ -67401,6 +67401,13 @@ name,address,notes
 ?b_006decb0@@YAXXZ,0x006DECB0,gen-thunk body
 ?b_006decf0@@YAXXZ,0x006DECF0,gen-thunk body
 ?b_006ded60@@YAXXZ,0x006DED60,gen-thunk body
+??0Rva006DED60RoadBuffer@@QAE@XZ,0x006DED60,constructor identity from BaseHeightMap road-buffer allocation and matching reset call
+??0Rva006DED60RoadRef@@QAE@XZ,0x0001F3B1,first road-buffer array element constructor used by retail EH vector construction
+??1Rva006DED60RoadRef@@QAE@XZ,0x0002266F,first road-buffer array element destructor used by retail EH vector construction
+??0Rva006DED60RoadSet@@QAE@XZ,0x00029BE5,road-buffer set element constructor used by retail EH vector construction
+??1Rva006DED60RoadSet@@QAE@XZ,0x00029B9F,road-buffer set element destructor used by retail EH vector construction
+?freeRoadBuffers@Rva006DED60RoadBuffer@@QAEXXZ,0x0003697B,road-buffer constructor cleanup call through the retail ILT
+?allocateRoadBuffers@Rva006DED60RoadBuffer@@QAEXXZ,0x0000566E,road-buffer constructor allocation call through the retail ILT
 ?b_006dee60@@YAXXZ,0x006DEE60,gen-thunk body
 ?b_006defc0@@YAXXZ,0x006DEFC0,gen-thunk body
 ?b_006df040@@YAXXZ,0x006DF040,gen-thunk body
