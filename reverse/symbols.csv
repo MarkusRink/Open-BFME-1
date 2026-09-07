@@ -84734,3 +84734,6 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeQueryJC@BfmeUnitJC@@QAEHPAUBfmePairJC@@PAM@Z,0x0000E359,pin
 ?bfmeMakeQK@@YGPAXPAX@Z,0x00033CA8,pin
 ?bfmeDoQK@BfmeSinkQK@@QAEXPAX0@Z,0x000110E5,pin
+?g_bfmeMapLB@@3VBfmeMapLB@@A,0x00EF3354,pin
+?bfmeFindLB@BfmeMapLB@@QAEPAPAVBfmeEntryLB@@PAPAX@Z,0x000089B3,pin
+?bfmeEraseLB@BfmeMapLB@@QAEXPAPAX@Z,0x00013F89,pin
