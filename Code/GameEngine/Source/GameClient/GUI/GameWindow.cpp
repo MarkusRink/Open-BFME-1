@@ -1466,7 +1466,7 @@ Int GameWindow::winDrawWindow( void )
 	* window which contains the mouse pointer.  Child windows are
 	* relative to their parents */
 //=============================================================================
-// byte-exact reconstruction: Code/GameEngine/Source/Common/GameWindow_winPointInChild_Thunk.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/Common/GameWindowTextAndHitTest.cpp
 // ?winPointInChild@GameWindow@@QAEPAV1@HH_N0@Z present-unmatched
 GameWindow *GameWindow::winPointInChild( Int x, Int y, Bool ignoreEnableCheck, Bool playDisabledSound )
 {
