@@ -27847,6 +27847,8 @@ name,address,notes
 ?b_001c45e0@@YAXXZ,0x001C45E0,gen-thunk body
 ?b_001c4670@@YAXXZ,0x001C4670,gen-thunk body
 ?b_001c4710@@YAXXZ,0x001C4710,gen-thunk body
+?b_001c4710@Object@@QBE_NXZ,0x001C4710,address-derived Object command-option predicate called by Rva00458FC0
+?bfmeGoJB@InGameUI@@QBE_NXZ,0x0043EC00,address-derived InGameUI selection guard called by Rva00458FC0
 ?b_001c4780@@YAXXZ,0x001C4780,gen-thunk body
 ?b_001c4830@@YAXXZ,0x001C4830,gen-thunk body
 ?b_001c48b0@@YAXXZ,0x001C48B0,gen-thunk body
