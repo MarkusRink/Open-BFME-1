@@ -60,13 +60,20 @@ public:
 	Int m_key;						// +0x38
 };
 
-class Rva0040AD80ReferenceState
+// PE exports identify the Snapshot base; only its used lifetime interface is declared here.
+class Snapshot
 {
 public:
-	void releaseReferences(void);
+    virtual ~Snapshot() {}
+};
+
+class Rva0040AD80ReferenceState : public Snapshot
+{
+public:
+	virtual ~Rva0040AD80ReferenceState();
+	__declspec(noinline) void releaseReferences(void);
 
 private:
-	char m_opaque00[0x04];
 	ReferenceStateReferent *m_firstReferent;				// +0x04
 	ReferenceStateReferent *m_secondReferent;				// +0x08
 };
@@ -105,4 +112,9 @@ void Rva0040AD80ReferenceState::releaseReferences(void)
 
 		m_firstReferent = 0;
 	}
+}
+
+Rva0040AD80ReferenceState::~Rva0040AD80ReferenceState()
+{
+    releaseReferences();
 }

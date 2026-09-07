@@ -76691,7 +76691,6 @@ name,address,notes
 ?clear@DamageFX@@QAEXXZ,0x00044297
 ?clear@DetailedArchivedDirectoryInfo@@QAEXXZ,0x009D1040,retail clear body called by ArchiveFile constructor at 0x009D10B0; direct target and map/string cleanup semantics
 ?clear@Dict@@QAEXXZ,0x00033F46
-?clear@DrawableIconInfo@@QAEXXZ,0x00015479,pinharvest x1 (thunk)
 ?clear@FXList@@QAEXXZ,0x00044297,derived-ICF
 ?clear@GameWindowHashtableClearShim@_STL@@QAEXXZ,0x004984F0,_STL hashtable clear GameWindowVideo dual incremental-link thunk target through a TU-local forwarding shim
 ?clear@Gen003BFC20Owner@@QAEXXZ,0x00040016,ILT to clear body 0x003CAD90; callee of 0x003BFC20
