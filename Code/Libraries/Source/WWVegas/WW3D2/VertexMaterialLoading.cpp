@@ -86,3 +86,70 @@ void VertexMaterialClass::Parse_W3dVertexMaterialStruct(const W3dVertexMaterialS
 }
 
 
+
+// BFME Load_W3D: RVA 0x00923520, complete 364-byte compiler span.
+// The mesh vertex-material reader calls it at 0x0096EB8C after construction.
+// It reads the original name/info/mapper-argument chunks, then parses the
+// material and both mapper argument strings. RET 4 at 0x00923679 ends the
+// code; the four-entry table at 0x0092367C..0x0092368B is part of this body.
+// INT3 padding begins at 0x0092368C.
+bool VertexMaterialClass::Load_W3D(ChunkLoadClass & cload)
+{
+	char name[256];
+
+	W3dVertexMaterialStruct vmat;
+	bool hasname = false;
+
+	char *mapping0_arg_buffer = NULL;
+	char *mapping1_arg_buffer = NULL;
+	unsigned int mapping0_arg_len = 0U;
+	unsigned int mapping1_arg_len = 0U;
+
+	while (cload.Open_Chunk()) {
+		switch (cload.Cur_Chunk_ID()) {
+			case W3D_CHUNK_VERTEX_MATERIAL_NAME:
+				cload.Read(&name,cload.Cur_Chunk_Length());
+				hasname = true;
+				break;
+
+			case W3D_CHUNK_VERTEX_MATERIAL_INFO:
+				if (cload.Read(&vmat,sizeof(vmat)) != sizeof(vmat)) {
+					return false;
+				}
+				break;
+
+			case W3D_CHUNK_VERTEX_MAPPER_ARGS0:
+				mapping0_arg_len = cload.Cur_Chunk_Length();
+				mapping0_arg_buffer = new char[mapping0_arg_len];
+				if (cload.Read(mapping0_arg_buffer, mapping0_arg_len) != mapping0_arg_len) {
+					return false;
+				}
+				break;
+
+			case W3D_CHUNK_VERTEX_MAPPER_ARGS1:
+				mapping1_arg_len = cload.Cur_Chunk_Length();
+				mapping1_arg_buffer = new char[mapping1_arg_len];
+				if (cload.Read(mapping1_arg_buffer, mapping1_arg_len) != mapping1_arg_len) {
+					return false;
+				}
+				break;
+		};
+		cload.Close_Chunk();
+	}
+
+	if (hasname) {
+		Set_Name(name);
+	}
+
+	Parse_W3dVertexMaterialStruct(vmat);
+	Parse_Mapping_Args(vmat,mapping0_arg_buffer,mapping1_arg_buffer);
+
+	delete [] mapping0_arg_buffer;
+	mapping0_arg_buffer = NULL;
+
+	delete [] mapping1_arg_buffer;
+	mapping1_arg_buffer = NULL;
+
+	return true;
+}
+
