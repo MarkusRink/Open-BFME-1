@@ -85370,3 +85370,6 @@ _g_bfmeDirtyZR,0x00EEF418
 ?bfmeAddAC@BfmeOwnerAC@@QAEXPAVBfmeItemAC@@@Z,0x000044C1
 ?bfmeVisitAC@@YAXPAVBfmeItemAC@@PAX@Z,0x0000C9B4
 ?g_bfmeTableAD@@3UBfmeTableAD@@A,0x00F563A0
+?AllocateMemory@@YAPAXKPAH@Z,0x008793F0,DoBitops retail calls resolve to the benchmark allocator body
+?DoBitfieldIteration@@YAKPAK0J0@Z,0x00876F70,DoBitops retail calls resolve to the static bitfield iteration helper
+?ReportError@@YAXPADH@Z,0x00879380,DoBitops retail error branches resolve to the benchmark error helper

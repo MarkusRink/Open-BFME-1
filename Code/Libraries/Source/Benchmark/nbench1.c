@@ -965,7 +965,7 @@ locbitopstruct=&global_bitopstruct;
 /*
 ** Set the error context.
 */
-errorcontext="CPU:Bitfields";
+errorcontext=(char *)0x0107301c;
 
 /*
 ** See if we need to run adjustment code.
