@@ -85736,3 +85736,8 @@ _Rva008921B0Atof,0x008921B0,address-derived 14-byte cdecl atof wrapper at 0x0089
 ?bfmeDoneESC@BfmeHostESC@@QAEXH@Z,0x0003DA46,pin
 ?bfmeCallESC@BfmeHostESC@@QAEXPAXHEHHHHEH@Z,0x0003472F,pin
 ?bfmeAssignESD@BfmeSubESD@@QAEXPAX0PAPAX@Z,0x00021A58,pin
+?bfmeCheckESE@BfmeActionsESE@@QAEDPAXPAVBfmeThingESE@@0@Z,0x000338D4,pin
+?bfmeDoAESE@BfmeHostESE@@QAEXPAVBfmeThingESE@@PAX@Z,0x0003C8CB,pin
+?bfmeDoBESE@BfmeHostESE@@QAEXPAVBfmeThingESE@@PAX@Z,0x000376C8,pin
+?g_bfmeActionsESE@@3PAVBfmeActionsESE@@A,0x00EED700,pin
+?g_bfmeDefaultESE@@3MA,0x00C75334,pin
