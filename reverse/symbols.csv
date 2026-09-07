@@ -10311,6 +10311,7 @@ name,address,notes
 ?GadgetTabControlShowSubPane@@YAXPAVGameWindow@@H@Z,0x00008936
 ?GadgetTextEntrySetFont@@YAXPAVGameWindow@@PAVGameFont@@@Z,0x0003CBCD,Open-BFME5 ILT thunk to the body already matched at 0x004BE0A0; ?winSetFont@GameWindow@@UAEXPAVGameFont@@@Z at 0x00478550 dispatches to it on the matching style bit
 ?GameInfoToAsciiString@@YA?AVAsciiString@@PBVGameInfo@@_N@Z,0x0000E70A,Skirmish SlotList formatter ILT
+?ParseAsciiStringToGameInfo@@YA_NPAVGameInfo@@VAsciiString@@_N@Z,0x00621C40,BFME three-argument game-options parser body;campaign=luna36h-20260907;lane=netpacket
 ?GameSpyCloseAllOverlays@@YAXXZ,0x0000F5AB,Shell push overlay-close thunk
 ?GameSpyCloseOverlay@@YAXW4GSOverlayType@@@Z,0x00040E94
 ?GameSpyCloseOverlayShim@@YAXW4GSOverlayType@@@Z,0x00627AD0,GameSpyCloseOverlay incremental-link thunk target through a free forwarding shim
@@ -79397,6 +79398,7 @@ name,address,notes
 ?getFormationMovementStep@BfmeAIUpdateInterface@@QAEMPAVBfmeUpdateObject@@@Z,0x00024F7D,ILT thunk used by AOD formation update
 ?getFrameCommandList@ConnectionManager@@QAEPAVNetCommandList@@I@Z,0x00663450,ZH twin: new NetCommandList(0x10 bytes ctor 0x00672EA0) reset 0x006731A0; per FrameDataManager at +0x120E4 appendList(0x00673580) of getFrameCommandList 0x006706A0 then resetFrame(frame-FRAMES_TO_KEEP;TRUE) 0x006706D0 with FRAMES_TO_KEEP global 0x012BA08C=0x41; sole caller Network frame tick 0x00682AB6; ILT 0x0001EF5B
 ?getGameName@GameSpyStagingRoom@@QAE?AVUnicodeString@@XZ,0x0002C7B4,ILT of staging-room wide string at +0x418 used by CustomMatch 0x0053B980
+?setGameName@GameSpyStagingRoom@@QAEXVUnicodeString@@@Z,0x004D4880,BFME +0x418 wide setter body;campaign=luna36h-20260907;lane=netpacket
 ?getGameSpySlot@GameSpyStagingRoom@@QAEPAVGameSpyGameSlot@@H@Z,0x000061D6,ICF alias: this thunk chains to the GameInfo::getSlot body at 0x0061E8B0; the slot accessors compile to the same bytes
 ?getGoalObject@BfmeStateMachine@@QAEPAVBfmeTargetObject@@XZ,0x0000E570,BannerCarrier target predicate reads the source state machine goal object
 ?getGoalObject@StateMachine@@QAEPAVObject@@XZ,0x0000E570,retail AIEnterState::update call target
@@ -82473,6 +82475,7 @@ name,address,notes
 ?setLifetimeRange@DeletionUpdate@@QAEXII@Z,0x0028C6E0,callee of DamageFieldNugget::doNugget
 ?setListInScoreScreen@Player@@QAEX_N@Z,0x000C96F0,stores the Bool at Player+0x29c read by getListInScoreScreen 0x000C9700; set TRUE by the Player body 0x000DA610 at 0x000DA7FC; ZH Player.cpp:1947
 ?setLocalAddress@Network@@UAEXPBUTransportAddress@@@Z,0x00681980,vtable 0x0111A968 slot 12 (+0x30) via ILT 0x0002AA45; copies the {addr port} pair behind the pointer arg into conMgr+0x12050/+0x12054 (ZH setLocalAddress(ip port) with ConnectionManager::setLocalAddress inlined) - the same pair ConnectionManager::initTransport 0x00663230 hands to ?init@Transport@@QAE_NPBUTransportAddress@@@Z at 0x006632B1; called 0x006399F1 and 0x0068A5AD
+?setLocalName@GameSpyStagingRoom@@QAEXVAsciiString@@@Z,0x006312E0,BFME +0x424 narrow setter body;campaign=luna36h-20260907;lane=netpacket
 ?setLocale@GameSpyGameSlot@@QAEXVAsciiString@@@Z,0x006380F0,same shape as 0x00638060 on this+0x74 = m_gameSpyLocale (second derived-class string); value in BFMEConnectionManager::update 0x0066AD73 is AsciiString([0x012F71B4]->vslot 0x2c()); getter twin 0x006380C0 returns +0x74; ILT 0x00036D31
 ?setLoginName@GameSpyGameSlot@@QAEXVAsciiString@@@Z,0x00638060,AsciiString by value copied into this+0x70 then the temp destroyed; this = GameSpyStagingRoom::getGameSpySlot(slot) (ILT 0x000061D6) in 0x006645B0 and BFMEConnectionManager::update 0x0066AD54; ??1GameSpyGameSlot 0x004FA000 releases exactly two derived-class strings +0x74 then +0x70 which is the ZH declaration order m_gameSpyLogin m_gameSpyLocale; ZH setLoginName(AsciiString); getter twin 0x00638030 returns +0x70; ILT 0x00028952
 ?setLossStreak@SkirmishBattleHonors@@QAEXVAsciiString@@H@Z,0x0009CAB0,BFME per-side variant of ZH SkirmishBattleHonors::setLossStreak: concat("LossStreak" at VA 0x010804F4) onto the by-value AsciiString side prefix (the callers pass Gondor/Rohan/Isengard/Mordor) then setInt ILT 0x00009B3D (pinned) -> 0x000A96F0; ret 8
