@@ -883,14 +883,14 @@ void FXList::doFXObj(const Object* primary, const Object* secondary) const
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/FXListStoreCtorThunk.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/FXListStoreLifecycle.cpp
 // ??0FXListStore@@QAE@XZ present-unmatched
 FXListStore::FXListStore()
 {
 }
 
 //-------------------------------------------------------------------------------------------------
-// ??1FXListStore@@UAE@XZ body: FXListStoreDtorThunk.cpp (exact retail @ 0x0042DE50)
+// ??1FXListStore@@UAE@XZ body: FXListStoreLifecycle.cpp (exact retail @ 0x0042DE50)
 
 //-------------------------------------------------------------------------------------------------
 const FXList *FXListStore::findFXList(const char* name) const
