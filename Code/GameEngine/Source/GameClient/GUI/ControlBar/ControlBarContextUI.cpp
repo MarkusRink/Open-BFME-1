@@ -40,9 +40,33 @@ class Object;
 class Image;
 class OpenContain;
 
+template <class Type>
+class StringBase
+{
+private:
+	StringBase(const char *s);
+	StringBase(const StringBase &that);
+	friend class UnicodeString;
+	friend class AsciiString;
+};
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
 class AsciiString
 {
+public:
+
+	AsciiString(const char *s)
+	{
+		((StringBase<char> *)this)->StringBase<char>::StringBase(s);
+	}
+
+	AsciiString(const AsciiString &that);
+	~AsciiString();
+
+private:
+
+	void *m_text;
+
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Overridable.h
@@ -227,6 +251,73 @@ extern NameKeyGenerator *TheNameKeyGenerator;			// 0x012ED600
 
 #define NAMEKEY(x) (TheNameKeyGenerator->nameToKey(x))
 
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/UnicodeString.h
+class UnicodeString
+{
+public:
+
+	UnicodeString() { m_text = 0; }
+
+	// Visible delegation, so the by-value temporary is scheduled retail's way.
+	UnicodeString(const UnicodeString &that)
+	{
+		((StringBase<unsigned short> *)this)->StringBase<unsigned short>::StringBase(
+			*(const StringBase<unsigned short> *)&that);
+	}
+
+	~UnicodeString();
+
+	// Variadic member: MSVC compiles these __cdecl with this pushed first, and
+	// the format string is a UnicodeString BY VALUE.
+	void __cdecl format(UnicodeString fmt, ...);
+
+private:
+
+	void *m_text;
+
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/GameWindowManager.h
+class GameWindowManager
+{
+public:
+	virtual void slot000() = 0; virtual void slot001() = 0; virtual void slot002() = 0;
+	virtual void slot003() = 0; virtual void slot004() = 0; virtual void slot005() = 0;
+	virtual void slot006() = 0; virtual void slot007() = 0; virtual void slot008() = 0;
+	virtual void slot009() = 0; virtual void slot010() = 0; virtual void slot011() = 0;
+	virtual void slot012() = 0; virtual void slot013() = 0; virtual void slot014() = 0;
+	virtual void slot015() = 0; virtual void slot016() = 0; virtual void slot017() = 0;
+	virtual void slot018() = 0; virtual void slot019() = 0; virtual void slot020() = 0;
+	virtual void slot021() = 0; virtual void slot022() = 0; virtual void slot023() = 0;
+	virtual void slot024() = 0; virtual void slot025() = 0; virtual void slot026() = 0;
+	virtual void slot027() = 0; virtual void slot028() = 0; virtual void slot029() = 0;
+	virtual void slot030() = 0; virtual void slot031() = 0; virtual void slot032() = 0;
+	virtual void slot033() = 0; virtual void slot034() = 0; virtual void slot035() = 0;
+	virtual void slot036() = 0; virtual void slot037() = 0; virtual void slot038() = 0;
+	virtual void slot039() = 0; virtual void slot040() = 0; virtual void slot041() = 0;
+	virtual void slot042() = 0; virtual void slot043() = 0; virtual void slot044() = 0;
+	virtual void slot045() = 0; virtual void slot046() = 0; virtual void slot047() = 0;
+	virtual void slot048() = 0; virtual void slot049() = 0; virtual void slot050() = 0;
+	virtual void slot051() = 0; virtual void slot052() = 0; virtual void slot053() = 0;
+	virtual void slot054() = 0;
+	virtual GameWindow *winGetWindowFromId( GameWindow *window, NameKeyType id ) = 0;	// slot 55, vtable+0xdc
+};
+
+class GameText
+{
+public:
+	virtual void slot00() = 0; virtual void slot01() = 0; virtual void slot02() = 0;
+	virtual void slot03() = 0; virtual void slot04() = 0; virtual void slot05() = 0;
+	virtual void slot06() = 0; virtual void slot07() = 0; virtual void slot08() = 0;
+	virtual void slot09() = 0;
+	virtual UnicodeString fetch( const char *label, Bool *exists = 0 ) = 0;	// slot 10, vtable+0x28
+};
+
+extern GameWindowManager *TheWindowManager;
+extern GameText *TheGameText;
+
+void GadgetStaticTextSetText( GameWindow *window, UnicodeString text );
+
 struct PopulateInvButtonData
 {
 	Int currIndex;
@@ -250,11 +341,14 @@ public:
 	void commandSetButtonWalk(const AsciiString &name);
 	void setControlCommand(GameWindow *window, const CommandButton *commandButton);
 	void updateConstructionTextDisplay(Object *obj);
+	void populateOCLTimer(Object *creatorObject);
 
 private:
 	void updateContextOCLTimer(void);
 	void updateOCLTimerTextDisplay(UnsignedInt secondsLeft, Real percentDone);	// ILT 0x00029839
 	CommandSet *findNonConstCommandSet(const AsciiString &name);
+	const CommandButton *findCommandButton(const AsciiString &name);
+	void setPortraitByObject(Object *obj);
 
 protected:
 	void updateContextUnderConstruction(void);
@@ -262,7 +356,9 @@ protected:
 	void resetContainData(void);
 	void doTransportInventoryUI(Object *transport, const CommandSet *commandSet);
 
-	char m_slice_pad[0x5C];					// retail this+0x00 .. +0x5B, untouched
+	char m_slice_pad[0x54];					// retail this+0x00 .. +0x53, untouched
+	GameWindow *m_bfmeContextParentOclTimer;		// this+0x54, m_contextParent[CP_OCL_TIMER]
+	char m_slice_padA[0x5C - 0x58];				// this+0x58 .. +0x5B, untouched
 	Drawable *m_currentSelectedDrawable;			// this+0x5C
 	char m_slice_padB[0x68 - 0x60];				// this+0x60 .. +0x67, untouched
 	Real m_displayedConstructPercent;			// this+0x68
@@ -442,3 +538,64 @@ void ControlBar::commandSetButtonWalk( const AsciiString &name )
 			( (CommandButton *)btn )->Rva0049B240();
 	}
 }
+
+// ControlBar::updateConstructionTextDisplay, retail 0x004AF520, 245 bytes.
+// No port of ControlBarUnderConstruction.cpp exists under Code/. Found by the
+// literal it pushes: "ControlBar.wnd:UnderConstructionDesc" appears in exactly
+// one reference source and inside exactly one function there. The body is Zero
+// Hour's, minus the DEBUG_ASSERTCRASH that NDEBUG removes from both trees.
+// NameKeyGenerator::nameToKey takes a const char * here, not an AsciiString:
+// retail pushes the literal straight through and builds no temporary.
+
+// ?updateConstructionTextDisplay@ControlBar@@QAEXPAVObject@@@Z
+void ControlBar::updateConstructionTextDisplay( Object *obj )
+{
+	UnicodeString text;
+	// descID keeps the UnsignedInt its own file gave it and the cast is the
+	// no-op that costs nothing: this TU spells NameKeyType as the enum the
+	// other bodies' nameToKey calls are pinned under.
+	static UnsignedInt descID = TheNameKeyGenerator->nameToKey( "ControlBar.wnd:UnderConstructionDesc" );
+	GameWindow *descWindow = TheWindowManager->winGetWindowFromId( 0, (NameKeyType)descID );
+
+	// format the message
+	text.format( TheGameText->fetch( "CONTROLBAR:UnderConstructionDesc" ),
+							 obj->getConstructionPercent() );
+	GadgetStaticTextSetText( descWindow, text );
+
+	// record this as the last percentage displayed
+	m_displayedConstructPercent = obj->getConstructionPercent();
+
+}  // end updateConstructionTextDisplay
+
+// ControlBar::populateOCLTimer, retail 0x004AAA70, 182 bytes. BFME dropped the
+// two KINDOF branches Zero Hour has -- there is no isKindOf call in these 182
+// bytes at all -- and always sets the sell button. The order is the
+// reference's only up to a point: retail builds and destroys the
+// findCommandButton temporary BEFORE calling nameToKey, so that statement
+// comes first here.
+
+// ?populateOCLTimer@ControlBar@@QAEXPAVObject@@@Z
+void ControlBar::populateOCLTimer( Object *creatorObject )
+{
+
+	// sanity
+	if( creatorObject == 0 )
+		return;
+
+	// get our parent window
+	GameWindow *parent = m_bfmeContextParentOclTimer;
+
+	const CommandButton *commandButton = findCommandButton( "Command_Sell" );
+	NameKeyType id = TheNameKeyGenerator->nameToKey( "ControlBar.wnd:OCLTimerSellButton" );
+	GameWindow *win = TheWindowManager->winGetWindowFromId( parent, id );
+
+	setControlCommand( win, commandButton );
+	win->winSetStatus( 0x200000 );								// WIN_STATUS_USE_OVERLAY_STATES
+
+	// set the text percent and bar of our timer we are displaying
+	updateContextOCLTimer( );
+
+	// set the portrait for the thing being constructed
+	setPortraitByObject( creatorObject );
+
+}  // end populateOCLTimer
