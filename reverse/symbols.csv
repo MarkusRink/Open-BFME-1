@@ -85555,3 +85555,4 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeFindDN@Rva00367E30Logic@@QAEPAVBfmeObjDN@@H@Z,0x0001F253
 ?bfmeOwnsDN@Rva002EE330PlayerList@@QAEDPAVBfmeObjDN@@@Z,0x00003A85
 ?bfmeShowDN@ControlBar@@QAEXPAUBfmeMsgDN@@@Z,0x00043702
+?get_vert_normals@MeshGeometryClass@@IAEPAVVector3@@_N@Z,0x00927230,BFME normal reader9274C0 calls927230; helper selects normal buffers40/44 and named VertexNorm allocation anchor
