@@ -32,6 +32,27 @@
 // So the definition needs the public spelling and these three call sites need
 // the private one: one TU cannot supply both, and merging it in would break
 // whichever half lost.
+//
+// That is worth stating next to its opposite, because the two look identical
+// until you read the pins and they come out the other way round:
+//
+//   InGameUI::destroyPlacementIcons  body row IAE at 0x0043AF00
+//                                    thunk    QAE at 0x0001EC3B
+//     -> MERGES with its caller. The extra spelling is on the THUNK, so the
+//        definition keeps the row's own spelling and the call site resolves
+//        through the other one. Both halves get what they need.
+//        (GameClient/InGameUIBodies.cpp holds the pair.)
+//
+//   GameWindowTransitionsHandler::findGroup   body row QAE at 0x0048A520
+//                                             thunk    AAE at 0x00024172
+//     -> DOES NOT merge. The extra spelling is on the BODY side of what the
+//        callers need: the definition must be QAE to exist at all, but a
+//        caller in the same TU then emits QAE too and resolves to the body
+//        address, where retail's displacement points at the thunk.
+//
+// Same shape, opposite answers, and the discriminator is which SIDE the extra
+// spelling sits on -- not whether one exists. Read both pins before merging a
+// callee into its caller's TU.
 
 typedef bool Bool;
 typedef int Int;
