@@ -1,91 +1,69 @@
-// ?bfmeSwapESO@BfmeHostESO@@QAEXPAV1@@Z (identity unknown)
-// partial score=0.97 date=2026-09-07
-// 108/108 EXACT SIZE, only esi/edi swapped: retail keeps other in edi and
-// this in esi, MSVC the other way round. Every instruction otherwise matches.
-// Ruled out: declaring tb before ob (107 bytes and MSVC stops inlining a
-// callee, giving an unresolved REL32).
-//
-// Three modelling points that were needed and transfer:
-//  * a member function taking a pointer to its OWN class mangles the argument
-//    with the enclosing-class back-reference: ...@QAEXPAV1@@Z, not the class
-//    name spelled out. Getting this wrong reads as "symbol not found in
-//    object" from explain_mismatch even though the file compiled fine --
-//    dump the obj with strings to recover the real name.
-//  * test/lea/jmp/xor around other+4 is an IMPLICIT upcast to a base at
-//    offset 4 (null-checked); the same offset applied to this has NO check,
-//    so that one must be spelled as explicit arithmetic
-//    (BfmeBaseESO *)((char *)this + 4). Modelling both as upcasts adds a
-//    redundant test esi,esi.
-//  * the second other+4 (for the adjust call) also has no null check, so it
-//    is explicit arithmetic too, not a second upcast.
-// Pins are already in symbols.csv.
-class BfmeFirstESO
+// ?d_0035e510@@YAXXZ
+// partial score=0.95 date=2026-09-08
+class BfmeHeadEAT
 {
 public:
-	unsigned char m_bfmeHeadESO[4];
+	int m_bfmeHeadEAT;
 };
 
-class BfmeBaseESO
+class BfmeBaseEAT
 {
 public:
-	int m_bfmeAESO;
-	int m_bfmeBESO;
+	int m_bfmeAEAT;
+	int m_bfmeBEAT;
 };
 
-class BfmeSubAESO
+class BfmeSubAEAT
 {
 public:
-	void bfmeSwapESO(BfmeSubAESO &other);
+	void bfmeSwapAEAT(BfmeSubAEAT *other);
 
-	unsigned char m_bfmeBodyESO[0x20];
+	unsigned char m_bfmeBodyAEAT[0x20];
 };
 
-class BfmeSubBESO
+class BfmeSubBEAT
 {
 public:
-	void bfmeSwapESO(BfmeSubBESO &other);
+	void bfmeSwapBEAT(BfmeSubBEAT *other);
 
-	unsigned char m_bfmeBodyESO[4];
+	unsigned char m_bfmeBodyBEAT[4];
 };
 
-class BfmeHostESO;
+class BfmeNodeEAT;
 
-void __stdcall bfmeAdjustESO(BfmeHostESO *other, BfmeBaseESO *ob, BfmeBaseESO *tb);
+void __stdcall bfmeLinkEAT(BfmeNodeEAT *node, int *a, int *b);
 
-class BfmeHostESO : public BfmeFirstESO, public BfmeBaseESO
+class BfmeNodeEAT : public BfmeHeadEAT, public BfmeBaseEAT
 {
 public:
-	void bfmeSwapESO(BfmeHostESO *other);
-	void bfmeFixupESO();
-	void bfmeFinishESO(BfmeHostESO *other, int *a, int *b);
+	void bfmeSwapEAT(BfmeNodeEAT *other);
+	void bfmeFixEAT();
+	void bfmeRelinkEAT(BfmeNodeEAT *node, int *a, int *b);
 
-	BfmeSubAESO m_bfmeSubAESO;
-	BfmeSubBESO m_bfmeSubBESO;
+	BfmeSubAEAT m_bfmeSubAEAT;
+	BfmeSubBEAT m_bfmeSubBEAT;
 };
 
-void BfmeHostESO::bfmeSwapESO(BfmeHostESO *other)
+void BfmeNodeEAT::bfmeSwapEAT(BfmeNodeEAT *other)
 {
-	BfmeBaseESO *ob = other;
-	BfmeBaseESO *tb = (BfmeBaseESO *)((char *)this + 4);
+	BfmeBaseEAT *b = other;
+	int *link = &m_bfmeAEAT;
 
-	int a = ob->m_bfmeAESO;
-	int b = tb->m_bfmeAESO;
+	int t = link[0];
+	link[0] = b->m_bfmeAEAT;
+	b->m_bfmeAEAT = t;
 
-	tb->m_bfmeAESO = a;
-	ob->m_bfmeAESO = b;
+	t = link[1];
+	link[1] = b->m_bfmeBEAT;
+	b->m_bfmeBEAT = t;
 
-	int c = ob->m_bfmeBESO;
-	int d = tb->m_bfmeBESO;
+	m_bfmeSubAEAT.bfmeSwapAEAT(&other->m_bfmeSubAEAT);
 
-	tb->m_bfmeBESO = c;
-	ob->m_bfmeBESO = d;
+	m_bfmeSubBEAT.bfmeSwapBEAT(&other->m_bfmeSubBEAT);
 
-	m_bfmeSubAESO.bfmeSwapESO(other->m_bfmeSubAESO);
-	m_bfmeSubBESO.bfmeSwapESO(other->m_bfmeSubBESO);
+	bfmeFixEAT();
 
-	bfmeFixupESO();
+	bfmeLinkEAT(other, &other->m_bfmeAEAT, link);
 
-	bfmeAdjustESO(other, (BfmeBaseESO *)((char *)other + 4), tb);
-
-	bfmeFinishESO(other, &other->m_bfmeBESO, &m_bfmeBESO);
+	bfmeRelinkEAT(other, &other->m_bfmeBEAT, &m_bfmeBEAT);
 }
