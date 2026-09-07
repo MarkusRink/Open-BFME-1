@@ -85410,3 +85410,4 @@ _bfmeXferAU,0x0000C9B4
 ?bfmeBeginAV@BfmeHostAV@@QAEXPAVBfmeAgentAV@@@Z,0x000044C1
 ?bfmeBeginAW@BfmeHostAW@@QAEXPAVBfmeAgentAW@@@Z,0x000289F7
 _bfmeXferAW,0x0000FFE2
+?read_header@HLodDefClass@@AAE_NAAVChunkLoadClass@@@Z,0x0097B8A0,BFME HLOD definition header reader called by Load_W3D; exact retail call target
