@@ -84820,3 +84820,5 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?bfmeFlushXC@BfmeStateXC@@QAEXXZ,0x00014182
 ?bfmeReleaseXC@@YAXPAX@Z,0x00012E90
 ?bfmeDoneXC@BfmeStateXC@@QAEXXZ,0x00004156
+?TheBfmeSpyXE@@3PAVBfmeSpyXE@@A,0x00EF7194
+?bfmeRefreshXE@@YAXXZ,0x000106B3
