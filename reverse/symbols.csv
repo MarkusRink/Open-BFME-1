@@ -84739,3 +84739,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeEraseLB@BfmeMapLB@@QAEXPAPAX@Z,0x00013F89,pin
 ?bfmeUseRB@@YGXPAUBfmeElemRB@@@Z,0x0001620C,pin
 ?ParseGameOptionsString@@YA_NPAVLANGameInfo@@VAsciiString@@PADI@Z,0x00690490,BFME extended parser: game-announcement calls viaILT3BE85; original LAN/game guards local-slot lookup oldmap/CRC and login/host maps; packet pointer and length atargs3/4
+?Peek_Texture@MeshLoadContextClass@@QAE?AVBfmeHandleCX@@H@Z,0x0096D080,BFME texture-ID loader returns owning handle from context texture array+F8; helper increments sixteen-bit refs+4
