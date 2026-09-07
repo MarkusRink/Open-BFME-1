@@ -85578,3 +85578,5 @@ g_bfmeMsgVftDN,0x010F5738
 ?g_bfmeEmptyEHR@@3PADA,0x00C7388B,pin
 ??0BfmeRecEQR@@QAE@PAX0PAPAV0@@Z,0x009F2B20,pin
 ?bfmeLinkEQR@BfmeHostEQR@@QAEXPAVBfmeRecEQR@@@Z,0x009F4D80,pin
+??$_M_find@VAsciiString@@@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@PAUBfmeFontSizeTable@@@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAUBfmeFontSizeTable@@@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@PAUBfmeFontSizeTable@@@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@PAUBfmeFontSizeTable@@@_STL@@@1@ABVAsciiString@@@Z,0x00026409,FontLibraryBFMERetail::bfmeFindRecord outer font-name tree lookup
+??$find@H@?$_Rb_tree@HU?$pair@$$CBHI@_STL@@U?$_Select1st@U?$pair@$$CBHI@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHI@_STL@@@2@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHI@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHI@_STL@@@2@@1@ABH@Z,0x0000F03D,FontLibraryBFMERetail::bfmeFindRecord nested integer tree lookup
