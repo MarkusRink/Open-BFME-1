@@ -85433,6 +85433,9 @@ _bfmeXferVecBB,0x0000D2C9
 ?bfmeBeginBD@BfmeHostBD@@QAEXPAVBfmeAgentBD@@@Z,0x000044C1
 _bfmeXferBE,0x0000C9B4
 ?bfmeStepBE@BfmeHostBE@@QAEXPAVBfmeAgentBE@@@Z,0x000160B3
+??0BfmeThingCDE@@QAE@PAX00@Z,0x008F78B0,CDE node constructor called by the owner allocator at 0x008FA850
+?initializeArray@BfmeThingCDE@@QAEXH@Z,0x008F7E20,CDE node array initializer called by the owner allocator at 0x008FA850
+?getCDECount@BfmeOwnerCDE@@QAEHPAX@Z,0x008FA4B0,CDE owner count helper called by the owner allocator at 0x008FA850
 _bfmeXferOneBG,0x00008CA1
 _bfmeXferTwoBG,0x00034815
 ?bfmeBeginBH@BfmeHostBH@@QAEXPAVBfmeAgentBH@@@Z,0x000044C1
