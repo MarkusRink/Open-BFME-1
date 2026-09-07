@@ -85239,8 +85239,6 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?bfmeStartXV@BfmeThingXV@@QAEXXZ,0x0002AE5F
 ?bfmeStopXV@BfmeThingXV@@QAEXXZ,0x00025806
 ?TheBfmeDisplayXW@@3PAVBfmeDisplayXW@@A,0x00EF1270
-?logGameEnd@RecorderClass@@IAEXXZ,0x00097280,RecorderClass::stopRecording caller reaches the exact clean C++ logGameEnd body
-?b_008631f0@@YAXXZ,0x008631F0,gen-thunk target pin: Code/gen_small/gthunks_085.cpp resolves its E9 displacement from this pin (see the file header)
 ??0?$BFMEFactoryModuleData@VInstantDeathBehaviorModuleData@@$0GE@@@QAE@XZ,0x00023DCB,ModuleFactory retail data facade: TU-local 0x64 stand-in for BFME's InstantDeathBehaviorModuleData (ZH's is 0x44); this address is the ILT thunk onto ??0InstantDeathBehaviorModuleData@@QAE@XZ at 0x00201650
 ??0?$BFMEFactoryModuleData@VExperienceScalarUpgradeModuleData@@$0HE@@@QAE@XZ,0x00025D47,ModuleFactory retail data facade: TU-local 0x74 stand-in for BFME's ExperienceScalarUpgradeModuleData (ZH's is 0x64); this address is the ILT thunk onto ??0ExperienceScalarUpgradeModuleData@@QAE@XZ at 0x002D5180
 ?classifyObjectFootprint@Pathfinder@@IAEXPAVObject@@_N@Z,0x0051F1C0,the body retail Pathfinder::add/removeObjectToPathfindMap actually call (thunk 0x00047D2A); replaces the 0x00004EE9 pin whose nine call sites are all SimpleDynVecClass::Add callers
