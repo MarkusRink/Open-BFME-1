@@ -85508,8 +85508,6 @@ _bfmeExitBZ,0x008830B0
 ?bfmeWriteCS@BfmeSinkCS@@QAEXPAXABVBFMERetailAsciiString@@0@Z,0x00019EB1
 ??0BfmeItemCU@@QAE@PAX@Z,0x0003910D
 ??0BfmeItemCV@@QAE@PAX@Z,0x0003CFDD
-??0?$_Vector_base@UBfmeSortElem20TailElement@@V?$allocator@UBfmeSortElem20TailElement@@@_STL@@@_STL@@QAE@IABV?$allocator@UBfmeSortElem20TailElement@@@1@@Z,0x0001D11A,named Rva002E8FC0 copy caller's +0x08 member is a BfmeSortElem20Tail vector; retail RVA 0x002E7320 calls this ILT for its allocation
-?get_allocator@BfmeSortElem20Tail@@QBE?AV?$allocator@UBfmeSortElem20TailElement@@@_STL@@XZ,0x0001EE66,named BfmeSortElem20Tail copy constructor allocator handoff; retail RVA 0x002E7320 calls this ILT before the vector-base copy
 ??0BfmeReqCZ@@QAE@PAVBfmeSlotCZ@@H@Z,0x0001EC13
 ??1BfmeReqCZ@@QAE@XZ,0x00026F35
 ?bfmeSendCZ@BfmeGameCZ@@QAEXPAVBfmeReqCZ@@@Z,0x00031E9E
