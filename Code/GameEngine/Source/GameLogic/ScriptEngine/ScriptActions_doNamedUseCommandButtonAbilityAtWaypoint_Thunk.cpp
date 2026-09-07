@@ -1,186 +1,226 @@
-// cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/stringinline
+// Clean C++ recovery of NAMED_USE_COMMANDBUTTON_ABILITY_AT_WAYPOINT.
+// Retail RVA 0x002F9F10 (169 bytes); executeAction template 203 reaches this
+// body through the BFME dispatch arm and its link thunk.
 
-class AsciiString;
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ScriptActions.h
+#include "StringInline.h"
+
+typedef bool Bool;
+typedef int Int;
+
+class Object;
+class CommandButton;
+class CommandSet;
+
+class BfmeStringArgBase
+{
+	friend class BfmeAsciiStringArg;
+
+private:
+	BfmeStringArgBase(const BfmeStringArgBase &other);
+};
+
+// BFME's waypoint lookup takes its one-word string view by value.
+class BfmeAsciiStringArg
+{
+public:
+	BfmeAsciiStringArg(const AsciiString &that)
+	{
+		((BfmeStringArgBase *)this)->BfmeStringArgBase::BfmeStringArgBase(
+			*(const BfmeStringArgBase *)&that);
+ 	}
+
+	~BfmeAsciiStringArg();
+
+private:
+	char *m_text;
+};
+
+class ScriptEngine
+{
+public:
+	virtual void slot00() = 0;
+	virtual void slot01() = 0;
+	virtual void slot02() = 0;
+	virtual void slot03() = 0;
+	virtual void slot04() = 0;
+	virtual void slot05() = 0;
+	virtual void slot06() = 0;
+	virtual void slot07() = 0;
+	virtual void slot08() = 0;
+	virtual void slot09() = 0;
+	virtual void slot10() = 0;
+	virtual void slot11() = 0;
+	virtual void slot12() = 0;
+	virtual void slot13() = 0;
+	virtual void slot14() = 0;
+	virtual void slot15() = 0;
+	virtual void slot16() = 0;
+	virtual void slot17() = 0;
+	virtual void slot18() = 0;
+	virtual void slot19() = 0;
+	virtual void slot20() = 0;
+	virtual void slot21() = 0;
+	virtual void slot22() = 0;
+	virtual void slot23() = 0;
+	virtual void slot24() = 0;
+	virtual void slot25() = 0;
+	virtual Object *getUnitNamed(const AsciiString &name) = 0;
+};
+
+struct Coord3D
+{
+	float x;
+	float y;
+	float z;
+};
+
+class Waypoint
+{
+public:
+	const Coord3D *getLocation() const
+	{
+		return (const Coord3D *)((const char *)this + 0x0c);
+	}
+};
+
+class TerrainLogic
+{
+public:
+	virtual void slot00() = 0;
+	virtual void slot01() = 0;
+	virtual void slot02() = 0;
+	virtual void slot03() = 0;
+	virtual void slot04() = 0;
+	virtual void slot05() = 0;
+	virtual void slot06() = 0;
+	virtual void slot07() = 0;
+	virtual void slot08() = 0;
+	virtual void slot09() = 0;
+	virtual void slot10() = 0;
+	virtual void slot11() = 0;
+	virtual void slot12() = 0;
+	virtual void slot13() = 0;
+	virtual void slot14() = 0;
+	virtual void slot15() = 0;
+	virtual void slot16() = 0;
+	virtual void slot17() = 0;
+	virtual void slot18() = 0;
+	virtual void slot19() = 0;
+	virtual void slot20() = 0;
+	virtual void slot21() = 0;
+	virtual void slot22() = 0;
+	virtual void slot23() = 0;
+	virtual void slot24() = 0;
+	virtual void slot25() = 0;
+	virtual void slot26() = 0;
+	virtual void slot27() = 0;
+	virtual void slot28() = 0;
+	virtual void slot29() = 0;
+	virtual void slot30() = 0;
+	virtual Waypoint *getWaypointByName(BfmeAsciiStringArg name) = 0;
+};
+
+class CommandSetShim
+{
+public:
+	const CommandButton *getCommandButton(Int index) const;
+};
+
+// BFME stores the button name at +0x0C.  Its string data length is the word at
+// data+4, rather than the first character used by the ZH inline helper.
+class BfmeCommandButtonName
+{
+public:
+	const AsciiString &getName() const { return m_name; }
+
+private:
+	unsigned char m_beforeName[0x0c];
+	AsciiString m_name;
+};
+
+struct BfmeAsciiStringData
+{
+	unsigned short m_refCount;
+	unsigned short m_numCharsAllocated;
+	unsigned short m_numChars;
+	unsigned short m_unreconstructed06;
+};
+
+static Bool bfmeStringIsEmpty(const AsciiString &str)
+{
+	const BfmeAsciiStringData *data =
+		*(const BfmeAsciiStringData * const *)&str;
+	return data == 0 || data->m_numChars == 0;
+}
+
+class AsciiStringCompareShim
+{
+public:
+	Int compare(const AsciiString &other) const;
+};
+
+class ControlBar
+{
+public:
+	const CommandSet *findCommandSet(const AsciiString &name);
+};
+
+enum CommandSourceType
+{
+	CMD_FROM_PLAYER = 0,
+	CMD_FROM_SCRIPT = 1
+};
+
+class Object
+{
+public:
+	const AsciiString &getCommandSetString() const;
+	void doCommandButtonAtPosition(const CommandButton *button,
+		const Coord3D *position, CommandSourceType source, Bool playVoiceResponse);
+};
+
+extern ScriptEngine *TheScriptEngine;
+extern TerrainLogic *TheTerrainLogic;
+extern ControlBar *TheControlBar;
+
 class ScriptActions
 {
 protected:
-	void doNamedUseCommandButtonAbilityAtWaypoint(const AsciiString &, const AsciiString &, const AsciiString &);
+	void doNamedUseCommandButtonAbilityAtWaypoint(const AsciiString &unit,
+		const AsciiString &ability, const AsciiString &waypoint);
 };
 
 // ?doNamedUseCommandButtonAbilityAtWaypoint@ScriptActions@@IAEXABVAsciiString@@00@Z
-__declspec(naked) void ScriptActions::doNamedUseCommandButtonAbilityAtWaypoint(const AsciiString &, const AsciiString &, const AsciiString &)
+void ScriptActions::doNamedUseCommandButtonAbilityAtWaypoint(
+	const AsciiString &unit, const AsciiString &ability,
+	const AsciiString &waypoint)
 {
-	__asm {
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x6c
-        __emit 0x07
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x54
-        __emit 0x24
-        __emit 0x04
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x53
-        __emit 0x55
-        __emit 0x56
-        __emit 0x57
-        __emit 0x52
-        __emit 0xff
-        __emit 0x50
-        __emit 0x68
-        __emit 0x51
-        __emit 0x8b
-        __emit 0xf8
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x20
-        __emit 0x89
-        __emit 0x64
-        __emit 0x24
-        __emit 0x18
-        __emit 0x8b
-        __emit 0xcc
-        __emit 0x50
-        __emit 0xe8
-        __emit 0x29
-        __emit 0xdc
-        __emit 0x58
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0xcc
-        __emit 0xf4
-        __emit 0x2e
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x11
-        __emit 0xff
-        __emit 0x52
-        __emit 0x7c
-        __emit 0x85
-        __emit 0xff
-        __emit 0x8b
-        __emit 0xe8
-        __emit 0x74
-        __emit 0x6a
-        __emit 0x85
-        __emit 0xed
-        __emit 0x74
-        __emit 0x66
-        __emit 0x8b
-        __emit 0xcf
-        __emit 0xe8
-        __emit 0x6d
-        __emit 0xfe
-        __emit 0xd2
-        __emit 0xff
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0xf8
-        __emit 0x33
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x50
-        __emit 0xe8
-        __emit 0x6b
-        __emit 0xed
-        __emit 0xd4
-        __emit 0xff
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x89
-        __emit 0x44
-        __emit 0x24
-        __emit 0x14
-        __emit 0x74
-        __emit 0x4b
-        __emit 0x33
-        __emit 0xdb
-        __emit 0xeb
-        __emit 0x05
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x14
-        __emit 0x90
-        __emit 0x53
-        __emit 0x8b
-        __emit 0xc8
-        __emit 0xe8
-        __emit 0x08
-        __emit 0xa0
-        __emit 0xd0
-        __emit 0xff
-        __emit 0x8b
-        __emit 0xf0
-        __emit 0x85
-        __emit 0xf6
-        __emit 0x74
-        __emit 0x2e
-        __emit 0x8b
-        __emit 0x46
-        __emit 0x0c
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x8d
-        __emit 0x4e
-        __emit 0x0c
-        __emit 0x74
-        __emit 0x24
-        __emit 0x66
-        __emit 0x83
-        __emit 0x78
-        __emit 0x04
-        __emit 0x00
-        __emit 0x74
-        __emit 0x1d
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x18
-        __emit 0x50
-        __emit 0xe8
-        __emit 0x2c
-        __emit 0x81
-        __emit 0xd2
-        __emit 0xff
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x75
-        __emit 0x0f
-        __emit 0x50
-        __emit 0x6a
-        __emit 0x01
-        __emit 0x8d
-        __emit 0x4d
-        __emit 0x0c
-        __emit 0x51
-        __emit 0x56
-        __emit 0x8b
-        __emit 0xcf
-        __emit 0xe8
-        __emit 0x48
-        __emit 0xcf
-        __emit 0xd2
-        __emit 0xff
-        __emit 0x43
-        __emit 0x83
-        __emit 0xfb
-        __emit 0x14
-        __emit 0x7c
-        __emit 0xb9
-        __emit 0x5f
-        __emit 0x5e
-        __emit 0x5d
-        __emit 0x5b
-        __emit 0xc2
-        __emit 0x0c
-        __emit 0x00
+	Object *theObj = TheScriptEngine->getUnitNamed(unit);
+	Waypoint *pWaypoint = TheTerrainLogic->getWaypointByName(waypoint);
+
+	if (!theObj || !pWaypoint)
+		return;
+
+	const CommandSet *commandSet =
+		TheControlBar->findCommandSet(theObj->getCommandSetString());
+	if (commandSet)
+	{
+		for (Int i = 0; i < 20; ++i)
+		{
+			const CommandButton *commandButton =
+				((const CommandSetShim *)commandSet)->getCommandButton(i);
+			if (commandButton)
+			{
+				const AsciiString &name =
+					((const BfmeCommandButtonName *)commandButton)->getName();
+				if (!bfmeStringIsEmpty(name) &&
+					((const AsciiStringCompareShim *)&name)->compare(ability) == 0)
+				{
+					theObj->doCommandButtonAtPosition(commandButton,
+						pWaypoint->getLocation(), CMD_FROM_SCRIPT, false);
+				}
+			}
+		}
 	}
 }
