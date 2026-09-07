@@ -10946,6 +10946,8 @@ name,address,notes
 ?Rva008A4AC0First@@3PAURva008A4AC0Object@@A,0x01337AC0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4AC0 calls; autopin
 ?Rva008A4AC0Second@@3PAURva008A4AC0Object@@A,0x01337AC4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4AC0 calls; autopin
 ?Rva008A4EA0MakeFloat@@YAPAVAptValue@@M@Z,0x008A4CD0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4EA0 calls; autopin
+?Rva008A5380Holder@@3PADA,0x013377D8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A53D0 calls; autopin
+?Rva008A53D0MakeBool@@YAPAVAptValue@@H@Z,0x008996B0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A53D0 calls; autopin
 ?Rva008AE770TheStack@@3URva008AE770Stack@@A,0x01338748,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AE770 calls; autopin
 ?Rva008B6D70MakeValue@@YAPAVAptValue@@H@Z,0x008A11E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B6D70 calls; autopin
 ?Rva008B6D70Refresh@@YAXPAX00@Z,0x008B65E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B6D70 calls; autopin
@@ -75525,6 +75527,7 @@ name,address,notes
 ?bfmeResolveVQ@BfmeInnerVQ@@QAEPAVBfmeThingVQ@@XZ,0x000022BB,pin
 ?bfmeResolveWQ@BfmeInnerWQ@@QAEPAVBfmeThingWQ@@XZ,0x000022BB,pin
 ?bfmeResolveXK@BfmeInnerXK@@QAEPAVBfmeThingXK@@XZ,0x000022BB,pin
+?bfmeResolveXR@BfmeInnerXR@@QAEPAVBfmeThingXR@@XZ,0x000022BB,pin
 ?bfmeResolveYT@BfmeInnerYT@@QAEPAVBfmeThingYT@@XZ,0x000022BB,pin
 ?bfmeResolveZones@@YAXHHPAG00@Z,0x0002B648,Open-BFME5 ILT thunk to exact body 0x00403C90; BFME zone-equivalence list merger
 ?bfmeRestart@Gen_0018BC70@@AAEXXZ,0x0003F1FC,Open-BFME5 the ICF thunk (to 0x0043F1FC) the compaction at 0x0018BC70 calls when its flag is set
@@ -83865,6 +83868,7 @@ _breakstat,0x0099BC90,decode_calls pin for _stat callee
 _buttonLobby,0x00EF4878,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0050CA80 calls; autopin
 _buttonPushed,0x00EF4845,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0050CA80 calls; autopin
 _buttonQuickMatch,0x00EF4874,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0050CA80 calls; autopin
+_ceil,0x009F7030,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A5050 calls; autopin
 _chatAuthenticateCDKeyA,0x008607A0,GameSpy Chat CD-key authentication request
 _chatChangeNickA,0x008604C0,GameSpy Chat nick-change request
 _chatConnectDoit,0x00861ED0,GameSpy Chat common connection constructor called by chatConnectLoginA
@@ -83967,6 +83971,7 @@ _discharge,0x0099F1D0,vendored=lua-4.0.1
 _disconnectMenuLayout,0x012F4960,BFME DisconnectWindow retail DIR32 layout pointer used by HideDisconnectWindow
 _errormessage,0x00D96D50,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00996D90 calls; autopin
 _explist1,0x0099B370,call displacement in localstat @0x0099BB0B
+_floor,0x009F6ED2,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A50E0 calls; autopin
 _forlist,0x0099B850,decode_calls pin for _forstat callee
 _fornum,0x0099B750,decode_calls pin for _forstat callee
 _forstat,0x0099B940,decode_calls pin for _stat callee
@@ -84615,4 +84620,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolveXR@BfmeInnerXR@@QAEPAVBfmeThingXR@@XZ,0x000022BB,pin
