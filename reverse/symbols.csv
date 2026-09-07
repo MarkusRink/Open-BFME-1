@@ -85723,3 +85723,7 @@ _Rva008921B0Atof,0x008921B0,address-derived 14-byte cdecl atof wrapper at 0x0089
 ?_M_insert_overflow@?$vector@URva003A5500Element@_STL@@V?$allocator@URva003A5500Element@_STL@@@2@@_STL@@IAEXPAURva003A5500Element@2@ABU32@ABU__false_type@2@I_N@Z,0x0001B0AE,route=0x003A5500; retail 0x003A5860 calls this exact matched overflow
 ??0Gen_003A8A70@@QAE@ABV0@@Z,0x00022AF2,route=0x003A8A70; retail 0x003A9310 calls this exact matched copy constructor
 ?_M_insert_overflow@?$vector@URva003B0760Element@_STL@@V?$allocator@URva003B0760Element@_STL@@@2@@_STL@@IAEXPAURva003B0760Element@2@ABU32@ABU__false_type@2@I_N@Z,0x00018421,route=0x003B0760; retail 0x003B1190 calls this exact matched overflow
+?bfmeFindESA@BfmeOwnerESA@@QAEPAVBfmeRecESA@@PAVBfmeKeyESA@@@Z,0x0002BF0D,pin
+?bfmeSetESA@BfmeStrESA@@QAEXABV1@@Z,0x00887C90,pin
+?g_bfmeDefaultESA@@3VBfmeStrESA@@A,0x00F36E50,pin
+?bfmeRangeESA@BfmeRecESA@@QAE?AUBfmePairESA@@XZ,0x000345AE,pin
