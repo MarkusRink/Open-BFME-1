@@ -2411,7 +2411,6 @@ name,address,notes
 ??0DieModuleData@@QAE@XZ,0x000015FA,pinharvest x1 (thunk)
 ??0DieMuxData@@QAE@XZ,0x000057B8,pinharvest x1 (thunk)
 ??0DirectInputKeyboard@@QAE@XZ,0x000120D0,DirectInputKeyboard ctor thunk; createKeyboard@W3DGameClient factory REL32
-??0ParticleSystemManager@@QAE@XZ,0x000110FE,ILT to ParticleSystemManager ctor body 0x005CBF60; vtable group 0x0110FDCC and FXParticleSystemManager string 0x0110FE14 identify the class
 ??0DisplayString@@QAE@XZ,0x00020C25,W3DDisplayString constructor calls the DisplayString constructor through this retail ILT
 ??0DisplayStringManager@@QAE@XZ,0x0000F7A9
 ??0DistLODClass@@QAE@ABV0@@Z,0x00030EE0,DistLOD copy constructor
@@ -2982,6 +2981,7 @@ name,address,notes
 ??0PSRequest@@QAE@XZ,0x0065AB40,ZH PersistentStorageThread.h PSRequest layout: requestType(+0)=0 then ??0PSPlayerStats ILT 0x0003599A on the player member; five std::string ctors ILT 0x0004048A (cdkey nick password email results); reset@PSPlayerStats ILT 0x00010825; addDiscon +0x1f8 and addDesync +0x1f9 = 0; lastHouse +0x1fc = -1; callers score screen 0x004E6F21/0x004E7003/0x004E760D and 0x000A5D40; ILT 0x0002E38E
 ??0ParkingPlaceBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000CDD8,pinharvest x1 (thunk)
 ??0ParticleBufferClass@@QAE@ABV0@@Z,0x00989A20
+??0ParticleSystemManager@@QAE@XZ,0x000110FE,ILT to ParticleSystemManager ctor body 0x005CBF60; vtable group 0x0110FDCC and FXParticleSystemManager string 0x0110FE14 identify the class
 ??0ParticleSystemTemplate@@QAE@ABVAsciiString@@@Z,0x0002677E,ParticleSystemManager::newTemplate ParticleSystemTemplate constructor thunk
 ??0ParticleSystemTemplateTail@FXParticleSystem@@QAE@ABV01@@Z,0x0003E6A3,ParticleSystemTemplate tail copy constructor pin
 ??0ParticleSystemTemplateZA@@QAE@ABVAsciiStringZA@@@Z,0x0002677E,Open-BFME5 the particle-system template constructor used by 0x005CFF50
@@ -10965,6 +10965,7 @@ name,address,notes
 ?Rva008A5250LastKey@@3IA,0x013387AC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A5330 calls; autopin
 ?Rva008A5380Holder@@3PADA,0x013377D8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A53D0 calls; autopin
 ?Rva008A53D0MakeBool@@YAPAVAptValue@@H@Z,0x008996B0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A53D0 calls; autopin
+?Rva008A53D0MakeBoolFlag@@YAPAVAptValue@@_N@Z,0x008996B0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B2E60 calls; autopin
 ?Rva008A6390GetterA@@3P6AMXZA,0x013378C8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A6390 calls; autopin
 ?Rva008A6390GetterB@@3P6AMXZA,0x013378CC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A6390 calls; autopin
 ?Rva008AC750Lower@@3MB,0x01097108,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AC750 calls; autopin
@@ -75045,6 +75046,7 @@ name,address,notes
 ?bfmeLoadSJA@@YAXPAX0PAD@Z,0x0000150A,pin
 ?bfmeLocalUserMapsReady@@YA_NXZ,0x0003C565,ILT thunk to the local-user-maps probe (0x00109EB0) that gates getUserMapDir
 ?bfmeLocaleCtor@BfmeLocaleShim@@SAXXZ,0x00832120,BfmeThreeHundredFiftyOne TU-local ABI shim for _STL::locale default constructor
+?bfmeLocateGT@BfmeGridGT@@QAEDPAXPAUBfmePointGT@@@Z,0x000171E8,pin
 ?bfmeLog1013@BfmeLog1013@@QAEXHPADHHHHHH@Z,0x00015235,pin
 ?bfmeLog1021@BfmeLog1021@@QAEXHPADHHHHHH@Z,0x00015235,pin
 ?bfmeLog1051@BfmeLog1051@@QAEXHPADH0HHHH@Z,0x00015235,pin
@@ -78474,6 +78476,7 @@ name,address,notes
 ?g_bfmeParseVHG@@3PAUBfmeParseVHG@@A,0x00C83270,pin
 ?g_bfmePeerReqE4@@3HA,0x012B9660,dword copied into PeerRequest+0xE4 by 0x0053AB90
 ?g_bfmePeerReqE8@@3HA,0x012B9664,dword copied into PeerRequest+0xE8 by 0x0053AB90
+?g_bfmePlay1282@@3P6AXPAXH@ZA,0x01337884,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B5720 calls; autopin
 ?g_bfmePoolTRB@@3VBfmePoolTRB@@A,0x00F3D1AC,pin
 ?g_bfmePrepVNV@@3P6AXPBD@ZA,0x00F59344,pin
 ?g_bfmeProbe976@@3PAUBfmeProbe976@@A,0x00F40534,pin
@@ -84690,4 +84693,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeLocateGT@BfmeGridGT@@QAEDPAXPAUBfmePointGT@@@Z,0x000171E8,pin
