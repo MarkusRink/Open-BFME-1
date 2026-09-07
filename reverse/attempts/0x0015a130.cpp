@@ -1,130 +1,137 @@
-// ?queryContain@Rva0015A130Owner@@QAEXPAVObject@@H@Z
-// partial score=0.89 date=2026-09-04
-// cl: /DNDEBUG /MD /EHsc
-// Retail 0x0015A130, 66 bytes. Same-dump leftover as aiGoProne / groupFollow.
-// Object contain at +0x1FC, virt +0x144, then helper at ILT 0x00048C43
-// (body 0x00159AD0) with a 16-byte stack packet and a trailing unused arg.
-
-class Object;
-class ContainModuleInterface
+// ?bfmeSendCH@BfmeHostCH@@QAEXPAVBfmeSrcCH@@PAX@Z (identity unknown)
+// partial score=0.97 date=2026-09-07
+// 66/66 at exact size. Every instruction matches; only two are transposed.
+// Retail schedules   mov eax,[ecx] (vftable) / mov byte [esp+8],0 / call
+// MSVC schedules     mov byte [esp+8],0 / mov eax,[ecx] / call
+// Moving the call into a named local first (`void *made = t->bfmeMakeCH();`)
+// fixes the vftable position but then pushes the byte store PAST the call, so
+// the two orderings are the only ones reachable: the byte store sits either
+// before the vftable load or after the call, never between.
+// The 0x10-byte request block, its field order (D, C, B, then A from the call
+// result) and the two-argument dispatch all match exactly.
+class BfmeThingCH
 {
 public:
-	virtual void slot00() = 0;
-	virtual void slot04() = 0;
-	virtual void slot08() = 0;
-	virtual void slot0C() = 0;
-	virtual void slot10() = 0;
-	virtual void slot14() = 0;
-	virtual void slot18() = 0;
-	virtual void slot1C() = 0;
-	virtual void slot20() = 0;
-	virtual void slot24() = 0;
-	virtual void slot28() = 0;
-	virtual void slot2C() = 0;
-	virtual void slot30() = 0;
-	virtual void slot34() = 0;
-	virtual void slot38() = 0;
-	virtual void slot3C() = 0;
-	virtual void slot40() = 0;
-	virtual void slot44() = 0;
-	virtual void slot48() = 0;
-	virtual void slot4C() = 0;
-	virtual void slot50() = 0;
-	virtual void slot54() = 0;
-	virtual void slot58() = 0;
-	virtual void slot5C() = 0;
-	virtual void slot60() = 0;
-	virtual void slot64() = 0;
-	virtual void slot68() = 0;
-	virtual void slot6C() = 0;
-	virtual void slot70() = 0;
-	virtual void slot74() = 0;
-	virtual void slot78() = 0;
-	virtual void slot7C() = 0;
-	virtual void slot80() = 0;
-	virtual void slot84() = 0;
-	virtual void slot88() = 0;
-	virtual void slot8C() = 0;
-	virtual void slot90() = 0;
-	virtual void slot94() = 0;
-	virtual void slot98() = 0;
-	virtual void slot9C() = 0;
-	virtual void slotA0() = 0;
-	virtual void slotA4() = 0;
-	virtual void slotA8() = 0;
-	virtual void slotAC() = 0;
-	virtual void slotB0() = 0;
-	virtual void slotB4() = 0;
-	virtual void slotB8() = 0;
-	virtual void slotBC() = 0;
-	virtual void slotC0() = 0;
-	virtual void slotC4() = 0;
-	virtual void slotC8() = 0;
-	virtual void slotCC() = 0;
-	virtual void slotD0() = 0;
-	virtual void slotD4() = 0;
-	virtual void slotD8() = 0;
-	virtual void slotDC() = 0;
-	virtual void slotE0() = 0;
-	virtual void slotE4() = 0;
-	virtual void slotE8() = 0;
-	virtual void slotEC() = 0;
-	virtual void slotF0() = 0;
-	virtual void slotF4() = 0;
-	virtual void slotF8() = 0;
-	virtual void slotFC() = 0;
-	virtual void slot100() = 0;
-	virtual void slot104() = 0;
-	virtual void slot108() = 0;
-	virtual void slot10C() = 0;
-	virtual void slot110() = 0;
-	virtual void slot114() = 0;
-	virtual void slot118() = 0;
-	virtual void slot11C() = 0;
-	virtual void slot120() = 0;
-	virtual void slot124() = 0;
-	virtual void slot128() = 0;
-	virtual void slot12C() = 0;
-	virtual void slot130() = 0;
-	virtual void slot134() = 0;
-	virtual void slot138() = 0;
-	virtual void slot13C() = 0;
-	virtual void slot140() = 0;
-	virtual int queryAt144() = 0;				// +0x144
+	virtual void bfmeSlot00CH();
+	virtual void bfmeSlot01CH();
+	virtual void bfmeSlot02CH();
+	virtual void bfmeSlot03CH();
+	virtual void bfmeSlot04CH();
+	virtual void bfmeSlot05CH();
+	virtual void bfmeSlot06CH();
+	virtual void bfmeSlot07CH();
+	virtual void bfmeSlot08CH();
+	virtual void bfmeSlot09CH();
+	virtual void bfmeSlot10CH();
+	virtual void bfmeSlot11CH();
+	virtual void bfmeSlot12CH();
+	virtual void bfmeSlot13CH();
+	virtual void bfmeSlot14CH();
+	virtual void bfmeSlot15CH();
+	virtual void bfmeSlot16CH();
+	virtual void bfmeSlot17CH();
+	virtual void bfmeSlot18CH();
+	virtual void bfmeSlot19CH();
+	virtual void bfmeSlot20CH();
+	virtual void bfmeSlot21CH();
+	virtual void bfmeSlot22CH();
+	virtual void bfmeSlot23CH();
+	virtual void bfmeSlot24CH();
+	virtual void bfmeSlot25CH();
+	virtual void bfmeSlot26CH();
+	virtual void bfmeSlot27CH();
+	virtual void bfmeSlot28CH();
+	virtual void bfmeSlot29CH();
+	virtual void bfmeSlot30CH();
+	virtual void bfmeSlot31CH();
+	virtual void bfmeSlot32CH();
+	virtual void bfmeSlot33CH();
+	virtual void bfmeSlot34CH();
+	virtual void bfmeSlot35CH();
+	virtual void bfmeSlot36CH();
+	virtual void bfmeSlot37CH();
+	virtual void bfmeSlot38CH();
+	virtual void bfmeSlot39CH();
+	virtual void bfmeSlot40CH();
+	virtual void bfmeSlot41CH();
+	virtual void bfmeSlot42CH();
+	virtual void bfmeSlot43CH();
+	virtual void bfmeSlot44CH();
+	virtual void bfmeSlot45CH();
+	virtual void bfmeSlot46CH();
+	virtual void bfmeSlot47CH();
+	virtual void bfmeSlot48CH();
+	virtual void bfmeSlot49CH();
+	virtual void bfmeSlot50CH();
+	virtual void bfmeSlot51CH();
+	virtual void bfmeSlot52CH();
+	virtual void bfmeSlot53CH();
+	virtual void bfmeSlot54CH();
+	virtual void bfmeSlot55CH();
+	virtual void bfmeSlot56CH();
+	virtual void bfmeSlot57CH();
+	virtual void bfmeSlot58CH();
+	virtual void bfmeSlot59CH();
+	virtual void bfmeSlot60CH();
+	virtual void bfmeSlot61CH();
+	virtual void bfmeSlot62CH();
+	virtual void bfmeSlot63CH();
+	virtual void bfmeSlot64CH();
+	virtual void bfmeSlot65CH();
+	virtual void bfmeSlot66CH();
+	virtual void bfmeSlot67CH();
+	virtual void bfmeSlot68CH();
+	virtual void bfmeSlot69CH();
+	virtual void bfmeSlot70CH();
+	virtual void bfmeSlot71CH();
+	virtual void bfmeSlot72CH();
+	virtual void bfmeSlot73CH();
+	virtual void bfmeSlot74CH();
+	virtual void bfmeSlot75CH();
+	virtual void bfmeSlot76CH();
+	virtual void bfmeSlot77CH();
+	virtual void bfmeSlot78CH();
+	virtual void bfmeSlot79CH();
+	virtual void bfmeSlot80CH();
+	virtual void *bfmeMakeCH();
 };
 
-class Object
+class BfmeSrcCH
 {
 public:
-	unsigned char m_pad00[0x1FC];
-	ContainModuleInterface *m_contain;			// +0x1FC
+	unsigned char m_bfmeHeadCH[0x1fc];
+	BfmeThingCH *m_bfmeTargetCH;
 };
 
-struct Rva0015A130Packet
+struct BfmeReqCH
 {
-	int m_query;								// +0, filled after the contain virt
-	unsigned char m_flag;						// +4
-	Object *m_objA;								// +8
-	Object *m_objB;								// +12
+	void *m_bfmeACH;
+	unsigned char m_bfmeBCH;
+	unsigned char m_bfmePadCH[3];
+	BfmeSrcCH *m_bfmeCCH;
+	BfmeSrcCH *m_bfmeDCH;
 };
 
-class Rva0015A130Owner
+class BfmeHostCH
 {
 public:
-	void queryContain(Object *obj, int unused);
-	void applyPacket(Rva0015A130Packet *packet, int unused);	// ILT 0x00048C43
+	void bfmeSendCH(BfmeSrcCH *src, void *unused);
+	void bfmeDispatchCH(BfmeReqCH *req, int mode);
 };
 
-void Rva0015A130Owner::queryContain(Object *obj, int unused)
+void BfmeHostCH::bfmeSendCH(BfmeSrcCH *src, void *unused)
 {
-	ContainModuleInterface *contain = obj->m_contain;
-	if (!contain)
+	BfmeThingCH *t = src->m_bfmeTargetCH;
+
+	if (t == 0)
 		return;
 
-	Rva0015A130Packet packet;
-	packet.m_objB = obj;
-	packet.m_objA = obj;
-	packet.m_flag = 0;
-	packet.m_query = contain->queryAt144();
-	applyPacket(&packet, 0);
+	BfmeReqCH req;
+
+	req.m_bfmeDCH = src;
+	req.m_bfmeCCH = src;
+	req.m_bfmeBCH = 0;
+	req.m_bfmeACH = t->bfmeMakeCH();
+
+	bfmeDispatchCH(&req, 0);
 }

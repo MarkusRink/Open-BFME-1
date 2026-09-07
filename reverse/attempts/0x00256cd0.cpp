@@ -1,56 +1,50 @@
-// ?setWake@Gen00256CD0@@QAEXI@Z
-// partial score=0.98 date=2026-09-02
-// cl: /DNDEBUG /MD /EHsc
-// Open-BFME: wrapper that converts an absolute wake frame into setWakeFrame.
-// object at +8; destroyed bit is byte +0x90 bit 0; TheGameLogic frame at +0x3C.
-
-typedef unsigned int UnsignedInt;
-
-enum UpdateSleepTime
-{
-	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
-};
-
-class GameLogic
-{
-public:
-	unsigned char m_unmodelled_00[0x3C];
-	UnsignedInt m_frame;
-};
-
-extern GameLogic *TheGameLogic;
-
-class Object
+// ?bfmeSetTimeCG@BfmeHostCG@@QAEXI@Z (identity unknown)
+// partial score=0.9 date=2026-09-07
+// 60/63. Shape, both call sites, the 0x3fffffff sentinel and the shared final
+// ret all match. The gap is a register choice with a size consequence: retail
+// puts the sub pointer in EDX (`mov edx,[ecx+8]`), which leaves it short of
+// scratch registers in the subtract arm and forces a shrink-wrapped
+// `push esi / mov esi,[TheBfmeGameLogic] / sub eax,[esi+0x3c] / pop esi`.
+// MSVC reuses ECX for the sub (it already holds `this`, which dies), so edx
+// stays free and the save/restore disappears -- 3 bytes short.
+// Tried: naming the logic global in a local inside the arm. No change.
+// To crack this, find a spelling that keeps `this` live past the m_8 load so
+// ecx cannot be recycled.
+class BfmeSubCG
 {
 public:
-	unsigned char m_unmodelled_00[0x90];
-	unsigned char m_status0;
+	unsigned char m_bfmeHeadCG[0x90];
+	unsigned char m_bfmeFlagsCG;
 };
 
-class Gen00256CD0
+struct Rva00367E30Logic
+{
+	unsigned char m_bfmeHeadCG[0x3c];
+	unsigned int m_bfmeFrameCG;
+};
+
+extern Rva00367E30Logic *TheBfmeGameLogic;
+
+extern "C" void __stdcall bfmeApplyCG(BfmeSubCG *sub, unsigned int when);
+
+class BfmeHostCG
 {
 public:
-	void setWake(UnsignedInt frame);
+	void bfmeSetTimeCG(unsigned int when);
 
-private:
-	void setWakeFrame(Object *obj, UpdateSleepTime wakeDelay);
-
-	void *m_vtable;
-	void *m_moduleData;
-	Object *m_object;
+	unsigned char m_bfmeHeadCG[8];
+	BfmeSubCG *m_bfmeSubCG;
 };
 
-// ?setWake@Gen00256CD0@@QAEXI@Z
-void Gen00256CD0::setWake(UnsignedInt frame)
+void BfmeHostCG::bfmeSetTimeCG(unsigned int when)
 {
-	Object *obj = m_object;
-	if (obj->m_status0 & 1)
-		return;
-	if (frame && frame != (UnsignedInt)UPDATE_SLEEP_FOREVER)
-		setWakeFrame(obj, (UpdateSleepTime)(frame - TheGameLogic->m_frame));
-	else
+	BfmeSubCG *sub = m_bfmeSubCG;
+
+	if ((sub->m_bfmeFlagsCG & 1) == 0)
 	{
-		frame = (UnsignedInt)UPDATE_SLEEP_FOREVER;
-		setWakeFrame(obj, (UpdateSleepTime)frame);
+		if (when != 0 && when != 0x3fffffff)
+			bfmeApplyCG(sub, when - TheBfmeGameLogic->m_bfmeFrameCG);
+		else
+			bfmeApplyCG(sub, 0x3fffffff);
 	}
 }
