@@ -85551,3 +85551,7 @@ g_Rva012C3A18,0x00EC3A18,FESL client hello global pointer loaded by 0x007F4440
 ?_M_insert@?$hashtable@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@_STL@@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@2@U?$hash@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@U?$_Select1st@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@_STL@@@2@U?$equal_to@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@_STL@@@2@@_STL@@QAEAAU?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@2@ABU32@@Z,0x009D8350,retail pair basic_string-int insert body proven by 009D8580 operator and 009D8350 constructor; campaign=luna36h-20260907;lane=finish
 ?concat@?$StringBase@D@@AAEXPBDH@Z,0x00887D60,GameSpyLoginPreferences::write nick-list concatenation calls private StringBase<char>::concat(const char*,int) at retail 0x0081233/0x0081247; existing matched body 0x00887D60; campaign=luna36h-20260907;lane=anim
 _bfmeFindDL,0x00043A59
+g_bfmeMsgVftDN,0x010F5738
+?bfmeFindDN@Rva00367E30Logic@@QAEPAVBfmeObjDN@@H@Z,0x0001F253
+?bfmeOwnsDN@Rva002EE330PlayerList@@QAEDPAVBfmeObjDN@@@Z,0x00003A85
+?bfmeShowDN@ControlBar@@QAEXPAUBfmeMsgDN@@@Z,0x00043702
