@@ -77,14 +77,27 @@ public:
 	virtual void slot48() = 0; virtual void slot49() = 0; virtual void slot50() = 0;
 	virtual void slot51() = 0; virtual void slot52() = 0; virtual void slot53() = 0;
 	virtual void slot54() = 0; virtual void slot55() = 0; virtual void slot56() = 0;
-	// MSVC 7.1 assigns vtable slots to same-name overloads in REVERSE order of
-	// declaration, so these two are written low-slot-last: the three-argument
-	// form is declared first and lands at +0xE8, the four-argument form is
-	// declared second and lands at +0xE4. Written the other way round the two
-	// bodies compile with each other's offset and both fail byte comparison,
-	// which is how the ordering was established.
+	// These two are DIFFERENT virtuals, not one under two signatures: the call
+	// sites reach [edx+0xE4] with four arguments and [eax+0xE8] with three, and
+	// 0xE4 and 0xE8 are slots 57 and 58. Only the three-argument one is
+	// playLogoMovie -- Display.h declares it as (AsciiString, Int
+	// minMovieLength, Int minCopyrightLength) and GameClient.cpp calls it as
+	// ("EALogoMovie", 5000, 3000). The four-argument one takes a flags-like int
+	// and two -1s and returns a Bool that Map_Roll_LoadGame polls across frames,
+	// so it is named for its offset until its owner is known.
+	//
+	// Declaration order is load-bearing either way, and WHICH rule applies
+	// depends on whether the two names match. While both were called
+	// playLogoMovie they formed one overload group, and MSVC 7.1 assigns an
+	// overload group's slots in REVERSE declaration order, so the
+	// three-argument form had to be written first to land at +0xE8. Distinct
+	// names are not an overload group and take plain declaration order, so the
+	// +0xE4 entry is written first now. Swap these two lines and both bodies
+	// compile with each other's offset -- `ff 92 e8` where retail has
+	// `ff 92 e4` -- which is how the ordering was established in both
+	// arrangements.
+	virtual void unidentified_000000e4(BfmeAsciiStringArg, int, int, int) = 0; // +0xE4 -- NOT playLogoMovie: different slot, different arity
 	virtual void playLogoMovie(BfmeAsciiStringArg, Int, Int) = 0;      // +0xE8
-	virtual void playLogoMovie(BfmeAsciiStringArg, int, int, int) = 0; // +0xE4
 	virtual void slot59() = 0;
 	virtual Bool isMoviePlaying() = 0;
 
@@ -137,7 +150,7 @@ void ScriptActions::doMoviePlayFullScreen(const AsciiString &movieName, Bool ski
 	}
 
 	TheDisplay->rva002ED2E0(0.0f, 0.0f, 1.0f, 1.0f);
-	TheDisplay->playLogoMovie(movieName, 64, -1, -1);
+	TheDisplay->unidentified_000000e4(movieName, 64, -1, -1);
 }
 
 // ?doPlayMovieInGame@ScriptActions@@IAEXABVAsciiString@@_N@Z

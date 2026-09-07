@@ -4,8 +4,30 @@
 typedef bool Bool;
 typedef float Real;
 
-// 0x003BE150 (121B). Load-game Map_Roll movie step: Display viewport + playLogoMovie
-// on start, else poll Display+0xF8 and GlobalData+0xA7D.
+// 0x003BE150 (121B). Load-game Map_Roll movie step: Display viewport + the
+// slot-57 movie call on start, else poll Display+0xF8 and GlobalData+0xA7D.
+//
+// This used to call the slot-57 entry playLogoMovie, and so did
+// ScriptActions_doMoviePlayFullScreen_Thunk.cpp, while Display.h, GameClient.cpp
+// and ScriptActions_doPlayMovieInGame_Thunk.cpp gave that name to a three-argument
+// void. One name, two arities. They are two different virtuals and the vtable
+// offsets say so outright: this body calls [eax+0xE4] after pushing four
+// arguments -- the AsciiString, 0xC0, -1, -1 -- and doMoviePlayFullScreen calls
+// [edx+0xE4] with four of its own, movieName, 0x40, -1, -1. doPlayMovieInGame
+// calls [eax+0xE8] after pushing three. 0xE4 and 0xE8 are slots 57 and 58, so
+// nothing here is one function under two signatures and the pair must not be
+// merged.
+//
+// Slot 58 is the one that earns the name. Display.h declares
+// `void playLogoMovie(AsciiString, Int minMovieLength, Int minCopyrightLength)`
+// and GameClient.cpp calls it as ("EALogoMovie", 5000, 3000) -- three arguments,
+// a movie with minimum display times, exactly what slot 58 takes. Slot 57 takes
+// a small flags-like first int, two -1s, and returns a Bool this file polls
+// across frames, which is a different operation whatever it is called. So the
+// name on slot 57 was the wrong one, in both files that used it, and is now
+// spelled unidentified_000000e4 after the convention already used below for
+// unidentified_000000f8. No better name is claimed: naming it needs whatever
+// implements slot 57 in Display's vtable.
 
 class Display
 {
@@ -39,7 +61,7 @@ public:
 	virtual void slot52(); virtual void slot53();
 	virtual void slot54(); virtual void slot55();
 	virtual void slot56();
-	virtual Bool playLogoMovie(AsciiString name, int a, int b, int c);
+	virtual Bool unidentified_000000e4(AsciiString name, int a, int b, int c);
 	virtual void slot58();
 	virtual void slot59();
 	virtual void slot60();
@@ -67,7 +89,7 @@ int mapRollLoadGame(int, bool start)
 	if (go)
 	{
 		display->rva002ED2E0(0.0f, 0.0f, 1.0f, 1.0f);
-		if (!TheDisplay->playLogoMovie(AsciiString("Map_Roll"), 0xC0, -1, -1))
+		if (!TheDisplay->unidentified_000000e4(AsciiString("Map_Roll"), 0xC0, -1, -1))
 			result = 3;
 	}
 	else if (display->unidentified_000000f8() || TheWritableGlobalData->m_unidentifiedA7D)
