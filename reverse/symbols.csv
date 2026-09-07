@@ -85233,3 +85233,6 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?b_008631f0@@YAXXZ,0x008631F0,gen-thunk target pin: Code/gen_small/gthunks_085.cpp resolves its E9 displacement from this pin (see the file header)
 ?bfmeMakeXU@BfmeMakerXU@@QAEPAVBfmeShownXU@@H@Z,0x00034991
 ?bfmeShowXU@BfmeShownXU@@QAEXXZ,0x0002E073
+?bfmeKindXV@BfmeStateXV@@QAEDXZ,0x00012E3B
+?bfmeStartXV@BfmeThingXV@@QAEXXZ,0x0002AE5F
+?bfmeStopXV@BfmeThingXV@@QAEXXZ,0x00025806
