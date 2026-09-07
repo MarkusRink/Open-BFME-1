@@ -65,7 +65,7 @@ IPEnumeration::IPEnumeration( void )
 	m_isWinsockInitialized = false;
 }
 
-// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/IPEnumeration_dtor.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/IPEnumerationRuntime.cpp
 // ??1IPEnumeration@@ present-unmatched
 IPEnumeration::~IPEnumeration( void )
 {
@@ -188,7 +188,7 @@ EnumeratedIP * IPEnumeration::getAddresses( void )
 	return m_IPlist;
 }
 
-// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/IPEnumeration_getMachineName.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/IPEnumerationRuntime.cpp
 // ?getMachineName@IPEnumeration@@ present-unmatched
 AsciiString IPEnumeration::getMachineName( void )
 {

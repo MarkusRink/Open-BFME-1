@@ -1,5 +1,4 @@
 // cl: /DNDEBUG /MD /EHsc
-// readable body of ?getMachineName@IPEnumeration@@: Code/GameEngine/Source/GameNetwork/IPEnumeration.cpp
 // BFME's implementation follows the released Zero Hour routine, returning
 // the shared empty string when WinSock setup or hostname discovery fails.
 
@@ -14,6 +13,8 @@ struct WSADATA
 extern "C" __declspec(dllimport) int __stdcall WSAStartup(WORD version, WSADATA *data);
 extern "C" __declspec(dllimport) int __stdcall WSACleanup(void);
 extern "C" __declspec(dllimport) int __stdcall gethostname(char *name, int length);
+
+void __cdecl operator delete(void *);
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
 // Retail's AsciiString derives from StringBase<char>: its own copy ctor is the
@@ -39,39 +40,47 @@ private:
 	Header *m_data;
 };
 
-class AsciiString
+class AsciiString : private StringBase<char>
 {
 public:
 	// Retail inlines this forwarder, so the call site encodes
 	// StringBase<char>'s copy ctor at 0x00887B60 directly.
-	AsciiString(const AsciiString &that)
-	{
-		((StringBase<char> *)this)->StringBase<char>::StringBase(
-			*(const StringBase<char> *)&that);
-	}
+	AsciiString(const AsciiString &that) : StringBase<char>(that) {}
 	AsciiString(const char *text);
+	~AsciiString();
 
 	static AsciiString TheEmptyString;
 
+};
+
+// BFME enumeration nodes omit the pooled base word present in Zero Hour;
+// their next pointer is at +0x08.
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/IPEnumeration.h
+class EnumeratedIP
+{
+public:
+	EnumeratedIP *getNext() const { return m_next; }
+
 private:
-	void *m_data;
+	AsciiString m_text;
+	unsigned int m_address;
+	EnumeratedIP *m_next;
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/IPEnumeration.h
 class IPEnumeration
 {
 public:
+	~IPEnumeration();
 	AsciiString getMachineName(void);
 
 private:
-	void *m_IPlist;
+	EnumeratedIP *m_IPlist;
 	bool m_isWinsockInitialized;
 };
 
 AsciiString IPEnumeration::getMachineName(void)
 {
-	volatile int error = 0;
-
 	if (!m_isWinsockInitialized)
 	{
 		WORD version = 0x0202;
@@ -94,4 +103,21 @@ AsciiString IPEnumeration::getMachineName(void)
 		return AsciiString::TheEmptyString;
 
 	return AsciiString(hostname);
+}
+
+IPEnumeration::~IPEnumeration()
+{
+	if (m_isWinsockInitialized)
+	{
+		WSACleanup();
+		m_isWinsockInitialized = false;
+	}
+
+	EnumeratedIP *ip = m_IPlist;
+	while (ip != 0)
+	{
+		ip = ip->getNext();
+		delete m_IPlist;
+		m_IPlist = ip;
+	}
 }
