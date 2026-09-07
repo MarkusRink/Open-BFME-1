@@ -74904,7 +74904,7 @@ name,address,notes
 ?bfmeInit929G@BfmeThing929G@@QAEXXZ,0x0089E700,pin
 ?bfmeInit936G@BfmeThing936G@@QAEXXZ,0x00843990,pin
 ?bfmeInit@BfmeSub@@QAEXPAX@Z,0x0000DF49,Open-BFME5 the sub-object initialiser the entry append at 0x000D5E90 calls
-?bfmeInit@Gen008FF1B0@@AAEXPAX@Z,0x008FEC90,Open-BFME5 the initialiser the zeroing constructor at 0x008FF1B0 calls
+?bfmeInit@Gen008FF1B0@@AAEPAV1@PAX@Z,0x008FEC90,Open-BFME5 the pointer-returning initialiser the zeroing constructor at 0x008FF1B0 calls
 ?bfmeInit@Gen0090BE20@@AAEXPAX@Z,0x0090BCF0,Open-BFME5 the initialiser the zeroing constructor at 0x0090BE20 calls
 ?bfmeInit@Gen0090DB70@@AAEXPAX@Z,0x0090DB10,Open-BFME5 the initialiser the zeroing constructor at 0x0090DB70 calls
 ?bfmeInit@Gen00970940@@AAEXPAX@Z,0x00970800,Open-BFME5 the initialiser the zeroing constructor at 0x00970940 calls

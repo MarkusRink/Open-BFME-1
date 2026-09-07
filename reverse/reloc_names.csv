@@ -1515,7 +1515,7 @@ _gpiCheckSocketConnect,0x008ECB40,181,Code/GameEngine/Source/GameNetwork/GameSpy
 ?methodA@Member0C00739C70@@QAEPAVTextureBaseClass@@HHHHH@Z,0x008FC710,181,Code/GameEngine/Source/Common/Bfme/Rva00739C70Cleanup.cpp,reloc-derived;call-sites=1;identity=real
 ?clear@Member0C00739C70@@QAEXXZ,0x008FC7D0,81,Code/GameEngine/Source/Common/Bfme/Rva00739C70Cleanup.cpp,reloc-derived;call-sites=4;identity=real
 ?clear@W3DRadarResetSurface@@QAEXI@Z,0x008FC830,508,Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp,reloc-derived;call-sites=3;identity=real
-?bfmeInit@Gen008FF1B0@@AAEXPAX@Z,0x008FEC90,156,Code/GameEngine/Source/Common/P8ZeroingCtors.cpp,reloc-derived;call-sites=1;identity=generated
+?bfmeInit@Gen008FF1B0@@AAEPAV1@PAX@Z,0x008FEC90,156,Code/GameEngine/Source/Common/P8ZeroingCtors.cpp,reloc-derived;call-sites=1;identity=caller-and-body
 ??1Gen_dtor_009020e0@@UAE@XZ,0x00900FF0,366,Code/gen_small/dtors_009.cpp,reloc-derived;call-sites=1;identity=generated
 ?Apply_Render_State_Changes@DX8Wrapper@@SAXXZ,0x00904890,774,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMap.cpp,reloc-derived;call-sites=1;identity=real
 ?copySurfaceRects006e@@YAXVW3DRadarResetSurface@@PBUBfmeRect@@01H@Z,0x00904D20,124,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayDrawImage.cpp,reloc-derived;call-sites=1;identity=real

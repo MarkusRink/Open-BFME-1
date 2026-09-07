@@ -22,17 +22,43 @@
 // IDENTITY IS NOT RECOVERED.  Owner and initialiser are named for the
 // constructor's address; the owned member is modelled as one pointer because
 // that is all these bodies touch, and its destructor is pinned provisionally
-// at the string-release fold, which the unwind funclet -- not verified here --
-// is the only thing that would use.
+// at the string-release fold.  This file has not verified the unwind funclet
+// as the only code that would use it.
+
+class TextureClass
+{
+public:
+	virtual void slot00();
+	virtual void slot04();
+	virtual void slot08();
+	virtual void slot0c();
+	virtual void slot10();
+	virtual void slot14();
+	virtual void slot18();
+	virtual void slot1c();
+	virtual void slot20();
+	virtual void slot24();
+	virtual void slot28();
+	virtual void slot2c();
+	virtual void slot30();
+	virtual unsigned int classId();
+
+	unsigned short m_refCount;
+	void Release_Ref();
+};
 
 class BfmeOwnedMember
 {
 public:
 	BfmeOwnedMember() : m_bfmeData( 0 ) {}
 	~BfmeOwnedMember();
+	TextureClass *m_bfmeData;
+};
 
-private:
-	void *m_bfmeData;
+class Rva006C07A0
+{
+public:
+	void go();
 };
 
 class Gen008FF1B0
@@ -41,7 +67,7 @@ public:
 	Gen008FF1B0( void *source );
 
 private:
-	void bfmeInit( void *source );		// retail 0x008FEC90
+	Gen008FF1B0 *bfmeInit( void *source );		// retail 0x008FEC90
 
 	BfmeOwnedMember m_bfmeOwned;
 };
@@ -149,6 +175,35 @@ private:
 Gen008FF1B0::Gen008FF1B0( void *source )
 {
 	bfmeInit( source );
+}
+
+// ?bfmeInit@Gen008FF1B0@@AAEPAV1@PAX@Z
+Gen008FF1B0 *Gen008FF1B0::bfmeInit( void *source )
+{
+	if ( *(TextureClass **)source != 0 )
+	{
+		if ( (*(TextureClass **)source)->classId() == 0x50415254u ||
+			  (*(TextureClass **)source)->classId() == 0x00424F58u ||
+			  (*(TextureClass **)source)->classId() == 0x4D455348u ||
+			  (*(TextureClass **)source)->classId() == 0x41474752u ||
+			  (*(TextureClass **)source)->classId() == 0x484C4F44u ||
+				(*(TextureClass **)source)->classId() == 0x4E554C4Cu ||
+				(*(TextureClass **)source)->classId() == 0x6D6F6472u )
+			goto addref;
+		((Rva006C07A0 *)this)->go();
+		return this;
+	}
+	goto release;
+
+addref:
+	if ( *(volatile TextureClass **)source )
+		++(*(TextureClass **)source)->m_refCount;
+
+release:
+	if ( m_bfmeOwned.m_bfmeData )
+		m_bfmeOwned.m_bfmeData->Release_Ref();
+	m_bfmeOwned.m_bfmeData = *(TextureClass **)source;
+	return this;
 }
 
 // ??0Gen0090BE20@@QAE@PAX@Z		73B, unwind table 0x00C5B7E8
