@@ -2041,7 +2041,8 @@ Bool TerrainLogic::objectInteractsWithBridgeEnd(Object *obj, Int layer) const
 //-------------------------------------------------------------------------------------------------
 /** Updates the damage state of the bridge from the logic. */
 //-------------------------------------------------------------------------------------------------
-// ?updateBridgeDamageStates@TerrainLogic@@UAEXXZ present-unmatched here - matched copy lives in TerrainLogic_updateBridgeDamageStates_Thunk.cpp with the flag at +0x38
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicBridges.cpp
+// ?updateBridgeDamageStates@TerrainLogic@@UAEXXZ present-unmatched here - the matched copy has the flag at +0x38
 void TerrainLogic::updateBridgeDamageStates( void )
 {
 	Bridge *pBridge = getFirstBridge();
@@ -2143,7 +2144,7 @@ void TerrainLogic::getBridgeAttackPoints(const Object *bridge, TBridgeAttackInfo
 //-------------------------------------------------------------------------------------------------
 /** Picks a bridge, and returns it's drawable. */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/TerrainLogic_pickBridge_Thunk.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicBridges.cpp
 // ?pickBridge@TerrainLogic@@UAE_NABVVector3@@0PAV2@@Z present-unmatched
 Bool TerrainLogic::pickBridge(const Vector3 &from, const Vector3 &to, Vector3 *pos)
 {
@@ -2167,6 +2168,7 @@ Bool TerrainLogic::pickBridge(const Vector3 &from, const Vector3 &to, Vector3 *p
 //-------------------------------------------------------------------------------------------------
 /** Deletes the bridges list. */
 //-------------------------------------------------------------------------------------------------
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicBridges.cpp
 // ?deleteBridges@TerrainLogic@@IAEXXZ present-unmatched
 void TerrainLogic::deleteBridges(void)
 {
@@ -2184,7 +2186,7 @@ void TerrainLogic::deleteBridges(void)
 //-------------------------------------------------------------------------------------------------
 /** Delete the bridge specified */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicDeleteBridge.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicBridges.cpp
 // ?deleteBridge@TerrainLogic@@UAEXPAVBridge@@@Z present-unmatched
 void TerrainLogic::deleteBridge( Bridge *bridge )
 {
