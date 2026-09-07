@@ -9832,6 +9832,7 @@ name,address,notes
 ??_C@_0DF@OCNJKEMF@SplineCamera?3?3ParseINIBlock?3?3Inv@,0x010ED480,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BA660 calls; autopin
 ??_C@_0DH@BBNHFHPD@ParseRegionReinforcementBlock?3?3I@,0x010ED658,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BABE0 calls; autopin
 ??_C@_0DI@KDAAEBDM@ReplaceModule?5?$CFs?5was?5not?5found?5f@,0x01094128,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00143320 calls; autopin
+??_C@_0DJ@BFECDHDM@?2views?2feslbuild_main?2jabba?2fesl@,0x0112C77C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008063B0 calls; autopin
 ??_C@_0DJ@DJHFAHIJ@SplineEffect?3?3ParseGeometryName?3@,0x010ED800,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BB680 calls; autopin
 ??_C@_0DK@MIJFPIGG@invalid?5GameLODLevel?5token?5?$CFs?5?9?9@,0x01076BCC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0007BCF0 calls; autopin
 ??_C@_0DO@NADNCPBE@Unknown?5command?5?8?$CFs?8?5found?5in?5co@,0x010FB7C4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0049C7C0 calls; autopin
@@ -10780,6 +10781,7 @@ name,address,notes
 ?Rva001E21F0CopyConstruct@@YAXPAUCoord2D@@ABU1@@Z,0x00046AF1,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BADA0 calls; autopin
 ?Rva00209130StatusNames@@3QBQBDB,0x012A6670,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00209130 calls; autopin
 ?Rva002098B0PhaseNames@@3QBQBDB,0x012AE110,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002098B0 calls; autopin
+?Rva0020AA00TheRegistry@@3PAURva0020AA00Registry@@A,0x012EF1D8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0020AA00 calls; autopin
 ?Rva0025CD50CopyConstruct@@YAXPAURva0025CDB0Entry@@ABU1@@Z,0x0001B99B,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0025CDB0 calls; autopin
 ?Rva002B7240FindModule@@YAPAURva002B7240Module@@PAVObject@@@Z,0x00010424,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002B7240 calls; autopin
 ?Rva002B7240Lookup@@YAPAURva002B7240Source@@H@Z,0x00042424,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002B7240 calls; autopin
@@ -10836,6 +10838,7 @@ name,address,notes
 ?Rva007EB410NetConnStatus@@YAHHPAXH@Z,0x007EB410,Y2 lane: NetConnStatus -- the body names itself in its own warning string; three-argument query with the third unused
 ?Rva007EB520NetConnMAC@@YAIPAX@Z,0x007EB520,Y2 lane: NetConnMAC -- the body names itself in both of its log lines; NetConnStatus hands it the 0xF0-byte Adapter block
 ?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ,0x007EB810,U2 lane: cdecl getter of the diagnostic reporter used by the FESL asserts at 0x008013F0 and 0x00802980
+?Rva007EB810Get@@YAPAURva008063B0Diag@@XZ,0x007EB810,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008063B0 calls; autopin
 ?Rva007EBAA0@@YAXXZ,0x007EBAA0,init helper when diagnostic getter returns null
 ?Rva007EBC40@@YAPADPBD0@Z,0x007EBC40,Y2 FESL message bool-field lookup; cdecl record plus key returns value text or null
 ?Rva007EBCA0@@YAPADPBD0@Z,0x007EBCA0,Y2 lane: address-derived; the tag lookup 0x007EBF20 and 0x007EBFC0 both hand a record and a tag name to
@@ -78263,7 +78266,7 @@ name,address,notes
 ?g_bfmeMsgAUUA@@3PADA,0x00D2C690,pin
 ?g_bfmeMsgBUUA@@3PADA,0x00D2C67C,pin
 ?g_bfmeMsgCUUA@@3PADA,0x00D2C660,pin
-?g_bfmeMsgUVB@@3PADA,0x00D1C2A0,pin
+?g_bfmeMsgUVB@@3PADA,0x0111C2A0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008063B0 calls; autopin
 ?g_bfmeMulB3@@3NA,0x00C7F948,Open-BFME5 double mul for 0x0040B300
 ?g_bfmeN1020@@3PAVBfmeN1020@@A,0x00EF1B40,pin
 ?g_bfmeN1021@@3PAVBfmeN1021@@A,0x00EF1B40,pin
@@ -81186,6 +81189,7 @@ name,address,notes
 ?lookup@Glo012F706CType@@QAEPAURva00615D50Object@@PBUICoord2D@@H@Z,0x0002934D,Reviewed ILT to615D50 full513B coordinate/category lookup returns object; point x/y read at615E32/615EB0
 ?lookup@Rva0007F560Factory@@QAEPAXABVAsciiString@@@Z,0x00001F78,ILT thunk to 0x0007F470 name lookup used by Rva0007F560 ctor
 ?lookup@Rva0019C520Member@@QAEHPAVAsciiString@@H@Z,0x0003562F,ILT thunk to 0x0019B780 lookup on member at +0x630
+?lookup@Rva0020AA00Registry@@QAEPAURva0020AA00Target@@ABH@Z,0x00028560,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0020AA00 calls; autopin
 ?lookup@Rva00265A00Owner@@QAEPAVRva00265A00Result@@H@Z,0x00020824,address-derived lookup target read from retail RVA 0x00265A00
 ?lookup@Rva0035D800Table@@QAEHH@Z,0x0001D2F5,Open-BFME5 pin: lookup callee for Rva0035D800::makeNode (thunks_032.cpp target; sibling of Gen0035D740Table::lookup at 0x0035D740)
 ?lookup@Rva0035D880Table@@QAEHHH@Z,0x00047492,lookup callee for Rva0035D880::makeNode; two-argument ILT to retail body 0x0035D1E0
@@ -81348,6 +81352,7 @@ name,address,notes
 ?notify@Rva00156630Sub@@QAEXHH@Z,0x0000A5DD,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00156630 calls; autopin
 ?notify@Rva001567E0Sub@@QAEXHH@Z,0x0002B4F9,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x001567E0 calls; autopin
 ?notify@Rva00156A30Sub@@QAEXHH@Z,0x00031B01,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00156A30 calls; autopin
+?notify@Rva0020AA00Target@@QAEXHH@Z,0x00017A12,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0020AA00 calls; autopin
 ?notify@Rva00579160Manager@@QAEXXZ,0x000290D2,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00579160 calls; autopin
 ?notify@Rva00589690@@AAEXXZ,0x0003643A,Open-BFME5 fresh thiscall at ILT of set-byte+notify 0x00589690
 ?notify@Rva0069F4D0Block@@QAEXPAXH@Z,0x0003F5F8,ILT to channel notify used by Rva0069F4D0Owner::notify
@@ -81402,6 +81407,9 @@ name,address,notes
 ?onRemovedFrom@Object@@QAEXPAV1@@Z,0x00023D30,ILT thunk to already-matched body 0x001CBAE0; resolved via decode_calls at TunnelTracker::onTunnelDestroyed
 ?onRemoving@BfmeRvaBBD0Owner@@QAEXPAVBfmeRvaBBD0Object@@@Z,0x0003F396,assigned-body helper for Rva0024BBD0
 ?onScript002EE330@Rva002EE330Player@@QAEXXZ,0x0001DEFD,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EE330 calls; autopin
+?onScript002EEB60@Rva002EE330Player@@QAEXH@Z,0x0002B094,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EEB60 calls; autopin
+?onScript002EF410@Rva002EE330Player@@QAEXH@Z,0x00041A15,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EF410 calls; autopin
+?onScript002EF470@Rva002EE330Player@@QAEXH@Z,0x00046A29,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EF470 calls; autopin
 ?onScript002F02C0@Rva002EE330Player@@QAEXXZ,0x00035887,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002F02C0 calls; autopin
 ?onShown@AptPalantirSpellBook@@QAEXXZ,0x00035F85,AptPalantir OnSpellBookUIShown dispatches through the +0x17C subobject
 ?onTunnelCreated@TunnelTracker@@QAEXPBVObject@@@Z,0x00038938,Open-BFME5 retail tunnel created pin
