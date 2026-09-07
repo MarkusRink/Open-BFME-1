@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc /O2 /Ob2
-// Open-BFME: address-derived reconstruction of the BFME WeaponTemplate
-// ClearNuggets parser callback at retail 0x001E3F90.
+// Retail's ClearNuggets table entry proves WeaponTemplate ownership at 0x001E3F90.
+// The callback name describes that key; its original C++ spelling is unknown.
 
 class INI;
 
@@ -35,10 +35,10 @@ struct Rva001E3F90Node
 	Rva001E3F90Nugget * volatile m_value;
 };
 
-class Rva001E3F90Owner
+class WeaponTemplate
 {
 public:
-	static void parse(INI *ini, void *instance, void *store, const void *userData);
+	static void parseClearNuggets(INI *ini, void *instance, void *store, const void *userData);
 
 private:
 	unsigned char m_pad000[0x4DC];
@@ -49,9 +49,9 @@ private:
 	Rva001E3F90Node *m_nuggetList;
 };
 
-void Rva001E3F90Owner::parse(INI *, void *instance, void *, const void *)
+void WeaponTemplate::parseClearNuggets(INI *, void *instance, void *, const void *)
 {
-	Rva001E3F90Owner *self = (Rva001E3F90Owner *)instance;
+	WeaponTemplate *self = (WeaponTemplate *)instance;
 	Rva001E3F90Node *node = self->m_nuggetList->m_next;
 	while (node != self->m_nuggetList)
 	{
