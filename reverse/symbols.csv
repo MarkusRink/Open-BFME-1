@@ -3015,7 +3015,6 @@ name,address,notes
 ??0RadiusDecal@@QAE@XZ,0x00036DD1
 ??0RadiusDecalTemplate@@QAE@XZ,0x00029C71,Open-BFME5 DynamicShroud decal member constructor pin
 ??0RadiusDecalUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000EF5C,pinharvest x1 (thunk)
-??0RailedTransportDockUpdateModuleData@@QAE@XZ,0x0001999D,RailedTransportDockUpdateModuleData constructor ILT to 0x002CE760
 ??0RainOfFireUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000A0E2,retail ModuleFactory cp081 constructor thunk
 ??0RandomSoundSelectorClientBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x0002C1E7,link thunk to the RandomSoundSelectorClientBehavior constructor; named from the ModuleFactory registration that pairs "RandomSoundSelectorClientBehavior" with factory 0x00122040
 ??0RandomSoundSelectorClientBehaviorModuleData@@QAE@XZ,0x0001F528,module-data constructor called by RandomSoundSelectorClientBehavior::friend_newModuleData at 0x0012BE60
@@ -84798,15 +84797,10 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?b_0051e9b0@@YAXXZ,0x0051E9B0,gen-thunk body
 ??1?$pair@$$CBW4NameKeyType@@VObjectCreationList@@@_STL@@QAE@XZ,0x0002517B,"the ILT _M_erase encodes; its body 0x00078910 is the 76-byte tgrid pair destructor for a 4-byte key and a 12-byte payload with a destructor, while 0x00009525 reaches an 8-byte thunk"
 ??1CameraMarker@@QAE@XZ,0x00028984,BFME camera marker node destructor ILT called by CameraMarkerList::clear
-??_7Rva00886F60Class@@6B@,0x00D32FFC,pin
-?Compute_Texture_Coordinate@MatrixMapperClass@@QAEXABVVector3@@PAV2@@Z,0x00924C30,pinharvest x1 (body)
-?Replace_VertexMaterial@MeshModelClass@@QAEXPAVVertexMaterialClass@@0@Z,0x00924C30,pinharvest x1 (body)
-?TheScriptEngine@@3PAVScriptEngine@@A,0x00EF076C,ScriptEngine global proven by SignalUIInteraction retail DIR32 and independently referenced by script action vcall sites
 ?_M_lower_bound@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@ABEPAU?$_Rb_tree_node@VAsciiString@@@2@ABVAsciiString@@@Z,0x0002D029,retail ILT the set<AsciiString> equal_range at 0x0007D8C0 encodes
 ?_M_upper_bound@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@ABEPAU?$_Rb_tree_node@VAsciiString@@@2@ABVAsciiString@@@Z,0x0002C958,retail ILT the set<AsciiString> equal_range at 0x0007D8C0 encodes
 ?after@TaintSpecialPower@@QAEXPBVCoord3D@@@Z,0x00033C62,ILT of 0x0026B9D0; the class is proven by the vftable ??0TaintSpecialPower@@ stores, the method name is still a placeholder
 ?doSpecialPowerAtLocation@SpecialPowerModuleInterface@@QAEXPAVSpecialPowerLocation@@PAVSpecialPowerCommandOptions@@@Z,0x000170DA,ILT of 0x0026A620; the shared SpecialPowerModule location entry point the ElvenWood override chains to
-?b_0051e9b0@@YAXXZ,0x0051E9B0,gen-thunk body
 ?fill@TaintBufferFillThunk@@QAEXE@Z,0x0002CFE3,callee pin used by TaintBuffer::init
 ?finish@ElvenWoodSpecialPower@@QAEXPAVSpecialPowerLocation@@@Z,0x0003E757,ILT of 0x0025C220; the class is proven by the vftable ??0ElvenWoodSpecialPower@@ stores but the method name is still a placeholder
 ?first@HordeTransportContainBase@@QAEXXZ,0x0000F510,first unidentified call HordeTransportContain::update makes on the object start (0x0024CAE0)
@@ -84828,13 +84822,7 @@ _g_bfmeGuardXH,0x00F0B254
 _bfmeLockXH,0x0082C760
 ?bfmeFindXI@BfmeOwnerXI@@QAEPAVBfmeTargetXI@@XZ,0x000202ED
 ?bfmeUseXI@BfmeTargetXI@@QAEXPAVBfmeMsgXI@@@Z,0x0002D754
-??1CameraMarker@@QAE@XZ,0x00028984,BFME camera marker node destructor ILT called by CameraMarkerList::clear
-?fill@TaintBufferFillThunk@@QAEXE@Z,0x0002CFE3,callee pin used by TaintBuffer::init
 ?reacquire@TaintBufferReAcquireThunk@@QAEXXZ,0x000357D3,callee pin used by TaintBuffer::init
-?after@TaintSpecialPower@@QAEXPBVCoord3D@@@Z,0x00033C62,ILT of 0x0026B9D0; the class is proven by the vftable ??0TaintSpecialPower@@ stores, the method name is still a placeholder
-?doSpecialPowerAtLocation@SpecialPowerModuleInterface@@QAEXPAVSpecialPowerLocation@@PAVSpecialPowerCommandOptions@@@Z,0x000170DA,ILT of 0x0026A620; the shared SpecialPowerModule location entry point the ElvenWood override chains to
-?finish@ElvenWoodSpecialPower@@QAEXPAVSpecialPowerLocation@@@Z,0x0003E757,ILT of 0x0025C220; the class is proven by the vftable ??0ElvenWoodSpecialPower@@ stores but the method name is still a placeholder
-?first@HordeTransportContainBase@@QAEXXZ,0x0000F510,first unidentified call HordeTransportContain::update makes on the object start (0x0024CAE0)
 ?second@HordeTransportContainBase@@QAEXXZ,0x0003CBD7,second unidentified call HordeTransportContain::update makes on the object start (0x0024C940)
 ?update@TransportContain@@QAEXXZ,0x000133EF,base-class update HordeTransportContain::update tail-calls; 0x0022D660 is slot 0 of TransportContain UpdateModule vftable 0x00CAD410
 ?begin@?$hashtable@U?$pair@$$CBHUGen_t_003808e0_p12cd@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHUGen_t_003808e0_p12cd@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHUGen_t_003808e0_p12cd@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBHUGen_t_003808e0_p12cd@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHUGen_t_003808e0_p12cd@@@_STL@@@2@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHUGen_t_003808e0_p12cd@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHUGen_t_003808e0_p12cd@@@_STL@@@2@@2@XZ,0x00034CC0,ExperienceLevelSystem cleanup hash-map begin helper at 0x003801AD
@@ -84864,35 +84852,12 @@ _bfmeVftXN,0x00CEC760
 ?winSetDisabledImage@GameWindow@@QAEHHPBVImage@@@Z,0x0003E36F,e9 thunk -> body 0x00479070 which stores m_instData.m_disabledDrawData[i].image@0xB4; 22 matched GameWindowManager callers encode it; 0x0000B406 is hiliteImage's thunk and was wrong here
 ?winSetEnabledColor@GameWindow@@QAEHHH@Z,0x000262B0,e9 thunk -> body 0x00479010 which stores m_instData.m_enabledDrawData[i].color@0x4C; 0x00014867 is enabledBorderColor's thunk and was wrong here
 ?winSetHiliteColor@GameWindow@@QAEHHH@Z,0x000248B1,e9 thunk -> body 0x00479150 which stores m_instData.m_hiliteDrawData[i].color@0x124; 0x00014867 is enabledBorderColor's thunk and was wrong here
-??0?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@@Z,0x00048667,"the ILT the static-initialiser call sites encode; its body 0x0039D5B0 zeroes the three vector words and rets 4, while 0x00008DCD reaches a list constructor that allocates a 12-byte sentinel"
-??0W3DTruckDrawModuleData@@QAE@XZ,0x0003616F,"the ILT the matched factory ?friend_newModuleData@W3DTruckDraw@@ encodes; it reaches the 181-byte body at 0x0077F830. The harvested 0x0000CC3E reaches a 50-byte body already owned by ??0DetachableRiderBodyModuleData@@QAE@XZ and ??0FlightDeckBehaviorModuleData@@QAE@XZ, which cannot also be this ctor"
-??1?$pair@$$CBW4NameKeyType@@VObjectCreationList@@@_STL@@QAE@XZ,0x0002517B,"the ILT _M_erase encodes; its body 0x00078910 is the 76-byte tgrid pair destructor for a 4-byte key and a 12-byte payload with a destructor, while 0x00009525 reaches an 8-byte thunk"
-?_M_lower_bound@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@ABEPAU?$_Rb_tree_node@VAsciiString@@@2@ABVAsciiString@@@Z,0x0002D029,retail ILT the set<AsciiString> equal_range at 0x0007D8C0 encodes
-?_M_push_back_aux_v@?$deque@PAVPartitionCell@@V?$allocator@PAVPartitionCell@@@_STL@@@_STL@@IAEXABQAVPartitionCell@@@Z,0x0002FF1D,PartitionManager's queue<PartitionCell*> push_back tail-jumps here; ILT to the 101-byte body 0x00089CE0. The old 0x00008553 (body 0x0035AEC0) is a different copy of the helper and no call site encodes it for this instantiation
-?_M_push_back_aux_v@?$deque@PAVSightingInfo@@V?$allocator@PAVSightingInfo@@@_STL@@@_STL@@IAEXABQAVSightingInfo@@@Z,0x0002FF1D,PartitionManager's deque<SightingInfo*> push_back tail-jumps here; ILT to the 101-byte body 0x00089CE0. The old 0x00008553 (body 0x0035AEC0) is a different copy of the helper and no call site encodes it for this instantiation
-?_M_upper_bound@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@ABEPAU?$_Rb_tree_node@VAsciiString@@@2@ABVAsciiString@@@Z,0x0002C958,retail ILT the set<AsciiString> equal_range at 0x0007D8C0 encodes
 ?get_allocator@?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QBE?AV?$allocator@PAVObject@@@2@XZ,0x00020301,retail ILT the vector<Object*> copy ctor at 0x00135A10 encodes
 ?get_allocator@?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QBE?AV?$allocator@PAVObject@@@2@XZ,0x00039789,retail ILT the vector<Object*> copy ctor at 0x00135AB0 encodes
 ?get_allocator@?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QBE?AV?$allocator@PAVObject@@@2@XZ,0x0003CF51,retail ILT the vector<Object*> copy ctor at 0x001F9520 encodes
 ?get_allocator@?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QBE?AV?$allocator@PAVObject@@@2@XZ,0x00027DA4,retail ILT the vector<Object*> copy ctor at 0x0039D5D0 encodes
 ?get_allocator@?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@QBE?AV?$allocator@PBVLocomotorTemplate@@@2@XZ,0x00020301,retail ILT the vector<const LocomotorTemplate*> copy ctor at 0x00135A10 encodes
 ?get_allocator@?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@QBE?AV?$allocator@PBVLocomotorTemplate@@@2@XZ,0x00039789,retail ILT the pair<const LocomotorSetType vector<const LocomotorTemplate*>> ctor at 0x00136930 encodes
-?onExit@AIFollowPathState@@UAEXW4StateExitType@@@Z,0x00008990,AIFollowPathState base exit thunk; base vftable 0x00C9A9F0 slot 6 is ?update@AIFollowPathState@@
-?reacquire@TaintBufferReAcquireThunk@@QAEXXZ,0x000357D3,callee pin used by TaintBuffer::init
-?read_chunks@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096FF70,BFME mesh chunk dispatcher called by Load_W3D
-?read_dcg@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D500,rel32 pin for read_material_pass
-?read_dig@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D810,rel32 pin for read_material_pass
-?read_shader_ids@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D3C0,rel32 pin for read_material_pass
-?read_texture_ids@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096DB40,decoded from read_texture_stage call site
-?read_texture_stage@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096ED60,rel32 pin for read_material_pass
-?read_vertex_material_ids@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D300,rel32 pin for read_material_pass
-?ReleaseResources@W3DSnowManager@@QAEXXZ,0x000491C5,ILT thunk for the ReleaseResources() call that opens W3DSnowManager::ReAcquireResources at 0x00723FB0 (upstream W3DSnow.cpp:79)
-?second@HordeTransportContainBase@@QAEXXZ,0x0003CBD7,second unidentified call HordeTransportContain::update makes on the object start (0x0024C940)
-?update@TransportContain@@QAEXXZ,0x000133EF,base-class update HordeTransportContain::update tail-calls; 0x0022D660 is slot 0 of TransportContain UpdateModule vftable 0x00CAD410
-?winSetDisabledColor@GameWindow@@QAEHHH@Z,0x0001EAEC,e9 thunk -> body 0x004790A0 which stores m_instData.m_disabledDrawData[i].color@0xB8; 0x00014867 is enabledBorderColor's thunk and was wrong here
-?winSetDisabledImage@GameWindow@@QAEHHPBVImage@@@Z,0x0003E36F,e9 thunk -> body 0x00479070 which stores m_instData.m_disabledDrawData[i].image@0xB4; 22 matched GameWindowManager callers encode it; 0x0000B406 is hiliteImage's thunk and was wrong here
-?winSetEnabledColor@GameWindow@@QAEHHH@Z,0x000262B0,e9 thunk -> body 0x00479010 which stores m_instData.m_enabledDrawData[i].color@0x4C; 0x00014867 is enabledBorderColor's thunk and was wrong here
-?winSetHiliteColor@GameWindow@@QAEHHH@Z,0x000248B1,e9 thunk -> body 0x00479150 which stores m_instData.m_hiliteDrawData[i].color@0x124; 0x00014867 is enabledBorderColor's thunk and was wrong here
 _malloc,0x009F6C34,retail malloc import the pooled operator new glue calls (slot 0x0135944C)
 ??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x000668C0,zhstl per-site callee copy (body proven byte-equal)
 ??0?$_STLP_alloc_proxy@PAVAsciiString@@V1@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@PAVAsciiString@@@Z,0x00068BE0,zhstl per-site callee copy (body proven byte-equal)
@@ -84998,7 +84963,6 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?b_00213aa0@@YAXXZ,0x00213AA0,gen-thunk body
 ?b_00218190@@YAXXZ,0x00218190,gen-thunk body
 ?b_001c1170@@YAXXZ,0x001C1170,gen-thunk body
-??1RoadType@@QAE@XZ,0x00018FCF,exact retail rel32 target of ??_ERoadType@@QAEPAXI@Z; the same row's already-matching DIR32 push of 0x00418FCF names this address as the per-element destructor
 ??1BfmeDrawableSnapshot@@QAE@XZ,0x009A1A40,"Drawable.cpp TU-local name for the polymorphic Snapshot base ~TintEnvelope destroys: vptr store then tail-jump to the AsciiString release"
 ?clear@BfmeDrawableIconInfoClear@@QAEXXZ,0x00037565,"Drawable.cpp TU-local name for BFME's own DrawableIconInfo::clear body at 0x001DDD60; the vendored ZH twin's copy folded with ?makeEmpty@SimpleObjectIterator@@QAEXXZ, so one name cannot carry both"
 ?bfmeCopyBTB@BfmeSubBTB@@QAEXABU1@@Z,0x00047B27,"the ILT the BTB copy body at 0x00133BB0 encodes for its +4 member; same TU-local BTB spelling as ?bfmeSetBTB@BfmeSubBTB@@QAEXPAX0@Z"
