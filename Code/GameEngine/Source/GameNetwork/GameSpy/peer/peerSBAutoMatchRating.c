@@ -37,6 +37,13 @@ typedef struct SBQueryEngine
 	unsigned char pad_0014[0x34];
 } SBQueryEngine;
 
+typedef enum SBQueryEngineCallbackReason
+{
+	qe_updatesuccess,
+	qe_updatefailed,
+	qe_engineidle
+} SBQueryEngineCallbackReason;
+
 typedef struct piOperation
 {
 	unsigned char pad_0000[0x30];
@@ -50,7 +57,8 @@ typedef struct PEERConnection
 	unsigned int privateIP;
 	unsigned char pad_005C[0x384 - 0x5C];
 	int enteringRoom[3];
-	unsigned char pad_0390[0x173C - 0x390];
+	int inRoom[3];
+	unsigned char pad_039C[0x173C - 0x39C];
 	SBQueryEngine gameEngine;
 	unsigned char pad_1784[0x18D4 - 0x1784];
 	int autoMatchStatus;
@@ -82,6 +90,11 @@ void SBQueryEngineUpdateServer(
 void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine, SBServer server);
 void SBQueryEngineSetPublicIP(SBQueryEngine *engine, unsigned int publicIP);
 int SBServerListCount(void *serverList);
+SBServer SBServerListNth(void *serverList, int index);
+void SBServerListRemoveAt(void *serverList, int index);
+void SBServerAddIntKeyValue(SBServer server, const char *key, int value);
+void SBServerListSort(void *serverList, int ascending, const char *sortkey,
+	int comparemode);
 int piCallAutoMatchRateCallback(PEER peer, SBServer server);
 void piStopAutoMatchReporting(PEER peer);
 void piLeaveRoom(PEER peer, int roomType, const char *reason);
@@ -200,6 +213,70 @@ void piSBAutoMatchListCallback
 	default:
 		break;
 	}
+}
+
+void piSBAutoMatchEngineCallback
+(
+	SBQueryEngine *engine,
+	SBQueryEngineCallbackReason reason,
+	SBServer server,
+	void *instance
+)
+{
+	PEER peer = (PEER)instance;
+	int i;
+	int count;
+	int rating;
+
+	switch (reason)
+	{
+	case qe_updatesuccess:
+		piSBAutoMatchCheckUpdatedServer(peer, server);
+		break;
+
+	case qe_updatefailed:
+		if (!SBServerListCount(&peer->autoMatchList))
+			piSetAutoMatchStatus(peer, 2);
+		break;
+
+	case qe_engineidle:
+		if (peer->autoMatchStatus != 1)
+			return;
+		if (peer->inRoom[2] || peer->enteringRoom[2])
+			return;
+
+		count = SBServerListCount(&peer->autoMatchList);
+		for (i = count - 1; i >= 0; i--)
+		{
+			server = SBServerListNth(&peer->autoMatchList, i);
+			rating = piSBAutoMatchGetServerRating(peer, server);
+			if (rating <= 0)
+			{
+				SBServerListRemoveAt(&peer->autoMatchList, i);
+				continue;
+			}
+
+			SBServerAddIntKeyValue(server, "gsi_am_rating", rating);
+		}
+
+		count = SBServerListCount(&peer->autoMatchList);
+		if (!count)
+		{
+			piSetAutoMatchStatus(peer, 2);
+			return;
+		}
+
+		SBServerListSort(&peer->autoMatchList, 1, "gsi_am_rating", 0);
+		if (!piJoinAutoMatchRoom(peer,
+			SBServerListNth(&peer->autoMatchList, 0)))
+			piSetAutoMatchStatus(peer, 0);
+		break;
+
+	default:
+		break;
+	}
+
+	(void)engine;
 }
 
 void piSBAutoMatchCheckUpdatedServerCaller(PEER peer, SBServer server)
