@@ -23,9 +23,12 @@ public:
 };
 
 // This is the existing 0x00049E1D ICF route used by the OnlineLogin
-// singleton's tail action.  The retail global slot is also read as
-// TheBfmeOnlineLogin by the matched OnlineLogin destructor/constructor family;
-// only the callee's already-proven ABI is viewed here.
+// singleton's tail action.  The retail global slot is read as
+// TheBfmeOnlineLogin; the matched destructor proves that singleton type, while
+// constructor 0x005538A0 remains a retail/banked boundary rather than a landed
+// constructor claim.  Retail 0x00552C40 consumes one BYTE argument, and its
+// two OnlineLogin writers at 0x00553520 and 0x005536F0 call ILT 0x00049E1D
+// with 0/1 before storing the same bool state at this+0x9F.
 extern WindowManager *g_theWindowManager;
 
 struct BfmeOnlineLoginContext
