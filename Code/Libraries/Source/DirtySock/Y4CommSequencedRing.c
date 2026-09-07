@@ -1,4 +1,4 @@
-// cl: /Od /GZ /MD /DNDEBUG
+// cl: /Od /GZ /GS /MD /DNDEBUG
 /* EA DirtySock -- a fourth /Od /GZ comm object, past the range the three
  * already converted occupy.  Its ring sits at +0xD4..+0xE0, where the others
  * are at +0x98, +0xB0 and +0xB8, so it is a distinct object again; nothing
@@ -325,6 +325,17 @@ void Rva0081AA20( struct Rva0081BD40Comm *comm,
 
 int Rva0081A3B0( struct Rva0081BD40Comm *comm,
 	struct Rva0081AA20SendRecord *record );
+
+void Rva0081A810( struct Rva0081BD40Comm *comm )
+{
+	char packet[ 0x810 ];
+
+	*(int *)( packet + 8 ) = comm->m_sendSequence;
+	*(int *)( packet + 0xC ) = comm->m_recvSequence - 1;
+	*(int *)packet = 0;
+
+	Rva0081A3B0( comm, (struct Rva0081AA20SendRecord *)packet );
+}
 
 /* 0x0081A8C0 IS A WINDOWED SENDER: it transmits queued records while a
  * BYTE BUDGET lasts, and the budget is 0x800 -- 2048 bytes in flight.
