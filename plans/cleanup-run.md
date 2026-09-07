@@ -3,9 +3,10 @@
 Started: 2026-09-07 16:41:55 UTC (2026-09-08 01:41:55 JST).
 Deadline: 2026-09-08 04:41:55 UTC (13:41:55 JST).
 Execution base: `8fe7448503316d344fb623d467f3b107126cd9c5`.
-Status: phase 3 ownership/cohesion work is active. The phase 2 batch is published
-through `49dc6716e0`. Full integration at `b7bb936fc0` completed with four existing
-red categories and no new function-comparison failure; isolated workers continue.
+Status: phase 3 ownership/cohesion work is active; 62 cleanup/prerequisite units
+are published through `a820be5b88`. Full integration at `b7bb936fc0` completed with
+four existing red categories and no new function-comparison failure. Later
+scoped repairs are published; isolated workers continue.
 The full gate has not passed. See [README.md](README.md) for the standing runbook.
 
 ## Ownership
@@ -15,9 +16,9 @@ branches, indexes and build outputs. Coordinator alone publishes master.
 
 | Worker/root suffix | Current exclusive responsibility |
 |---|---|
-| cleanup_metrics / metrics | TeamPrototype comment correction; LadderInfo and DataChunk commits queued |
-| cleanup_placement / placement | LAN cohesion queued; independent hour 3 and TeamPrototype review |
-| cleanup_evidence / evidence | Corrected block writer/helper queued; read-only NetPacket/Eva cohesion screen |
+| cleanup_metrics / metrics | DataChunk cohesion queued; independent ThreadClass review |
+| cleanup_placement / placement | Watchdog API correction queued; bounded next-family screen |
+| cleanup_evidence / evidence | ThreadClass lifecycle on clean h4 branch; independent reviews |
 
 Existing contributor worktrees are preserved. No new service, port, database,
 shared writable cache or external fleet configuration is required.
@@ -75,10 +76,10 @@ Tested SHA: `b7bb936fc0e3916fe9102d9674922dc71fba6d8b`.
 
 ### Published units
 
-Forty-nine prerequisite/source commits are confirmed ancestors of origin/master
-at 19:40 UTC: 48 source units and one prerequisite. Planning and review-only
-commits are excluded. Worker and published identities are separate; this table
-lists final published SHAs.
+Sixty-two cleanup/prerequisite commits are confirmed ancestors of origin/master:
+61 cleanup units and one prerequisite. Planning and review-only commits are
+excluded. Worker and published identities are separate; this table lists final
+published SHAs. Hourly counts below retain their actual cutoff times.
 
 | Improvement | Published SHAs | Integrated verification |
 |---|---|---|
@@ -107,6 +108,18 @@ lists final published SHAs.
 | Subsystem setter; retire false Player alias | fc22cf46e6, 577c439483 | 1/1 each; matched caller evidence |
 | Wide pair; honest unknown narrow setter | e36a1744d7, 4bd89709c0 | 2/2 and 1/1 |
 | LAN username and slot-lookup filenames/navigation | fac2890274, 49dc6716e0 | 15/15, then 20/20 across six affected sources |
+| LadderInfo destructor placement | ac9cfb8113 | Root 1/1; worker family 25/25 |
+| Real DataChunk output constructor | 85d714075b | 45/45; 168 bytes converted, 186 to 72 lines |
+| TeamPrototype evidence comments | d09089d3db | 7/7; 95 lines removed, code tokens unchanged |
+| LAN runtime cohesion | a58337603f | 16/16; 181 to 110 lines, two TUs to one |
+| Water cohesion | 31a596d059 | 3/3; 283 to 211 lines, three TUs to one |
+| Honest block-writer stack and body | 0470769e29, db868e1d89 | Exact 50/230-byte real C++; 1/1 then 2/2 |
+| NetPacket chat-reader cohesion | 8c9c7f8252 | 68/68; 206 to 127 lines |
+| Actual MouseThread destructor owner/path | 2f938bd5fb | 21/21 with W3DMouse family; initializer/atexit witness |
+| Retire false BuddyInfo/GroupRoom aliases | f4805c1355 | Retained Ladder family 7/7; two ledger rows retired |
+| TeamPrototype shared view and honest argument alias | 6a5a353a53 | 7/7; duplicate 13-line view removed |
+| PeerDefs unwind object-symbol roles | e5c550c72c | 168/168 across implementation and unchanged reference TU |
+| Actual network sentinel pool allocator | a820be5b88 | 28/28; existing 127-byte mismatch repaired |
 
 The last vector push raced another contributor, then published after a clean
 rebase; final published additions/deletions equal the reviewed worker patch.
@@ -124,22 +137,29 @@ and all affected surviving sources before normal commit/push.
 
 | Lane | Worker SHAs in order | Improvement |
 |---|---|---|
-| placement | 4917a76344, 12ad1a92d5 | LAN runtime 71-line reduction 16/16; Water cohesion 72-line reduction 3/3 |
-| evidence | 1a75102a91, 65b1da9bca, cf044f9998 | Honest block writer/helper 50/230 bytes 2/2; NetPacket chat readers 79-line reduction 68/68 |
-| metrics | dfa629c80e, 4b680ca8db, 31613137b6 | LadderInfo placement 25/25; real DataChunk constructor 45/45; TeamPrototype comments 7/7 |
+| placement | ad2c7fbc19 | Accurate Watchdog thread/Win32 APIs; 105 to 82 lines, 1/1 |
+| metrics | 721fce25ef | DataChunk cohesion; 219 to 166 lines, 45/45 |
 
-The full integration snapshot has finished; integrate these in lane order.
-Metrics now uses branch
+The five-unit sequential publication trial completed normally, including one
+bounded remote-race retry. Its session 33251 is terminal; no coordinator gate or
+publication currently runs. Integrate the two reviewed units above next.
+Metrics uses branch
 `cleanup-20260907-metrics-h3` from published `904b626b31`; its old branch is
 preserved. Evidence's superseded helper `61ace767d7` is preserved only on
 `cleanup-20260907-evidence-xfer-before-owner`; never integrate it.
 Placement preserved `cleanup-20260907-placement-before-water-rebase` at
 `4917a76344`, then replayed only that LAN unit onto `b7bb936fc0` as `a5a906124c`;
-the exact patch is unchanged. Integrate original `4917a76344` and new Water only.
+the exact patch is unchanged. Both LAN and Water are now published.
 Evidence's local `bb1c5efd0e` repeats published marker prerequisite `cc09850f21`;
-exclude it from publication. MouseThread destructor correction is in progress
-under evidence's ownership; its global initializer/atexit witness proves the
-old network label wrong. No other network identities are in that unit's scope.
+exclude it from publication. Evidence is clean on `cleanup-20260907-evidence-h4`
+from published `2f938bd5fb`; its old tip is preserved on
+`cleanup-20260907-evidence-pre-h4`. It owns the ThreadClass constructor/priority
+cohesion unit and a separate seven-byte destructor conversion. Both are held
+before commit: an independent DIR32 check found that the proposed proven
+constructor and an existing two-argument constructor bind ThreadClass's vtable
+symbol to different retail tables. Evidence investigates the older owner while
+metrics independently reviews the collision. Four green byte checks do not
+resolve this identity conflict. Generated bodies remain untouched.
 
 ## Hourly reviews
 
@@ -278,6 +298,63 @@ observed results; do not prefill reviews or claim unmeasured speedups.
   baseline-failures.json. Compare exact failure identities, not just totals.
   Workers keep isolated reviewed commits and bounded read-only investigations.
   Next review: 20:41:55 UTC.
+
+### Hour 4: reviewed 20:42–20:45 UTC
+
+- Delivered by the 20:41:55 boundary: 57 cleanup/prerequisite commits, all
+  confirmed ancestors of origin/master; 56 cleanup units and one prerequisite.
+  Eight landed during this elapsed hour, or 2.7 per nominal worker-hour across
+  three lanes. This includes earlier preparation and is not editing effort.
+  Subsequent publications in the table are excluded from that hourly count.
+- Independent landed sample: DataChunk's constructor source is identical to the
+  reviewed 72-line body, preserving its 168-byte range. The block writer's
+  constructor/vtable, same-this helper, position-stack route and XferException
+  RTTI were freshly decoded. No material regression or unsupported original
+  owner claim was found. The descriptive owner and unresolved int/long spelling
+  remain explicit; generated bodies and unrelated aliases are untouched.
+- Concrete reductions include LAN 181 to 110 lines, Water 283 to 211, NetPacket
+  206 to 127, TeamPrototype comments 491 to 396, and the DataChunk constructor
+  186 lines of naked code to 72 lines of C++. Across all 57 patches, Code source
+  totals 3,079 additions and 3,412 deletions: net -333 across 81 distinct paths.
+  This excludes other contributors, banked attempts and unpublished work. No
+  generated source was edited. Placement and honest naming often leave the
+  readability score unchanged; no renamed-symbol quota is used.
+- The completed full integration check is detailed above: 214 to 190 function
+  failures, zero new failure identities, source claims repaired, four remaining
+  red categories. The 401.77s warm gate and roughly 45-minute cold baseline use
+  different snapshots, so their difference is not a controlled speedup. Later
+  scoped fixes are not counted as a new full-gate result.
+- Hour 3 experiment retained with a correction: the next three named-reviewer
+  packets took 16.444, 27 and 67.299s, all below the 120s target. Nine recorded
+  packets including the pilot and one failed handoff have median 45s and range
+  16.444–301s. The 301s supplement waited because a message did not activate an
+  idle reviewer; new review requests now use followup_task. Water's author took
+  another 13s to act after approval. A later Watchdog review took 41s plus 28s
+  author reaction. Fast approval alone does not establish end-to-end speedup;
+  these samples do not establish causation.
+- A normal hook caught an existing destructor alias that the declaration scan
+  could not connect to its object-symbol. Two truthful comments identify the
+  already-declared body; no fabricated claim or weakened detector was added.
+  A sub-second staged declaration precheck now catches this class of omission
+  before requesting final review. One stale STLport version comment was also
+  corrected from the actual vendor header before publication.
+- Four completely recorded normal publication loops totaled 281.88s, median
+  70.655s. These omit four units' retries and other coordinator work, so they are
+  not the hour's total integration cost. Repeated remote advancement was a real
+  bottleneck, especially for Water; every retry retained hooks and exact-patch
+  checks. A final refresh alone still raced and is not a proven cure.
+- Next single measured adjustment: sequentially publish an explicit queue of
+  independently approved units. Keep one mutation in flight, all existing
+  checks, and at most three retries only for a confirmed remote race; stop on
+  any other failure. The trial began at 20:40. Measure completion-to-next-start
+  delay for three transitions, targeting under 2s without new patch/verification
+  defects. This addresses observed coordinator idle time after terminal tools;
+  it does not promise to eliminate other contributors' pushes.
+- Next owners: metrics consolidates DataChunk; placement corrects Watchdog and
+  screens a bounded next family; evidence works on ThreadClass lifecycle after
+  a clean refresh. The coordinator drains reviewed units and investigates the
+  stale null-relocation baseline without changing it on a guess. Next review:
+  21:41:55 UTC. Deadline remains 04:41:55 UTC.
 
 ## Resume
 

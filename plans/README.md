@@ -112,6 +112,8 @@ ledger update must land together.
    State the original-owner witness explicitly, or say the owner is descriptive
    and its original spelling unknown. Name one final reviewer before starting;
    record readiness, approval and author-resumption times separately.
+   Activate a new final-review request with followup_task; send_message alone
+   does not wake an idle reviewer.
 2. Coordinator independently reviews the diff and evidence, pulls/rebases master,
    runs `python3 tools/check_csv.py`, then integrates one worker commit with
    `git cherry-pick --no-commit <worker-sha>`. Inspect every staged path.
