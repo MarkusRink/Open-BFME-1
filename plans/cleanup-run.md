@@ -4,8 +4,8 @@ Started: 2026-09-07 16:41:55 UTC (2026-09-08 01:41:55 JST).
 Deadline: 2026-09-08 04:41:55 UTC (13:41:55 JST).
 Execution base: `8fe7448503316d344fb623d467f3b107126cd9c5`.
 Status: phase 3 ownership/cohesion work is active. The phase 2 batch is published
-through `49dc6716e0`; the next full integration gate includes this cutoff. The initial
-full baseline completed with pre-existing failures; isolated workers continue.
+through `49dc6716e0`. Full integration at `b7bb936fc0` completed with four existing
+red categories and no new function-comparison failure; isolated workers continue.
 The full gate has not passed. See [README.md](README.md) for the standing runbook.
 
 ## Ownership
@@ -46,6 +46,34 @@ SrcIdent 60, BRI 47. There are 13,999 tracked sources, 298 outside measured
 areas. The malformed parent has no valid score; no repair delta is invented.
 
 ## Publications
+
+### Integration checkpoint: 19:46:30–19:53:12 UTC
+
+Tested SHA: `b7bb936fc0e3916fe9102d9674922dc71fba6d8b`.
+`BUILD_POOL=4 ./build.sh` exited 1 after 401.77s; log:
+`build/cleanup-20260907/integration-b7bb936fc0.log`. Session 43369 and PID
+2021076 are terminal. No coordinator source/ledger/pin changes occurred in flight.
+
+- Functions: 190/161,803 failures, down from 214. Exact identity comparison found
+  zero new failures. All 24 removed failures were directly touched by this
+  team's published patches: five same-identity/range source repairs, three
+  corrected range claims, and sixteen misleading names retired while preserving
+  their covered ranges. This is not a claim of 24 runtime bug fixes.
+- DIR32 inconsistencies: 97 versus 98; the false Water cell type is removed.
+- Source claims: pass for 13,304 sources; row-less XferSave is repaired.
+- String references: 19,429 literals plus 1,111 empty references pass.
+- Null-relocation baseline remains stale at 65 versus 66. No-op patch remains
+  unrunnable after failed function verification. Full gate: four red categories.
+- Warm reuse: 13,789 current TUs, 99 compiled of 13,888. The initial cold gate
+  compiled 13,632 of 13,816; these different source snapshots are not a controlled
+  performance benchmark.
+- Across the 49 published prerequisite/source patches, Code source lines total
+  2,417 added and 2,424 removed (net -7), including file moves and real-C++
+  replacements. This excludes other contributors and the pending cohesion queue.
+  No patch modified Code/gen_small or Code/gen_asm. Naming/identity corrections
+  dominate this phase; concrete per-unit reductions are listed below.
+
+### Published units
 
 Forty-nine prerequisite/source commits are confirmed ancestors of origin/master
 at 19:40 UTC: 48 source units and one prerequisite. Planning and review-only
@@ -96,14 +124,22 @@ and all affected surviving sources before normal commit/push.
 
 | Lane | Worker SHAs in order | Improvement |
 |---|---|---|
-| placement | 4917a76344 | Three LAN runtime bodies in one TU; 71 lines removed, 16/16 |
-| evidence | 1a75102a91, 65b1da9bca | Honest block-position helper and address-named block writer; 50/230 bytes, 2/2 |
+| placement | 4917a76344, 12ad1a92d5 | LAN runtime 71-line reduction 16/16; Water cohesion 72-line reduction 3/3 |
+| evidence | 1a75102a91, 65b1da9bca, cf044f9998 | Honest block writer/helper 50/230 bytes 2/2; NetPacket chat readers 79-line reduction 68/68 |
 | metrics | dfa629c80e, 4b680ca8db, 31613137b6 | LadderInfo placement 25/25; real DataChunk constructor 45/45; TeamPrototype comments 7/7 |
 
-These wait until the full integration snapshot finishes. Metrics now uses branch
+The full integration snapshot has finished; integrate these in lane order.
+Metrics now uses branch
 `cleanup-20260907-metrics-h3` from published `904b626b31`; its old branch is
 preserved. Evidence's superseded helper `61ace767d7` is preserved only on
 `cleanup-20260907-evidence-xfer-before-owner`; never integrate it.
+Placement preserved `cleanup-20260907-placement-before-water-rebase` at
+`4917a76344`, then replayed only that LAN unit onto `b7bb936fc0` as `a5a906124c`;
+the exact patch is unchanged. Integrate original `4917a76344` and new Water only.
+Evidence's local `bb1c5efd0e` repeats published marker prerequisite `cc09850f21`;
+exclude it from publication. MouseThread destructor correction is in progress
+under evidence's ownership; its global initializer/atexit witness proves the
+old network label wrong. No other network identities are in that unit's scope.
 
 ## Hourly reviews
 
