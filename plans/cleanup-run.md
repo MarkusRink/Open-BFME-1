@@ -3,10 +3,10 @@
 Started: 2026-09-07 16:41:55 UTC (2026-09-08 01:41:55 JST).
 Deadline: 2026-09-08 04:41:55 UTC (13:41:55 JST).
 Execution base: `8fe7448503316d344fb623d467f3b107126cd9c5`.
-Status: phase 3 ownership/cohesion work is active; 73 cleanup/prerequisite units
-are published through `03d4a2485e`. Full integration at `1fe94e9ded` completed with
-three red categories and no new function-comparison failure. The later runtime
-unit has scoped verification; isolated workers continue.
+Status: phase 3 ownership/cohesion work is active; 80 cleanup/prerequisite units
+are published through `c8d5bfe7c5`. Full integration at that snapshot completed
+with three red categories and no new function-comparison failure. The added
+DIR32 finding belongs to an external terrain change. Isolated workers continue.
 The full gate has not passed. See [README.md](README.md) for the standing runbook.
 
 ## Ownership
@@ -16,9 +16,9 @@ branches, indexes and build outputs. Coordinator alone publishes master.
 
 | Worker/root suffix | Current exclusive responsibility |
 |---|---|
-| cleanup_metrics / metrics | Independent final review of both active units; baseline attribution |
-| cleanup_placement / placement | Iterator clear, reference-state identity and existing Clump delete repair |
-| cleanup_evidence / evidence | Callable-loss consumer selection and checked hook failure propagation |
+| cleanup_metrics / metrics | Independent final reviews, landed samples and full-gate attribution |
+| cleanup_placement / placement | Reviewed reference-state destructor; Drawable lifecycle implementation |
+| cleanup_evidence / evidence | Neutral 9F2800 destructor and retirement of its false aliases |
 
 Existing contributor worktrees are preserved. No new service, port, database,
 shared writable cache or external fleet configuration is required.
@@ -109,8 +109,8 @@ credit is assigned to this correction, and no baseline was raised.
 
 ### Published units
 
-Seventy-three cleanup/prerequisite commits are confirmed ancestors of origin/master:
-72 cleanup units and one prerequisite. Planning and review-only commits are
+Eighty cleanup/prerequisite commits are confirmed ancestors of origin/master:
+79 cleanup units and one prerequisite. Planning and review-only commits are
 excluded. Worker and published identities are separate; this table lists final
 published SHAs. Hourly counts below retain their actual cutoff times.
 
@@ -164,6 +164,13 @@ published SHAs. Hourly counts below retain their actual cutoff times.
 | Remove retired FXNugget claims from prose | 9022232d55 | 1/1; body and pin address unchanged |
 | ExperienceTracker progression cohesion | 1fe94e9ded | 7/7; 23 source lines removed |
 | ThreadClass runtime ownership and callback ABI | 03d4a2485e | 32/32; four source consumers, source net +6 lines |
+| LightPulse effect cohesion and accurate radius view | 5599cb2410 | 2/2; 195 to 105 source lines; same field offsets |
+| Guard callers when ledger candidates disappear | f411837246 | 45 integrated tests; both hooks stop on selector failure |
+| Iterator/reference-state split and Clump free route | 574bd43ec1 | 16/16; three strict bodies; false pins removed |
+| Laser effect cohesion and accurate base view | 0d8e6c93b3 | 2/2 plus two literals; 291 to 203 source lines |
+| Camera effect field units and source name | ca60aa9def | 2/2; three fields and two parameters clarified |
+| Correct iterator constructor ledger identity | 4837296cf9 | 20/20 plus 1,245 unchanged caller claims; source untouched |
+| RayEffect construction and dispatch cohesion | c8d5bfe7c5 | 2/2; 150 to 121 source lines, method texts unchanged |
 
 The last vector push raced another contributor, then published after a clean
 rebase; final published additions/deletions equal the reviewed worker patch.
@@ -174,23 +181,27 @@ The next 21 source units were published after that review and before 19:40 UTC.
 
 ## Reviewed integration queue
 
-The reviewed publication queue is drained through runtime worker `2d0353d930`,
-published as `03d4a2485e`; session 61011 is terminal. No coordinator build or
-publication is running. Preserve worker order and compare exact patches before
-commit and after rebase; ledger union merges can import unrelated changes.
+The reviewed queue is drained through RayEffect worker `ea441e239f`, published
+as `c8d5bfe7c5`; publication session 75474 is terminal. Full integration session
+38481/PID 2304858 is also terminal. Preserve worker order and compare exact
+patches before commit and after rebase; ledger union merges can import unrelated
+changes even when source ownership is disjoint.
 
-Placement is implementing the independently approved eight-path proposal from
-`cleanup-20260907-placement-h5` at `cd43adc013`: three row changes, two false pin
-deletions, two tombstones, truthful ObjectIterator inheritance, and the existing
-12-byte Clump placement delete using the proven CRT free route. Scratch proof
-is 3/3 bodies plus 11/11 retained canonical claims. Constructor promotion and
-Drawable identity repair are separate work. Final implementation review remains
-required; no prepared commit is listed until it exists.
+Placement committed reviewed four-path reference-state destructor
+`ae72d7ce85`, ready for publication: retain the 88-byte release, replace the false 40ADF0/70 alias,
+remove the false Drawable clear pin at 15479, and add one tombstone. Direct PE
+exports now prove its base is Snapshot; the child original class remains
+unknown. All 1,899 required claims passed, with exact unmasked destructor and
+EH routes independently reviewed. The connected eight-path Drawable lifetime
+and false VectorClass-alias repair is now authorized for implementation.
 
-Evidence owns the bounded delta_sources/hook unit on its runtime branch.
-Metrics reviews both units from `cleanup-20260907-metrics-h4`. Older branches
-remain preserved. Superseded helper `61ace767d7` and duplicate prerequisite
-`bb1c5efd0e` must never be added to the publication queue.
+Evidence is on `cleanup-20260907-evidence-h6` from `c8d5bfe7c5`, studying the
+9F2800 destructor with an opaque owned state instead of an unsupported map.
+Its exact scratch body is approved; the minimal complete alias repair is authorized.
+The coordinator studies the independently proven true FXListStore constructor
+and destructor at 42E020/42DE50. Metrics reviews and attributes the completed
+gate. Older branches remain preserved. Superseded helper `61ace767d7` and
+duplicate prerequisite `bb1c5efd0e` must never enter the publication queue.
 
 ## Hourly reviews
 
@@ -433,6 +444,74 @@ observed results; do not prefill reviews or claim unmeasured speedups.
   split; evidence implements the bounded consumer guard; metrics independently
   reviews both. Coordinator publishes this checkpoint and drains reviewed units.
   Next review: 22:41:55 UTC. Deadline remains 04:41:55 UTC.
+
+### Hour 6: review 22:38–22:52 UTC
+
+- Delivered by 22:41:55: 80 cleanup/prerequisite units, eight this elapsed hour,
+  excluding the hourly checkpoint and external-fix baseline bookkeeping.
+  Team patches total 4,952 Code lines added and 5,698 removed: net -746 across
+  135 distinct source paths. This hour contributes net -180. The three FX
+  consolidations remove 207 lines and three files; the runtime, iterator and
+  Camera improvements add 27 lines. No generated source was edited.
+- Independent landed sample: Laser's published/current source equals the
+  reviewed hash, both method texts equal their donors, and the retail parser,
+  C8 allocation, B4 base, field table and virtual routes were re-decoded.
+  The caller guard's five published files equal the reviewed/current files;
+  ordered resolver semantics, overlapping owners and checked hook captures
+  were reinspected against the 45 passing fixtures. No drift or unsupported
+  new claim was found. Tests and builds were not repeated for this sample.
+- Full check: `c8d5bfe7c56490f1cfbf9e465f79b8960858882a`, 22:31:19.070997 to
+  22:37:53.692649 UTC, 394.622s, exit 1, snapshot preserved. There are 180
+  function/source failures, all subsets of the previous 184 and initial 214.
+  Two newly removed failures are this team's iterator destructor-call and
+  Clump free-route repairs. Two 75-byte NetCommandMsg alias emitter corrections
+  belong to external `8dfd94179e`; they are excluded from team credit. Thus 32
+  of the initial removed failure pairs directly intersect team changes, two
+  external changes. This is not a count of runtime bug fixes.
+- Strings 19,492 plus 1,122 empty references pass; source claims pass for
+  13,371 sources; null relocation passes at 65/19 with 741 unreadable rows.
+  The unchanged unreadable limit is 1,000. DIR32 is 97 versus 96 previously;
+  external `0729f041ab` introduces the additional `_PresetAlphaShader` binding
+  at VA 0x12D6E18; three unchanged callers bind 0x12D6E14. Historical source
+  and object evidence accounts for the other 96 findings. No team change adds
+  a DIR32 inconsistency. No-op remains unrunnable, so three categories remain red.
+  There were 59 compiled TUs and 13,896 cache hits. Warm timings near 395s use different snapshots and do not
+  establish a controlled performance improvement.
+- Readability: LightPulse improves Iface by 0.03 pp and Local by 0.01 pp;
+  Laser and Ray each improve Local by 0.01 pp and remove one file. The iterator
+  split improves Local by 0.01 pp while honest unknown ownership lowers
+  SrcIdent by 0.01 pp. Runtime, Camera and constructor identity cleanup have
+  no measurable score change. Keep that uncertainty and meaning rather than
+  optimizing the metric with invented names.
+- The consumer-audit experiment has one completed prospective identity unit
+  of its three-unit target. The 0.827s pre-compile constructor audit proved an
+  existing canonical body sufficed, so no extraction TU was needed. Five
+  predicted conservative sources were verified (20 family plus 1,245 generated
+  caller claims); zero unexpected consumers appeared. Current object evidence
+  then narrowed the hook's caller set to zero, agreeing with the audit. Keep
+  the trial for the next two identity units; no elapsed-time saving is claimed.
+- Reviews caught and corrected a current-pointer/tail note, a false reference
+  attribution for LightPulse's argument count, and ambiguous VA/RVA wording.
+  Named decision times include 108s for the guard, 87s for the iterator plus a
+  47s note supplement, 141s for LightPulse, 179s for Laser, 22s for the iterator
+  constructor follow-up, and 54s for Ray. The 120s target was not universal.
+  Camera's 102s decision reached its author at 281s from readiness; the 179s gap's cause is
+  unestablished, and direct-send order was confirmed. Author action after
+  approval took 48s for LightPulse, 19s for Laser, 27s for the constructor, and
+  20s for Ray. Decision, delivery and author action stay separate measurements.
+- Ray's stale-branch cherry-pick imported old neighboring Laser/LightPulse
+  ledger rows. Exact-patch comparison caught two extra changed lines and one
+  missing reviewed line before compilation. Restored only owned paths and
+  applied the original reviewed patch directly; no merge resolution was kept,
+  and normal verification/push passed. This recurrence identifies a possible
+  future improvement to integration, but the current consumer trial remains
+  the single measured adjustment. Clean branch refreshes and exact-patch
+  checks are retained; no broad hook weakening or new framework is justified.
+- Next: publish this review and the reviewed reference-state destructor.
+  Placement repairs Drawable lifecycle identities; evidence repairs the
+  unrelated 9F2800 owner, and the coordinator prepares true FXListStore cohesion after its identity
+  dependency is resolved. Next review is 23:41:55 UTC; the deadline remains
+  04:41:55 UTC. The eight-unit count stops at the actual hour boundary.
 
 ## Resume
 
