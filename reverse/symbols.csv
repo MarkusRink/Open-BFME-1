@@ -85812,3 +85812,4 @@ _g_xferExceptionThrowInfo,0x00DDFE5C,Opaque exception ThrowInfo; retail catchabl
 ?bfmeSetCamETH@BfmeViewETH@@QAEXXZ,0x000312A0,pin thunk for BfmeConv1985
 ?bfmeApplyETH@BfmeViewETH@@QAEXPAVBfmeSubETH@@@Z,0x00030846,pin thunk for BfmeConv1985
 ?beginPlayerLeave@BFMEConnectionManager@@QAEHE@Z,0x00667320,byte player ID proven by entry movzx edi byte [esp+0x28]; int result tested by Network::RelayCommandsToCommandList at 0x00682B69
+??0NetGameCommandMsg@@QAE@PAVGameMessage@@@Z,0x00674A40,sendGameCommand allocation 0x30 followed by ctor copying GameMessage type and argument list into command type 4 per ZH constructor

@@ -61,6 +61,24 @@ private:
 	int m_commandCount;
 };
 
+class GameMessage;
+class GameMessageArgument;
+
+// The constructor at RVA 0x00674A40 copies a GameMessage's type and arguments.
+// Its 0x30-byte allocation and field stores agree with the upstream layout.
+class NetGameCommandMsg : public NetCommandMsg
+{
+public:
+	NetGameCommandMsg(GameMessage *msg);
+
+private:
+	int m_numArgs;
+	int m_argSize;
+	int m_type;
+	GameMessageArgument *m_argList;
+	GameMessageArgument *m_argTail;
+};
+
 Bool DoesCommandRequireACommandID(NetCommandType type);
 Bool CommandRequiresDirectSend(NetCommandMsg *msg);
 Bool IsCommandSynchronized(NetCommandType type);
@@ -7964,83 +7982,15 @@ L04_665B94:
 // Sends command type 4 (GAMECOMMAND), built by the constructor at 0x00674A40.
 // This is where a player's order enters the lockstep: it is the BFME analogue of
 // the reference's ConnectionManager::sendLocalGameMessage.
-__declspec(naked) void BFMEConnectionManager::sendGameCommand(void *msg)
+void BFMEConnectionManager::sendGameCommand(void *msg)
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 10442CBh
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		push esi
-		push edi
-		push 30h
-		mov edi, ecx
-		__emit 0E8h
-		__emit 0CFh
-		__emit 0BCh
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+8h], eax
-		xor esi, esi
-		cmp eax, esi
-		mov dword ptr [esp+14h], esi
-		je L00_666280
-		mov ecx, dword ptr [esp+1Ch]
-		push ecx
-		mov ecx, eax
-		__emit 0E8h
-		__emit 003h
-		__emit 0BFh
-		__emit 09Dh
-		__emit 0FFh   // call 0x42181
-		mov esi, eax
-L00_666280:
-		or eax, 0FFFFFFFFh
-		mov dword ptr [esi+8h], eax
-		mov edx, dword ptr [edi+12028h]
-		mov dword ptr [esp+14h], eax
-		mov eax, dword ptr [esi+14h]
-		push eax
-		mov dword ptr [esi+0Ch], edx
-		__emit 0E8h
-		__emit 0D6h
-		__emit 0F8h
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L01_6662AC
-		__emit 0E8h
-		__emit 0B0h
-		__emit 0A2h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L01_6662AC:
-		push 0FFh
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 0C1h
-		__emit 08Eh
-		__emit 09Dh
-		__emit 0FFh   // call 0x3F17A
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0E4h
-		__emit 09Dh
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		mov ecx, dword ptr [esp+0Ch]
-		pop edi
-		pop esi
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret 4h
-	}
+	NetCommandMsg *netmsg = new NetGameCommandMsg(static_cast<GameMessage *>(msg));
+	netmsg->setExecutionFrame((unsigned int)-1);
+	netmsg->setPlayerID(m_localSlot);
+	if (DoesCommandRequireACommandID(netmsg->getNetCommandType()))
+		netmsg->setID(GenerateNextCommandID());
+	reinterpret_cast<ConnectionManager *>(this)->sendLocalCommand(netmsg, 0xFF);
+	netmsg->detach();
 }
 
 // Works out who a command has to reach. It compares m_localSlot against
