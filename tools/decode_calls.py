@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 """Explain unresolved REL32 callees and suggest reverse/symbols.csv pins.
 
-When ./build.sh fails with "unresolved call(s): <symbol>", the fix is a pin in
-reverse/symbols.csv giving the address that call site encodes in the binary.
+When ./build.sh fails with "unresolved call(s): <symbol>", an aligned retail
+call site can supply a candidate pin. A source-shape mismatch cannot: object
+relocation offsets may land in unrelated retail instructions or operands.
 Deriving it by hand (compile, dump relocs, read the e8 displacement out of the
 target bytes, look the RVA up) was re-rolled dozens of times overnight — this
 tool does exactly that: it compiles the source the way build.py does, finds
 every REL32 relocation whose symbol load_symbol_map() cannot resolve, decodes
 the rel32 displacement from the TARGET bytes at the function's ledger RVA, and
 prints the callee RVA, every name known for it (exports / functions.csv /
-symbols.csv / ghidra inventory), and the ready-to-paste symbols.csv line.
+symbols.csv / ghidra inventory), and a candidate symbols.csv line only when
+both instruction streams have the same relative branch at that operand.
+Prove the callee's identity and ABI independently before pinning; byte matching
+and a known address alone do not prove a symbol's name.
 
 Usage:
   python3 tools/decode_calls.py Code/GameEngine/Source/Common/foo.cpp                 # all ledger rows of the source
@@ -96,6 +100,50 @@ def describe_rva(rva, names_at, ghidra, ghidra_starts, thunk_of):
     return known, notes
 
 
+def rel32_operands(data):
+    """Decoded direct relative branch operands, never an opcode byte scan.
+
+    Starting at the function entry matters: an E8/E9 byte inside a MOV's
+    immediate is not a call/jump. A decoder failure leaves the remaining
+    bytes unknown instead of resynchronizing and guessing an instruction.
+    """
+    import capstone
+
+    decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+    decoder.detail = True
+    operands = {}
+    for instruction in decoder.disasm(bytes(data), 0):
+        offset = instruction.imm_offset
+        if instruction.imm_size != 4 or not offset:
+            continue
+        if not (instruction.group(capstone.CS_GRP_CALL)
+                or instruction.group(capstone.CS_GRP_JUMP)):
+            continue
+        # E8/E9 and 0F 8x are relative; far CALL/JMP immediate forms are not.
+        opcode = instruction.bytes[offset - 1]
+        if opcode not in (0xE8, 0xE9) and not (
+                offset >= 2 and instruction.bytes[offset - 2] == 0x0F
+                and 0x80 <= opcode <= 0x8F):
+            continue
+        operands[instruction.address + offset] = (
+            instruction.address, instruction.size, instruction.id,
+            instruction.mnemonic)
+    return operands
+
+
+def aligned_rel32_site(offset, compiled_sites, retail_sites):
+    """Return (branch kind, None) or (None, why no candidate is justified)."""
+    compiled = compiled_sites.get(offset)
+    retail = retail_sites.get(offset)
+    if compiled is None:
+        return None, "object relocation is not a decoded rel32 branch operand"
+    if retail is None:
+        return None, "retail offset is not a decoded rel32 branch operand"
+    if compiled != retail:
+        return None, "compiled/retail branch instruction boundaries or kinds differ"
+    return retail[3], None
+
+
 def main():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -108,6 +156,11 @@ def main():
                         help="TEST-ONLY: read the ledgers from DIR/reverse instead of "
                              "the repo's (compile and exe stay in the repo)")
     args = parser.parse_args()
+    try:
+        import capstone  # noqa: F401 — fail before compiling if unavailable
+    except ImportError:
+        fail("Capstone is required to validate instruction boundaries; "
+             "use the project's Python environment with capstone installed")
 
     reverse_dir = build.ROOT / "reverse"
     if args.root:
@@ -183,6 +236,7 @@ def main():
 
     errors = []
     total_unresolved = 0
+    suppressed_sites = 0
     for name, rva, row_size, _src, status in targets:
         try:
             body, relocs = build.read_object_symbol_bytes(obj, name)
@@ -204,8 +258,7 @@ def main():
             errors.append(f"{name}: cannot read target bytes at 0x{rva:08X}: {exc}")
             continue
 
-        rel32 = [(off, sym) for off, rtype, sym in relocs
-                 if rtype == 0x0014 and off + 4 <= size]
+        rel32 = [(off, sym) for off, rtype, sym in relocs if rtype == 0x0014]
         unresolved = [(off, sym) for off, sym in rel32 if sym not in symbol_map]
         print(f"\n{name} @ 0x{rva:08X} ({status}, {size}B{size_note}): "
               f"{len(rel32)} REL32 site(s), {len(unresolved)} unresolved")
@@ -213,9 +266,15 @@ def main():
             print("  all callees resolved — no pins needed")
             continue
         total_unresolved += len(unresolved)
+        compiled_sites = rel32_operands(body)
+        retail_sites = rel32_operands(target)
         for off, sym in unresolved:
-            opcode = target[off - 1] if off >= 1 else None
-            kind = {0xE8: "call", 0xE9: "jmp"}.get(opcode, f"op={opcode:02x}" if opcode is not None else "op=?")
+            kind, refusal = aligned_rel32_site(off, compiled_sites, retail_sites)
+            if refusal:
+                suppressed_sites += 1
+                print(f"  +0x{off:04x} {sym}: NO PIN CANDIDATE — {refusal}; "
+                      "resolve source/retail layout drift first")
+                continue
             displacement = struct.unpack_from("<i", target, off)[0]
             callee = (rva + off + 4 + displacement) & 0xFFFFFFFF
             known, notes = describe_rva(callee, names_at, ghidra, ghidra_starts, thunk_of)
@@ -231,8 +290,12 @@ def main():
             print(f"  - {error}", file=sys.stderr)
         raise SystemExit(1)
     if total_unresolved:
-        print(f"\ndecode_calls: {total_unresolved} unresolved callee(s) — verify with "
-              "./build.sh after pinning (a pin is a claim; the byte comparison is the judge)")
+        print(f"\ndecode_calls: {total_unresolved} unresolved callee(s), "
+              f"{suppressed_sites} unaligned site(s) suppressed — prove identity/ABI "
+              "and run pin_consistency before pinning, then verify with ./build.sh; "
+              "a byte match alone does not prove the callee's name")
+    if suppressed_sites:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
