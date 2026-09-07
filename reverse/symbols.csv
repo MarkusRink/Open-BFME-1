@@ -83575,6 +83575,8 @@ _bfmeAssert1263,0x00032231,pin
 _bfmeBaseVftableCC,0x0072162C,Open-BFME5 the base vftable the inline base destructor at 0x0073A4E0 restores
 _bfmeCall1128A,0x008479C0,pin
 _bfmeCall1128B,0x00847B20,pin
+??$_M_read_float@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@D@_STL@@YA_NAAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@0@AAV?$istreambuf_iterator@DV?$char_traits@D@_STL@@@0@1AAVios_base@0@PAD@Z,0x00838670,STLport narrow num_get float reader called by do_get(float) at 0x00838BE0
+?__string_to_float@_STL@@YAXABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@1@AAM@Z,0x00847C90,STLport float conversion wrapper called by num_get do_get(float) at 0x00838BE0
 _bfmeCall_002efb20,0x002EFB20,alternate REL32 name for the still-a-dump helper at 0x002EFB20 currently matched as FlammableUpdate::getModuleNameKey (unproven thiscall no-arg identity); this caller pushes 2 explicit stack args and cleans them itself
 _bfmeCbAKC,0x00032155,pin
 _bfmeCbEMB,0x00863440,pin
