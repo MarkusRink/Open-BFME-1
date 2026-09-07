@@ -96,7 +96,7 @@ void ThreadClass::Execute()
 	#endif
 }
 
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WWLib/ThreadClassSetPriorityMethodThunk.cpp
+// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp
 // ?Set_Priority@ThreadClass@@ present-unmatched
 void ThreadClass::Set_Priority(int priority)
 {
