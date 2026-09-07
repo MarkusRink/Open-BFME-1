@@ -85782,3 +85782,5 @@ __imp__bfmeSprintfESP,0x00F5948C,pin
 ?bfmeThrowESQ@@YGXJ@Z,0x00AFD540,pin
 ?bfmeInvokeESQ@BfmeTargetESQ@@QAEJVBfmeBstrESQ@@@Z,0x00958D30,pin
 ?g_bfmeDispatchESQ@@3UBfmePtrESQ@@A,0x00F4B280,pin
+?bfmeReadyESR@BfmeSubESR@@QAEDXZ,0x00017607,pin
+?bfmeDetachESR@BfmeOwnerESR@@QAEXPAVBfmeSubESR@@@Z,0x00040737,pin
