@@ -1,15 +1,10 @@
-// cl: /DNDEBUG /DBFME_STLP_NODE_ALLOC /D_STLP_USE_STATIC_LIB /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/stlp_nodealloc /Ireference/shims/archivefilesystem_nosubsystem /Ireference/shims/asciistring_thin /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 
-#define Matrix4x4 Matrix4
-#define __PLACEMENT_VEC_NEW_INLINE
-#define __ARCHIVEFILESYSTEM_H_
-#include "Common/SubsystemInterface.h"
-#include "Common/AsciiString.h"
-#include "Common/FileSystem.h"
-#include "Common/STLTypedefs.h"
+#include <map>
 
-// Retail inlines AsciiString's forwarding constructor and calls its StringBase body.
+class AsciiString;
+
 template <typename T>
 class StringBase
 {
@@ -19,11 +14,13 @@ private:
     void *m_data;
 };
 
-__forceinline AsciiString::AsciiString(const AsciiString &src)
+// Retail inlines AsciiString's forwarding constructor and calls its StringBase body.
+class AsciiString : private StringBase<char>
 {
-    ((StringBase<char> *)this)->StringBase<char>::StringBase(
-        *(const StringBase<char> *)&src);
-}
+public:
+    __forceinline AsciiString(const AsciiString &src) : StringBase<char>(src) {}
+    ~AsciiString();
+};
 
 class DetailedArchivedDirectoryInfo;
 class ArchivedFileInfo
@@ -31,8 +28,8 @@ class ArchivedFileInfo
 public:
     AsciiString m_filename;
     AsciiString m_archiveFilename;
-    UnsignedInt m_offset;
-    UnsignedInt m_size;
+    unsigned int m_offset;
+    unsigned int m_size;
 };
 
 typedef std::map<AsciiString, DetailedArchivedDirectoryInfo> DetailedArchivedDirectoryInfoMap;
