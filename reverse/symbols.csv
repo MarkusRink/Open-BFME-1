@@ -73100,6 +73100,7 @@ name,address,notes
 ?bfmeAddCQE@BfmeSubCQE@@QAEXPAVBfmeArgCQE@@@Z,0x00005C22,pin
 ?bfmeAddHF@BfmeListHF@@QAEXPAVBfmeValueHF@@@Z,0x00029C08,pin
 ?bfmeAddKey@LargeGroupAudioKeyMap@@QAEXABVAsciiString@@@Z,0x000133D1,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003D4920 calls; autopin
+?bfmeBuildKeyString@LargeGroupAudioKeyMap@@QAE?AVAsciiString@@XZ,0x003D37E0,return-by-value helper scans the global key-record tree and builds selected key names
 ?bfmeAddVHI@BfmeMultiVHI@@QAEXPBUBfmeParseVHI@@I@Z,0x00850920,pin
 ?bfmeAddVMO@BfmeListVMO@@QAEXPAVBfmeSvcVMO@@@Z,0x007EA550,pin
 ?bfmeAdj1096@BfmeR1096@@QAEXH@Z,0x0000E881,pin
