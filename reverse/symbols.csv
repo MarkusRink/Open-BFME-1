@@ -85243,3 +85243,4 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ??0?$BFMEFactoryModuleData@VExperienceScalarUpgradeModuleData@@$0HE@@@QAE@XZ,0x00025D47,ModuleFactory retail data facade: TU-local 0x74 stand-in for BFME's ExperienceScalarUpgradeModuleData (ZH's is 0x64); this address is the ILT thunk onto ??0ExperienceScalarUpgradeModuleData@@QAE@XZ at 0x002D5180
 ?classifyObjectFootprint@Pathfinder@@IAEXPAVObject@@_N@Z,0x0051F1C0,the body retail Pathfinder::add/removeObjectToPathfindMap actually call (thunk 0x00047D2A); replaces the 0x00004EE9 pin whose nine call sites are all SimpleDynVecClass::Add callers
 ??0?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@@Z,0x0039D5B0,ICF fold of the fifteen-byte zero-three-pointers body; the address ObjectCreationList.cpp static initializer at 0x00C6B2C0 encodes via thunk 0x00048667
+?g_bfmeZeroXY@@3MB,0x00C75350
