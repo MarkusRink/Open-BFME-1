@@ -1,137 +1,22 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
-// BFME PART prototype register — retail 0x971440 size 124
-// Load_Prototype path for PART catalog entries (from Load_Asset_Catalog).
+// Open-BFME7: BFME particle prototype register, retail 0x00971440, 124 bytes.
+// Unless a render object of that name already exists, build the 0x24-byte
+// particle prototype and hand it to the asset manager's prototype list.
 
-void Register_Particle_Prototype(const char *name, int a, int b);
+class Rva009712A0Proto
+{
+public:
+	Rva009712A0Proto(const char *name, int first, int second);
+
+	unsigned char m_bfmePad[0x24];
+};
+
+bool __cdecl Render_Obj_Exists(const char *name);
+void __cdecl Add_Prototype(void *prototype);
 
 // ?Register_Particle_Prototype@@YAXPBDHH@Z
-__declspec(naked) void Register_Particle_Prototype(const char *name, int a, int b)
+void __cdecl Register_Particle_Prototype(const char *name, int first, int second)
 {
-__asm {
-		_emit 064h
-		_emit 0A1h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 06Ah
-		_emit 0FFh
-		_emit 068h
-		_emit 01Bh
-		_emit 0F1h
-		_emit 005h
-		_emit 001h
-		_emit 050h
-		_emit 064h
-		_emit 089h
-		_emit 025h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 056h
-		_emit 08Bh
-		_emit 074h
-		_emit 024h
-		_emit 014h
-		_emit 085h
-		_emit 0F6h
-		_emit 074h
-		_emit 04Eh
-		_emit 056h
-		_emit 0E8h
-		_emit 01Ch
-		_emit 0A7h
-		_emit 007h
-		_emit 000h
-		_emit 083h
-		_emit 0C4h
-		_emit 004h
-		_emit 084h
-		_emit 0C0h
-		_emit 075h
-		_emit 041h
-		_emit 06Ah
-		_emit 024h
-		_emit 0E8h
-		_emit 0BEh
-		_emit 00Ah
-		_emit 0F1h
-		_emit 0FFh
-		_emit 083h
-		_emit 0C4h
-		_emit 004h
-		_emit 089h
-		_emit 044h
-		_emit 024h
-		_emit 014h
-		_emit 085h
-		_emit 0C0h
-		_emit 0C7h
-		_emit 044h
-		_emit 024h
-		_emit 00Ch
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 074h
-		_emit 014h
-		_emit 08Bh
-		_emit 04Ch
-		_emit 024h
-		_emit 01Ch
-		_emit 08Bh
-		_emit 054h
-		_emit 024h
-		_emit 018h
-		_emit 051h
-		_emit 052h
-		_emit 056h
-		_emit 08Bh
-		_emit 0C8h
-		_emit 0E8h
-		_emit 009h
-		_emit 0FEh
-		_emit 0FFh
-		_emit 0FFh
-		_emit 0EBh
-		_emit 002h
-		_emit 033h
-		_emit 0C0h
-		_emit 050h
-		_emit 0C7h
-		_emit 044h
-		_emit 024h
-		_emit 010h
-		_emit 0FFh
-		_emit 0FFh
-		_emit 0FFh
-		_emit 0FFh
-		_emit 0E8h
-		_emit 097h
-		_emit 0A5h
-		_emit 007h
-		_emit 000h
-		_emit 083h
-		_emit 0C4h
-		_emit 004h
-		_emit 08Bh
-		_emit 04Ch
-		_emit 024h
-		_emit 004h
-		_emit 064h
-		_emit 089h
-		_emit 00Dh
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 05Eh
-		_emit 083h
-		_emit 0C4h
-		_emit 00Ch
-		_emit 0C3h
-	}
+	if (name != 0 && !Render_Obj_Exists(name))
+		Add_Prototype(new Rva009712A0Proto(name, first, second));
 }
-
