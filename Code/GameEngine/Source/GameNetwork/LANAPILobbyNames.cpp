@@ -17,34 +17,62 @@
 **	You should have received a copy of the GNU General Public License
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-// BFME LANAPI::handleLobbyAnnounce, RVA 0x0068B1E0, complete 331-byte body.
-// LANAPI::update dispatches MSG_LOBBY_ANNOUNCE (2) via table 0x00687A28
-// to arm 0x0068721B. Its call at 0x00687223 follows ILT 0x00046001 here,
-// passing a pointer to the sender address pair, not the Zero Hour bare IP.
-// The final RET 8 at 0x0068B328 ends before INT3 padding at 0x0068B32B.
-// Layout and virtual slots follow the independently matched RequestSetName
-// reconstruction. LANPlayer is 0x1C bytes; its address pair is at +0x14,
-// with a 16-bit port at +0x18 and an eight-byte whole-struct copy.
-// Original semantic body: LANAPIhandlers.cpp. Existing StringBase adapters
-// reproduce BFME's string calls without changing shared headers.
-#define Matrix4x4 Matrix4
+// readable body of ?RequestSetName@LANAPI@@UAEXVUnicodeString@@@Z: Code/GameEngine/Source/GameNetwork/lanapi.cpp
+#define Matrix4x4 Matrix4  // BFME renamed it
+
+// The two halves of BFME's lobby roster name path.
+//
+// RequestSetName (retail 0x00688220, vtable slot 24) is the local half: it
+// announces our new name to the LAN and rebuilds our own LANPlayer entry.
+// handleLobbyAnnounce (retail 0x0068B1E0) is the remote half: LANAPI::update
+// dispatches MSG_LOBBY_ANNOUNCE (2) through table 0x00687A28 to arm
+// 0x0068721B, whose call at 0x00687223 follows ILT 0x00046001 to it, passing
+// a pointer to the sender address PAIR rather than the Zero Hour bare IP.
+// Below the announce they are the same six statements -- look the player up by
+// address, allocate one or unlink the existing entry, set the three strings,
+// stamp lastHeard, re-add and call OnNameChange -- so they belong in one TU.
+//
+// LANPlayer is 0x1C bytes: name, login and host handles at +0x00, +0x04 and
+// +0x08, lastHeard at +0x0C, next at +0x10 (what addPlayer at 0x00686FD0
+// walks) and the address pair at +0x14.  The port is a word -- the constructor
+// zeroes it with a 16-bit store -- but the whole eight-byte struct is assigned
+// at once, which is why the copy writes +0x18 as a dword.
+//
+// The vtable dispatches at 0xA4/0xC4/0xD8/0xDC need every slot ahead of them
+// declared, and the composable string shims give the StringBase delegation
+// retail calls for trim, set, translate and the copy constructor.
+//
+// Original semantic bodies: lanapi.cpp and LANAPIhandlers.cpp.
+
 #include "PreRTS.h"
 #include "Common/AsciiString.h"
 #include "Common/UnicodeString.h"
+
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
+
+enum { LANMSG_LOBBY_ANNOUNCE = 2 };
+enum { ACT_NONE = 0 };
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/LANAPI.h
+// Only the announce fields are named; both bodies rely on the 0x1DC size,
+// which is what the 0x1E0 frame RequestSetName reserves fixes.
 struct LANMessage
 {
-    unsigned int messageType; // +0x00
-    wchar_t name[13];          // +0x04
-    char userName[2];          // +0x1E
-    char hostName[2];          // +0x20
-    unsigned char rest[0x1dc - 0x22];
+	Int LANMessageType;				// +0x00
+	WideChar name[13];				// +0x04
+	char userName[2];				// +0x1E
+	char hostName[2];				// +0x20
+	unsigned char m_bfmeRest[0x1DC - 0x22];
 };
+
+// The address pair vtable slot 55 hands back.
 struct BfmeNetAddress
 {
 	UnsignedInt m_ip;
 	UnsignedShort m_port;
 };
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/LANPlayer.h
 class LANPlayer
 {
 public:
@@ -63,6 +91,8 @@ public:
 	LANPlayer *m_next;				// +0x10
 	BfmeNetAddress m_address;			// +0x14
 };
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/LANAPI.h
 class LANAPI
 {
 public:
@@ -125,14 +155,73 @@ public:
 
 protected:
 	void handleLobbyAnnounce(LANMessage *msg, BfmeNetAddress *sender);
+	void sendMessage(LANMessage *msg, UnsignedInt ip);			// ILT thunk 0x0002B599
 	void removePlayer(LANPlayer *player);					// ILT thunk 0x0003BDF4
 	void addPlayer(LANPlayer *player);					// ILT thunk 0x00045363
 
+	unsigned char m_bfmeHeadA[0x10 - 4];
+	UnicodeString m_name;				// +0x10
+	AsciiString m_userName;				// +0x14
+	AsciiString m_hostName;				// +0x18
+	unsigned char m_bfmeHeadB[0x24 - 0x1C];
+	Int m_pendingAction;				// +0x24
+	unsigned char m_bfmeHeadC[0x38 - 0x28];
+	UnsignedInt m_lastResendTime;			// +0x38
+	unsigned char m_bfmeHeadD[0x3D - 0x3C];
+	Bool m_inLobby;					// +0x3D
 };
+
 typedef char BfmeAddressSizeCheck[sizeof(BfmeNetAddress) == 8 ? 1 : -1];
 typedef char BfmePlayerSizeCheck[sizeof(LANPlayer) == 0x1C ? 1 : -1];
 typedef char BfmeMessageSizeCheck[sizeof(LANMessage) == 0x1DC ? 1 : -1];
 
+// ?RequestSetName@LANAPI@@UAEXVUnicodeString@@@Z
+void LANAPI::RequestSetName(UnicodeString newName)
+{
+	newName.trim();
+	if (m_pendingAction != ACT_NONE)
+	{
+		// Can't change name while joining games
+		OnNameChange(_bfme_localAddress(), newName);
+		return;
+	}
+
+	// Set up timer
+	m_lastResendTime = timeGetTime();
+
+	if (m_inLobby && m_pendingAction == ACT_NONE)
+	{
+		m_name.set(newName);
+
+		LANMessage msg;
+		fillInLANMessage(&msg);
+		msg.LANMessageType = LANMSG_LOBBY_ANNOUNCE;
+		sendMessage(&msg, 0);
+
+		// Update the interface
+		LANPlayer *player = LookupPlayer(_bfme_localAddress());
+		if (!player)
+		{
+			player = new LANPlayer;
+			player->m_address = *_bfme_localAddress();
+		}
+		else
+		{
+			removePlayer(player);
+		}
+
+		player->m_name.set(m_name);
+		player->m_host.translate(m_hostName);
+		player->m_login.translate(m_userName);
+		player->m_lastHeard = timeGetTime();
+
+		addPlayer(player);
+
+		OnNameChange(&player->m_address, player->m_name);
+	}
+}
+
+// ?handleLobbyAnnounce@LANAPI@@IAEXPAULANMessage@@PAUBfmeNetAddress@@@Z
 void LANAPI::handleLobbyAnnounce(LANMessage *msg, BfmeNetAddress *sender)
 {
     LANPlayer *player = LookupPlayer(sender);
