@@ -84781,3 +84781,6 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?getPortrait@Rva000FA830PortraitEntry@@QAEPBVImage@@PAVPlayer@@@Z,0x0000D2A6,portrait-entry getPortrait method resolves through the 0x0000D2A6 ILT
 ?bfmeCheckXR@BfmeOwnerXR@@QAE_NPAX@Z,0x00040390,pin
 ?bfmeFindXR@Rva00367E30Logic@@QAEPAVBfmeUnitXR@@PAX@Z,0x0001F253,pin
+?bfmeFindTF@Rva00367E30Logic@@QAEPAVBfmePlayerTF@@PAX@Z,0x0001F253,pin
+?bfmeHasTF@Rva002EE330PlayerList@@QAEDPAVBfmePlayerTF@@@Z,0x00003A85,pin
+?bfmeSelectTF@ControlBar@@QAEXPAXH@Z,0x0003BCCD,pin
