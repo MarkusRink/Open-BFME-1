@@ -31,9 +31,30 @@
 // bodies below use the names their offsets actually land on. The ROW NAMES ARE
 // UNCHANGED -- ?addObjectBuilt@ScoreKeeper@@QAEXPAVObject@@@Z stays exactly as
 // it is, because renaming it would delete it, and because what retail's symbol
-// was called is a separate question from what the body does. Someone should
-// look at 0x000EAB00's callers and decide whether the ZH name survived a BFME
-// change of meaning.
+// was called is a separate question from what the body does.
+//
+// The callers were looked at, and they do not decide it: 0x000EAB00 has exactly
+// ONE direct caller in the whole image, the unidentified dump at 0x001C9490,
+// reached through no thunk that anything else uses. The caller-profile argument
+// that settles this kind of question elsewhere -- a hundred and ten attack-and-
+// weapon callers against eighteen that name no single class -- has nothing to
+// work with here.
+//
+// The field attribution is settled, though, and from a source independent of
+// reset's layout: declaration order. Zero Hour's ScoreKeeper.h declares
+// m_totalUnitsBuilt immediately before m_totalUnitsLost, and
+// m_totalBuildingsBuilt immediately before m_totalBuildingsLost, so in any
+// layout built comes first and lost sits four bytes after it. Retail's pairs are
+// adjacent exactly that way -- +0x8C beside +0x90, +0x114 beside +0x118 -- and
+// reset touches both of each pair. The two-argument body takes the LOWER of each
+// pair and the one-argument body takes the HIGHER, so the two-argument one is
+// incrementing built and the one-argument one is incrementing lost. That is the
+// same answer reset's layout gave, reached without it.
+//
+// So the ZH name did NOT survive a change of meaning: it was put on a body that
+// counts losses. The row still stays as it is -- retracting it would empty
+// nothing but would delete the only identity these bytes have, and no better
+// name has been recovered, only the knowledge that this one is wrong.
 //
 // One trap this merge had to step around, the same shape as the Bool typedef in
 // PlayerRankAndScience.cpp but on a local instead of a signature: two of these
