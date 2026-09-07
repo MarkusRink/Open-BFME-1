@@ -10986,6 +10986,8 @@ name,address,notes
 ?Rva0133F478Textures@@3PAPAURva006C9270Texture@@A,0x0133F478,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006C9270 calls; autopin
 ?Rva01340510Device@@3PAXA,0x01340510,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0090ADC0 calls; autopin
 ?Rva01340534Device@@3PAURva006C9270Device@@A,0x01340534,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006C9270 calls; autopin
+?Rva01341120VertexBuffers@@3PAPAVVertexBufferClass@@A,0x01341120,retail release-device vertex-buffer pointer array used by 0x00907B00
+?Rva01341128IndexBuffer@@3PAVIndexBufferClass@@A,0x01341128,retail release-device index-buffer pointer used by 0x00907B00
 ?Rva01340534Device@@3PAURva006D4FF0Device@@A,0x01340534,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006D4FF0 calls; autopin
 ?Rva01340534DeviceB@@3PAURva007D9940Device@@A,0x01340534,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x007D9940 calls; autopin
 ?Rva01340560TextureChanges@@3IA,0x01340560,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006C9270 calls; autopin
