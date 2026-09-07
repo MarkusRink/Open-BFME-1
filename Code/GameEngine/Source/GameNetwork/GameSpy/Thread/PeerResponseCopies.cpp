@@ -13,8 +13,11 @@
 // by the matched PeerResponse deque push/pop bodies.
 //
 // MSVC 7.1's generated assignment visits each union member. Taking its address
-// emits that real member function without adding a synthetic wrapper body.
+// emits the assignment. The separate copy-construction emission anchor below
+// is not a claimed retail function. The matched deque push_back_aux at
+// RVA 0x00648920 names the 426-byte copy ctor through ILT0x0001E74F.
 #include <string>
+#include <new>
 static const int MAX_SLOTS = 8;
 class PeerResponse
 {
@@ -58,3 +61,9 @@ public:
 typedef char PeerResponseSizeCheck[sizeof(PeerResponse) == 0x330 ? 1 : -1];
 
 PeerResponse & (PeerResponse::*forcePeerResponseAssignment)(const PeerResponse &) = &PeerResponse::operator=;
+
+// forcePeerResponseCopy absent-from-retail: emission anchor for the implicit constructor.
+PeerResponse *forcePeerResponseCopy(PeerResponse *where, const PeerResponse &other)
+{
+    return new (where) PeerResponse(other);
+}
