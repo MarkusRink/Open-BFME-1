@@ -48,7 +48,7 @@ family as a HYPOTHESIS to look at, never as a claim. This decides only what is
 worth LOOKING at; the byte gate still decides every member individually.
 
 FILTERS, each of which exists because omitting it cost a run:
-  * only unclaimed Code/gen_asm/ dump rows -- gen_small and gen_uw own theirs;
+  * only unclaimed Code/gen_asm/ dump rows -- Code/gen_small/ owns its own;
   * drop rows whose address carries a REAL (not address-derived) symbols.csv
     pin: those are tgrid territory;
   * drop ghidra=Unwind@ rows: compiler unwind residue, not function bodies;

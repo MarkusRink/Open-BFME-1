@@ -500,8 +500,8 @@ of the ladder (python3 tools/next_work.py).""")
         if new_symbols:
             # symbols.csv is union-merged and must stay on ONE terminator: a pin
             # written with a bare \n into the CRLF file is a new line to the merge
-            # driver, so it duplicates on the next rebase and gen_small refuses to
-            # append to the file at all. Ask the file, do not assume.
+            # driver, so it duplicates on the next rebase and check_csv rejects
+            # the whole file. Ask the file, do not assume.
             eol = ledger_io.uniform_terminator(build.SYMBOLS.read_bytes(), "symbols.csv")
             with build.SYMBOLS.open("ab") as handle:
                 for sym, addr in new_symbols:

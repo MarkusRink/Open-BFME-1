@@ -5,8 +5,9 @@ Usage:  conversion_gate.py OLD NEW
         OLD/NEW are git revisions; NEW may be ":" for the staged index.
 
 Rule A: added lines under Code/ (outside Code/gen_small/) may not contain
-        __declspec(naked) or _emit/__emit. Machine byte-dumps belong to
-        tools/gen_dump.py in Code/gen_small/; a proven codegen blocker
+        __declspec(naked) or _emit/__emit. Code/gen_small/ is exempt only
+        because it is the frozen output of the retired generators, never
+        because a new dump is welcome there; a proven codegen blocker
         (x87, SEH) belongs in Code/masm_dumps/*.asm. Eighteen fleet commits
         titled "convert ... to exact C++" deleted real C++ bodies and added
         __emit thunks — byte-verification passes on those, so this is the
@@ -18,8 +19,8 @@ Rule B: a matched RVA that had at least one clean-C++ source in OLD must
         live clean claim at a dump is never legal.
 
 Rule C: Code/gen_asm/ is machine output and stays that way. C1 every added
-        line there must match the generator's grammar, so a lift of a NAMED
-        function cannot be expressed in the directory at all; C2 every added
+        line there must match the grammar the retired generator emitted, so a
+        lift of a NAMED function cannot be expressed in the directory at all; C2 every added
         ledger row pointing there is anonymous (?d_<rva>@@YAXXZ, notes
         gen-dump), so a dump can never squat an identity byte-verification
         cannot falsify; C3 a wave commit may not touch any other file under

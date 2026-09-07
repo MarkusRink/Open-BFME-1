@@ -11,7 +11,7 @@ agree on -- and searches .text for a placement of what is left.
   compile     build ZH translation units into the sweep object cache
   match       carve and place every COMDAT          -> build/zh_sweep/match.json
   land        append ledger rows for placements that survive filtering
-  land-multi  supersede gen-dump rows with the exact-MULTI placements
+  land-multi  report which gen-dump rows an exact-MULTI placement could supersede
   packets     write conversion work packets for near misses at unclaimed addresses
 
 A placement is evidence of identical CODE, which is not the same as evidence of
@@ -882,7 +882,7 @@ CLASS_RANK = {"zero-reloc": 0, "rel32-all-resolve": 1, "dir32-masked": 2,
 LOCAL_LABEL_RE = re.compile(r"\$[A-Za-z]+\d+")
 IMAGE_BASE = 0x400000
 MULTI_NOTE = "zh-landmulti exact-multi ZH twin"
-ALT_OWNERS = 4          # alternate bodies per address, for land_wave's retry loop
+ALT_OWNERS = 4          # alternate bodies per address, for a lander's retry loop
 
 
 def dump_rows():
@@ -1153,7 +1153,7 @@ def whitelisted_dir32():
 def existing_dir32_bases(wanted):
     """{symbol: {base}} for `wanted` over every matched row already in the ledger.
 
-    verify_dir32_consistency runs only in the FULL gate and land_wave's gate is
+    verify_dir32_consistency runs only in the FULL gate and a per-source gate is
     scoped, so a wave that disagrees with an existing row about where a symbol
     lives lands green and fails the next full build — which is how 18 whitelist
     entries got added to make a red master pass. Asked here instead, before a
@@ -1303,9 +1303,9 @@ def harvest_pins(chosen, by_address, landing):
 
     Pins split in two by how they can be written. A callee reverse/symbols.csv
     already spends at a DIFFERENT address comes back as `extra`: symbols.csv is
-    additive and 512 names in it already hold several addresses, but land_wave
-    refuses to add a second address for a pinned name and would abort the whole
-    wave, so those go in by append instead of through its transaction.
+    additive and 512 names in it already hold several addresses, but a wave
+    transaction refuses to add a second address for a pinned name, so those have
+    to be appended separately.
     """
     needed = {rva: [(entry, landing.unresolved_calls(rva, entry["body"]))
                     for entry in by_address[rva]]
@@ -1337,42 +1337,8 @@ def harvest_pins(chosen, by_address, landing):
     return pins, extra, unprovable
 
 
-def append_extra_pins(extra):
-    """Append pins for names symbols.csv already spends elsewhere, under the lock.
-
-    Not routed through land_wave: its guard exists so a wave cannot silently
-    re-point a pinned callee, and this is the other case — the same callee
-    called from a second site, at an address proven byte-equal on its own. The
-    file's own terminator is asked for rather than assumed, and nothing already
-    in it is rewritten: symbols.csv merges with git's union driver, so respelling
-    a line another clone still holds gives the next rebase both spellings.
-    """
-    import gen_small as G                  # noqa: E402 — only the apply path needs it
-    from portable_lock import lock, unlock
-    existing = {(row["name"], int(row["address"], 16))
-                for row in csv.DictReader(build.SYMBOLS.open(encoding="utf-8", newline=""))}
-    lines = [G.format_pin(sym, target,
-                          "zh-landmulti per-site callee copy (body proven byte-equal)")
-             for sym in sorted(extra) for target in sorted(extra[sym])
-             if (sym, target) not in existing]
-    if not lines:
-        return 0
-    handle = G.LOCK_FILE.open("a")
-    lock(handle, exclusive=True, wait_notice="land-multi: waiting for the ledger lock...")
-    try:
-        terminator = G.line_terminator(build.SYMBOLS.read_bytes(), "symbols.csv")
-        with build.SYMBOLS.open("ab") as symbols:
-            symbols.write(b"".join(line.encode("utf-8") + terminator for line in lines))
-    finally:
-        unlock(handle)
-        handle.close()
-    for line in lines:
-        print(f"  pin {line}")
-    return len(lines)
-
-
 def spent_pins():
-    """{name: address} reverse/symbols.csv already holds, exactly as land_wave reads it."""
+    """{name: address} reverse/symbols.csv already holds."""
     with build.SYMBOLS.open(encoding="utf-8", newline="") as handle:
         return {row["name"]: int(row["address"], 16) for row in csv.DictReader(handle)}
 
@@ -1389,7 +1355,7 @@ def report_drops(label, dropped, chosen, show=6):
 
 
 def wave_rows(chosen, alternates):
-    """The land_wave CSV: one dup_ row per address, alternates for its retry loop."""
+    """The wave CSV: one dup_ row per address, alternates for a retry loop."""
     header = ["name", "rva", "size", "source", "notes"]
     for index in range(1, ALT_OWNERS + 1):
         header += [f"alt{index}_source", f"alt{index}_notes"]
@@ -1405,7 +1371,7 @@ def wave_rows(chosen, alternates):
 
 
 def interchangeable(rva, chosen, others, landing, whitelist):
-    """The twins land_wave may retry this address on without changing its proof.
+    """The twins a lander may retry this address on without changing its proof.
 
     An alternate owner is only a different translation unit to compile the same
     bytes from — but two twins can carry different DIR32 addends or call
@@ -1489,26 +1455,9 @@ def do_land_multi(args):
           f"{sum(e['size'] for e in chosen.values()):,} bytes over "
           f"{len({e['body']['source'] for e in chosen.values()})} source(s); "
           f"{len(pinned)} pin(s) -> {pin_csv.relative_to(ROOT)}")
-    if not args.apply:
-        print("land-multi: --apply not given; nothing was landed")
-        return
-    import land_wave                       # noqa: E402 — pulls in gen_small; only --apply needs it
-    # Only what the rows STILL in the wave need: trim cuts the wave down, and a
-    # pin for a row that was cut is a claim about the ledger nothing in it uses.
-    wanted = {site for rva, entry in chosen.items()
-              for site in landing.unresolved_calls(rva, entry["body"])}
-    needed = defaultdict(set)
-    for sym, targets in extra.items():
-        for target in targets:
-            if (sym, target) in wanted:
-                needed[sym].add(target)
-    appended = append_extra_pins(needed)
-    print(f"land-multi: appended {appended} pin(s) to reverse/symbols.csv for callees it "
-          "already spends at another address")
-    argv = [str(wave), "--max-attempts", str(args.max_attempts)]
-    if pinned:
-        argv += ["--pins", str(pin_csv)]
-    raise SystemExit(land_wave.main(argv))
+    print("land-multi: the wave and its pins are a REPORT — tools/land_wave.py, the\n"
+          "      lander that consumed them, was retired with the generators. Landing a\n"
+          "      row now means proving it through ./build.sh by hand.")
 
 
 def pin_rows(pins, chosen, landing):
@@ -1526,7 +1475,7 @@ def pin_rows(pins, chosen, landing):
 def trim(chosen, args):
     """Cut the wave down to what one gate round should carry.
 
-    Sources are the unit that costs: land_wave compiles each one, and a wave
+    Sources are the unit that costs: a lander compiles each one, and a wave
     spanning two hundred Zero Hour translation units is a gate nobody can wait
     out. Sources are taken whole and in address order so a re-run with the same
     limits builds the same wave.
@@ -1579,12 +1528,8 @@ def main():
                               help="cap translation units in the wave (each one is a compile)")
     multi_parser.add_argument("--max-per-source", type=int, default=0,
                               help="cap rows taken from any one translation unit")
-    multi_parser.add_argument("--max-attempts", type=int, default=8,
-                              help="land_wave gate rounds (default 8)")
     multi_parser.add_argument("--rederive", action="store_true",
                               help="ignore the cached placement search")
-    multi_parser.add_argument("--apply", action="store_true",
-                              help="land the wave through tools/land_wave.py")
     multi_parser.set_defaults(run=do_land_multi)
     sub.add_parser("packets", help="work packets for unclaimed near misses").set_defaults(
         run=do_packets)

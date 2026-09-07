@@ -270,10 +270,10 @@ def check_symbols(raw, problems):
     # merge=union, so a pin differing from its twin by a single \r is a distinct
     # line to the merge driver and lands twice; a duplicate pin is legal, so
     # nothing downstream notices, while the same mixing in functions.csv trips
-    # the duplicate-name rule above. gen_small.line_terminator refuses to append
-    # to a mixed file — that stops a whole wave, in a session that did not cause
-    # it. 66 LF pins reached master this way and blocked landing until they were
-    # repaired by hand.
+    # the duplicate-name rule above. ledger_io.uniform_terminator refuses to
+    # append to a mixed file — that stops every writer, in a session that did not
+    # cause it. 66 LF pins reached master this way and blocked landing until they
+    # were repaired by hand.
     census = ledger_io.terminator_census(raw)
     if len(census) > 1:
         spelling = {b"\n": "LF", b"\r\n": "CRLF", b"\r\r\n": "CRCRLF"}

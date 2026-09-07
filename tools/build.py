@@ -1329,15 +1329,16 @@ RELOC_NAMES = ROOT / "reverse" / "reloc_names.csv"
 # same function carries a different token in every clone. Naming a retail
 # address after one would churn this file on each contributor's gate.
 CLONE_LOCAL_RE = re.compile(r"\?A0x[0-9A-Fa-f]{8}")
-# tools/gen_dump.py mints Gen_t_/Gen_dtor_ classes for the machine-generated
-# funclet TUs, and tools/gen_uw.py mints the whole Gen_uw* family (Gen_uw_,
-# Gen_uwm_, Gen_uwh<pad>_, Gen_uws<size>_, Gen_uwt_, Gen_uwp_, Gen_uw_new).
-# Those names are this project's own bookkeeping, not identity recovered from
-# retail, and they outnumber the recovered names roughly two to one. Published
-# marked so the queue can tell a real class and signature from a placeholder
-# that only looks like one. Every generator that mints a name has to be listed
-# here: the Gen_uw* family was invisible to this pattern for one phase and 15 of
-# its pins were published as recovered identity.
+# The retired generators minted these: gen_dump.py the Gen_t_/Gen_dtor_ classes
+# in the machine-generated funclet TUs, gen_uw.py the whole Gen_uw* family
+# (Gen_uw_, Gen_uwm_, Gen_uwh<pad>_, Gen_uws<size>_, Gen_uwt_, Gen_uwp_,
+# Gen_uw_new). The tools are gone but their names are still all over the ledger,
+# so this pattern stays: those names are this project's own bookkeeping, not
+# identity recovered from retail, and they outnumber the recovered names roughly
+# two to one. Published marked so the queue can tell a real class and signature
+# from a placeholder that only looks like one. The Gen_uw* family was invisible
+# to this pattern for one phase and 15 of its pins were published as recovered
+# identity.
 GEN_PLACEHOLDER_RE = re.compile(
     r"Gen_(?:t|dtorv?)_[0-9a-f]{8}|Gen_uw[a-z]*\d*_"
     # The conversion lanes also mint ADDRESS-DERIVED names whose whole point

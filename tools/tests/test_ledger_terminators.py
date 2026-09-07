@@ -192,14 +192,9 @@ def test_uniform_terminator_returns_the_one_the_file_uses():
     assert ledger_io.uniform_terminator(symbols(PIN_A, eol="\n"), "symbols.csv") == b"\n"
 
 
-def test_gen_small_still_asks_the_same_question():
-    """land_wave and gen_small both call it; there must be exactly one answer."""
-    assert _load("gen_small").line_terminator is ledger_io.uniform_terminator
-
-
 # Anything that opens symbols.csv for writing, however it spells it. locate
-# --emit wrote "\n" per pin and gen_uw passed b"" as the terminator its own
-# rejoin appends -- both put LF pins into the CRLF file, in bulk.
+# --emit wrote "\n" per pin and the retired gen_uw generator passed b"" as the
+# terminator its own rejoin appends -- both put LF pins into the CRLF file, in bulk.
 WRITE = ("SYMBOLS.open(\"a", "rewrite_lines(SYMBOLS", "symbols.csv\").write",
          "dedup_symbols")
 
@@ -212,18 +207,14 @@ def symbols_writers():
 def test_the_set_of_symbols_writers_is_the_one_this_file_reasons_about():
     """A new writer must not appear without deciding this question.
 
-    zh_sweep is the sixth, and it appends for the one case land_wave refuses:
-    a callee already pinned at another address, called again from a site whose
-    own target is proven byte-equal. It answers this file's question the same
-    way — gen_small.line_terminator, which is ledger_io.uniform_terminator.
+    Four of the six this file used to name -- gen_small, gen_uw, land_wave and
+    zh_sweep's per-site pin append -- went with the generator retirement. Two
+    are left, and both answer the question through ledger_io.uniform_terminator.
     """
-    assert symbols_writers() == ["dedup_csv.py", "gen_small.py", "gen_uw.py",
-                                 "land_wave.py", "locate.py",
-                                 "zh_sweep.py"], symbols_writers()
+    assert symbols_writers() == ["dedup_csv.py", "locate.py"], symbols_writers()
 
 
-@pytest.mark.parametrize("tool", ["dedup_csv.py", "gen_small.py", "gen_uw.py",
-                                  "land_wave.py", "locate.py", "zh_sweep.py"])
+@pytest.mark.parametrize("tool", ["dedup_csv.py", "locate.py"])
 def test_a_symbols_writer_takes_the_terminator_from_the_file(tool):
     text = (TOOLS / tool).read_text(encoding="utf-8")
     assert "uniform_terminator" in text or "line_terminator" in text or \

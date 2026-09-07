@@ -413,7 +413,7 @@ def main():
                         help="max items/groups with --ranked (default 30)")
     parser.add_argument("--max-bytes", type=int, default=512,
                         help="serve naked bodies up to this size (measured land "
-                             "rates peak at 128-255B and gen_dump waves run to "
+                             "rates peak at 128-255B and the dump waves ran to "
                              "511B; the old 160 default hid most of the fuel)")
     parser.add_argument("--shard", type=parse_shard, metavar="INDEX/COUNT",
                         help="stable zero-based partition for concurrent workers")
@@ -568,7 +568,7 @@ def main():
                   f"got this far; start from it")
         if selected["tracked"]:
             print(f"  verify: ./build.sh '{selected['symbol']}'")
-        # The queue now serves gen_dump waves, whose bodies byte-verify by
+        # The queue serves machine-written dump bodies, which byte-verify by
         # construction. Without this, a green build.sh reads as a landed
         # conversion: 56 __emit lifts were reverted across 10 commits, and one
         # A/B session reported five conversions having converted nothing.

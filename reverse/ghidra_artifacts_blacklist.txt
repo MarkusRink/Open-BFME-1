@@ -1,8 +1,9 @@
 # Ghidra boundary artifacts among the <= 16 byte functions: RVAs whose
 # retail bytes do not read as a complete function, so no source could ever
-# reproduce them. tools/gen_small.py never claims one.
+# reproduce them. The retired tools/gen_small.py generator never claimed one.
 #
-# Regenerate (deterministic, from the retail image): python3 tools/gen_small.py classify
+# A record, not an input: nothing reads this file, and the tool that derived it
+# from the retail image is gone, so it cannot be regenerated.
 # Format: 0x<rva> <reason>
 0x0000113B mid-instruction-target: jmp rel32 to 0x007849C0, which is inside a known function and is not one's start
 0x00001145 mid-instruction-target: jmp rel32 to 0x005819D0, which is inside a known function and is not one's start

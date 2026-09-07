@@ -86,6 +86,10 @@ the row today:
 Usage
   python3 tools/lib_window_sweep.py --report
   python3 tools/lib_window_sweep.py --emit wave.csv --legal dump-exact,pure-unclaimed
+
+--emit writes a worklist, not a landing: tools/land_wave.py, which used to
+consume it, was retired with the generators, so each row is proved and
+appended by hand now.
 """
 import argparse
 import bisect
@@ -1165,7 +1169,9 @@ def main(argv=None):
     parser.add_argument("--report", action="store_true", help="print the score table")
     parser.add_argument("--ledger-ref", help="read functions.csv from this git ref instead of "
                         "the worktree, to re-derive a wave that has already landed")
-    parser.add_argument("--emit", help="write a land_wave CSV here")
+    parser.add_argument("--emit",
+                        help="write the wave CSV here (a worklist only: the lander "
+                             "that consumed it was retired with the generators)")
     parser.add_argument("--detail", help="write the full per-placement CSV here")
     parser.add_argument("--legal", default="dump-exact,dump-padded,pure-unclaimed",
                         help="comma-separated legality classes to emit")

@@ -142,11 +142,22 @@ not progress. Recovering a real identity means writing clean C++ at its proper
 rejects a gen-* row sharing a range with a real-name row; the placeholder
 yields.
 
+**The generators are retired.** `tools/gen_small.py`, `tools/gen_uw.py` and
+`tools/gen_dump.py`, and the wave tooling that only fed them
+(`tools/land_wave.py`, `tools/obj_sweep.py`, `tools/wave_accounting.py`), are
+deleted — one `git log` away if the history is wanted. Generator-written C++ is
+byte-true and unreadable, so the stock of it may only SHRINK from here: no more
+is minted, and every row under those roots is waiting to be replaced by real
+C++. Nothing regenerates these files any more.
+
 **Never edit a file under `Code/gen_asm/`**: repoint the row and leave the
-orphaned `PROC`, which keeps converters conflict-free there.
-`Code/gen_small/uw_gen_*.cpp` is owned end to end by `tools/gen_uw.py land` —
-never hand-edit it, and never infer a funclet's `parent=` from adjacency; a
-guessed parent is invented identity.
+orphaned `PROC`, which keeps converters conflict-free there. The same restraint
+now covers `Code/gen_small/` — including `uw_gen_*.cpp`, which `tools/gen_uw.py
+land` used to own end to end — but for a different reason: **there is no
+generator left to regenerate it, so a hand edit is permanent and nothing will
+ever cross-check it.** Repoint the row and leave the body alone; recover the
+identity in real C++ at its proper `Code/` path instead. Never infer a funclet's
+`parent=` from adjacency either — a guessed parent is invented identity.
 
 After landing a batch, sweep your own rows: one body per address. A duplicate
 range among them is an over-claim, not an ICF alias.
