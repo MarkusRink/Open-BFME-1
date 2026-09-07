@@ -84789,6 +84789,7 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?TheBfmeLogicXG@@3PAVBfmeLogicXG@@A,0x00EF0898
 ?bfmeCall1VW@@YAXPAX000@Z,0x00835660,pin
 ?bfmeCall2VW@@YAPAXPAX0000000@Z,0x00835230,pin
+??0?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@@Z,0x00048667,"the ILT the static-initialiser call sites encode; its body 0x0039D5B0 zeroes the three vector words and rets 4, while 0x00008DCD reaches a list constructor that allocates a 12-byte sentinel"
 ??0Display@@QAE@XZ,0x000110FE,ILT to Display ctor body 0x005CBF60
 ??_7Rva00886F60Class@@6B@,0x00D32FFC,pin
 ?Compute_Texture_Coordinate@MatrixMapperClass@@QAEXABVVector3@@PAV2@@Z,0x00924C30,pinharvest x1 (body)
