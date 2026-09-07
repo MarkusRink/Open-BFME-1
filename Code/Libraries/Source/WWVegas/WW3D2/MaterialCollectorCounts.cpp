@@ -30,3 +30,9 @@ int MaterialCollectorClass::Get_Vertex_Material_Count(void)
 {
     return VertexMaterials.ActiveCount;
 }
+
+// 0x0092F520, full 4-byte body; active count at this+0x40.
+int MaterialCollectorClass::Get_Texture_Count(void)
+{
+    return Textures.ActiveCount;
+}
