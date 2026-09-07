@@ -85449,3 +85449,4 @@ _bfmeXferTwoBG,0x00034815
 ?bfmeSetBP@BfmeBBP@@QAEXH@Z,0x0000C87E
 ?bfmeListBP@BfmeBBP@@QAEPAPAVBfmeItemBP@@XZ,0x00021472
 ?getMapLeafAndDirName@@YA?AVAsciiString@@ABV1@@Z,0x0010E4F0,donor static helper direct-called by GameState portable/real map path bodies; exact 115B helper and caller ABI; campaign=luna36h-20260907;lane=xfer
+?bfmeFindBR@Rva002EE330PlayerList@@QAEPAVBfmePlayerBR@@H@Z,0x00044F30
