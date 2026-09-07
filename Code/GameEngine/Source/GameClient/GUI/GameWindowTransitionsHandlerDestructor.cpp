@@ -2,7 +2,9 @@
 // Open-BFME: GameWindowTransitionsHandler destructor at retail 0x0048B410.
 // The named GameWindowManager::init/delete path, constructor vptr 0x010F9610,
 // and the four handler fields establish the owner.  These declarations keep
-// the BFME map/list layout local to this destructor TU.
+// the BFME map/list layout local to this destructor TU.  Retail's call below
+// is KERNEL32.dll!DeleteCriticalSection at IAT VA 0x01358D0C; bfmeInitDXB is
+// retained only as the ABI alias that already reproduces that import.
 
 // stlport
 #define _STLP_USE_STATIC_LIB 1
