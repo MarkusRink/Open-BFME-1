@@ -1,16 +1,22 @@
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/stringinline
 // readable body of ?doTeamUseCommandButtonAbility@ScriptActions@@IAEXABVAsciiString@@0@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
 //
-// The two readable command-button actions:
+// The three readable command-button actions:
 //
 //   0x002F4A20  doTeamUseCommandButtonAbility  arm 245, TEAM_USE_COMMANDBUTTON_ABILITY
 //   0x002F54C0  doTeamUseCommandButtonOnNamed  the same, aimed at a named unit
+//   0x002F6D70  doNamedSetAutoAbility          NAME_SET_AUTO_ABILITY
 //
-// Both resolve the team at slot 17, ask ControlBar for the button by name, and
-// hand it to the team's AIGroup. The on-named form does more first: it works out
-// which member of the group is the source -- by special-power id when the button
-// has a template, by command type otherwise -- and asks the button whether it is
-// valid to use on the target before issuing the order.
+// The first two resolve the team at slot 17, ask ControlBar for the button by
+// name, and hand it to the team's AIGroup. The on-named form does more first: it
+// works out which member of the group is the source -- by special-power id when
+// the button has a template, by command type otherwise -- and asks the button
+// whether it is valid to use on the target before issuing the order.
+//
+// doNamedSetAutoAbility takes the third route to the same ControlBar: it finds
+// the unit's AutoAbilityBehavior module by name key, then walks the unit's own
+// command set looking for the button before toggling it, which is why it is the
+// only one here that needs findCommandSet.
 
 #include "StringInline.h"
 
@@ -33,6 +39,36 @@ enum CommandSourceType
 enum GUICommandType
 {
 	GUI_COMMAND_NONE = 0
+};
+
+enum NameKeyType
+{
+	NAMEKEY_INVALID = 0
+};
+
+class BfmeStringArgBase
+{
+	friend class BfmeAsciiStringArg;
+
+private:
+	BfmeStringArgBase(const BfmeStringArgBase &other);
+};
+
+// Slot 27 takes the unit name by value through this wrapper, where slot 26
+// takes it by reference.
+class BfmeAsciiStringArg
+{
+public:
+	BfmeAsciiStringArg(const AsciiString &that)
+	{
+		((BfmeStringArgBase *)this)->BfmeStringArgBase::BfmeStringArgBase(
+			*(const BfmeStringArgBase *)&that);
+	}
+
+	~BfmeAsciiStringArg();
+
+private:
+	char *m_text;
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Overridable.h
@@ -93,6 +129,46 @@ private:
 	const SpecialPowerTemplate *m_specialPower;
 };
 
+class Module
+{
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Object.h
+class Object
+{
+public:
+	Module *findModule(NameKeyType key) const;
+	const AsciiString &getCommandSetString() const;
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/ControlBar.h
+class CommandSet
+{
+public:
+	const CommandButton *getCommandButton(Int index) const;
+};
+
+class AutoAbilityBehavior
+{
+};
+
+class BfmeArgVSJ
+{
+};
+
+class BfmeOwnVSJ
+{
+public:
+	void bfmeApplyVSJ(BfmeArgVSJ *commandButton, char enabled);
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/NameKeyGenerator.h
+class NameKeyGenerator
+{
+public:
+	NameKeyType nameToKey(const char *name);
+};
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ScriptEngine.h
 class ScriptEngine
 {
@@ -124,7 +200,12 @@ public:
 	virtual void slot24() = 0;
 	virtual void slot25() = 0;
 	virtual Object *getUnitNamed(const AsciiString &) = 0;
+	virtual Object *getUnitNamedByValue(BfmeAsciiStringArg name) = 0;
 };
+
+// The name doNamedSetAutoAbility's file gave this same vtable when all it
+// needed was slot 27.
+typedef ScriptEngine ScriptEngineByValue;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
 class AI
@@ -155,11 +236,13 @@ class ControlBar
 {
 public:
 	const CommandButton *findCommandButton(const AsciiString &);
+	const CommandSet *findCommandSet(const AsciiString &name);
 };
 
 extern AI *TheAI;
 extern ControlBar *TheControlBar;
 extern ScriptEngine *TheScriptEngine;
+extern NameKeyGenerator *TheNameKeyGenerator;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ScriptActions.h
 class ScriptActions
@@ -169,6 +252,8 @@ protected:
 		const AsciiString &ability);
 	void doTeamUseCommandButtonOnNamed(
 		const AsciiString &, const AsciiString &, const AsciiString &);
+	void doNamedSetAutoAbility(const AsciiString &unitName,
+		const AsciiString &commandButtonName, Bool enabled);
 };
 
 void ScriptActions::doTeamUseCommandButtonAbility(const AsciiString &team,
@@ -226,5 +311,41 @@ void ScriptActions::doTeamUseCommandButtonOnNamed(
 
 	if (commandButton->isValidToUseOn(srcObj, obj, 0, CMD_FROM_SCRIPT)) {
 		theGroup->groupDoCommandButtonAtObject(commandButton, obj, CMD_FROM_SCRIPT);
+	}
+}
+
+// ?doNamedSetAutoAbility@ScriptActions@@IAEXABVAsciiString@@0_N@Z
+void ScriptActions::doNamedSetAutoAbility(
+	const AsciiString &unitName, const AsciiString &commandButtonName, Bool enabled )
+{
+	Object *object = TheScriptEngine->getUnitNamedByValue( unitName );
+	if ( object )
+	{
+		static NameKeyType autoAbilityBehaviorKey =
+			TheNameKeyGenerator->nameToKey( "AutoAbilityBehavior" );
+		AutoAbilityBehavior *behavior = (AutoAbilityBehavior *)
+			object->findModule( autoAbilityBehaviorKey );
+		if ( behavior )
+		{
+			const CommandButton *commandButton =
+				TheControlBar->findCommandButton( commandButtonName );
+			if ( commandButton &&
+				*(const unsigned char *)((const char *)commandButton + 0x158) )
+			{
+				const CommandSet *commandSet =
+					TheControlBar->findCommandSet( object->getCommandSetString() );
+				if ( commandSet )
+				{
+					for ( Int i = 0; i < 20; ++i )
+					{
+						if ( commandButton == commandSet->getCommandButton( i ) )
+						{
+							((BfmeOwnVSJ *)behavior)->bfmeApplyVSJ(
+								(BfmeArgVSJ *)commandButton, enabled );
+						}
+					}
+				}
+			}
+		}
 	}
 }
