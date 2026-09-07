@@ -64,9 +64,22 @@
 // name is what makes the call mangle to the body the ledger already claims.
 template <class T> class StringBase
 {
+	friend class AsciiString;
+
 public:
 	void concat( const T *s, int len );
+
+private:
+	StringBase(const StringBase<T> &src);
+	void *m_data;
 };
+
+// Force the forwarder inline because retail's nested _Construct also calls the base directly.
+__forceinline AsciiString::AsciiString(const AsciiString &stringSrc)
+{
+	((StringBase<char> *)this)->StringBase<char>::StringBase(
+		*(const StringBase<char> *)&stringSrc);
+}
 
 static inline void bfmeConcat( AsciiString &s, const AsciiString &t )
 {
