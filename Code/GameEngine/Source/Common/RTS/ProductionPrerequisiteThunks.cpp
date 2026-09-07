@@ -19,8 +19,8 @@
 // ProductionPrerequisiteDestroyShim::destroy defined in the same translation
 // unit, MSVC inlines them into the forwarding templates instead of tail
 // jumping, and the two five-byte rows come back as real bodies -- `8b 4c 24 04`
-// where retail has `e9`. The shims stay in their own translation units and are
-// only DECLARED here.
+// where retail has `e9`. The shims live in ProductionPrerequisiteShims.cpp and
+// are only DECLARED here.
 //
 // That is the getTemplate rule from ScoreKeeperCounters seen from the other
 // side. There, a body big enough to spill an inline accessor forced the
