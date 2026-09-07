@@ -160,7 +160,7 @@ Int LANGameInfo::getLocalSlotNum( void ) const
 	return -1;
 }
 
-// byte-exact reconstruction: Code/GameEngine/Source/Common/LANGameInfo_getSlotNum_Thunk.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/LANGameInfoSlotLookup.cpp
 // ?getSlotNum@LANGameInfo@@QAEHVUnicodeString@@@Z present-unmatched
 Int LANGameInfo::getSlotNum( UnicodeString userName )
 {
