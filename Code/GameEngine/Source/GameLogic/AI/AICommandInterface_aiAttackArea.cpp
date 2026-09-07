@@ -21,7 +21,17 @@ typedef unsigned int UnsignedInt;
 typedef float Real;
 typedef bool Bool;
 
-struct Coord3D { Real x, y, z; };
+struct Coord3D
+{
+	Real x, y, z;
+
+	void zero()
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+};
 
 class Object;
 class Team;
@@ -33,10 +43,104 @@ class Path;
 enum AICommandType { AICMD_ATTACK_AREA = 0x23 };
 enum CommandSourceType { CMD_FROM_PLAYER = 0 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Damage.h
-struct DamageInfo
+enum DamageType
 {
-	char m_bfme_body[0x5C];					// sizeof(DamageInfo)
+	DAMAGE_EXPLOSION = 0,
+	DAMAGE_PARTICLE_BEAM = 0x16,
+	DAMAGE_UNRESISTABLE = 0x0B
+};
+
+enum DeathType { DEATH_NORMAL = 0, DEATH_BFME_DEFAULT = 0x0F };
+typedef Int ObjectID;
+const ObjectID INVALID_ID = 0;
+
+class Snapshot
+{
+protected:
+	virtual void crc() {}
+	virtual void xfer() {}
+	virtual void loadPostProcess() {}
+};
+
+struct DamageInfoInputTail
+{
+	Int m_z0;
+	Int m_z1;
+	Int m_z2;
+	Int m_z3;
+	Int m_z4;
+	Int m_z5;
+	Real m_shockWaveTaperOff;
+
+	void initialize()
+	{
+		m_z0 = 0;
+		m_z1 = 0;
+		m_z2 = 0;
+		m_z3 = 0;
+		m_z4 = 0;
+		m_z5 = 0;
+		m_shockWaveTaperOff = 1.0f;
+	}
+};
+
+class DamageInfoInput : public Snapshot
+{
+public:
+	__forceinline DamageInfoInput()
+	{
+		m_sourceID = INVALID_ID;
+		m_unk08 = 0;
+		m_amount = 0;
+		m_fxOverride = 0;
+		m_kill = false;
+		m_shock0 = 0;
+		m_shock1 = 0;
+		m_shock2 = 0;
+		m_damageType = DAMAGE_PARTICLE_BEAM;
+		m_deathType = DEATH_BFME_DEFAULT;
+		m_unk59 = true;
+		m_tail.initialize();
+	}
+
+	ObjectID m_sourceID;
+	unsigned short m_unk08;
+	unsigned short m_pad0A;
+	DamageType m_damageType;
+	DeathType m_deathType;
+	Real m_amount;
+	Int m_fxOverride;
+	Bool m_kill;
+	Bool m_unk59;
+	unsigned short m_pad1E;
+	Int m_shock0;
+	Int m_shock1;
+	Int m_shock2;
+	DamageInfoInputTail m_tail;
+};
+
+class DamageInfoOutput : public Snapshot
+{
+public:
+	__forceinline DamageInfoOutput()
+	{
+		m_actualDamageDealt = 0;
+		m_actualDamageClipped = 0;
+		m_noEffect = false;
+	}
+
+	Real m_actualDamageDealt;
+	Real m_actualDamageClipped;
+	Bool m_noEffect;
+};
+
+class DamageInfo : public Snapshot
+{
+public:
+	__forceinline DamageInfo() {}
+
+	DamageInfoInput in;
+	DamageInfoOutput out;
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
@@ -58,6 +162,23 @@ struct AICommandParms
 
 	AICommandParms(AICommandType cmd, CommandSourceType cmdSource);	// ILT 0x00030EA4
 };
+
+// ??0AICommandParms@@QAE@W4AICommandType@@W4CommandSourceType@@@Z
+AICommandParms::AICommandParms(AICommandType cmd, CommandSourceType cmdSource)
+	: m_cmd(cmd),
+	  m_cmdSource(cmdSource),
+	  m_obj(0),
+	  m_otherObj(0),
+	  m_team(0),
+	  m_waypoint(0),
+	  m_polygon(0),
+	  m_intValue(0),
+	  m_commandButton(0),
+	  m_path(0)
+{
+	m_pos.zero();
+	m_coords.clear();
+}
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
 class AICommandInterface
