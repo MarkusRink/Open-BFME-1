@@ -85265,3 +85265,5 @@ _bfmeScanYA,0x009F6FA6
 ?bfmeBusyYG@BfmeThingYG@@QAEDXZ,0x0000A001
 ?d_00732960@@YAXXZ,0x00732960,"the extern void d_<rva>(void) idiom names its own target, and the call site casts it through a member-function-pointer union, so no other row supplies this REL32; the address is the declaration"
 ?d_00749830@@YAXXZ,0x00749830,"the extern void d_<rva>(void) idiom names its own target, and the call site casts it through a member-function-pointer union, so no other row supplies this REL32; the address is the declaration"
+?bfmeBaseYH@BfmeOwnerYH@@QAEXPAX@Z,0x00029311
+?bfmeNotifyYH@BfmeItemYH@@QAEXXZ,0x0002191D
