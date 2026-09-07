@@ -85526,3 +85526,5 @@ _bfmeCopyDB,0x000365CA
 ?get@Rva007EA690FieldAddress@@QAEPADXZ,0x007EA690,address-derived FESL owner field at +0x50
 ?get@Rva007EA6A0FieldAddress@@QAEPADXZ,0x007EA6A0,address-derived FESL owner field at +0x70
 g_Rva012C3A18,0x00EC3A18,FESL client hello global pointer loaded by 0x007F4440
+?releaseBufferDE@BFMERetailAsciiString@@QAEXXZ,0x00887940
+?bfmeFindDE@MappedImageCollection@@QAEPAVBfmeImageDE@@ABVBFMERetailAsciiString@@@Z,0x0001D606
