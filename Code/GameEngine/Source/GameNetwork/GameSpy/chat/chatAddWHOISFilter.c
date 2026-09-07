@@ -21,6 +21,9 @@ typedef void (*chatAuthenticateCDKeyCallback)(CHAT chat, int result,
 typedef void (*chatGetChannelKeysCallback)(CHAT chat, int success,
 	const char *channel, const char *user, int num,
 	const char **keys, const char **values, void *param);
+typedef void (*chatGetGlobalKeysCallback)(CHAT chat, int success,
+	const char *user, int num, const char **keys, const char **values,
+	void *param);
 
 typedef struct WHOISData
 {
@@ -65,6 +68,13 @@ typedef struct chatChannelCallbacks
 	void *broadcastKeyChanged;
 	void *param;
 } chatChannelCallbacks;
+
+typedef struct GETKEYData
+{
+	int num;
+	char **keys;
+	char *channel;
+} GETKEYData;
 
 typedef struct GETCKEYData
 {
@@ -215,6 +225,52 @@ int ciAddNICKFilter(CHAT chat, const char *oldNick, const char *newNick,
 	chatChangeNickCallback callback, void *param)
 {
 	return ciAddFilter(chat, 9, oldNick, newNick, (void *)callback, 0, param, 0);
+}
+
+int ciAddGETKEYFilter(CHAT chat, const char *cookie, int num,
+	const char **keys, const char *channel,
+	chatGetGlobalKeysCallback callback, void *param)
+{
+	int i;
+	GETKEYData *data = (GETKEYData *)malloc(sizeof(GETKEYData));
+	if (data == 0)
+		return 0;
+
+	memset(data, 0, sizeof(GETKEYData));
+	data->num = num;
+	if (channel)
+	{
+		data->channel = goastrdup(channel);
+		if (data->channel == 0)
+		{
+			free(data);
+			return 0;
+		}
+	}
+
+	data->keys = (char **)malloc(sizeof(char *) * num);
+	if (data->keys == 0)
+	{
+		free(data->channel);
+		free(data);
+		return 0;
+	}
+
+	for (i = 0; i < num; i++)
+	{
+		data->keys[i] = goastrdup(keys[i]);
+		if (data->keys[i] == 0)
+		{
+			for (i--; i >= 0; i--)
+				free(data->keys[i]);
+			free(data->keys);
+			free(data->channel);
+			free(data);
+			return 0;
+		}
+	}
+
+	return ciAddFilter(chat, 12, cookie, 0, (void *)callback, 0, param, data);
 }
 
 int ciAddUNQUIETFilter(CHAT chat, const char *channel)
