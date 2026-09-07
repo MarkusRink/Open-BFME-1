@@ -43366,6 +43366,9 @@ name,address,notes
 ?b_003bab40@@YAXXZ,0x003BAB40,gen-thunk body
 ?b_003babe0@@YAXXZ,0x003BABE0,gen-thunk body
 ?b_003bacb0@@YAXXZ,0x003BACB0,gen-thunk body
+??0RegionObjectTree@@QAE@XZ,0x003BACB0,LivingWorldRegion constructor tree member uses the matched STLport tree default constructor body
+??0Gen_000231DC@@QAE@XZ,0x000231DC,LivingWorldRegion constructor allocates the matched Gen_003C55F0 effect object through its retail ILT
+??1RegionObjectTree@@QAE@XZ,0x003BA740,LivingWorldRegion constructor tree member uses the matched STLport tree owner destructor for exception cleanup
 ?b_003bad00@@YAXXZ,0x003BAD00,gen-thunk body
 ?b_003bad30@@YAXXZ,0x003BAD30,gen-thunk body
 ?b_003bad70@@YAXXZ,0x003BAD70,gen-thunk body
