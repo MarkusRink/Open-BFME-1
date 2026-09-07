@@ -85754,3 +85754,6 @@ __imp__bfmeDecESG@4,0x00F58E54,pin
 ?bfmeGetESI@BfmeDictESI@@QAEPAXPBDPAX@Z,0x007E8900,pin
 ?bfmeLogGetESI@@YAPAVBfmeLogESI@@XZ,0x007EB810,pin
 ?bfmeSetESI@BfmeStateESI@@QAEXH@Z,0x008014F0,pin
+?bfmeFindByIdESK@BfmeLogicESK@@QAEPAVBfmeObjESK@@H@Z,0x0001F253,pin
+?g_bfmeLogicESK@@3PAVBfmeLogicESK@@A,0x00EF0898,pin
+?bfmeCheckESK@BfmeHostESK@@QAEDPAVBfmeMsgESK@@PAVBfmeThingESK@@@Z,0x0001D813,pin
