@@ -1,6 +1,19 @@
 // cl: /DNDEBUG /MD /EHsc
+// The two script-reference setters:
+//
+//   0x002F5A10  doSetUnitReference  SET_UNIT_REFERENCE
+//   0x002F5B00  doSetTeamReference  SET_TEAM_REFERENCE
+//
+// Same two-armed shape: when the flag says the parameter names another
+// reference, copy that reference under the new name and stop; otherwise resolve
+// the parameter to a thing and assign it. Only the kind of thing differs, and
+// the unit form has one extra step -- it binds the object back to the name so
+// the object knows what it is called.
 
 typedef bool Bool;
+
+class Object;
+class Team;
 
 template <class T> class StringBase
 {
@@ -25,8 +38,6 @@ public:
 private:
 	char *m_text;
 };
-
-class Object;
 
 class ScriptActionParameter
 {
@@ -58,7 +69,7 @@ public:
 	virtual void slot14() = 0;
 	virtual void slot15() = 0;
 	virtual void slot16() = 0;
-	virtual void slot17() = 0;
+	virtual Team *getTeamNamed(AsciiString, Bool) = 0;
 	virtual void slot18() = 0;
 	virtual void slot19() = 0;
 	virtual void slot20() = 0;
@@ -72,8 +83,12 @@ public:
 	virtual void slot28() = 0;
 	virtual void bindUnitReference(Object *, const AsciiString &) = 0;
 
+	// Not slots: the four reference-table entries the two actions share
+	// between them.
 	void assignUnitReference(const AsciiString &, Object *);
 	void copyUnitReference(const AsciiString &, AsciiString);
+	void assignTeamReference(const AsciiString &, Team *);
+	void copyTeamReference(const AsciiString &, AsciiString);
 };
 
 extern ScriptEngine *TheScriptEngine;
@@ -83,6 +98,8 @@ class ScriptActions
 {
 protected:
 	void doSetUnitReference(
+		const AsciiString &, ScriptActionParameter *, Bool);
+	void doSetTeamReference(
 		const AsciiString &, ScriptActionParameter *, Bool);
 };
 
@@ -98,4 +115,17 @@ void ScriptActions::doSetUnitReference(const AsciiString &referenceName,
 	Object *object = TheScriptEngine->resolveUnit(parameter);
 	TheScriptEngine->assignUnitReference(referenceName, object);
 	TheScriptEngine->bindUnitReference(object, referenceName);
+}
+
+// ?doSetTeamReference@ScriptActions@@IAEXABVAsciiString@@PAVScriptActionParameter@@_N@Z
+void ScriptActions::doSetTeamReference(const AsciiString &referenceName,
+	ScriptActionParameter *parameter, Bool referenceToReference)
+{
+	if (referenceToReference) {
+		TheScriptEngine->copyTeamReference(referenceName, parameter->m_string);
+		return;
+	}
+
+	Team *team = TheScriptEngine->getTeamNamed(parameter->m_string, false);
+	TheScriptEngine->assignTeamReference(referenceName, team);
 }
