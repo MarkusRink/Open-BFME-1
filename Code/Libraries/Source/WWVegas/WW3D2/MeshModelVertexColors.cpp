@@ -33,11 +33,21 @@
 // reaches this loader. RET 8 at 0x0096E73F ends before INT3 at 0x0096E742.
 // The original SimpleVecClass<Vector2> at context+0x200 provides the temporary
 // array; its data pointer is at +0x204. The V conversion reads float 1.0f.
+// read_texture_stage: RVA 0x0096ED60, full 247-byte compiler span. Material
+// pass chunk 0x48 selects arm 0x0096FBCB, whose call at 0x0096FBCF reaches
+// this body and checks AL against 1. RET 8 at +0x9A ends the executable code;
+// the jump table (+0xA0..+0xAF) and selectors (+0xB0..+0xF6) belong to this
+// function. INT3 padding starts at +0xF7. Per-face UV indices are skipped by
+// the original inline length check and Seek; no separate body is claimed.
 // Original semantic bodies: meshmdlio.cpp; BFME field views are local here.
 #include "dx8wrapper.h"
 #include "w3d_file.h"
 #include "simplevec.h"
 #include "vector2.h"
+#include "vector3i.h"
+
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 
 class MeshMatDescClass
 {
@@ -87,7 +97,8 @@ public:
 
 class MeshModelClass
 {
-	unsigned char geometry_padding[0x28];
+	unsigned char geometry_padding[0x24];
+	int PolyCount;
 	int VertexCount;
 	unsigned char material_padding[0x94 - 0x2c];
 public:
@@ -101,6 +112,17 @@ public:
 	}
 
 protected:
+    bool read_texture_ids(ChunkLoadClass &cload,MeshLoadContextClass *context);
+    bool read_per_face_texcoord_ids(ChunkLoadClass &cload,MeshLoadContextClass *context)
+    {
+        unsigned size = sizeof(Vector3i) * PolyCount;
+        if (cload.Cur_Chunk_Length() == size) {
+            cload.Seek(size);
+            return true;
+        }
+        return false;
+    }
+    bool read_texture_stage(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_stage_texcoords(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_dig(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_dcg(ChunkLoadClass &cload,MeshLoadContextClass *context);
@@ -218,4 +240,36 @@ bool MeshModelClass::read_stage_texcoords(ChunkLoadClass &cload, MeshLoadContext
 
     matdesc->Install_UV_Array(context->CurPass, context->CurTexStage, uvs, elementcount);
     return true;
+}
+
+bool MeshModelClass::read_texture_stage(ChunkLoadClass &cload,MeshLoadContextClass *context)
+{
+	while (cload.Open_Chunk()) {
+		bool error = true;
+		switch (cload.Cur_Chunk_ID()) {
+			case W3D_CHUNK_TEXTURE_IDS:
+				error = read_texture_ids(cload,context);
+				break;
+
+			case W3D_CHUNK_STAGE_TEXCOORDS:
+			case W3D_CHUNK_TEXCOORDS:
+				error = read_stage_texcoords(cload,context);
+				break;
+
+			case W3D_CHUNK_PER_FACE_TEXCOORD_IDS:
+				error = read_per_face_texcoord_ids(cload,context);
+				break;
+		}
+
+		if (error != true) {
+			return error;
+		}
+		cload.Close_Chunk();
+	}
+
+	context->CurTexStage++;
+	// Reconstruction shaping: retain the direct memory increment at the tail.
+	// The compiler barrier emits no instruction.
+	_ReadWriteBarrier();
+	return true;
 }

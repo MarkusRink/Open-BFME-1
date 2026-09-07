@@ -1349,6 +1349,7 @@ WW3DErrorType MeshModelClass::read_scg(ChunkLoadClass & cload,MeshLoadContextCla
  * HISTORY:                                                                                    *
  *   2/16/99    GTH : Created.                                                                 *
  *=============================================================================================*/
+// Complete BFME Boolean reconstruction: MeshModelVertexColors.cpp (247 bytes including switch tables).
 WW3DErrorType MeshModelClass::read_texture_stage(ChunkLoadClass & cload,MeshLoadContextClass * context)
 {
 	while (cload.Open_Chunk()) {
