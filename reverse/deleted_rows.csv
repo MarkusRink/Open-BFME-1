@@ -24973,3 +24973,4 @@ tg_000bc760,0x000BC760,Generated 50-byte push body replaced by a descriptive Xfe
 ?hasLiveHandle@BFMENetworkBackend@@QAE_NXZ,0x009DB590,Duplicate backend identity retired; existing ThreadClass Is_Running owns the same11-byte range and now has its own real source
 ?closeLiveHandle@BFMENetworkBackend@@QAEXXZ,0x009DB5A0,Backend-specific alias replaced by proven ThreadClass Stop; all direct emitted consumers now use the genuine base interface; same35-byte range preserved
 ?openLiveHandle@BFMENetworkBackend@@QAEXXZ,0x009DB650,Backend-specific alias replaced by ThreadClass Execute; matched typed callers and slot1 in both vtables establish the virtual method; same54-byte range preserved
+?dup_00684b79@@YAXXZ,0x00684B79,Return1 tail of complete33B address comparator0x00684B60; both conditional branches enter this block and finalret is0x00684B80; not an independent shadow initializer

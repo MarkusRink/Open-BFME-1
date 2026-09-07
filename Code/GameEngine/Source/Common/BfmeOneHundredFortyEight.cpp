@@ -37,6 +37,8 @@ private:
 	unsigned short m_bfmeTag;		// 0x4
 };
 
+// Complete33B: both mismatch branches enter the return1 block at684B79.
+// The old25B claim stopped before it and mislabeled that tail as shadow init.
 int BfmeKeyXW::bfmeDiffersXW(const BfmeKeyXW *other) const
 {
 	if (m_bfmeNumber == other->m_bfmeNumber && m_bfmeTag == other->m_bfmeTag)
