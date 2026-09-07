@@ -1,16 +1,11 @@
-// ?RelayCommandsToCommandList@Network@@IAEXXZ
-// partial score=0.93 date=2026-09-03
 // cl: /DNDEBUG /MD /EHsc
-//
-// Network::RelayCommandsToCommandList, 0x00682A90, 375 bytes.
-// Same walk as reverse/attempts/0x00682a90.cpp. Named frame local matches
-// retail's mov eax,[eax+0x3c]; push eax. TheGameLogic is the pinned
-// ?TheGameLogic@@3PAVGameLogic@@A. Wall: cannot get both sub esp,0xC and
-// ebp=ref / edi=cmd. Seeding cmd (0 / this) is DCE'd; a live CommandList*
-// before getFrameCommandList steals ebx onto ebp. Address-taken leaver
-// does not create the third slot. Iterator stays edi, cmd stays ebp,
-// frame is 8 not 0xC, size 390 vs 375.
-
+// Network::RelayCommandsToCommandList, RVA 0x00682A90, 375 bytes.
+// The matched Network::update calls this at RVA 0x00682CBC.
+// Delivers synchronized game orders and player-leave commands to game logic.
+// BFME waits for all connected players to reach the router's leave frame.
+// beginPlayerLeave takes a byte player ID: its retail entry at 0x00667320
+// zero-extends byte [esp+0x28]. Modeling that as a pointer changed register
+// allocation and the stack frame in the prior banked reconstruction.
 typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef unsigned char UnsignedByte;
@@ -59,7 +54,7 @@ class BFMEConnectionManager : public ConnectionManager
 {
 public:
 	void clearLeaveRequestTime(void);
-	int beginPlayerLeave(void *playerId);
+	int beginPlayerLeave(UnsignedByte playerId);
 	bool haveAllConnectedPlayersReachedFrame(UnsignedInt frame);
 };
 
@@ -117,7 +112,7 @@ public:
 class GameLogic
 {
 public:
-	void bfme_setPlayerLeaveStatus(Int slot, Int status);
+	void setPlayerLeaveStatus(Int slot, Int status);
 
 	unsigned char m_pad[0x3C];
 	UnsignedInt m_frame;
@@ -232,9 +227,9 @@ void Network::RelayCommandsToCommandList(void)
 					m_routerLeaveFrame = (Int)cmd->getExecutionFrame();
 					m_conMgr->clearLeaveRequestTime();
 				}
-				else if (m_conMgr->beginPlayerLeave((void *)(UnsignedInt)leaver) == 1)
+				else if (m_conMgr->beginPlayerLeave(leaver) == 1)
 					m_localStatus = NETLOCALSTATUS_LEAVING;
-				TheGameLogic->bfme_setPlayerLeaveStatus((Int)leaver, 1);
+				TheGameLogic->setPlayerLeaveStatus((Int)leaver, 1);
 				break;
 			}
 			case NETCOMMANDTYPE_DESTROYPLAYER:
@@ -251,7 +246,7 @@ void Network::RelayCommandsToCommandList(void)
 	{
 		if (m_conMgr->haveAllConnectedPlayersReachedFrame((UnsignedInt)m_routerLeaveFrame))
 		{
-			m_conMgr->beginPlayerLeave((void *)getLocalPlayerID());
+			m_conMgr->beginPlayerLeave((UnsignedByte)getLocalPlayerID());
 			m_localStatus = NETLOCALSTATUS_LEAVING;
 			m_routerLeaveFrame = -1;
 		}
