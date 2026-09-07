@@ -161,6 +161,17 @@ private:
 };
 
 
+// Historical type name retained pending a coordinated family rename. The
+// payload is a router succession order, not eight numeric frame ratios.
+class BFMENetPlayerFrameRatiosCommandMsg : public NetCommandMsg
+{
+public:
+	BFMENetPlayerFrameRatiosCommandMsg() { m_commandType = NETCOMMANDTYPE_PLAYERFRAMERATIOS; }
+	void setPlayerFrameRatios(const int *players);
+private:
+	int m_players[8];
+};
+
 class NetPlayerLeaveCommandMsg : public NetCommandMsg
 {
 public:
@@ -347,7 +358,9 @@ class Connection
 	public:
 	void sendNetCommandMsg(NetCommandMsg *msg, unsigned char relay);
 	int m_openState;
-	char m_unknown04[0x348];
+	char m_unknown04[0x1C];
+	float m_averageLatency;
+	char m_unknown24[0x328];
 	unsigned int m_lastHeardFrom;
 };
 
@@ -1467,231 +1480,69 @@ L20_6692D1:
 	}
 }
 
-// Per-connection metrics. For each live Connection it converts the aux dword at
-// +0x120A0 and the latest frame at +0x12060 to floats (with the usual
-// unsigned-to-double fixup against 0x01075358) and takes their ratio. Ghidra
-// sizes this function 447; the real body runs 454 bytes to its ret.
-__declspec(naked) void BFMEConnectionManager::computePlayerFrameRatios()
+struct BFMEPlayerRouterScore
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 10442ABh
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		sub esp, 2Ch
-		push ebx
-		push ebp
-		push esi
-		xor esi, esi
-		push edi
-		mov dword ptr [esp+14h], ecx
-		xor ebx, ebx
-		lea ebp,  [ecx+4h]
-		jmp L00_666030
-		__emit 08Dh
-		__emit 0A4h
-		__emit 024h
-		__emit 000h
-		__emit 000h
-		__emit 000h
-		__emit 000h   // lea esp, [esp]
-L00_666030:
-		mov eax, dword ptr [ebp]
-		test eax, eax
-		je L01_6660CC
-		mov ecx, dword ptr [ebp+1209Ch]
-		fild dword ptr [ebp+1209Ch]
-		test ecx, ecx
-		mov eax, dword ptr [eax+20h]
-		mov dword ptr [esp+10h], eax
-		jge L02_666058
-		__emit 0D8h
-		__emit 005h
-		__emit 058h
-		__emit 053h
-		__emit 007h
-		__emit 001h   // fadd dword ptr [0x1075358]
-L02_666058:
-		mov edx, dword ptr [ebp+1205Ch]
-		fild dword ptr [ebp+1205Ch]
-		test edx, edx
-		jge L03_66606E
-		__emit 0D8h
-		__emit 005h
-		__emit 058h
-		__emit 053h
-		__emit 007h
-		__emit 001h   // fadd dword ptr [0x1075358]
-L03_66606E:
-		__emit 0DEh
-		__emit 0F9h   // fdivp st(1)
-		__emit 0D8h
-		__emit 01Dh
-		__emit 0E0h
-		__emit 077h
-		__emit 009h
-		__emit 001h   // fcomp dword ptr [0x10977e0]
-		fnstsw ax
-		test ah, 41h
-		jp L04_66608B
-		fld dword ptr [esp+10h]
-		__emit 0D8h
-		__emit 005h
-		__emit 068h
-		__emit 05Ch
-		__emit 007h
-		__emit 001h   // fadd dword ptr [0x1075c68]
-		fstp dword ptr [esp+10h]
-L04_66608B:
-		push 0Ch
-		__emit 0E8h
-		__emit 09Eh
-		__emit 0BEh
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		mov edx, eax
-		mov eax, dword ptr [esp+14h]
-		add esp, 4h
-		xor edi, edi
-		test esi, esi
-		mov dword ptr [edx], eax
-		mov dword ptr [edx+4h], ebx
-		mov ecx, esi
-		je L05_6660BE
-L06_6660A8:
-		fld dword ptr [ecx]
-		fcomp dword ptr [esp+10h]
-		fnstsw ax
-		test ah, 41h
-		je L05_6660BE
-		mov edi, ecx
-		mov ecx, dword ptr [ecx+8h]
-		test ecx, ecx
-		jne L06_6660A8
-L05_6660BE:
-		test edi, edi
-		mov dword ptr [edx+8h], ecx
-		je L07_6660CA
-		mov dword ptr [edi+8h], edx
-		jmp L01_6660CC
-L07_6660CA:
-		mov esi, edx
-L01_6660CC:
-		inc ebx
-		add ebp, 4h
-		cmp ebx, 8h
-		jl L00_666030
-		test esi, esi
-		mov ecx, dword ptr [esp+14h]
-		mov edx, dword ptr [ecx+12028h]
-		mov ebx, 1h
-		mov dword ptr [esp+1Ch], edx
-		je L08_6661B3
-L10_6660F4:
-		cmp ebx, 8h
-		jae L09_666101
-		mov eax, dword ptr [esi+4h]
-		mov dword ptr [esp+ebx*4+1Ch], eax
-		inc ebx
-L09_666101:
-		mov edi, dword ptr [esi+8h]
-		push esi
-		__emit 0E8h
-		__emit 0A6h
-		__emit 0BDh
-		__emit 021h
-		__emit 000h   // call 0x881EB0
-		add esp, 4h
-		test edi, edi
-		mov esi, edi
-		jne L10_6660F4
-		cmp ebx, 2h
-		jbe L08_6661B3
-		cmp ebx, 8h
-		jae L11_666131
-		mov ecx, 8h
-		sub ecx, ebx
-		lea edi,  [esp+ebx*4+1Ch]
-		or eax, 0FFFFFFFFh
-		rep stosd
-L11_666131:
-		push 3Ch
-		__emit 0E8h
-		__emit 0F8h
-		__emit 0BDh
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		mov esi, eax
-		add esp, 4h
-		mov dword ptr [esp+18h], esi
-		test esi, esi
-		mov dword ptr [esp+44h], 0h
-		je L12_666163
-		mov ecx, esi
-		__emit 0E8h
-		__emit 060h
-		__emit 0D1h
-		__emit 09Ah
-		__emit 0FFh   // call 0x132B4
-		mov dword ptr [esi], 111A234h
-		mov dword ptr [esi+14h], 16h
-		jmp L13_666165
-L12_666163:
-		xor esi, esi
-L13_666165:
-		lea ecx,  [esp+1Ch]
-		push ecx
-		mov ecx, esi
-		mov dword ptr [esp+48h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 0BFh
-		__emit 0C8h
-		__emit 09Ch
-		__emit 0FFh   // call 0x32A38
-		mov edi, dword ptr [esp+14h]
-		mov eax, dword ptr [esi+14h]
-		mov edx, dword ptr [edi+12028h]
-		push eax
-		mov dword ptr [esi+0Ch], edx
-		__emit 0E8h
-		__emit 0E3h
-		__emit 0F9h
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L14_66619F
-		__emit 0E8h
-		__emit 0BDh
-		__emit 0A3h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L14_66619F:
-		push 0FFh
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 0CEh
-		__emit 08Fh
-		__emit 09Dh
-		__emit 0FFh   // call 0x3F17A
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0F1h
-		__emit 09Eh
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-L08_6661B3:
-		mov ecx, dword ptr [esp+3Ch]
-		pop edi
-		pop esi
-		pop ebp
-		pop ebx
-		mov dword ptr fs:[0h], ecx
-		add esp, 38h
-		ret
+	float score;
+	int player;
+	BFMEPlayerRouterScore *next;
+};
+
+// Builds the router succession list: local player first, then remote players
+// ordered by latency with a penalty for the client/logic frame ratio.
+void BFMEConnectionManager::computePlayerFrameRatios()
+{
+	BFMEPlayerRouterScore *head = 0;
+	for (int player = 0; player < 8; ++player)
+	{
+		if (m_connections[player])
+		{
+			float score = m_connections[player]->m_averageLatency;
+			if ((float)m_playerClientFrame[player] / (float)m_playerLatestFrame[player] <= 20.0f)
+				score += 1000.0f;
+			BFMEPlayerRouterScore *node = new BFMEPlayerRouterScore;
+			node->score = score;
+			node->player = player;
+			BFMEPlayerRouterScore *previous = 0;
+			BFMEPlayerRouterScore *current = head;
+			while (current)
+			{
+				if (current->score > score)
+					break;
+				previous = current;
+				current = current->next;
+			}
+			node->next = current;
+			if (previous)
+				previous->next = node;
+			else
+				head = node;
+		}
+	}
+	int players[8];
+	unsigned int count = 1;
+	players[0] = m_localSlot;
+	if (head)
+	{
+		while (head)
+		{
+			if (count < 8)
+				players[count++] = head->player;
+			BFMEPlayerRouterScore *next = head->next;
+			delete head;
+			head = next;
+		}
+		if (count > 2)
+		{
+			for (unsigned int i = count; i < 8; ++i)
+				players[i] = -1;
+			BFMENetPlayerFrameRatiosCommandMsg *msg = new BFMENetPlayerFrameRatiosCommandMsg;
+			msg->setPlayerFrameRatios(players);
+			msg->setPlayerID(m_localSlot);
+			if (DoesCommandRequireACommandID(msg->getNetCommandType()))
+				msg->setID(GenerateNextCommandID());
+			reinterpret_cast<ConnectionManager *>(this)->sendLocalCommand(msg, 0xFF);
+			msg->detach();
+		}
 	}
 }
 
