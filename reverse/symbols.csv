@@ -82586,6 +82586,7 @@ name,address,notes
 ?setWakeFrame@WeaponModeSpecialPowerUpdateBase@@IAEXPAVObject@@W4UpdateSleepTime@@@Z,0x000157DA,UpdateModule::setWakeFrame via ILT thunk
 ?setWakeFrameViaThunk@UpdateModule@@IAEXPAVObject@@W4UpdateSleepTime@@@Z,0x000157DA,DelayedLuaEventUpdate wake-frame setter ILT
 ?setWeaponLock@Object@@QAEXHH@Z,0x0003EEBE,Object command-button weapon lock call
+?setWeaponLock@Object@@QAE_NHH@Z,0x0003EEBE,Open-BFME5 bool-returning call-site alias for Object::setWeaponLock used by AIGroup::setWeaponLockForGroup
 ?setWinStreak@SkirmishBattleHonors@@QAEXVAsciiString@@H@Z,0x0009C970,BFME per-side variant of ZH SkirmishBattleHonors::setWinStreak: concat("WinStreak" at VA 0x010804E8) onto the by-value AsciiString side prefix (the callers pass Gondor/Rohan/Isengard/Mordor) then setInt ILT 0x00009B3D (pinned) -> 0x000A96F0; ret 8
 ?setWins@SkirmishBattleHonors@@QAEXVAsciiString@@H@Z,0x0009C5B0,BFME per-side variant of ZH SkirmishBattleHonors::setWins: concat("Wins" at VA 0x010804B4) onto the by-value AsciiString side prefix (the callers pass Gondor/Rohan/Isengard/Mordor) then setInt ILT 0x00009B3D (pinned) -> 0x000A96F0; ret 8
 ?setWorstLossStreak@SkirmishBattleHonors@@QAEXVAsciiString@@H@Z,0x0009CD30,BFME per-side variant of ZH SkirmishBattleHonors::setWorstLossStreak: concat("WorstLossStreak" at VA 0x01080514) onto the by-value AsciiString side prefix (the callers pass Gondor/Rohan/Isengard/Mordor) then setInt ILT 0x00009B3D (pinned) -> 0x000A96F0; ret 8
