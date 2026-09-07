@@ -138,6 +138,8 @@ UnsignedShort GenerateNextCommandID();
 class NetCommandRef
 {
 	public:
+	NetCommandRef(NetCommandMsg *message);
+	void setRelay(unsigned char value) { relay = value; }
 	unsigned char getRelay() { return relay; }
 	NetCommandMsg *getCommand() { return msg; }
 	NetCommandRef *getNext() { return next; }
@@ -146,6 +148,7 @@ class NetCommandRef
 	NetCommandRef *next;
 	NetCommandRef *prev;
 	unsigned char relay;
+	unsigned int m_timeLastSent;
 };
 
 class NetCommandList
@@ -379,6 +382,15 @@ class Connection
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/ConnectionManager.h
 class DisconnectManager;
 class NetDisconnectChatCommandMsg;
+class NetDisconnectFrameCommandMsg : public NetCommandMsg
+{
+public:
+	NetDisconnectFrameCommandMsg();
+	void setDisconnectFrame(unsigned int frame);
+private:
+	unsigned int m_disconnectFrame;
+};
+
 class NetProgressCommandMsg : public NetCommandMsg
 {
 public:
@@ -5700,154 +5712,26 @@ void BFMEConnectionManager::sendProgressCommand(int percent)
 	msg->detach();
 }
 
-// Sends command type 27 (DISCONNECTFRAME), built by 0x006740C0. Named from the type its message carries, which is
-// evidence rather than inference now that the enum at 0x00683020 is recovered.
-__declspec(naked) void BFMEConnectionManager::sendDisconnectFrameCommand()
+// Announces the current simulation frame and applies the same disconnect event locally.
+void BFMEConnectionManager::sendDisconnectFrameCommand()
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 1044056h
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		__emit 0A1h
-		__emit 098h
-		__emit 008h
-		__emit 02Fh
-		__emit 001h   // mov eax, dword ptr [0x12f0898]
-		push ebx
-		mov ebx, dword ptr [eax+3Ch]
-		push esi
-		push edi
-		push 20h
-		mov edi, ecx
-		__emit 0E8h
-		__emit 0F6h
-		__emit 0E5h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+0Ch], eax
-		xor esi, esi
-		cmp eax, esi
-		mov dword ptr [esp+18h], esi
-		je L00_663954
-		mov ecx, eax
-		__emit 0E8h
-		__emit 0E4h
-		__emit 0BBh
-		__emit 09Ch
-		__emit 0FFh   // call 0x2F536
-		mov esi, eax
-L00_663954:
-		mov eax, dword ptr [edi+12028h]
-		push ebx
-		mov ecx, esi
-		mov dword ptr [esp+1Ch], 0FFFFFFFFh
-		mov dword ptr [esi+0Ch], eax
-		__emit 0E8h
-		__emit 0A1h
-		__emit 059h
-		__emit 09Ah
-		__emit 0FFh   // call 0x930E
-		mov eax, dword ptr [esi+14h]
-		push eax
-		__emit 0E8h
-		__emit 0FCh
-		__emit 021h
-		__emit 09Bh
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L01_663986
-		__emit 0E8h
-		__emit 0D6h
-		__emit 0CBh
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L01_663986:
-		mov ecx, dword ptr [edi+12028h]
-		xor edx, edx
-		mov dl, 1h
-		shl dl, cl
-		mov ecx, edi
-		not dl
-		push edx
-		push esi
-		__emit 0E8h
-		__emit 03Ah
-		__emit 0D8h
-		__emit 09Dh
-		__emit 0FFh   // call 0x411D7
-		mov eax, dword ptr [edi+120E0h]
-		test eax, eax
-		je L02_663A01
-		push 14h
-		__emit 0E8h
-		__emit 082h
-		__emit 0E5h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+0Ch], eax
-		test eax, eax
-		mov dword ptr [esp+18h], 1h
-		je L03_6639CD
-		push esi
-		mov ecx, eax
-		__emit 0E8h
-		__emit 01Dh
-		__emit 040h
-		__emit 09Ah
-		__emit 0FFh   // call 0x79E6
-		mov ebx, eax
-		jmp L04_6639CF
-L03_6639CD:
-		xor ebx, ebx
-L04_6639CF:
-		mov ecx, dword ptr [edi+12028h]
-		mov al, 1h
-		shl al, cl
-		push edi
-		push ebx
-		mov dword ptr [esp+20h], 0FFFFFFFFh
-		mov byte ptr [ebx+0Ch], al
-		mov ecx, dword ptr [edi+120E0h]
-		__emit 0E8h
-		__emit 07Fh
-		__emit 04Fh
-		__emit 09Ch
-		__emit 0FFh   // call 0x28970
-		mov ecx, ebx
-		__emit 0E8h
-		__emit 068h
-		__emit 04Fh
-		__emit 09Dh
-		__emit 0FFh   // call 0x38960
-		push ebx
-		__emit 0E8h
-		__emit 0B2h
-		__emit 0E4h
-		__emit 021h
-		__emit 000h   // call 0x881EB0
-		add esp, 4h
-L02_663A01:
-		mov ecx, esi
-		__emit 0E8h
-		__emit 09Ch
-		__emit 0C6h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		mov ecx, dword ptr [esp+10h]
-		pop edi
-		pop esi
-		pop ebx
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret
+	unsigned int frame = TheGameLogic->getFrame();
+	NetDisconnectFrameCommandMsg *msg = new NetDisconnectFrameCommandMsg;
+	msg->setPlayerID(m_localSlot);
+	msg->setDisconnectFrame(frame);
+	if (DoesCommandRequireACommandID(msg->getNetCommandType()))
+		msg->setID(GenerateNextCommandID());
+	reinterpret_cast<ConnectionManager *>(this)->sendLocalCommandDirect(msg,
+		(unsigned char)~(unsigned char)(1 << m_localSlot));
+	if (m_disconnectManager)
+	{
+		NetCommandRef *ref = new NetCommandRef(msg);
+		ref->setRelay((unsigned char)(1 << m_localSlot));
+		m_disconnectManager->processDisconnectCommand(ref,
+			reinterpret_cast<ConnectionManager *>(this));
+		delete ref;
 	}
+	msg->detach();
 }
 
 // Sends command type 28 (DISCONNECTSCREENOFF), built by 0x00674310; it also calls
