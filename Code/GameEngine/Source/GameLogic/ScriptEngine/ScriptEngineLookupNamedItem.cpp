@@ -3,6 +3,12 @@
 // (canonicalFlagName is a member of this object). Identity of the two
 // table getters is the ILT thunks 0x000323F8 -> 0x00359D40 and
 // 0x0000A592 -> 0x00359DC0; the container probe is 0x000485BD -> 0x0033C290.
+//
+// The two named-item lookups, 0x0033C340 and 0x0033C450, which are the same
+// body reaching two different table getters -- findByNameA through the ILT at
+// 0x000323F8 and findByNameB through 0x0000A592. Both files already declared
+// both getters and both lookups; only the definition differed, so the two files
+// were one head written twice.
 
 class AsciiString;
 
@@ -59,6 +65,24 @@ private:
 	AsciiString canonicalFlagName(const AsciiString &name);
 	BfmeNamedContainer0033c340 *findNamedContainer(const AsciiString &canonical);
 };
+
+// ?lookupNamedItemA@BFMEScriptEngineFlagLookup@@QAEPAVBfmeNamedItem0033c340@@VAsciiString@@PAV3@@Z
+BfmeNamedItem0033c340 *BFMEScriptEngineFlagLookup::lookupNamedItemA(
+	AsciiString name, AsciiString *outCanonical)
+{
+	AsciiString canonical = canonicalFlagName(name);
+	BfmeNamedContainer0033c340 *container = findNamedContainer(canonical);
+	if (container) {
+		BfmeNamedItem0033c340 *item = container->findByNameA(name);
+		if (item) {
+			if (outCanonical)
+				outCanonical->set(canonical);
+		}
+		return item;
+	}
+	return 0;
+}
+
 
 // ?lookupNamedItemB@BFMEScriptEngineFlagLookup@@QAEPAVBfmeNamedItem0033c340@@VAsciiString@@PAV3@@Z
 BfmeNamedItem0033c340 *BFMEScriptEngineFlagLookup::lookupNamedItemB(
