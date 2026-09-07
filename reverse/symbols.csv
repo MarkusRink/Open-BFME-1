@@ -76011,6 +76011,7 @@ name,address,notes
 ?bfmeTail935H@BfmeObj935H@@QAEXXZ,0x00030B11,pin
 ?bfmeTail938A@BfmeGlob938A@@QAEXH@Z,0x0000C9CD,pin
 ?bfmeTail939B@BfmeThing939B@@QAEXPAUBfmeElem939B@@@Z,0x0003D4E7,pin
+?bfmeTail939B@BfmeOwnerBR@@QAEXPAUBfmeElem939B@@PAVObject@@PAVDelayedLuaEventList@@@Z,0x0003D4E7,callee of exact bfmeGo939B wrapper at 0x002E7650; same retail tail body
 ?bfmeTail974D@BfmeD974@@QAEXXZ,0x0001B8C4,pin
 ?bfmeTailA1037@BfmeI1037@@QAEXH@Z,0x000302E7,pin
 ?bfmeTailA1044@BfmeB1044@@QAEXXZ,0x00006E83,pin

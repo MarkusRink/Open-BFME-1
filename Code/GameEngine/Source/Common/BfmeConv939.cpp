@@ -19,24 +19,27 @@ void bfmeGo939A(void)
 	g_bfme939GlobA->bfmeTail939A();
 }
 
+class Object;
+class DelayedLuaEventList;
+
 struct BfmeElem939B
 {
 	int m_bfmeA;
 	int m_bfmeB;
 };
 
-class BfmeThing939B
+class BfmeOwnerBR
 {
 public:
-	void bfmeGo939B(int i);
-	void bfmeTail939B(BfmeElem939B *e);
+	void bfmeGo939B(int i, Object *object, DelayedLuaEventList *events);
+	void bfmeTail939B(BfmeElem939B *e, Object *object, DelayedLuaEventList *events);
 	char m_bfmePad[0x10];
 	BfmeElem939B m_bfmeArr[1];
 };
 
-void BfmeThing939B::bfmeGo939B(int i)
+void BfmeOwnerBR::bfmeGo939B(int i, Object *object, DelayedLuaEventList *events)
 {
-	bfmeTail939B(&m_bfmeArr[i]);
+	bfmeTail939B(&m_bfmeArr[i], object, events);
 }
 
 class BfmeGlob939C
@@ -133,4 +136,3 @@ void BfmeThing939G::bfmeGo939G(void *a)
 	if (!a && s->m_bfmeP)
 		s->bfmeCall939G();
 }
-
