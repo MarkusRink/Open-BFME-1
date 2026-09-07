@@ -1,12 +1,13 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 //
-// GameSpyLoginPreferences::load is called by WOLLoginMenuInit immediately
-// after the 0x38-byte preference object is allocated.  The retail body first
-// delegates to UserPreferences::load, then walks the inherited preference map
-// and imports pass_, date_, and nick_ entries into the three maps at +0x14,
-// +0x20, and +0x2c.  The standalone ABI below keeps the BFME base layout and
-// the STLport map/list members local to this body.
+// WOLLoginMenuInit allocates the 0x38-byte preference object and invokes its
+// constructor; that constructor initializes the base/maps and calls this
+// virtual load.  The retail body first delegates to UserPreferences::load,
+// then walks the inherited preference map and imports pass_, date_, and nick_
+// entries into the password, nickname, and date maps at +0x14, +0x20, and
+// +0x2c respectively.  The standalone ABI below keeps the BFME base layout
+// and the STLport map/list members local to this body.
 
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
