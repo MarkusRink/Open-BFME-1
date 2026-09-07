@@ -1,123 +1,147 @@
-// ?hide@Rva006BC750@@QAEXXZ
-// partial score=0.9 date=2026-09-04
-// ?hide@Rva006BC750@@QAEXXZ
-// partial score=0.9 date=2026-09-02
-// cl: /O2 /DNDEBUG /DWIN32 /D_WINDOWS /MD
-// Hide the drawable at [this+0xC] then walk its +0x150 module array.
+// ?bfmeShutBM@BfmeHostBM@@QAEXXZ (identity unknown)
+// partial score=0.96 date=2026-09-07
+// 79/72. Every instruction and operand matches. The ONLY difference is a
+// 7-byte `lea esp,[esp]` alignment pad MSVC inserts at the loop head (0x6BC779
+// -> 0x6BC780) that retail does not have. /G5 /G6 /G7 /Op all keep it; the
+// while form instead of the for form keeps it too.
+// There is a real fork here and BOTH halves are individually reachable, just
+// not together:
+//   * guard on the MEMBER (`if (m_bfmeABM == 0) return;` then use the member)
+//     gives retail's head exactly -- mov eax,[ecx+0xc] / test eax,eax / je /
+//     mov ecx,eax -- but MSVC then pads the loop: 79 bytes.
+//   * guard on a NAMED LOCAL (`BfmeABM *a = m_bfmeABM; if (a == 0)`) removes
+//     the pad but loads straight into ecx (mov ecx,[ecx+0xc]), losing the
+//     2-byte `mov ecx,eax`: 70 bytes.
+// Naming the local AFTER the member guard collapses back to the 70-byte form.
+// See [[local-picks-ecx-receiver]] -- this is that lever seen from both sides.
+class BfmeBBM;
+class BfmeUBM;
+class BfmeItemBM;
 
-class Drawable
+class BfmeUBM
 {
 public:
-	virtual void slot00();
-	virtual void slot01();
-	virtual void slot02();
-	virtual void slot03();
-	virtual void slot04();
-	virtual void slot05();
-	virtual void slot06();
-	virtual void slot07();
-	virtual void slot08();
-	virtual void slot09();
-	virtual Drawable *getChild();
-	void setDrawableHidden(bool hidden);
-	void **getDrawModules();
+	virtual void bfmeSlot00U();
+	virtual void bfmeSlot01U();
+	virtual void bfmeSlot02U();
+	virtual void bfmeSlot03U();
+	virtual void bfmeSlot04U();
+	virtual void bfmeSlot05U();
+	virtual void bfmeSlot06U();
+	virtual void bfmeSlot07U();
+	virtual void bfmeSlot08U();
+	virtual void bfmeSlot09U();
+	virtual void bfmeSlot10U();
+	virtual void bfmeSlot11U();
+	virtual void bfmeSlot12U();
+	virtual void bfmeSlot13U();
+	virtual void bfmeSlot14U();
+	virtual void bfmeSlot15U();
+	virtual void bfmeStopBM();
 };
 
-class Rva006BC750Node
+class BfmeItemBM
 {
 public:
-	virtual void slot00();
-	virtual void slot01();
-	virtual void slot02();
-	virtual void slot03();
-	virtual void slot04();
-	virtual void slot05();
-	virtual void slot06();
-	virtual void slot07();
-	virtual void slot08();
-	virtual void slot09();
-	virtual void slot10();
-	virtual void slot11();
-	virtual void slot12();
-	virtual void slot13();
-	virtual void slot14();
-	virtual void slot15();
-	virtual void slot16();
-	virtual void slot17();
-	virtual void slot18();
-	virtual void slot19();
-	virtual void slot20();
-	virtual void slot21();
-	virtual void slot22();
-	virtual void slot23();
-	virtual void slot24();
-	virtual void slot25();
-	virtual void slot26();
-	virtual void slot27();
-	virtual void slot28();
-	virtual void slot29();
-	virtual void slot30();
-	virtual void slot31();
-	virtual void slot32();
-	virtual void slot33();
-	virtual void slot34();
-	virtual void slot35();
-	virtual void slot36();
-	virtual void slot37();
-	virtual void slot38();
-	virtual void slot39();
-	virtual void slot40();
-	virtual void slot41();
-	virtual void slot42();
-	virtual void slot43();
-	virtual void slot44();
-	virtual void slot45();
-	virtual Drawable *vslotB8();
+	virtual void bfmeSlot00I();
+	virtual void bfmeSlot01I();
+	virtual void bfmeSlot02I();
+	virtual void bfmeSlot03I();
+	virtual void bfmeSlot04I();
+	virtual void bfmeSlot05I();
+	virtual void bfmeSlot06I();
+	virtual void bfmeSlot07I();
+	virtual void bfmeSlot08I();
+	virtual void bfmeSlot09I();
+	virtual void bfmeSlot10I();
+	virtual void bfmeSlot11I();
+	virtual void bfmeSlot12I();
+	virtual void bfmeSlot13I();
+	virtual void bfmeSlot14I();
+	virtual void bfmeSlot15I();
+	virtual void bfmeSlot16I();
+	virtual void bfmeSlot17I();
+	virtual void bfmeSlot18I();
+	virtual void bfmeSlot19I();
+	virtual void bfmeSlot20I();
+	virtual void bfmeSlot21I();
+	virtual void bfmeSlot22I();
+	virtual void bfmeSlot23I();
+	virtual void bfmeSlot24I();
+	virtual void bfmeSlot25I();
+	virtual void bfmeSlot26I();
+	virtual void bfmeSlot27I();
+	virtual void bfmeSlot28I();
+	virtual void bfmeSlot29I();
+	virtual void bfmeSlot30I();
+	virtual void bfmeSlot31I();
+	virtual void bfmeSlot32I();
+	virtual void bfmeSlot33I();
+	virtual void bfmeSlot34I();
+	virtual void bfmeSlot35I();
+	virtual void bfmeSlot36I();
+	virtual void bfmeSlot37I();
+	virtual void bfmeSlot38I();
+	virtual void bfmeSlot39I();
+	virtual void bfmeSlot40I();
+	virtual void bfmeSlot41I();
+	virtual void bfmeSlot42I();
+	virtual void bfmeSlot43I();
+	virtual void bfmeSlot44I();
+	virtual void bfmeSlot45I();
+	virtual BfmeUBM *bfmeGetBM();
 };
 
-class Rva006BC750Item
+class BfmeBBM
 {
 public:
-	virtual void slot00();
-	virtual void slot01();
-	virtual void slot02();
-	virtual void slot03();
-	virtual void slot04();
-	virtual void slot05();
-	virtual void slot06();
-	virtual void slot07();
-	virtual void slot08();
-	virtual void slot09();
-	virtual void slot10();
-	virtual void slot11();
-	virtual void slot12();
-	virtual void slot13();
-	virtual void slot14();
-	virtual void slot15();
-	virtual void vslot40();
+	void bfmeSetBM(int mode);
+	BfmeItemBM **bfmeListBM();
 };
 
-class Rva006BC750
+class BfmeABM
 {
 public:
-	void hide();
-
-private:
-	char m_pad[0xC];
-	Drawable *m_drawable;
+	virtual void bfmeSlot00A();
+	virtual void bfmeSlot01A();
+	virtual void bfmeSlot02A();
+	virtual void bfmeSlot03A();
+	virtual void bfmeSlot04A();
+	virtual void bfmeSlot05A();
+	virtual void bfmeSlot06A();
+	virtual void bfmeSlot07A();
+	virtual void bfmeSlot08A();
+	virtual void bfmeSlot09A();
+	virtual BfmeBBM *bfmeMakeBM();
 };
 
-void Rva006BC750::hide()
+class BfmeHostBM
 {
-	if (m_drawable)
+public:
+	void bfmeShutBM();
+
+	unsigned char m_bfmeHeadBM[0xc];
+	BfmeABM *m_bfmeABM;
+};
+
+void BfmeHostBM::bfmeShutBM()
+{
+	if (m_bfmeABM == 0)
+		return;
+
+	BfmeBBM *b = m_bfmeABM->bfmeMakeBM();
+
+	b->bfmeSetBM(1);
+
+	BfmeItemBM **p = b->bfmeListBM();
+
+	while (*p != 0)
 	{
-		Drawable *child = m_drawable->getChild();
-		child->setDrawableHidden(true);
-		for (Rva006BC750Node **p = (Rva006BC750Node **)child->getDrawModules(); *p; ++p)
-		{
-			Drawable *got = (*p)->vslotB8();
-			if (got)
-				((Rva006BC750Item *)got)->vslot40();
-		}
+		BfmeUBM *u = (*p)->bfmeGetBM();
+
+		if (u != 0)
+			u->bfmeStopBM();
+
+		p++;
 	}
 }
