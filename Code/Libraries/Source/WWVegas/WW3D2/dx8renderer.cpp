@@ -297,13 +297,20 @@ void DX8FVFCategoryContainer::Add_Visible_Material_Pass(MaterialPassClass * pass
 	AnythingToRender=true;
 }
 
-// ?Render_Procedural_Material_Passes@DX8FVFCategoryContainer@@IAEXXZ present-unmatched
 void DX8FVFCategoryContainer::Render_Procedural_Material_Passes(void)
 {
 	// additional passes
-	MatPassTaskClass * mpr = visible_matpass_head;
+	struct BFMECategoryLayout {
+		unsigned char prefix[0xd0];
+		MatPassTaskClass *visible_matpass_head;
+		MatPassTaskClass *visible_matpass_tail;
+		IndexBufferClass *index_buffer;
+	};
+	BFMECategoryLayout *layout = reinterpret_cast<BFMECategoryLayout *>(this);
+	MatPassTaskClass * mpr = layout->visible_matpass_head;
 	MatPassTaskClass * last_mpr = NULL;
    	bool renderTasksRemaining=false;
+	volatile bool taskWasDeleted = false;
 
 	while (mpr != NULL) {
 		SNAPSHOT_SAY(("Render_Procedural_Material_Pass\n"));
@@ -318,12 +325,15 @@ void DX8FVFCategoryContainer::Render_Procedural_Material_Passes(void)
    			continue;
    		}
 	
-		mpr->Peek_Mesh()->Render_Material_Pass(mpr->Peek_Material_Pass(),index_buffer);
+		IndexBufferClass *pass_index_buffer = layout->index_buffer;
+		MaterialPassClass *material_pass = mpr->Peek_Material_Pass();
+		mpr->Peek_Mesh()->Render_Material_Pass(material_pass,pass_index_buffer);
 		MatPassTaskClass * next_mpr = mpr->Get_Next_Visible();
 		
 		// remove from list, then delete
+		taskWasDeleted = true;
 		if (last_mpr == NULL) {
-			visible_matpass_head = next_mpr;
+			layout->visible_matpass_head = next_mpr;
 		} else {
 	       last_mpr->Set_Next_Visible(next_mpr);
 	    }
@@ -332,7 +342,8 @@ void DX8FVFCategoryContainer::Render_Procedural_Material_Passes(void)
 		mpr = next_mpr;
 	}
 
-	visible_matpass_tail = renderTasksRemaining ? last_mpr : NULL;
+	layout->visible_matpass_tail = renderTasksRemaining ? last_mpr : NULL;
+	(void)taskWasDeleted;
 }
 
 void DX8RigidFVFCategoryContainer::Add_Delayed_Visible_Material_Pass(MaterialPassClass * pass, MeshClass * mesh)
