@@ -277,11 +277,14 @@ int ObjectSetEnragedState( lua_State *state )
 class Rva002E6A00Object : public Object
 {
 public:
-	void j_0001ed6c( bool flag );
+	// The retail call is through ILT RVA 0x0001ED6C to body RVA 0x001CF8F0.
+	// The public Object method name is not recovered; retain an address-derived
+	// ABI view for the ObjectSetChanting binding.
+	void Rva001ED6CSetBool( bool flag );
 };
 
-// ?Rva002E6A00ObjectSetFlagB@@YAHPAUlua_State@@@Z
-int Rva002E6A00ObjectSetFlagB( lua_State *state )
+// ?ObjectSetChanting@@YAHPAUlua_State@@@Z
+int ObjectSetChanting( lua_State *state )
 {
 	if( lua_gettop( state ) < 2 )
 		return 0;
@@ -292,7 +295,7 @@ int Rva002E6A00ObjectSetFlagB( lua_State *state )
 	if( !object )
 		return 0;
 	bool flag = Rva00990210Lookup( state, 2 ) != 0;
-	object->j_0001ed6c( flag );
+	object->Rva001ED6CSetBool( flag );
 	return 1;
 }
 
