@@ -3022,7 +3022,6 @@ name,address,notes
 ??0RadiusDecal@@QAE@XZ,0x00036DD1
 ??0RadiusDecalTemplate@@QAE@XZ,0x00029C71,Open-BFME5 DynamicShroud decal member constructor pin
 ??0RadiusDecalUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000EF5C,pinharvest x1 (thunk)
-??0RailedTransportDockUpdateModuleData@@QAE@XZ,0x0001999D,RailedTransportDockUpdateModuleData constructor ILT to 0x002CE760
 ??0RainOfFireUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000A0E2,retail ModuleFactory cp081 constructor thunk
 ??0RandomSoundSelectorClientBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x0002C1E7,link thunk to the RandomSoundSelectorClientBehavior constructor; named from the ModuleFactory registration that pairs "RandomSoundSelectorClientBehavior" with factory 0x00122040
 ??0RandomSoundSelectorClientBehaviorModuleData@@QAE@XZ,0x0001F528,module-data constructor called by RandomSoundSelectorClientBehavior::friend_newModuleData at 0x0012BE60
@@ -169401,3 +169400,4 @@ _malloc,0x009F6C34,retail malloc import the pooled operator new glue calls (slot
 ?loadPostProcess@UpdateModule@@MAEXXZ,0x0002D600,"Rva0036BAE0 retail base-call thunk to the same no-op UpdateModule body at 0x001EF410; re-added after d27ae4b7b, one-name-one-body clean"
 _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF_size @0x822E70; re-added after d27ae4b7b, one-name-one-body clean"
 ?_M_reallocate_map@?$deque@HV?$allocator@H@_STL@@@_STL@@IAEXI_N@Z,0x009EE360,"gen-tgrid shared callee; re-added after d27ae4b7b, one-name-one-body clean"
+??0RailedTransportDockUpdateModuleData@@QAE@XZ,0x0002C9D0,ModuleFactory.cpp friend_newModuleData calls this ILT at +0x34; body 0x00295500
