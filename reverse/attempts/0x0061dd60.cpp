@@ -1,46 +1,62 @@
-// ?applyField@BfmeApplyFieldHolder@@QAEXABVRva0060FD30Base@@@Z
-// partial score=0.92 date=2026-09-04
-// ?applyField@BfmeApplyFieldHolder@@QAEXABVRva0060FD30Base@@@Z
-// partial score=0.92 date=2026-09-02
-// cl: /DNDEBUG /MD /EHsc
-
-class Rva0060FD30Base
+// ?bfmeResolveCI@BfmeHostCI@@QAEXPAVBfmeKeyCI@@@Z (identity unknown)
+// partial score=0.94 date=2026-09-07
+// 63/65. Guards, the sub-object find call, the arm polarity and both epilogues
+// match. Retail's two arms each carry their own load+store of the value, and
+// the t != 0 arm opens with a redundant `mov eax,esi` so both arms use eax --
+// the signature of MSVC DUPLICATING a shared tail ([[msvc-duplicates-shared-tail]]).
+// Writing that shared form (`if (t == 0) t = bfmeDefault(); m_value = t->data;`)
+// makes THIS MSVC merge instead of duplicate: 49 bytes, one load and one store.
+// Writing the two arms out explicitly (below) reproduces the duplication but
+// then each arm loads straight through its own register, so the 2-byte
+// `mov eax,esi` never appears. Both halves are reachable, not together.
+// Arm polarity IS controllable: `if (t == 0) <default> else <found>` puts the
+// found arm last as retail has it; the other way round costs the same 2 bytes
+// plus a wrong branch target.
+class BfmeThingCI
 {
 public:
-	Rva0060FD30Base(const Rva0060FD30Base &other);
-	unsigned char *m_ptr;
-	unsigned char m_rest[8];
+	unsigned char m_bfmeHeadCI[0xac];
+	int m_bfmeDataCI;
 };
 
-class Gen00001B18
+class BfmeKeyCI
 {
 public:
-	unsigned char m_beforeAc[0xac];
-	unsigned int m_fieldAc;
+	int m_bfmeIdCI;
 };
 
-Gen00001B18 *Make00001B18(void);
-
-class BfmeApplyFieldHolder
+class BfmeMapCI
 {
 public:
-	void applyField(const Rva0060FD30Base &src);
+	void bfmeFindCI(BfmeKeyCI *key);
 
-private:
-	unsigned char m_before[0x14];
-	Rva0060FD30Base m_obj;
-	unsigned int m_field20;
+	BfmeThingCI *m_bfmeFoundCI;
+	unsigned char m_bfmePadCI[8];
 };
 
-void BfmeApplyFieldHolder::applyField(const Rva0060FD30Base &src)
+extern "C" BfmeThingCI *__cdecl bfmeDefaultCI(void);
+
+class BfmeHostCI
 {
-	if (src.m_ptr)
-	{
-		m_obj.Rva0060FD30Base::Rva0060FD30Base(src);
-		Gen00001B18 *p = (Gen00001B18 *)m_obj.m_ptr;
-		if (!p)
-			m_field20 = Make00001B18()->m_fieldAc;
-		else
-			m_field20 = p->m_fieldAc;
-	}
+public:
+	void bfmeResolveCI(BfmeKeyCI *key);
+
+	unsigned char m_bfmeHeadCI[0x14];
+	BfmeMapCI m_bfmeMapCI;
+	int m_bfmeValueCI;
+};
+
+void BfmeHostCI::bfmeResolveCI(BfmeKeyCI *key)
+{
+	if (key->m_bfmeIdCI == 0)
+		return;
+
+	m_bfmeMapCI.bfmeFindCI(key);
+
+	BfmeThingCI *t = m_bfmeMapCI.m_bfmeFoundCI;
+
+	if (t == 0)
+		m_bfmeValueCI = bfmeDefaultCI()->m_bfmeDataCI;
+	else
+		m_bfmeValueCI = t->m_bfmeDataCI;
 }
