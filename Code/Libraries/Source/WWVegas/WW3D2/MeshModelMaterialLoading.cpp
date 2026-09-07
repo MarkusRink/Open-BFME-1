@@ -31,6 +31,45 @@ public:
     bool Open_Chunk();
     bool Close_Chunk();
 };
+class TextureClass
+{
+public:
+    void Add_Ref(void)
+    {
+        ++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
+    }
+    void Release_Ref(void);
+};
+
+class BfmeHandleCX
+{
+public:
+    BfmeHandleCX(void) : p(0) {}
+    BfmeHandleCX(const BfmeHandleCX &other) : p(other.p)
+    {
+        if (p) p->Add_Ref();
+    }
+    ~BfmeHandleCX(void)
+    {
+        if (p) p->Release_Ref();
+    }
+    BfmeHandleCX &operator=(const BfmeHandleCX &other)
+    {
+        if (other.p) other.p->Add_Ref();
+        if (p) p->Release_Ref();
+        p = other.p;
+        return *this;
+    }
+
+    bool operator==(const BfmeHandleCX &other) const { return p == other.p; }
+    bool operator!=(const BfmeHandleCX &other) const { return p != other.p; }
+
+    TextureClass *p;
+};
+
+
+BfmeHandleCX Load_Texture(ChunkLoadClass &cload);
+
 class VertexMaterialClass {
 public:
     virtual void Delete_This();
@@ -50,6 +89,9 @@ class MeshLoadContextClass {
     unsigned char beforeShaders[0xac-0x88];
     DynamicVectorClass<ShaderClass> Shaders;
     DynamicVectorClass<VertexMaterialClass *> VertexMaterials;
+    unsigned char beforeTextures[0xf4-0xc4-sizeof(DynamicVectorClass<VertexMaterialClass *> )];
+    DynamicVectorClass<BfmeHandleCX> Textures;
+    int Add_Texture(const BfmeHandleCX &tex) { int index=Textures.Count(); Textures.Add(tex); return index; }
     int Add_Vertex_Material(VertexMaterialClass *vmat) { vmat->Add_Ref(); int index=VertexMaterials.Count(); VertexMaterials.Add(vmat); return index; }
     int Add_Shader(ShaderClass shader) {
         int index=Shaders.Count();
@@ -61,6 +103,7 @@ class MeshModelClass {
 protected:
     bool read_shaders(ChunkLoadClass &, MeshLoadContextClass *);
     bool read_vertex_materials(ChunkLoadClass &, MeshLoadContextClass *);
+    bool read_textures(ChunkLoadClass &, MeshLoadContextClass *);
 };
 bool MeshModelClass::read_shaders(ChunkLoadClass &cload,MeshLoadContextClass *context)
 {
@@ -93,6 +136,20 @@ bool MeshModelClass::read_vertex_materials(ChunkLoadClass &cload,MeshLoadContext
         context->Add_Vertex_Material(vmat);
         vmat->Release_Ref();
         cload.Close_Chunk();
+    }
+    return true;
+}
+
+// BFME texture list reader: 0x0096EC40, complete 283 bytes. Prelit chunk
+// 0x30 and the main mesh dispatcher call this body. Load_Texture returns an
+// owning handle; nonempty handles enter the context vector at +0xF4.
+// RET 8 at 0x0096ED58 ends before five INT3 bytes at 0x0096ED5B.
+bool MeshModelClass::read_textures(ChunkLoadClass &cload, MeshLoadContextClass *context)
+{
+    BfmeHandleCX newtex = ::Load_Texture(cload);
+    while (newtex.p != 0) {
+        context->Add_Texture(newtex);
+        newtex = ::Load_Texture(cload);
     }
     return true;
 }
