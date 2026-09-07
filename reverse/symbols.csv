@@ -85604,3 +85604,4 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeNameToKeyERB@BfmeKeyGenERB@@QAEHPBD@Z,0x0003ADD7,pin
 ?g_bfmeKeyGenERB@@3PAVBfmeKeyGenERB@@A,0x00EED600,pin
 ?bfmeGrowERB@BfmeVecERB@@QAEXPAPAVBfmeNodeERB@@0PAPAVBfmeOwnerERB@@HH@Z,0x0003E14E,pin
+?rva007F76D0@Rva00801670Host@@QAEPAHPAVBfmeVecCZ@@H@Z,0x007F76D0,neutral receiver view; existing bfmeAt body is matched ret8 and six demangler-family callers load ECX=owner->m_host before vector/index; source-derived member ABI for 0x00801670; campaign=luna36h-20260907;lane=netpacket
