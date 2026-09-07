@@ -111,3 +111,18 @@ def _thunked():
     """{body: [thunk rvas]} for one thunked function in the retail image."""
     body, thunks = next(iter(delta_sources.build.build_call_thunks().items()))
     return {body: thunks}
+
+
+def test_a_repeated_header_does_not_abort_the_whole_pin_scan(tmp_path, monkeypatch):
+    """A union merge can land a second copy of the ledger header mid-file. int()
+    on the literal "address" used to raise, and both hooks read this through
+    mapfile / a while-read, which cannot see the exit status of the process it
+    reads: the crash presented as "no pin-affected sources" and the gate passed
+    by producing nothing. c4b904251e carried exactly that row."""
+    poisoned = ("name,address,notes\r\n"
+                "?a@@YAXXZ,0x00001000,first\r\n"
+                "name,address,notes\r\n"
+                "?b@@YAXXZ,0x00002000,after the repeat\r\n")
+    monkeypatch.setattr(delta_sources, "text_at", lambda _spec: poisoned)
+    assert delta_sources.pins_at("irrelevant") == {("?a@@YAXXZ", 0x1000),
+                                                  ("?b@@YAXXZ", 0x2000)}

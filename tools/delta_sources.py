@@ -55,9 +55,16 @@ def pins_at(spec):
     """{(name, address)} pinned by reverse/symbols.csv at a git object spec."""
     pairs = set()
     for row in csv.DictReader(io.StringIO(text_at(spec))):
+        name = row.get("name")
         address = (row.get("address") or "").strip()
-        if row.get("name") and address:
-            pairs.add((row["name"], int(address, 16)))
+        # A union merge can land a second copy of the header mid-file, and int()
+        # on the literal "address" used to abort the whole run. The callers pipe
+        # this through mapfile, so the abort became an EMPTY source list and the
+        # pin-deletion half of the push gate passed by producing nothing.
+        if name == "name" and address == "address":
+            continue
+        if name and address:
+            pairs.add((name, int(address, 16)))
     return pairs
 
 

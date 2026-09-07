@@ -87,9 +87,16 @@ PY
     # bytes call that address now resolves to a different ICF copy of the name.
     # Neither list above can see it -- both are keyed on functions.csv -- which
     # is how d27ae4b7b pushed 1,599 deletions behind a two-file byte-verify.
+    # mapfile cannot see the exit status of the process substitution it reads,
+    # so a delta_sources crash used to look exactly like "no pin-affected
+    # sources" and the gate waved the push through. Run it to a file first.
     pin_delta=()
     if ! git diff --quiet "$base" "$local_sha" -- reverse/symbols.csv; then
-        mapfile -t pin_delta < <(python3 tools/delta_sources.py --range "$base" "$local_sha" --pins)
+        pin_delta_out=$(mktemp)
+        python3 tools/delta_sources.py --range "$base" "$local_sha" --pins > "$pin_delta_out" \
+            || { rm -f "$pin_delta_out"; fail "delta_sources --pins (see above)"; }
+        mapfile -t pin_delta < "$pin_delta_out"
+        rm -f "$pin_delta_out"
     fi
 
     verify=()
