@@ -37,7 +37,7 @@ public:
 	int Get_Vertex_Count(void) { return VertexCount; }
 
 protected:
-	WW3DErrorType read_chunks(ChunkLoadClass & cload);
+	bool read_chunks(ChunkLoadClass & cload);
 	uint16 * get_bone_links(bool create = true);
 	void Generate_Culling_Tree(void);
 

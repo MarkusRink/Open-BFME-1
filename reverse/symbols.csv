@@ -81857,7 +81857,6 @@ name,address,notes
 ?readRequestGameSpyStatsAuthKeyMessage@NetPacket@@KAPAVNetCommandMsg@@PAEAAH@Z,0x0067EB80,identified by the type-5 constructor and setText1C it calls; source is one instruction pair off
 ?readUnicodeString@@YA?AVUnicodeString@@PAU_iobuf@@@Z,0x000322F4,shared replay Unicode string reader thunk
 ?readUntilSemicolon@@YAXPAVFile@@PADH@Z,0x004843E0,decoded from parseDefaultColor call site
-?read_chunks@MeshGeometryClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@@Z,0x00927950,Load_W3D call-site and chunk-loop body identify the BFME reader
 ?read_data_file@@YAHXZ,0x008760A0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00878530 calls; autopin
 ?read_material_pass@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096FB60,BFME bool-returning material pass loader called by read_prelit_material
 ?read_shaders@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096EA60,BFME prelit chunk0x29 table96FD00 -> arm96FCAE; W3dShaderStruct array and Convert_Shader prove identity
