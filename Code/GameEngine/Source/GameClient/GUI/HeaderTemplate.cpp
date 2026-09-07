@@ -238,19 +238,6 @@ HeaderTemplate *HeaderTemplateManager::findHeaderTemplate( AsciiString name )
 // Queue 0x00B026CE was INSIDE scalar-deleting dtor @ 0xB026C0; true body via
 // parseHeaderTemplateDefinition call ILT 0x470E6. C++ blocked by STL push_front shape.
 
-// ?getFontFromTemplate@HeaderTemplateManager@@QAEPAVGameFont@@VAsciiString@@@Z present-unmatched
-GameFont *HeaderTemplateManager::getFontFromTemplate( AsciiString name )
-{
-	HeaderTemplate *ht = findHeaderTemplate( name );
-	if(!ht)
-	{
-		//DEBUG_LOG(("HeaderTemplateManager::getFontFromTemplate - Could not find header %s\n", name.str()));
-		return NULL;
-	}
-	
-	return ht->m_font;
-}
-
 HeaderTemplate *HeaderTemplateManager::getFirstHeader( void )
 {
 	HeaderTemplateListIt it = m_headerTemplateList.begin();

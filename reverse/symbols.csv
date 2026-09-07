@@ -50295,6 +50295,7 @@ name,address,notes
 ?b_0048c5b0@@YAXXZ,0x0048C5B0,gen-thunk body
 ?b_0048c680@@YAXXZ,0x0048C680,gen-thunk body
 ?b_0048c8c0@@YAXXZ,0x0048C8C0,gen-thunk body
+?findHeaderTemplate@HeaderTemplateManager@@QAEPAVHeaderTemplate@@VAsciiString@@@Z,0x0048C8C0,direct body pin: HeaderTemplateManager list lookup proven by 0x00487F80 caller and retail manager/template offsets; resolver derives ILT 0x0004881A; campaign=luna36h-20260907;lane=mid
 ?b_0048c9e0@@YAXXZ,0x0048C9E0,gen-thunk body
 ?b_0048ca80@@YAXXZ,0x0048CA80,gen-thunk body
 ?b_0048ca90@@YAXXZ,0x0048CA90,gen-thunk body
