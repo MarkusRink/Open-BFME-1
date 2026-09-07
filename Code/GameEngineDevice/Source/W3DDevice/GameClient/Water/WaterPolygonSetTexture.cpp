@@ -1,5 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
-// BFME retail WaterRenderObjClass::setWaterTrackTexture at 0x007A24C0.
+// Constructor 0x007A4FD0 and initializer 0x007A4D40 pass the same 0x80-byte
+// polygon object here. Its original class and method spelling are unproven;
+// the address-derived owner distinguishes it from the larger water renderer.
 
 typedef int Int;
 typedef char Char;
@@ -109,33 +111,32 @@ public:
 	}
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include/W3DDevice/GameClient/W3DWater.h
-class WaterRenderObjClass
+class Rva007A1230ArrayOwner
 {
 public:
-	virtual void slot0(void);
-	void setWaterTrackTexture(const AsciiString &name, WaterTextureIndex index);
+	virtual ~Rva007A1230ArrayOwner();
+	void setTexture(const AsciiString &name, WaterTextureIndex index);
 
 private:
-	Bool m_useRadarFormat;
+	Bool m_flag04;
 	Char m_beforeNames[7];
-	AsciiString m_waterTrackTextureNames[6];
-	TextureClass *m_waterTrackTextures[6];
+	AsciiString m_textureNames[6];
+	TextureClass *m_textureReferences[6];
 };
 
-void WaterRenderObjClass::setWaterTrackTexture(
+void Rva007A1230ArrayOwner::setTexture(
 	const AsciiString &name, WaterTextureIndex index)
 {
-	register WaterRenderObjClass *self = this;
+	register Rva007A1230ArrayOwner *self = this;
 	Int indexValue = (Int)index;
 	if (!BFMEWaterTrackIndexInRange(indexValue))
 		return;
 
-	self->m_waterTrackTextureNames[indexValue] = name;
-	if (self->m_waterTrackTextureNames[indexValue].isEmpty())
+	self->m_textureNames[indexValue] = name;
+	if (self->m_textureNames[indexValue].isEmpty())
 		return;
 
-	if (!self->m_useRadarFormat && indexValue == 4)
+	if (!self->m_flag04 && indexValue == 4)
 	{
 		Int format = 0;
 		if (TheW3DRadarFormatCaps->supportTextureFormat(
@@ -150,13 +151,13 @@ void WaterRenderObjClass::setWaterTrackTexture(
 
 		((TextureHolder *)((char *)self + 0x34))->bind(
 			BFMEGetWaterTrackTexture(
-				self->m_waterTrackTextureNames[4].str(), 1, format));
+				self->m_textureNames[4].str(), 1, format));
 	}
 	else
 	{
 		BFMEAssignWaterTrackTexture(
-			self->m_waterTrackTextures[indexValue],
+			self->m_textureReferences[indexValue],
 			BFMEGetWaterTrackTexture(
-				self->m_waterTrackTextureNames[indexValue].str(), 0, 0));
+				self->m_textureNames[indexValue].str(), 0, 0));
 	}
 }
