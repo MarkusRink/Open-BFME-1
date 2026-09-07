@@ -81029,6 +81029,7 @@ name,address,notes
 ?invoke@BfmeCallJ378F8@@QAEXUGen003BDC50CallPair@@H@Z,0x000378F8,local thiscall adapter to the BfmeThingHI::bfmeGoHI thunk; called by Rva003BDC50::run
 ?invoke@BfmeCallJ3A1FC@@QBEPAUBfmeEntryBB@@H@Z,0x0003A1FC,local const thiscall adapter to the final table lookup thunk
 ?invoke@BfmeCallJ3D@@QAEXPAXHPAUBfmeDelayedLuaEventList@@@Z,0x0003D4E7,local thiscall adapter to member event dispatch thunk
+?invoke@BfmeObjectEventDispatch@@QAEXPAX0PAUBfmeDelayedLuaEventList@@@Z,0x0003D4E7,TU-local object-pointer adapter; ObjectDispatchEvent passes the GameLogic-resolved Object and retail dispatcher reads its +0x204 module field
 ?invoke@BfmeCallJ63@@QAEPAXPAX@Z,0x0000634D,local thiscall adapter to drawable event lookup thunk
 ?invoke@BfmeCallJE68@@QAEXXZ,0x0000E68D,local thiscall adapter to member ID list destructor
 ?invoke@GameLogic@@QAEXXZ,0x0003B417,Existing matched38385011B owner170 tail dispatch

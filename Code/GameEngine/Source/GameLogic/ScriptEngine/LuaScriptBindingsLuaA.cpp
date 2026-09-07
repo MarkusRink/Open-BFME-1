@@ -225,7 +225,9 @@ class AsciiString
 {
 public:
 	AsciiString() { m_data = 0; }
+	AsciiString( const char *text );
 	~AsciiString();
+	AsciiString &operator=( const AsciiString &text );
 
 	void *m_data;
 };
@@ -315,5 +317,105 @@ int ObjectSetDelayedDeath( lua_State *state )
 	if( !contain )
 		return 0;
 	contain->v37call( delayed );
+	return 0;
+}
+
+typedef unsigned NameKeyType;
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/NameKeyGenerator.h
+class NameKeyGenerator
+{
+public:
+	NameKeyType nameToKey( const char *name );
+};
+
+extern NameKeyGenerator *TheNameKeyGenerator;
+
+struct BfmeDelayedLuaEvent
+{
+	unsigned char m_data[0x18];
+};
+
+struct BfmeDelayedLuaEventList
+{
+	BfmeDelayedLuaEventList();
+	~BfmeDelayedLuaEventList();
+
+	void *m_vtable;
+	BfmeDelayedLuaEvent m_events[3];
+};
+
+struct BfmeDispatchDelayedLuaEvent
+{
+	void *m_vtable;
+	float m_number;
+	unsigned char m_boolean;
+	unsigned char m_padding[3];
+	unsigned m_objectID;
+	AsciiString m_string;
+	unsigned m_type;
+};
+
+struct LuaDrawableState
+{
+	unsigned char m_data[0x78];
+};
+
+extern LuaDrawableState *g_obj12F060C;
+
+struct BfmeCallJ63
+{
+	void *invoke( void *event );
+};
+
+struct BfmeObjectEventDispatch
+{
+	// The second argument is an Object pointer here.  Retail's dispatcher
+	// consumes its +0x204 module field; the horde sibling supplies the same
+	// slot from its member-pointer list.
+	void invoke( void *event, void *object, BfmeDelayedLuaEventList *eventList );
+};
+
+// The registration at 0x002EC990 pairs ObjectDispatchEvent with the thunk at
+// RVA 0x0001A578, which jumps directly to this 320-byte body.  The body uses
+// the delayed-event list's established three-record layout: record zero is an
+// object-ID value (type 3), and record one is a copied string (type 4).
+// ?ObjectDispatchEvent@@YAHPAUlua_State@@@Z
+int ObjectDispatchEvent( lua_State *state )
+{
+	unsigned objectID = Rva00990030Lookup( state, 1 );
+	if( !objectID && lua_type( state, 1 ) != 1 )
+		return 0;
+	Object *object = TheGameLogic->bfmeFind1011( objectID );
+	if( !object )
+		return 0;
+
+	BfmeDelayedLuaEventList eventList;
+	unsigned eventID = Rva00990030Lookup( state, 2 );
+	if( !eventID && lua_type( state, 1 ) != 1 )
+		return 0;
+	const char *eventName = lua_tostring( state, 3 );
+	if( !eventName )
+		return 0;
+
+	NameKeyType eventKey = TheNameKeyGenerator->nameToKey( eventName );
+	void *eventData = reinterpret_cast<BfmeCallJ63 *>(g_obj12F060C)->invoke(
+		(void *)eventKey);
+	if( eventData )
+	{
+		const char *text = lua_tostring( state, 4 );
+		BfmeDispatchDelayedLuaEvent *events =
+			reinterpret_cast<BfmeDispatchDelayedLuaEvent *>( &eventList.m_events[0] );
+		events[0].m_objectID = eventID;
+		events[0].m_type = 3;
+		{
+			AsciiString value( text );
+			events[1].m_string = value;
+			events[1].m_type = 4;
+		}
+		reinterpret_cast<BfmeObjectEventDispatch *>(g_obj12F060C)->invoke(
+			eventData, object, &eventList);
+	}
+
 	return 0;
 }
