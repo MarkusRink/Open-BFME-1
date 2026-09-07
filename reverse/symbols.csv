@@ -81775,6 +81775,7 @@ name,address,notes
 ?push_back@?$list@PAVLadderInfo@@V?$allocator@PAVLadderInfo@@@_STL@@@_STL@@QAEXABQAVLadderInfo@@@Z,0x0002C5E8,checkLadder inserts into LadderList::m_localLadders at 0x0062BD96
 ?push_back@?$list@UEvacuationRecord@@V?$allocator@UEvacuationRecord@@@_STL@@@_STL@@QAEXABUEvacuationRecord@@@Z,0x0001FF41,EvacuateDamage onDamage STLport list insertion ILT
 ?push_back@?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAEXABQAVObject@@@Z,0x00019E70,ILT thunk
+?push_back@?$vector@PAVRankInfo@@V?$allocator@PAVRankInfo@@@_STL@@@_STL@@QAEXABQAVRankInfo@@@Z,0x00025A8B,address from the retail RankInfo parser call
 ?push_back@?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAEXABVAsciiString@@@Z,0x00032317,Open-BFME5 ILT thunk to body 0x000638C0 - a second per-TU copy of the same template the ledger already matches at 0x00757E20; ?addPublicBone@ModelConditionInfo@@QBEXABVAsciiString@@@Z at 0x00772BF0 appends through it
 ?push_back_aux@DequeGameResultsResponseThunkShim@_STL@@QAEXPBX@Z,0x006421D0,_STL deque _M_push_back_aux_v incremental-link thunk target through a TU-local forwarding shim
 ?push_back_aux@DequePingRequestThunkShim@_STL@@QAEXPBX@Z,0x00660750,_STL deque _M_push_back_aux_v incremental-link thunk target through a TU-local forwarding shim

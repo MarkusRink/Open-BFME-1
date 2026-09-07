@@ -35,9 +35,48 @@
 #include "Common/INI.h"
 #include "Common/INIException.h"
 #include "Common/Player.h"
+#pragma push_macro("MEMORY_POOL_GLUE_WITHOUT_GCMP")
+#undef MEMORY_POOL_GLUE_WITHOUT_GCMP
+extern "C" void free(void *);
+#define MEMORY_POOL_GLUE_WITHOUT_GCMP(ARGCLASS) \
+protected: \
+	virtual ~ARGCLASS(); \
+public: \
+	enum ARGCLASS##MagicEnum { ARGCLASS##_GLUE_NOT_IMPLEMENTED = 0 }; \
+public: \
+	inline void *operator new(size_t s, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ \
+		DEBUG_ASSERTCRASH(s == sizeof(ARGCLASS), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly")); \
+		return MP_GLUE_ALLOCATE(ARGCLASS); \
+	} \
+public: \
+	inline void operator delete(void *p, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ \
+		free(p); \
+	} \
+protected: \
+	inline void *operator new(size_t s) \
+	{ \
+		DEBUG_ASSERTCRASH(s == sizeof(ARGCLASS), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly")); \
+		return ::operator new(s); \
+	} \
+	inline void operator delete(void *p) \
+	{ \
+		::operator delete(p); \
+	} \
+private: \
+	virtual MemoryPool *getObjectMemoryPool() \
+	{ \
+		return ARGCLASS::getClassMemoryPool(); \
+	} \
+public:
 #include "GameLogic/RankInfo.h"
+#pragma pop_macro("MEMORY_POOL_GLUE_WITHOUT_GCMP")
 
 RankInfoStore* TheRankInfoStore = NULL;
+
+typedef void (*RankInfoPlacementDelete)(void *, RankInfo::RankInfoMagicEnum);
+RankInfoPlacementDelete g_rankInfoPlacementDelete = &RankInfo::operator delete;
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -126,79 +165,9 @@ const RankInfo* RankInfoStore::getRankInfo(Int level) const
 }
 
 //-----------------------------------------------------------------------------
-// ?friend_parseRankDefinition@RankInfoStore@@SAXPAVINI@@@Z present-unmatched
-// All three guards now carry their retail messages -- "Rank not found in
-// map.ini" twice and "Ranks must increase monotonically" -- instead of a bare
-// INI_INVALID_DATA, and getLoadType reads INI+0x08, so the TU uses
-// reference/shims/ini_noinline. The control flow matches retail instruction for
-// instruction.
-//
-// What does not match is register allocation, and it starts at byte 8. Retail
-// tests the store with test eax,eax and passes the getNextToken separator as a
-// literal push 0. We materialise zero into ebx and spend the register on both --
-// xor ebx,ebx then cmp eax,ebx then push ebx -- which costs a callee-saved
-// register and shifts everything after. That is an MSVC heuristic about how many
-// zero uses are worth a register, so it wants a source shape with fewer of them
-// rather than a different spelling of any one comparison.
-void RankInfoStore::friend_parseRankDefinition( INI* ini )
-{
-	if (TheRankInfoStore)
-	{
-		Int rank = INI::scanInt(ini->getNextToken());
-
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "RankName", INI::parseAndTranslateLabel, NULL, offsetof( RankInfo, m_rankName ) },
-			{ "SkillPointsNeeded", INI::parseInt, NULL, offsetof( RankInfo, m_skillPointsNeeded ) },
-			{ "SciencesGranted", INI::parseScienceVector, NULL, offsetof( RankInfo, m_sciencesGranted ) },
-			{ "SciencePurchasePointsGranted", INI::parseUnsignedInt, NULL, offsetof( RankInfo, m_sciencePurchasePointsGranted ) },
-			{ 0, 0, 0, 0 }
-		};
-
-		if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES) 
-		{
-			// we aren't allowed to add ranks in overrides, only to override existing ones.
-			if (rank < 1 || rank > TheRankInfoStore->m_rankInfos.size())
-			{
-				throw INIException( 3, "Rank not found in map.ini" );
-			}
-			
-			RankInfo* info = TheRankInfoStore->m_rankInfos[rank-1];
-			if (!info)
-			{
-				throw INIException( 3, "Rank not found in map.ini" );
-			}
-
-			RankInfo* newInfo = newInstance(RankInfo);
-			
-			// copy data from final override to 'newInfo' as a set of initial default values
-			info = (RankInfo*)(info->friend_getFinalOverride());
-
-			*newInfo = *info;
-			info->setNextOverride(newInfo);
-			newInfo->markAsOverride();	// must do AFTER the copy
-
-			ini->initFromINI(newInfo, myFieldParse);
-			//TheRankInfoStore->m_rankInfos.push_back(newInfo);	// NO, BAD, WRONG -- don't add in this case.
-
-		} 
-		else
-		{
-			if (rank != TheRankInfoStore->m_rankInfos.size() + 1)
-			{
-				throw INIException( 3, "Ranks must increase monotonically" );
-			}
-			RankInfo* info = newInstance(RankInfo);
-			ini->initFromINI(info, myFieldParse);
-			TheRankInfoStore->m_rankInfos.push_back(info);
-		}
-	}
-}
-
 //-----------------------------------------------------------------------------
 // ?parseRankDefinition@INI@@SAXPAV1@@Z present-unmatched
 void INI::parseRankDefinition( INI* ini )
 {
 	RankInfoStore::friend_parseRankDefinition(ini);
 }
-
