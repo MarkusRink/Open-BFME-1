@@ -890,7 +890,7 @@ FXListStore::FXListStore()
 }
 
 //-------------------------------------------------------------------------------------------------
-// ??1FXListStore@@UAE@XZ body: FXListStoreDestructorThunk.cpp (exact retail @ 0x009F2800)
+// ??1FXListStore@@UAE@XZ body: FXListStoreDtorThunk.cpp (exact retail @ 0x0042DE50)
 
 //-------------------------------------------------------------------------------------------------
 const FXList *FXListStore::findFXList(const char* name) const

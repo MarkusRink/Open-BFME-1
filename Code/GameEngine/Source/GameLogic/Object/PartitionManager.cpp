@@ -2634,7 +2634,6 @@ PartitionManager::PartitionManager()
 } 
 
 //-----------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/Common/PartitionManagerDestructorThunk.cpp
 // ??1PartitionManager@@UAE@XZ present-unmatched
 PartitionManager::~PartitionManager()
 {

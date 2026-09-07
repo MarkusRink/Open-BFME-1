@@ -1,16 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
-//
-// Three subsystem destructors landed as relocation-blind twins of
-// Code/GameEngine/Source/GameClient/FXListStoreDestructorThunk.cpp
-// (0x009F2800).  Each differs from the model in four slots and three of them
-// are automatic: its own EH table and its own two vtables, which are distinct
-// symbols per class.  The fourth is the map deleting destructor, one per
-// element type.
-//
-// The element type is not recoverable from these bytes -- the map is only
-// destroyed here -- so each is a distinct forward-declared class named after
-// the body's address.
 
 #include <map>
 
