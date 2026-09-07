@@ -28,6 +28,17 @@ typedef enum
 typedef void (*ciConnectCallback)(CHAT chat, CHATBool success, int failureReason,
 		void *param);
 
+typedef void (*chatGetBasicUserInfoCallback)(CHAT chat, CHATBool success,
+	const char *nick, const char *user, const char *address, void *param);
+
+typedef struct ciCallbackGetBasicUserInfoParams
+{
+	CHATBool success;
+	char *nick;
+	char *user;
+	char *address;
+} ciCallbackGetBasicUserInfoParams;
+
 typedef struct ciConnection
 {
 	int connected;
@@ -64,6 +75,11 @@ void ciAddCallback_(CHAT chat, int type, void *callback, void *params,
 #define ciAddCallback(chat, type, callback, params, callbackParam, ID, param2) \
 	ciAddCallback_(chat, type, callback, params, callbackParam, ID, param2, \
 		sizeof(*(params)))
+CHATBool ciGetUserBasicInfoA(CHAT chat, const char *nick,
+	const char **user, const char **address);
+int ciAddWHOFilter(CHAT chat, const char *user,
+	chatGetBasicUserInfoCallback callback, void *param);
+#define CALLBACK_GET_BASIC_USER_INFO 21
 
 static CHATBool ciCheckForID(CHAT chat, int ID)
 {
@@ -220,6 +236,47 @@ static __declspec(noinline) void ciThink(CHAT chat, int ID)
 
 	ciFilterThink(chat);
 	ciCallCallbacks(chat, ID);
+}
+
+void chatGetBasicUserInfoA(CHAT chat, const char *nick,
+	chatGetBasicUserInfoCallback callback, void *param, int blocking)
+{
+	const char *user;
+	const char *address;
+	int ID;
+	ciConnection *connection = (ciConnection *)chat;
+
+	if(!connection || !connection->connected)
+		return;
+
+	if(ciGetUserBasicInfoA(chat, nick, &user, &address))
+	{
+		ciCallbackGetBasicUserInfoParams params;
+
+		params.success = CHATTrue;
+		params.nick = (char *)nick;
+		params.user = (char *)user;
+		params.address = (char *)address;
+		ID = ciGetNextID(chat);
+		ciAddCallback(chat, CALLBACK_GET_BASIC_USER_INFO, callback,
+			&params, param, ID, NULL);
+	}
+	else
+	{
+		ciSocketSendf(&connection->chatSocket, "WHO %s", nick);
+		ID = ciAddWHOFilter(chat, nick, callback, param);
+	}
+
+	if(blocking)
+	{
+		do
+		{
+			ciThink(chat, ID);
+			msleep(10);
+		}
+		while(ciCheckFiltersForID(chat, ID) ||
+			ciCheckCallbacksForID(chat, ID));
+	}
 }
 
 void chatGetGlobalKeysA(CHAT chat,
