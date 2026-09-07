@@ -961,7 +961,7 @@ void Drawable::setTerrainDecalFadeTarget(Real target, Real rate)
 }
 
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/Drawable_setShadowsEnabled.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableVisualState.cpp
 // ?setShadowsEnabled@Drawable@@QAEX_N@Z present-unmatched
 void Drawable::setShadowsEnabled(Bool enable)
 {
@@ -5084,7 +5084,7 @@ void Drawable::clearEmoticon()
 }
 
 //------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/Drawable_setEmoticon.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableVisualState.cpp
 // ?setEmoticon@Drawable@@QAEXABVAsciiString@@H@Z present-unmatched
 void Drawable::setEmoticon( const AsciiString &name, Int duration )
 {
@@ -5104,7 +5104,7 @@ void Drawable::setEmoticon( const AsciiString &name, Int duration )
 
 //------------------------------------------------------------------------------------------------
 // ?drawEmoticon@Drawable@@AAEXPBUIRegion2D@@@Z
-// Body in Drawable_drawEmoticon.asm (exact 191B retail @ 0x00414AF0).
+// BFME no-argument reconstruction: Code/GameEngine/Source/GameClient/Drawable_drawEmoticon.cpp (191 B at 0x00414AF0).
 
 
 // ------------------------------------------------------------------------------------------------
@@ -6774,7 +6774,7 @@ void Drawable::updateHiddenStatus()
 //-------------------------------------------------------------------------------------------------
 /** Hide or un-hide drawable */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableSetDrawableHidden.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableVisualState.cpp
 // ?setDrawableHidden@Drawable@@QAEX_N@Z present-unmatched
 void Drawable::setDrawableHidden( Bool hidden )
 {
