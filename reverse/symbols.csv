@@ -85433,3 +85433,8 @@ _bfmeXferBE,0x0000C9B4
 ?bfmeStepBE@BfmeHostBE@@QAEXPAVBfmeAgentBE@@@Z,0x000160B3
 _bfmeXferOneBG,0x00008CA1
 _bfmeXferTwoBG,0x00034815
+?bfmeBeginBH@BfmeHostBH@@QAEXPAVBfmeAgentBH@@@Z,0x000044C1
+?bfmeSaveBH@BfmeSubOneBH@@QAEXPAVBfmeAgentBH@@@Z,0x00026DD7
+?bfmeSaveBH@BfmeSubTwoBH@@QAEXPAVBfmeAgentBH@@@Z,0x00035A0D
+?bfmeOnBH@BfmeHostBH@@QAEXXZ,0x00046722
+?bfmeOffBH@BfmeHostBH@@QAEXXZ,0x00018151
