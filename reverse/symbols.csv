@@ -85673,3 +85673,8 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeFindERO@BfmeThingERO@@QAEPAXH@Z,0x0002AE23,pin
 ?bfmeNameToKeyERO@BfmeKeyGenERO@@QAEHPBD@Z,0x0003ADD7,pin
 ?g_bfmeKeyGenERO@@3PAVBfmeKeyGenERO@@A,0x00EED600,pin
+?bfmeFindByIdERP@BfmeLogicERP@@QAEPAVBfmeThingERP@@H@Z,0x0001F253,pin
+?g_bfmeLogicERP@@3PAVBfmeLogicERP@@A,0x00EF0898,pin
+?bfmeFindERP@BfmeThingERP@@QAEPAVBfmeModERP@@H@Z,0x0002AE23,pin
+?bfmeNameToKeyERP@BfmeKeyGenERP@@QAEHPBD@Z,0x0003ADD7,pin
+?g_bfmeKeyGenERP@@3PAVBfmeKeyGenERP@@A,0x00EED600,pin
