@@ -84633,3 +84633,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeResolveLP@BfmeInnerLP@@QAEPAVBfmeThingLP@@XZ,0x000022BB,pin
 ?bfmeTestLP@BfmeThingLP@@QAEPAXPAI@Z,0x00021044,pin
 ?bfmeHitLP@BfmeHolderLP@@QAEXI@Z,0x000348EC,pin
+?bfmeResolveQD@BfmeInnerQD@@QAEPAVBfmeThingQD@@XZ,0x000022BB,pin
