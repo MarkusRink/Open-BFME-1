@@ -142,3 +142,10 @@ EMIT_POOL_GLUE_DELETE( Upgrade )
 // PartitionManager.cpp's two, reachable from the same include set.
 EMIT_POOL_GLUE_DELETE( PartitionData )
 EMIT_POOL_GLUE_DELETE( SimpleObjectIterator )
+
+// Weapon.cpp's three and ThingFactory.cpp's one: same folded 12-byte body at
+// 0x007EFFF0, and both owning TUs are pure C++ that cannot carry the override.
+EMIT_POOL_GLUE_DELETE( Weapon )
+EMIT_POOL_GLUE_DELETE( WeaponBonusSet )
+EMIT_POOL_GLUE_DELETE( WeaponTemplate )
+EMIT_POOL_GLUE_DELETE( ThingTemplate )
