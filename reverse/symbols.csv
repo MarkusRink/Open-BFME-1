@@ -85891,3 +85891,5 @@ _bfmeVftCEVK,0x00D12DA4,pin vftable for BfmeConv2001
 ?_M_initialize_buckets@?$hashtable@U?$pair@$$CBHVFXList@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHVFXList@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHVFXList@@@_STL@@@2@@_STL@@AAEXI@Z,0x0042D0E0,FXListStore inline container at +8 with 36-byte FXList values; verified constructor42E020 encodes ILTBB40 to this body.
 ?clear@?$hashtable@U?$pair@$$CBHVFXList@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHVFXList@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHVFXList@@@_STL@@@2@@_STL@@QAEXXZ,0x0042DC10,FXListStore inline container at +8 with 36-byte FXList values; verified destructor42DE50 encodes ILT19065 to this body.
 ??1?$hashtable@U?$pair@$$CBHVFXList@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHVFXList@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHVFXList@@@_STL@@@2@@_STL@@QAE@XZ,0x0042DD70,FXListStore inline container at +8 with 36-byte FXList values; verified destructor42DE50 encodes ILT2D286 to this body.
+?bfmeExpandEAN@BfmeLexEAN@@QAEDPAD@Z,0x0003CB14,pin expand for BfmeConv2008
+?bfmeFailEAN@BfmeLexEAN@@QAEHH@Z,0x0002C3B8,pin fail for BfmeConv2008
