@@ -85404,3 +85404,6 @@ _htonl@4,0x0081BDDE,route=WSOCK32.dll!htonl; matched piSBInit callback identity 
 ?bfmeEndAT@BfmeHostAT@@QAEXPAVBfmeAgentAT@@@Z,0x000289F7
 ?bfmeBeginAU@BfmeHostAU@@QAEXPAVBfmeAgentAU@@@Z,0x00033B77
 _bfmeXferAU,0x0000C9B4
+?run@Rva008A25C0Object@@QAEXPAX@Z,0x008A25C0,address-derived thiscall target used by BfmeSubVBW::bfmeDtorVBW
+?remove@Rva00893030Manager@@QAEXPAX@Z,0x00895200,address-derived manager unlink target used by BfmeDropObjectA
+?g_rva0133784C@@3P6AXPAX@ZA,0x0133784C,address-derived one-argument callback used by BfmeSubVBW::bfmeDtorVBW
