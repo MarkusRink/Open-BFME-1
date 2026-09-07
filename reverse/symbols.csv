@@ -85344,3 +85344,4 @@ _g_bfmeFlagZM,0x00EF1B23
 ?bfmeWriteZO@BfmeItemZO@@QAEXPAVBfmeChunkZO@@@Z,0x0001C062
 ?bfmeCloseZO@BfmeChunkZO@@QAEXXZ,0x00004B42
 _g_bfmeNameZO,0x00CF5E30
+?bfmeHitZP@BfmeSlotZP@@QAEXPAVBfmeKeyZP@@@Z,0x00801EC0
