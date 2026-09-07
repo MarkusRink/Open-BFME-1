@@ -1,5 +1,8 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
-// readable body of ?readDisconnectChatMessage@NetPacket@@KAPAVNetCommandMsg@@PAEAAH@Z: Code/GameNetwork/Source/GameNetwork/NetPacket.cpp
+// readable body of ?readChatMessage@NetPacket@@KAPAVNetCommandMsg@@PAEAAH@Z: Code/GameEngine/Source/GameNetwork/NetPacket.cpp
+// readable body of ?readDisconnectChatMessage@NetPacket@@KAPAVNetCommandMsg@@PAEAAH@Z: Code/GameEngine/Source/GameNetwork/NetPacket.cpp
+
+// The inline wide-string copy preserves the by-value setText temporary's retail EH shape.
 
 #include <string.h>
 #include <wchar.h>
@@ -26,8 +29,6 @@ template <typename T>
 class StringBase
 {
 	friend class UnicodeString;
-	friend class NetDisconnectChatCommandMsg;
-	friend class NetPacket;
 
 public:
 	void set(const T *str) { set(str, stringLength(str)); }
@@ -37,15 +38,8 @@ private:
 	StringBase() { m_data = 0; }
 	StringBase(const StringBase<T> &src);
 	~StringBase();
-	void releaseBuffer();
 
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
+	struct Header;
 
 	Header *m_data;
 };
@@ -57,6 +51,19 @@ public:
 	UnicodeString(const UnicodeString &other) : StringBase<UnsignedShort>(other) {}
 	~UnicodeString() {}
 	void set(const UnsignedShort *str) { StringBase<UnsignedShort>::set(str); }
+};
+
+class NetChatCommandMsg : public NetCommandMsg
+{
+public:
+	NetChatCommandMsg();
+	virtual ~NetChatCommandMsg();
+	void setText(UnicodeString text);
+	void setPlayerMask(Int playerMask);
+
+	UnsignedInt m_base[6];
+	UnicodeString m_text;
+	Int m_playerMask;
 };
 
 class NetDisconnectChatCommandMsg : public NetCommandMsg
@@ -73,8 +80,32 @@ public:
 class NetPacket
 {
 protected:
+	static NetCommandMsg *readChatMessage(UnsignedByte *data, Int &i);
 	static NetCommandMsg *readDisconnectChatMessage(UnsignedByte *data, Int &i);
 };
+
+NetCommandMsg *NetPacket::readChatMessage(UnsignedByte *data, Int &i)
+{
+	NetChatCommandMsg *msg = new NetChatCommandMsg;
+
+	UnsignedShort text[256];
+	UnsignedByte length;
+	Int playerMask;
+	memcpy(&length, data + i, sizeof(UnsignedByte));
+	++i;
+	memcpy(text, data + i, length * sizeof(UnsignedShort));
+	i += length * sizeof(UnsignedShort);
+	text[length] = 0;
+	memcpy(&playerMask, data + i, sizeof(Int));
+	i += sizeof(Int);
+
+	UnicodeString unitext;
+	unitext.set(text);
+
+	msg->setText(unitext);
+	msg->setPlayerMask(playerMask);
+	return msg;
+}
 
 NetCommandMsg *NetPacket::readDisconnectChatMessage(UnsignedByte *data, Int &i)
 {

@@ -5787,6 +5787,7 @@ NetCommandMsg * NetPacket::readPacketRouterAckMessage(UnsignedByte *data, Int &i
 /**
  * Reads the disconnect chat data, which is just the string.
  */
+// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/NetPacketChatReaders.cpp
 // ?readDisconnectChatMessage@NetPacket@@KAPAVNetCommandMsg@@PAEAAH@Z present-unmatched
 NetCommandMsg * NetPacket::readDisconnectChatMessage(UnsignedByte *data, Int &i) {
 	NetDisconnectChatCommandMsg *msg = newInstance(NetDisconnectChatCommandMsg);
@@ -5811,6 +5812,7 @@ NetCommandMsg * NetPacket::readDisconnectChatMessage(UnsignedByte *data, Int &i)
 /**
  * Reads the chat data, which is just the string.
  */
+// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/NetPacketChatReaders.cpp
 // ?readChatMessage@NetPacket@@KAPAVNetCommandMsg@@PAEAAH@Z present-unmatched
 NetCommandMsg * NetPacket::readChatMessage(UnsignedByte *data, Int &i) {
 	NetChatCommandMsg *msg = newInstance(NetChatCommandMsg);
