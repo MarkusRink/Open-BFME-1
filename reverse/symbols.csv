@@ -13409,7 +13409,6 @@ name,address,notes
 ?attemptDamage@BodyModuleInterface@@UAEXPAVDamageInfo@@@Z,0x0003B372,ABI facade for PorcupineFormationBodyModule::attemptDamage base dispatch
 ?attemptToPurchaseScience@Player@@QAE_NW4ScienceType@@@Z,0x00004BC4,ILT thunk to Player::attemptToPurchaseScience; identity from Zero Hour ScriptActions.cpp doPlayerPurchaseScience
 ?audioManagerAddEventHelper@@YGIPBVAudioEventRTS@@HHH@Z,0x00020B08,AudioManager addAudioEvent helper YGI stdcall
-?awaken@GameLogicAwakenUpdateModuleShim@@QAEXPAVObject@@PAVUpdateModule@@I@Z,0x0038D870,GameLogic friend_awakenUpdateModule incremental-link thunk target through a TU-local forwarding shim
 ?awardInitialCaptureBonus@AutoDepositUpdate@@QAEXPAVPlayer@@@Z,0x00038A87,Player::becomingTeamMember direct-call ILT thunk
 ?b_0000130c@@YAXXZ,0x0000130C,gen-thunk body
 ?b_000015a5@@YAXXZ,0x000015A5,gen-thunk body
@@ -77747,7 +77746,7 @@ name,address,notes
 ?friend_adjustPowerForPlayer@Object@@QAEX_N@Z,0x00021297,Open-BFME5 retail object power adjustment thunk
 ?friend_applyDifficultyBonusesForObject@BfmeDifficultyBonusPlayer@@QAEXPAVObject@@_N@Z,0x0002278C,alias of the Player spelling pinned below; Object.cpp reaches the applier through a view class because the reference Player.h declares it const
 ?friend_applyDifficultyBonusesForObject@Player@@QAEXPAVObject@@_N@Z,0x0002278C,Open-BFME5 the incremental-link thunk Object setReceivingDifficultyBonus calls; Zero Hour names the same call
-?friend_awakenUpdateModule@GameLogic@@QAEXPAVObject@@PAVUpdateModule@@I@Z,0x00009944
+?friend_awakenUpdateModule@GameLogic@@QAEXPAVObject@@PAVUpdateModule@@I@Z,0x0038D870,329B scheduler wake body independently matched; existing ILT9944 and UpdateModule caller establish identity
 ?friend_changeBridgeState@Pathfinder@@QAEXW4PathfindLayerEnum@@_N@Z,0x0002847F,ILT spelling used by BridgeBehavior::removeScaffolding to preserve the retail indirection
 ?friend_checkForSleepTransitions@State@@QAE?AW4StateReturnType@@W42@@Z,0x00038442,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x000A0760 calls; autopin
 ?friend_checkForTransitions@State@@QAE?AW4StateReturnType@@W42@@Z,0x0001EC5E,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x000A0760 calls; autopin
@@ -85868,3 +85867,5 @@ _bfmeVftCEVK,0x00D12DA4,pin vftable for BfmeConv2001
 ?AtlThrow@ATL@@YGXJ@Z,0x0005BA40,direct body pin: VS2003 atlexcept.h exception helper reached through retail ILT 0x00019ACE; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
 ?Rva007EFFC0Get@@YAPAVRva007EFFC0Allocator@@XZ,0x007EFFC0,typed allocator singleton getter; complete body returns global allocator and the 0x00808ED0 caller uses proven allocate slot +8 and release slot +0xC; direct body; campaign=luna36h-20260907;lane=netpacket_next;model=gpt-5.6-sol-ultra
 ?ackCommand@BFMEConnectionManager@@QAEXPAVNetCommandRef@@PAUNetPacketAddress@@@Z,0x00662E80,caller-proven two-argument ACK emitter: runRelayPass at 0x0066A963 pushes source address then NetCommandRef via ILT 0x00038D43; body constructs ACKBOTH or ACKSTAGE1 and ret 8 at 0x00663061; old queueLocalCommand void one-arg source label retained until banked clean body lands
+?push_back@?$vector@PAVUpdateModule@@V?$allocator@PAVUpdateModule@@@_STL@@@_STL@@QAEXABQAVUpdateModule@@@Z,0x0038BA10,STLport pointer-vector push_back body50B; awake scheduler38D94A passes UpdateModule pointer; end/capacity and insertion overflow36B79 independently verified
+?TheBfmeAwakenDebug@@3PAVBfmeAwakenDebug@@A,0x01336E5C,shared diagnostic manager global; awake scheduler38D97F and38D98D use proven debug callsite8896A0 then slots60/6C identical matched debug forwarding family
