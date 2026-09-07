@@ -85824,3 +85824,6 @@ _ImmReleaseContext@8,0x009F88A8,FF25 thunk verified from PE IMM32.dll import Imm
 ?updateMacroTexture@Rva006D23C0Owner@@QAEXVBaseHeightMapResetAsciiString@@_N@Z,0x006CB8D0,refresh6CCDB0 same receiver ECX; ILT3CE2 ->6CB8D0; macro texture name3070 and force306C match existing body; campaign=luna36h-20260907;lane=shaders
 ??$_M_get_base_or_zero@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@G@_STL@@YAHAAV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@0@0AAVios_base@0@PAG@Z,0x00833DE0,STLport wide base parser called by _M_do_get_integer at 0x008348D0
 ??$__get_integer@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@I@_STL@@YA_NAAV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@0@0HAAIH_NDABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@0@ABU__false_type@0@@Z,0x008349D0,STLport wide unsigned-int parser called by _M_do_get_integer at 0x008348D0
+??0BfmeReqEUG@@QAE@XZ,0x0002E38E,pin PSRequest ctor thunk for BfmeConv1990
+??1BfmeReqEUG@@QAE@XZ,0x0001658B,pin PSRequest dtor thunk for BfmeConv1990
+?g_bfmeQueueEUG@@3PAVBfmeQueueEUG@@A,0x012F76F0,pin request queue global for BfmeConv1990
