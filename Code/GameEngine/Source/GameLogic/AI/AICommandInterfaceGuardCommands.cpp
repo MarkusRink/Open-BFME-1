@@ -3,27 +3,37 @@
 // Open-BFME: the AICommandInterface commands that post a guard, plus the one
 // BFME command built on the same payload.
 //
-//   ?aiGuardPosition@   0x00154550, 230 bytes
-//   ?aiGuardObject@     0x00154670, 214 bytes
-//   ?aiGuardArea@       0x00154890, 214 bytes
-//   ?aiBfmeCommand44@   0x001549A0, 241 bytes
+//   ?aiGuardPosition@   0x00154550, 230 bytes, AICMD 0x1E
+//   ?aiGuardObject@     0x00154670, 214 bytes, AICMD 0x1F
+//   ?aiBfmeCommand20@   0x00154780, 214 bytes, AICMD 0x20
+//   ?aiGuardArea@       0x00154890, 214 bytes, AICMD 0x21
+//   ?aiBfmeCommand44@   0x001549A0, 241 bytes, AICMD 0x44
 //
-// Four contiguous bodies in the retail image and the same builder each time:
-// construct AICommandParms, name what is being guarded, put the guard mode in
-// the misc integer at +0x34, then aiDoCommand at vtable slot 0. Command 0x44 is
-// aiGuardArea's payload -- a polygon and an integer -- with a position added,
-// which is the extra 27 bytes and the fourth argument.
+// Five contiguous bodies in the retail image, laid down in command order, and
+// the same builder each time: construct AICommandParms, name what is being
+// guarded, put the guard mode in the misc integer at +0x34, then aiDoCommand at
+// vtable slot 0. Command 0x44 is aiGuardArea's payload -- a polygon and an
+// integer -- with a position added, which is the extra 27 bytes and the fourth
+// argument.
+//
+// Command 0x20 is the reason to read the run rather than the four named
+// members. Its own file could only say it "writes m_team and an integer"; here
+// it is the 214-byte body sitting between GUARD_OBJECT and GUARD_AREA, in a run
+// whose addresses ascend with the command id, putting a team in the slot its
+// neighbours fill with an object or a polygon and the same second argument in
+// the same misc integer at +0x34. That is a guard command over a team.
 //
 // AICMD_GUARD_POSITION 0x1E, GUARD_OBJECT 0x1F and GUARD_AREA 0x21 are the
 // reference's own indices: BFME dropped the two ALLOW_SURRENDER prisoner
 // commands and added one position command after DOCK, and inserting two more
-// later (0x19 and 0x20) realigns the list with the reference exactly from
+// later (0x19 and this 0x20) realigns the list with the reference exactly from
 // GUARD_AREA on.
 //
-// GuardMode reaches the mangled names of three of these four, so it is declared;
-// none of the four reads a value out of it. DamageInfo is opaque here for the
-// same reason -- no body in this TU touches the damage block. The reconstructed
-// DamageInfo, DamageInfoInput and DamageInfoOutput are in
+// GuardMode reaches the mangled names of three of these five, so it is declared;
+// none of the five reads a value out of it, and the two BFME commands take a
+// plain Int in the same position. DamageInfo is opaque here for the same reason
+// -- no body in this TU touches the damage block. The reconstructed DamageInfo,
+// DamageInfoInput and DamageInfoOutput are in
 // AICommandInterfaceAttackCommands.cpp, next to aiGoProne, which does.
 #define _STLP_NO_EXCEPTIONS 1
 #include <vector>
@@ -46,6 +56,7 @@ enum AICommandType
 {
 	AICMD_GUARD_POSITION	= 0x1E,
 	AICMD_GUARD_OBJECT		= 0x1F,
+	AICMD_BFME_20			= 0x20,
 	AICMD_GUARD_AREA		= 0x21,
 	AICMD_BFME_44			= 0x44
 };
@@ -87,6 +98,7 @@ public:
 
 	void aiGuardPosition(const Coord3D *pos, GuardMode guardMode, CommandSourceType cmdSource);
 	void aiGuardObject(Object *objToGuard, GuardMode guardMode, CommandSourceType cmdSource);
+	void aiBfmeCommand20(const Team *team, Int value, CommandSourceType cmdSource);
 	void aiGuardArea(const PolygonTrigger *areaToGuard, GuardMode guardMode, CommandSourceType cmdSource);
 	void aiBfmeCommand44(const PolygonTrigger *poly, Int value,
 			CommandSourceType cmdSource, const Coord3D *pos);
@@ -105,6 +117,14 @@ void AICommandInterface::aiGuardObject( Object *objToGuard, GuardMode guardMode,
 	AICommandParms parms(AICMD_GUARD_OBJECT, cmdSource);
 	parms.m_obj = objToGuard;
 	parms.m_intValue = guardMode;
+	aiDoCommand(&parms);
+}
+
+void AICommandInterface::aiBfmeCommand20(const Team *team, Int value, CommandSourceType cmdSource)
+{
+	AICommandParms parms(AICMD_BFME_20, cmdSource);
+	parms.m_team = team;
+	parms.m_intValue = value;
 	aiDoCommand(&parms);
 }
 
