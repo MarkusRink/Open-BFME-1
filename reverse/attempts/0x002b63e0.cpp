@@ -1,22 +1,17 @@
-// ?bfmeRunBK@BfmeHostBK@@QAEHXZ (identity unknown)
+// ?bfmeStopBL@BfmeHostBL@@QAEXPAX@Z (identity unknown)
 // partial score=0.97 date=2026-09-07
-// 57/57. Every instruction, operand, displacement and branch matches. The only
-// difference is which scratch register carries the MIDDLE link of the pointer
-// chain: retail keeps it in eax (mov eax,[eax+0x10] / mov ecx,[eax+0x204]),
-// MSVC moves it straight into the eventual receiver register
-// (mov ecx,[eax+0x10] / mov ecx,[ecx+0x204]). Two instructions, same length.
-// Levers tried, all identical output:
-//   * one local for the final pointer (as below)
-//   * a named local per link (a, b, c)
-//   * an inline accessor for the middle link, per [[inline-accessor-chains-eax]]
-//   * no locals at all, respelling the whole chain twice
-// This is the pure scratch-register flip. Note the general correction in
-// [[ecx-edx-flip-is-systematic]] does NOT apply: there the fix was hoisting a
-// call ARGUMENT into a local; here the flip is inside a load chain with no
-// argument to name, and nothing source-level reaches it.
-class BfmeDBK;
+// 47/47. Sibling of 0x002B6390 (same +0x1c/+0x10/+0x204 chain, same class) and
+// the SAME two-instruction residue: retail carries the middle link in eax,
+// MSVC moves it straight to ecx. Everything else matches, including the
+// shrink-wrapped `push esi` inside the guard, the `ret 4` for the unused
+// parameter, and `push -1` for the int argument.
+// Five spellings tried across the two bodies (locals per link, one local, no
+// locals, an inline accessor for the middle link, accessors for BOTH links) --
+// all produce the identical ecx form. Treat this chain shape as a known
+// 2-instruction residue class and do not re-sweep it.
+class BfmeDBL;
 
-class BfmeCBK
+class BfmeCBL
 {
 public:
 	virtual void bfmeSlot00C();
@@ -98,10 +93,10 @@ public:
 	virtual void bfmeSlot76C();
 	virtual void bfmeSlot77C();
 	virtual void bfmeSlot78C();
-	virtual BfmeDBK *bfmeGetBK();
+	virtual BfmeDBL *bfmeGetBL();
 };
 
-class BfmeDBK
+class BfmeDBL
 {
 public:
 	virtual void bfmeSlot00D();
@@ -114,58 +109,57 @@ public:
 	virtual void bfmeSlot07D();
 	virtual void bfmeSlot08D();
 	virtual void bfmeSlot09D();
-	virtual void bfmeUseBK(void *arg);
+	virtual void bfmeSetBL(int value);
+	virtual void bfmeSlot11D();
+	virtual void bfmeSlot12D();
+	virtual void bfmeSlot13D();
+	virtual void bfmeSlot14D();
+	virtual void bfmeSlot15D();
+	virtual void bfmeSlot16D();
+	virtual void bfmeSlot17D();
+	virtual void bfmeSlot18D();
+	virtual void bfmeSlot19D();
+	virtual void bfmeSlot20D();
+	virtual void bfmeSlot21D();
+	virtual void bfmeSlot22D();
+	virtual void bfmeSlot23D();
+	virtual void bfmeApplyBL();
 };
 
-class BfmeEBK
+class BfmeBBL
 {
 public:
-	virtual void bfmeSlot00E();
-	virtual void bfmeSlot01E();
-	virtual void bfmeSlot02E();
-	virtual void bfmeSlot03E();
-	virtual void bfmeSlot04E();
-	virtual void bfmeSlot05E();
-	virtual void bfmeDoneBK();
+	unsigned char m_bfmeHeadBL[0x204];
+	BfmeCBL *m_bfmeCBL;
 };
 
-class BfmeBBK
+class BfmeABL
 {
 public:
-	unsigned char m_bfmeHeadBK[0x204];
-	BfmeCBK *m_bfmeCBK;
+	BfmeBBL *bfmeGetBBL() { return m_bfmeBBL; }
+
+	unsigned char m_bfmeHeadBL[0x10];
+	BfmeBBL *m_bfmeBBL;
 };
 
-class BfmeABK
+class BfmeHostBL
 {
 public:
-	BfmeBBK *bfmeGetBBK() { return m_bfmeBBK; }
+	void bfmeStopBL(void *unused);
 
-	unsigned char m_bfmeHeadBK[0x10];
-	BfmeBBK *m_bfmeBBK;
+	unsigned char m_bfmeHeadBL[0x1c];
+	BfmeABL *m_bfmeABL;
 };
 
-class BfmeHostBK
+void BfmeHostBL::bfmeStopBL(void *unused)
 {
-public:
-	int bfmeRunBK();
+	BfmeCBL *c = m_bfmeABL->bfmeGetBBL()->m_bfmeCBL;
 
-	unsigned char m_bfmeHeadBK[0x1c];
-	BfmeABK *m_bfmeABK;
-	unsigned char m_bfmePadBK[4];
-	void *m_bfmeArgBK;
-	BfmeEBK *m_bfmeEBK;
-};
+	if (c != 0)
+	{
+		BfmeDBL *d = c->bfmeGetBL();
 
-int BfmeHostBK::bfmeRunBK()
-{
-	BfmeCBK *c = m_bfmeABK->bfmeGetBBK()->m_bfmeCBK;
-
-	if (c == 0)
-		return -2;
-
-	c->bfmeGetBK()->bfmeUseBK(m_bfmeArgBK);
-	m_bfmeEBK->bfmeDoneBK();
-
-	return 0;
+		d->bfmeSetBL(-1);
+		d->bfmeApplyBL();
+	}
 }
