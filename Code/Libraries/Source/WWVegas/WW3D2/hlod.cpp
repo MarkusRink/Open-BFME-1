@@ -1052,8 +1052,7 @@ HLodClass::HLodClass(const char * name,RenderObjClass ** lods,int count) :
 		RenderObjClass * lod_obj = lods[lod_index];
 		WWASSERT(lod_obj);
 
-		if (	(lod_obj->Class_ID() == RenderObjClass::CLASSID_HMODEL) || 
-				(lod_obj->Class_ID() == RenderObjClass::CLASSID_HLOD) ||
+		if (	(lod_obj->Class_ID() == RenderObjClass::CLASSID_HLOD) ||
 				(lod_obj->Get_Num_Sub_Objects() > 1) ) {
 			
 			// here we insert all sub-objects of this render object into the current LOD array
