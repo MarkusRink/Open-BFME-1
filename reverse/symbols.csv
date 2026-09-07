@@ -85362,3 +85362,4 @@ _g_bfmeDirtyZR,0x00EEF418
 ?bfmeHasZW@BfmeThingZW@@QAEDH@Z,0x0003251F
 ?bfmeForwardZX@BfmeSubZX@@QAEXH@Z,0x008F8110
 ?bfmeGoZX@BfmeSubZX@@QAEXXZ,0x008F8BC0
+?bfmeTryZY@BfmeOwnerZY@@QAEDPAVBfmeItemZY@@@Z,0x000441A2
