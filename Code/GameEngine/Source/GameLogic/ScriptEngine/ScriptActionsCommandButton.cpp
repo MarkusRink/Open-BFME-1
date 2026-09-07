@@ -1,37 +1,28 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/stringinline
+// readable body of ?doTeamUseCommandButtonAbility@ScriptActions@@IAEXABVAsciiString@@0@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
+//
+// The two readable command-button actions:
+//
+//   0x002F4A20  doTeamUseCommandButtonAbility  arm 245, TEAM_USE_COMMANDBUTTON_ABILITY
+//   0x002F54C0  doTeamUseCommandButtonOnNamed  the same, aimed at a named unit
+//
+// Both resolve the team at slot 17, ask ControlBar for the button by name, and
+// hand it to the team's AIGroup. The on-named form does more first: it works out
+// which member of the group is the source -- by special-power id when the button
+// has a template, by command type otherwise -- and asks the button whether it is
+// valid to use on the target before issuing the order.
+
+#include "StringInline.h"
 
 typedef bool Bool;
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
 class AIGroup;
+class CommandButton;
 class Object;
 class Team;
 struct Coord3D;
-
-template <class T> class StringBase
-{
-	friend class AsciiString;
-
-private:
-	StringBase(const StringBase &);
-	~StringBase();
-};
-
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString
-{
-public:
-	AsciiString(const AsciiString &that)
-	{
-		((StringBase<char> *)this)->StringBase<char>::StringBase(
-			*(const StringBase<char> *)&that);
-	}
-	~AsciiString();
-
-private:
-	char *m_text;
-};
 
 enum CommandSourceType
 {
@@ -153,6 +144,7 @@ public:
 class AIGroup
 {
 public:
+	void groupDoCommandButton(const CommandButton *button, CommandSourceType cmd);
 	void groupDoCommandButtonAtObject(const CommandButton *, Object *, CommandSourceType);
 	Object *getSpecialPowerSourceObject(UnsignedInt);
 	Object *getCommandButtonSourceObject(GUICommandType);
@@ -173,9 +165,30 @@ extern ScriptEngine *TheScriptEngine;
 class ScriptActions
 {
 protected:
+	void doTeamUseCommandButtonAbility(const AsciiString &team,
+		const AsciiString &ability);
 	void doTeamUseCommandButtonOnNamed(
 		const AsciiString &, const AsciiString &, const AsciiString &);
 };
+
+void ScriptActions::doTeamUseCommandButtonAbility(const AsciiString &team,
+	const AsciiString &ability)
+{
+	Team *theTeam = TheScriptEngine->getTeamNamed(team, false);
+	if (theTeam)
+	{
+		const CommandButton *commandButton = TheControlBar->findCommandButton(ability);
+		if (commandButton)
+		{
+			AIGroup *theGroup = TheAI->createGroup();
+			if (theGroup)
+			{
+				theTeam->getTeamAsAIGroup(theGroup);
+				theGroup->groupDoCommandButton(commandButton, CMD_FROM_SCRIPT);
+			}
+		}
+	}
+}
 
 // ?doTeamUseCommandButtonOnNamed@ScriptActions@@IAEXABVAsciiString@@00@Z
 void ScriptActions::doTeamUseCommandButtonOnNamed(
