@@ -85280,3 +85280,6 @@ _bfmeVftYK,0x00CE7D00
 ?bfmeAnyYN@BfmeMaskYN@@QAEDPAU1@@Z,0x00022C5A
 ?bfmeNotifyYO@BfmeThingYO@@QAEXXZ,0x0002191D
 ?TheBfmeLogicYO@@3PAVBfmeLogicYO@@A,0x00EF0898
+?g_bfmeZeroYP@@3MB,0x00C75350
+?bfmeReadyYP@BfmeThingYP@@QAEDXZ,0x00011F77
+?bfmeApplyYP@BfmeThingYP@@QAEXPAX0@Z,0x00022BBA
