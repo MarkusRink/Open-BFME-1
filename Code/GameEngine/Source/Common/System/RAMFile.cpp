@@ -112,7 +112,8 @@ void *operator new[](unsigned int bytes);
 void __cdecl operator delete[](void *block);
 
 extern unsigned int bfmeReadYU(const unsigned char *data);
-extern void d_009d12e0();
+extern int bfmeRefPackDecode(const unsigned char *compressedData,
+                             unsigned char *destination);
 
 // ?scanInt@RAMFile@@UAE_NAAH@Z
 Bool RAMFile::scanInt(Int &newInt)
@@ -229,7 +230,8 @@ Bool RAMFile::openFromArchive(File *archiveFile, const AsciiString &filename,
             if (decodedSize > 0)
             {
                 Char *decoded = new Char[decodedSize];
-                ((void (__cdecl *)(const Char *, Char *))d_009d12e0)(m_data, decoded);
+                bfmeRefPackDecode((const unsigned char *)m_data,
+                                  (unsigned char *)decoded);
                 delete [] m_data;
                 m_data = decoded;
                 m_size = decodedSize;
