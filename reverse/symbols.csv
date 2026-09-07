@@ -77435,6 +77435,7 @@ name,address,notes
 ?find@HashMap008FF850@@QAE?AUHashIter008FF850@@ABH@Z,0x008FF560,STLport tree find ICF target of map unsigned-key peek wrapper 0x008FF850
 ?find@MapCache@@QAEPAUMapCacheNode@@ABVAsciiString@@@Z,0x000263D7,isValidMap lookup thunk
 ?find@ModuleTemplateMap@@QBE?AUModuleTemplateMapIterator@@ABH@Z,0x0000C054,ILT thunk to the NameKey-keyed module template map find at 0x001265D0
+?findWaypointFollowingCapableWeapon@Object@@QAEPAVWeapon@@XZ,0x00033361,ILT thunk called by ScriptActions::doNamedFireWeaponFollowingWaypointPath at 0x00302A80
 ?find@Object@@QAEPAXH@Z,0x00009C41,ILT 0x00009C41 launcher query from WeaponTemplate::shouldProjectileCollideWith burned check
 ?find@ObjectTypeCount@@QBEPAUObjectTypeCountNode@@ABVAsciiString@@@Z,0x0002F3E7,object-count tree lookup target decoded from ScriptEngine getObjectCount
 ?find@Open26A2FD0Logic@@QAEPAVOpen26A2FD0Object@@PAX@Z,0x0001F253,Open2 0x006A2FD0 lookup (ILT)
