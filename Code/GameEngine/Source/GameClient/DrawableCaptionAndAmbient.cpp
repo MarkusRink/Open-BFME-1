@@ -1,5 +1,31 @@
 // cl: /DNDEBUG /MD /EHs-c-
-// BFME Drawable caption stage, retail 0x00420150.
+
+// The two BFME Drawable bodies built without unwind support:
+//
+//   setCustomSoundAmbientInfo  0x0041AD20  239 B  QAE (public)
+//   drawCaption                0x00420150  415 B  AAE (private)
+//
+// They have nothing in common to look at -- one swaps a ref-counted audio
+// info holder, the other draws a name plate over a unit -- and everything in
+// common to declare. Both walk out through the object pointer at Drawable+0xFC
+// and each described the head in front of it as one anonymous run, then
+// described a different Object from its own call outwards: one knew the
+// geometry pointer at +0x108, the other the draw interface at +0x200. Neither
+// contradicts the other, and now neither has to be read alone.
+//
+// The merged Drawable head is what the two statements make together:
+//
+//   +0x004 m_template            +0x140 ambient sound enabled
+//   +0x0fc m_object              +0x141 ... and enabled from script
+//   +0x10c custom ambient info   +0x143 ... and permanent
+//   +0x2d0 caption display       +0x144 ambient sound, +0x148 its alternate
+//
+// Two of those names are contested by DrawableBFME.cpp, which reads the same
+// bytes in a different body: it calls +0x143 m_selected and +0x148
+// m_damagedAmbientSound. Nothing here settles that -- both TUs match with
+// their own naming, and the fields are only ever read as gates -- so this file
+// keeps the names its own bodies' evidence gave them and says where the other
+// reading lives.
 
 typedef unsigned char UnsignedByte;
 typedef unsigned int UnsignedInt;
@@ -7,6 +33,10 @@ typedef int Int;
 typedef unsigned int Color;
 typedef float Real;
 typedef bool Bool;
+typedef long RefCount;
+
+extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement( long volatile *value );
+extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement( long volatile *value );
 
 struct Coord3D
 {
@@ -43,17 +73,80 @@ public:
 	void *m_vtable;
 	ThingTemplate *m_nextOverride;
 	UnsignedByte m_pad008[ 0x58 ];
-	Rva0087DC00 m_geometry;
+	Rva0087DC00 m_geometry;						// +0x60
 
 	ThingTemplate *getFinalOverride();
 };
 
-class BFMEObject
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/GameAudio.h
+class AudioManager
 {
-	UnsignedByte m_pad[ 0x108 ];
-
 public:
-	Rva0087DC00 *m_geometry;
+	virtual void slot00(); virtual void slot01(); virtual void slot02();
+	virtual void slot03(); virtual void slot04(); virtual void slot05();
+	virtual void slot06(); virtual void slot07(); virtual void slot08();
+	virtual void slot09(); virtual void slot10(); virtual void slot11();
+	virtual void slot12(); virtual void slot13(); virtual void slot14();
+	virtual void slot15(); virtual void slot16(); virtual void slot17();
+	virtual void slot18();
+	// Slot 19, vtable+0x4c. No symbol is emitted for a call through it, so the
+	// name is free: DrawableBFME.cpp and DrawableVisualState.cpp call the same
+	// slot removeAudioEvent.
+	virtual void stopAudioEvent( UnsignedInt handle );
+};
+
+extern AudioManager *TheAudio;
+
+class DynamicAudioEventInfo
+{
+public:
+	virtual ~DynamicAudioEventInfo();
+	RefCount m_refCount;
+
+	void releaseRef()
+	{
+		if ( InterlockedDecrement( &m_refCount ) <= 0 )
+			delete this;
+	}
+};
+
+class BfmeAudioSlot
+{
+public:
+	unsigned char m_head[ 0x10 ];
+	UnsignedInt m_handle;						// +0x10
+};
+
+class ObjectDrawInterface
+{
+public:
+	virtual void slot00(); virtual void slot04(); virtual void slot08();
+	virtual void slot0c(); virtual void slot10(); virtual void slot14();
+	virtual void slot18(); virtual void slot1c();
+	virtual void *getAmbientValue();
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Object.h
+class Object
+{
+public:
+	UnsignedByte m_pad000[ 0x108 ];
+	Rva0087DC00 *m_geometry;					// +0x108
+	UnsignedByte m_pad10c[ 0x200 - 0x10c ];
+	ObjectDrawInterface *m_drawInterface;				// +0x200
+};
+
+// These two retail callees are already identified in the BFME ledger.  The
+// setter reaches them through the same Drawable storage, so only their
+// established names are needed here; their bodies stay in their own TUs.
+class Gen_00417cb0
+{
+public:
+	void alt();
+
+private:
+	friend class Drawable;
+	void bfmeEmit( void *value, void *param );
 };
 
 #define BFME_CAPTION_DISPLAY_SLOT(n) virtual void slot##n();
@@ -172,24 +265,80 @@ extern TacticalView *TheTacticalView;
 extern InGameUI *TheInGameUI;
 extern void j_0003ee55();
 
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/Drawable.h
 class Drawable
 {
-	UnsignedByte m_pad000[ 4 ];
-
 public:
-	ThingTemplate *m_template;
+	void setCustomSoundAmbientInfo( DynamicAudioEventInfo **customAmbientInfo );
+	void startAmbientSound();
+	void emitAmbientValue( void *value, void *param );
 
-private:
-	UnsignedByte m_pad008[ 0xf4 ];
-	BFMEObject *m_object;
-	UnsignedByte m_pad100[ 0x1d0 ];
-	DisplayString *m_captionDisplayString;
-
-public:
 private:
 	void drawCaption();
+
+	UnsignedByte m_pad000[ 4 ];
+	ThingTemplate *m_template;					// +0x004
+	UnsignedByte m_pad008[ 0xfc - 8 ];
+	Object *m_object;						// +0x0fc
+	UnsignedByte m_pad100[ 0x0c ];
+	DynamicAudioEventInfo *m_customSoundAmbientInfo;		// +0x10c
+	UnsignedByte m_pad110[ 0x30 ];
+	UnsignedByte m_ambientSoundEnabled;				// +0x140
+	UnsignedByte m_ambientSoundEnabledFromScript;			// +0x141
+	UnsignedByte m_gap142;
+	UnsignedByte m_ambientSoundPermanent;				// +0x143
+	BfmeAudioSlot *m_ambientSound;					// +0x144
+	BfmeAudioSlot *m_ambientSoundAlternate;				// +0x148
+	UnsignedByte m_pad14c[ 0x2d0 - 0x14c ];
+	DisplayString *m_captionDisplayString;				// +0x2d0
 };
 
+// ?setCustomSoundAmbientInfo@Drawable@@QAEXPAPAVDynamicAudioEventInfo@@@Z
+// Retail 0x0041AD20, 239 bytes. This build has a ref-counted holder at
+// +0x10c, and the setter receives the ADDRESS of the incoming holder, so the
+// self-assignment check compares that address with the member slot itself.
+void Drawable::setCustomSoundAmbientInfo( DynamicAudioEventInfo **customAmbientInfo )
+{
+	if ( m_ambientSound )
+		TheAudio->stopAudioEvent( m_ambientSound->m_handle );
+	if ( m_ambientSoundAlternate )
+		TheAudio->stopAudioEvent( m_ambientSoundAlternate->m_handle );
+
+	DynamicAudioEventInfo **slot = &m_customSoundAmbientInfo;
+	if ( *slot )
+	{
+		(*slot)->releaseRef();
+		*slot = 0;
+	}
+
+	if ( slot != customAmbientInfo )
+	{
+		DynamicAudioEventInfo *newInfo = *customAmbientInfo;
+		if ( newInfo )
+			InterlockedIncrement( &newInfo->m_refCount );
+
+		if ( *slot )
+			(*slot)->releaseRef();
+		*slot = *customAmbientInfo;
+	}
+
+	if ( m_ambientSoundEnabled && m_ambientSoundEnabledFromScript && m_ambientSoundPermanent )
+	{
+		reinterpret_cast<Gen_00417cb0 *>( this )->alt();
+
+		Object *object = m_object;
+		void *value = 0;
+		if ( object )
+			value = object->m_drawInterface->getAmbientValue();
+		reinterpret_cast<Gen_00417cb0 *>( this )->bfmeEmit( value, 0 );
+	}
+}
+
+// ?drawCaption@Drawable@@AAEXXZ
+// Retail 0x00420150, 415 bytes. The name plate: take the geometry centre
+// from the object if there is one and from the final template override if
+// there is not, project it to the screen, and draw the filled and open rects
+// behind the text.
 void Drawable::drawCaption()
 {
 	if ( m_captionDisplayString == 0 )
@@ -197,7 +346,7 @@ void Drawable::drawCaption()
 
 	ICoord2D screen;
 	Coord3D center;
-	register BFMEObject *object = m_object;
+	register Object *object = m_object;
 	Rva0087DC00 *geometry;
 	if ( object != 0 )
 	{
