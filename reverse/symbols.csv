@@ -10309,6 +10309,7 @@ name,address,notes
 ?GadgetStaticTextSetText@@YAXPAVGameWindow@@VUnicodeString@@@Z,0x0002C16F
 ?GadgetTabControlShowSubPane@@YAXPAVGameWindow@@H@Z,0x00008936
 ?GadgetTextEntrySetFont@@YAXPAVGameWindow@@PAVGameFont@@@Z,0x0003CBCD,Open-BFME5 ILT thunk to the body already matched at 0x004BE0A0; ?winSetFont@GameWindow@@UAEXPAVGameFont@@@Z at 0x00478550 dispatches to it on the matching style bit
+?GadgetTextEntrySetText@@YAXPAVGameWindow@@VUnicodeString@@@Z,0x0000C874,retail Skirmish onInitGadget call uses the 0x0047E5B0 ILT
 ?GameInfoToAsciiString@@YA?AVAsciiString@@PBVGameInfo@@_N@Z,0x0000E70A,Skirmish SlotList formatter ILT
 ?ParseAsciiStringToGameInfo@@YA_NPAVGameInfo@@VAsciiString@@_N@Z,0x00621C40,BFME three-argument game-options parser body;campaign=luna36h-20260907;lane=netpacket
 ?GameSpyCloseAllOverlays@@YAXXZ,0x0000F5AB,Shell push overlay-close thunk
@@ -73286,6 +73287,7 @@ name,address,notes
 ?bfmeAtRT@BfmeMapRT@@QAEPAVBfmeSlotRT@@PAX0@Z,0x0002D74A,pin
 ?bfmeAttach1010@BfmeHeld1010@@QAEXPAUBfmeOwner1010@@@Z,0x0000FED4,pin
 ?bfmeAttach@BfmeQuickMatchScreenBase@@AAEXPAX@Z,0x0000C0A4,Open-BFME5 ILT thunk to body 0x00497CE0; ??0BfmeQuickMatchScreenBase@@QAE@PAX@Z at 0x00470620 calls it on this with its own argument as the last thing it does; address-derived name
+?bfmeAttach@Gen_00479A60@@QAEXPAVBfmeOwnerEJ@@@Z,0x0000C4E6,retail Skirmish onInitGadget call uses the 0x00479A60 ILT
 ?bfmeAttachCEF@BfmeSubCEF@@QAEXPAUBfmeListCEF@@@Z,0x00887C90,pin
 ?bfmeAttachCFF@BfmeOwnerCFF@@QAEXPAVBfmeThingCFF@@@Z,0x0002C1CE,pin
 ?bfmeAttachYS@BfmeHelperYS@@QAEXPAVGen_00755E70@@@Z,0x00001019,Open-BFME5 the attach the static helper performs at 0x00755E70
