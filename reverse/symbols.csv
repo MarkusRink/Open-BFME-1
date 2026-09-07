@@ -84886,3 +84886,4 @@ _g_bfmeFormatXK,0x00C7C7B4
 ?checkTarget@SpecialAbilityUpdate@@QAE_NPAVObject@@@Z,0x00008995,GiveUpgradeUpdate update calls the matched special-ability target check through this ILT
 ?update@SpecialAbilityUpdate@@QAE?AW4UpdateSleepTime@@XZ,0x00044B0C,GiveUpgradeUpdate update calls the inherited special-ability update through this ILT
 ?update@UpdateModuleInterface@@QAE?AW4UpdateSleepTime@@XZ,0x00044B0C,GiveUpgradeUpdate update calls the inherited update body through this ILT
+?bfmeTestXM@BfmeProbeXM@@QAE_NPAUBfmeStateXM@@PAX@Z,0x0003DCCB
