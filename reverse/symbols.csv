@@ -85245,3 +85245,5 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ??0?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@@Z,0x0039D5B0,ICF fold of the fifteen-byte zero-three-pointers body; the address ObjectCreationList.cpp static initializer at 0x00C6B2C0 encodes via thunk 0x00048667
 ?g_bfmeZeroXY@@3MB,0x00C75350
 ?receiveGrant@StealthUpdate@@QAEX_NI@Z,0x00040DC2,ILT to the two-argument StealthUpdate receiveGrant body at 0x002AD380; OpenContain::markAllPassengersDetected passes false and one frame
+_g_bfmeFormatYA,0x00C7C7B4
+_bfmeScanYA,0x009F6FA6
