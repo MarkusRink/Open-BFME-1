@@ -215,6 +215,9 @@ int Rva007FDE80( struct Rva007FD4E0Socket *socket, void *callback,
 void Rva007FEA20( struct Rva0130AB68List *list );
 void Rva007FEBD0( void *list );
 void Rva007FECB0( void *list );
+void Rva007FEAA0( void *list );
+void Rva007FD3F0( void *socket );
+void bfmeGo1019C( int value );
 void __cdecl Rva00812690( struct Rva007FD4E0Socket *socket, int reason,
 	void *data );
 
@@ -381,6 +384,43 @@ struct Rva00812320Module *Rva00812320( int iEntries )
 	Rva008125C0( pModule );
 
 	return pModule;
+}
+
+void Rva00812CD0( void *object )
+{
+	void *socket;
+	char *table;
+
+	if ( object == 0 )
+	{
+		return;
+	}
+
+	if ( g_Rva0130ACFCRefCount > 1 )
+	{
+		g_Rva0130ACFCRefCount--;
+		return;
+	}
+
+	g_Rva0130AD00Module = 0;
+	g_Rva0130ACFCRefCount = 0;
+
+	while ( *( void ** )( ( char * )object + 0x24 ) != 0 )
+	{
+		table = *( char ** )( ( char * )object + 0x24 );
+		Rva00811D70( object, table + 8, table + 0x28 );
+		Rva00812690( *( struct Rva007FD4E0Socket ** )( ( char * )object + 0x38 ),
+			0, object );
+	}
+
+	Rva007FEBD0( object );
+	socket = *( void ** )( ( char * )object + 0x38 );
+	*( void ** )( ( char * )object + 0x38 ) = 0;
+	Rva007FD3F0( socket );
+	Rva007FECB0( object );
+	Rva007FEAA0( object );
+	bfmeGo1019C( *( int * )( ( char * )object + 0x28 ) );
+	bfmeGo1019C( ( int )object );
 }
 
 unsigned int __cdecl strlen( const char *text );
