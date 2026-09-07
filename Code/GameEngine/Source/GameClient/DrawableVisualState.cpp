@@ -4,35 +4,6 @@
 // readable body of ?setEmoticon@Drawable@@QAEXABVAsciiString@@H@Z: Code/GameEngine/Source/GameClient/Drawable.cpp
 // readable body of ?setDrawableHidden@Drawable@@QAEX_N@Z: Code/GameEngine/Source/GameClient/Drawable.cpp
 // readable body of ?replaceModelConditionState@Drawable@@QAEXABVModelConditionFlags@@II@Z: Code/GameEngine/Source/GameClient/Drawable.cpp
-//
-// Five setters for what a drawable looks like:
-//
-//   applyTint                  0x00412040   70 B   the colour flash
-//   setShadowsEnabled          0x004140E0   69 B   the shadow flag
-//   setEmoticon                0x004149E0  218 B   the icon above it
-//   setDrawableHidden          0x0041A230   74 B   whether it is drawn at all
-//   replaceModelConditionState 0x0041CCD0  323 B   which model state it wears
-//
-// Each arrived in its own file with its own partial Drawable, and the partials
-// described the same object in four different vocabularies -- 0x6c anonymous
-// bytes before the tint block, 0x110 before the status word, 0x150 before the
-// draw-module array, 0x2E0 before the icon info. Laid over each other they do
-// not overlap once, so the layout below is all four statements at the same
-// time, with the runs between named for where they end rather than for how
-// long they are:
-//
-//   +0x06c tint colour, then its four timings and the two wave parameters
-//   +0x110 status bits (bit 1 is shadows)
-//   +0x140 the two ambient-sound flags, +0x14c the sound itself
-//   +0x150 the null-terminated draw-module array
-//   +0x250 condition state, +0x278 clear mask, +0x2a0 set mask
-//   +0x2e0 icon info      +0x3b0 hidden      +0x3b3 model dirty
-//
-// DrawModule drifted the same way and worse, because a vtable cut short reads
-// as a complete one: the shadow file's copy ended at slot 10, the hidden
-// file's at slot 32, the model-condition file's at slot 39. One declaration
-// now carries all three, so the three calls sit in one table where their slot
-// numbers can be compared.
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -171,13 +142,13 @@ public:
 	Anim2D *m_icon[14];
 	UnsignedInt m_keepTillFrame[14];
 
-	void killIcon(Int t)
+	void killIcon(Int iconType)
 	{
-		if (m_icon[t])
+		if (m_icon[iconType])
 		{
-			m_icon[t]->deleteInstance();
-			m_icon[t] = 0;
-			m_keepTillFrame[t] = 0;
+			m_icon[iconType]->deleteInstance();
+			m_icon[iconType] = 0;
+			m_keepTillFrame[iconType] = 0;
 		}
 	}
 
@@ -191,7 +162,7 @@ class Drawable
 public:
 	DrawableIconInfo *getIconInfo();
 	void clearEmoticon() { if (m_iconInfo) killIcon(ICON_EMOTICON); }
-	void killIcon(Int t) { if (m_iconInfo) m_iconInfo->killIcon(t); }
+	void killIcon(Int iconType) { if (m_iconInfo) m_iconInfo->killIcon(iconType); }
 
 	void applyTint(RGBColor color, UnsignedInt preColorTime,
 		UnsignedInt postColorTime, UnsignedInt sustainedColorTime,
@@ -277,8 +248,8 @@ void Drawable::setShadowsEnabled(Bool enable)
 		status &= ~2;
 
 	DrawModule **modules = m_drawModules;
-	for (DrawModule **dm = modules; *dm; ++dm)
-		(*dm)->setShadowsEnabled(enable);
+	for (DrawModule **drawModule = modules; *drawModule; ++drawModule)
+		(*drawModule)->setShadowsEnabled(enable);
 }
 
 // ?setEmoticon@Drawable@@QAEXABVAsciiString@@H@Z
@@ -351,11 +322,11 @@ void Drawable::replaceModelConditionState( const ModelConditionFlags &flags,
 
 	if( (unsigned char)forceReplace == 1 )
 	{
-		for( DrawModule **dm = m_drawModules; *dm != 0; ++dm )
+		for( DrawModule **drawModule = m_drawModules; *drawModule != 0; ++drawModule )
 		{
-			ObjectDrawInterface *di = (*dm)->getObjectDrawInterface();
-			if( di != 0 )
-				di->replaceModelConditionState( m_conditionState, true, b );
+			ObjectDrawInterface *drawInterface = (*drawModule)->getObjectDrawInterface();
+			if( drawInterface != 0 )
+				drawInterface->replaceModelConditionState( m_conditionState, true, b );
 		}
 		m_isModelDirty = false;
 	}
