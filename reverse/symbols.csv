@@ -3179,6 +3179,8 @@ name,address,notes
 ??0Rva005FED10@@QAE@PAXPAVV3HostRva005E82A0@@@Z,0x005FED10,base constructor forwarded to by the new-plus-inline-ctor factory family (V3NewInlineCtorFactories.cpp); target read from the REL32 at its call site; address-derived name; identity not recovered
 ??0Rva005FFAC0@@QAE@PAXPAVV3HostRva005E76E0@@@Z,0x005FFAC0,base constructor forwarded to by the new-plus-inline-ctor factory family (V3NewInlineCtorFactories.cpp); target read from the REL32 at its call site; address-derived name; identity not recovered
 ??0Rva006008D0@@QAE@PAXPAVV3HostRva005E7AD0@@@Z,0x006008D0,base constructor forwarded to by the new-plus-inline-ctor factory family (V3NewInlineCtorFactories.cpp); target read from the REL32 at its call site; address-derived name; identity not recovered
+??0Rva00606A80Member@@QAE@ABU0@@Z,0x0001FF64,address-derived member copy constructor called by Rva00608FE0Element at +0x48
+??0Rva00606E60Member@@QAE@ABU0@@Z,0x00032515,address-derived member copy constructor called by Rva00608FE0Element at +0x1FC
 ??0Rva00608FE0Element@@QAE@ABU0@@Z,0x00042339,Open-BFME5 ILT for the SoundUpgrade record copy constructor used by the SoundUpgrade field parser
 ??0Rva00608FE0Element@@QAE@XZ,0x0002A48C,Open-BFME5 ILT for the SoundUpgrade record default constructor used by the SoundUpgrade field parser
 ??0Rva0060FD30Base@@QAE@ABV0@@Z,0x0000FA3D,Open-BFME5 fresh thiscall copy ctor at ILT of derived copy 0x0060FD30
