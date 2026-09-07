@@ -85688,3 +85688,5 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeDoERR@BfmeYERR@@QAEXPAVBfmeXERR@@I@Z,0x000157DA,pin
 _skipWhitespace,0x008872B0,COFF-local symbol of the actual included SkipWhitespaceW.c helper; existing 46-byte wide skipWhitespace row object-symbol; private EAX input/output verified from trim caller and full helper body
 ?countObjects@TeamPrototype@@QAEHV?$BitFlags@$0MA@@@0@Z,0x000F40E0,Actual 151-byte TeamPrototype counter body; Player countObjects typed BitFlags192 caller encodes ILT0xCC11; two six-word masks and ret0x30; instance list at +0x274 and Team counter independently audited
+?bfmeFindERS@BfmeHashERS@@QAEPAUBfmeEntryERS@@PAX@Z,0x000356F7,pin
+?bfmeLocateERS@BfmeHashERS@@QAEPAPAVBfmeValueERS@@PAX@Z,0x00037ACE,pin
