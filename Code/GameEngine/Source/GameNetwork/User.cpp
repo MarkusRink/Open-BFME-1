@@ -78,8 +78,8 @@ Bool User::operator!= (const User *other)
 /**
  * Set the name of this user.
  */
-// BFME keeps User::m_name at +0x4c where this tree lands it at +4.
-#define BFME_USER_NAME(u) (*(UnicodeString *)((char *)(u) + 0x4c))
+// ?setName@User@@QAEXVUnicodeString@@@Z present-unmatched
+// The former 00685420 claim belongs to LANGameSlot::setHost(AsciiString).
 void User::setName(UnicodeString name) {
-	BFME_USER_NAME(this).set(name);
+	m_name.set(name);
 }

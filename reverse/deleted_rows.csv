@@ -25038,3 +25038,4 @@ tg_000bc760,0x000BC760,Generated 50-byte push body replaced by a descriptive Xfe
 ??1NetCommandRef@@MAE@XZ,0x007851D0,False network identity retired for proven counted-resource handle owner
 ??_GNetCommandRef@@MAEPAXI@Z,0x007851A0,False network identity retired for proven counted-resource handle owner
 ?setName@LANPlayer@@QAEXVUnicodeString@@@Z,0x00624C10,False Unicode LANPlayer identity; IPEnumeration address callers prove EnumeratedIP::setIPstring(AsciiString)
+?setName@User@@QAEXVUnicodeString@@@Z,0x00685420,False User Unicode name setter; RequestGameCreate and ASCII translation prove LANGameSlot::setHost(AsciiString)
