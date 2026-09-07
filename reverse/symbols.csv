@@ -84874,3 +84874,6 @@ _bfmeLockXH,0x0082C760
 ?bfmeReleaseThunk@BfmeRefAB@@QAEPAV1@XZ,0x00032D1C,ExperienceLevelSystem cleanup borrowed-reference release thunk
 ?g_bfmeZeroXJ@@3MB,0x00C75350
 ?bfmeApplyXJ@BfmeOwnerXJ@@QAEXPAXPAVBfmeThingXJ@@@Z,0x0003392E
+??0BfmeParticleSystemHandle@@QAE@PAVParticleSystem@@@Z,0x00042A87,temporary owner-linked handle constructor called by ParticleSystem::createParticle at 0x005D0040
+??0Particle@@QAE@ABVBfmeParticleSystemHandle@@PBVParticleInfo@@@Z,0x0001485D,BFME particle constructor called by ParticleSystem::createParticle at 0x005D0040; the constructor stores the handle as its 0x4C member
+?removeOldestParticles@ParticleSystemManager@@QAEHIW4ParticlePriorityType@@@Z,0x00008B0C,BFME particle-limit helper called by ParticleSystem::createParticle at 0x005D0040
