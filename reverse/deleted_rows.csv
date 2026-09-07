@@ -24982,3 +24982,4 @@ tg_000bc760,0x000BC760,Generated 50-byte push body replaced by a descriptive Xfe
 ?d_00663450@@YAXXZ,0x00663450,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
 ?d_006688d0@@YAXXZ,0x006688D0,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
 ?d_006624a0@@YAXXZ,0x006624A0,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
+?push_back@?$vector@UGen_t_0038ba10_p4pod@@V?$allocator@UGen_t_0038ba10_p4pod@@@_STL@@@_STL@@QAEXABUGen_t_0038ba10_p4pod@@@Z,0x0038BA10,Generic four-byte POD scaffold replaced by verified UpdateModule pointer-vector push_back in GameLogicAwakenUpdate.cpp; exact329B awake caller38D94A establishes element identity
