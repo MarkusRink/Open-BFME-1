@@ -1355,6 +1355,7 @@ name,address,notes
 ??0?$ShareBufferClass@E@@QAE@HPBDH@Z,0x0004B4A7,derived from part_buf matched-caller call sites
 ??0?$ShareBufferClass@I@@QAE@ABV0@@Z,0x0092A090
 ??0?$ShareBufferClass@PAVVertexMaterialClass@@@@QAE@ABV0@@Z,0x00929D40,packet 0092a1e0 pin
+??0?$ShareBufferClass@V?$RefCountPtr@VTextureClass@@@@@@QAE@ABV0@@Z,0x00929EA0,MeshMatDesc assignment; owning texture element buffer copy and TexBuffer vtable
 ??0?$ShareBufferClass@VShaderClass@@@@QAE@HPBDH@Z,0x0092B940,Get_Shader_Array ShareBuffer 3-arg ctor
 ??0?$ShareBufferClass@VVector2@@@@QAE@ABV0@@Z,0x0092B710
 ??0?$ShareBufferClass@VVector3@@@@QAE@ABV0@@Z,0x0094E1B0,Open-BFME5 existing exact Vector3 ShareBuffer copy constructor body

@@ -1,281 +1,138 @@
 // cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// Recovered using the Zero Hour meshmatdesc.cpp initialization algorithm.
+// Copyright 2025 Electronic Arts Inc. Licensed under GPL-3.0-or-later.
+// BFME layout agrees with the matched MeshMatDescClass copy constructor.
+// Called by MeshModelClass construction at RVA 0x0094EAE0. The retail body
+// ends with RET at 0x0092A3CC followed by three INT3 bytes; the old 267-byte
+// scaffold ended inside the first instruction of its exception epilogue.
 
-class MeshMatDescClass {
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/texture.h
+class TextureBaseClass
+{
 public:
-	MeshMatDescClass();
+	void Release_Ref();
 };
 
-// ??0MeshMatDescClass@@QAE@XZ
-__declspec(naked) MeshMatDescClass::MeshMatDescClass()
+class TextureClass : public TextureBaseClass {};
+
+template <class T>
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/ref_ptr.h
+class RefCountPtr
 {
-	__asm {
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x68
-		__emit 0x86
-		__emit 0xc9
-		__emit 0x05
-		__emit 0x01
-		__emit 0x64
-		__emit 0xa1
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x50
-		__emit 0x64
-		__emit 0x89
-		__emit 0x25
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x83
-		__emit 0xec
-		__emit 0x0c
-		__emit 0x53
-		__emit 0x55
-		__emit 0x56
-		__emit 0x57
-		__emit 0x68
-		__emit 0x52
-		__emit 0x06
-		__emit 0x43
-		__emit 0x00
-		__emit 0x8b
-		__emit 0xf1
-		__emit 0x68
-		__emit 0xd6
-		__emit 0x10
-		__emit 0x41
-		__emit 0x00
-		__emit 0x6a
-		__emit 0x08
-		__emit 0x6a
-		__emit 0x04
-		__emit 0x33
-		__emit 0xdb
-		__emit 0x8d
-		__emit 0x7e
-		__emit 0x74
-		__emit 0x57
-		__emit 0x89
-		__emit 0x74
-		__emit 0x24
-		__emit 0x2c
-		__emit 0xc7
-		__emit 0x06
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x04
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x08
-		__emit 0xe8
-		__emit 0xed
-		__emit 0xcb
-		__emit 0x0c
-		__emit 0x00
-		__emit 0xc7
-		__emit 0x86
-		__emit 0x94
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x1b
-		__emit 0x44
-		__emit 0x10
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x86
-		__emit 0x94
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xc7
-		__emit 0x40
-		__emit 0x04
-		__emit 0x1b
-		__emit 0x44
-		__emit 0x10
-		__emit 0x00
-		__emit 0x83
-		__emit 0xc0
-		__emit 0x04
-		__emit 0xc7
-		__emit 0x40
-		__emit 0x04
-		__emit 0x1b
-		__emit 0x44
-		__emit 0x10
-		__emit 0x00
-		__emit 0x83
-		__emit 0xc0
-		__emit 0x04
-		__emit 0xc7
-		__emit 0x40
-		__emit 0x04
-		__emit 0x1b
-		__emit 0x44
-		__emit 0x10
-		__emit 0x00
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x4c
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x50
-		__emit 0x83
-		__emit 0xc0
-		__emit 0x04
-		__emit 0x89
-		__emit 0x5c
-		__emit 0x24
-		__emit 0x24
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x0c
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x10
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x14
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x18
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x1c
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x20
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x24
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x28
-		__emit 0x8d
-		__emit 0x6e
-		__emit 0x64
-		__emit 0xc7
-		__emit 0x44
-		__emit 0x24
-		__emit 0x14
-		__emit 0x04
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xeb
-		__emit 0x0c
-		__emit 0x8d
-		__emit 0xa4
-		__emit 0x24
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xeb
-		__emit 0x03
-		__emit 0x8d
-		__emit 0x49
-		__emit 0x00
-		__emit 0xc7
-		__emit 0x44
-		__emit 0x24
-		__emit 0x10
-		__emit 0x02
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xeb
-		__emit 0x06
-		__emit 0x8d
-		__emit 0x9b
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xc7
-		__emit 0x47
-		__emit 0xb8
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x0f
-		__emit 0x3b
-		__emit 0xcb
-		__emit 0x74
-		__emit 0x07
-		__emit 0xe8
-		__emit 0x1e
-		__emit 0x14
-		__emit 0x0c
-		__emit 0x00
-		__emit 0x89
-		__emit 0x1f
-		__emit 0x8b
-		__emit 0x44
-		__emit 0x24
-		__emit 0x10
-		__emit 0x89
-		__emit 0x5f
-		__emit 0x40
-		__emit 0x83
-		__emit 0xc7
-		__emit 0x04
-		__emit 0x48
-		__emit 0x89
-		__emit 0x44
-		__emit 0x24
-		__emit 0x10
-		__emit 0x75
-		__emit 0xdb
-		__emit 0x8b
-		__emit 0x44
-		__emit 0x24
-		__emit 0x14
-		__emit 0x89
-		__emit 0x5d
-		__emit 0xf0
-		__emit 0x89
-		__emit 0x5d
-		__emit 0x00
-		__emit 0x89
-		__emit 0x5d
-		__emit 0x30
-		__emit 0x89
-		__emit 0x5d
-		__emit 0x40
-		__emit 0x89
-		__emit 0x9d
-		__emit 0x80
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x5d
-		__emit 0x70
-		__emit 0x83
-		__emit 0xc5
-		__emit 0x04
-		__emit 0x48
-		__emit 0x89
-		__emit 0x44
-		__emit 0x24
-		__emit 0x14
-		__emit 0x75
-		__emit 0xa8
-		__emit 0x8b
-		__emit 0x4c
-		__emit 0x24
+public:
+	RefCountPtr() : Referent(0) {}
+	~RefCountPtr()
+	{
+		if (Referent) {
+			Referent->Release_Ref();
+			Referent = 0;
+		}
+	}
+
+	void Clear()
+	{
+		if (Referent) {
+			Referent->Release_Ref();
+			Referent = 0;
+		}
+	}
+
+private:
+	T * Referent;
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/shader.h
+class ShaderClass
+{
+public:
+	ShaderClass() { Reset(); }
+	ShaderClass(const ShaderClass & that) { ShaderBits = that.ShaderBits; }
+	ShaderClass(unsigned int bits) : ShaderBits(bits) {}
+
+private:
+	void Set(unsigned int mask, unsigned int value)
+	{
+		ShaderBits &= ~mask;
+		ShaderBits |= value;
+	}
+
+	void Reset()
+	{
+		ShaderBits = 0;
+		Set(0x00000007, 0x00000003);
+		Set(0x00000008, 0x00000008);
+		Set(0x00000010, 0x00000010);
+		Set(0x000000E0, 0);
+		Set(0x00000300, 0);
+		Set(0x00001C00, 0x00000400);
+		Set(0x00002000, 0);
+		Set(0x0000C000, 0x00004000);
+		Set(0x00010000, 0);
+		Set(0x00020000, 0);
+		Set(0x000C0000, 0);
+		Set(0x00100000, 0x00100000);
+		Set(0x01E00000, 0);
+		Set(0x0E000000, 0);
+	}
+
+	unsigned int ShaderBits;
+};
+
+class MeshMatDescClass
+{
+public:
+	MeshMatDescClass();
+
+private:
+	enum {
+		MAX_PASSES = 4,
+		MAX_TEX_STAGES = 2,
+		MAX_UV_ARRAYS = MAX_PASSES * MAX_TEX_STAGES
+	};
+
+	int PassCount;
+	int VertexCount;
+	int PolyCount;
+	void * UV[MAX_UV_ARRAYS];
+	int UVSource[MAX_PASSES][MAX_TEX_STAGES];
+	void * ColorArray[2];
+	int DCGSource[MAX_PASSES];
+	int DIGSource[MAX_PASSES];
+	RefCountPtr<TextureClass> Texture[MAX_PASSES][MAX_TEX_STAGES];
+	ShaderClass Shader[MAX_PASSES];
+	void * Material[MAX_PASSES];
+	void * TextureArray[MAX_PASSES][MAX_TEX_STAGES];
+	void * MaterialArray[MAX_PASSES];
+	void * ShaderArray[MAX_PASSES];
+};
+
+MeshMatDescClass::MeshMatDescClass() :
+	PassCount(1),
+	VertexCount(0),
+	PolyCount(0)
+{
+	int pass;
+	int stage;
+	int array;
+
+	for (array = 0; array < 2; array++) {
+		ColorArray[array] = 0;
+	}
+	for (array = 0; array < MAX_UV_ARRAYS; array++) {
+		UV[array] = 0;
+	}
+
+	for (pass = 0; pass < MAX_PASSES; pass++) {
+		for (stage = 0; stage < MAX_TEX_STAGES; stage++) {
+			UVSource[pass][stage] = -1;
+			Texture[pass][stage].Clear();
+			TextureArray[pass][stage] = 0;
+		}
+		DCGSource[pass] = 0;
+		DIGSource[pass] = 0;
+		Shader[pass] = 0;
+		Material[pass] = 0;
+		ShaderArray[pass] = 0;
+		MaterialArray[pass] = 0;
 	}
 }
