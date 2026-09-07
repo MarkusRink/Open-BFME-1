@@ -75745,7 +75745,7 @@ name,address,notes
 ?bfmeSet1251@BfmeSub1251@@QAEXPAX@Z,0x008002C0,pin
 ?bfmeSet2VIW@BfmeMsgVIW@@QAEXPBDPAX1@Z,0x007E8E90,pin
 ?rva007E8EF0@BfmeMsgVIX@@QAEXPBDPAX@Z,0x007E8EF0,neutral direct-body message writer ABI: retail body reads BfmeMsgVIX +0x10/+0x14 and records -100 on helper failure; target passes key/content in the matched FESL caller
-?rva007FF100Decode@@YAXIPBDPAX@Z,0x007FF100,neutral direct-body base64 decoder ABI: retail reads length/source/destination as three cdecl arguments; target uses the same FESL blob length formula and decoder call
+?rva007FF100Encode@@YAXIPBDPAX@Z,0x007FF100,neutral direct-body base64 encoder ABI: retail reads length/source/destination as three cdecl arguments and has a 327-byte body; target uses the same FESL blob length formula and encoder call
 ?bfmeSet2VIX@BfmeMsgVIX@@QAEXPBDPAX1@Z,0x007E8E90,pin
 ?bfmeSet2VJF@BfmeMsgVJF@@QAEXPBDPAX1@Z,0x007E8E90,pin
 ?bfmeSet3VIW@BfmeMsgVIW@@QAEXPBDH@Z,0x007E88D0,pin
