@@ -75,13 +75,13 @@ LANPlayer * LANGameSlot::getUser( void )
 }
 
 // Various tests
-// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/LANGameSlot_isUser_Thunk.cpp
 // ?isUser@LANGameSlot@@ present-unmatched
 Bool LANGameSlot::isUser( LANPlayer *user )
 {
 	return (user && m_state == SLOT_PLAYER && user->getIP() == getIP());
 }
 
+// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/LANGameSlotUserName.cpp
 Bool LANGameSlot::isUser( UnicodeString userName )
 {
 	return (m_state == SLOT_PLAYER && !userName.compareNoCase(getName()));

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// readable body of ?isUser@LANGameSlot@@: Code/GameEngine/Source/GameNetwork/LANGameInfo.cpp
+// readable body of ?isUser@LANGameSlot@@QAE_NVUnicodeString@@@Z: Code/GameEngine/Source/GameNetwork/LANGameInfo.cpp
 // Open-BFME5: LANGameSlot::isUser(UnicodeString) as clean C++ in its own TU.
 //
 // The body is one line of LANGameInfo.cpp, but it cannot be converted there:
