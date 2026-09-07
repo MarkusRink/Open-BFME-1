@@ -1,48 +1,38 @@
-// ?Rva0042F0D0StoreLabel@@YG_NVAsciiStringXK@@@Z
-// partial score=0.85 date=2026-09-06
-// cl: /DNDEBUG /MD /EHsc /O2 /Ob2
-//
-// Fuzzy twin (ratio 0.893) of Gen_00602DB0::bfmeStoreXK (0x00602DB0, 127B,
-// BfmeLabelStoreXK.cpp). Same buffer/length guard shape and the same
-// double-release-on-both-arms epilogue duplication, but this target: (1) has
-// no second "unused" parameter (ret 4, not ret 8 -- a single by-value string
-// argument passed by hidden pointer); (2) never calls set()/bfmeSetXK on the
-// true arm, it just releases the buffer and returns true; and (3) has no
-// "mov [esp+8], 0" EH-state pre-store because with no throwing set() call on
-// the true arm the destructor cleanup state is unambiguous.
-
-struct BfmeBufferXK
+// ?bfmeCheckCT@@YGDVBFMERetailAsciiString@@@Z (identity unknown)
+// partial score=0.85 date=2026-09-07
+// 94/106. The logic is right -- a by-value AsciiString parameter, a null test
+// on its buffer, a `cmp word ptr [eax+4],0` length test, char return, and the
+// destructor running on every path under the SEH frame.
+// Retail DUPLICATES the destructor + epilogue into two blocks, one per return
+// value (`xor al,al` at +0x35, `mov al,1` at +0x5b), each with its own
+// releaseBuffer call and fs:[0] restore. MSVC merges them: one releaseBuffer,
+// one epilogue, and a conditional al. That merge is the whole 12-byte gap.
+// Same decision as 0x0061DD60 and 0x00457090 -- see
+// [[zero-materialisation-is-unstable]]'s neighbours; no flag reaches it
+// (/Ot /Og /Gy /Ob0 /Oy- were swept on 0x00457090).
+struct BfmeBufCT
 {
-	int m_bfmeRef;						// +0x00
-	short m_bfmeLength;					// +0x04
+	unsigned char m_bfmeHeadCT[4];
+	unsigned short m_bfmeLenCT;
 };
 
-class AsciiStringXK
+class BFMERetailAsciiString
 {
 public:
-	AsciiStringXK(const AsciiStringXK &other);
-	~AsciiStringXK(void);
+	~BFMERetailAsciiString() { releaseBufferCT(); }
 
-protected:
-	BfmeBufferXK *m_bfmeData;				// +0x00
+	void releaseBufferCT();
+
+	BfmeBufCT *m_bfmeBufCT;
 };
 
-class BfmeStrXK0042F0D0 : private AsciiStringXK
+char __stdcall bfmeCheckCT(BFMERetailAsciiString text)
 {
-public:
-	const BfmeBufferXK *bfmeBufferXK(void) const
-	{
-		return m_bfmeData;
-	}
-};
+	if (text.m_bfmeBufCT == 0)
+		return 0;
 
-// address-derived name (real owner/name unproven)
-bool __stdcall Rva0042F0D0StoreLabel(AsciiStringXK value)
-{
-	const BfmeBufferXK *buffer = ((BfmeStrXK0042F0D0 *)&value)->bfmeBufferXK();
+	if (text.m_bfmeBufCT->m_bfmeLenCT == 0)
+		return 0;
 
-	if (buffer && buffer->m_bfmeLength)
-		return true;
-
-	return false;
+	return 1;
 }
