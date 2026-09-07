@@ -1,6 +1,4 @@
-// ?doFXObj@LaserFXNugget@@UBEXPBVObject@@0@Z
 // cl: /O2 /Ob0 /DNDEBUG /MD /EHsc
-// Open-BFME5: clean C++ conversion of Laser's object dispatch.
 
 typedef int Int;
 
@@ -29,7 +27,7 @@ class ClientUpdateModule
 class AsciiString
 {
 private:
-	char *m_text;
+	void *m_data;
 };
 
 class NameKeyGenerator
@@ -61,8 +59,6 @@ public:
 		DrawableStatus status, Int drawableID);
 };
 
-class DrawableForLaser;
-
 #define BFME_OBJECT_SLOT( name ) virtual void name();
 class Object
 {
@@ -88,16 +84,25 @@ public:
 		const Coord3D *end, Int sizeDeltaFrames);
 };
 
-class LaserFXNugget
+class FXNugget
 {
 public:
-	virtual void v00();
+	virtual ~FXNugget();
+	virtual void doFXPos(const Coord3D *, const Matrix3D *, float, const Coord3D *) const;
+	virtual void doFXObj(const Object *, const Object *) const;
+
+private:
+	unsigned char m_unreconstructed04[0xB0];
+};
+
+class LaserFXNugget : public FXNugget
+{
+public:
 	virtual void doFXPos(const Coord3D *, const Matrix3D *, float,
 		const Coord3D *) const;
 	virtual void doFXObj(const Object *, const Object *) const;
 
 private:
-	unsigned char m_unmodelled[0xB0];
 	AsciiString m_laserName;
 	bool m_laserBackwards;
 	unsigned char m_padding[3];
@@ -144,6 +149,52 @@ void LaserFXNugget::doFXObj(const Object *primary, const Object *secondary) cons
 					{
 						update->initLaser(primary, &position,
 							&primary->m_position, 0);
+					}
+				}
+			}
+		}
+	}
+}
+
+// ?doFXPos@LaserFXNugget@@UBEXPBUCoord3D@@PBVMatrix3D@@M0@Z
+void LaserFXNugget::doFXPos(const Coord3D *primary, const Matrix3D *, float,
+	const Coord3D *secondary) const
+{
+	if (primary)
+	{
+		const ThingTemplate *thingTemplate =
+			TheThingFactory->findTemplate(m_laserName);
+		Drawable *draw = ((BFMEThingFactory *)TheThingFactory)->newDrawable(
+			thingTemplate, DRAWABLE_STATUS_NONE, -1);
+		if (draw)
+		{
+			static NameKeyType key_LaserUpdate =
+				TheNameKeyGenerator->nameToKey("LaserUpdate");
+			LaserUpdate *update =
+				(LaserUpdate *)draw->findClientUpdateModule(key_LaserUpdate);
+			if (update)
+			{
+				Coord3D position;
+				if (secondary)
+				{
+					update->initLaser(0, primary, secondary, 0);
+				}
+				else
+				{
+					position.x = primary->x;
+					position.y = primary->y;
+					position.z = primary->z;
+					position.x += m_targetPositionOffsetFallback.x;
+					position.y += m_targetPositionOffsetFallback.y;
+					position.z += m_targetPositionOffsetFallback.z;
+
+					if (!m_laserBackwards)
+					{
+						update->initLaser(0, primary, &position, 0);
+					}
+					else
+					{
+						update->initLaser(0, &position, primary, 0);
 					}
 				}
 			}
