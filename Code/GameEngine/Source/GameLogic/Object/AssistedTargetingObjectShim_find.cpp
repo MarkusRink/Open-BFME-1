@@ -12,6 +12,22 @@
 // promoted__isFreeToAssist_AssistedTargetingUpdate, and the ledger has to agree
 // with it, so the store is spelled through a cast rather than a typed pointer.
 //
+// The call graph says how much of that name to believe, and the answer is the
+// argument type and nothing else. This body is reached through ILT 0x00009C41
+// from eighteen sites, and they are not AssistedTargeting's: among them are
+// ?shouldProjectileCollideWith@WeaponTemplate@@,
+// ?bfmeCurrentWeaponTemplateFlag4@AIUpdateInterface@@,
+// ?isAttackViewBlockedByObstacle@Pathfinder@@ and ?bfmeGoCLE@BfmeThingCLE@@.
+// ?isFreeToAssist@AssistedTargetingUpdate@@ is two of the eighteen, so the class
+// in the name is one caller among many rather than the owner. The twin at
+// 0x001BE230 has the opposite profile and earns its name: about a hundred and
+// ten callers, essentially all attack and weapon code -- AIAttackFireWeaponState,
+// TurretAI, AIGroup::setWeaponLockForGroup, AIUpdateInterface::privateAttack*.
+// Both sets ask the same question of the same layout, so this is the weapon
+// accessor a second time under a placeholder class name, not a distinct
+// operation. Naming it properly needs whatever owns this copy, and the eighteen
+// callers do not agree on a class, so nothing better is claimed here.
+//
 ///////////////////////////////////////////////////////////////////////////////
 
 enum WeaponSlotType
