@@ -1135,6 +1135,7 @@ name,address,notes
 ??$__unguarded_insertion_sort_aux@PAUS4SortElem12@@U1@US4Cmp00574DF0@@@_STL@@YAXPAUS4SortElem12@@00US4Cmp00574DF0@@@Z,0x005719B0,S4 STLport sort-layer callee (address-derived name; target read from the REL32 at its call site and followed through its ILT thunk)
 ??$__unguarded_insertion_sort_aux@PAUS4SortElem20@@U1@US4Cmp002EB8E0@@@_STL@@YAXPAUS4SortElem20@@00US4Cmp002EB8E0@@@Z,0x002EA750,S4 STLport sort-layer callee (address-derived name; target read from the REL32 at its call site and followed through its ILT thunk)
 ??$__unguarded_insertion_sort_aux@PAUS4SortElem8@@U1@US4Cmp00575AA0@@@_STL@@YAXPAUS4SortElem8@@00US4Cmp00575AA0@@@Z,0x000046FB,matched final-insertion wrapper at 0x00576FF0 calls this zero-third STLport helper through its ILT
+??$__unguarded_linear_insert@PAHHP6A_NHH@Z@_STL@@YAXPAHHP6A_NHH@Z@Z,0x0004727B,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00483B90 calls; autopin
 ??$__unguarded_linear_insert@PAUBfmeSortPair@@U1@UBfmeSortCompare@@@_STL@@YAXPAUBfmeSortPair@@U1@UBfmeSortCompare@@@Z,0x009F2DF0,alternate REL32 name for the already-matched bfmeLinearInsertFloatAscending BfmeLinearInsertFloat.cpp; template unguarded-arm dispatch of the near-twin linear_insert for BfmeSortPair ascending
 ??$__unguarded_linear_insert@PAUBfmeSortPair@@U1@UBfmeSortCompareDescending@@@_STL@@YAXPAUBfmeSortPair@@U1@UBfmeSortCompareDescending@@@Z,0x009F2E30,alternate REL32 name for the already-matched bfmeLinearInsertFloatDescending BfmeLinearInsertFloat.cpp; template unguarded-arm dispatch of the near-twin linear_insert for BfmeSortPair descending
 ??$__unguarded_linear_insert@PAUS4SortElem12@@U1@US4Cmp002E1690@@@_STL@@YAXPAUS4SortElem12@@U1@US4Cmp002E1690@@@Z,0x00042F91,retail __linear_insert at 0x002E0FE0 direct call-site ILT
@@ -73573,6 +73574,8 @@ name,address,notes
 ?bfmeCanAttackTarget@BfmeAttackQuery@@QBE_NPBVObject@@PBUCoord3D@@0PBX@Z,0x0002DB1E,Object BFME attack query calls this protected ILT for source-target permission
 ?bfmeCanAutoFire@AutoAbilityBehavior@@QBE_NXZ,0x00008ECC,Open-BFME5 ILT thunk to body 0x001EDC00; AutoAbilityBehavior Object+8 AsciiString+0x20 command-ready predicate; bfme prefix records unrecovered retail spelling
 ?bfmeCanHF@BfmeActorHF@@QAEDH@Z,0x0003251F,pin
+?bfmeCanZK@BfmeActorZK@@QAEDH@Z,0x0003251F,pin
+?bfmeCanZK@BfmeActorZK@@QAE_NH@Z,0x0003251F,pin
 ?bfmeCast2EVB@@YAPAUBfmeObjEVB@@PAX@Z,0x00010424,pin
 ?bfmeCastEVB@@YAPAUBfmeObjEVB@@PAX@Z,0x00042424,pin
 ?bfmeCatVHH@BfmeLayoutVHH@@QAEXPBDH@Z,0x00887D60,pin
@@ -73608,6 +73611,7 @@ name,address,notes
 ?bfmeCheckCX@BfmeSubCX@@QAEHPAX@Z,0x000220C5,pin
 ?bfmeCheckFH@BfmeCheckFH@@QAEDPAX@Z,0x0003E80B,pin
 ?bfmeCheckStrVHR@@YAPBDPAUBfmeLuaVHR@@HPAI@Z,0x0099A840,pin
+?bfmeCheckZK@BfmeOwnerZK@@QAEDXZ,0x00001C03,pin
 ?bfmeChk1064@BfmeQ1064@@QAEDXZ,0x0001E533,pin
 ?bfmeChk1079@BfmeM1079@@QAEDXZ,0x000279CB,pin
 ?bfmeChk1083@BfmeB1083@@QAEDXZ,0x00022C96,pin
@@ -74233,6 +74237,7 @@ name,address,notes
 ?bfmeFindYT@BfmeRegistryYT@@QAEPAXABVAsciiStringYT@@@Z,0x0003B59D,Open-BFME5 registry lookup used by the side dispatch at 0x0058ECA0
 ?bfmeFindYU@BfmeRegistryYU@@QAEPAXABVAsciiStringYU@@@Z,0x0003B59D,Open-BFME5 registry lookup used by the dispatch at 0x0058EDB0
 ?bfmeFindYV@BfmeRegistryYV@@QAEPAXABVAsciiStringYV@@@Z,0x0003B59D,Open-BFME5 registry lookup used by the dispatch at 0x0058EED0
+?bfmeFindZK@Rva00367E30Logic@@QAEPAVBfmeActorZK@@PAX@Z,0x0001F253,pin
 ?bfmeFinish1003@BfmeB1003@@QAEXXZ,0x0003FBF7,pin
 ?bfmeFinish1010A@BfmeA1010@@QAEXXZ,0x0002A05E,pin
 ?bfmeFinish1010B@BfmeThing1010@@QAEXH@Z,0x0001AA0A,pin
@@ -75542,6 +75547,7 @@ name,address,notes
 ?bfmeResolveXK@BfmeInnerXK@@QAEPAVBfmeThingXK@@XZ,0x000022BB,pin
 ?bfmeResolveXR@BfmeInnerXR@@QAEPAVBfmeThingXR@@XZ,0x000022BB,pin
 ?bfmeResolveYT@BfmeInnerYT@@QAEPAVBfmeThingYT@@XZ,0x000022BB,pin
+?bfmeResolveZK@BfmeInnerZK@@QAEPAVBfmeThingZK@@XZ,0x000022BB,pin
 ?bfmeResolveZones@@YAXHHPAG00@Z,0x0002B648,Open-BFME5 ILT thunk to exact body 0x00403C90; BFME zone-equivalence list merger
 ?bfmeRestart@Gen_0018BC70@@AAEXXZ,0x0003F1FC,Open-BFME5 the ICF thunk (to 0x0043F1FC) the compaction at 0x0018BC70 calls when its flag is set
 ?bfmeResume@Gen_0018BC70@@AAEXXZ,0x0000764E,Open-BFME5 the ICF thunk (to 0x0040764E) the compaction at 0x0018BC70 calls when its flag is clear
@@ -84637,8 +84643,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolveZK@BfmeInnerZK@@QAEPAVBfmeThingZK@@XZ,0x000022BB,pin
-?bfmeFindZK@Rva00367E30Logic@@QAEPAVBfmeActorZK@@PAX@Z,0x0001F253,pin
-?bfmeCanZK@BfmeActorZK@@QAEDH@Z,0x0003251F,pin
-?bfmeCheckZK@BfmeOwnerZK@@QAEDXZ,0x00001C03,pin
-?bfmeCanZK@BfmeActorZK@@QAE_NH@Z,0x0003251F,pin
