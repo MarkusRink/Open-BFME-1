@@ -22,6 +22,8 @@
 // The local field views retain BFME layouts without changing shared headers.
 #include "w3d_file.h"
 
+class VertexMaterialClass;
+
 class TextureClass {
 public:
     void Add_Ref() { ++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4); }
@@ -63,11 +65,14 @@ protected:
     int DIGSource[4];
     BfmeHandleCX Texture[4][2];
     void *Shader[4];
-    void *Material[4];
+    VertexMaterialClass *Material[4];
     void *TextureArray[4][2];
     void *MaterialArray[4];
     void *ShaderArray[4];
 public:
+    bool Has_Material_Data(int pass) { return Material[pass] != 0 || MaterialArray[pass] != 0; }
+    void Set_Single_Material(VertexMaterialClass *material, int pass);
+    void Set_Material(int index, VertexMaterialClass *material, int pass);
     bool Has_Texture_Data(int pass, int stage) {
         return Texture[pass][stage].p != 0 ||
                TextureArray[pass][stage] != 0;
@@ -83,25 +88,33 @@ public:
     int CurPass;
     int CurTexStage;
 private:
-    unsigned char padding_94[0x10c - 0x94];
+    unsigned char padding_94[0xc8 - 0x94];
+public:
+    VertexMaterialClass **VertexMaterials;
+private:
+    unsigned char padding_cc[0x10c - 0xcc];
 public:
     MeshMatDescClass AlternateMatDesc;
     BfmeHandleCX Peek_Texture(int index);
+    VertexMaterialClass *Peek_Vertex_Material(unsigned long index) { return VertexMaterials[index]; }
 };
 
 class MeshModelClass {
     unsigned char padding_00[0x24];
 public:
     int PolyCount;
+    int VertexCount;
 private:
-    unsigned char padding_28[0x94 - 0x28];
+    unsigned char padding_2c[0x94 - 0x2c];
 public:
     MeshMatDescClass *DefMatDesc;
+    int Get_Vertex_Count() const { return VertexCount; }
     int Get_Polygon_Count() const {
         return PolyCount;
     }
 protected:
     bool read_texture_ids(ChunkLoadClass &cload, MeshLoadContextClass *context);
+    bool read_vertex_material_ids(ChunkLoadClass &cload, MeshLoadContextClass *context);
 };
 
 bool MeshModelClass::read_texture_ids(ChunkLoadClass &cload, MeshLoadContextClass *context)
@@ -124,6 +137,33 @@ bool MeshModelClass::read_texture_ids(ChunkLoadClass &cload, MeshLoadContextClas
             if (texid != 0xffffffff) {
                 matdesc->Set_Texture(i, context->Peek_Texture(texid), pass, stage);
             }
+        }
+    }
+
+    return true;
+}
+
+// read_vertex_material_ids: RVA 0x0096D300, complete 190 bytes. Material
+// pass chunk 0x39 selects arm 0x0096FB9F; its call at 0x0096FBA3 reaches
+// this body. RET 8 at +0xBB ends before two INT3 bytes at +0xBE.
+bool MeshModelClass::read_vertex_material_ids(ChunkLoadClass &cload, MeshLoadContextClass *context)
+{
+    unsigned long vmat;
+    MeshMatDescClass *matdesc = DefMatDesc;
+
+    if (DefMatDesc->Has_Material_Data(context->CurPass)) {
+        matdesc = &(context->AlternateMatDesc);
+    }
+
+    if (cload.Cur_Chunk_Length() == 1 * sizeof(unsigned long)) {
+        cload.Read(&vmat, sizeof(vmat));
+        matdesc->Set_Single_Material(context->Peek_Vertex_Material(vmat),
+                                     context->CurPass);
+    } else {
+        for (int i = 0; i < Get_Vertex_Count(); i++) {
+            cload.Read(&vmat, sizeof(unsigned long));
+            matdesc->Set_Material(i, context->Peek_Vertex_Material(vmat),
+                                  context->CurPass);
         }
     }
 
