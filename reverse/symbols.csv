@@ -12545,6 +12545,7 @@ name,address,notes
 ?_M_insert_overflow@?$vector@UGen_t_005758b0_p8cd@@V?$allocator@UGen_t_005758b0_p8cd@@@_STL@@@_STL@@IAEXPAUGen_t_005758b0_p8cd@@ABU3@ABU__false_type@2@I_N@Z,0x005751D0,gen-tgrid payload member
 ?_M_insert_overflow@?$vector@UGen_t_00587480_m4pod@@V?$allocator@UGen_t_00587480_m4pod@@@_STL@@@_STL@@IAEXPAUGen_t_00587480_m4pod@@ABU3@ABU__false_type@2@I_N@Z,0x00587230,family-emit payload member
 ?_M_insert_overflow@?$vector@UGen_t_005a3db0_p8pod@@V?$allocator@UGen_t_005a3db0_p8pod@@@_STL@@@_STL@@IAEXPAUGen_t_005a3db0_p8pod@@ABU3@ABU__false_type@2@I_N@Z,0x005A3C00,gen-tgrid payload member
+?_M_insert_overflow@?$vector@URva005A41F0InputEvent@@V?$allocator@URva005A41F0InputEvent@@@_STL@@@_STL@@IAEXPAURva005A41F0InputEvent@@ABU3@ABU__false_type@2@I_N@Z,0x005A3C00,STLport vector overflow body shared by the eight-byte Rva005A41F0 input record
 ?_M_insert_overflow@?$vector@UGen_t_005c72e0_m4pod@@V?$allocator@UGen_t_005c72e0_m4pod@@@_STL@@@_STL@@IAEXPAUGen_t_005c72e0_m4pod@@ABU3@ABU__false_type@2@I_N@Z,0x005C6040,family-emit payload member
 ?_M_insert_overflow@?$vector@UGen_t_005c7320_m4pod@@V?$allocator@UGen_t_005c7320_m4pod@@@_STL@@@_STL@@IAEXPAUGen_t_005c7320_m4pod@@ABU3@ABU__false_type@2@I_N@Z,0x005C6190,family-emit payload member
 ?_M_insert_overflow@?$vector@UGen_t_005c8690_m4pod@@V?$allocator@UGen_t_005c8690_m4pod@@@_STL@@@_STL@@IAEXPAUGen_t_005c8690_m4pod@@ABU3@ABU__false_type@2@I_N@Z,0x005C6BF0,family-emit payload member
@@ -79171,6 +79172,7 @@ name,address,notes
 ?gen005930E0@@YAXPAX0@Z,0x005930E0,address-derived callee of the 14-byte one-field-twice forwarder family; target read from the REL32 at its call sites
 ?gen005A3160@Gen005A3160_006BB540@@QAEXXZ,0x005A3160,address-derived callee of the 16-byte call-then-tail-call pair family; target read from the REL32 at its call sites
 ?gen005A3FD0@Gen005A40E0_005A3FD0@@QAEXXZ,0x005A3FD0,address-derived callee of the 16-byte call-then-tail-call pair family; target read from the REL32 at its call sites
+?reset@Rva005A41F0@@QAEXXZ,0x005A3FD0,paired state reset called by Rva005A41F0::tick after the virtual input device returns 0xFF
 ?gen005A40E0@Gen005A40E0_005A3FD0@@QAEXXZ,0x005A40E0,address-derived callee of the 16-byte call-then-tail-call pair family; target read from the REL32 at its call sites
 ?gen005A7CD0@@YAXPAX0@Z,0x005A7CD0,address-derived subobject constructor of the allocating-factory family; target read from the REL32 at its call sites
 ?gen005A83F0@@YAPAXXZ,0x005A83F0,address-derived callee of the 22-byte cached-pointer fill family; target read from the REL32 at its call sites
