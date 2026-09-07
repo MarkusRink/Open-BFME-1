@@ -1,4 +1,5 @@
-// cl: /DNDEBUG /MD /EHsc /Ireference/shims/stringinline
+// cl: /DNDEBUG /MD /EHsc /Ireference/shims/stringinline /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// stlport
 // Every ScriptActions action whose whole job is to work out one number and
 // store it in a named script counter:
 //
@@ -17,7 +18,14 @@
 // then a store into ScriptCounter::m_value -- and differ only in where the
 // number comes from, so they share every model declared here.
 
+#define _STLP_NO_EXCEPTIONS 1
+#include <map>
 #include "StringInline.h"
+
+extern const char g_bfmeEmptyAscii[];
+extern "C" int __cdecl memcmp(const void *left, const void *right,
+	unsigned int count);
+#pragma intrinsic(memcmp)
 
 typedef bool Bool;
 typedef int Int;
@@ -127,10 +135,79 @@ class PlayerLightPoints
 {
 };
 
+// PlayerKills uses the retail StringBase layout here: the generated body reads
+// a ushort length at data+4 and compares data+8 inline.  The caller-side
+// AsciiString remains the canonical StringInline ABI; this view is only the
+// BFME PlayerKills member access proved by 0x000E9B20 and the named counter
+// caller at 0x002F6920.
+struct BfmePlayerKillsStringData
+{
+	char m_pad00[4];
+	unsigned short m_length;
+	unsigned short m_pad06;
+	char m_text[1];
+};
+
+class BfmePlayerKillsStringView
+{
+public:
+	Int compare(const BfmePlayerKillsStringView &other) const
+	{
+		const BfmePlayerKillsStringView *that = &other;
+		const BfmePlayerKillsStringView *self = this;
+		Int thatLen = that->m_data ? that->m_data->m_length : 0;
+		const char *thatData = that->m_data ? &that->m_data->m_text[0] : g_bfmeEmptyAscii;
+		Int thisLen = self->m_data ? self->m_data->m_length : 0;
+		const char *thisData = self->m_data ? &self->m_data->m_text[0] : g_bfmeEmptyAscii;
+		Int c = memcmp(thisData, thatData,
+			(unsigned int)(thisLen < thatLen ? thisLen : thatLen));
+		if (c != 0)
+			return c;
+		return thisLen - thatLen;
+	}
+
+	BfmePlayerKillsStringData *m_data;
+};
+
+// GameLogic's buildable override and the retail body both place the
+// ThingTemplate name at +0x20.  PlayerKills owns 32 adjacent map objects;
+// each STLport map is the 12-byte header walked by the retail outer loop.
+class BfmePlayerKillsThingTemplateView
+{
+public:
+	char m_beforeName[0x20];
+	BfmePlayerKillsStringView m_name;
+};
+
+typedef _STL::map<const BfmePlayerKillsThingTemplateView *, Int>
+	BfmePlayerKillsMap;
+
 struct PlayerKills
 {
 	Int getKillsOfType(const AsciiString &objectType);
+
+private:
+	char m_beforeKills[0x150];
+	BfmePlayerKillsMap m_kills[0x20];
 };
+
+Int PlayerKills::getKillsOfType(const AsciiString &objectType)
+{
+	Int count = 0;
+	for (Int i = 0; i < 0x20; ++i)
+	{
+		for (BfmePlayerKillsMap::iterator it = m_kills[i].begin();
+			it != m_kills[i].end(); ++it)
+		{
+			Int kills = it->second;
+			const BfmePlayerKillsThingTemplateView *theTemplate = it->first;
+			if (theTemplate && theTemplate->m_name.compare(
+				*(const BfmePlayerKillsStringView *)&objectType) == 0)
+				count += kills;
+		}
+	}
+	return count;
+}
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Player.h
 class Player
