@@ -39,7 +39,7 @@ BridgeScaffoldBehavior	REGISTERED	BridgeScaffoldBehavior	1	1	yes	1	0x001148B0
 BridgeTowerBehavior	REGISTERED	BridgeTowerBehavior	1	1	yes	2	0x00114930 0x00125220
 BroadcastStealthUpdate	REGISTERED	BroadcastStealthUpdate	1	1	no	2	0x0011B370 0x0012A350
 BuildingBehavior	REGISTERED	BuildingBehavior	1	1	no	1	0x00114670
-BunkerBusterBehavior	ABSENT	BunkerBusterBehavior	0	0	yes	1	0x0011CB70
+BunkerBusterBehavior	ABSENT	BunkerBusterBehavior	0	0	yes	0	
 CashBountyPower	ABSENT	CashBountyPower	0	0	yes	0	
 CashHackSpecialPower	REGISTERED	CashHackSpecialPower	1	1	yes	2	0x0011FD70 0x0011FDF0
 CastleBehavior	REGISTERED	CastleBehavior	3	1	no	1	0x00114440
@@ -63,7 +63,7 @@ ContestableContain	REGISTERED	ContestableContain	2	1	no	2	0x00116140 0x001165C0
 ConvertToCarBombCrateCollide	ABSENT	ConvertToCarBombCrateCollide	0	0	yes	0	
 ConvertToHijackedVehicleCrateCollide	ABSENT	ConvertToHijackedVehicleCrateCollide	0	0	yes	0	
 CostModifierUpgrade	REGISTERED	CostModifierUpgrade	4	2	yes	1	0x0011D9D0
-CountermeasuresBehavior	ABSENT	CountermeasuresBehavior	0	0	yes	1	0x00117420
+CountermeasuresBehavior	ABSENT	CountermeasuresBehavior	0	0	yes	0	
 CountermeasuresBehaviorModuleData	ABSENT	CountermeasuresBehavior	0	0	yes	1	0x00123180
 CreateCrateDie	REGISTERED	CreateCrateDie	2	1	yes	2	0x00117760 0x00129A30
 CreateCrateDieModuleData	REGISTERED	CreateCrateDie	2	1	yes	1	0x00123290
@@ -182,7 +182,7 @@ ManTheWallsSpecialPower	REGISTERED	ManTheWallsSpecialPower	1	1	no	2	0x001211E0 0
 MaxHealthUpgrade	REGISTERED	MaxHealthUpgrade	1	1	yes	2	0x0011DC00 0x0011DC80
 MinefieldBehavior	ABSENT	MinefieldBehavior	0	0	yes	0	
 MissileAIUpdate	ABSENT	MissileAIUpdate	0	0	yes	1	0x0011F9C0
-MissileLauncherBuildingUpdate	ABSENT	MissileLauncherBuildingUpdate	0	0	yes	1	0x00117420
+MissileLauncherBuildingUpdate	ABSENT	MissileLauncherBuildingUpdate	0	0	yes	0	
 MobMemberSlavedUpdate	ABSENT	MobMemberSlavedUpdate	0	0	yes	0	
 MobNexusContain	ABSENT	MobNexusContain	0	0	yes	0	
 ModelConditionSoundSelectorClientBehavior	REGISTERED	ModelConditionSoundSelectorClientBehavior	1	1	no	2	0x00121E30 0x00126190
