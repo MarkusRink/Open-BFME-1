@@ -6,9 +6,11 @@
 // readable body of ?doCreateTeamFromCapturedUnits@ScriptActions@@IAEXABVAsciiString@@0@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
 // readable body of ?doTeamEmoticon@ScriptActions@@IAEXABVAsciiString@@0M@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
 // readable body of ?doGuardSupplyCenter@ScriptActions@@IAEXABVAsciiString@@H@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
+// readable body of ?doBuildTeam@ScriptActions@@IAEXABVAsciiString@@@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
 //
-// Nine actions that look a team up by name and do one thing to it:
+// Ten actions that look a team up by name and do one thing to it:
 //
+//   0x002F3790  doBuildTeam                   build the prototype's team
 //   0x002F37E0  doRecruitTeam                 recruit a prototype near a team
 //   0x002F3920  doTeamDelete                  Team::deleteTeam
 //   0x002F3B60  doTeamKill                    Team::killTeam
@@ -21,8 +23,8 @@
 //
 // Every one of them was a separate file that spent seventy-odd lines restating
 // AsciiString, the by-value string wrapper and the ScriptEngine vtable in order
-// to reach getTeamNamed at slot 17, and then did its one line of work. Written
-// once, that preamble is seventy lines instead of six hundred, and the nine
+// to reach a lookup at slot 16 or 17, and then did its one line of work. Written
+// once, that preamble is seventy lines instead of seven hundred, and the ten
 // one-liners sit next to each other where the family is legible.
 
 typedef bool Bool;
@@ -117,6 +119,7 @@ class Player
 public:
 	void guardSupplyCenter(Team *, Int);
 	void recruitSpecificTeam(TeamPrototype *, Real, const Coord3D *);
+	void buildSpecificTeam(TeamPrototype *);
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
@@ -169,6 +172,7 @@ extern UpgradeCenter *TheUpgradeCenter;
 class ScriptActions
 {
 protected:
+	void doBuildTeam(const AsciiString &);
 	void doRecruitTeam(const AsciiString &, Real, const AsciiString &);
 	void doTeamDelete(const AsciiString &, Bool);
 	void doTeamKill(const AsciiString &);
@@ -179,6 +183,18 @@ protected:
 	void doGuardSupplyCenter(const AsciiString &, Int);
 	void doTeamUpgrade(const AsciiString &, const AsciiString &);
 };
+
+// ?doBuildTeam@ScriptActions@@IAEXABVAsciiString@@@Z
+void ScriptActions::doBuildTeam(const AsciiString &teamName)
+{
+	TeamPrototype *teamPrototype = TheScriptEngine->getTeamPrototypeNamed(teamName);
+	if (teamPrototype) {
+		Player *player = teamPrototype->getControllingPlayer();
+		if (player) {
+			player->buildSpecificTeam(teamPrototype);
+		}
+	}
+}
 
 // ?doRecruitTeam@ScriptActions@@IAEXABVAsciiString@@M0@Z
 void ScriptActions::doRecruitTeam(
