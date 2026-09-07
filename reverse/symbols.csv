@@ -394,7 +394,7 @@ name,address,notes
 ??$_Construct@URva0010FF90Element@@U1@@_STL@@YAXPAURva0010FF90Element@@ABU1@@Z,0x00020D2E,Open-BFME5 the element _Construct the list insert at 0x0010FF90 calls
 ??$_Construct@URva00110D70Element@@U1@@_STL@@YAXPAURva00110D70Element@@ABU1@@Z,0x00020D2E,Open-BFME5 the element _Construct the list push_back at 0x00110D70 calls
 ??$_Construct@URva001360E0Value@@U1@@_STL@@YAXPAURva001360E0Value@@ABU1@@Z,0x000148DA,Open-BFME5 the value _Construct the hashtable _M_insert at 0x001360E0 calls
-??$_Construct@URva00143CE0Element@_STL@@@_STL@@YAXPAURva00143CE0Element@0@ABU10@@Z,0x0001BE23,Open-BFME5 the element _Construct the vector insert at 0x00143CE0 calls
+??$_Construct@URva00143CE0Element@_STL@@@_STL@@YAXPAURva00143CE0Element@0@ABU10@@Z,0x0001BE23,route=0x00134F70; retail vector callers reach this placement constructor through this thunk
 ??$_Construct@URva00146940Element@_STL@@@_STL@@YAXPAURva00146940Element@0@ABU10@@Z,0x0000808F,Open-BFME5 the element _Construct the vector insert at 0x00146940 calls
 ??$_Construct@URva00148B80Element@@U1@@_STL@@YAXPAURva00148B80Element@@ABU1@@Z,0x0002713D,Open-BFME5 the element _Construct the list insert at 0x00148B80 calls
 ??$_Construct@URva00148BD0Element@@U1@@_STL@@YAXPAURva00148BD0Element@@ABU1@@Z,0x0002713D,Open-BFME5 the element _Construct the list push_back at 0x00148BD0 calls
@@ -85717,3 +85717,5 @@ _Rva008921B0Atof,0x008921B0,address-derived 14-byte cdecl atof wrapper at 0x0089
 ?_M_insert_overflow@?$vector@URva0035AFC0Element@_STL@@V?$allocator@URva0035AFC0Element@_STL@@@2@@_STL@@IAEXPAURva0035AFC0Element@2@ABU32@ABU__false_type@2@I_N@Z,0x000396AD,route=0x0035AFC0; retail 0x0035BA20 directly calls this thunk; target has this exact matched identity
 ?Open2Construct3550F0@@YAXPAVOpen2Rec3550F0@@ABV1@@Z,0x0002DE52,route=0x003550F0; retail 0x0035BA70 directly calls this thunk; target has this exact matched identity
 ?_M_insert_overflow@?$vector@URva0035B130Element@_STL@@V?$allocator@URva0035B130Element@_STL@@@2@@_STL@@IAEXPAURva0035B130Element@2@ABU32@ABU__false_type@2@I_N@Z,0x0000CDEC,route=0x0035B130; retail 0x0035BA70 directly calls this thunk; target has this exact matched identity
+??0Open2Rec134500@@QAE@ABV0@@Z,0x0001BCF7,route=0x00134500; retail 0x00134F70 calls this exact matched copy constructor
+?_M_insert_overflow@?$vector@URva00143CE0Element@_STL@@V?$allocator@URva00143CE0Element@_STL@@@2@@_STL@@IAEXPAURva00143CE0Element@2@ABU32@ABU__false_type@2@I_N@Z,0x000150D7,route=0x00143CE0; retail 0x00144EA0 calls this exact matched overflow
