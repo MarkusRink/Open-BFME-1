@@ -2437,7 +2437,7 @@ name,address,notes
 ??0FXListAtBonePosFXNugget@@QAE@XZ,0x00429E30,constructor run on the 0xBC-byte allocation in FXListAtBonePosFXNugget::parse at 0x0042C860; the INI keyword table at 0x00CF2130 names that parse callback FXListAtBonePos
 ??0FXListDie@@QAE@PAVThing@@PBVModuleData@@@Z,0x00008878,pinharvest x1 (thunk)
 ??0FXListDieModuleData@@QAE@XZ,0x00025EBE,derived-ICF
-??0FXNugget@@QAE@XZ,0x00428590,BFME's 225-byte FXNugget constructor; the 9-byte body at 0x00061D90 that already carries this name is an ICF alias of `mov eax,ecx / mov [eax],0 / ret`
+??0FXNugget@@QAE@XZ,0x00428590,BFME's 225-byte FXNugget constructor; the false 0x00061D90 zero-store claim was retired in fcf825b4f7
 ??0FastAllocatorGeneral@@QAE@XZ,0x00B027B0
 ??0FatalErrorContext@@QAE@XZ,0x00013A8E,error context constructed before fatal timed-operation reports
 ??0FeslEchoMessage@@QAE@PADH@Z,0x007E8850,FESL message buffer constructor

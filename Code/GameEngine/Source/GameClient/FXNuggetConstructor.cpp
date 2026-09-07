@@ -3,8 +3,7 @@
 // Open-BFME5: clean C++ reconstruction of the BFME FXNugget base constructor
 // at 0x00428590 (225 bytes).
 //
-// The Zero Hour header's empty FXNugget constructor is the nine-byte ICF body
-// at 0x00061D90, not this BFME body.  BFME's base owns two four-byte filter
+// BFME's base owns two four-byte filter
 // members at +8/+C, four BitFlags<320> members at +10/+38/+60/+88, the stop
 // flag at +B0, and the nugget discriminator at +4.  The shared FXList field
 // table at 0x00CF2480 names those offsets; the BFME vftable at 0x010F23A0 and
