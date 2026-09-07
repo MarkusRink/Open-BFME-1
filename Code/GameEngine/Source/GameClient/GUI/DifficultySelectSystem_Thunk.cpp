@@ -1,344 +1,177 @@
 // cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
 
-class GameWindow;
-enum WindowMsgHandledType {};
-WindowMsgHandledType __cdecl DifficultySelectSystem(GameWindow *, unsigned int, unsigned int, unsigned int);
+typedef int Int;
+typedef unsigned int UnsignedInt;
+typedef unsigned int WindowMsgData;
+typedef bool Bool;
+typedef int NameKeyType;
+
+#define TRUE 1
+
+enum WindowMsgHandledType
+{
+	MSG_IGNORED,
+	MSG_HANDLED
+};
+
+enum
+{
+	GWM_CREATE = 1,
+	GWM_DESTROY = 2,
+	GWM_INPUT_FOCUS = 23,
+	GBM_SELECTED = 0x4008
+};
+
+enum GameDifficulty
+{
+	DIFFICULTY_EASY,
+	DIFFICULTY_NORMAL,
+	DIFFICULTY_HARD
+};
+
+template <typename T>
+class StringBase
+{
+public:
+	StringBase(const StringBase &that);
+};
+
+class AsciiString : private StringBase<char>
+{
+public:
+	static const AsciiString TheEmptyString;
+	AsciiString(const AsciiString &that) : StringBase<char>(that) {}
+	~AsciiString() {}
+};
+
+class WindowLayout
+{
+public:
+	virtual void runInit();
+	virtual ~WindowLayout();
+	virtual void runUpdate();
+	virtual void runShutdown();
+	virtual void hide();
+	virtual void bringForward();
+	virtual void addWindow();
+	virtual void removeWindow();
+	virtual void destroyWindows();
+};
+
+class GameWindow
+{
+public:
+	Int winGetWindowId();
+	WindowLayout *winGetLayout();
+};
+
+class GameWindowManager
+{
+public:
+	virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
+	virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
+	virtual void slot08(); virtual void slot09(); virtual void slot0A(); virtual void slot0B();
+	virtual void slot0C(); virtual void slot0D(); virtual void slot0E(); virtual void slot0F();
+	virtual void slot10(); virtual void slot11(); virtual void slot12(); virtual void slot13();
+	virtual void slot14(); virtual void slot15(); virtual void slot16(); virtual void slot17();
+	virtual void slot18(); virtual void slot19(); virtual void slot1A(); virtual void slot1B();
+	virtual void slot1C(); virtual void slot1D(); virtual void slot1E(); virtual void slot1F();
+	virtual void slot20(); virtual void slot21(); virtual void slot22(); virtual void slot23();
+	virtual void slot24(); virtual void slot25(); virtual void slot26(); virtual void slot27();
+	virtual void slot28(); virtual void slot29(); virtual void slot2A(); virtual void slot2B();
+	virtual void slot2C(); virtual void slot2D(); virtual void slot2E(); virtual void slot2F();
+	virtual void slot30(); virtual void slot31(); virtual void slot32(); virtual void slot33();
+	virtual void slot34(); virtual void slot35(); virtual void slot36(); virtual void slot37();
+	virtual void slot38(); virtual void slot39(); virtual void slot3A(); virtual void slot3B();
+	virtual int winUnsetModal(GameWindow *window);
+};
+
+class CampaignManager
+{
+public:
+	AsciiString getCurrentMap();
+	void setCampaign(AsciiString campaign);
+};
+
+class ScriptEngine
+{
+public:
+	void setObjectsShouldReceiveDifficultyBonus(Bool receive);
+};
+
+typedef void (ScriptEngine::*SetDifficultyBonus)(int);
+
+static GameDifficulty s_AIDiff = DIFFICULTY_NORMAL;
+static NameKeyType buttonOkID = -1;
+static NameKeyType buttonCancelID = -1;
+static NameKeyType radioButtonEasyAIID = -1;
+static NameKeyType radioButtonMediumAIID = -1;
+static NameKeyType radioButtonHardAIID = -1;
+
+extern GameWindowManager *TheWindowManager;
+extern CampaignManager *TheCampaignManager;
+extern ScriptEngine *TheScriptEngine;
+void setupGameStart(AsciiString mapName, int diff);
 
 // ?DifficultySelectSystem@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z
-__declspec(naked) WindowMsgHandledType __cdecl DifficultySelectSystem(GameWindow *, unsigned int, unsigned int, unsigned int)
+WindowMsgHandledType DifficultySelectSystem(GameWindow *window, UnsignedInt msg,
+	WindowMsgData mData1, WindowMsgData mData2)
 {
-	__asm {
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x08
-        __emit 0x83
-        __emit 0xf8
-        __emit 0x17
-        __emit 0x56
-        __emit 0x77
-        __emit 0x2d
-        __emit 0x74
-        __emit 0x12
-        __emit 0x48
-        __emit 0x0f
-        __emit 0x84
-        __emit 0x31
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x48
-        __emit 0x0f
-        __emit 0x84
-        __emit 0x2a
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc3
-        __emit 0x83
-        __emit 0x7c
-        __emit 0x24
-        __emit 0x10
-        __emit 0x01
-        __emit 0x0f
-        __emit 0x85
-        __emit 0x1b
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x14
-        __emit 0xc6
-        __emit 0x00
-        __emit 0x01
-        __emit 0xb8
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5e
-        __emit 0xc3
-        __emit 0x3d
-        __emit 0x08
-        __emit 0x40
-        __emit 0x00
-        __emit 0x00
-        __emit 0x74
-        __emit 0x04
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc3
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x10
-        __emit 0xe8
-        __emit 0x99
-        __emit 0x15
-        __emit 0xb5
-        __emit 0xff
-        __emit 0x3b
-        __emit 0x05
-        __emit 0x48
-        __emit 0x39
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x75
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x78
-        __emit 0x69
-        __emit 0x2b
-        __emit 0x01
-        __emit 0x51
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x6c
-        __emit 0x07
-        __emit 0x2f
-        __emit 0x01
-        __emit 0xe8
-        __emit 0x96
-        __emit 0xb3
-        __emit 0xb4
-        __emit 0xff
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x08
-        __emit 0xe8
-        __emit 0xc7
-        __emit 0x8f
-        __emit 0xb7
-        __emit 0xff
-        __emit 0x8b
-        __emit 0xf0
-        __emit 0x8b
-        __emit 0x16
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xff
-        __emit 0x52
-        __emit 0x20
-        __emit 0x8b
-        __emit 0x06
-        __emit 0x6a
-        __emit 0x01
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xff
-        __emit 0x50
-        __emit 0x04
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x78
-        __emit 0x69
-        __emit 0x2b
-        __emit 0x01
-        __emit 0x51
-        __emit 0x51
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0xb0
-        __emit 0x4c
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x8b
-        __emit 0xd4
-        __emit 0x89
-        __emit 0x64
-        __emit 0x24
-        __emit 0x14
-        __emit 0x52
-        __emit 0xe8
-        __emit 0x55
-        __emit 0x32
-        __emit 0xb5
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xf5
-        __emit 0x17
-        __emit 0xb7
-        __emit 0xff
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x08
-        __emit 0xb8
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5e
-        __emit 0xc3
-        __emit 0x3b
-        __emit 0x05
-        __emit 0x50
-        __emit 0x39
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x75
-        __emit 0x4f
-        __emit 0x51
-        __emit 0x89
-        __emit 0x64
-        __emit 0x24
-        __emit 0x10
-        __emit 0x8b
-        __emit 0xcc
-        __emit 0x68
-        __emit 0x50
-        __emit 0x6e
-        __emit 0x33
-        __emit 0x01
-        __emit 0xe8
-        __emit 0xde
-        __emit 0x07
-        __emit 0x3c
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0xb0
-        __emit 0x4c
-        __emit 0x2f
-        __emit 0x01
-        __emit 0xe8
-        __emit 0x7e
-        __emit 0xc7
-        __emit 0xb4
-        __emit 0xff
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x40
-        __emit 0x1b
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x56
-        __emit 0xff
-        __emit 0x90
-        __emit 0xf0
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xe8
-        __emit 0x4e
-        __emit 0x8f
-        __emit 0xb7
-        __emit 0xff
-        __emit 0x8b
-        __emit 0xf0
-        __emit 0x8b
-        __emit 0x16
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xff
-        __emit 0x52
-        __emit 0x20
-        __emit 0x8b
-        __emit 0x06
-        __emit 0x6a
-        __emit 0x01
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xff
-        __emit 0x50
-        __emit 0x04
-        __emit 0xb8
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5e
-        __emit 0xc3
-        __emit 0x3b
-        __emit 0x05
-        __emit 0x58
-        __emit 0x39
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x75
-        __emit 0x11
-        __emit 0xc7
-        __emit 0x05
-        __emit 0x78
-        __emit 0x69
-        __emit 0x2b
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0xb8
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5e
-        __emit 0xc3
-        __emit 0x3b
-        __emit 0x05
-        __emit 0x5c
-        __emit 0x39
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x75
-        __emit 0x11
-        __emit 0xc7
-        __emit 0x05
-        __emit 0x78
-        __emit 0x69
-        __emit 0x2b
-        __emit 0x01
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0xb8
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5e
-        __emit 0xc3
-        __emit 0x3b
-        __emit 0x05
-        __emit 0x60
-        __emit 0x39
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x75
-        __emit 0x0a
-        __emit 0xc7
-        __emit 0x05
-        __emit 0x78
-        __emit 0x69
-        __emit 0x2b
-        __emit 0x01
-        __emit 0x02
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0xb8
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5e
-        __emit 0xc3
+	switch (msg)
+	{
+	case GWM_CREATE:
+	{
+		break;
 	}
+	case GWM_DESTROY:
+	{
+		break;
+	}
+	case GWM_INPUT_FOCUS:
+	{
+		if (mData1 == TRUE)
+			*(Bool *)mData2 = TRUE;
+		return MSG_HANDLED;
+	}
+	case GBM_SELECTED:
+	{
+		GameWindow *control = (GameWindow *)mData1;
+		Int controlID = control->winGetWindowId();
+
+		if (controlID == buttonOkID)
+		{
+			(TheScriptEngine->*reinterpret_cast<SetDifficultyBonus>(
+				&ScriptEngine::setObjectsShouldReceiveDifficultyBonus))(*(int *)&s_AIDiff);
+			WindowLayout *layout = window->winGetLayout();
+			layout->destroyWindows();
+			delete layout;
+			setupGameStart(TheCampaignManager->getCurrentMap(), s_AIDiff);
+		}
+		else if (controlID == buttonCancelID)
+		{
+			TheCampaignManager->setCampaign(AsciiString::TheEmptyString);
+			TheWindowManager->winUnsetModal(window);
+			WindowLayout *layout = window->winGetLayout();
+			layout->destroyWindows();
+			delete layout;
+		}
+		else if (controlID == radioButtonEasyAIID)
+		{
+			s_AIDiff = DIFFICULTY_EASY;
+		}
+		else if (controlID == radioButtonMediumAIID)
+		{
+			s_AIDiff = DIFFICULTY_NORMAL;
+		}
+		else if (controlID == radioButtonHardAIID)
+		{
+			s_AIDiff = DIFFICULTY_HARD;
+		}
+		break;
+	}
+	default:
+		return MSG_IGNORED;
+	}
+
+	return MSG_HANDLED;
 }
