@@ -38,3 +38,7 @@ void ThreadClass::Set_Priority(int priority)
     if (m_handle)
         SetThreadPriority(m_handle, m_priority);
 }
+
+ThreadClass::~ThreadClass()
+{
+}
