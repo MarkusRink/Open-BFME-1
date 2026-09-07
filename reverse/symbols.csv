@@ -85682,3 +85682,7 @@ g_bfmeMsgVftDN,0x010F5738
 ?g_bfmeKeyGenERQ@@3PAVBfmeKeyGenERQ@@A,0x00EED600,pin
 ?g_bfmeEmptyERQ@@3PADA,0x00C7388B,pin
 ?bfmeAddERQ@@YAXPAXPAVBfmeItemERQ@@@Z,0x0000F8B7,pin
+?g_bfmeAudioERR@@3PAVBfmeAudioERR@@A,0x00EED668,pin
+??0BfmeBufERR@@QAE@PAX0@Z,0x00008E86,pin
+??1BfmeBufERR@@QAE@XZ,0x00026F35,pin
+?bfmeDoERR@BfmeYERR@@QAEXPAVBfmeXERR@@I@Z,0x000157DA,pin
