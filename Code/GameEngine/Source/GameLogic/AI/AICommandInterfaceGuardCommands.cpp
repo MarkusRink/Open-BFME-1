@@ -1,0 +1,127 @@
+// cl: /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB
+// stlport
+// Open-BFME: the AICommandInterface commands that post a guard, plus the one
+// BFME command built on the same payload.
+//
+//   ?aiGuardPosition@   0x00154550, 230 bytes
+//   ?aiGuardObject@     0x00154670, 214 bytes
+//   ?aiGuardArea@       0x00154890, 214 bytes
+//   ?aiBfmeCommand44@   0x001549A0, 241 bytes
+//
+// Four contiguous bodies in the retail image and the same builder each time:
+// construct AICommandParms, name what is being guarded, put the guard mode in
+// the misc integer at +0x34, then aiDoCommand at vtable slot 0. Command 0x44 is
+// aiGuardArea's payload -- a polygon and an integer -- with a position added,
+// which is the extra 27 bytes and the fourth argument.
+//
+// AICMD_GUARD_POSITION 0x1E, GUARD_OBJECT 0x1F and GUARD_AREA 0x21 are the
+// reference's own indices: BFME dropped the two ALLOW_SURRENDER prisoner
+// commands and added one position command after DOCK, and inserting two more
+// later (0x19 and 0x20) realigns the list with the reference exactly from
+// GUARD_AREA on.
+//
+// GuardMode reaches the mangled names of three of these four, so it is declared;
+// none of the four reads a value out of it. DamageInfo is opaque here for the
+// same reason -- no body in this TU touches the damage block. The reconstructed
+// DamageInfo, DamageInfoInput and DamageInfoOutput are in
+// AICommandInterfaceAttackCommands.cpp, next to aiGoProne, which does.
+#define _STLP_NO_EXCEPTIONS 1
+#include <vector>
+
+typedef int Int;
+typedef unsigned int UnsignedInt;
+typedef float Real;
+typedef bool Bool;
+
+struct Coord3D { Real x, y, z; };
+
+class Object;
+class Team;
+class Waypoint;
+class PolygonTrigger;
+class CommandButton;
+class Path;
+
+enum AICommandType
+{
+	AICMD_GUARD_POSITION	= 0x1E,
+	AICMD_GUARD_OBJECT		= 0x1F,
+	AICMD_GUARD_AREA		= 0x21,
+	AICMD_BFME_44			= 0x44
+};
+
+enum CommandSourceType { CMD_FROM_PLAYER = 0 };
+enum GuardMode {};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Damage.h
+struct DamageInfo
+{
+	char m_bfme_body[0x5C];					// sizeof(DamageInfo)
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
+struct AICommandParms
+{
+	AICommandType						m_cmd;			// +0x00
+	CommandSourceType				m_cmdSource;		// +0x04
+	Coord3D									m_pos;			// +0x08
+	Object									*m_obj;			// +0x14
+	Object									*m_otherObj;		// +0x18
+	const Team							*m_team;		// +0x1C
+	_STL::vector<Coord3D>		m_coords;			// +0x20
+	const Waypoint					*m_waypoint;		// +0x2C
+	const PolygonTrigger		*m_polygon;			// +0x30
+	Int											m_intValue;		// +0x34
+	DamageInfo							m_damage;		// +0x38
+	const CommandButton			*m_commandButton;	// +0x94
+	Path										*m_path;		// +0x98
+
+	AICommandParms(AICommandType cmd, CommandSourceType cmdSource);	// ILT 0x00030EA4
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
+class AICommandInterface
+{
+public:
+	virtual void aiDoCommand(const AICommandParms *parms) = 0;	// slot 0, vtable+0x00
+
+	void aiGuardPosition(const Coord3D *pos, GuardMode guardMode, CommandSourceType cmdSource);
+	void aiGuardObject(Object *objToGuard, GuardMode guardMode, CommandSourceType cmdSource);
+	void aiGuardArea(const PolygonTrigger *areaToGuard, GuardMode guardMode, CommandSourceType cmdSource);
+	void aiBfmeCommand44(const PolygonTrigger *poly, Int value,
+			CommandSourceType cmdSource, const Coord3D *pos);
+};
+
+void AICommandInterface::aiGuardPosition( const Coord3D *pos, GuardMode guardMode, CommandSourceType cmdSource )
+{
+	AICommandParms parms(AICMD_GUARD_POSITION, cmdSource);
+	parms.m_pos = *pos;
+	parms.m_intValue = guardMode;
+	aiDoCommand(&parms);
+}
+
+void AICommandInterface::aiGuardObject( Object *objToGuard, GuardMode guardMode, CommandSourceType cmdSource )
+{
+	AICommandParms parms(AICMD_GUARD_OBJECT, cmdSource);
+	parms.m_obj = objToGuard;
+	parms.m_intValue = guardMode;
+	aiDoCommand(&parms);
+}
+
+void AICommandInterface::aiGuardArea( const PolygonTrigger *areaToGuard, GuardMode guardMode, CommandSourceType cmdSource )
+{
+	AICommandParms parms(AICMD_GUARD_AREA, cmdSource);
+	parms.m_polygon = areaToGuard;
+	parms.m_intValue = guardMode;
+	aiDoCommand(&parms);
+}
+
+void AICommandInterface::aiBfmeCommand44(const PolygonTrigger *poly, Int value,
+		CommandSourceType cmdSource, const Coord3D *pos)
+{
+	AICommandParms parms(AICMD_BFME_44, cmdSource);
+	parms.m_polygon = poly;
+	parms.m_intValue = value;
+	parms.m_pos = *pos;
+	aiDoCommand(&parms);
+}
