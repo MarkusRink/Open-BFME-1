@@ -28,13 +28,29 @@
 class ChunkLoadClass {
 public:
     unsigned long Read(void *, unsigned long);
+    bool Open_Chunk();
+    bool Close_Chunk();
 };
+class VertexMaterialClass {
+public:
+    virtual void Delete_This();
+    VertexMaterialClass();
+    bool Load_W3D(ChunkLoadClass &);
+    void Add_Ref() { ++RefCount; }
+    void Release_Ref() { if (--RefCount == 0) Delete_This(); }
+private:
+    int RefCount;
+    unsigned char fields[0x6c - 8];
+};
+
 class MeshLoadContextClass {
     friend class MeshModelClass;
     unsigned char beforeInfo[0x78];
     W3dMaterialInfoStruct MatInfo;
     unsigned char beforeShaders[0xac-0x88];
     DynamicVectorClass<ShaderClass> Shaders;
+    DynamicVectorClass<VertexMaterialClass *> VertexMaterials;
+    int Add_Vertex_Material(VertexMaterialClass *vmat) { vmat->Add_Ref(); int index=VertexMaterials.Count(); VertexMaterials.Add(vmat); return index; }
     int Add_Shader(ShaderClass shader) {
         int index=Shaders.Count();
         Shaders.Add(shader);
@@ -44,6 +60,7 @@ class MeshLoadContextClass {
 class MeshModelClass {
 protected:
     bool read_shaders(ChunkLoadClass &, MeshLoadContextClass *);
+    bool read_vertex_materials(ChunkLoadClass &, MeshLoadContextClass *);
 };
 bool MeshModelClass::read_shaders(ChunkLoadClass &cload,MeshLoadContextClass *context)
 {
@@ -54,6 +71,28 @@ bool MeshModelClass::read_shaders(ChunkLoadClass &cload,MeshLoadContextClass *co
         ShaderClass newshader(0x0010441b);
         W3dUtilityClass::Convert_Shader(shader,&newshader);
         int index=context->Add_Shader(newshader);
+    }
+    return true;
+}
+
+// BFME vertex-material list reader: 0x0096EB30, complete 272 bytes.
+// Prelit chunk 0x2A selects arm 0x0096FCA3 and call 0x0096FCA7. The
+// 0x6C-byte allocation calls the named VertexMaterial constructor, then
+// the Boolean Load_W3D. The context vector starts at +0xC4. Both success
+// and failure release the temporary reference; RET 8 at 0x0096EC3D ends
+// immediately before the next function at 0x0096EC40.
+bool MeshModelClass::read_vertex_materials(ChunkLoadClass &cload,MeshLoadContextClass *context)
+{
+    while (cload.Open_Chunk()) {
+        VertexMaterialClass *vmat=new VertexMaterialClass;
+        bool error=vmat->Load_W3D(cload);
+        if (error != true) {
+            vmat->Release_Ref();
+            return error;
+        }
+        context->Add_Vertex_Material(vmat);
+        vmat->Release_Ref();
+        cload.Close_Chunk();
     }
     return true;
 }
