@@ -85833,3 +85833,5 @@ _ImmReleaseContext@8,0x009F88A8,FF25 thunk verified from PE IMM32.dll import Imm
 ?findMessage@NetCommandList@@QAEPAVNetCommandRef@@GEI@Z,0x00672FC0,BFME synchronized pending-relay lookup: matched ACK-stage-two caller 0x00665700 calls via ILT 0x0002DB96 with command ID/source player/original execution frame; body walks NetCommandList first at +4 and ref next at +4 then tests msg type +0x14 via DoesCommandRequireACommandID and ID +0x10/player +0x0C/frame +8; extends the named two-argument findMessage sibling 0x00672F50
 ?bfmeBuildEVB@Rva00893030Manager@@QAE?AUBfmeResultEVB@@PAVBfmeStrVKI@@@Z,0x00895A00,pin manager build for BfmeConv1993
 ??0BfmeNodeEVC@@QAE@PAVBfmeSrcEVC@@@Z,0x0097D0D0,pin node ctor for BfmeConv1994
+??1BfmeBaseEVD@@QAE@XZ,0x0081D7B0,pin SubtitleEntry dtor for BfmeConv1995
+_bfmeVtblEVD,0x00CF3920,pin vftable data for BfmeConv1995
