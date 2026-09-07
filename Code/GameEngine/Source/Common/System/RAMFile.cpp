@@ -106,12 +106,46 @@ protected:
     Int m_size;
 };
 
+extern "C" __declspec(dllimport) int __cdecl atoi(const char *text);
 extern "C" __declspec(dllimport) double __cdecl atof(const char *text);
 void *operator new[](unsigned int bytes);
 void __cdecl operator delete[](void *block);
 
 extern unsigned int bfmeReadYU(const unsigned char *data);
 extern void d_009d12e0();
+
+// ?scanInt@RAMFile@@UAE_NAAH@Z
+Bool RAMFile::scanInt(Int &newInt)
+{
+    newInt = 0;
+    AsciiString tempstr;
+
+    while ((m_pos < m_size) &&
+           ((m_data[m_pos] < '0') || (m_data[m_pos] > '9')) &&
+           (m_data[m_pos] != '-'))
+    {
+        ++m_pos;
+    }
+
+    if (m_pos >= m_size)
+    {
+        m_pos = m_size;
+        return FALSE;
+    }
+
+    do
+    {
+        Char value[2];
+        value[0] = m_data[m_pos];
+        tempstr.concat(value, 1);
+        ++m_pos;
+    }
+    while ((m_pos < m_size) &&
+           ((m_data[m_pos] >= '0') && (m_data[m_pos] <= '9')));
+
+    newInt = atoi(tempstr.str());
+    return TRUE;
+}
 
 // ?scanReal@RAMFile@@UAE_NAAM@Z
 Bool RAMFile::scanReal(Real &newReal)
