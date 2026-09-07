@@ -1,5 +1,7 @@
 // ?handleInActive@LANAPI@@IAEXPAULANMessage@@I@Z
-// partial score=0.65 date=2026-09-07
+// Complete323B recovered from the bank: default address argument is a reference
+// to an empty8B record, not an integer zero. Both comparisons consume AL;
+// their existing int-width 0/1 bodies are retained with explicit byte casts.
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep
 
 // BFME LANAPI::handleInActive, RVA 0x0068B920, complete 323 bytes.
@@ -8,11 +10,11 @@
 // LANAPIhandlers.cpp family.  BFME keeps the same control flow, but the
 // message name, LANGameInfo progress byte, LANAPI fields, address-pair slot,
 // and two LANAPI virtual slots are all taken from matched BFME siblings below.
-// The existing matched comparator at RVA 0x000970A0 is already
-// Gen_000970a0::bfmeEquals; this TU reuses that landed identity through its
-// ILT and does not add an unknown ABI probe.
+// Comparator names retain existing landed neutral identities; their zero/one
+// results are consumed as bytes by this retail caller.
 
 typedef int Int;
+typedef unsigned char UnsignedByte;
 typedef unsigned int UnsignedInt;
 typedef unsigned short UnsignedShort;
 typedef unsigned short WideChar;
@@ -25,7 +27,7 @@ template <typename T> class StringBase
 	friend class UnicodeString;
 
 private:
-	StringBase(void);
+	StringBase(void) : m_data(0) {}
 	StringBase(const T *text);
 	StringBase(const StringBase<T> &other);
 	~StringBase();
@@ -33,38 +35,19 @@ private:
 	void *m_data;
 };
 
-class AsciiString
-{
+class AsciiString : private StringBase<char> {
 public:
-	AsciiString(void) { m_data = 0; }
-	AsciiString(const AsciiString &other)
-	{
-		((StringBase<char> *)this)->StringBase<char>::StringBase(
-			*(const StringBase<char> *)&other);
-	}
-	~AsciiString() { releaseBuffer(); }
-
-private:
-	void releaseBuffer();
-	char *m_data;
+ AsciiString() : StringBase<char>() {}
+ AsciiString(const AsciiString &other) : StringBase<char>(other) {}
+ ~AsciiString() {}
 };
 
-class UnicodeString
-{
+class UnicodeString : private StringBase<WideChar> {
 public:
-	UnicodeString(void) { m_data = 0; }
-	UnicodeString(const UnicodeString &other)
-	{
-		((StringBase<WideChar> *)this)->StringBase<WideChar>::StringBase(
-			*(const StringBase<WideChar> *)&other);
-	}
-	~UnicodeString() { releaseBuffer(); }
-
-	UnicodeString &operator=(const WideChar *text);
-
-private:
-	void releaseBuffer();
-	WideChar *m_data;
+ UnicodeString() : StringBase<WideChar>() {}
+ UnicodeString(const UnicodeString &other) : StringBase<WideChar>(other) {}
+ ~UnicodeString() {}
+ UnicodeString &operator=(const WideChar *text);
 };
 
 // The assignment is the already-matched UnicodeString forwarder at ILT
@@ -72,6 +55,7 @@ private:
 
 struct BfmeNetAddress
 {
+	BfmeNetAddress() : m_ip(0), m_port(0) {}
 	UnsignedInt m_ip;
 	UnsignedShort m_port;
 	UnsignedShort m_padding;
@@ -146,7 +130,6 @@ public:
 	Int bfmeEquals(const Gen_000970a0 *other) const;
 };
 
-#pragma comment(linker, "/alternatename:??4UnicodeString@@QAEAAV0@PBG@Z=?j_0002c56b@@YAXXZ")
 
 class LANAPI
 {
@@ -172,7 +155,7 @@ public:
 	virtual void _bfme_slot18(void) = 0;
 	virtual void _bfme_slot19(void) = 0;
 	virtual void RequestGameOptions(AsciiString options, Bool isPublic,
-		UnsignedInt ip = 0) = 0; // vtable +0x50; LANAPI.h's defaulted third arg
+		const BfmeNetAddress &address = BfmeNetAddress()) = 0; // vtable +0x50; BFME default argument is an empty address record
 	virtual void _bfme_slot21(void) = 0;
 	virtual void _bfme_slot22(void) = 0;
 	virtual void _bfme_slot23(void) = 0;
@@ -224,7 +207,6 @@ extern LANAPI *TheLAN;
 extern AsciiString GenerateGameOptionsString(void);
 extern void processInactiveLanMessages(void);
 
-#pragma comment(linker, "/alternatename:?GenerateGameOptionsString@@YA?AVAsciiString@@XZ=?j_00027485@@YAXXZ")
 
 // ?handleInActive@LANAPI@@IAEXPAULANMessage@@I@Z
 void LANAPI::handleInActive(LANMessage *msg, UnsignedInt senderIP)
@@ -246,12 +228,13 @@ void LANAPI::handleInActive(LANMessage *msg, UnsignedInt senderIP)
 		if (slot == 0)
 			return;
 
+		// Legacy public signature carries the address pointer in an unsigned slot.
 		const BfmeNetAddress *sender = (const BfmeNetAddress *)senderIP;
-		if (((const BfmeKeyXW *)sender)->bfmeDiffersXW(
+		if ((UnsignedByte)((const BfmeKeyXW *)sender)->bfmeDiffersXW(
 			(const BfmeKeyXW *)&slot->m_address))
 			return;
 
-		if (((const Gen_000970a0 *)sender)->bfmeEquals(
+		if ((UnsignedByte)((const Gen_000970a0 *)sender)->bfmeEquals(
 			(const Gen_000970a0 *)TheLAN->getLocalAddress()))
 			return;
 
