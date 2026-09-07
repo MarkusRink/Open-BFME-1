@@ -117,6 +117,7 @@ public:
 	Bool getUnitDecals( void );
 	Bool getRefreshNet( void );
 	Bool getDisplayForeignLanguage( void );
+	Bool getSendDelay( void );
 	Bool getUseEAX3( void );
 	Bool getAlternateMouseSetup( void );
 	float getBrightness( void );
@@ -156,6 +157,7 @@ R4_PREF_BODY( getAllHealthBars,               "AllHealthBars",               0xA
 R4_PREF_BODY( getUnitDecals,                  "UnitDecals",                  0xA75, strcmp )
 R4_PREF_BODY( getRefreshNet,                  "RefreshNet",                  0xC08, strcmp )
 R4_PREF_BODY( getDisplayForeignLanguage,      "DisplayForeignLanguage",      0xC09, strcmp )
+R4_PREF_BODY( getSendDelay,                   "SendDelay",                   0xC07, strcmp )
 
 Bool OptionPreferences::getUseEAX3( void )
 {
