@@ -12881,6 +12881,7 @@ name,address,notes
 ?_M_reallocate_map@?$deque@UGen_t_0065fd10_p12cd@@V?$allocator@UGen_t_0065fd10_p12cd@@@_STL@@@_STL@@IAEXI_N@Z,0x0065F910,gen-tgrid payload member
 ?_M_reallocate_map@?$deque@UGen_t_0065fd40_p12cd@@V?$allocator@UGen_t_0065fd40_p12cd@@@_STL@@@_STL@@IAEXI_N@Z,0x0065FAE0,gen-tgrid payload member
 ?_M_reallocate_map@?$deque@UGen_t_006a4e20_p12cd@@V?$allocator@UGen_t_006a4e20_p12cd@@@_STL@@@_STL@@IAEXI_N@Z,0x006A10E0,gen-tgrid payload member
+?_M_reallocate_map@?$deque@VThingRef@@V?$allocator@VThingRef@@@_STL@@@_STL@@IAEXI_N@Z,0x006A10E0,shared STLport map reallocation body reached through ILT 0x00010785; target body 0x006A7DF0
 ?_M_reallocate_map@?$deque@UGen_t_008fb4d0_p20pod@@V?$allocator@UGen_t_008fb4d0_p20pod@@@_STL@@@_STL@@IAEXI_N@Z,0x008FAA40,RVA 0x008FB4D0 exact auxiliary call target
 ?_M_reallocate_map@?$deque@UGen_t_008fb570_p8pod@@V?$allocator@UGen_t_008fb570_p8pod@@@_STL@@@_STL@@IAEXI_N@Z,0x008FABB0,RVA 0x008FB570 exact auxiliary call target
 ?_M_reallocate_map@?$deque@VBFMENetworkQueueItem1@@V?$allocator@VBFMENetworkQueueItem1@@@_STL@@@_STL@@IAEXI_N@Z,0x00005065,BFMENetworkQueueItem1 deque growth reserves the map through the retail ILT
