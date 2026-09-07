@@ -1,12 +1,18 @@
 // cl: /DNDEBUG /MD /EHsc
 
-// The four TeamPrototype questions answered by asking every team on the
-// instance list and stopping at the first yes:
+// Everything TeamPrototype does by walking its instance list -- the head at
+// +0x274, advanced through the ILT at 0x00022A70:
 //
 //   0x000F6FD0  hasAnyBuildings(Bool)                     59 bytes
 //   0x000F7020  hasAnyBuildings(BitFlags<192>, Bool)     117 bytes
 //   0x000F70C0  hasAnyBuildings(BitFlags<116>) const      67 bytes
 //   0x000F7170  hasAnyObjects(Bool)                       59 bytes
+//   0x000ED6C0  findTeamByID(UnsignedInt)                 38 bytes
+//   0x000F41A0  damageTeamMembers(Real)                   46 bytes
+//
+// The first four stop at the first yes; the last two look for one team by id
+// and forward to every team in turn. countTeamInstances and hasAnyUnits are the
+// same walk again and stay in Team.cpp, where they are already matched.
 //
 // This is the family one level down from PlayerHasAny.cpp: Player forwards each
 // question to every prototype, and each prototype forwards it to every team.
@@ -14,12 +20,27 @@
 // 0x0000B55F, 0x00021D96) are these bodies, and the ILT thunks these call
 // (0x00017652, 0x0003B5B6, 0x0003CCD1, 0x0001478B) are Team's.
 //
-// All four walk the instance list from the head at TeamPrototype+0x274, and
+// All six walk the instance list from the head at TeamPrototype+0x274, and
 // BFME reaches the next team through a call rather than through the DLINK
 // member Zero Hour's macros expand to, so advance() carries its own null
 // check -- that is the second test on the same register, and the branch it
 // feeds goes straight to the exit because an iterator that is done stays done.
-// That iterator was written out four times, once per file.
+// That iterator was written out six times, once per file.
+//
+// The six files disagreed about two more things, both settled here.
+//
+// Team. Five files gave it only the methods they called; findTeamByID gave it a
+// layout -- vptr, prototype pointer, then the id at +0x08, where BFME dropped
+// Zero Hour's second base vptr. One Team carries both.
+//
+// The advance call. Five files call _bfme_nextInInstanceList on Team;
+// findTeamByID casts each node to a separate BfmeTeamInstanceLink and calls it
+// there, which is a DIFFERENT decoration. Those are not two functions: reverse
+// pins ?_bfme_nextInInstanceList@Team@@QAEPAV1@XZ and
+// ?_bfme_nextInInstanceList@BfmeTeamInstanceLink@@QAEPAV1@XZ to the same
+// 0x00022A70, and symbols.csv already calls the second the view-class spelling
+// of the first. So the walk is spelled once here. The view class keeps its pin,
+// which TeamPrototype_xfer.cpp and Team.cpp still use.
 //
 // The one real disagreement between the four used to be left open here: three
 // of them declare BitFlags as a template whose array size is computed,
@@ -66,6 +87,7 @@
 
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
+typedef float Real;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/BitFlags.h
 template <int NUMBITS> class BitFlags
@@ -94,9 +116,17 @@ public:
 	Bool hasAnyBuildings(KindOfMaskType kindOf, Bool bfmeFlag);	// ILT thunk at 0x0003B5B6
 	Bool hasAnyBuildings(KindOfMask64Type kindOf) const;		// ILT thunk at 0x0003CCD1
 	Bool hasAnyObjects(Bool bfmeFlag) const;			// ILT thunk at 0x0001478B
+	Bool damageTeamMembers(Real amount);				// ILT 0x0000D148 -> 0x000F33F0
+
+	UnsignedInt getID() const { return m_id; }
 
 	// Shape only: thiscall on the team, no arguments, the next team back.
 	Team *_bfme_nextInInstanceList();				// ILT thunk at 0x00022A70
+
+private:
+	void *m_vptr;							// +0x00
+	void *m_proto;							// +0x04
+	UnsignedInt m_id;						// +0x08, BFME dropped ZH's second base vptr
 };
 
 class BfmeTeamInstanceIterator
@@ -135,6 +165,8 @@ public:
 	Bool hasAnyBuildings( KindOfMaskType kindOf, Bool bfmeFlag );
 	Bool hasAnyBuildings( KindOfMask64Type kindOf ) const;
 	Bool hasAnyObjects( Bool bfmeFlag );
+	Team *findTeamByID( UnsignedInt teamID );
+	void damageTeamMembers( Real amount );
 
 private:
 	BfmeTeamInstanceIterator iterate_TeamInstanceList() const
@@ -201,4 +233,27 @@ Bool TeamPrototype::hasAnyObjects( Bool bfmeFlag )
 	}
 
 	return false;
+}
+
+// ?findTeamByID@TeamPrototype@@QAEPAVTeam@@I@Z
+Team *TeamPrototype::findTeamByID( UnsignedInt teamID )
+{
+	for( BfmeTeamInstanceIterator iter = iterate_TeamInstanceList(); !iter.done(); iter.advance() )
+	{
+		if( iter.cur()->getID() == teamID )
+			return iter.cur();
+	}
+	return 0;
+}
+
+// ?damageTeamMembers@TeamPrototype@@QAEXM@Z
+//
+// Team::damageTeamMembers walks Team+0x0C members, skips effectively-dead and
+// destroyed ones, and either kills or attempts damage from the amount.
+void TeamPrototype::damageTeamMembers( Real amount )
+{
+	for( BfmeTeamInstanceIterator iter = iterate_TeamInstanceList(); !iter.done(); iter.advance() )
+	{
+		iter.cur()->damageTeamMembers( amount );
+	}
 }
