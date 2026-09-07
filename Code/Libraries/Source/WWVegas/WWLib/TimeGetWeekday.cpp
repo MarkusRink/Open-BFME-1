@@ -20,7 +20,7 @@ _STL::time_get<char, BfmeNarrowWeekdayIterator>::do_get_weekday(
 	const _STL::string *match = _STL::__match(first, last,
 		const_cast<_STL::string *>(info._M_dayname),
 		dayNamesEnd = const_cast<_STL::string *>(info._M_dayname) + 14,
-		(long *)0);
+		(int *)0);
 	value->tm_wday = (int)(match - info._M_dayname) % 7;
 	if (match != dayNamesEnd)
 		error = _STL::ios_base::goodbit;

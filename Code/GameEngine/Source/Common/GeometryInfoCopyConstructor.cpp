@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /EHsc
 // stlport
 // Open-BFME: GeometryInfo copy constructor, retail 0x000FFD10.
 //
@@ -6,7 +6,13 @@
 // two STL vectors at +0x2C and +0x38, followed by the cached extent fields.
 // The first vector's 0x24-byte element contains a StringBase<char> at +0x1C;
 // the second vector's 0x10-byte element contains one at +0x0C.  These are the
-// two member-copy calls visible in the retail constructor.
+// two member-copy calls visible in the retail constructor.  Their owning
+// StringBase<char> members are non-trivial: normal GeometryInfo destruction
+// destroys the record vector through 0x000FF7D0, then the shape vector through
+// 0x000FF700.  The copy constructor's unwind map destroys an already-built
+// shape vector if record copying throws; each vector copy constructor owns its
+// partial-construction cleanup.  Both vector destructor loops call
+// releaseBuffer at 0x00887940.
 
 #include <vector>
 
@@ -15,7 +21,14 @@ typedef bool Bool;
 template <typename T>
 class StringBase
 {
+public:
+	~StringBase()
+	{
+		releaseBuffer();
+	}
+
 private:
+	void releaseBuffer();
 	void *m_data;
 };
 
@@ -40,12 +53,15 @@ struct GeometryRecord
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Snapshot.h
+class Xfer;
+
 class Snapshot
 {
 public:
 	virtual ~Snapshot();
-	virtual void unknown();
-	virtual const char *getName() const;
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName();
+	virtual void DoXfer(Xfer &xfer);
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Geometry.h

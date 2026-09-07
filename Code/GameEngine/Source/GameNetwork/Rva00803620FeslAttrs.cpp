@@ -7,13 +7,13 @@ class Rva00803620Getter
 {
 public:
 	char getStr( void *key, char *out, int size );
-	void *getPtr( void *key, void *fallback );
+	int getInt( const char *key, int fallback );
 };
 
 class Rva00803620Sink
 {
 public:
-	void apply( void *tid, char *name, void *port, void *maxPlayers, char *ugid );
+	void apply( int tid, char *name, int port, int maxPlayers, char *ugid );
 };
 
 class Rva00803620Host
@@ -30,9 +30,9 @@ void Rva00803620Host::go( Rva00803620Getter *r )
 	char name[0x80];
 	char ugid[0x25];
 	r->getStr( (void *)"NAME", name, 0x80 );
-	void *port = r->getPtr( (void *)"PORT", 0 );
-	void *maxPlayers = r->getPtr( (void *)"MAX-PLAYERS", 0 );
-	void *tid = r->getPtr( (void *)"TID", 0 );
+	int port = r->getInt( "PORT", 0 );
+	int maxPlayers = r->getInt( "MAX-PLAYERS", 0 );
+	int tid = r->getInt( "TID", 0 );
 	r->getStr( (void *)"UGID", ugid, 0x25 );
 	m_sink->apply( tid, name, port, maxPlayers, ugid );
 }
