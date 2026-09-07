@@ -36538,6 +36538,7 @@ name,address,notes
 ?b_002cdf00@@YAXXZ,0x002CDF00,gen-thunk body
 ?b_002cdf70@@YAXXZ,0x002CDF70,gen-thunk body
 ?b_002ce1b0@@YAXXZ,0x002CE1B0,gen-thunk body
+?cancelDock@DockUpdate@@QAEXPAVObject@@@Z,0x002CC960,retail DockUpdate body; vtable-backed call from MonsterDockUpdate::onExitReached
 ?b_002ce2c0@@YAXXZ,0x002CE2C0,gen-thunk body
 ?b_002ce310@@YAXXZ,0x002CE310,gen-thunk body
 ?b_002ce360@@YAXXZ,0x002CE360,gen-thunk body
