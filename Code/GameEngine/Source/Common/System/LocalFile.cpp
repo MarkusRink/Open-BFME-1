@@ -87,6 +87,13 @@ public:
         StringBase<char>::concat(text, length);
     }
 
+    void concat(char value)
+    {
+        char text[2];
+        text[0] = value;
+        StringBase<char>::concat(text, 1);
+    }
+
     const char *str() const
     {
         return m_data ? m_data->data : "";
@@ -481,5 +488,40 @@ bool LocalFile::scanInt( int &newInt )
 	}
 
 	newInt = atoi( tempstr.str() );
+	return true;
+}
+
+// ?scanReal@LocalFile@@UAE_NAAM@Z
+bool LocalFile::scanReal( float &newReal )
+{
+	newReal = 0.0f;
+	AsciiString tempstr;
+	char c;
+	int val;
+	bool sawDec = false;
+
+	do {
+		val = _read( m_handle, &c, 1 );
+	} while ((val != 0) && (((c < '0') || (c > '9')) &&
+		(c != '-') && (c != '.')));
+
+	if (val == 0) {
+		return false;
+	}
+
+	do {
+		tempstr.concat( c );
+		if (c == '.') {
+			sawDec = true;
+		}
+		val = _read( m_handle, &c, 1 );
+	} while ((val != 0) && (((c >= '0') && (c <= '9')) ||
+		((c == '.') && !sawDec)));
+
+	if (val != 0) {
+		_lseek( m_handle, -1, 1 /* SEEK_CUR */ );
+	}
+
+	newReal = (float)atof( tempstr.str() );
 	return true;
 }
