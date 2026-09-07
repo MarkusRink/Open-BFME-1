@@ -69,6 +69,15 @@
 // its retail vtable slot. The private commands are declared after it and none
 // of them dispatches through this vtable, so their own slot numbers are not
 // evidence of anything.
+//
+// That 96 is corroborated from the other side of the call, by a different route.
+// This TU derives it from INSIDE the class: privateMoveToPosition calls its own
+// isIdle() through this, so isIdle has to be the first own virtual behind a
+// 96-slot base. AIGroupStatePredicates.cpp derives it from OUTSIDE:
+// AIGroup::isIdle calls ai->isIdle() through an AIUpdateInterface pointer and
+// reproduces retail's dispatch only with 96 declared slots ahead of the method,
+// which it writes out as a padding run rather than a template base. Two bodies,
+// two call directions, two constructions, one number.
 
 typedef bool Bool;
 typedef int Int;

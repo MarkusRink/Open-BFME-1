@@ -19,9 +19,21 @@
 // isIdle padded out 96 unused slots and put isIdle at vtable+0x180; isBusy
 // padded out 99 and put isBusy at +0x18C. Those are the same vtable measured
 // twice and they agree: slot 96 is isIdle, slot 99 is isBusy, and 97 and 98 are
-// still unknown. It is the same slot 96 that AIUpdateInterfaceHelpers.cpp and
-// AIUpdateInterfacePrivateCommands.cpp pin through BfmeVirtualSlots<96>, from
-// the other side of the call.
+// still unknown.
+//
+// Slot 96 has a second, independent derivation, and the convergence is worth
+// more than the number. Here it is measured from OUTSIDE the class: AIGroup
+// calls ai->isIdle() through an AIUpdateInterface pointer, and reproducing
+// retail's dispatch needs 96 declared slots ahead of the method. In
+// AIUpdateInterfacePrivateCommands.cpp it is measured from INSIDE: 
+// AIUpdateInterface::privateMoveToPosition calls its own isIdle() through this,
+// and that body needs isIdle to be the class's first own virtual behind a
+// BfmeVirtualSlots<96> base. Different bodies, different call sites, one
+// construction by padding and one by template base -- and the same 96.
+//
+// (AIUpdateInterfaceHelpers.cpp uses the same template trick for a different
+// method and a different number: setLocomotorGoalNone at slot 122. It is not
+// evidence about isIdle.)
 //
 // Object+0x344 is the dead flag. isIdle and isBusy called it m_deadFlags and
 // tested `& 1` with no name for the bit; isGroupAiDead called it m_privateStatus
