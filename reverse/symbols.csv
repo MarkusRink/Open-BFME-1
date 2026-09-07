@@ -8883,6 +8883,10 @@ name,address,notes
 ??1SiegeDeploySpecialPowerModuleDataMemberA@@QAE@XZ,0x00026F35,Open-BFME5 pin
 ??1SiegeEngineContainBase@@UAE@XZ,0x0003FF49,SiegeEngineContain/HordeSiegeEngineContain shared base destructor call target
 ??1SimpleSceneClass@@UAE@XZ,0x00943E70,Open-BFME5 RTS2DScene destructor base-call pin
+??1BfmeNonRefSceneList@@UAE@XZ,0x009435A0,SimpleSceneClass destructor non-reference list member dtor target
+??1BfmeRefSceneList@@UAE@XZ,0x000319DF,SimpleSceneClass destructor reference list member dtor thunk target
+??1BfmeSceneVectorElement@@QAE@XZ,0x00943970,SimpleSceneClass destructor scene-vector element dtor callback
+??_VBfmeSceneVectorElement@@SAXPAX@Z,0x00881EF0,SimpleSceneClass destructor scene-vector array deallocator
 ??1SimpleSceneIterator@@UAE@XZ,0x00943CE0,0x00943CC0 occupies the destructor slot before the exact First Next Is_Done and Current_Item SimpleSceneIterator vtable entries
 ??1SineLinearOffsetTextureMapperClass@@UAE@XZ,0x009670B0,constructor 0x00964D40 installs vtable 0x0113E428 whose first slot is deleting wrapper 0x00967090; that wrapper directly calls this scalar body
 ??1SkirmishBattleHonors@@UAE@XZ,0x0009C1E0,stores vtable 0x01080460 then tail-jumps ??1UserPreferences ILT 0x0003F25B; the same vtable is installed by the ctor 0x0009E130 which loads SkirmishStats.ini (ZH SkirmishBattleHonors.cpp:80); ILT 0x0003F6D4; deleting dtor 0x0009C1F0
