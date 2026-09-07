@@ -3626,7 +3626,7 @@ void InGameUI::destroyPlacementIcons( void )
 	* record what that thing is so that the we can catch the next click in the world
 	* and try to place the object there */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/InGameUIPlacementAndWorkers.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/InGameUIBodies.cpp
 // ?placeBuildAvailable@InGameUI@@UAEXPBVThingTemplate@@PAVDrawable@@@Z present-unmatched
 void InGameUI::placeBuildAvailable( const ThingTemplate *build, Drawable *buildDrawable )
 {
@@ -10478,7 +10478,7 @@ void InGameUI::resetIdleWorker( void )
 		idleWorkers[i].clear();
 }
 
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/InGameUIPlacementAndWorkers.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/InGameUIBodies.cpp
 // ?recreateControlBar@InGameUI@@UAEXXZ present-unmatched
 void InGameUI::recreateControlBar( void )
 {

@@ -2,12 +2,14 @@
 // readable body of ?placeBuildAvailable@InGameUI@@UAEXPBVThingTemplate@@PAVDrawable@@@Z: Code/GameEngine/Source/GameClient/InGameUI.cpp
 // readable body of ?recreateControlBar@InGameUI@@UAEXXZ: Code/GameEngine/Source/GameClient/InGameUI.cpp
 //
-// Four InGameUI members, in two pairs that the image itself puts together:
+// Six InGameUI members that each arrived one to a file:
 //
 //   destroyPlacementIcons  0x0043AF00   71 B  IAE (protected)
 //   placeBuildAvailable    0x0043AF60  363 B  UAE (public virtual)
+//   handleRadiusCursor     0x0043B2D0   -- B  IAE (protected)
 //   getIdleWorkerCount     0x004422C0   41 B  EAE (private virtual)
 //   recreateControlBar     0x00442300  279 B  UAE (public virtual)
+//   setInputEnabled           retail    -- B  UAE (public virtual)
 //
 // Four files, four InGameUIs, each measured from its own field: 0x53c to the
 // placement icons, 0x824 to the mouse mode, 0x131c to the idle-worker lists,
@@ -27,7 +29,8 @@ typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
 
-struct ICoord2D;
+struct ICoord2D { Int x, y; };
+struct Coord3D { float x, y, z; };
 class Object;
 class Drawable;
 class ThingTemplate;
@@ -41,6 +44,8 @@ public:
 	unsigned char m_unreconstructed_028[0x1C4 - 0x28];
 	UnsignedInt m_playerColor;				// +0x1c4
 	UnsignedInt m_playerNightColor;				// +0x1c8
+
+	Bool hasRadar() const;
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Object.h
@@ -133,7 +138,12 @@ public:
 	virtual void setCursor(MouseCursor cursor);
 	virtual void capture(void);
 	virtual void releaseCapture(void);
+
+	unsigned char m_unreconstructed_004[0x4D10 - 4];
+	ICoord2D m_pos;						// +0x4d10
 };
+
+extern Mouse *TheMouse;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/PlayerList.h
 class PlayerList
@@ -308,6 +318,79 @@ extern GameClient *TheGameClient;
 
 void HideControlBar( bool immediate );
 
+class BfmeSelectionTranslator
+{
+public:
+	void setDragSelecting();
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Radar.h
+class Radar
+{
+	unsigned char m_pad00[0x0C];
+public:
+	Bool m_hidden;						// +0x0c
+	Bool m_forced;						// +0x0d
+	Bool screenPixelToWorld(const ICoord2D *pixel, Coord3D *world);
+};
+
+// The retail call is TacticalView's vtable slot +0x164. Dummy declarations
+// keep this reconstruction independent of the Zero Hour class layout.
+class TacticalViewFadeShim
+{
+public:
+#define BFME_VIEW_SLOT(n) virtual void slot##n() = 0;
+	BFME_VIEW_SLOT(00) BFME_VIEW_SLOT(01) BFME_VIEW_SLOT(02) BFME_VIEW_SLOT(03)
+	BFME_VIEW_SLOT(04) BFME_VIEW_SLOT(05) BFME_VIEW_SLOT(06) BFME_VIEW_SLOT(07)
+	BFME_VIEW_SLOT(08) BFME_VIEW_SLOT(09) BFME_VIEW_SLOT(10) BFME_VIEW_SLOT(11)
+	BFME_VIEW_SLOT(12) BFME_VIEW_SLOT(13) BFME_VIEW_SLOT(14) BFME_VIEW_SLOT(15)
+	BFME_VIEW_SLOT(16) BFME_VIEW_SLOT(17) BFME_VIEW_SLOT(18) BFME_VIEW_SLOT(19)
+	BFME_VIEW_SLOT(20) BFME_VIEW_SLOT(21) BFME_VIEW_SLOT(22) BFME_VIEW_SLOT(23)
+	BFME_VIEW_SLOT(24) BFME_VIEW_SLOT(25) BFME_VIEW_SLOT(26) BFME_VIEW_SLOT(27)
+	BFME_VIEW_SLOT(28) BFME_VIEW_SLOT(29) BFME_VIEW_SLOT(30) BFME_VIEW_SLOT(31)
+	BFME_VIEW_SLOT(32) BFME_VIEW_SLOT(33) BFME_VIEW_SLOT(34) BFME_VIEW_SLOT(35)
+	BFME_VIEW_SLOT(36) BFME_VIEW_SLOT(37) BFME_VIEW_SLOT(38) BFME_VIEW_SLOT(39)
+	BFME_VIEW_SLOT(40) BFME_VIEW_SLOT(41) BFME_VIEW_SLOT(42) BFME_VIEW_SLOT(43)
+	BFME_VIEW_SLOT(44) BFME_VIEW_SLOT(45) BFME_VIEW_SLOT(46) BFME_VIEW_SLOT(47)
+	BFME_VIEW_SLOT(48) BFME_VIEW_SLOT(49) BFME_VIEW_SLOT(50) BFME_VIEW_SLOT(51)
+	BFME_VIEW_SLOT(52) BFME_VIEW_SLOT(53) BFME_VIEW_SLOT(54) BFME_VIEW_SLOT(55)
+	BFME_VIEW_SLOT(56) BFME_VIEW_SLOT(57) BFME_VIEW_SLOT(58) BFME_VIEW_SLOT(59)
+	BFME_VIEW_SLOT(60) BFME_VIEW_SLOT(61) BFME_VIEW_SLOT(62) BFME_VIEW_SLOT(63)
+	BFME_VIEW_SLOT(64) BFME_VIEW_SLOT(65) BFME_VIEW_SLOT(66) BFME_VIEW_SLOT(67)
+	BFME_VIEW_SLOT(68) BFME_VIEW_SLOT(69) BFME_VIEW_SLOT(70) BFME_VIEW_SLOT(71)
+	BFME_VIEW_SLOT(72) BFME_VIEW_SLOT(73) BFME_VIEW_SLOT(74) BFME_VIEW_SLOT(75)
+	BFME_VIEW_SLOT(76) BFME_VIEW_SLOT(77) BFME_VIEW_SLOT(78) BFME_VIEW_SLOT(79)
+	BFME_VIEW_SLOT(80) BFME_VIEW_SLOT(81) BFME_VIEW_SLOT(82) BFME_VIEW_SLOT(83)
+	BFME_VIEW_SLOT(84) BFME_VIEW_SLOT(85) BFME_VIEW_SLOT(86) BFME_VIEW_SLOT(87)
+	BFME_VIEW_SLOT(88)
+#undef BFME_VIEW_SLOT
+	virtual void screenToTerrain(const ICoord2D *pixel, Coord3D *world, Bool clamp) = 0;
+};
+
+enum CellShroudStatus { SHROUD_CLEAR = 0 };
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/PartitionManager.h
+class PartitionManager
+{
+public:
+	CellShroudStatus getShroudStatusForPlayer(Int playerIndex, const Coord3D *pos) const;
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/RadiusDecal.h
+class RadiusDecal
+{
+	unsigned char m_pad00[8];
+public:
+	Bool m_empty;						// +0x08
+	void setPosition(const Coord3D &pos);
+	void update();
+};
+
+extern BfmeSelectionTranslator *TheSelectionTranslator;
+extern Radar *TheRadar;
+extern TacticalViewFadeShim *TheTacticalViewFadeShim;
+extern PartitionManager *TheShroudManager;
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/InGameUI.h
 class InGameUI
 {
@@ -338,7 +421,7 @@ public:
 	virtual void slot17(void);
 	virtual void slot18(void);
 	virtual void slot19(void);
-	virtual void slot1A(void);
+	virtual void clearMode68(Bool enabled);			// slot 26, vtable+0x68
 	virtual void slot1B(void);
 	virtual void slot1C(void);
 	virtual void slot1D(void);
@@ -354,7 +437,7 @@ public:
 	virtual void slot27(void);
 	virtual void slot28(void);
 	virtual void slot29(void);
-	virtual void slot2A(void);
+	virtual void setSelecting(Bool selecting);		// slot 42, vtable+0xa8
 	virtual void slot2B(void);
 	virtual void slot2C(void);
 	virtual void slot2D(void);
@@ -384,7 +467,8 @@ public:
 	virtual void slot44(void);
 	virtual void slot45(void);
 	virtual void slot46(void);
-	virtual void setRadiusCursorNone(void);
+	virtual void setRadiusCursorNone(void);			// slot 71, vtable+0x11c
+	virtual void setInputEnabled(Bool enable);		// slot 72, vtable+0x120
 
 	// Virtual by their mangled names -- recreateControlBar is UAE and
 	// getIdleWorkerCount EAE -- but no body here calls either through the
@@ -401,6 +485,7 @@ public:
 
 protected:
 	void destroyPlacementIcons(void);
+	void handleRadiusCursor(void);
 
 private:
 	virtual Int getIdleWorkerCount();
@@ -412,7 +497,13 @@ private:
 	unsigned char m_unreconstructed_540[0x2E4];
 	Int m_mouseMode;					// +0x824
 	Int m_mouseModeCursor;					// +0x828
-	unsigned char m_unreconstructed_82c[0x131C - 0x82C];
+	unsigned char m_unreconstructed_82c[0x838 - 0x82C];
+	Bool m_inputEnabled;					// +0x838
+	unsigned char m_unreconstructed_839[0x1284 - 0x839];
+	RadiusDecal m_curRadiusCursor;				// +0x1284
+	unsigned char m_unreconstructed_128d[0x12B0 - 0x128D];
+	Bool m_modes[12];					// +0x12b0
+	unsigned char m_unreconstructed_12bc[0x131C - 0x12BC];
 	BfmeIdleWorkerList m_idleWorkers[32];			// +0x131c
 	GameWindow *m_idleWorkerWin;				// +0x139c
 };
@@ -529,5 +620,68 @@ void InGameUI::recreateControlBar()
 		delete TheControlBar;
 		TheControlBar = new ControlBar;
 		TheControlBar->init();
+	}
+}
+
+// ?handleRadiusCursor@InGameUI@@IAEXXZ
+// The radius decal follows the mouse: through the radar's own pixel-to-world
+// when the radar is up, otherwise through the tactical view, and a second
+// time clamped if the first landed in shroud.
+void InGameUI::handleRadiusCursor()
+{
+	if (m_curRadiusCursor.m_empty)
+		return;
+
+	const ICoord2D *mousePos = &TheMouse->m_pos;
+	Coord3D pos;
+	Bool radarOn = TheRadar->m_forced ||
+		(!TheRadar->m_hidden && ThePlayerList->m_localPlayer &&
+		 ThePlayerList->m_localPlayer->hasRadar());
+
+	if (!radarOn || !TheRadar->screenPixelToWorld(mousePos, &pos))
+	{
+		TheTacticalViewFadeShim->screenToTerrain(mousePos, &pos, false);
+
+		if (TheShroudManager && ThePlayerList)
+		{
+			Int playerIndex = ThePlayerList->m_localPlayer->m_playerIndex;
+			if (TheShroudManager->getShroudStatusForPlayer(playerIndex, &pos) != SHROUD_CLEAR)
+				TheTacticalViewFadeShim->screenToTerrain(mousePos, &pos, true);
+		}
+	}
+
+	m_curRadiusCursor.setPosition(pos);
+	m_curRadiusCursor.update();
+}
+
+// ?setInputEnabled@InGameUI@@UAEX_N@Z
+// Re-enabling input resets every mode: the drag-select translator, the three
+// vtable mode clears -- slot 71 is the one the input file called clearMode11C
+// and the placement file calls setRadiusCursorNone -- and the twelve flags at
+// +0x12b0, written out one at a time in retail's own order.
+void InGameUI::setInputEnabled(Bool enable)
+{
+	Bool wasEnabled = m_inputEnabled;
+	m_inputEnabled = enable;
+
+	if (!wasEnabled && enable)
+	{
+		if (TheSelectionTranslator)
+			TheSelectionTranslator->setDragSelecting();
+		setSelecting(false);
+		clearMode68(false);
+		setRadiusCursorNone();
+		m_modes[1] = false;
+		m_modes[2] = false;
+		m_modes[0] = false;
+		m_modes[3] = false;
+		m_modes[4] = false;
+		m_modes[5] = false;
+		m_modes[6] = false;
+		m_modes[7] = false;
+		m_modes[8] = false;
+		m_modes[9] = false;
+		m_modes[10] = false;
+		m_modes[11] = false;
 	}
 }
