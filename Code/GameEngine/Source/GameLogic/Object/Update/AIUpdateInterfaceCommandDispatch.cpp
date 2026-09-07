@@ -1,10 +1,29 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 // readable body of ?aiDoCommand@AIUpdateInterface@@: Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate.cpp
-// Open-BFME: AIUpdateInterface::aiDoCommand, retail 0x00277780, 1953 bytes.
+// Open-BFME: the two AIUpdateInterface bodies that reach the object's own
+// AICommandInterface through the secondary base at AIUpdateInterface+0x20.
 //
-// The BFME dispatcher is reached through AICommandInterface's secondary vtable
-// at AIUpdateInterface+0x20.  Its primary vtable has BFME-only virtuals before
+//   ?aiDoCommand@       0x00277780, 1953 bytes
+//   ?bfmeAttackTarget@  0x0027D420,  159 bytes
+//
+// aiDoCommand is the dispatcher itself, reached through AICommandInterface's
+// secondary vtable at +0x20. Its primary vtable has BFME-only virtuals before
 // the Zero Hour command surface, so the slot-only base below is intentional.
+//
+// bfmeAttackTarget goes the other way through the same base: when the unit is
+// not already in a state worth preserving (0x21 attack-move or 0x3d) it hands
+// the target back to AICommandInterface::aiAttackObject rather than driving the
+// state machine, and it reaches that method by casting `(char *)this + 0x20`
+// rather than through the base subobject. The cast is what retail's bytes want;
+// the base declaration below is what says the two agree about where it is.
+//
+// The two files also disagreed about CommandSourceType. bfmeAttackTarget's
+// declared exactly one enumerator, `CMD_FROM_AI = 2`, which reads as though 2
+// were arbitrary; the dispatcher's has the whole list, and 2 is simply third.
+//
+// One field is named twice over. bfmeAttackTarget puts the state machine at
+// +0x30 and an opaque word at +0x34; aiDoCommand had already named +0x34 the
+// same way and left +0x30 inside a filler run. They are one member list.
 
 typedef bool Bool;
 typedef int Int;
@@ -29,6 +48,87 @@ enum CommandSourceType
 	CMD_FROM_PLAYER = 0,
 	CMD_FROM_SCRIPT = 1,
 	CMD_FROM_AI = 2
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/StateMachine.h
+class State
+{
+public:
+	virtual void slot00() = 0;
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0c() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1c() = 0;
+	virtual Bool slot20() = 0;
+
+	int m_id;
+
+	Int getID() const
+	{
+		return m_id;
+	}
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/StateMachine.h
+class StateMachine
+{
+public:
+	virtual void slot00() = 0;
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0c() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1c() = 0;
+	virtual void slot20() = 0;
+	virtual void slot24() = 0;
+	virtual void slot28() = 0;
+	virtual void slot2c() = 0;
+	virtual void slot30() = 0;
+	virtual void slot34() = 0;
+	virtual void setGoalObject(const Object *object) = 0;
+
+	Int getCurrentStateID() const
+	{
+		return m_state != 0 ? m_state->getID() : 0xf423f;
+	}
+
+	State *getCurrentState() const
+	{
+		return m_state;
+	}
+
+	Bool isInBusyState() const
+	{
+		return m_state != 0 ? m_state->slot20() : false;
+	}
+
+	Bool isInIdleState() const
+	{
+		return m_state != 0 ? m_state->slot20() : true;
+	}
+
+	char m_unmodelled_004[0x1c - 4];
+	State *m_state;
+	char m_unmodelled_020[0x40 - 0x20];
+	Bool m_locked;
+};
+
+static State *loadCurrentState(const StateMachine *machine)
+{
+	return machine->m_state;
+}
+
+extern Bool bfmeMeleeHordeTargetInvalid(Object *source, Object *target);
+
+class BfmeUnit988
+{
+public:
+	void bfmeReset988D();
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
@@ -125,6 +225,8 @@ class AICommandInterface
 {
 public:
 	virtual void aiDoCommand(const AICommandParms *parms) = 0;
+
+	void aiAttackObject(Object *victim, Int maxShotsToFire, CommandSourceType cmdSource);
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/AIUpdate.h
@@ -428,8 +530,9 @@ protected:
 	virtual void activePadad() = 0;
 	virtual Bool isAllowedToRespondToAiCommands(const AICommandParms *parms) const = 0;
 
-	char m_to34[0x34 - 0x24];
-	void *m_field34;
+	char m_to30[0x30 - 0x24];
+	StateMachine *m_stateMachine;			// +0x30
+	void *m_field34;						// +0x34
 	char m_to140[0x140 - 0x38];
 	void *m_field140;
 	char m_to1a4[0x1a4 - 0x144];
@@ -447,6 +550,8 @@ protected:
 	unsigned int m_field33c;
 
 public:
+	void bfmeAttackTarget(Object *target);
+
 	virtual void aiDoCommand(const AICommandParms *parms);
 };
 
@@ -748,4 +853,34 @@ void AIUpdateInterface::aiDoCommand(const AICommandParms *parms)
 		new (&m_field27c) AICommandParmsStorage(*parms);
 		m_field31c = 1;
 	}
+}
+
+// ?bfmeAttackTarget@AIUpdateInterface@@QAEXPAVObject@@@Z
+// BFME target handoff: preserve a live attack/retaliate state, otherwise route
+// the target through the command interface; an already-owned state machine gets
+// its goal replaced under the retail lock protocol.
+void AIUpdateInterface::bfmeAttackTarget(Object *target)
+{
+	Int stateID = m_stateMachine->getCurrentStateID();
+	Bool preserve = stateID == 0x21 || stateID == 0x3d;
+
+	if (!m_stateMachine->isInIdleState() && !preserve)
+	{
+		if (m_field34 == 0)
+		{
+			((AICommandInterface *)((char *)this + 0x20))->aiAttackObject(
+				target, 0x7fffffff, CMD_FROM_AI);
+			return;
+		}
+		return;
+	}
+
+	Bool locked = ((StateMachine *)m_stateMachine)->m_locked;
+	((StateMachine *)m_stateMachine)->m_locked = 0;
+	((StateMachine *)m_stateMachine)->setGoalObject(target);
+	if (locked)
+		((StateMachine *)m_stateMachine)->m_locked = 1;
+	Object *source = m_object;
+	if (!bfmeMeleeHordeTargetInvalid(source, target))
+		((BfmeUnit988 *)this)->bfmeReset988D();
 }
