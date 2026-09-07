@@ -14,7 +14,8 @@ class AsciiString;
 template <typename T> struct BfmeStringData
 {
 	Int m_refCount;
-	Int m_length;
+	unsigned short m_length;
+	unsigned short m_capacity;
 	T m_text[1];
 };
 
@@ -122,7 +123,26 @@ class TeamFactory
 
 // These are the real ILT entries used by the target body.  The declarations
 // stay TU-local instead of asserting an unproven source identity for their
-// destination bodies.
+// destination bodies.  Their ABIs are established by the actual ILT targets,
+// rather than by the call sites alone:
+//
+//   0x000064F6 -> 0x000F4C10 (179 B, matched Team::hasAnyUnits): ECX is the
+//   Team object, there are no stack arguments, AL is the Bool result, and the
+//   target ends in a plain RET.  Its first load is Team+0x0C, corroborating the
+//   object view used by the matched Team member-query body.
+//
+//   0x00022A70 -> 0x000C8A30 (4 B): `mov eax,[ecx+0x14]; ret`.  This is a
+//   zero-argument __thiscall accessor returning the next Team pointer; the
+//   +0x10/+0x14 instance-list pair is independently visible in the Team
+//   prototype list source.
+//
+//   0x0002AB9E -> 0x000F2320 (195 B): the target saves ECX as its factory,
+//   reads the incoming pointer at [esp+4] (shown as [esp+0x2C] after its
+//   prologue), and ends in `ret 4`.  It therefore consumes one
+//   const-AsciiString* stack argument on a TeamFactory __thiscall and returns
+//   the lookup pointer in EAX.  The body forwards the lookup through the
+//   two-key helper at 0x00040A39, which is why only the one-argument adapter
+//   is exposed here.
 extern void j_000064f6();
 extern void j_00022a70();
 extern void j_0002ab9e();
