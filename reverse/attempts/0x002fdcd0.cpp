@@ -1,5 +1,5 @@
 // ?d_002fdcd0@@YAXXZ
-// partial score=0.76 date=2026-09-07
+// partial score=0.55 date=2026-09-07
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/stringinline
 // NAMED_USE_COMMANDBUTTON_ON_NEAREST_OBJECTTYPE, executeAction template 429.
 // Retail RVA 0x002FDCD0, 173 bytes.  The action registration and the sole
@@ -7,6 +7,11 @@
 // nearest-command action.  The object/template offsets below are the fields
 // read by this body; they are kept as TU-local views because the owning BFME
 // layouts are not complete in the public headers.
+// The private d_002FDAC0 ABI remains unresolved: retail enters with EDI=button,
+// inherited ESI=unit, and one stack ThingTemplate argument, while its body
+// reads [EDI+0x18], saves ESI, forms ESI+0x38, and consumes that stack word.
+// The wrapper below therefore records semantic recovery only, not a truthful
+// one-argument cdecl declaration; score 0.55 reflects that unresolved ABI.
 
 #include "StringInline.h"
 
