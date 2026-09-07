@@ -5,6 +5,10 @@
 
 extern "C" __declspec(dllimport) void __stdcall Rva01358D18Enter(void *lock);
 extern "C" __declspec(dllimport) void __stdcall Rva01358E74Leave(void *lock);
+extern "C" __declspec(dllimport) void *__stdcall GetProcessHeap(void);
+extern "C" __declspec(dllimport) void *__stdcall HeapAlloc(void *heap, unsigned long flags, unsigned long bytes);
+extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(void *section);
+extern "C" unsigned char g_rva01336CE8[];
 
 class Rva008838F0Node
 {
@@ -20,16 +24,37 @@ public:
 class Rva008838F0Owner
 {
 public:
+	Rva008838F0Owner(void *owner, void **table);
 	int lookup(unsigned int key, void **dest, unsigned int limit);
 
 private:
-	char m_pad00[0x0c];
+	void *m_owner;
+	void **m_table;
+	unsigned int m_tableIndex;
 	Rva008838F0Node *m_buckets[0x2b7b];
-	char m_padAfterBuckets[0x282c0 - (0x0c + 0x2b7b * 4)];
+	Rva008838F0Node *m_slots[0x7530];
+	unsigned int m_slotIndex;
+	Rva008838F0Node *m_current;
 	unsigned char m_disabled;
-	char m_pad282c1[7];
+	char m_pad282c1[3];
+	void *m_previousOwner;
 	void *m_lock;
 };
+
+Rva008838F0Owner::Rva008838F0Owner(void *owner, void **table)
+{
+	m_owner = owner;
+	m_previousOwner = *(void **)0x01336CE0;
+	*(void **)0x01336CE0 = this;
+	if (table == 0)
+		table = (void **)g_rva01336CE8;
+	m_table = table;
+	m_tableIndex = 0;
+	while (m_table[m_tableIndex] != 0)
+		++m_tableIndex;
+	m_lock = HeapAlloc(GetProcessHeap(), 4, 0x18);
+	InitializeCriticalSection(m_lock);
+}
 
 int Rva008838F0Owner::lookup(unsigned int key, void **dest, unsigned int limit)
 {
