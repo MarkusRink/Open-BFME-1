@@ -286,10 +286,14 @@ private:
 	unsigned int m_lastFrame;
 };
 
-class BFMENetRequestPlayerLeaveCommandMsg
+class BFMENetRequestPlayerLeaveCommandMsg : public NetCommandMsg
 {
 public:
+	BFMENetRequestPlayerLeaveCommandMsg();
 	int getRequestedPlayerID();
+	void setRequestedPlayerID(int player);
+private:
+	int m_requestedPlayer;
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/GameLogic.h
@@ -409,6 +413,7 @@ public:
 	void sendLocalCommand(NetCommandMsg *msg, unsigned char relay);
 	void sendLocalCommandDirect(NetCommandMsg *msg, unsigned char relay);
 	int getNumPlayers();
+	void flushConnections();
 	friend class BFMEConnectionManager;
 	unsigned int getPacketRouterSlot();
 
@@ -5888,115 +5893,21 @@ L03_663B5D:
 	}
 }
 
-// Sends command type 7 (REQUESTPLAYERLEAVE), built by the already-matched
-// BFMENetRequestPlayerLeaveCommandMsg::construct. Named from the type its message carries, which is
-// evidence rather than inference now that the enum at 0x00683020 is recovered.
-__declspec(naked) void BFMEConnectionManager::sendRequestPlayerLeaveCommand()
+// Requests agreement on the local player's departure and flushes the request immediately.
+void BFMEConnectionManager::sendRequestPlayerLeaveCommand()
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 104410Bh
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		push esi
-		push edi
-		push 20h
-		mov edi, ecx
-		__emit 0E8h
-		__emit 06Fh
-		__emit 0D6h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+8h], eax
-		test eax, eax
-		mov dword ptr [esp+14h], 0h
-		je L00_6648DF
-		mov ecx, eax
-		__emit 0E8h
-		__emit 0F3h
-		__emit 04Ch
-		__emit 09Bh
-		__emit 0FFh   // call 0x195CE
-		mov esi, eax
-		jmp L01_6648E1
-L00_6648DF:
-		xor esi, esi
-L01_6648E1:
-		mov eax, dword ptr [edi+12028h]
-		push eax
-		mov ecx, esi
-		mov dword ptr [esp+18h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 0E2h
-		__emit 0BDh
-		__emit 09Ch
-		__emit 0FFh   // call 0x306D9
-		mov eax, dword ptr [esi+14h]
-		mov ecx, dword ptr [edi+12028h]
-		push eax
-		mov dword ptr [esi+0Ch], ecx
-		__emit 0E8h
-		__emit 069h
-		__emit 012h
-		__emit 09Bh
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L02_664919
-		__emit 0E8h
-		__emit 043h
-		__emit 0BCh
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L02_664919:
-		xor edx, edx
-		mov dword ptr [esi+8h], 0FFFFFFFFh
-		mov ecx, dword ptr [edi+12028h]
-		mov dl, 1h
-		shl dl, cl
-		mov ecx, edi
-		not dl
-		push edx
-		push esi
-		__emit 0E8h
-		__emit 0A0h
-		__emit 0C8h
-		__emit 09Dh
-		__emit 0FFh   // call 0x411D7
-		mov ecx, edi
-		__emit 0E8h
-		__emit 0CEh
-		__emit 0D9h
-		__emit 09Dh
-		__emit 0FFh   // call 0x4230C
-		mov ecx, esi
-		__emit 0E8h
-		__emit 05Fh
-		__emit 0B7h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		mov eax, dword ptr [edi+12110h]
-		test eax, eax
-		jne L03_66495B
-		__emit 0FFh
-		__emit 015h
-		__emit 044h
-		__emit 095h
-		__emit 035h
-		__emit 001h   // call dword ptr [0x1359544]
-		mov dword ptr [edi+12110h], eax
-L03_66495B:
-		mov ecx, dword ptr [esp+0Ch]
-		pop edi
-		pop esi
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret
-	}
+	BFMENetRequestPlayerLeaveCommandMsg *msg = new BFMENetRequestPlayerLeaveCommandMsg;
+	msg->setRequestedPlayerID(m_localSlot);
+	msg->setPlayerID(m_localSlot);
+	if (DoesCommandRequireACommandID(msg->getNetCommandType()))
+		msg->setID(GenerateNextCommandID());
+	msg->setExecutionFrame(-1);
+	reinterpret_cast<ConnectionManager *>(this)->sendLocalCommandDirect(msg,
+		(unsigned char)~(unsigned char)(1 << m_localSlot));
+	reinterpret_cast<ConnectionManager *>(this)->flushConnections();
+	msg->detach();
+	if (!m_localLeaveStarted)
+		m_localLeaveStarted = timeGetTime();
 }
 
 void BFMEConnectionManager::sendLoadCompleteCommand()
