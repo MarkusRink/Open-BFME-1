@@ -169529,6 +169529,7 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?b_008631f0@@YAXXZ,0x008631F0,gen-thunk target pin: Code/gen_small/gthunks_085.cpp resolves its E9 displacement from this pin (see the file header)
 ??0?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@@Z,0x00048667,"the ILT the static-initialiser call sites encode; its body 0x0039D5B0 zeroes the three vector words and rets 4, while 0x00008DCD reaches a list constructor that allocates a 12-byte sentinel"
 ??0Display@@QAE@XZ,0x000110FE,ILT to Display ctor body 0x005CBF60
+??1?$pair@$$CBW4NameKeyType@@VObjectCreationList@@@_STL@@QAE@XZ,0x0002517B,"the ILT _M_erase encodes; its body 0x00078910 is the 76-byte tgrid pair destructor for a 4-byte key and a 12-byte payload with a destructor, while 0x00009525 reaches an 8-byte thunk"
 ??1CameraMarker@@QAE@XZ,0x00028984,BFME camera marker node destructor ILT called by CameraMarkerList::clear
 ?_M_lower_bound@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@ABEPAU?$_Rb_tree_node@VAsciiString@@@2@ABVAsciiString@@@Z,0x0002D029,retail ILT the set<AsciiString> equal_range at 0x0007D8C0 encodes
 ?_M_upper_bound@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@ABEPAU?$_Rb_tree_node@VAsciiString@@@2@ABVAsciiString@@@Z,0x0002C958,retail ILT the set<AsciiString> equal_range at 0x0007D8C0 encodes
@@ -169550,6 +169551,7 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?reacquire@TaintBufferReAcquireThunk@@QAEXXZ,0x000357D3,callee pin used by TaintBuffer::init
 ?read_dcg@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D500,rel32 pin for read_material_pass
 ?read_dig@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D810,rel32 pin for read_material_pass
+?read_texture_stage@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096ED60,rel32 pin for read_material_pass
 ?ReleaseResources@W3DSnowManager@@QAEXXZ,0x000491C5,ILT thunk for the ReleaseResources() call that opens W3DSnowManager::ReAcquireResources at 0x00723FB0 (upstream W3DSnow.cpp:79)
 ?second@HordeTransportContainBase@@QAEXXZ,0x0003CBD7,second unidentified call HordeTransportContain::update makes on the object start (0x0024C940)
 ?update@TransportContain@@QAEXXZ,0x000133EF,base-class update HordeTransportContain::update tail-calls; 0x0022D660 is slot 0 of TransportContain UpdateModule vftable 0x00CAD410
