@@ -28,34 +28,53 @@ BASELINE = ROOT / "reverse" / "identity_baseline.txt"
 # category that falls to zero loses its line entirely: without an anchor there
 # is no way to tell "clean" from "the format moved", and guessing either way is
 # wrong. A check whose anchor is None must always print its own line.
-# (label, tool, count regex, anchor regex or None)
+#
+# The SOURCE says what the number is made of, and it decides whether the number
+# can be believed right now. OBJECTS means the detector reads this tree's
+# compiled .obj files. An interrupted ./build.sh leaves objects built from a
+# state that no longer exists, and the detector then compares stale bytes and
+# reports a defect that is not in the ledger at all -- that is a real incident,
+# not a hypothesis: a killed full build produced multi_name.different findings
+# at 0x00042D1B and 0x002136E0 that vanished the moment the two translation
+# units were rebuilt, after one of them had already been reported upstream as a
+# red tree. IMAGE means the detector reads retail's own bytes and the ledger,
+# which no local build state can spoil.
+# (label, tool, count regex, anchor regex or None, source)
+OBJECTS, IMAGE = "objects", "image"
 CHECKS = [
     ("multi_name.family",
      "multi_name.py",
      re.compile(r"^\s+(\d+)\s+FOLDS HERE but the names are one family member apart", re.M),
-     re.compile(r"^matched rows; addresses claimed by 2\+ names: \d+", re.M)),
+     re.compile(r"^matched rows; addresses claimed by 2\+ names: \d+", re.M),
+     OBJECTS),
     ("multi_name.different",
      "multi_name.py",
      re.compile(r"^\s+(\d+)\s+DIFFERENT BODIES - cannot share an address", re.M),
-     re.compile(r"^matched rows; addresses claimed by 2\+ names: \d+", re.M)),
+     re.compile(r"^matched rows; addresses claimed by 2\+ names: \d+", re.M),
+     OBJECTS),
+    # Sizes come from the ledger, so no build state reaches this one.
     ("size_outlier.indicted",
      "size_outlier.py",
      re.compile(r"none same-method or same-class=(\d+)"),
-     None),
+     None,
+     IMAGE),
     # multi_name cannot reach this one: the constructors it clears as a
     # structural fold ARE one shape, because build.py masks the vftable operand
     # that separates them. ctor_vtable reads that operand instead.
     ("ctor_vtable.contradicted",
      "ctor_vtable.py",
      re.compile(r"^\s+(\d+)\s+the vtable it installs names a DIFFERENT class", re.M),
-     re.compile(r"^matched constructor rows with a plain class name: \d+", re.M)),
+     re.compile(r"^matched constructor rows with a plain class name: \d+", re.M),
+     IMAGE),
     # A coverage floor, not a defect count: a body the sweep cannot read is one
     # it reports clean without looking. Same lesson as null_reloc.max_unreadable.
     ("ctor_vtable.unreadable",
      "ctor_vtable.py",
      re.compile(r"^\s+(\d+)\s+body could not be read - NOT a clean result", re.M),
-     re.compile(r"^matched constructor rows with a plain class name: \d+", re.M)),
+     re.compile(r"^matched constructor rows with a plain class name: \d+", re.M),
+     IMAGE),
 ]
+SOURCE = {label: source for label, _tool, _pattern, _anchor, source in CHECKS}
 
 
 def read_baseline():
@@ -74,7 +93,7 @@ def read_baseline():
 
 def measure():
     cache, found = {}, {}
-    for label, tool, pattern, anchor in CHECKS:
+    for label, tool, pattern, anchor, _source in CHECKS:
         if tool not in cache:
             done = subprocess.run([sys.executable, str(ROOT / "tools" / tool)],
                                   capture_output=True, text=True, cwd=ROOT)
@@ -113,6 +132,14 @@ def main():
         print("    Run the detector named by the key to see which rows. The byte "
               "gate cannot catch this class; that is why this check exists.",
               file=sys.stderr)
+        stale = sorted(k for k in worse if SOURCE[k] == OBJECTS)
+        if stale:
+            print(f"    {', '.join(stale)} compares THIS TREE'S COMPILED OBJECTS, not "
+                  f"retail. If a ./build.sh here was ever interrupted, those objects can "
+                  f"be from a state that no longer exists and the finding is an artifact "
+                  f"rather than a defect. Rebuild the sources holding the rows the "
+                  f"detector names and re-run before reporting this as a real regression.",
+                  file=sys.stderr)
         raise SystemExit(1)
     # A drop is good news that still fails, the way pin_consistency fails on a
     # baseline row that no longer describes a violation: a baseline left above
