@@ -84798,6 +84798,8 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ??1?$pair@$$CBW4NameKeyType@@VObjectCreationList@@@_STL@@QAE@XZ,0x0002517B,"the ILT _M_erase encodes; its body 0x00078910 is the 76-byte tgrid pair destructor for a 4-byte key and a 12-byte payload with a destructor, while 0x00009525 reaches an 8-byte thunk"
 ??1CameraMarker@@QAE@XZ,0x00028984,BFME camera marker node destructor ILT called by CameraMarkerList::clear
 ??_7Rva00886F60Class@@6B@,0x00D32FFC,pin
+?Compute_Texture_Coordinate@MatrixMapperClass@@QAEXABVVector3@@PAV2@@Z,0x00924C30,pinharvest x1 (body)
+?Replace_VertexMaterial@MeshModelClass@@QAEXPAVVertexMaterialClass@@0@Z,0x00924C30,pinharvest x1 (body)
 ?TheScriptEngine@@3PAVScriptEngine@@A,0x00EF076C,ScriptEngine global proven by SignalUIInteraction retail DIR32 and independently referenced by script action vcall sites
 ?_M_lower_bound@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@ABEPAU?$_Rb_tree_node@VAsciiString@@@2@ABVAsciiString@@@Z,0x0002D029,retail ILT the set<AsciiString> equal_range at 0x0007D8C0 encodes
 ?_M_upper_bound@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@ABEPAU?$_Rb_tree_node@VAsciiString@@@2@ABVAsciiString@@@Z,0x0002C958,retail ILT the set<AsciiString> equal_range at 0x0007D8C0 encodes
@@ -84876,6 +84878,7 @@ _bfmeVftXN,0x00CEC760
 ?get_allocator@?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@QBE?AV?$allocator@PBVLocomotorTemplate@@@2@XZ,0x00039789,retail ILT the pair<const LocomotorSetType vector<const LocomotorTemplate*>> ctor at 0x00136930 encodes
 ?onExit@AIFollowPathState@@UAEXW4StateExitType@@@Z,0x00008990,AIFollowPathState base exit thunk; base vftable 0x00C9A9F0 slot 6 is ?update@AIFollowPathState@@
 ?reacquire@TaintBufferReAcquireThunk@@QAEXXZ,0x000357D3,callee pin used by TaintBuffer::init
+?read_chunks@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096FF70,BFME mesh chunk dispatcher called by Load_W3D
 ?read_dcg@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D500,rel32 pin for read_material_pass
 ?read_dig@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D810,rel32 pin for read_material_pass
 ?read_shader_ids@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D3C0,rel32 pin for read_material_pass
