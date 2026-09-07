@@ -96,9 +96,23 @@ public:
 	UnsignedInt m_bits[(NUMBITS + 31) / 32];
 };
 
-// BFME's two-dword mask. The size is measured from the body; the 116 is
-// required by the row's decoration. See the header note -- they disagree, and
-// the specialization is where that disagreement is written down.
+// The two-dword specialization is NOT a claim that a 116-bit KindOf mask is two
+// dwords. It is local to the one body above whose decoration says BitFlags<116>
+// while its parameter block is not a mask at all -- `ret 8` there is a pointer
+// plus a Bool, per the header note.
+//
+// The corroboration is in this directory: Team_countObjects.cpp holds
+// ?countObjects@Team@@QAEHV?$BitFlags@$0HE@@@0@Z -- the SAME $0HE@ decoration,
+// 116 bits -- and models the mask as SIX dwords, byte-matching. That body really
+// does take two masks by value, and six dwords is what it takes. So the two
+// sizes under one decoration are not a contradiction between the files: they are
+// two bodies, one of which is not passing a mask. Which is a fourth independent
+// route to the same conclusion the header reaches -- 181 KindOf names rounding
+// to 192 bits, six dwords, and the 116 in the decoration simply wrong.
+//
+// If a later body needs BitFlags<116> to mean a real mask, this specialization
+// is what will be in its way, and the answer is to fix the decoration rather
+// than the size.
 template <> class BitFlags<116>
 {
 public:
