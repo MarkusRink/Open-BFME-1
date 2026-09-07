@@ -13,6 +13,7 @@ class BfmeOwnerXQ
 {
 public:
 	int bfmeMoveXQ(int from, void *key);
+	int bfmeMoveXQ(BfmeOwnerXQ *source, int from);
 
 	int bfmeFindXQ(void *key);
 	void bfmeTouchXQ(int index);
@@ -39,6 +40,26 @@ int BfmeOwnerXQ::bfmeMoveXQ(int from, void *key)
 	dst->m_bfmeHeadXQ = node;
 
 	bfmeTouchXQ(from);
+
+	return to;
+}
+
+int BfmeOwnerXQ::bfmeMoveXQ(BfmeOwnerXQ *source, int from)
+{
+	BfmeSlotXQ *src = &source->m_bfmeTableXQ[from];
+	int to = bfmeFindXQ(&src->m_bfmePadXQ[8]);
+
+	if (to == -1)
+		return to;
+
+	BfmeSlotXQ *dst = &m_bfmeTableXQ[to];
+	BfmeNodeXQ *node = src->m_bfmeHeadXQ;
+	src->m_bfmeHeadXQ = node->m_bfmeNextXQ;
+
+	node->m_bfmeNextXQ = dst->m_bfmeHeadXQ;
+	dst->m_bfmeHeadXQ = node;
+
+	source->bfmeTouchXQ(from);
 
 	return to;
 }

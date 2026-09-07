@@ -24,16 +24,21 @@ public:
 class Rva007F6740Receiver
 {
 public:
+	typedef __int64 Int64;
+
 	void call(void *context, int a1, int a2, int a3, int a4, int a5,
-		int a6, int a7, int a8, int a9, int a10, int a11, int a12,
-		int a13, int a14);
+		int a6, int a7, int a8, const Int64 *int64Parts,
+		unsigned int64Count, const char **stringParts,
+		unsigned stringCount, int a13, int a14);
 };
 
 class Rva00802910Owner : public Rva00802910Interface
 {
 public:
 	void forward(int a1, int a2, int a3, int a4, int a5, int a6, int a7,
-		int a8, int a9, int a10, int a11, int a12, int a13, int a14);
+		int a8, const Rva007F6740Receiver::Int64 *int64Parts,
+		unsigned int64Count, const char **stringParts,
+		unsigned stringCount, int a13, int a14);
 
 private:
 	Rva007F6740Receiver *m_receiver;
@@ -41,10 +46,11 @@ private:
 };
 
 void Rva00802910Owner::forward(int a1, int a2, int a3, int a4, int a5,
-	int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13,
-	int a14)
+	int a6, int a7, int a8,
+	const Rva007F6740Receiver::Int64 *int64Parts, unsigned int64Count,
+	const char **stringParts, unsigned stringCount, int a13, int a14)
 {
 	prepare();
-	m_receiver->call(m_context, a1, a2, a3, a4, a5, a6, a7, a8, a9,
-		a10, a11, a12, a13, a14);
+	m_receiver->call(m_context, a1, a2, a3, a4, a5, a6, a7, a8,
+		int64Parts, int64Count, stringParts, stringCount, a13, a14);
 }
