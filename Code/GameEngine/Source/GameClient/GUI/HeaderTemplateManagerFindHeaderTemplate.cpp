@@ -8,56 +8,56 @@
 // ushort length/data with that name, then releases the automatic query on
 // both the match and no-match exits.
 
-template <typename T> struct BfmeStringData
-{
-	int refCount;
-	unsigned short length;
-	unsigned short capacity;
-	T data[1];
-};
-
 template <typename T> class StringBase
 {
 friend class AsciiString;
 
+// The shared StringBase bodies own the refcounted allocation; this TU keeps
+// the actual data-bearing layout while using their declarations at the ABI.
 private:
+	StringBase( void );
 	StringBase( const StringBase<T> &other );
 	void releaseBuffer( void );
+
+protected:
+
+	struct Header
+	{
+		int refCount;
+		unsigned short length;
+		unsigned short capacity;
+		T data[1];
+	};
+
+	Header *m_data;
 };
 
 extern "C" int __cdecl memcmp( const void *left, const void *right, unsigned int count );
 #pragma intrinsic(memcmp)
 
-class AsciiString
+class AsciiString : private StringBase<char>
 {
 public:
-	AsciiString() : m_data( 0 ) {}
-	AsciiString( const AsciiString &other )
-		: m_data( other.m_data )
-	{}
+	AsciiString( const AsciiString &other ) : StringBase<char>( other ) {}
 	~AsciiString()
 	{
-		releaseBuffer();
+		((StringBase<char> *)this)->StringBase<char>::releaseBuffer();
 	}
 	int compare( const AsciiString &other ) const
 	{
-		int otherLength = other.m_data ? *(const unsigned short *)(other.m_data + 4) : 0;
-		const char *otherText = other.m_data ? other.m_data + 8 : (const char *)0x0107388B;
-		int thisLength = m_data ? *(const unsigned short *)(m_data + 4) : 0;
-		const char *thisText = m_data ? m_data + 8 : (const char *)0x0107388B;
+		int otherLength = other.m_data ? other.m_data->length : 0;
+		const char *otherText = other.m_data ? other.m_data->data : (const char *)0x0107388B;
+		int thisLength = m_data ? m_data->length : 0;
+		const char *thisText = m_data ? m_data->data : (const char *)0x0107388B;
 		int length = thisLength < otherLength ? thisLength : otherLength;
 		int result = memcmp( thisText, otherText, length );
 		if( result != 0 )
 			return result;
 		return thisLength - otherLength;
 	}
-
-	protected:
-	void releaseBuffer( void );
-
-	private:
-	char *m_data;
 };
+
+typedef char BfmeAsciiStringSizeCheck[(sizeof(AsciiString) == 4) ? 1 : -1];
 
 class GameFont;
 
