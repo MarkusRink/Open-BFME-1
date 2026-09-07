@@ -498,6 +498,31 @@ public:
 private:
 	unsigned char m_percent;
 };
+class NetFileCommandMsg : public NetCommandMsg
+{
+public:
+	AsciiString getRealFilename();
+	unsigned char *getFileData();
+	unsigned int getFileLength();
+};
+class File
+{
+public:
+	enum { WRITE = 2, CREATE = 8, BINARY = 0x40 };
+	virtual void unknown00();
+	virtual void unknown04();
+	virtual void close();
+	virtual void unknown0C();
+	virtual int write(const void *buffer, int length);
+};
+class FileSystem
+{
+public:
+	bool doesFileExist(const char *filename) const;
+	File *openFile(const char *filename, int flags);
+};
+extern FileSystem *TheFileSystem;
+
 class NetFileAnnounceCommandMsg;
 class NetFileProgressCommandMsg : public NetCommandMsg
 {
@@ -533,6 +558,7 @@ private:
 	void processDisconnectChat(NetDisconnectChatCommandMsg *msg);
 	void processProgress(NetProgressCommandMsg *msg);
 	void processFileAnnounce(NetFileAnnounceCommandMsg *msg);
+	void processFile(NetFileCommandMsg *msg);
 	void processFileProgress(NetFileProgressCommandMsg *msg);
 	char m_unknown00[4];
 	Connection *m_connections[8];
@@ -623,7 +649,6 @@ public:
 	void sendLoadCompleteCommand();
 	void attachPlayersFromGameInfo(void *gameInfo);
 	void resolvePlayerFromName(void *msg);
-	void sendFileToPlayers(const char *path);
 	void sendFileAnnouncement(const char *path, int playerMask);
 	void processAck(NetCommandMsg *msg);
 	void processGameSpyStatsAuthKeyCommand(void *msg);
@@ -1104,8 +1129,8 @@ Bool BFMEConnectionManager::processIncomingCommand(void *ref)
 		resolvePlayerFromName(msg);
 		return true;
 	case NETCOMMANDTYPE_FILE:
-		// Legacy local name; retail receives the FILE command object here.
-		sendFileToPlayers(reinterpret_cast<const char *>(msg));
+		reinterpret_cast<ConnectionManager *>(this)->processFile(
+			static_cast<NetFileCommandMsg *>(msg));
 		return true;
 	case NETCOMMANDTYPE_FILEANNOUNCE:
 		reinterpret_cast<ConnectionManager *>(this)->processFileAnnounce(
@@ -5025,230 +5050,33 @@ L04_66726B:
 	}
 }
 
-// Opens a file through TheFileSystem and pushes it out as wrapped commands,
-// registering the transfer in the map at this+0x12130 and stamping each message
-// with a fresh command id from 0x00682D10.
-__declspec(naked) void BFMEConnectionManager::sendFileToPlayers(const char *path)
+// Receives the completed file payload, writes it and publishes 100% progress.
+// Retail still emits completion if opening the destination fails.
+void ConnectionManager::processFile(NetFileCommandMsg *msg)
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 104467Bh
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		push ebx
-		push ebp
-		push esi
-		mov esi, dword ptr [esp+20h]
-		push edi
-		lea eax,  [esp+24h]
-		mov ebx, ecx
-		push eax
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0C3h
-		__emit 001h
-		__emit 09Bh
-		__emit 0FFh   // call 0x1A00F
-		mov eax, dword ptr [eax]
-		test eax, eax
-		mov dword ptr [esp+1Ch], 0h
-		je L00_669E5F
-		add eax, 8h
-		jmp L01_669E64
-L00_669E5F:
-		mov eax, 107388Bh
-L01_669E64:
-		__emit 08Bh
-		__emit 00Dh
-		__emit 048h
-		__emit 0CBh
-		__emit 034h
-		__emit 001h   // mov ecx, dword ptr [0x134cb48]
-		push eax
-		__emit 0E8h
-		__emit 030h
-		__emit 0E8h
-		__emit 035h
-		__emit 000h   // call 0x9C86A0
-		lea ecx,  [esp+24h]
-		mov dword ptr [esp+1Ch], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 0BFh
-		__emit 0DAh
-		__emit 021h
-		__emit 000h   // call 0x887940
-		mov ecx, esi
-		__emit 0E8h
-		__emit 010h
-		__emit 017h
-		__emit 09Dh
-		__emit 0FFh   // call 0x3B598
-		mov ecx, esi
-		mov ebp, eax
-		__emit 0E8h
-		__emit 02Ch
-		__emit 049h
-		__emit 09Bh
-		__emit 0FFh   // call 0x1E7BD
-		lea ecx,  [esp+24h]
-		push ecx
-		mov ecx, esi
-		mov dword ptr [esp+14h], eax
-		__emit 0E8h
-		__emit 06Eh
-		__emit 001h
-		__emit 09Bh
-		__emit 0FFh   // call 0x1A00F
-		mov eax, dword ptr [eax]
-		test eax, eax
-		mov dword ptr [esp+1Ch], 1h
-		je L02_669EB4
-		add eax, 8h
-		jmp L03_669EB9
-L02_669EB4:
-		mov eax, 107388Bh
-L03_669EB9:
-		__emit 08Bh
-		__emit 00Dh
-		__emit 048h
-		__emit 0CBh
-		__emit 034h
-		__emit 001h   // mov ecx, dword ptr [0x134cb48]
-		push 4Ah
-		push eax
-		__emit 0E8h
-		__emit 099h
-		__emit 0E9h
-		__emit 035h
-		__emit 000h   // call 0x9C8860
-		lea ecx,  [esp+24h]
-		mov edi, eax
-		mov dword ptr [esp+1Ch], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 066h
-		__emit 0DAh
-		__emit 021h
-		__emit 000h   // call 0x887940
-		test edi, edi
-		je L04_669EF2
-		mov eax, dword ptr [esp+10h]
-		mov edx, dword ptr [edi]
-		push eax
-		push ebp
-		mov ecx, edi
-		call dword ptr [edx+10h]
-		mov edx, dword ptr [edi]
-		mov ecx, edi
-		call dword ptr [edx+8h]
-L04_669EF2:
-		movzx ebp, word ptr [esi+10h]
-		lea eax,  [esp+24h]
-		push eax
-		mov eax, dword ptr [ebx+12028h]
-		__emit 08Dh
-		__emit 00Ch
-		__emit 040h   // lea ecx, [eax + eax*2]
-		lea ecx,  [ebx+ecx*4+12130h]
-		mov dword ptr [esp+28h], ebp
-		__emit 0E8h
-		__emit 0DDh
-		__emit 063h
-		__emit 09Ch
-		__emit 0FFh   // call 0x302F1
-		mov dword ptr [eax], 64h
-		mov ecx, dword ptr [ebx+12028h]
-		mov edi, 1h
-		shl edi, cl
-		push 24h
-		xor edi, 0FFh
-		__emit 0E8h
-		__emit 0FCh
-		__emit 07Fh
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+24h], eax
-		test eax, eax
-		mov dword ptr [esp+1Ch], 2h
-		je L05_669F52
-		mov ecx, eax
-		__emit 0E8h
-		__emit 08Ch
-		__emit 06Ah
-		__emit 09Dh
-		__emit 0FFh   // call 0x409DA
-		mov esi, eax
-		jmp L06_669F54
-L05_669F52:
-		xor esi, esi
-L06_669F54:
-		mov edx, dword ptr [ebx+12028h]
-		mov eax, dword ptr [esi+14h]
-		push eax
-		mov dword ptr [esp+20h], 0FFFFFFFFh
-		mov dword ptr [esi+0Ch], edx
-		mov word ptr [esi+10h], 0h
-		__emit 0E8h
-		__emit 0FEh
-		__emit 0BBh
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L07_669F84
-		__emit 0E8h
-		__emit 0D8h
-		__emit 065h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L07_669F84:
-		push ebp
-		mov ecx, esi
-		__emit 0E8h
-		__emit 062h
-		__emit 0A8h
-		__emit 09Bh
-		__emit 0FFh   // call 0x247EE
-		push 64h
-		mov ecx, esi
-		__emit 0E8h
-		__emit 021h
-		__emit 0B4h
-		__emit 09Ah
-		__emit 0FFh   // call 0x153B6
-		push edi
-		push esi
-		mov ecx, ebx
-		__emit 0E8h
-		__emit 0DCh
-		__emit 051h
-		__emit 09Dh
-		__emit 0FFh   // call 0x3F17A
-		push esi
-		mov ecx, ebx
-		__emit 0E8h
-		__emit 0CDh
-		__emit 063h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30373
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0F7h
-		__emit 060h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		mov ecx, dword ptr [esp+14h]
-		pop edi
-		pop esi
-		pop ebp
-		pop ebx
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret 4h
+	TheFileSystem->doesFileExist(msg->getRealFilename().str());
+	unsigned char *buffer = msg->getFileData();
+	int length = msg->getFileLength();
+	File *file = TheFileSystem->openFile(msg->getRealFilename().str(),
+		File::CREATE | File::BINARY | File::WRITE);
+	if (file)
+	{
+		file->write(buffer, length);
+		file->close();
 	}
+	int commandID = msg->getID();
+	m_fileProgressMap[m_localSlot][commandID] = 100;
+	int relay = 0xFF ^ (1 << m_localSlot);
+	NetFileProgressCommandMsg *progress = new NetFileProgressCommandMsg;
+	progress->setPlayerID(m_localSlot);
+	progress->setID(0);
+	if (DoesCommandRequireACommandID(progress->getNetCommandType()))
+		progress->setID(GenerateNextCommandID());
+	progress->setFileID(commandID);
+	progress->setProgress(100);
+	sendLocalCommand(progress, relay);
+	processFileProgress(progress);
+	progress->detach();
 }
 
 // Announces a file transfer to the other players: opens the file to size it,
