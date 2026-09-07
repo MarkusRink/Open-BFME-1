@@ -10931,6 +10931,7 @@ name,address,notes
 ?Rva00897330NotifyFree@@YAXPAX@Z,0x00897330,address decoded from the retail REL32 call site; name is address-derived
 ?Rva008A4AC0First@@3PAURva008A4AC0Object@@A,0x01337AC0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4AC0 calls; autopin
 ?Rva008A4AC0Second@@3PAURva008A4AC0Object@@A,0x01337AC4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4AC0 calls; autopin
+?Rva008AE770TheStack@@3URva008AE770Stack@@A,0x01338748,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AE770 calls; autopin
 ?Rva008B6D70MakeValue@@YAPAVAptValue@@H@Z,0x008A11E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B6D70 calls; autopin
 ?Rva008B6D70Refresh@@YAXPAX00@Z,0x008B65E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B6D70 calls; autopin
 ?Rva008B6D70Refresh@@YGXPAX00@Z,0x008B65E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B6D70 calls; autopin
@@ -11093,6 +11094,7 @@ name,address,notes
 ?TheBfmeComA@@3PAUBfmeComUnknown@@A,0x01306F20,GenAlpha::h00024D2A COM pointer A
 ?TheBfmeComB@@3PAUBfmeComUnknown@@A,0x01306F1C,GenAlpha::h00024D2A COM pointer B
 ?TheBfmeCrateNameDefault@@3VAsciiString@@A,0x01336E50,Open-BFME5 global AsciiString ??0UnitCrateCollideModuleData@@QAE@XZ at 0x002F1B10 assigns into its member at +0x0C; address-derived name
+?TheBfmeGameLogic@@3PAURva00367E30Logic@@A,0x012F0898,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00367E30 calls; autopin
 ?TheBfmeGameLogic@@3PAURva0075B660Logic@@A,0x012F0898,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0075B660 calls; autopin
 ?TheBfmeGameLogic@@3PAVGameLogic@@A,0x012F0898,GameLogic global from Team::getTeamTargetObject
 ?TheBfmeImeManager@@3PAVBfmeImeManager@@A,0x012F3344,IME manager notified by OnlineLogin destructor
@@ -13016,6 +13018,7 @@ name,address,notes
 ?accept@T1Sink_005C8E90@@QAEPAXPAX0@Z,0x005C8E90,callee of the 18-byte receiver-swapping forwarders at 0x005C98C0 and 0x005CACE0 (T1ReceiverSwappingThunks.cpp); address-derived name; identity not recovered
 ?accepts@BfmeRvaA760ProbeInterface@@QAE_NPAVBfmeRvaA760Object@@H@Z,0x0001DA34,assigned body helper for Rva0024A760
 ?accepts@Rva001DB720Predicate@@QAE_NPAVThingTemplate@@@Z,0x00007B4E,incremental-link thunk called by the 0x001DB720 template-name scan
+?accepts@Rva006F88B0Item@@QAE_NH@Z,0x000474B5,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006F88B0 calls; autopin
 ?accepts@Rva2225E0Filter@@QAE_NPAVObject@@PAVPlayer@@@Z,0x0001DA34,Open-BFME5 filter predicate call pin
 ?accepts@U4Filter@@QBE_NPBUU4Elem@@@Z,0x00606BF0,U4 lane: element predicate called by both scan loops at 0x00606DC0 and 0x00607000; address-derived name
 ?action4@BfmeObjE61@@QAEXPAX000@Z,0x000287AE,pin
@@ -13267,6 +13270,7 @@ name,address,notes
 ?apply@Rva00202DF0Head@@QAEXPAVRva00202DF0Face@@H@Z,0x000157DA,address-derived callee of Rva00202DF0Part::seed; ILT to 0x002B2040
 ?apply@Rva0025CAA0ElvenWoodDispatch@@QAEXPAVRva0025CAA0Subject@@PAVRva0025CAA0Context@@@Z,0x000170DA,address-derived dispatch call from the 73-byte Elven Wood body
 ?apply@Rva0025D7E0FreezingRainDispatch@@QAEXPAVRva0025D7E0Subject@@PAVRva0025D7E0Context@@@Z,0x000170DA,address-derived dispatch target read from retail RVA 0x0025D7E0
+?apply@Rva00367E30Sink@@QAEXPAHH@Z,0x00037A56,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00367E30 calls; autopin
 ?apply@Rva003BF540@@QAEX_N@Z,0x003BD960,boolean applier called by the mirrored-flag update at 0x003BF540; address-derived name
 ?apply@Rva0069AFC0Block@@QAEXPAX0000@Z,0x000017BC,ILT to 5-arg channel apply used by Rva0069AFC0Owner::call
 ?apply@Rva0069B440Block@@QAEXPAX0@Z,0x00047A64,ILT to channel apply used by Rva0069B440Owner::call
@@ -75487,6 +75491,8 @@ name,address,notes
 ?bfmeResize@Gen009D7B80@@AAEXI@Z,0x009D7BC0,hashtable resize callee of Gen009D7B80 insert
 ?bfmeResolve1281@BfmeSlotDispatcher1281@@QAEXHHPAPAXPA_N@Z,0x008BC3E0,address-derived resolver callee; argument shape decoded from the 0x008BCCC0 retail call site
 ?bfmeResolveGA@BfmeItemGA@@QAEPAVBfmeThingGA@@XZ,0x00003B52,pin
+?bfmeResolveKZ@BfmeInnerKZ@@QAEPAVBfmeThingKZ@@XZ,0x000022BB,pin
+?bfmeResolveLU@BfmeInnerLU@@QAEPAVBfmeThingLU@@XZ,0x000022BB,pin
 ?bfmeResolveMR@BfmeInnerMR@@QAEPAVBfmeKeyMR@@XZ,0x000022BB,pin
 ?bfmeResolveMeleeTarget@Object@@QAEPAV1@H@Z,0x0000FAA6,TU-specific name for the melee target resolution helper used by AIAttackMeleeHordeWaitState
 ?bfmeResolveNW@BfmeInnerNW@@QAEPAVBfmeThingNW@@XZ,0x000022BB,pin
@@ -80930,6 +80936,7 @@ name,address,notes
 ?invoke@Open2381C0Impl@@QAEXHPAX0@Z,0x00840F00,Open2 0x005381C0 callee
 ?invoke@Q3ScriptDispatcher@@QAEXPAUQ3ScriptMovie@@PBDH1PAX222@Z,0x004675F0,address-derived script-dispatch entry shared by the seven bool toggle wrappers; read from the REL32 at their call sites and followed through its ILT thunk
 ?invoke@Rva00893030Manager@@QAEXVRva00893030Ref@@PAX11@Z,0x00895C50,retail 0x00893030 calls the four-argument thiscall manager body at 0x00895C50
+?invoke@Rva008AE770Stack@@QAEXPAXH0PAVAptValue@@H1@Z,0x008CF5A0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AE770 calls; autopin
 ?invoke@S4Sink004135C0@@QAEXABVAsciiString@@HHHH@Z,0x004135C0,S4 sink method of the Lua string-command family (address-derived name; target read from the REL32 at its call site and followed through its ILT thunk)
 ?invoke@S4Sink004135C0@@QAEXABVAsciiString@@_NHHH@Z,0x000391C6,ABI-compatible bool alias for ObjectHideSubObject callbacks, which call the same incremental-link thunk
 ?invokeAtLevel@GenActionSink@@QAEPAEHPBDH0HHHH@Z,0x00015235,"Lead traced204B4675F0: rejects level>=12 unsigned, formats /_level%d, invokesAPT893410, returns global result byte pointer"
@@ -84570,5 +84577,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolveKZ@BfmeInnerKZ@@QAEPAVBfmeThingKZ@@XZ,0x000022BB,pin
-?bfmeResolveLU@BfmeInnerLU@@QAEPAVBfmeThingLU@@XZ,0x000022BB,pin
