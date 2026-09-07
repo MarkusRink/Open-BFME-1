@@ -1,28 +1,63 @@
-// ?updateScorches@BaseHeightMapRenderObjClass@@IAEXXZ
-// partial score=0.78 date=2026-08-31
-// ?updateScorches@BaseHeightMapRenderObjClass@@IAEXXZ
-// Near-match body fragment banked from the BFME layout reconstruction.
-void BaseHeightMapRenderObjClass::updateScorches(void)
+// ?updateScorches@BaseHeightMapScorchUpdater@@QAEXXZ
+// partial score=0.8 date=2026-09-07
+// Retail 0x006C7E90 (1528B). Identity proven by the byte-true call in matched
+// BaseHeightMapRenderObjClass::drawScorches (reinterpret_cast to
+// BaseHeightMapScorchUpdater, call resolves via ILT-thunk pin 0x00032966).
+// What matches: SEH+realign prologue byte-exact through +0021; guard shapes;
+// GlobalData ambient@0x9BC/diffuse@0x9E0 triples; diffuse packed R,G,B-first
+// via chained shl-8 (or 0xffffff00); border hoisted before locks; idx-then-vtx
+// WriteLock order with inlined array accessors; per-scorch flag skip, type
+// clamp, idiv by 3, CRT floor/ceil (dllimport, TU-scoped REAL_TO_INT_*
+// redefine), reciprocal fmul, inlined U16 height read with clamp, flip call.
+// Blocker: compiler puts `this` in EDI/EBX, retail EBP (+0022 mov ebp,ecx).
+// Tried: state-pointer local vs member access (identical bytes), removing
+// map/global/indexScorch/extents/sample locals (EBX, smaller frame),
+// re-adding them (EDI), explicit entry local, type-before-radius reads,
+// u/v-before-min/max order, UnsignedByte flag, fresh vs hoisted map reads.
+// Entry-anchor follows first body read (&type here); retail anchors &flag
+// (lea const 0xF8 vs ours 0xF4) with cmp-byte-mem check. Fix EBP first: the
+// [esp+0x40] base spill it removes also unshifts the shade temp slots.
+// Requires in TU: extern dllimport floor/ceil + TU-scoped
+// REAL_TO_INT_FLOOR/CEIL -> fast_float2long_round((Real)floor|ceil((double)x)).
+// Needs pin for WorldHeightMap::getFlipState (retail calls j-stub 0x000489A5;
+// run decode_calls once the symbol compiles).
+struct BFMEScorchEntry {
+	Vector3 location;
+	Real radius;
+	Int scorchType;
+	UnsignedByte flag;
+};
+// Retail-exact mirror of the scorch storage; the updater alias reaches the
+// same bytes as BaseHeightMapRenderObjClass ([this+0xd0]..[this+0x2ff4]).
+class BaseHeightMapScorchUpdater
 {
-	struct BFMEScorch {
-		Vector3 location;
-		Real radius;
-		Int scorchType;
-		Bool flag;
-	};
-	struct BFMEHeightMapState {
-		UnsignedByte prefix[0xd0];
-		DX8VertexBufferClass *vertexScorch;
-		DX8IndexBufferClass *indexScorch;
-		TextureClass *scorchTexture;
-		Int curNumScorchVertices;
-		Int curNumScorchIndices;
-		BFMEScorch scorches[MAX_SCORCH_MARKS];
-		Int numScorches;
-		Int scorchesInBuffer;
-		Int nextScorch;
-		UnsignedByte betweenScorchesAndMap[0x24];
-		WorldHeightMap *map;
+public:
+	void updateScorches();
+
+private:
+	UnsignedByte m_pad00[0xd0];
+	DX8VertexBufferClass *m_vertexScorch;
+	DX8IndexBufferClass *m_indexScorch;
+	TextureClass *m_scorchTexture;
+	Int m_curNumScorchVertices;
+	Int m_curNumScorchIndices;
+	BFMEScorchEntry m_scorches[500];
+	Int m_numScorches;
+	Int m_scorchesInBuffer;
+	Int m_nextScorch;
+	UnsignedByte m_pad2fd0[0x24];
+	WorldHeightMap *m_map;
+};
+
+void BaseHeightMapScorchUpdater::updateScorches()
+{
+	struct BFMEWorldHeightMapView {
+		UnsignedByte prefix[8];
+		Int xExtent;
+		Int yExtent;
+		Int borderSize;
+		UnsignedByte mid[0x10];
+		UnsignedShort *heightData;
 	};
 	struct BFMEGlobalDataView {
 		UnsignedByte prefix[0x9bc];
@@ -30,13 +65,18 @@ void BaseHeightMapRenderObjClass::updateScorches(void)
 		UnsignedByte betweenAmbientAndDiffuse[0x18];
 		Real terrainDiffuse[3];
 	};
-	BFMEHeightMapState *state = reinterpret_cast<BFMEHeightMapState *>(this);
-	if (state->scorchesInBuffer > 1) return;
-	if (state->numScorches == 0) return;
-	if (!state->indexScorch || !state->vertexScorch) return;
-	state->scorchesInBuffer = 0;
-	state->curNumScorchVertices = 0;
-	state->curNumScorchIndices = 0;
+	if (m_scorchesInBuffer > 1) {
+		return;
+	}
+	if (m_numScorches == 0) {
+		return;
+	}
+	if (m_indexScorch == NULL || m_vertexScorch == NULL) {
+		return;
+	}
+	m_scorchesInBuffer = 0;
+	m_curNumScorchVertices = 0;
+	m_curNumScorchIndices = 0;
 
 	Int curScorch;
 	Real shadeR, shadeG, shadeB;
@@ -50,60 +90,93 @@ void BaseHeightMapRenderObjClass::updateScorches(void)
 	shadeR *= 255.0f;
 	shadeG *= 255.0f;
 	shadeB *= 255.0f;
-	Int diffuse = (Int)shadeB | ((Int)shadeG << 8) | ((Int)shadeR << 16) | ((int)255 << 24);
-	Int xextent = *reinterpret_cast<Int *>(reinterpret_cast<UnsignedByte *>(m_map) + 0x10);
+	Int diffuse = (Int)shadeR;
+	diffuse |= 0xffffff00;
+	diffuse <<= 8;
+	diffuse |= (Int)shadeG;
+	diffuse <<= 8;
+	diffuse |= (Int)shadeB;
+	WorldHeightMap *map = m_map;
+	Int borderSize = reinterpret_cast<BFMEWorldHeightMapView *>(map)->borderSize;
+	DX8IndexBufferClass::WriteLockClass lockIdxBuffer(m_indexScorch);
+	UnsignedShort *ib = lockIdxBuffer.Get_Index_Array();
+	UnsignedShort *curIb = ib;
 
-	DX8IndexBufferClass::WriteLockClass lockIdxBuffer(state->indexScorch);
-	UnsignedShort *curIb = lockIdxBuffer.Get_Index_Array();
-	DX8VertexBufferClass::WriteLockClass lockVtxBuffer(state->vertexScorch);
-	VertexFormatXYZDUV1 *curVb = (VertexFormatXYZDUV1 *)lockVtxBuffer.Get_Vertex_Array();
+	DX8VertexBufferClass::WriteLockClass lockVtxBuffer(m_vertexScorch);
+	VertexFormatXYZDUV1 *vb = (VertexFormatXYZDUV1 *)lockVtxBuffer.Get_Vertex_Array();
+	VertexFormatXYZDUV1 *curVb = vb;
 
-	for (curScorch = state->numScorches - 1; curScorch >= 0; curScorch--) {
-		state->scorchesInBuffer++;
-		if (state->scorches[curScorch].flag) continue;
-		Real radius = state->scorches[curScorch].radius;
-		Vector3 loc = state->scorches[curScorch].location;
-		Int type = state->scorches[curScorch].scorchType;
-		if (type < 0) type = 0;
-		if (type >= SCORCH_MARKS_IN_TEXTURE) type = 0;
-		Real amtToFloat = MAP_HEIGHT_SCALE / 10;
-		Int minX = fast_float2long_round(floorf((loc.X - radius) / MAP_XY_FACTOR));
-		Int minY = fast_float2long_round(floorf((loc.Y - radius) / MAP_XY_FACTOR));
-		if (minX < -xextent) minX = -xextent;
-		if (minY < -xextent) minY = -xextent;
-		Int maxX = fast_float2long_round(ceilf((loc.X + radius) / MAP_XY_FACTOR));
-		Int maxY = fast_float2long_round(ceilf((loc.Y + radius) / MAP_XY_FACTOR));
-		maxX++;
-		maxY++;
-		if (maxX > m_map->getXExtent() - xextent) maxX = m_map->getXExtent() - xextent;
-		if (maxY > m_map->getYExtent() - xextent) maxY = m_map->getYExtent() - xextent;
-		Int startVertex = state->curNumScorchVertices;
+	const Real MAP_XY_FACTOR_INV = 1.0f / MAP_XY_FACTOR;
+	for (curScorch = m_numScorches - 1; curScorch >= 0; curScorch--) {
+		if (m_scorches[curScorch].flag != 0) {
+			continue;
+		}
+		m_scorchesInBuffer++;
+		Int type = m_scorches[curScorch].scorchType;
+		if (type < 0) {
+			type = 0;
+		}
+		if (type >= 9 /*SCORCH_MARKS_IN_TEXTURE*/) {
+			type = 0;
+		}
+		Real uOffset = (type % 3 /*SCORCH_PER_ROW*/) * 1.5f;
+		Real vOffset = (type / 3 /*SCORCH_PER_ROW*/) * 1.5f;
+		Real radius = m_scorches[curScorch].radius;
+		Real locX = m_scorches[curScorch].location.X;
+		Real locY = m_scorches[curScorch].location.Y;
+		Real amtToFloat = 0;
+		amtToFloat = MAP_HEIGHT_SCALE / 10;
+
+		Int minX = REAL_TO_INT_FLOOR((locX - radius) * MAP_XY_FACTOR_INV);
+		Int minY = REAL_TO_INT_FLOOR((locY - radius) * MAP_XY_FACTOR_INV);
+		if (minX < -borderSize) minX = -borderSize;
+		if (minY < -borderSize) minY = -borderSize;
+		Int maxX = REAL_TO_INT_CEIL((locX + radius) * MAP_XY_FACTOR_INV);
+		Int maxY = REAL_TO_INT_CEIL((locY + radius) * MAP_XY_FACTOR_INV);
+		maxX++; maxY++;
+		Int width = reinterpret_cast<BFMEWorldHeightMapView *>(m_map)->xExtent;
+		if (maxX > width - borderSize) {
+			maxX = width - borderSize;
+		}
+		Int height = reinterpret_cast<BFMEWorldHeightMapView *>(m_map)->yExtent;
+		if (maxY > height - borderSize) {
+			maxY = height - borderSize;
+		}
+		Int startVertex = m_curNumScorchVertices;
 		Int i, j;
 		for (j = minY; j < maxY; j++) {
 			for (i = minX; i < maxX; i++) {
-				if (state->curNumScorchVertices >= MAX_SCORCH_VERTEX) return;
+				if (m_curNumScorchVertices >= 8194 /*MAX_SCORCH_VERTEX*/) return;
 				curVb->diffuse = diffuse;
-				Real theZ = amtToFloat + ((float)getClipHeight(i + xextent, j + xextent) * MAP_HEIGHT_SCALE);
-				Real uOffset = (type % SCORCH_PER_ROW) * 1.5f;
-				Real vOffset = (type / SCORCH_PER_ROW) * 1.5f;
+				Int xNdx = i + borderSize;
+				Int yNdx = j + borderSize;
+				Int xExtent = reinterpret_cast<BFMEWorldHeightMapView *>(m_map)->xExtent;
+				Int yExtent = reinterpret_cast<BFMEWorldHeightMapView *>(m_map)->yExtent;
+				if (xNdx < 0) xNdx = 0;
+				else if (xNdx >= xExtent) xNdx = xExtent - 1;
+				if (yNdx < 0) yNdx = 0;
+				else if (yNdx >= yExtent) yNdx = yExtent - 1;
+				UnsignedShort heightSample = reinterpret_cast<BFMEWorldHeightMapView *>(m_map)->heightData[yNdx * xExtent + xNdx];
+				Real theZ;
+				theZ = amtToFloat + ((Real)heightSample * MAP_HEIGHT_SCALE);
 				Real X = i * MAP_XY_FACTOR;
 				Real Y = j * MAP_XY_FACTOR;
-				curVb->u1 = (uOffset + 0.5f + (X - loc.X) / (2 * radius)) / (SCORCH_PER_ROW + 1);
-				curVb->v1 = (vOffset + 0.5f + (Y - loc.Y) / (2 * radius)) / (SCORCH_PER_ROW + 1);
+				curVb->u1 = (uOffset + 0.5f + (X - locX) / (2 * radius)) / (3 + 1 /*SCORCH_PER_ROW+1*/);
+				curVb->v1 = (vOffset + 0.5f + (Y - locY) / (2 * radius)) / (3 + 1 /*SCORCH_PER_ROW+1*/);
 				curVb->x = X;
 				curVb->y = Y;
 				curVb->z = theZ;
 				curVb++;
-				state->curNumScorchVertices++;
+				m_curNumScorchVertices++;
 			}
 		}
 		Int yOffset = maxX - minX;
 		for (j = 0; j < maxY - minY - 1; j++) {
 			for (i = 0; i < maxX - minX - 1; i++) {
-				if (state->curNumScorchIndices + 6 > MAX_SCORCH_INDEX) return;
-				Int xNdx = i + minX + xextent;
-				Int yNdx = j + minY + xextent;
-				Bool flipForBlend = m_map->getFlipState(xNdx, yNdx);
+				if (m_curNumScorchIndices + 6 > 49164 /*MAX_SCORCH_INDEX*/) return;
+				Int xNdx = i + minX + borderSize;
+				Int yNdx = j + minY + borderSize;
+				Bool flipForBlend = map->getFlipState(xNdx, yNdx);
 				if (flipForBlend) {
 					*curIb++ = startVertex + j * yOffset + i + 1;
 					*curIb++ = startVertex + j * yOffset + i + yOffset;
@@ -111,7 +184,9 @@ void BaseHeightMapRenderObjClass::updateScorches(void)
 					*curIb++ = startVertex + j * yOffset + i + 1;
 					*curIb++ = startVertex + j * yOffset + i + 1 + yOffset;
 					*curIb++ = startVertex + j * yOffset + i + yOffset;
-				} else {
+				}
+				else
+				{
 					*curIb++ = startVertex + j * yOffset + i;
 					*curIb++ = startVertex + j * yOffset + i + 1 + yOffset;
 					*curIb++ = startVertex + j * yOffset + i + yOffset;
@@ -119,8 +194,9 @@ void BaseHeightMapRenderObjClass::updateScorches(void)
 					*curIb++ = startVertex + j * yOffset + i + 1;
 					*curIb++ = startVertex + j * yOffset + i + 1 + yOffset;
 				}
-				state->curNumScorchIndices += 6;
+				m_curNumScorchIndices += 6;
 			}
 		}
 	}
+
 }
