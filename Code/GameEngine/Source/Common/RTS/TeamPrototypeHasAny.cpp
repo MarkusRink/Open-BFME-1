@@ -37,13 +37,21 @@
 // dwords plus a Bool predicted and `ret 0x1c` measured. Only $0HE@ misses, and
 // it misses by half.
 //
-// It is not one 8-byte argument either. 0x000F70C0 forwards through ILT
-// 0x0003CCD1 to 0x000F4B60, and that body loads [esp+0x14] into ecx as a THIS
-// pointer for a member call and reads [esp+0x18] as a BYTE. So the eight bytes
-// are two parameters -- a pointer and a Bool -- not a struct of any width, and
-// the hardcoded array is right for a reason that has nothing to do with
-// BitFlags. The Bool is the same trailing bfmeFlag the rest of this family
-// carries.
+// It is not one 8-byte argument either -- but `ret 8` is NOT what shows that,
+// and the distinction matters because it is easy to cite the wrong half. The
+// return arity fixes the WIDTH only: two dwords read separately and forwarded in
+// order is exactly what one 8-byte by-value struct produces (copied low dword to
+// low address) AND exactly what two 4-byte scalars produce, so the calling
+// convention cannot separate them here.
+//
+// The CALLEE separates them. 0x000F70C0 forwards through ILT 0x0003CCD1 to
+// 0x000F4B60, which is four pushes deep, so [esp+0x14] is arg1 and [esp+0x18] is
+// arg2. At +0x4E it does `mov ecx,[esp+0x14]` immediately before a thiscall, and
+// at +0x20 `mov al, byte ptr [esp+0x18]`. Half of a by-value struct cannot become
+// a THIS pointer for a member call, so the eight bytes are two parameters -- a
+// pointer and a Bool -- not a struct of any width, and the hardcoded array is
+// right for a reason that has nothing to do with BitFlags. The Bool is the same
+// trailing bfmeFlag the rest of this family carries.
 //
 // 116 is Zero Hour's KINDOF_COUNT, inherited with the name. BFME's own KindOf
 // table is a NUL-terminated pointer array at file offset 0x00EAA068 holding 181
