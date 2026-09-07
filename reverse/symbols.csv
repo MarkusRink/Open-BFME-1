@@ -1154,6 +1154,7 @@ name,address,notes
 ??$__unguarded_partition@PAUS4SortElem12@@U1@US4Cmp002E1690@@@_STL@@YAPAUS4SortElem12@@PAU1@0U1@US4Cmp002E1690@@@Z,0x00038F05,S4 STLport unguarded_partition callee of the 0x002E1B60 introsort loop; target read from the retail ILT
 ??$__unguarded_partition@PAUS4SortElem12@@U1@US4Cmp00532740@@@_STL@@YAPAUS4SortElem12@@PAU1@0U1@US4Cmp00532740@@@Z,0x00017F26,S4 STLport unguarded_partition callee of the 0x00533520 introsort loop; target read from the retail ILT
 ??$__unguarded_partition@PAUS4SortElem12@@U1@US4Cmp00574DF0@@@_STL@@YAPAUS4SortElem12@@PAU1@0U1@US4Cmp00574DF0@@@Z,0x000270B1,"Lead independently reproduced and disassembled120B partition: signed key comparison,12B stride and full3dword swap"
+??$__uninitialized_copy@PAUGen_t_00282af0_p12pod@@PAU1@@_STL@@YAPAUGen_t_00282af0_p12pod@@PAU1@00ABU__false_type@0@@Z,0x00035BF7,retail call target from _M_insert_overflow at 0x00282910
 ??$__uninitialized_copy@PAUGen_t_003c1800_p2pod@@PAU1@@_STL@@YAPAUGen_t_003c1800_p2pod@@PAU1@00ABU__false_type@0@@Z,0x000413A3,"Independent full retail helper review: 2-byte copy/backward/fill/placement-fill and existing 3C16A0 overflow; RVA-derived POD type, no guessed game owner"
 ??$__uninitialized_copy@PAUGen_t_0074d9c0_p128pod@@PAU1@@_STL@@YAPAUGen_t_0074d9c0_p128pod@@PAU1@00ABU__false_type@0@@Z,0x00021A1C,typed helper for 36-byte vector fill insert
 ??$__uninitialized_copy@PAUGen_t_0074e320_p16pod@@PAU1@@_STL@@YAPAUGen_t_0074e320_p16pod@@PAU1@00ABU__false_type@0@@Z,0x0074AA10,gen-tgrid payload member
@@ -1220,6 +1221,7 @@ name,address,notes
 ??$__uninitialized_copy@PBVOpen2Elem771DF0@@PAV1@@_STL@@YAPAVOpen2Elem771DF0@@PBV1@0PAV1@ABU__false_type@0@@Z,0x000262D8,Open2 0x771df0 vector twin callee
 ??$__uninitialized_copy@PBVProductionPrerequisite@@PAV1@@_STL@@YAPAVProductionPrerequisite@@PBV1@0PAV1@ABU__false_type@0@@Z,0x0001FFEB
 ??$__uninitialized_copy@PBVW3DAnimationInfo@@PAV1@@_STL@@YAPAVW3DAnimationInfo@@PBV1@0PAV1@ABU__false_type@0@@Z,0x0001D5F7,ILT thunk used by call site
+??$__uninitialized_fill_n@PAUGen_t_00282af0_p12pod@@IU1@@_STL@@YAPAUGen_t_00282af0_p12pod@@PAU1@IABU1@ABU__false_type@0@@Z,0x00001C3A,retail call target from _M_insert_overflow at 0x00282910
 ??$__uninitialized_fill_n@PAUGen_t_0074e320_p16pod@@IU1@@_STL@@YAPAUGen_t_0074e320_p16pod@@PAU1@IABU1@ABU__false_type@0@@Z,0x00749450,gen-tgrid payload member
 ??$__write_integer_backward@J@_STL@@YAPADPADHJ@Z,0x00835940,STLport __write_integer_backward long; callee of __write_integer 0x008459B0
 ??$append@PAD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEAAV01@PAD0ABUforward_iterator_tag@1@@Z,0x00011522,PeerDefs basic_string assign dispatch retail call target
@@ -3084,6 +3086,7 @@ name,address,notes
 ??0Rva00244A80Element@@QAE@ABU0@@Z,0x00038334,Open-BFME5 0x002403E0 element copy constructor ILT
 ??0Rva002542F0String@@QAE@ABV0@@Z,0x00887B60,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002542F0 calls; autopin
 ??0Rva002542F0String@@QAE@PBD@Z,0x00888BC0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002542F0 calls; autopin
+??0Rva002C11E0StateBase@@QAE@PAXVAsciiString@@@Z,0x000035B2,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002C11E0 calls; autopin
 ??0Rva002C1260StateMachine@@QAE@PAXVAsciiString@@@Z,0x00022F5C,address-derived GiantBird state machine constructor call
 ??0Rva002DC6D0Filter@@QAE@XZ,0x0003747A,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002DC6D0 calls; autopin
 ??0Rva002E9E70Mid@@QAE@ABV0@@Z,0x00033640,Open-BFME5 fresh thiscall copy ctor at ILT of mid member of 0x002E9E70
@@ -8476,6 +8479,7 @@ name,address,notes
 ??1LevelGrantSpecialPowerModuleDataBase@@UAE@XZ,0x0001980D,Open-BFME5 base pin
 ??1LifetimeUpdate@@MAE@XZ,0x0002C6F1,destructor ILT to 0x00297DE0
 ??1LifetimeUpdateModuleData@@UAE@XZ,0x0003F053,destructor ILT to 0x00298000
+??1LightningEmissionInfo@FXParticleSystem@@UAE@XZ,0x0040D7F6,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x005D6A60 calls; autopin
 ??1Line3DClass@@UAE@XZ,0x00950FC0,0x00951080 deleting wrapper directly calls this scalar destructor; neighboring exact Line3D vtable methods establish class ownership
 ??1LinearOffsetTextureMapperClass@@UAE@XZ,0x009221E0,constructor 0x009667F0 installs vtable 0x0113E560 whose first slot is deleting wrapper 0x00966890; that wrapper directly calls this scalar body
 ??1LivingWorldAnimObject@@UAE@XZ,0x00012AD0,LivingWorldAnimObject scalar deleting destructor calls this ILT
@@ -8740,6 +8744,7 @@ name,address,notes
 ??1Rva004948B0Base@@UAE@XZ,0x009A1A40,Rva004948B0 SubsystemInterface-compatible base destructor
 ??1Rva0049B890Elem@@QAE@XZ,0x000351D4,ILT thunk to the vector<Gen0049B890> destructor 0x0049B890 called twelve times by 0x0049C020
 ??1Rva00590010FourString@@QAE@XZ,0x0003FA7B,ILT for the owned-record dtor used by Rva005929E0::replace
+??1Rva005D5D90Elem@@UAE@XZ,0x00013F2F,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x005D5D90 calls; autopin
 ??1Rva00608FE0Element@@QAE@XZ,0x00034158,Open-BFME5 ILT for the SoundUpgrade record destructor used by the SoundUpgrade field parser
 ??1Rva006418E0RequestDeque@@QAE@XZ,0x00002CED,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00641C60 calls; autopin
 ??1Rva00641A30ResponseDeque@@QAE@XZ,0x0000869D,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00641C60 calls; autopin
@@ -8762,6 +8767,7 @@ name,address,notes
 ??1Rva008881D0MultiBase@@QAE@XZ,0x008881D0,base destructor address decoded from the retail REL32 tail jump; name is address-derived
 ??1Rva00891D40SizedDeleting@@UAE@XZ,0x00896060,destructor address decoded from the retail REL32 call site; name is address-derived
 ??1Rva00891DA0SizedDeleting@@UAE@XZ,0x008A30A0,destructor address decoded from the retail REL32 call site; name is address-derived
+??1Rva00892890@@UAE@XZ,0x00892890,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00892D40 calls; autopin
 ??1Rva00892ED0HeaderedDeleting@@UAE@XZ,0x008C4270,address decoded from the retail REL32 call site; name is address-derived
 ??1Rva00894350SizedDeleting@@UAE@XZ,0x00894110,destructor address decoded from the retail REL32 call site; name is address-derived
 ??1Rva00894A60SizedDeleting@@UAE@XZ,0x00894A10,destructor address decoded from the retail REL32 call site; name is address-derived
@@ -9724,6 +9730,7 @@ name,address,notes
 ??_8?$basic_ostream@DV?$char_traits@D@_STL@@@_STL@@7B@,0x0110FE30,vbtable of the FX particle system TU basic_ostream<char> instantiation (ctor 0x005CC230)
 ??_C@_00CNPNBAHC@?$AA@,0x00C7388B,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00532DF0 calls; autopin
 ??_C@_01EEMJAFIK@?6?$AA@,0x01080294,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00209130 calls; autopin
+??_C@_01KICIPPFI@?2?$AA@,0x01075318,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009C8600 calls; autopin
 ??_C@_02KEGNLNML@?0?5?$AA@,0x0109DF5C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00209130 calls; autopin
 ??_C@_06CHOPLBCB@WHO?5?$CFs?$AA@,0x00D311D8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00861470 calls; autopin
 ??_C@_08MBMCFODG@CrushDie?$AA@,0x00C908A8,pool-glue cascade static (back-solved)
@@ -9811,6 +9818,7 @@ name,address,notes
 ??_C@_0CB@IDCCCMML@SupplyWarehouseCripplingBehavior@,0x00C90948,pool-glue cascade static (back-solved)
 ??_C@_0CB@LIPKINCO@DynamicShroudClearingRangeUpdate@,0x00C90758,pool-glue cascade static (back-solved)
 ??_C@_0CB@MOCKBGLE@SupplyCenterProductionExitUpdate@,0x00C90234,pool-glue cascade static (back-solved)
+??_C@_0CD@PEBLNOPM@GiantBirdGuardAttackAggressorSta@,0x010C7DDC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002C11E0 calls; autopin
 ??_C@_0CE@EFCNBDCP@Expected?5additional?5data?5after?5?8@,0x01130350,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00852C10 calls; autopin
 ??_C@_0CE@MMFOENO@AnimatedParticleSysBoneClientUpd@,0x00C8F7CC,pool-glue cascade static (back-solved)
 ??_C@_0CG@HNFICCF@RemoveModule?5?$CFs?5was?5not?5found?5fo@,0x010940F8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x001431D0 calls; autopin
@@ -10967,6 +10975,7 @@ name,address,notes
 ?Rva009B4680Normalize@@YAHPAURva009B4680State@@@Z,0x009B4680,address-derived name; 93-byte call-free binary arithmetic decoder normalization step
 ?Rva009C0D10Src@@3PAGA,0x01356A7C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009C0D10 calls; autopin
 ?Rva009C0D10Table@@3PAGA,0x013566C0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009C0D10 calls; autopin
+?Rva009C8600Path@@3PADA,0x0134CB4F,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009C8600 calls; autopin
 ?Rva009F8878Notify@@YGXPAX0@Z,0x009F8878,address-derived stdcall notification target called by 0x0048CDD0
 ?Rva012D6D98FilterMode@@3W4TextureFilterMode@@A,0x012D6D98,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0090ADC0 calls; autopin
 ?Rva012ED238Global@@3PAXA,0x012ED238,address-derived global used by 0x0048CDD0 notification pair
@@ -11441,6 +11450,7 @@ name,address,notes
 ?_M_clear@?$vector@UGen_t_001fa830_p12cd@@V?$allocator@UGen_t_001fa830_p12cd@@@_STL@@@_STL@@IAEXXZ,0x0000DC60,Open-BFME5 target of the vector clear call in 0x001FA5B0
 ?_M_clear@?$vector@UGen_t_0020f660_p12pod@@V?$allocator@UGen_t_0020f660_p12pod@@@_STL@@@_STL@@IAEXXZ,0x0020F610,gen-tgrid payload member
 ?_M_clear@?$vector@UGen_t_002304b0_p24cd@@V?$allocator@UGen_t_002304b0_p24cd@@@_STL@@@_STL@@IAEXXZ,0x00230450,gen-tgrid payload member
+?_M_clear@?$vector@UGen_t_00282af0_p12pod@@V?$allocator@UGen_t_00282af0_p12pod@@@_STL@@@_STL@@IAEXXZ,0x00038CEE,retail call target from _M_insert_overflow at 0x00282910
 ?_M_clear@?$vector@UGen_t_002e13b0_p12cd@@V?$allocator@UGen_t_002e13b0_p12cd@@@_STL@@@_STL@@IAEXXZ,0x002E1330,gen-tgrid payload member
 ?_M_clear@?$vector@UGen_t_002e19c0_p12cd@@V?$allocator@UGen_t_002e19c0_p12cd@@@_STL@@@_STL@@IAEXXZ,0x00043D33,Open-BFME5 target of the vector clear call in 0x002E1820
 ?_M_clear@?$vector@UGen_t_002e1a90_p12cd@@V?$allocator@UGen_t_002e1a90_p12cd@@@_STL@@@_STL@@IAEXXZ,0x002E1A10,gen-tgrid payload member
@@ -13124,6 +13134,7 @@ name,address,notes
 ?addRequestFrameDataCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z,0x0001E1D7,the address addCommand's arm encodes; the body's own incremental-link thunk is a further hop
 ?addRequestGameSpyStatsAuthKeyCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z,0x00026003,the address addCommand's arm encodes; the body's own incremental-link thunk is a further hop
 ?addRequestPlayerLeaveCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z,0x00024717,the address addCommand's arm encodes; the body's own incremental-link thunk is a further hop
+?addRoom@Rva000E5930Owner@@QAEXURva000E5930Room@@_N@Z,0x0001DD63,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x000E5930 calls; autopin
 ?addScience@Player@@AAE_NW4ScienceType@@@Z,0x00036057
 ?addSciencePurchasePoints@Player@@QAEXH@Z,0x0000F0F1
 ?addScorch@BaseHeightMapRenderObjClass@@QAEXVVector3@@MW4Scorches@@@Z,0x00047906
@@ -75375,6 +75386,7 @@ name,address,notes
 ?bfmeQuery@Pathfinder@@QAEXPAVObject@@PAH1@Z,0x000461FF,Open-BFME5 ILT the TightenPathStruct constructor at 0x003E1720 queries the pathfinder through; the two pointer arguments are the outputs at +0x0C and +0x10
 ?bfmeQuery@Pathfinder@@QAEXPAVObject@@PAHPAE@Z,0x000461FF,byte-center alias of the bfmeQuery pinned at this same ILT; the center output is a byte here - an Int output changes the frame and breaks the match at 0x003E1F10
 ?bfmeQueryKE@@YGIPAXH@Z,0x009F8890,pin
+?bfmeQueryNS@BfmeHolderNS@@QAEHXZ,0x0003A391,pin
 ?bfmeQueryRallyOverride@@YAPAVObject@@PAV1@PBUCoord3D@@@Z,0x000159A6,typed cdecl helper called by QueueProductionExitUpdate::releaseLastExit
 ?bfmeQuerySG@BfmeSrcSG@@QAEHXZ,0x00039324,pin
 ?bfmeRandom2B7@@YANHMPBDH@Z,0x0002CCA5,pin
@@ -75501,6 +75513,7 @@ name,address,notes
 ?bfmeResolveMD@BfmeInnerMD@@QAEPAVBfmeThingMD@@XZ,0x000022BB,pin
 ?bfmeResolveMR@BfmeInnerMR@@QAEPAVBfmeKeyMR@@XZ,0x000022BB,pin
 ?bfmeResolveMeleeTarget@Object@@QAEPAV1@H@Z,0x0000FAA6,TU-specific name for the melee target resolution helper used by AIAttackMeleeHordeWaitState
+?bfmeResolveNS@BfmeInnerNS@@QAEPAVBfmeThingNS@@XZ,0x000022BB,pin
 ?bfmeResolveNW@BfmeInnerNW@@QAEPAVBfmeThingNW@@XZ,0x000022BB,pin
 ?bfmeResolveXK@BfmeInnerXK@@QAEPAVBfmeThingXK@@XZ,0x000022BB,pin
 ?bfmeResolveZones@@YAXHHPAG00@Z,0x0002B648,Open-BFME5 ILT thunk to exact body 0x00403C90; BFME zone-equivalence list merger
@@ -77671,6 +77684,8 @@ name,address,notes
 ?g_0107C64C@@3MC,0x0107C64C,Retail axis-scale 1/255 float constant; raw bytes 8180803b independently checked
 ?g_BFMEIndexBufferDebug@@3PAVBFMEIndexBufferDebugClass@@A,0x01336E5C,retail DX8 error path dispatches through the shared game debug manager global
 ?g_D3DXMatrixInverseImport@@3P6GPAXPAXPAMPBX@ZA,0x012DBE40,retail D3DXMatrixInverse import slot
+?g_Rva002C11E0VTableA@@3HA,0x010C7D88,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002C11E0 calls; autopin
+?g_Rva002C11E0VTableB@@3HA,0x010C74D4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002C11E0 calls; autopin
 ?g_Rva00462DE0_table@@3VRva00462DE0Table@@A,0x00EF19B8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00462DE0 calls; autopin
 ?g_Rva005127A0InGameChat@@3PAVRva005127A0InGameChat@@A,0x012F4988,address-derived InGameChat global used by the guarded 0x005127A0 forwarder
 ?g_Rva00740BC0BaseVft@@3PAPAXA,0x010C7450,base vftable the 0x00740BC0 destructor restores after its arrays
@@ -84586,8 +84601,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolveNS@BfmeInnerNS@@QAEPAVBfmeThingNS@@XZ,0x000022BB,pin
-?bfmeQueryNS@BfmeHolderNS@@QAEHXZ,0x0003A391,pin
-??$__uninitialized_copy@PAUGen_t_00282af0_p12pod@@PAU1@@_STL@@YAPAUGen_t_00282af0_p12pod@@PAU1@00ABU__false_type@0@@Z,0x00035BF7,retail call target from _M_insert_overflow at 0x00282910
-??$__uninitialized_fill_n@PAUGen_t_00282af0_p12pod@@IU1@@_STL@@YAPAUGen_t_00282af0_p12pod@@PAU1@IABU1@ABU__false_type@0@@Z,0x00001C3A,retail call target from _M_insert_overflow at 0x00282910
-?_M_clear@?$vector@UGen_t_00282af0_p12pod@@V?$allocator@UGen_t_00282af0_p12pod@@@_STL@@@_STL@@IAEXXZ,0x00038CEE,retail call target from _M_insert_overflow at 0x00282910
