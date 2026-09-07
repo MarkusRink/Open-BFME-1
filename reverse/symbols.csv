@@ -10965,6 +10965,11 @@ name,address,notes
 ?Rva008A5250LastKey@@3IA,0x013387AC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A5330 calls; autopin
 ?Rva008A5380Holder@@3PADA,0x013377D8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A53D0 calls; autopin
 ?Rva008A53D0MakeBool@@YAPAVAptValue@@H@Z,0x008996B0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A53D0 calls; autopin
+?Rva008A6390GetterA@@3P6AMXZA,0x013378C8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A6390 calls; autopin
+?Rva008A6390GetterB@@3P6AMXZA,0x013378CC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A6390 calls; autopin
+?Rva008AC750Lower@@3MB,0x01097108,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AC750 calls; autopin
+?Rva008AC750Span@@3MB,0x01136850,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AC750 calls; autopin
+?Rva008AC750TwoPi@@3NB,0x01126CE8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AC750 calls; autopin
 ?Rva008AE770TheStack@@3URva008AE770Stack@@A,0x01338748,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AE770 calls; autopin
 ?Rva008B6D70MakeValue@@YAPAVAptValue@@H@Z,0x008A11E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B6D70 calls; autopin
 ?Rva008B6D70Refresh@@YAXPAX00@Z,0x008B65E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B6D70 calls; autopin
@@ -76310,6 +76315,7 @@ name,address,notes
 ?bfmeUseYT@BfmeRegistryYT@@QAEXHPAX@Z,0x0003BCCD,Open-BFME5 registry dispatch used by the side dispatch at 0x0058ECA0
 ?bfmeUseYU@BfmeRegistryYU@@QAEXHPAX@Z,0x0003BCCD,Open-BFME5 registry dispatch used by the dispatch at 0x0058EDB0
 ?bfmeUseYV@BfmeRegistryYV@@QAEXHPAX@Z,0x0003BCCD,Open-BFME5 registry dispatch used by the dispatch at 0x0058EED0
+?bfmeUsedJV@BfmeSlotJV@@QAEDXZ,0x0002DB2D,pin
 ?bfmeVal1025@BfmeH1025@@QAEHXZ,0x0001F668,pin
 ?bfmeVal1027@BfmeVal1027@@QAEMXZ,0x0000D7B5,pin
 ?bfmeVal1034@BfmeN1034@@QAEHXZ,0x00898300,pin
@@ -78048,6 +78054,7 @@ name,address,notes
 ?g_bfmeDefault996@@3PADA,0x00D2233C,pin
 ?g_bfmeDefaultBI@@3VAsciiStringBI@@A,0x00F36E50,Open-BFME5 the default name the key lookup at 0x007696B0 falls back to
 ?g_bfmeDefaultBU@@3MA,0x01075334,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0090FE40 calls; autopin
+?g_bfmeDefaultEG@@3MB,0x01097114,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AC750 calls; autopin
 ?g_bfmeDefaultString1284@@3UBfmeStringData3AF0@@A,0x012D5298,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A9AB0 calls; autopin
 ?g_bfmeDefaultUDD@@3PADA,0x00F36E50,pin
 ?g_bfmeDepthVHM@@3HC,0x00F40588,pin
@@ -84682,4 +84689,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeUsedJV@BfmeSlotJV@@QAEDXZ,0x0002DB2D,pin
