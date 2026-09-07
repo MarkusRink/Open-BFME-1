@@ -2,7 +2,40 @@
 /* GameSpy Peer SDK -- peerSB.c */
 
 typedef int PEERBool;
-typedef void *SBServer;
+
+typedef struct SBServerRecord
+{
+	unsigned char pad_0000[0x14];
+	unsigned char state;
+} SBServerRecord;
+
+typedef SBServerRecord *SBServer;
+
+typedef struct SBServerList
+{
+	unsigned char pad_0000[0x498];
+	unsigned int mypublicip;
+} SBServerList;
+
+typedef SBServerList *SBServerListPtr;
+
+typedef enum SBListCallbackReason
+{
+	slc_serveradded,
+	slc_serverupdated,
+	slc_serverdeleted,
+	slc_initiallistcomplete,
+	slc_disconnected,
+	slc_queryerror,
+	slc_publicipdetermined
+} SBListCallbackReason;
+
+typedef struct SBQueryEngine
+{
+	unsigned char pad_0000[0x10];
+	int querylistCount;
+	unsigned char pad_0014[0x34];
+} SBQueryEngine;
 
 typedef struct piOperation
 {
@@ -17,11 +50,18 @@ typedef struct PEERConnection
 	unsigned int privateIP;
 	unsigned char pad_005C[0x384 - 0x5C];
 	int enteringRoom[3];
-	unsigned char pad_0390[0x18D4 - 0x390];
+	unsigned char pad_0390[0x173C - 0x390];
+	SBQueryEngine gameEngine;
+	unsigned char pad_1784[0x18D4 - 0x1784];
 	int autoMatchStatus;
-	unsigned char pad_18D8[0x1EF0 - 0x18D8];
+	unsigned char autoMatchList[0x05CC];
+	SBQueryEngine autoMatchEngine;
+	int autoMatchBrowsing;
 	piOperation *autoMatchOperation;
 	int autoMatchReporting;
+	char *autoMatchFilter;
+	int autoMatchSBFailed;
+	int autoMatchQRFailed;
 } PEERConnection;
 
 typedef PEERConnection *PEER;
@@ -31,8 +71,17 @@ int SBServerHasPrivateAddress(SBServer server);
 unsigned int SBServerGetPrivateInetAddress(SBServer server);
 unsigned short SBServerGetPrivateQueryPort(SBServer server);
 unsigned short SBServerGetPublicQueryPort(SBServer server);
+unsigned short SBServerGetPublicQueryPortNBO(SBServer server);
 int SBServerHasFullKeys(SBServer server);
+int SBServerDirectConnect(SBServer server);
 int SBServerGetIntValueA(SBServer server, const char *key, int defaultValue);
+void SBGetServerRulesFromMaster(
+	void *serverList, unsigned int publicIP, unsigned short publicPort);
+void SBQueryEngineUpdateServer(
+	SBQueryEngine *engine, SBServer server, int addfront, int querytype);
+void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine, SBServer server);
+void SBQueryEngineSetPublicIP(SBQueryEngine *engine, unsigned int publicIP);
+int SBServerListCount(void *serverList);
 int piCallAutoMatchRateCallback(PEER peer, SBServer server);
 void piStopAutoMatchReporting(PEER peer);
 void piLeaveRoom(PEER peer, int roomType, const char *reason);
@@ -92,6 +141,65 @@ static __declspec(noinline) void piSBAutoMatchCheckUpdatedServer(PEER peer, SBSe
 	piLeaveRoom(peer, 2, "");
 	if (!piJoinAutoMatchRoom(peer, server))
 		piSetAutoMatchStatus(peer, 0);
+}
+
+void piSBAutoMatchListCallback
+(
+	SBServerListPtr serverlist,
+	SBListCallbackReason reason,
+	SBServer server,
+	void *instance
+)
+{
+	PEER peer = (PEER)instance;
+
+	switch (reason)
+	{
+	case slc_serveradded:
+		if (server->state & (0x02 | 0x08))
+			break;
+
+		if (!SBServerDirectConnect(server))
+			SBGetServerRulesFromMaster(&peer->autoMatchList,
+				SBServerGetPublicInetAddress(server),
+				SBServerGetPublicQueryPortNBO(server));
+		else
+			SBQueryEngineUpdateServer(&peer->autoMatchEngine, server, 0, 1);
+		break;
+
+	case slc_serverupdated:
+		if (!SBServerHasFullKeys(server))
+			SBQueryEngineUpdateServer(&peer->autoMatchEngine, server, 0, 1);
+		else if (!SBServerDirectConnect(server))
+			piSBAutoMatchCheckUpdatedServer(peer, server);
+		break;
+
+	case slc_serverdeleted:
+		if ((server->state & (0x04 | 0x08)) != 0)
+			SBQueryEngineRemoveServerFromFIFOs(&peer->autoMatchEngine, server);
+		break;
+
+	case slc_initiallistcomplete:
+		if (!SBServerListCount(&peer->autoMatchList) ||
+			peer->autoMatchEngine.querylistCount == 0)
+			piSetAutoMatchStatus(peer, 2);
+		break;
+
+	case slc_queryerror:
+		peer->autoMatchSBFailed = 1;
+		if (peer->autoMatchStatus == 1)
+			piSetAutoMatchStatus(peer,
+				peer->autoMatchQRFailed ? 0 : 2);
+		break;
+
+	case slc_publicipdetermined:
+		peer->publicIP = serverlist->mypublicip;
+		SBQueryEngineSetPublicIP(&peer->gameEngine, serverlist->mypublicip);
+		break;
+
+	default:
+		break;
+	}
 }
 
 void piSBAutoMatchCheckUpdatedServerCaller(PEER peer, SBServer server)
