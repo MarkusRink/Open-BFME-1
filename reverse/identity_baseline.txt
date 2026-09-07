@@ -12,9 +12,11 @@
 # ctor_vtable.contradicted a constructor row whose body installs a vtable that
 #                       names a different class. multi_name clears these as a
 #                       structural fold and is right to: build.py masks the
-#                       vftable operand, so they really are one shape. 52 of the
-#                       61 share an address with another constructor name; the
-#                       group at 0x0024FC20 is 12 of them.
+#                       vftable operand, so they really are one shape. 40 of the
+#                       49 share an address with another constructor name; the
+#                       group of 12 at 0x0024FC20 is gone -- those names are not
+#                       in BFME's module-name string pool at all, so the rows
+#                       were deleted (reverse/deleted_rows.csv) rather than fixed.
 # ctor_vtable.unreadable a coverage floor like null_reloc.max_unreadable, not a
 #                       defect count. Zero, and it stays zero.
 #
@@ -27,7 +29,7 @@
 multi_name.family = 0
 multi_name.different = 0
 size_outlier.indicted = 1
-ctor_vtable.contradicted = 61
+ctor_vtable.contradicted = 49
 ctor_vtable.unreadable = 0
 null_reloc.rows = 66
 null_reloc.bodies = 19
