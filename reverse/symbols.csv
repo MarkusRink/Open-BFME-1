@@ -85835,3 +85835,8 @@ _ImmReleaseContext@8,0x009F88A8,FF25 thunk verified from PE IMM32.dll import Imm
 ??0BfmeNodeEVC@@QAE@PAVBfmeSrcEVC@@@Z,0x0097D0D0,pin node ctor for BfmeConv1994
 ??1BfmeBaseEVD@@QAE@XZ,0x0081D7B0,pin SubtitleEntry dtor for BfmeConv1995
 _bfmeVtblEVD,0x00CF3920,pin vftable data for BfmeConv1995
+??0Rva009D8630BlockWriter@@QAE@XZ,0x009D8630,Retail getCRC 0x0038317B constructs the 0x40-byte base of the CRC writer; same constructor installs base vtable 0x01144090 before derived 0x01075B08
+??1Rva009D8630BlockWriter@@UAE@XZ,0x009D83D0,Retail getCRC 0x00383329 destroys the same stack base; unwind path and derived writer destructor also reach this member
+?open@Rva009D8630BlockWriter@@QAE_NPAVBfmeByteStream@@@Z,0x009D6300,Retail getCRC 0x003831A3 forwards its sole optional stream arg to EALA/RTS2 writer activation; existing exact Gen009D6300 body proves one pointer arg and bool result
+?close@Rva009D8630BlockWriter@@QAEXXZ,0x009D6DD0,Retail getCRC 0x00383314 closes the stack writer; exact Gen009D6DD0 body conditionally emits END and clears stream pointer
+?bfmeXferFW@BfmeThingFW@@QAEXPAVBfmeXferFW@@@Z,0x0003DA69,route=0x00065D90; retail getCRC 0x003831B7 passes CRC writer to TheCRCParameterCheck; target exact body writes literal CRCParameterCheck then its AsciiString vector
