@@ -85337,3 +85337,4 @@ _bfmeVft2ZL,0x00D12AD0
 _g_bfmeSingleZM,0x00C80FC0
 _g_bfmeExtendedZM,0x00C81238
 _g_bfmeFlagZM,0x00EF1B23
+?updateWaypointGoal@GiantBirdFollowWaypointPathState@@QAE_NXZ,0x00031B47,GiantBirdFollowWaypointPathState goal helper alias to thunk 0x00031B47
