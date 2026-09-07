@@ -387,7 +387,14 @@ class Connection
 // name because theirs are unknown.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/ConnectionManager.h
 class DisconnectManager;
-class NetDisconnectChatCommandMsg;
+class NetDisconnectChatCommandMsg : public NetCommandMsg
+{
+public:
+	NetDisconnectChatCommandMsg();
+	void setText(UnicodeString text);
+private:
+	UnicodeString m_text;
+};
 class NetChatCommandMsg : public NetCommandMsg
 {
 public:
@@ -428,6 +435,7 @@ public:
 	int getNumPlayers();
 	void flushConnections();
 	void processChat(NetChatCommandMsg *msg);
+	void sendDisconnectChat(UnicodeString text);
 	friend class BFMEConnectionManager;
 	unsigned int getPacketRouterSlot();
 
@@ -511,7 +519,6 @@ public:
 	void getPlayerNameForSlot(void *out, int slot);
 	void sendPlayerLeaveCommands();
 	void sendFrameInfoToPlayer(int slot);
-	void sendDisconnectChatCommand(void *text);
 	void sendChat(UnicodeString text, int playerMask);
 	void sendGameSpyStatsAuthKey(void *key);
 	void sendKeepAliveCommand();
@@ -6070,118 +6077,17 @@ L04_665F9B:
 	}
 }
 
-// Sends command type 13 (DISCONNECTCHAT). Named from the type its message carries.
-__declspec(naked) void BFMEConnectionManager::sendDisconnectChatCommand(void *text)
+// Network::sendDisconnectChat forwards a by-value string here through ILT 0x00001B54.
+void ConnectionManager::sendDisconnectChat(UnicodeString text)
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 1044373h
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		push esi
-		push edi
-		mov edi, ecx
-		push 20h
-		mov dword ptr [esp+18h], 0h
-		__emit 0E8h
-		__emit 007h
-		__emit 0B6h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+8h], eax
-		test eax, eax
-		mov byte ptr [esp+14h], 1h
-		je L00_666944
-		mov ecx, eax
-		__emit 0E8h
-		__emit 00Ah
-		__emit 0F5h
-		__emit 09Ch
-		__emit 0FFh   // call 0x35E4A
-		mov esi, eax
-		jmp L01_666946
-L00_666944:
-		xor esi, esi
-L01_666946:
-		mov eax, dword ptr [edi+12028h]
-		mov dword ptr [esi+0Ch], eax
-		mov eax, dword ptr [esi+14h]
-		push eax
-		mov byte ptr [esp+18h], 0h
-		__emit 0E8h
-		__emit 015h
-		__emit 0F2h
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L02_66696D
-		__emit 0E8h
-		__emit 0EFh
-		__emit 09Bh
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L02_66696D:
-		push ecx
-		lea eax,  [esp+20h]
-		mov dword ptr [esp+0Ch], esp
-		mov ecx, esp
-		push eax
-		__emit 0E8h
-		__emit 082h
-		__emit 01Ah
-		__emit 022h
-		__emit 000h   // call 0x888400
-		mov ecx, esi
-		__emit 0E8h
-		__emit 019h
-		__emit 05Ch
-		__emit 09Bh
-		__emit 0FFh   // call 0x1C59E
-		mov ecx, dword ptr [edi+12028h]
-		xor edx, edx
-		mov dl, 1h
-		shl dl, cl
-		mov ecx, edi
-		not dl
-		push edx
-		push esi
-		__emit 0E8h
-		__emit 03Bh
-		__emit 0A8h
-		__emit 09Dh
-		__emit 0FFh   // call 0x411D7
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 01Eh
-		__emit 002h
-		__emit 09Ah
-		__emit 0FFh   // call 0x6BC2
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0F9h
-		__emit 096h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		lea ecx,  [esp+1Ch]
-		mov dword ptr [esp+14h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 014h
-		__emit 018h
-		__emit 022h
-		__emit 000h   // call 0x8881D0
-		mov ecx, dword ptr [esp+0Ch]
-		pop edi
-		mov dword ptr fs:[0h], ecx
-		pop esi
-		add esp, 10h
-		ret 4h
-	}
+	NetDisconnectChatCommandMsg *msg = new NetDisconnectChatCommandMsg;
+	msg->setPlayerID(m_localSlot);
+	if (DoesCommandRequireACommandID(msg->getNetCommandType()))
+		msg->setID(GenerateNextCommandID());
+	msg->setText(text);
+	sendLocalCommandDirect(msg, (unsigned char)~(unsigned char)(1 << m_localSlot));
+	processDisconnectChat(msg);
+	msg->detach();
 }
 
 // Network::sendChat at 0x00682440 proves the by-value text and recipient-mask ABI.
