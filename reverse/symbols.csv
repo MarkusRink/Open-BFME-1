@@ -10433,6 +10433,9 @@ name,address,notes
 ?Gen00473A40@@YAXPAX0000@Z,0x00473A40,five-argument __cdecl callee of the 31-byte four-argument forwarder family (Q2TrailingZeroForwarders.cpp); target read from the forwarder call site REL32 through its incremental-link thunk; address-derived name; identity not recovered
 ?Gen00476880@@YAXPAUQ3SortElem16@@0UQ3SortCompare@@@Z,0x00476880,address-derived introsort-layer callee; target read from the REL32 at its call site and followed through its ILT thunk
 ?Gen004775D0@@YAXPAUQ3SortElem16@@00HUQ3SortCompare@@@Z,0x004775D0,address-derived introsort-layer callee; target read from the REL32 at its call site and followed through its ILT thunk
+?Q3Partition004775D0@@YAPAUQ3SortElem16@@PAU1@0U1@UQ3SortCompare@@@Z,0x00034F95,typed call alias for the partition ILT used by Gen004775D0
+?Q3IntrosortLoop004775D0@@YAXPAUQ3SortElem16@@00HUQ3SortCompare@@@Z,0x0000AEBB,typed call alias for the recursive ILT used by Gen004775D0
+?Q3PartialSort004775D0@@YAXPAUQ3SortElem16@@00HUQ3SortCompare@@@Z,0x00032501,typed call alias for the partial-sort ILT used by Gen004775D0
 ?Gen0047E480@@YAXPAUQ3SortElem4@@00UQ3SortCompare@@@Z,0x0047E480,address-derived introsort-layer callee; target read from the REL32 at its call site and followed through its ILT thunk
 ?Gen0047E4F0@@YAXPAPAHHHPAHUQ3HeapCompare@@@Z,0x0047E4F0,address-derived heap-adjust helper of the 9x4 heap-primitive grid; target read from the REL32 at its call sites and followed through its ILT thunk
 ?Gen00483B90@@YAXPAUQ3SortElem4@@0UQ3SortCompare@@@Z,0x00483B90,address-derived introsort-layer callee; target read from the REL32 at its call site and followed through its ILT thunk
