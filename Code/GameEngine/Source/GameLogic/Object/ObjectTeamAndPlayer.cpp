@@ -33,16 +33,36 @@
 // happen to put m_team at +0x23C, so nothing broke, but only one of them can be
 // retail's: the merged Object has the vptr and every pad is measured from +0x04.
 //
-// One thing this merge could NOT settle, and it is worth naming. Retail reaches
-// the contain module at +0x1FC and tail-jumps its slot 26 (+0x68), and this row's
-// own decorated name -- ?unidentified_001BFE20@Object@@QBEPAVPlayer@@XZ -- says
-// what comes back is a Player*. But ObjectContainQueries.cpp has three other
-// bodies calling that same slot 26 and then using the result at slots 42, 84 and
-// 108, which a Player* is not. One virtual has one return type, so the row name
-// and those three bodies cannot both be right. The name is address-derived and
-// this tree's own, so it is the likelier of the two to be wrong -- but renaming a
-// row is identity work, not a merge, so slot 26 keeps the Player* spelling its
-// row name forces and this comment records the conflict.
+// unidentified_001BFE20 tail-jumps the contain module's slot 26 (+0x68) and
+// returns whatever comes back. Its row used to say Player*; the image says
+// otherwise, and the row now returns PAX -- an opaque pointer. The chain:
+//
+//   Object's own vtable is at 0x0109EE58 (the constructor at 0x001D29A0 stores it
+//   at +0x7E) and has 28 slots -- slot 28 is already not a code pointer, slot 35
+//   reads 0x00000358 and slot 84 reads ASCII "Crea". So the thing four other
+//   bodies call at +0x8C, +0xA8, +0x150 and +0x1B0 is not an Object.
+//
+//   HordeContain's ContainModuleInterface sub-object is at +0x20, vtable
+//   0x010AF048, at most 88 slots -- so it is not the contain module itself
+//   either.
+//
+//   That vtable's slot 26 goes through ILT 0x00027831 to a 24-byte body at
+//   0x00230730: `lea eax,[ecx-0x20]; test eax,eax; je -> xor eax,eax; ret` then
+//   `lea eax,[ecx+0xC4]; ret`. A null-guarded SELF-CAST returning this+0xC4,
+//   which from the +0x20 sub-object is HordeContain+0xE4.
+//
+//   That sub-object's vtable (0x010AE8E0) runs to at least 129 entries and holds
+//   exactly the slots the callers use. 126 of its 129 entries are one shared
+//   abstract stub, so HordeContain leaves them to its subclasses.
+//
+//   OpenContain's slot 26 points straight at that same stub: the "I am not a
+//   horde contain" answer.
+//
+// So slot 26 hands back a second interface on the same contain module, and it is
+// neither a Player nor an Object. The class is called HordeContainInterface in
+// this tree's sources because slot 84 takes a Bool and returns a count, but that
+// name is a reconstruction, which is why the ROW says PAX and only the source
+// says HordeContainInterface.
 
 typedef bool Bool;
 typedef unsigned int UnsignedInt;
@@ -116,6 +136,11 @@ public:
 
 extern TeamFactory *TheTeamFactory;
 
+// The second interface on the contain module, reached by slot 26's self-cast.
+// Only the pointer is needed here; ObjectContainQueries.cpp and
+// ObjectDamageAndWeapons.cpp name its slots.
+class HordeContainInterface;
+
 // The doubly-linked contained-items list, walked from its sentinel.
 struct ObjectListNode
 {
@@ -140,9 +165,8 @@ public:
 	virtual void slot16() = 0; virtual void slot17() = 0; virtual void slot18() = 0; virtual void slot19() = 0;
 	virtual void slot20() = 0; virtual void slot21() = 0; virtual void slot22() = 0; virtual void slot23() = 0;
 	virtual void slot24() = 0; virtual void slot25() = 0;
-	// slot 26, +0x68 -- see the note at the top: ObjectContainQueries.cpp names this
-	// same slot getHordeContainInterface, and the two spellings cannot both be right.
-	virtual Player *getControllingPlayer() = 0;
+	// slot 26, +0x68 -- the horde-contain self-cast; see the note at the top.
+	virtual HordeContainInterface *getHordeContainInterface() = 0;
 	virtual void slot27() = 0; virtual void slot28() = 0; virtual void slot29() = 0;
 	virtual void slot30() = 0; virtual void slot31() = 0; virtual void slot32() = 0; virtual void slot33() = 0;
 	virtual void slot34() = 0; virtual void slot35() = 0; virtual void slot36() = 0; virtual void slot37() = 0;
@@ -187,7 +211,7 @@ public:
 	UnsignedInt getIndicatorColor(void) const;
 	Bool bfmeIsComputerControlled() const;
 	void bfmeTransferPowerInfluence(Player *oldPlayer, Player *newPlayer);
-	Player *unidentified_001BFE20(void) const;
+	void *unidentified_001BFE20(void) const;
 
 	Player *getControllingPlayer() const;
 	void kill(DamageType damageType, DeathType deathType);
@@ -289,17 +313,22 @@ void Object::bfmeTransferPowerInfluence(Player *oldPlayer, Player *newPlayer)
 	}
 }
 
-// ?unidentified_001BFE20@Object@@QBEPAVPlayer@@XZ
+// ?unidentified_001BFE20@Object@@QBEPAXXZ
 //
 // Read the module once into a local. Testing the member and then calling through
 // it again loads it twice, into eax and then ecx; retail loads it straight into
 // ecx and tests that.
-Player *Object::unidentified_001BFE20(void) const
+//
+// ScriptActions::doUnitReceiveUpgrade (0x002FE070) shows what callers do with the
+// result: it calls slot 42 (+0xA8) with an UpgradeTemplate's index field at +0x20
+// and, when that answers false, slot 43 (+0xAC) with the template pointer itself
+// -- a hasUpgrade/giveUpgrade pair on the returned interface.
+void *Object::unidentified_001BFE20(void) const
 {
 	ContainModuleInterface *contain = m_contain;
 
 	if (contain == 0)
 		return 0;
 
-	return contain->getControllingPlayer();
+	return contain->getHordeContainInterface();
 }

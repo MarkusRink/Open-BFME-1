@@ -19,11 +19,21 @@
 //
 // One virtual has one return type, so all three reach the same class: each calls
 // m_contain's slot 26 (+0x68) and then uses what comes back, at +0x1B0, +0x150
-// and +0xA8 -- slots 108, 84 and 42 of one interface.  It is named
-// HordeContainInterface below, the spelling the horde body already used, because
-// slot 84 is the only one of the three whose meaning retail pins down; the other
-// two carry the slot number and nothing more.  ObjectUpgrades.cpp names the same
-// interface for hasUpgradeMask.
+// and +0xA8 -- slots 108, 84 and 42 of one interface.  ObjectUpgrades.cpp names
+// the same interface for hasUpgradeMask and ObjectDamageAndWeapons.cpp for slot
+// 35.
+//
+// What slot 26 returns is settled, and the evidence is written out in
+// ObjectTeamAndPlayer.cpp: HordeContain's ContainModuleInterface slot 26 is a
+// null-guarded SELF-CAST (body 0x00230730, `lea eax,[ecx+0xC4]`) to a second
+// interface on the same contain module at +0xE4, whose vtable (0x010AE8E0) runs
+// to at least 129 entries and holds every slot these bodies call.  Object's own
+// vtable has 28, so it was never that; OpenContain's slot 26 points at the shared
+// abstract stub, which is the "I am not a horde contain" answer.
+//
+// HordeContainInterface is still a reconstructed NAME -- slot 84 taking a Bool and
+// returning a count is what suggests it -- so it lives in the sources and not in
+// any decorated row.
 //
 // The contain module itself was spelled three ways too -- empty, 26 slots and 49
 // slots -- because each file declared only as far as the slot it needed.  One

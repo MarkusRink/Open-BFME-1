@@ -120,8 +120,12 @@ public:
 	void giveUpgrade(const UpgradeTemplate *upgrade);	///< ILT thunk at 0x0001A97E
 
 	/// address-derived name -- do not treat as an identity. Body at 0x001BFE20
-	/// reads Object+0x1FC and forwards to its virtual at +0x68.
-	Player *unidentified_001BFE20(void) const;		///< ILT thunk at 0x0000D3B9
+	/// reads Object+0x1FC and forwards to its virtual at +0x68, which is a
+	/// self-cast to a second interface on the contain module -- NOT a Player.
+	/// See ObjectTeamAndPlayer.cpp for the vtable evidence; the row returns an
+	/// opaque pointer because the interface's real name is not recovered, and the
+	/// cast below preserves what this body actually does with it.
+	void *unidentified_001BFE20(void) const;		///< ILT thunk at 0x0000D3B9
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ScriptEngine.h
@@ -181,7 +185,7 @@ void ScriptActions::doUnitReceiveUpgrade(const AsciiString &unitName, const Asci
 	}
 
 	if (obj->isKindOf(KINDOF_UNRECONSTRUCTED_108)) {
-		Player *player = obj->unidentified_001BFE20();
+		Player *player = (Player *)obj->unidentified_001BFE20();
 		if (!player) {
 			return;
 		}

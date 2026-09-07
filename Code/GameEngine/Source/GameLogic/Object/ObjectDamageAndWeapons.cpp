@@ -38,6 +38,12 @@
 // virtual has one return type, so those are five views of ONE interface, and slot
 // 35 joins the list on the HordeContainInterface named here.
 //
+// Which interface that is has since been settled from the image; the chain is in
+// ObjectTeamAndPlayer.cpp. Slot 26 is a self-cast to a second interface on the
+// same contain module (HordeContain+0xE4, vtable 0x010AE8E0, at least 129
+// entries), so it is neither a Player nor an Object -- Object's own vtable has 28
+// slots. The name below stays a reconstruction and stays out of the rows.
+//
 // Two spellings below are frozen by names that have to resolve, not chosen:
 //
 //   BfmeFiringTracker  ?bfmeGetLastShotPosition@BfmeFiringTracker@@... is the pin

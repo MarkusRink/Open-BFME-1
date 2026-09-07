@@ -81,7 +81,10 @@ public:
 class Object
 {
 public:
-	Player *unidentified_001BFE20() const;
+	/// Slot 26 of the contain module self-casts to a second interface on it, not
+	/// to a Player; see ObjectTeamAndPlayer.cpp. The row returns an opaque pointer
+	/// and the cast below keeps this body's own view of what it calls.
+	void *unidentified_001BFE20() const;
 
 	char m_prefix[0x1A4];
 	int m_gate;
@@ -99,7 +102,7 @@ void Rva0026B230Dispatcher::run(int)
 	if (object->m_gate != 0)
 		return;
 
-	Player *player = object->unidentified_001BFE20();
+	Player *player = (Player *)object->unidentified_001BFE20();
 	if (player == 0)
 		return;
 
