@@ -9855,6 +9855,7 @@ name,address,notes
 ??_C@_0L@OBFJOAEI@MODE?5?$CFs?5?$CLb?$AA@,0x00D311D8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00861470 calls; autopin
 ??_C@_0L@PMFBCIMB@ActiveBody?$AA@,0x00C8FB98,pool-glue cascade static (back-solved)
 ??_C@_0M@BLHDDDNA@LaserUpdate?$AA@,0x00C90534,pool-glue cascade static (back-solved)
+??_C@_0M@DGBAOIAO@ios?5failure?$AA@,0x0112EBAC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0083ED40 calls; autopin
 ??_C@_0M@EADCCBCH@OpenContain?$AA@,0x00C90BA4,pool-glue cascade static (back-solved)
 ??_C@_0M@GEIMNDJL@CaveContain?$AA@,0x00C90BB4,pool-glue cascade static (back-solved)
 ??_C@_0M@GGMEMGKP@RadarUpdate?$AA@,0x00C90114,pool-glue cascade static (back-solved)
@@ -74804,6 +74805,7 @@ name,address,notes
 ?bfmeHighlightApply@@YAXIPAXIPAUTexture@@PAUIDirect3DSurface8@@12@Z,0x0003F242,retail highlight postRender0x007D7040 direct call at0x007D72DA
 ?bfmeHighlightDrawQuad@@YAXI@Z,0x00018BB0,retail highlight postRender0x007D7040 direct call at0x007D72A3
 ?bfmeHitAEA@BfmeEntryAEA@@QAE_NPAUBfmeKeyAEA@@PAX@Z,0x008017E0,pin
+?bfmeHitLP@BfmeHolderLP@@QAEXI@Z,0x000348EC,pin
 ?bfmeIdAIA@BfmeThingAIA@@QAEPAXXZ,0x00020824,pin
 ?bfmeIdALA@BfmeKeyALA@@QAEPAUBfmeIdALA@@XZ,0x00020824,pin
 ?bfmeIdCWB@@3HA,0x00EF102C,pin
@@ -75525,6 +75527,7 @@ name,address,notes
 ?bfmeResolveGN@BfmeInnerGN@@QAEPAVBfmeThingGN@@XZ,0x000022BB,pin
 ?bfmeResolveHF@BfmeInnerHF@@QAEPAVBfmeThingHF@@XZ,0x000022BB,pin
 ?bfmeResolveKZ@BfmeInnerKZ@@QAEPAVBfmeThingKZ@@XZ,0x000022BB,pin
+?bfmeResolveLP@BfmeInnerLP@@QAEPAVBfmeThingLP@@XZ,0x000022BB,pin
 ?bfmeResolveLU@BfmeInnerLU@@QAEPAVBfmeThingLU@@XZ,0x000022BB,pin
 ?bfmeResolveMD@BfmeInnerMD@@QAEPAVBfmeThingMD@@XZ,0x000022BB,pin
 ?bfmeResolveMR@BfmeInnerMR@@QAEPAVBfmeKeyMR@@XZ,0x000022BB,pin
@@ -75532,6 +75535,7 @@ name,address,notes
 ?bfmeResolveNS@BfmeInnerNS@@QAEPAVBfmeThingNS@@XZ,0x000022BB,pin
 ?bfmeResolveNW@BfmeInnerNW@@QAEPAVBfmeThingNW@@XZ,0x000022BB,pin
 ?bfmeResolvePD@BfmeInnerPD@@QAEPAVBfmeThingPD@@XZ,0x000022BB,pin
+?bfmeResolveQD@BfmeInnerQD@@QAEPAVBfmeThingQD@@XZ,0x000022BB,pin
 ?bfmeResolveVQ@BfmeInnerVQ@@QAEPAVBfmeThingVQ@@XZ,0x000022BB,pin
 ?bfmeResolveWQ@BfmeInnerWQ@@QAEPAVBfmeThingWQ@@XZ,0x000022BB,pin
 ?bfmeResolveXK@BfmeInnerXK@@QAEPAVBfmeThingXK@@XZ,0x000022BB,pin
@@ -76071,6 +76075,7 @@ name,address,notes
 ?bfmeTest932E@BfmeThing932E@@QAEHXZ,0x00037E34,pin
 ?bfmeTest@Rva2225E0Filter@@AAE_NPAVBfmeOverridable@@_N@Z,0x0001B437,Open-BFME5 ILT the filter test whose result Rva2225E0Filter::accepts at 0x003A04A0 returns
 ?bfmeTestLB@BfmeOwnerLB@@QAE_NPAUBfmeThingLB@@@Z,0x0004250A,pin
+?bfmeTestLP@BfmeThingLP@@QAEPAXPAI@Z,0x00021044,pin
 ?bfmeTestMD@BfmeSubMD@@QAEDXZ,0x00028F74,pin
 ?bfmeTestME@BfmeThingME@@QAEHXZ,0x00003EA4,pin
 ?bfmeTestSB@@YAHXZ,0x0085B420,pin
@@ -78681,6 +78686,7 @@ name,address,notes
 ?g_bfmeZero1267@@3MB,0x00C75350,pin
 ?g_bfmeZero986B@@3HA,0x00F071C8,pin
 ?g_call@@3P6AXPAX0@ZA,0x013593C8,address-derived IAT call recovered from 0x0083E8F0
+?g_call@@3P6AXPBDPAX@ZA,0x013593C8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0083ED40 calls; autopin
 ?g_defaultRespawnPolicy@@3URespawnPolicy@@A,0x012ED8B8,RespawnBody default six-dword policy
 ?g_destroy@@3P6GXPAX@ZA,0x013590C4,address-derived IAT call recovered from 0x0093C400
 ?g_feslDirectRoute@@3PADA,0x00D2C300,FESL direct route marker
@@ -84630,7 +84636,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolveLP@BfmeInnerLP@@QAEPAVBfmeThingLP@@XZ,0x000022BB,pin
-?bfmeTestLP@BfmeThingLP@@QAEPAXPAI@Z,0x00021044,pin
-?bfmeHitLP@BfmeHolderLP@@QAEXI@Z,0x000348EC,pin
-?bfmeResolveQD@BfmeInnerQD@@QAEPAVBfmeThingQD@@XZ,0x000022BB,pin
