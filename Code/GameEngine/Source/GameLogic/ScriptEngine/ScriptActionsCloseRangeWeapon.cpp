@@ -1,11 +1,23 @@
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/stringinline
-// Open-BFME: TEAM_TOGGLE_CLOSE_RANGE_WEAPON at retail RVA 0x002F6B90.
+// The two actions that switch a DualWeaponBehavior between its weapons:
+//
+//   0x002F6B90  doTeamToggleCloseRangeWeapon   TEAM_TOGGLE_CLOSE_RANGE_WEAPON
+//   0x002F6CA0  doNamedToggleCloseRangeWeapon  NAMED_TOGGLE_CLOSE_RANGE_WEAPON
+//
+// Both find the DualWeaponBehavior update module by the name key
+// "DualWeaponBehavior" and write its close-range flag at +0x20. The only
+// difference is that one does it to every member of a team and the other to one
+// named unit.
 
 #include "StringInline.h"
 
 typedef bool Bool;
 
 enum NameKeyType { NAMEKEY_INVALID = 0 };
+
+class Object;
+class SupplyWarehouseDockUpdate;
+class Team;
 
 class BfmeStringArgBase
 {
@@ -15,6 +27,7 @@ private:
 	BfmeStringArgBase(const BfmeStringArgBase &other);
 };
 
+// Both lookups take the name by value through this wrapper.
 class BfmeAsciiStringArg
 {
 public:
@@ -29,9 +42,6 @@ public:
 private:
 	char *m_text;
 };
-
-class Object;
-class SupplyWarehouseDockUpdate;
 
 class BfmeObjectVirtualTail
 {
@@ -145,7 +155,20 @@ public:
 	virtual void _slot15() = 0;
 	virtual void _slot16() = 0;
 	virtual Team *getTeamNamed(BfmeAsciiStringArg name, Bool unused) = 0;
+	virtual void _slot18() = 0;
+	virtual void _slot19() = 0;
+	virtual void _slot20() = 0;
+	virtual void _slot21() = 0;
+	virtual void _slot22() = 0;
+	virtual void _slot23() = 0;
+	virtual void _slot24() = 0;
+	virtual void _slot25() = 0;
+	virtual void _slot26() = 0;
+	virtual Object *getUnitNamedByValue(BfmeAsciiStringArg name) = 0;
 };
+
+// The name the named-unit action's file gave this same vtable.
+typedef ScriptEngine ScriptEngineByValue;
 
 class NameKeyGenerator;
 
@@ -164,6 +187,8 @@ class ScriptActions
 {
 protected:
 	void doTeamToggleCloseRangeWeapon(const AsciiString &teamName,
+		Bool enabled);
+	void doNamedToggleCloseRangeWeapon(const AsciiString &unitName,
 		Bool enabled);
 };
 
@@ -184,5 +209,20 @@ void ScriptActions::doTeamToggleCloseRangeWeapon(
 			if (behavior)
 				behavior->m_useCloseRangeWeapon = enabled;
 		}
+	}
+}
+
+void ScriptActions::doNamedToggleCloseRangeWeapon(
+	const AsciiString &unitName, Bool enabled)
+{
+	Object *object = TheScriptEngine->getUnitNamedByValue(unitName);
+	if (object)
+	{
+		static const int dualWeaponBehaviorKey =
+			TheNameKeyGenerator->nameToKey("DualWeaponBehavior");
+		DualWeaponBehavior *behavior = (DualWeaponBehavior *)
+			object->findUpdateModule(dualWeaponBehaviorKey);
+		if (behavior)
+			behavior->m_useCloseRangeWeapon = enabled;
 	}
 }
