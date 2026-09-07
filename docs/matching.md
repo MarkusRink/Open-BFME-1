@@ -32,6 +32,13 @@ Useful iteration tools:
   exact `./build.sh '<symbol>'` command. Add `--ranked --groups` for repeated byte patterns or
   `--all` for untracked functions.
 
+The naked-candidate queue and `tools/audit_ret_arity.py` require the Python
+`capstone` package for caller-cleaned (`__cdecl`) identity checks. Install it
+in your active Python environment with `python3 -m pip install capstone`.
+These checks decode the terminal instruction: return-like bytes inside a jump
+displacement or immediate are not a `ret`. A missing decoder is an error,
+not permission to skip the check.
+
 ## MSVC 7.1 shaping notes
 
 Start with `docs/shape_levers.md`: a one-page table mapping each "everything matches

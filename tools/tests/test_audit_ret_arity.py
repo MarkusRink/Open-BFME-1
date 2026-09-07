@@ -37,6 +37,12 @@ def test_decoded_tail_accepts_complete_cdecl_returns_only():
     assert arity.decoded_actual_ret(bytes.fromhex("55 8b ec c2 10 00")) == 16
 
 
+def test_decoded_tail_does_not_guess_after_incomplete_instruction():
+    assert arity.decoded_actual_ret(b"") is None
+    assert arity.decoded_actual_ret(bytes.fromhex("c2 10")) is None
+    assert arity.decoded_actual_ret(bytes.fromhex("c3 0f")) is None
+
+
 @pytest.mark.parametrize(
     "symbol",
     [

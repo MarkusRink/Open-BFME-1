@@ -238,7 +238,13 @@ def decoded_actual_ret(body):
     A missing decoder is an error, not an opinion-free result that could report
     a false green queue.
     """
-    import capstone
+    try:
+        import capstone
+    except ImportError as exc:
+        raise RuntimeError(
+            "cdecl cleanup validation requires Capstone; install it in your "
+            "Python environment with python3 -m pip install capstone"
+        ) from exc
 
     disassembler = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
     instructions = list(disassembler.disasm(bytes(body), 0))
