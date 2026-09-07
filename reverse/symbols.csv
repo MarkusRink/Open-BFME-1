@@ -85626,3 +85626,10 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeInsertERF@BfmeVecERF@@QAEXPAUBfmeItemERF@@I0@Z,0x00026B4D,pin
 ??0HeaderTemplate@@QAE@XZ,0x0048C200,HeaderTemplate constructor: parseHeaderTemplateDefinition named caller reaches newHeaderTemplate through ILT 0x000470E6; retail 0x0048C200/90 zeroes the proven 20-byte HeaderTemplate layout {GameFont*, two StringBase<char>, Int, Bool}; direct BODY pin derives ILT 0x0002F149; campaign=luna36h-20260907;lane=mid
 ?set@?$StringBase@D@@AAEXPBDH@Z,0x00887D20,private StringBase<char>::set(text length) is the matched body at 0x00887D20; parser call ABI proof; campaign=luna36h-20260907;lane=mid
+?bfmeBusyERH@BfmePlayersERH@@QAEDXZ,0x000330DC,pin
+?bfmeRelERH@BfmeLocalERH@@QAEHH@Z,0x0003E77A,pin
+?bfmeNameToKeyERH@BfmeKeyGenERH@@QAEHPBD@Z,0x0003ADD7,pin
+?bfmeFindERH@BfmeHostERH@@QAEPAVBfmeModuleERH@@H@Z,0x0002AE23,pin
+?bfmeStateERH@BfmeModuleERH@@QAEHXZ,0x0002C39A,pin
+?g_bfmePlayersERH@@3PAVBfmePlayersERH@@A,0x00EED748,pin
+?g_bfmeKeyGenERH@@3PAVBfmeKeyGenERH@@A,0x00EED600,pin
