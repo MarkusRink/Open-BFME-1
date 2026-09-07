@@ -85699,3 +85699,7 @@ _skipWhitespace,0x008872B0,COFF-local symbol of the actual included SkipWhitespa
 ??1BfmeHandleERU@@QAE@XZ,0x00013994,pin
 ?bfmeGetERU@BfmeMgrERU@@QAE?AVBfmeHandleERU@@H@Z,0x0002A216,pin
 ?g_bfmeMgrERU@@3PAVBfmeMgrERU@@A,0x00EF64BC,pin
+?bfmeInfoERW@BfmeSubERW@@QAEPAVBfmeInfoERW@@XZ,0x0002369B,pin
+?bfmeCheckERW@BfmeBaseERW@@QAEDH@Z,0x0003251F,pin
+?bfmeAERW@BfmeSubERW@@QAEDXZ,0x000212D8,pin
+?bfmeBERW@BfmeSubERW@@QAEDXZ,0x00016D0B,pin
