@@ -60,9 +60,16 @@ public:
 
 class MeshMatDescClass {
     int PassCount;
-    unsigned char beforeTextureArray[0xb4-4];
+    unsigned char beforeMaterial[0xa4-4];
+    VertexMaterialClass *Material[4];
     void *TextureArray[4][2];
+    void *MaterialArray[4];
 public:
+    bool Has_Material_Array(int pass) const { return MaterialArray[pass] != 0; }
+    VertexMaterialClass *Peek_Single_Material(int pass) const { return Material[pass]; }
+    VertexMaterialClass *Peek_Material(int index,int pass) const;
+    void Set_Material(int index,VertexMaterialClass *mat,int pass);
+    void Set_Single_Material(VertexMaterialClass *mat,int pass);
     enum { MAX_TEX_STAGES=2 };
     int Get_Pass_Count() const { return PassCount; }
     bool Has_Texture_Array(int pass,int stage) const { return TextureArray[pass][stage] != 0; }
@@ -87,16 +94,24 @@ public:
 typedef MultiListClass<DX8PolygonRendererClass> DX8PolygonRendererList;
 class DX8FVFCategoryContainer {
 public:
+    void Change_Polygon_Renderer_Material(DX8PolygonRendererList &,VertexMaterialClass *,VertexMaterialClass *,unsigned);
     void Change_Polygon_Renderer_Texture(DX8PolygonRendererList &,const BfmeHandleCX &,const BfmeHandleCX &,unsigned,unsigned);
 };
 class MeshModelClass {
     unsigned char beforePolyCount[0x24];
     int PolyCount;
-    unsigned char beforeCurMatDesc[0x9c-0x28];
+    int VertexCount;
+    unsigned char beforeCurMatDesc[0x9c-0x2c];
     MeshMatDescClass *CurMatDesc;
     unsigned char beforeRendererList[4];
     DX8PolygonRendererList PolygonRendererList;
     int Get_Pass_Count() const { return CurMatDesc->Get_Pass_Count(); }
+    int Get_Vertex_Count() const { return VertexCount; }
+    bool Has_Material_Array(int pass) const { return CurMatDesc->Has_Material_Array(pass); }
+    VertexMaterialClass *Peek_Material(int index,int pass) const { return CurMatDesc->Peek_Material(index,pass); }
+    VertexMaterialClass *Peek_Single_Material(int pass) const { return CurMatDesc->Peek_Single_Material(pass); }
+    void Set_Material(int index,VertexMaterialClass *mat,int pass) { CurMatDesc->Set_Material(index,mat,pass); }
+    void Set_Single_Material(VertexMaterialClass *mat,int pass) { CurMatDesc->Set_Single_Material(mat,pass); }
     int Get_Polygon_Count() const { return PolyCount; }
     bool Has_Texture_Array(int pass,int stage) const { return CurMatDesc->Has_Texture_Array(pass,stage); }
     void Set_Texture(int index,const BfmeHandleCX &tex,int pass,int stage) { CurMatDesc->Set_Texture(index,tex,pass,stage); }
@@ -111,6 +126,7 @@ public:
     BfmeHandleCX Get_Texture(int,int,int) const;
     BfmeHandleCX Get_Single_Texture(int,int) const;
     void Replace_Texture(const BfmeHandleCX &,const BfmeHandleCX &);
+    void Replace_VertexMaterial(VertexMaterialClass *,VertexMaterialClass *);
 };
 void MeshModelClass::Replace_Texture(const BfmeHandleCX &texture,const BfmeHandleCX &new_texture)
 {
@@ -138,5 +154,38 @@ void MeshModelClass::Replace_Texture(const BfmeHandleCX &texture,const BfmeHandl
 			}
 		}
 	}
+}
+
+
+// BFME vertex-material replacement at 0x0094F450, complete 208 bytes.
+// MeshClass forwards Model (+0xC8) through its entry at 0x0092C3F0. The
+// original GeneralsMD material-array/single-material traversal updates
+// vertex materials and the renderer categories. RET8 at 0x0094F51D ends
+// immediately before the next function at 0x0094F520.
+void MeshModelClass::Replace_VertexMaterial(VertexMaterialClass* vmat,VertexMaterialClass* new_vmat)
+{
+
+
+	
+	for (int pass=0;pass<Get_Pass_Count();++pass) {
+		if (Has_Material_Array(pass)) {
+			for (int i=0;i<Get_Vertex_Count();++i) {
+				if (Peek_Material(i,pass)==vmat) {
+					Set_Material(i,new_vmat,pass);
+				}
+			}
+		}
+		else {
+			if (Peek_Single_Material(pass)==vmat) {
+				Set_Single_Material(new_vmat,pass);
+			}
+		}
+		// If this mesh model has been initialized for rendering we need to tell the rendering
+		// system to change texturing as well.
+		DX8FVFCategoryContainer* fvf_category=Peek_FVF_Category_Container();
+		if (fvf_category) {
+			fvf_category->Change_Polygon_Renderer_Material(PolygonRendererList,vmat,new_vmat,pass);
+		}
+	}	
 }
 
