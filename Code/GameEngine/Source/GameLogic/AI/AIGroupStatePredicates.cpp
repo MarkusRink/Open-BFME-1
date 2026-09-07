@@ -1,18 +1,33 @@
 // cl: /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB
 // stlport
-// Open-BFME: AIGroup::isIdle, retail 0x00151280, 73 bytes.
+// Open-BFME: the three AIGroup predicates that answer a question about the
+// group by asking every member.
 //
-// The reference's body unchanged. getAIUpdateInterface() is a member read of
-// Object+0x204, isIdle is vtable slot 96 (+0x180) on the AI, and
-// isEffectivelyDead() is inline -- bit 0 of the byte at Object+0x344.
+//   ?isIdle@          0x00151280, 73 bytes
+//   ?isBusy@          0x001512E0, 73 bytes
+//   ?isGroupAiDead@   0x00151390, 50 bytes
 //
-// The reference's `state = ai->isIdle() || obj->isEffectivelyDead(); if
-// (!state) return false;' is why both tests continue the loop and only the pair
-// failing leaves it; the trailing `return state' folds to true because that is
-// all that can reach it.
+// One loop, three verdicts, and the differences are one line each. isIdle
+// returns false the moment a member is neither idle nor already dead; isBusy
+// returns false the moment a member is not busy OR is dead -- note the operator
+// flips with the sense, `||` in isIdle and `&&` in isBusy; isGroupAiDead never
+// short-circuits, ANDing every member's dead flag to the end.
 //
-// m_memberList is at this+0x04, the same STLport sentinel walk the other
-// AIGroup loops measured, payload at node+0x08.
+// The three carried two vtable models of AIUpdateInterface and two names for
+// one byte of Object, and both are settled by putting them together.
+//
+// isIdle padded out 96 unused slots and put isIdle at vtable+0x180; isBusy
+// padded out 99 and put isBusy at +0x18C. Those are the same vtable measured
+// twice and they agree: slot 96 is isIdle, slot 99 is isBusy, and 97 and 98 are
+// still unknown. It is the same slot 96 that AIUpdateInterfaceHelpers.cpp and
+// AIUpdateInterfacePrivateCommands.cpp pin through BfmeVirtualSlots<96>, from
+// the other side of the call.
+//
+// Object+0x344 is the dead flag. isIdle and isBusy called it m_deadFlags and
+// tested `& 1` with no name for the bit; isGroupAiDead called it m_privateStatus
+// and named the bit EFFECTIVELY_DEAD in an ObjectPrivateStatusBits enum. The
+// named version is kept -- and the offset is worth recording because BFME grew
+// Object past Zero Hour's layout, where the same field is at +0x297.
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
 
@@ -118,7 +133,10 @@ public:
 	virtual void unusedSlot93();
 	virtual void unusedSlot94();
 	virtual void unusedSlot95();
-	virtual Bool isIdle(void) const;			// vtable +0x180
+	virtual Bool isIdle(void) const;			// vtable +0x180, slot 96
+	virtual void unusedSlot97();
+	virtual void unusedSlot98();
+	virtual Bool isBusy(void) const;			// vtable +0x18C, slot 99
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Object.h
@@ -126,13 +144,17 @@ class Object
 {
 public:
 	const AIUpdateInterface *getAIUpdateInterface(void) const { return m_ai; }
-	Bool isEffectivelyDead(void) const { return (m_deadFlags & 1) != 0; }
+	Bool isEffectivelyDead(void) const { return (m_privateStatus & EFFECTIVELY_DEAD) != 0; }
 
 private:
+	enum ObjectPrivateStatusBits { EFFECTIVELY_DEAD = (1 << 0) };
+
 	unsigned char m_unmodelled_000[0x204];
 	AIUpdateInterface *m_ai;				// +0x204
 	unsigned char m_unmodelled_208[0x344 - 0x208];
-	unsigned char m_deadFlags;				// +0x344, bit 0
+	// BFME grew Object past ZH's layout: m_privateStatus sits at +0x344 here,
+	// not +0x297.
+	unsigned char m_privateStatus;				// +0x344
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AI.h
@@ -140,6 +162,8 @@ class AIGroup
 {
 public:
 	Bool isIdle(void) const;
+	Bool isBusy(void) const;
+	Bool isGroupAiDead(void) const;
 
 private:
 	unsigned char m_unmodelled_000[4];			// this+0x00, untouched
@@ -170,4 +194,48 @@ Bool AIGroup::isIdle( void ) const
 	}
 
 	return isIdle;
+}
+
+Bool AIGroup::isBusy( void ) const
+{
+	Bool isBusy = true;
+	_STL::list<Object *>::const_iterator i;
+	for( i = m_memberList.begin(); i != m_memberList.end(); ++i )
+	{
+		Object *obj = *i;
+		if (!obj) {
+			continue;
+		}
+
+		const AIUpdateInterface *ai = obj->getAIUpdateInterface();
+		if (!ai) {
+			continue;
+		}
+
+		isBusy = ai->isBusy() && !obj->isEffectivelyDead();
+		if( !isBusy )
+		{
+			return false;
+		}
+	}
+
+	return isBusy;
+}
+
+// The only one of the three that never short-circuits.
+Bool AIGroup::isGroupAiDead( void ) const
+{
+	Bool isDead = true;
+	_STL::list<Object *>::const_iterator i;
+	for( i = m_memberList.begin(); i != m_memberList.end(); ++i )
+	{
+		Object *obj = *i;
+		if (!obj) {
+			continue;
+		}
+
+		isDead = (isDead && obj->isEffectivelyDead());
+	}
+
+	return isDead;
 }
