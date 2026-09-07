@@ -85590,3 +85590,9 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeAtEQV@BfmeMapEQV@@QAEPAPAVBfmeItemEQV@@PAX@Z,0x000059B6,pin
 ??0BfmeItemEQV@@QAE@PAX@Z,0x0002F289,pin
 ?bfmeFindEQV@BfmeMapEQV@@QAEPAVBfmeItemEQV@@PAX@Z,0x0002DB0A,pin
+?bfmeCheckEQW@BfmeSubEQW@@QAEDXZ,0x00011F77,pin
+?bfmeApplyEQW@BfmeSubEQW@@QAEXPAVBfmeThingEQW@@H@Z,0x00022BBA,pin
+?bfmeNameToKeyEQW@BfmeKeyGenEQW@@QAEHPBD@Z,0x0003ADD7,pin
+?bfmeFindEQW@BfmeThingEQW@@QAEPAVBfmeModuleEQW@@H@Z,0x0002AE23,pin
+?bfmeDoEQW@BfmeModuleEQW@@QAEXXZ,0x0000E8DB,pin
+?g_bfmeKeyGenEQW@@3PAVBfmeKeyGenEQW@@A,0x00EED600,pin
