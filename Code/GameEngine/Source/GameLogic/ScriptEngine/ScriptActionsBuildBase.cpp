@@ -1,11 +1,18 @@
 // cl: /DNDEBUG /DWIN32 /MD /EHsc
-// Open-BFME: retail 0x002F16C0, 307 bytes.
-// BUILD_BASE_BUILDING (action 383): resolve the referenced base, validate the
-// current player and template, create the building in the first free slot,
-// then publish the resulting unit reference.
+// The two base-building actions:
+//
+//   0x002F16C0  doBuildBaseBuilding        action 383, BUILD_BASE_BUILDING
+//   0x002F1840  doBuildBaseBuildingInSlot  action 384, BUILD_BASE_BUILDING_IN_SLOT
+//
+// Identical bodies apart from one argument: resolve the referenced base, check
+// the current player owns it and can afford the template, find the base module
+// by name key, build, then publish the resulting unit reference. Action 383
+// passes -2 for "first free slot"; action 384 reads the slot out of a
+// ScriptActionParameter at +0x08 instead.
 
 typedef bool Bool;
 typedef int Int;
+
 enum NameKeyType
 {
 	NAMEKEY_INVALID = 0,
@@ -37,6 +44,14 @@ class Object;
 class BfmeY982;
 class ThingTemplate;
 class Module;
+
+// ScriptActionParameter::getInt() reads the scalar at +0x08.
+class ScriptActionParameter
+{
+public:
+	unsigned char m_beforeValue[0x08];
+	Int m_value;
+};
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Player.h
 class Player
@@ -130,6 +145,9 @@ class ScriptActions
 protected:
 	void doBuildBaseBuilding(const AsciiString &buildingType,
 		const AsciiString &baseName, const AsciiString &referenceName);
+	void doBuildBaseBuildingInSlot(const AsciiString &buildingType,
+		ScriptActionParameter *slot, const AsciiString &baseName,
+		const AsciiString &referenceName);
 };
 
 // ?doBuildBaseBuilding@ScriptActions@@IAEXABVAsciiString@@00@Z
@@ -164,6 +182,49 @@ void ScriptActions::doBuildBaseBuilding(const AsciiString &buildingType,
 		return;
 
 	Object *newObject = base->build(templateValue, -2, 0);
+	if (!newObject)
+		return;
+	if (referenceName.isEmpty())
+		return;
+
+	TheScriptEngine->assignUnitReference(referenceName, newObject);
+	TheScriptEngine->bindUnitReference(newObject, referenceName);
+}
+
+// ?doBuildBaseBuildingInSlot@ScriptActions@@IAEXABVAsciiString@@PAVScriptActionParameter@@00@Z
+void ScriptActions::doBuildBaseBuildingInSlot(const AsciiString &buildingType,
+	ScriptActionParameter *slot, const AsciiString &baseName,
+	const AsciiString &referenceName)
+{
+	Object *baseObject = TheScriptEngine->getUnitNamed(baseName);
+	if (!baseObject)
+		return;
+
+	Player *player = baseObject->getControllingPlayer();
+	if (!player)
+		return;
+	if (!player->m_isLocallyControlled)
+		return;
+	if (player != TheScriptEngine->getCurrentPlayer())
+		return;
+
+	ThingTemplate *templateValue = TheThingFactory->findTemplate(buildingType);
+	if (!templateValue)
+		return;
+
+	static volatile NameKeyType baseModuleKey =
+		TheNameKeyGenerator->nameToKey((const char *)0x01083c50);
+	Gen_00371340 *base =
+		(Gen_00371340 *)baseObject->findModule(baseModuleKey);
+	if (!base)
+		return;
+	if (!base->hasIncompleteStructure((BfmeY982 *)templateValue))
+		return;
+	if (!player->canAffordBuild(templateValue))
+		return;
+
+	Int slotValue = slot->m_value;
+	Object *newObject = base->build(templateValue, slotValue, 0);
 	if (!newObject)
 		return;
 	if (referenceName.isEmpty())
