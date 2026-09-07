@@ -1,3 +1,5 @@
+// cl: /DNDEBUG /MD /EHsc
+
 class BfmeMgr418
 {
 public:
@@ -18,12 +20,85 @@ void bfmeRunMgr418_6D0()
 	}
 }
 
+class UnicodeString;
+
+template <typename T>
+class StringBase
+{
+	friend class UnicodeString;
+
+	private:
+	StringBase() : m_data(0) {}
+	~StringBase() { releaseBuffer(); }
+	void releaseBuffer();
+
+	void *m_data;
+};
+
+class UnicodeString : private StringBase<unsigned short>
+{
+public:
+	UnicodeString() : StringBase<unsigned short>() {}
+	~UnicodeString() {}
+};
+
+class BfmeMsgHandler;
+
+class BfmeMgr19E
+{
+public:
+	unsigned char m_padding[0x1b0];
+	BfmeMsgHandler *m_handler;
+	int notify();
+};
+
+extern BfmeMgr19E *g_mgr12F19E8;
+
 class BfmeMsgHandler
 {
 public:
 	int defaultHandler(int msg, void *p2, void *p3);
 	int checkMsg(int msg, void *p2, void *p3);
 };
+
+int BfmeMsgHandler::defaultHandler(int msg, void *p2, void *p3)
+{
+	UnicodeString text;
+
+	switch (msg)
+	{
+	case 2:
+		if (g_mgr12F19E8 && g_mgr12F19E8->m_handler == this)
+			g_mgr12F19E8->m_handler = 0;
+		goto success;
+	case 23:
+		if ((int)p2 == 1)
+		{
+			*(bool *)p3 = true;
+			g_mgr12F19E8->m_handler = this;
+		}
+		else if (g_mgr12F19E8->m_handler == this)
+		{
+			g_mgr12F19E8->m_handler = 0;
+		}
+		goto success;
+	case 29:
+		if ((int)p2 != 0x7d0)
+			goto failure;
+		*(void **)p3 = this;
+		goto success;
+	case 1:
+		goto success;
+	default:
+		goto failure;
+	}
+
+success:
+	return 1;
+
+failure:
+	return 0;
+}
 
 int BfmeMsgHandler::checkMsg(int msg, void *p2, void *p3)
 {
@@ -43,13 +118,6 @@ struct BfmeObj4B5
 };
 extern BfmeObj4B5 *g_obj12F4B58;
 extern void *g_obj12F495C;
-
-class BfmeMgr19E
-{
-public:
-	int notify();
-};
-extern BfmeMgr19E *g_mgr12F19E8;
 
 void __stdcall bfmeCheckAndNotify940(void *param)
 {
