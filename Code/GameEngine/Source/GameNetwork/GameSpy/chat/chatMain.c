@@ -149,9 +149,19 @@ typedef void (*chatGetGlobalKeysCallback)(CHAT chat, CHATBool success,
 	const char *user, int num, const char **keys, const char **values,
 	void *param);
 
+typedef void (*chatGetChannelKeysCallback)(CHAT chat, CHATBool success,
+	const char *channel, const char *user, int num, const char **keys,
+	const char **values, void *param);
+
 int ciAddGETKEYFilter(CHAT chat, const char *cookie, int num,
 	const char **keys, const char *channel,
 	chatGetGlobalKeysCallback callback, void *param);
+int ciAddGETCKEYFilter(CHAT chat, const char *cookie, int num,
+	const char **keys, CHATBool channel, CHATBool getBroadcastKeys,
+	chatGetChannelKeysCallback callback, void *param);
+int ciAddGETCHANKEYFilter(CHAT chat, const char *cookie, int num,
+	const char **keys, CHATBool getBroadcastKeys,
+	chatGetChannelKeysCallback callback, void *param);
 void msleep(unsigned int milliseconds);
 
 typedef struct ciServerMessage
@@ -435,6 +445,48 @@ CHATBool ciSendGetChannelKeyAnchor(CHAT chat,
 									 const char **keys)
 {
 	return ciSendGetChannelKey(chat, channel, nick, cookie, num, keys);
+}
+
+void chatGetChannelKeysA(CHAT chat,
+						 const char *channel,
+						 const char *user,
+						 int num,
+						 const char **keys,
+						 chatGetChannelKeysCallback callback,
+						 void *param,
+						 CHATBool blocking)
+{
+	char *cookie;
+	int ID;
+	CHATBool getBroadcastKeys;
+	ciConnection *connection = (ciConnection *)chat;
+
+	if(!connection || !connection->connected)
+		return;
+
+	assert(num >= 0);
+	assert(!num || keys);
+
+	cookie = ciRandomCookie();
+	getBroadcastKeys = ciSendGetChannelKey(chat, channel, user, cookie, num, keys);
+	if(!user || !user[0])
+		ID = ciAddGETCHANKEYFilter(chat, cookie, num, keys,
+			getBroadcastKeys, callback, param);
+	else
+		ID = ciAddGETCKEYFilter(chat, cookie, num, keys,
+			(CHATBool)(strcmp(user, "*") == 0), getBroadcastKeys,
+			callback, param);
+
+	if(blocking)
+	{
+		do
+		{
+			ciThink(chat, ID);
+			msleep(10);
+		}
+		while(ciCheckFiltersForID(chat, ID) ||
+			ciCheckCallbacksForID(chat, ID));
+	}
 }
 
 int ciNickIsValid(const char *nick)
