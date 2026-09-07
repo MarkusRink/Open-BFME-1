@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
 """Print the source files whose functions.csv claims change between two states.
 
-Row-set semantics: a row counts as delta only if its exact tuple is absent from
-the old state — new claims and edited claims need byte-proof; deletions and
-reorders (dedup_csv re-sorts the whole file) cannot break byte-truth and are
-ignored. Used by the git hooks to byte-verify exactly what a commit or push
-adds, instead of running the full multi-minute gate.
+New and edited claims need byte-proof. Removing or reordering a callable name
+can also remove a resolver candidate, so untouched callers of lost candidates
+need verification. Used by the git hooks instead of running the full gate.
 
   --staged        HEAD vs the git index (pre-commit)
   --range A B     committed state A vs committed state B (pre-push)
   --pins          print instead the sources a reverse/symbols.csv PIN DELETION
                   can redden (see pin_deletion_sources)
 
-Output: one repo-relative source path per line (empty output = no new claims).
+Output: one repo-relative source path per line (empty output = no affected sources).
 """
 import argparse
 import bisect
@@ -51,6 +49,14 @@ def dict_rows_at(spec):
     return [r for r in csv.DictReader(io.StringIO(text_at(spec))) if r.get("name")]
 
 
+def row_candidates(rows):
+    """Match load_symbol_map: the last function row supplies a name's body.
+
+    All statuses provide candidates; object-symbol only locates emitted code.
+    """
+    return {row["name"]: int(row["target_rva"], 16) for row in rows}
+
+
 def pins_at(spec):
     """{(name, address)} pinned by reverse/symbols.csv at a git object spec."""
     pairs = set()
@@ -69,14 +75,11 @@ def pins_at(spec):
 
 
 def lost_candidates(deleted, kept_pins, rows, thunks):
-    """{address: {name}} — the name->address resolutions a pin deletion removes.
+    """{address: {name}} — resolutions a row or pin deletion removes.
 
-    load_symbol_map hands a name every address the ledger and symbols.csv pin
-    for it, each expanded with its incremental-link thunks. A deleted pin only
-    costs the name a candidate when nothing else still supplies that address: it
-    can also arrive from a functions.csv row of the same name, from another pin,
-    or as a thunk of either. Those survivors are subtracted here, so a deletion
-    that changes no resolution scopes to nothing at all.
+    load_symbol_map uses the last function row per name plus every symbols.csv
+    pin, each expanded with its incremental-link thunks. A removed candidate
+    matters only when no surviving provider supplies that same name/address.
     """
     def expand(addresses):
         out = set()
@@ -87,9 +90,9 @@ def lost_candidates(deleted, kept_pins, rows, thunks):
 
     affected = {name for name, _ in deleted}
     survives = {name: set() for name in affected}
-    for row in rows:
-        if row["name"] in affected:
-            survives[row["name"]].add(int(row["target_rva"], 16))
+    for name, address in row_candidates(rows).items():
+        if name in affected:
+            survives[name].add(address)
     for name, address in kept_pins:
         if name in affected:
             survives[name].add(address)
@@ -172,51 +175,45 @@ def object_is_current(source, obj):
                for dep, digest in meta.get("deps", {}).items())
 
 
-def pin_deletion_sources(old_spec, new_spec):
-    """Sources whose byte-truth a reverse/symbols.csv pin deletion can break.
-
-    The ordinary delta above reads functions.csv and nothing else, so a commit
-    that only deletes pins presents an empty verify set — d27ae4b7b deleted
-    1,599 pins, byte-verified two files, and reddened 612 rows. symbols.csv is
-    an ADDITIVE candidate list and retail holds many ICF copies of one name, so
-    removing a routing address does not remove a claim: it makes the REL32
-    resolver walk to a different copy and emit the wrong displacement.
+def affected_sources(deleted, kept_pins, rows, reason):
+    """Sources whose byte-truth lost callable candidates can break.
 
     Two filters, in this order, and neither is allowed to guess:
 
       1. RETAIL, exact. Only a site that literally encodes a lost address can
          change, so the .text scan bounds the blast radius with no build state.
-      2. OUR OBJECT, narrowing. That site is only resolved through the deleted
-         pin if the row's own relocation there names the deleted SYMBOL; the
+      2. OUR OBJECT, narrowing. That site is only affected if the row's own
+         relocation there names the symbol whose candidate disappeared; the
          50 call sites of operator delete[] at 0x00881EF0 resolve through the
          matched ??_V@YAXPAX@Z row and do not care that ??3@YAXPAX@Z lost it.
          An object that is absent or provably stale is not evidence, so its row
          stays in the set rather than being dropped on a guess.
     """
-    deleted = pins_at(f"{old_spec}:{PINS}") - pins_at(f"{new_spec}:{PINS}")
     if not deleted:
-        # Said out loud so a green hook distinguishes "the question was asked
-        # and the answer was none" from "this check never ran".
-        print("pin deletions: none — no pin-derived source to verify", file=sys.stderr)
+        print(f"{reason}: none — no caller source to verify", file=sys.stderr)
         return []
-    rows = dict_rows_at(f"{new_spec}:{LEDGER}")
-    lost = lost_candidates(deleted, pins_at(f"{new_spec}:{PINS}"), rows, build.build_call_thunks())
-    log = (f"pin deletions: {len(deleted)} pin(s) over "
+    lost = lost_candidates(deleted, kept_pins, rows, build.build_call_thunks())
+    log = (f"{reason}: {len(deleted)} candidate(s) over "
            f"{len({n for n, _ in deleted})} name(s); {len(lost)} resolution(s) lost")
     if not lost:
         print(log + " that nothing else supplies — no source to verify", file=sys.stderr)
         return []
 
-    # Bucket every affected call site into the matched row that owns it. A site
-    # outside every matched row is retail we do not claim yet: nothing to verify.
+    # Folded aliases can have different emitted symbols at the same range;
+    # every overlapping owner needs its own object evidence before exclusion.
     owners = sorted((int(r["target_rva"], 16), int(r["target_size"]), i)
                     for i, r in enumerate(rows) if r["status"] == "matched")
     starts = [o[0] for o in owners]
+    ends = []
+    for start, size, _ in owners:
+        ends.append(max(ends[-1] if ends else 0, start + size))
     hits = {}
     for site, callee in call_sites(lost):
         index = bisect.bisect_right(starts, site) - 1
-        if index >= 0 and site < owners[index][0] + owners[index][1]:
-            hits.setdefault(owners[index][2], []).append((site, callee))
+        while index >= 0 and ends[index] > site:
+            if site < owners[index][0] + owners[index][1]:
+                hits.setdefault(owners[index][2], []).append((site, callee))
+            index -= 1
 
     # Grouped by object, so a TU that owns a thousand claimed rows is parsed
     # once and released before the next -- the pathological case here is 18,799
@@ -226,7 +223,7 @@ def pin_deletion_sources(old_spec, new_spec):
         row = rows[index]
         # A .lib row's every relocation site is masked out of the comparison
         # (compile_function: pre-link addends, library-internal callees), so the
-        # symbol map is never consulted for it and no pin can move its bytes.
+        # symbol map is never consulted for it, so candidate loss cannot move it.
         if (ROOT / row["source"]).suffix.lower() == LIB_SUFFIX:
             continue
         by_object.setdefault(build.row_object(row), []).append((row, sited))
@@ -261,6 +258,26 @@ def pin_deletion_sources(old_spec, new_spec):
     return sorted(sources)
 
 
+def pin_deletion_sources(old_spec, new_spec):
+    kept = pins_at(f"{new_spec}:{PINS}")
+    deleted = pins_at(f"{old_spec}:{PINS}") - kept
+    return affected_sources(deleted, kept, dict_rows_at(f"{new_spec}:{LEDGER}"),
+                            "pin deletions")
+
+
+def function_delta_sources(old_spec, new_spec):
+    old = dict_rows_at(f"{old_spec}:{LEDGER}")
+    new = dict_rows_at(f"{new_spec}:{LEDGER}")
+    old_rows = {tuple(row.items()) for row in old}
+    sources = {row["source"] for row in new
+               if row.get("source") and tuple(row.items()) not in old_rows}
+    deleted = set(row_candidates(old).items()) - set(row_candidates(new).items())
+    if deleted:
+        sources.update(affected_sources(deleted, pins_at(f"{new_spec}:{PINS}"), new,
+                                        "function candidate losses"))
+    return sorted(sources)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -278,10 +295,9 @@ def main():
     if args.pins:
         sources = pin_deletion_sources(old_spec, new_spec)
     else:
-        old, new = rows_at(f"{old_spec}:{LEDGER}"), rows_at(f"{new_spec}:{LEDGER}")
-        sources = sorted({r[4] for r in (new - old) if len(r) >= 5 and r[4]})
+        sources = function_delta_sources(old_spec, new_spec)
 
-    # Hooks consume this via mapfile/<(...) - force LF-only output or
+    # Hooks read paths line by line: force LF-only output or
     # Windows text-mode stdout appends CR to every path and -f "$s" fails.
     sys.stdout.reconfigure(newline="\n")
     for s in sources:

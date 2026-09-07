@@ -51,7 +51,11 @@ while read -r _local_ref local_sha _remote_ref remote_sha; do
     python3 tools/pin_consistency.py --assert-shrink-only "$base" --at "$local_sha" \
         || fail "pin_consistency_baseline.csv grew across the outgoing range (see above)"
 
-    mapfile -t delta < <(python3 tools/delta_sources.py --range "$base" "$local_sha")
+    delta_out=$(mktemp)
+    python3 tools/delta_sources.py --range "$base" "$local_sha" > "$delta_out" \
+        || { rm -f "$delta_out"; fail "delta_sources (see above)"; }
+    mapfile -t delta < "$delta_out"
+    rm -f "$delta_out"
 
     # Sources the range EDITS while leaving their ledger rows alone are absent
     # from that delta, so nothing byte-verifies them — yet one such edit can

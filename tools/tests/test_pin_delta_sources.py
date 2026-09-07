@@ -2,9 +2,9 @@
 """The gate hole d27ae4b7b went through, and the mode that closes it.
 
 That commit deleted 1,599 reverse/symbols.csv pins and byte-verified two files.
-Both hooks size their build from tools/delta_sources.py, which reads
-functions.csv and nothing else, so the deletion was invisible to them: 612 rows
-went red. GameLogic.cpp is 17/70 red on master today and 70/70 with those pins
+The original delta selector read only new/edited functions.csv rows, so the
+deletion was invisible to it: 612 rows went red. GameLogic.cpp was 17/70 red
+afterward and 70/70 with those pins
 put back, which is what makes it a fair anchor -- its redness is caused by the
 deletion, not merely correlated with it.
 
@@ -59,9 +59,16 @@ def pin_sources():
     return run("--pins")
 
 
-def test_plain_delta_sees_only_the_two_converted_files():
-    """The whole byte-verify set the hooks had for a 1,599-pin deletion."""
-    assert run() == CONVERTED
+def test_plain_delta_bounds_the_additional_row_loss_caller():
+    """The two generated allocator names also disappeared in this commit.
+
+    An absent/stale constructor object cannot rule out calls through those
+    names; a current object can. Pin-only losses still belong to --pins.
+    """
+    sources = set(run())
+    assert set(CONVERTED) <= sources
+    assert sources <= set(CONVERTED) | {
+        "Code/Libraries/Source/WWVegas/WW3D2/BoxDynamicVBAccessCtor.cpp"}
 
 
 def test_pin_mode_sees_a_source_the_deletion_reddened(pin_sources):
