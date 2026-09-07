@@ -51,6 +51,9 @@ public:
 class ChunkLoadClass {
 public:
     unsigned long Cur_Chunk_Length();
+    unsigned long Cur_Chunk_ID();
+    bool Open_Chunk();
+    bool Close_Chunk();
     unsigned long Read(void *buffer, unsigned long bytes);
 };
 
@@ -131,6 +134,11 @@ protected:
     bool read_texture_ids(ChunkLoadClass &cload, MeshLoadContextClass *context);
     bool read_vertex_material_ids(ChunkLoadClass &cload, MeshLoadContextClass *context);
     bool read_shader_ids(ChunkLoadClass &cload, MeshLoadContextClass *context);
+    bool read_dcg(ChunkLoadClass &, MeshLoadContextClass *);
+    bool read_dig(ChunkLoadClass &, MeshLoadContextClass *);
+    bool read_texture_stage(ChunkLoadClass &, MeshLoadContextClass *);
+    bool read_scg(ChunkLoadClass &, MeshLoadContextClass *) { return true; }
+    bool read_material_pass(ChunkLoadClass &, MeshLoadContextClass *);
 };
 
 bool MeshModelClass::read_texture_ids(ChunkLoadClass &cload, MeshLoadContextClass *context)
@@ -225,5 +233,53 @@ bool MeshModelClass::read_shader_ids(ChunkLoadClass &cload, MeshLoadContextClass
         }
     }
 
+    return true;
+}
+
+// read_material_pass: RVA 0x0096FB60, complete 196-byte compiler span.
+// The 0x38 chunk arm in read_prelit_material selects this dispatcher.
+// RET 8 at +0x93 ends the executable code; jump table +0x98..+0xB3 and
+// selectors +0xB4..+0xC3 are part of the function. Twelve following INT3
+// bytes are padding. Chunk 0x3E (SCG) uses the original inline no-op success.
+bool MeshModelClass::read_material_pass(ChunkLoadClass &cload, MeshLoadContextClass *context)
+{
+    context->CurTexStage = 0;
+
+    while (cload.Open_Chunk()) {
+        bool error = true;
+
+        switch (cload.Cur_Chunk_ID()) {
+            case W3D_CHUNK_VERTEX_MATERIAL_IDS:
+                error = read_vertex_material_ids(cload, context);
+                break;
+
+            case W3D_CHUNK_SHADER_IDS:
+                error = read_shader_ids(cload, context);
+                break;
+
+            case W3D_CHUNK_DCG:
+                error = read_dcg(cload, context);
+                break;
+
+            case W3D_CHUNK_DIG:
+                error = read_dig(cload, context);
+                break;
+
+            case W3D_CHUNK_SCG:
+                error = read_scg(cload, context);
+                break;
+
+            case W3D_CHUNK_TEXTURE_STAGE:
+                error = read_texture_stage(cload, context);
+                break;
+        }
+
+        if (error != true) {
+            return error;
+        }
+        cload.Close_Chunk();
+    }
+
+    context->CurPass++;
     return true;
 }
