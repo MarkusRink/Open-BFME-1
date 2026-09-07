@@ -85387,3 +85387,6 @@ _g_bfmeDirtyZR,0x00EEF418
 ?bfmeFinishAH@BfmeOwnerAH@@QAEXXZ,0x00048A6D
 ?TheBfmeGhostAH@@3PAVBfmeGhostAH@@A,0x00EEF4FC
 ?SearchStringMatches@@YA_NVBFMERetailAsciiString@@0@Z,0x009CEDB0,ArchiveFile.cpp donor names the wildcard matcher; recursive matched caller and retail tolower/wildcard control flow confirm the callee identity
+?bfmeFindAN@BfmeMapAN@@QAEPAVBfmeHandlerAN@@PAX@Z,0x0003C8E9
+?bfmeCheckAN@BfmeThingAN@@QAEHHPAX0@Z,0x00034C93
+?bfmeDoAN@BfmeHandlerAN@@QAEDPAVBfmeThingAN@@PAX@Z,0x00025EE1
