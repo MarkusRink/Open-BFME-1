@@ -1,739 +1,415 @@
 // cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift the exact retail LANAPI::RequestGameCreate MASM body.
 
-class UnicodeString {};
+// LANAPI::RequestGameCreate, retail 0x00687E90, 722 bytes.
+//
+// The callers in NetworkDirectConnect and LanLobbyMenu establish the
+// UnicodeString-by-value/bool ABI.  The body is the BFME LAN create path: the
+// BFME address pair from vtable slot 55 supplies both the game slot address
+// and the seed-name prefix, and the GameInfo/LANGameInfo layout below is the
+// one independently used by the matched LANGameInfo bodies.  All declarations
+// stay in this TU because the older lanapi.cpp shims model different virtual
+// and string layouts.
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/LANAPI.h
+typedef int Int;
+typedef unsigned int UnsignedInt;
+typedef unsigned short UnsignedShort;
+typedef unsigned short WideChar;
+typedef unsigned char UnsignedByte;
+typedef bool Bool;
+
+extern "C" __declspec(dllimport) UnsignedInt __stdcall timeGetTime(void);
+
+template <typename T> struct BfmeStringData
+{
+	Int m_refCount;
+	UnsignedShort m_length;
+	UnsignedShort m_capacity;
+	T m_text[1];
+};
+
+template <typename T> class StringBase
+{
+	friend class UnicodeString;
+	friend class AsciiString;
+
+private:
+	StringBase(void) : m_data(0) {}
+	StringBase(const StringBase<T> &other);
+	StringBase(const T *text);
+	~StringBase(void) { releaseBuffer(); }
+	void releaseBuffer(void);
+
+public:
+	void concat(const StringBase<T> &other);
+	void concat(const T *text, Int length);
+	void removeLastChar(void);
+
+	UnsignedShort getLength(void) const
+	{
+		return m_data ? m_data->m_length : 0;
+	}
+
+private:
+	BfmeStringData<T> *m_data;
+};
+
+// The inline forwarding constructors are material to the EH temporary order
+// in the format and setName calls.  This is the same data-bearing model landed
+// for RequestChat and OnGameStartTimer, including the distinct empty fallback.
+class UnicodeString : private StringBase<WideChar>
+{
+public:
+	UnicodeString(void) : StringBase<WideChar>() {}
+
+	UnicodeString(const WideChar *text) : StringBase<WideChar>(text) {}
+
+	UnicodeString(const UnicodeString &other)
+		: StringBase<WideChar>(other) {}
+
+	~UnicodeString(void) {}
+
+	Bool isEmpty(void) const
+	{
+		return !m_data || m_data->m_length == 0;
+	}
+
+	UnsignedShort getLength(void) const
+	{
+		return m_data ? m_data->m_length : 0;
+	}
+
+	const WideChar *str(void) const
+	{
+		static const WideChar empty[] = { 0 };
+		return m_data ? m_data->m_text : empty;
+	}
+
+	void format(UnicodeString format, ...);
+};
+
+class AsciiString : private StringBase<char>
+{
+public:
+	AsciiString(void) : StringBase<char>() {}
+	AsciiString(const AsciiString &other)
+		: StringBase<char>(*(const StringBase<char> *)&other) {}
+	~AsciiString(void) {}
+};
+
+typedef char BfmeUnicodeStringSizeCheck[sizeof(UnicodeString) == 4 ? 1 : -1];
+typedef char BfmeAsciiStringSizeCheck[sizeof(AsciiString) == 4 ? 1 : -1];
+
+// RequestGameCreate copies the two DWORDs returned by the BFME LANAPI slot-55
+// accessor into the slot's +0x30/+0x34 pair.  Other LAN readers use a narrow
+// WORD view of the same retail eight-byte storage; this body specifically
+// proves the DWORD load/store at the second field.
+struct BfmeNetAddress
+{
+	UnsignedInt m_ip;
+	UnsignedInt m_port;
+};
+
+struct GameSlotConnectInfo
+{
+	Int m_nat;
+	UnsignedShort m_port;
+};
+
+enum SlotState
+{
+	SLOT_OPEN = 0,
+	SLOT_CLOSED,
+	SLOT_EASY_AI,
+	SLOT_MED_AI,
+	SLOT_BRUTAL_AI,
+	SLOT_PLAYER
+};
+
+class GameSlot
+{
+public:
+	void setState(SlotState state, UnicodeString name,
+		const GameSlotConnectInfo *connectInfo);
+
+	void setIP(UnsignedInt ip) { m_address.m_ip = ip; }
+	void setPort(UnsignedInt port) { m_address.m_port = port; }
+
+private:
+	void *m_vptr;
+	Int m_state;
+	Bool m_isAccepted;
+	Bool m_hasMap;
+	Bool m_isMuted;
+	UnsignedByte m_bfmeBeforeAddress[0x30 - 0x0b];
+
+protected:
+	BfmeNetAddress m_address;
+	UnsignedByte m_bfmeTail[0x44 - 0x38];
+};
+
+class LANPlayer
+{
+public:
+	UnicodeString m_name;
+	UnicodeString m_login;
+	UnicodeString m_host;
+	UnsignedByte m_bfmeTail[0x1c - 0x0c];
+};
+
+class LANGameSlot : public GameSlot
+{
+public:
+	LANGameSlot(void);
+	LANGameSlot(const LANGameSlot &other);
+	~LANGameSlot(void);
+
+	void setLogin(AsciiString name);
+	void setHost(AsciiString name);
+	void setLastHeard(UnsignedInt time) { m_lastHeard = time; }
+
+private:
+	LANPlayer m_user;
+	StringBase<char> m_serial;
+	UnsignedInt m_lastHeard;
+};
+
+typedef char BfmeGameSlotSizeCheck[sizeof(GameSlot) == 0x44 ? 1 : -1];
+typedef char BfmeLANGameSlotSizeCheck[sizeof(LANGameSlot) == 0x68 ? 1 : -1];
+
+class GameInfo
+{
+public:
+	void enterGame(void);
+	void setMapForwarder(AsciiString mapName);
+
+protected:
+	void *m_vptr;
+	Int m_preorderMask;
+	Int m_crcInterval;
+	Bool m_inGame;
+	Bool m_inProgress;
+	Bool m_surrendered;
+	Int m_gameID;
+	GameSlot *m_slots[8];
+	UnsignedInt m_localIP;
+	Int m_extra38;
+	AsciiString m_mapName;
+	UnsignedInt m_mapCRC;
+	UnsignedInt m_mapSize;
+	Int m_mapMask;
+	Int m_seed;
+	Int m_useStats;
+	Int m_tail;
+};
+
+class LANGameInfo : public GameInfo
+{
+public:
+	LANGameInfo(void);
+	~LANGameInfo(void);
+
+	void setSlot(Int slot, LANGameSlot slotInfo);
+	void setName(UnicodeString name);
+
+	Int getSeed(void) const { return m_seed; }
+	void setNext(LANGameInfo *next) { m_next = next; }
+	void setIsDirectConnect(Bool direct) { m_isDirectConnect = direct; }
+	void setLastHeard(UnsignedInt time) { m_lastHeard = time; }
+
+private:
+	LANGameSlot m_LANSlot[8];
+	LANGameInfo *m_next;
+	UnsignedInt m_lastHeard;
+	UnicodeString m_gameName;
+	Bool m_isDirectConnect;
+};
+
+typedef char BfmeGameInfoSizeCheck[sizeof(GameInfo) == 0x58 ? 1 : -1];
+typedef char BfmeLANGameInfoSizeCheck[sizeof(LANGameInfo) == 0x3a8 ? 1 : -1];
+
+// LANPreferences derives from the real UserPreferences virtual base.  The
+// body only uses the already-matched constructor, getter, and destructor.
+class UserPreferences
+{
+public:
+	virtual ~UserPreferences(void);
+	virtual Bool load(AsciiString filename);
+	virtual Bool write(void);
+
+private:
+	UnsignedByte m_bfmeBody[0x10];
+};
+
+class LANPreferences : public UserPreferences
+{
+public:
+	LANPreferences(void);
+	virtual ~LANPreferences(void);
+	AsciiString getPreferredMap(void);
+};
+
+typedef char BfmeLANPreferencesSizeCheck[sizeof(LANPreferences) == 0x14 ? 1 : -1];
+
+// These are ILT routes already used by the target's retail callsites.  The
+// target bodies prove the generic thunk semantics: j_0001de8a is the
+// LANGameSlot default constructor, and j_000241bd writes the LANPlayer host
+// string at this+0x4c.
+#pragma comment(linker, "/alternatename:??0LANGameSlot@@QAE@XZ=?j_0001de8a@@YAXXZ")
+#pragma comment(linker, "/alternatename:?setHost@LANGameSlot@@QAEXVAsciiString@@@Z=?j_000241bd@@YAXXZ")
+
+class LANAPIInterface
+{
+public:
+	enum ReturnType
+	{
+		RET_OK = 0,
+		RET_BUSY = 9
+	};
+};
+
+// BFME's LANAPI table places RequestChat at slot 16, RequestGameCreate at
+// slot 20, OnGameCreate at slot 40, and the address accessor at slot 55.  The
+// intervening declarations are only slot-preserving ABI declarations.
 class LANAPI
 {
 public:
-    virtual void RequestGameCreate(UnicodeString, bool);
+	virtual void bfmeRetailSlot00(void) = 0;
+	virtual void bfmeRetailSlot01(void) = 0;
+	virtual void bfmeRetailSlot02(void) = 0;
+	virtual void bfmeRetailSlot03(void) = 0;
+	virtual void bfmeRetailSlot04(void) = 0;
+	virtual void bfmeRetailSlot05(void) = 0;
+	virtual void bfmeRetailSlot06(void) = 0;
+	virtual void bfmeRetailSlot07(void) = 0;
+	virtual void bfmeRetailSlot08(void) = 0;
+	virtual void bfmeRetailSlot09(void) = 0;
+	virtual void bfmeRetailSlot10(void) = 0;
+	virtual void bfmeRetailSlot11(void) = 0;
+	virtual void bfmeRetailSlot12(void) = 0;
+	virtual void bfmeRetailSlot13(void) = 0;
+	virtual void bfmeRetailSlot14(void) = 0;
+	virtual void bfmeRetailSlot15(void) = 0;
+	virtual void bfmeRetailSlot16(void) = 0;
+	virtual void bfmeRetailSlot17(void) = 0;
+	virtual void bfmeRetailSlot18(void) = 0;
+	virtual void bfmeRetailSlot19(void) = 0;
+	virtual void RequestGameCreate(UnicodeString gameName, Bool isDirectConnect);
+	virtual void bfmeRetailSlot21(void) = 0;
+	virtual void bfmeRetailSlot22(void) = 0;
+	virtual void bfmeRetailSlot23(void) = 0;
+	virtual void bfmeRetailSlot24(void) = 0;
+	virtual void bfmeRetailSlot25(void) = 0;
+	virtual void bfmeRetailSlot26(void) = 0;
+	virtual void bfmeRetailSlot27(void) = 0;
+	virtual void bfmeRetailSlot28(void) = 0;
+	virtual void bfmeRetailSlot29(void) = 0;
+	virtual void bfmeRetailSlot30(void) = 0;
+	virtual void bfmeRetailSlot31(void) = 0;
+	virtual void bfmeRetailSlot32(void) = 0;
+	virtual void bfmeRetailSlot33(void) = 0;
+	virtual void bfmeRetailSlot34(void) = 0;
+	virtual void bfmeRetailSlot35(void) = 0;
+	virtual void bfmeRetailSlot36(void) = 0;
+	virtual void bfmeRetailSlot37(void) = 0;
+	virtual void bfmeRetailSlot38(void) = 0;
+	virtual void bfmeRetailSlot39(void) = 0;
+	virtual void OnGameCreate(LANAPIInterface::ReturnType ret);
+	virtual void bfmeRetailSlot41(void) = 0;
+	virtual void bfmeRetailSlot42(void) = 0;
+	virtual void bfmeRetailSlot43(void) = 0;
+	virtual void bfmeRetailSlot44(void) = 0;
+	virtual void bfmeRetailSlot45(void) = 0;
+	virtual void bfmeRetailSlot46(void) = 0;
+	virtual void bfmeRetailSlot47(void) = 0;
+	virtual void bfmeRetailSlot48(void) = 0;
+	virtual void bfmeRetailSlot49(void) = 0;
+	virtual void bfmeRetailSlot50(void) = 0;
+	virtual void bfmeRetailSlot51(void) = 0;
+	virtual void bfmeRetailSlot52(void) = 0;
+	virtual void bfmeRetailSlot53(void) = 0;
+	virtual void bfmeRetailSlot54(void) = 0;
+	virtual BfmeNetAddress *_bfme_localAddress(void) = 0;
+
+protected:
+	void addGame(LANGameInfo *game);
+
+	UnsignedByte m_bfmeHeadA[0x08 - 4];
+	void *m_lobbyPlayers;
+	UnsignedByte m_bfmeHeadB[0x10 - 0x0c];
+	UnicodeString m_name;
+	AsciiString m_userName;
+	AsciiString m_hostName;
+	UnsignedInt m_gameStartTime;
+	Int m_gameStartSeconds;
+	Int m_pendingAction;
+	UnsignedInt m_expiration;
+	UnsignedInt m_actionTimeout;
+	BfmeNetAddress m_directConnectRemoteAddress;
+	UnsignedInt m_lastResendTime;
+	Bool m_isInLANMenu;
+	Bool m_inLobby;
+	UnsignedByte m_bfmeHeadC[2];
+	LANGameInfo *m_currentGame;
+	BfmeNetAddress m_localAddress;
+	void *m_transport;
 };
 
-__declspec(naked) void LANAPI::RequestGameCreate(UnicodeString, bool)
+typedef char BfmeLANAPISizeCheck[sizeof(LANAPI) == 0x50 ? 1 : -1];
+
+// ?RequestGameCreate@LANAPI@@UAEXVUnicodeString@@_N@Z
+void LANAPI::RequestGameCreate(UnicodeString gameName, Bool isDirectConnect)
 {
-    __asm {
-        __emit 0x6a;
-        __emit 0xff;
-        __emit 0x68;
-        __emit 0xff;
-        __emit 0x65;
-        __emit 0x04;
-        __emit 0x01;
-        __emit 0x64;
-        __emit 0xa1;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x50;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0x25;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x81;
-        __emit 0xec;
-        __emit 0x90;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x53;
-        __emit 0x56;
-        __emit 0x57;
-        __emit 0x8b;
-        __emit 0xf1;
-        __emit 0x8a;
-        __emit 0x46;
-        __emit 0x3d;
-        __emit 0x33;
-        __emit 0xdb;
-        __emit 0x3a;
-        __emit 0xc3;
-        __emit 0x89;
-        __emit 0x9c;
-        __emit 0x24;
-        __emit 0xa4;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x74;
-        __emit 0x05;
-        __emit 0x39;
-        __emit 0x5e;
-        __emit 0x40;
-        __emit 0x74;
-        __emit 0x1a;
-        __emit 0x38;
-        __emit 0x9c;
-        __emit 0x24;
-        __emit 0xb0;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x75;
-        __emit 0x11;
-        __emit 0x8b;
-        __emit 0x06;
-        __emit 0x6a;
-        __emit 0x09;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0xff;
-        __emit 0x90;
-        __emit 0xa0;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xe9;
-        __emit 0x52;
-        __emit 0x02;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x39;
-        __emit 0x5e;
-        __emit 0x24;
-        __emit 0x74;
-        __emit 0x11;
-        __emit 0x8b;
-        __emit 0x16;
-        __emit 0x6a;
-        __emit 0x09;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0xff;
-        __emit 0x92;
-        __emit 0xa0;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xe9;
-        __emit 0x3c;
-        __emit 0x02;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x68;
-        __emit 0xa8;
-        __emit 0x03;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x88;
-        __emit 0x5e;
-        __emit 0x3d;
-        __emit 0xe8;
-        __emit 0x2e;
-        __emit 0xa0;
-        __emit 0x1f;
-        __emit 0x00;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x04;
-        __emit 0x89;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x0c;
-        __emit 0x3b;
-        __emit 0xc3;
-        __emit 0xc6;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xa4;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x01;
-        __emit 0x74;
-        __emit 0x0b;
-        __emit 0x8b;
-        __emit 0xc8;
-        __emit 0xe8;
-        __emit 0x38;
-        __emit 0x46;
-        __emit 0x98;
-        __emit 0xff;
-        __emit 0x8b;
-        __emit 0xf8;
-        __emit 0xeb;
-        __emit 0x02;
-        __emit 0x33;
-        __emit 0xff;
-        __emit 0x8b;
-        __emit 0xcf;
-        __emit 0x88;
-        __emit 0x9c;
-        __emit 0x24;
-        __emit 0xa4;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xe8;
-        __emit 0xed;
-        __emit 0xdf;
-        __emit 0x99;
-        __emit 0xff;
-        __emit 0x89;
-        __emit 0x5c;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x8b;
-        __emit 0x47;
-        __emit 0x4c;
-        __emit 0x50;
-        __emit 0x8b;
-        __emit 0x06;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0xc6;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xa8;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x02;
-        __emit 0xff;
-        __emit 0x90;
-        __emit 0xdc;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0x08;
-        __emit 0x51;
-        __emit 0x51;
-        __emit 0x89;
-        __emit 0x64;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x8b;
-        __emit 0xcc;
-        __emit 0x68;
-        __emit 0x04;
-        __emit 0xb7;
-        __emit 0x11;
-        __emit 0x01;
-        __emit 0xe8;
-        __emit 0x82;
-        __emit 0x0e;
-        __emit 0x20;
-        __emit 0x00;
-        __emit 0x8d;
-        __emit 0x54;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0x52;
-        __emit 0xe8;
-        __emit 0x28;
-        __emit 0x12;
-        __emit 0x20;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xbc;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x10;
-        __emit 0x3b;
-        __emit 0xc3;
-        __emit 0x74;
-        __emit 0x09;
-        __emit 0x66;
-        __emit 0x8b;
-        __emit 0x48;
-        __emit 0x04;
-        __emit 0x66;
-        __emit 0x3b;
-        __emit 0xcb;
-        __emit 0x75;
-        __emit 0x0f;
-        __emit 0x8d;
-        __emit 0x46;
-        __emit 0x10;
-        __emit 0x50;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0xe8;
-        __emit 0x16;
-        __emit 0x0b;
-        __emit 0x99;
-        __emit 0xff;
-        __emit 0xeb;
-        __emit 0x12;
-        __emit 0x0f;
-        __emit 0xb7;
-        __emit 0xc9;
-        __emit 0x51;
-        __emit 0x83;
-        __emit 0xc0;
-        __emit 0x08;
-        __emit 0x50;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0xe8;
-        __emit 0x61;
-        __emit 0x06;
-        __emit 0x20;
-        __emit 0x00;
-        __emit 0x90;
-        __emit 0x8b;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x3b;
-        __emit 0xc3;
-        __emit 0x74;
-        __emit 0x12;
-        __emit 0x66;
-        __emit 0x83;
-        __emit 0x78;
-        __emit 0x04;
-        __emit 0x10;
-        __emit 0x76;
-        __emit 0x0b;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0xe8;
-        __emit 0x88;
-        __emit 0x08;
-        __emit 0x20;
-        __emit 0x00;
-        __emit 0xeb;
-        __emit 0xe6;
-        __emit 0x51;
-        __emit 0x8d;
-        __emit 0x54;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0x89;
-        __emit 0x64;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x8b;
-        __emit 0xcc;
-        __emit 0x52;
-        __emit 0xe8;
-        __emit 0x35;
-        __emit 0x04;
-        __emit 0x20;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0xcf;
-        __emit 0xe8;
-        __emit 0xfc;
-        __emit 0x5f;
-        __emit 0x9a;
-        __emit 0xff;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x34;
-        __emit 0xe8;
-        __emit 0xaf;
-        __emit 0x5e;
-        __emit 0x99;
-        __emit 0xff;
-        __emit 0x8d;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x50;
-        __emit 0x51;
-        __emit 0x8d;
-        __emit 0x56;
-        __emit 0x10;
-        __emit 0x89;
-        __emit 0x64;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0x8b;
-        __emit 0xcc;
-        __emit 0x52;
-        __emit 0xc6;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xb0;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x03;
-        __emit 0x89;
-        __emit 0x5c;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0x66;
-        __emit 0x89;
-        __emit 0x5c;
-        __emit 0x24;
-        __emit 0x28;
-        __emit 0xe8;
-        __emit 0xff;
-        __emit 0x03;
-        __emit 0x20;
-        __emit 0x00;
-        __emit 0x6a;
-        __emit 0x05;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x40;
-        __emit 0xe8;
-        __emit 0x92;
-        __emit 0x6c;
-        __emit 0x9a;
-        __emit 0xff;
-        __emit 0x8b;
-        __emit 0x06;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0xff;
-        __emit 0x90;
-        __emit 0xdc;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0x08;
-        __emit 0x89;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x64;
-        __emit 0x8b;
-        __emit 0x50;
-        __emit 0x04;
-        __emit 0x51;
-        __emit 0x8d;
-        __emit 0x46;
-        __emit 0x14;
-        __emit 0x89;
-        __emit 0x64;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x8b;
-        __emit 0xcc;
-        __emit 0x50;
-        __emit 0x89;
-        __emit 0x54;
-        __emit 0x24;
-        __emit 0x70;
-        __emit 0x89;
-        __emit 0x9c;
-        __emit 0x24;
-        __emit 0xa0;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xe8;
-        __emit 0x26;
-        __emit 0xfb;
-        __emit 0x1f;
-        __emit 0x00;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x38;
-        __emit 0xe8;
-        __emit 0xba;
-        __emit 0xbe;
-        __emit 0x98;
-        __emit 0xff;
-        __emit 0x51;
-        __emit 0x8d;
-        __emit 0x56;
-        __emit 0x18;
-        __emit 0x89;
-        __emit 0x64;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x8b;
-        __emit 0xcc;
-        __emit 0x52;
-        __emit 0xe8;
-        __emit 0x0d;
-        __emit 0xfb;
-        __emit 0x1f;
-        __emit 0x00;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x38;
-        __emit 0xe8;
-        __emit 0x61;
-        __emit 0xc1;
-        __emit 0x99;
-        __emit 0xff;
-        __emit 0x83;
-        __emit 0xec;
-        __emit 0x68;
-        __emit 0x8d;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0x9c;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0xcc;
-        __emit 0x89;
-        __emit 0x64;
-        __emit 0x24;
-        __emit 0x74;
-        __emit 0x50;
-        __emit 0xe8;
-        __emit 0x53;
-        __emit 0xf1;
-        __emit 0x98;
-        __emit 0xff;
-        __emit 0x53;
-        __emit 0x8b;
-        __emit 0xcf;
-        __emit 0xe8;
-        __emit 0x6a;
-        __emit 0x90;
-        __emit 0x99;
-        __emit 0xff;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x20;
-        __emit 0x89;
-        __emit 0x9f;
-        __emit 0x98;
-        __emit 0x03;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xe8;
-        __emit 0xf7;
-        __emit 0xda;
-        __emit 0x99;
-        __emit 0xff;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0x51;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0xc6;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xa8;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x04;
-        __emit 0xe8;
-        __emit 0x6a;
-        __emit 0x75;
-        __emit 0x99;
-        __emit 0xff;
-        __emit 0x51;
-        __emit 0x8d;
-        __emit 0x54;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x89;
-        __emit 0x64;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x8b;
-        __emit 0xcc;
-        __emit 0x52;
-        __emit 0xc6;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xac;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x05;
-        __emit 0xe8;
-        __emit 0xa8;
-        __emit 0xfa;
-        __emit 0x1f;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0xcf;
-        __emit 0xe8;
-        __emit 0xfe;
-        __emit 0xbb;
-        __emit 0x99;
-        __emit 0xff;
-        __emit 0x8a;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xb0;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x88;
-        __emit 0x87;
-        __emit 0xa4;
-        __emit 0x03;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xff;
-        __emit 0x15;
-        __emit 0x44;
-        __emit 0x95;
-        __emit 0x35;
-        __emit 0x01;
-        __emit 0x89;
-        __emit 0x87;
-        __emit 0x9c;
-        __emit 0x03;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x57;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0x89;
-        __emit 0x7e;
-        __emit 0x40;
-        __emit 0xe8;
-        __emit 0x8b;
-        __emit 0x7d;
-        __emit 0x9a;
-        __emit 0xff;
-        __emit 0x8b;
-        __emit 0x16;
-        __emit 0x53;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0xff;
-        __emit 0x92;
-        __emit 0xa0;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0xc6;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xa4;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x04;
-        __emit 0xe8;
-        __emit 0x41;
-        __emit 0xf8;
-        __emit 0x1f;
-        __emit 0x00;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x20;
-        __emit 0xc6;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xa4;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x03;
-        __emit 0xe8;
-        __emit 0xa3;
-        __emit 0x8c;
-        __emit 0x9b;
-        __emit 0xff;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x34;
-        __emit 0xc6;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xa4;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x02;
-        __emit 0xe8;
-        __emit 0x48;
-        __emit 0x19;
-        __emit 0x9a;
-        __emit 0xff;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x88;
-        __emit 0x9c;
-        __emit 0x24;
-        __emit 0xa4;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xe8;
-        __emit 0x9f;
-        __emit 0x00;
-        __emit 0x20;
-        __emit 0x00;
-        __emit 0x8d;
-        __emit 0x8c;
-        __emit 0x24;
-        __emit 0xac;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xc7;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xa4;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0xe8;
-        __emit 0x88;
-        __emit 0x00;
-        __emit 0x20;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0x8c;
-        __emit 0x24;
-        __emit 0x9c;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x5f;
-        __emit 0x5e;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0x0d;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x5b;
-        __emit 0x81;
-        __emit 0xc4;
-        __emit 0x9c;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xc2;
-        __emit 0x08;
-        __emit 0x00;
-    }
+	if ((!m_inLobby || m_currentGame) && !isDirectConnect)
+	{
+		OnGameCreate(LANAPIInterface::RET_BUSY);
+		return;
+	}
+
+	if (m_pendingAction != 0)
+	{
+		OnGameCreate(LANAPIInterface::RET_BUSY);
+		return;
+	}
+
+	m_inLobby = false;
+	LANGameInfo *myGame = new LANGameInfo;
+	myGame->enterGame();
+
+	UnicodeString name;
+	name.format(L"%8.8X%8.8X", _bfme_localAddress()->m_ip,
+		myGame->getSeed());
+	if (gameName.isEmpty())
+		name.concat(m_name);
+	else
+		name.concat(gameName.str(), gameName.getLength());
+
+	while (name.getLength() > 16)
+		name.removeLastChar();
+
+	myGame->setName(name);
+
+	GameSlotConnectInfo connectInfo;
+	LANGameSlot newSlot;
+	connectInfo.m_nat = 0;
+	connectInfo.m_port = 0;
+	newSlot.setState(SLOT_PLAYER, m_name, &connectInfo);
+	BfmeNetAddress *localAddress = _bfme_localAddress();
+	newSlot.setIP(localAddress->m_ip);
+	newSlot.setPort(localAddress->m_port);
+	newSlot.setLastHeard(0);
+	newSlot.setLogin(m_userName);
+	newSlot.setHost(m_hostName);
+
+	myGame->setSlot(0, newSlot);
+	myGame->setNext(0);
+
+	LANPreferences pref;
+	AsciiString mapName = pref.getPreferredMap();
+	myGame->setMapForwarder(mapName);
+	myGame->setIsDirectConnect(isDirectConnect);
+	myGame->setLastHeard(timeGetTime());
+	m_currentGame = myGame;
+
+	addGame(myGame);
+	OnGameCreate(LANAPIInterface::RET_OK);
 }

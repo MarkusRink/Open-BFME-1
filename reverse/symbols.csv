@@ -85539,3 +85539,5 @@ g_Rva012C3A18,0x00EC3A18,FESL client hello global pointer loaded by 0x007F4440
 ?getLocalPlayer@Rva002EE330PlayerList@@QAEPAVRva00589320Player@@XZ,0x0000762B,PlayerList local-player accessor reads this plus 0x0C
 ?bfmeKeyDJ@NameKeyGenerator@@QAEHPBD@Z,0x0003ADD7
 ?bfmeFindDJ@BfmeThingDJ@@QAEPAVBfmeItemDJ@@H@Z,0x0002AE23
+??0LANGameSlot@@QAE@XZ,0x0068E890,LANGameSlot default ctor: RequestGameCreate calls ILT j_0001de8a; body installs vtable 0x0111B6A0 and zeros the proven +0x44 LANPlayer, +0x60 serial, +0x64 lastHeard layout; paired copy ctor is matched at 0x00686D50; campaign=luna36h-20260907;lane=netpacket
+?setHost@LANGameSlot@@QAEXVAsciiString@@@Z,0x00685420,LANGameSlot AsciiString host setter: RequestGameCreate calls ILT j_000241bd; body translates into this+0x4c, the LANGameSlot m_user.m_host field after the matched +0x48 setLogin and 0x68-byte slot layout; reference LANGameInfo declares the same inline overload; campaign=luna36h-20260907;lane=netpacket
