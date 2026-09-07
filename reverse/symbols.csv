@@ -169912,3 +169912,5 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ??0?$_Vector_base@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@QAE@IABV?$allocator@PBVLocomotorTemplate@@@1@@Z,0x00020EA0,"the LocomotorTemplate vector-base ILT: BFME AIUpdate.cpp call sites encode it and it jumps to the 130-byte vec_p4cd copy at 0x00135270; 0x00001DA7 is Object*'s ILT"
 ?logGameEnd@RecorderClass@@IAEXXZ,0x00097280,RecorderClass::stopRecording caller reaches the exact clean C++ logGameEnd body
 ?b_008631f0@@YAXXZ,0x008631F0,gen-thunk target pin: Code/gen_small/gthunks_085.cpp resolves its E9 displacement from this pin (see the file header)
+?logGameEnd@RecorderClass@@IAEXXZ,0x00097280,RecorderClass::stopRecording caller reaches the exact clean C++ logGameEnd body
+?b_008631f0@@YAXXZ,0x008631F0,gen-thunk target pin: Code/gen_small/gthunks_085.cpp resolves its E9 displacement from this pin (see the file header)
