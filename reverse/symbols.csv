@@ -78670,6 +78670,9 @@ name,address,notes
 ?g_recorderSavedGlobalValue@@3HA,0x012ED620,RecorderClass saved scalar restored into TheWritableGlobalData+0x11F0 by restoreGlobalDataFields
 ?g_release@@3P6GXPAX@ZA,0x013590C8,address-derived IAT call recovered from 0x0093C400
 ?g_rva001B59ScaleConstant@@3MC,0x00EACFE0,retail 0.2 scale constant used by override float getters
+?g_rva001B59ScaleConstantDamaged@@3MC,0x00EACFE0,compiler alias for the retail 0.2 scale constant used by Locomotor damaged acceleration
+?g_rva001B59ScaleConstantDamagedAlias@@3MC,0x00EACFE0,compiler alias for the retail 0.2 scale constant used by Locomotor damaged acceleration
+?g_rva001B59ScaleConstantNormalAlias@@3MC,0x00EACFE0,compiler alias for the retail 0.2 scale constant used by Locomotor acceleration
 ?g_rva0051B5F0Large@@3URva0051B5F0Large@@A,0x00D05FBC,Open-BFME5 packed thirteen-byte preset global
 ?g_rva0051B5F0Medium@@3URva0051B5F0Medium@@A,0x00D05FB0,Open-BFME5 packed ten-byte preset global
 ?g_rva0051B5F0Small@@3URva0051B5F0Small@@A,0x00D05FA8,Open-BFME5 packed five-byte preset global
