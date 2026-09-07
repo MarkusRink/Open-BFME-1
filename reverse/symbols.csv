@@ -85519,3 +85519,6 @@ _bfmeExitBZ,0x008830B0
 ?releaseBuffer@StringBaseG@@AAEXXZ,0x008881D0
 _bfmeAllocDB,0x0082E540
 _bfmeCopyDB,0x000365CA
+??0Rva00900FF0VecOfVec@@QAE@H@Z,0x008FFA50,vector constructor alias used by the Rva00900FF0 constructor
+??0Rva00900FF0VecOfVec@@QAE@ABV0@@Z,0x008FFB80,vector copy constructor alias used by the Rva00900FF0 constructor
+??_7Rva00900FF0@@6B@,0x01139068,render object vtable installed by the Rva00900FF0 constructor
