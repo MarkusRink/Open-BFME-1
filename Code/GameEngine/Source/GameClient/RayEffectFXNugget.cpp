@@ -1,18 +1,22 @@
 // cl: /DNDEBUG /MD /EHsc
-// Clean C++ reconstruction of BFME's ray-effect position dispatch.
+// Retail construction and dispatch establish the 0xB4 base and four-argument positional ABI.
 
 typedef float Real;
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
 class AsciiString
 {
+public:
+	AsciiString() : m_data(0) {}
+	~AsciiString();
+	void clear();
+
 private:
 	void *m_data;
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
 struct Coord3D
 {
+	Coord3D() {}
 	Coord3D(const Coord3D &that) : x(that.x), y(that.y), z(that.z) {}
 
 	Real x;
@@ -21,16 +25,17 @@ struct Coord3D
 };
 
 class Matrix3D;
+class Object;
 class ThingTemplate;
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/ThingFactory.h
+// reference interface: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/ThingFactory.h
 class ThingFactory
 {
 public:
 	ThingTemplate *findTemplate(const AsciiString &name);
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/GameClient.h
+// reference interface: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/GameClient.h
 class GameClient
 {
 public:
@@ -57,18 +62,42 @@ public:
 extern ThingFactory *TheThingFactory;
 extern GameClient *TheGameClient;
 
-class RayEffectFXNugget
+class FXNugget
 {
 public:
+	FXNugget();
+	virtual ~FXNugget();
+	virtual void doFXPos(const Coord3D *, const Matrix3D *, Real, const Coord3D *) const;
+	virtual void doFXObj(const Object *, const Object *) const;
+
+protected:
+	int m_nuggetType;
+
+private:
+	unsigned char m_bfmeBaseData[0xAC];
+};
+
+class RayEffectFXNugget : public FXNugget
+{
+public:
+	RayEffectFXNugget();
+	virtual ~RayEffectFXNugget();
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D *primaryMtx,
 		Real primarySpeed, const Coord3D *secondary) const;
 
 private:
-	unsigned char m_pad[0xB0];
 	AsciiString m_templateName;
 	Coord3D m_primaryOffset;
 	Coord3D m_secondaryOffset;
 };
+
+RayEffectFXNugget::RayEffectFXNugget()
+{
+	m_templateName.clear();
+	m_primaryOffset.x = m_primaryOffset.y = m_primaryOffset.z = 0;
+	m_secondaryOffset.x = m_secondaryOffset.y = m_secondaryOffset.z = 0;
+	m_nuggetType = 2;
+}
 
 void RayEffectFXNugget::doFXPos(const Coord3D *primary, const Matrix3D *,
 	Real, const Coord3D *secondary) const
