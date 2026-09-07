@@ -31,6 +31,10 @@
 //   privateGuardAreaFromPosition 0x002794E0  state 0x10
 //   privateGuardRetaliate        0x002795D0  state 0x3E
 //
+// plus one query that belongs with them because it reads the same object:
+//
+//   bfmeCurrentWeaponTemplateFlag4  0x00278790, 44 bytes
+//
 // They sat in nineteen files, each re-declaring AIUpdateInterface out to
 // whatever field its own body reached, so the class existed in nineteen partial
 // versions that had to agree and nothing checked that they did. Declared once
@@ -135,6 +139,42 @@ public:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Weapon.h
+class WeaponTemplate
+{
+public:
+	unsigned char m_unmodelled_00[0x4D4];
+	unsigned char m_bit0 : 1;
+	unsigned char m_bit1 : 1;
+	unsigned char m_bit2 : 1;
+	unsigned char m_bit3 : 1;
+	unsigned char m_bit4 : 1;					// WeaponTemplate+0x4D4 bit 4
+};
+
+// The weapon handle bfmeCurrentWeaponTemplateFlag4 asks the object for. It is
+// the same question privateAttackMoveToPosition and privateGuardRetaliate ask
+// through Object::getCurrentWeapon -- both take a null slot argument and both
+// come back with the object's current weapon -- but the two calls are pinned
+// separately, ?bfmeAskCLE@BfmeSubCLE@@ through ILT 0x00009C41 and
+// ?getCurrentWeapon@Object@@ through ILT 0x00031A7F to body 0x001BE230. Until
+// one caller settles whether those two thunks reach the same body, both
+// spellings stay, and this one is reached by a cast the way the other
+// address-named helpers in this TU are.
+class BfmeXCLE
+{
+public:
+	const WeaponTemplate *getTemplate() const { return m_template; }
+
+private:
+	void *m_vtable;
+	const WeaponTemplate *m_template;			// +0x04
+};
+
+class BfmeSubCLE
+{
+public:
+	BfmeXCLE *bfmeAskCLE(int);					///< ILT 0x00009C41
+};
+
 class Weapon
 {
 public:
@@ -235,7 +275,8 @@ public:
 
 	unsigned char m_unmodelled_08[0x74 - 8];
 	UnsignedInt m_id;							// +0x74
-	unsigned char m_unmodelled_78[0x94 - 0x78];
+	unsigned char m_unmodelled_78[0x90 - 0x78];
+	UnsignedInt m_status;						// +0x90
 	unsigned char m_flags;						// +0x94
 	unsigned char m_unmodelled_95[0x1FC - 0x95];
 	ContainModuleInterface *m_contain;			// +0x1FC
@@ -309,6 +350,7 @@ class AIUpdateInterface : public BfmeVirtualSlots<96>
 {
 public:
 	virtual Bool isIdle() const = 0;
+	virtual Bool bfmeCurrentWeaponTemplateFlag4() const;
 
 	void setGoalPositionClipped(const Coord3D *pos, CommandSourceType cmdSource);
 
@@ -823,4 +865,21 @@ void AIUpdateInterface::privateGuardRetaliate(Object *victim, const Coord3D *pos
 	Weapon *weapon = m_object->getCurrentWeapon(0);
 	if (weapon)
 		weapon->m_maxShotCount = maxShotsToFire;
+}
+
+// Retail 0x00278790. Not a command handler but the same reads: the object's
+// status word at +0x90 must carry 0x400000, and then bit 4 of the current
+// weapon's template at +0x4D4 is the answer.
+Bool AIUpdateInterface::bfmeCurrentWeaponTemplateFlag4() const
+{
+	Object *obj = m_object;
+	if ((obj->m_status & 0x400000) == 0)
+		return false;
+	else
+	{
+		BfmeXCLE *weapon = reinterpret_cast<BfmeSubCLE *>(obj)->bfmeAskCLE(0);
+		if (!weapon)
+			return false;
+		return weapon->getTemplate()->m_bit4;
+	}
 }
