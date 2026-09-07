@@ -85561,3 +85561,5 @@ g_bfmeMsgVftDN,0x010F5738
 ?Get_Texture_Name@BfmeHandleCX@@QBE?AVStringClass@@XZ,0x008FF5B0,BFME legacy texture-name comparison96F45B/96F477; handle dereference and name slot then StringClass copy ctor8FF470
 ??1BfmeHandleCX@@QAE@XZ,0x00030652,route=0x0005CC00; MaterialCollector texture array cleanup; body dereferences handle then tail-calls TextureClass Release_Ref9EB7A0
 ?Reset@MaterialCollectorClass@@QAEXXZ,0x0092F4B0,MaterialCollector destructor 931120 calls Reset; vectors 0/18/30 and material release loop agree with named constructor 931070
+?bfmeFindDO@BfmeMapDO@@QAEPAVBfmeEntryDO@@ABVBFMERetailAsciiString@@@Z,0x000356F7
+?bfmeSetDO@BfmeSubDO@@QAEXHHHH@Z,0x0003FFBC
