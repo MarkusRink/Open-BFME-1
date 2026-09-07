@@ -1,8 +1,16 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/campaignmanagerascii /Ireference/shims/stringbaseunicode /ICode/Libraries/Source/WWVegas/WWLib
 
-// FILE: GadgetPushButtonSystem.cpp ////////////////////////////////////////////
+// FILE: GadgetPushButtonBodies.cpp ///////////////////////////////////////////
 //
-// GadgetPushButtonSystem, retail 0x004BCBB0. The .data callback table names it.
+// GadgetPushButtonSystem, retail 0x004BCBB0 (the .data callback table names
+// it), and GadgetButtonSetAltSound, retail 0x004BC770.
+//
+// They meet at one field. The system callback unwinds the button's user data on
+// GWM_DESTROY and releases the AsciiString at +0x1C; the setter's entire body is
+// an assignment to that same +0x1C. Two files, two names for it -- this one
+// called it m_altSound from the destroy path alone, the setter is a named retail
+// export whose whole job is to write it -- so the record now carries the
+// setter's reading, m_altSound, with the other one recorded beside it.
 //
 // Kept out of GadgetPushButton.cpp so that file keeps serving its fifteen
 // matched rows: this body needs the StringBase-backed AsciiString/UnicodeString
@@ -81,11 +89,14 @@ public:
 
 extern BfmeDisplayStringManager *TheDisplayStringManager;			// 0x012F12CC
 
-// The layout GWM_DESTROY unwinds. Everything below +0x1C is untouched here.
+// The layout GWM_DESTROY unwinds. Everything below +0x1C is untouched by either
+// body here. The AsciiString at +0x1C was m_altSound in this file, from the
+// destroy path alone; GadgetButtonSetAltSound below is a named retail export
+// that exists to write it, which is the stronger reading of the two.
 struct PushButtonData
 {
 	unsigned char m_unmodelled_00[ 0x1C ];
-	AsciiString m_label;						// +0x1C
+	AsciiString m_altSound;						// +0x1C
 	unsigned char m_unmodelled_20[ 0x10 ];
 	DisplayString *m_displayString;				// +0x30
 };
@@ -237,3 +248,22 @@ WindowMsgHandledType GadgetPushButtonSystem( GameWindow *window, UnsignedInt msg
 	return MSG_HANDLED;
 
 }  // end GadgetPushButtonSystem
+
+// ?GadgetButtonSetAltSound@@YAXPAVGameWindow@@VAsciiString@@@Z
+// Retail 0x004BC770, 90 bytes. Two guards then one assignment. The EH frame
+// exists for the by-value AsciiString parameter, which the callee destroys on
+// the way out -- that is the releaseBuffer at the end, and the state store
+// going to -1 just before it. The user-data pointer is fetched once and its
+// member at +0x1C assigned, so the accessor call stays inside the guard rather
+// than being hoisted.
+void GadgetButtonSetAltSound( GameWindow *window, AsciiString sound )
+{
+	if (!window)
+		return;
+
+	PushButtonData *data = (PushButtonData *)window->winGetUserData();
+	if (!data)
+		return;
+
+	data->m_altSound = sound;
+}
