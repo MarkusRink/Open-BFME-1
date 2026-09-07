@@ -85428,3 +85428,4 @@ _bfmeXferFourBA,0x00035814
 ?bfmeBeginBB@BfmeHostBB@@QAEXPAVBfmeAgentBB@@@Z,0x000044C1
 _bfmeCopyBB,0x00014D7B
 _bfmeXferVecBB,0x0000D2C9
+?bfmeBeginBD@BfmeHostBD@@QAEXPAVBfmeAgentBD@@@Z,0x000044C1
