@@ -85771,3 +85771,8 @@ __imp__bfmeDecESG@4,0x00F58E54,pin
 ?bfmeFixupESO@BfmeHostESO@@QAEXXZ,0x00047393,pin
 ?bfmeFinishESO@BfmeHostESO@@QAEXPAVBfmeHostESO@@PAH1@Z,0x0000D2BA,pin
 ?bfmeAdjustESO@@YGXPAVBfmeHostESO@@PAVBfmeBaseESO@@1@Z,0x00028650,pin
+__imp__bfmeSprintfESP,0x00F5948C,pin
+?g_bfmeFmtESP@@3PADA,0x00CF71E0,pin
+?g_bfmeEmptyESP@@3QBDB,0x00C7301C,pin
+?bfmeApplyESP@@YAXPBD0@Z,0x00891E70,pin
+?bfmeRemoveESP@@YAXI@Z,0x00029AA0,pin
