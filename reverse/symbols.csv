@@ -82561,6 +82561,8 @@ name,address,notes
 ?setTeamRelationship@Player@@QAEXPBVTeam@@W4Relationship@@@Z,0x000147D6,ScriptActions doPlayerSetOverrideRelationToTeam Player member call
 ?setTerrainTextureFilters@@YAXI@Z,0x00038389
 ?setText1C@BFMENetRequestGameSpyStatsAuthKeyCommandMsg@@QAEXVAsciiString@@@Z,0x00675A20,probe: plain-class variant of the setter
+?setText1C@BFMENetGameSpyStatsAuthKeyCommandMsg@@QAEXVAsciiString@@@Z,0x00675C50,ABI alias of the matched StringBase setter reached by retail ILT 0x0002F423
+?setText20@BFMENetGameSpyStatsAuthKeyCommandMsg@@QAEXVAsciiString@@@Z,0x00675CE0,ABI alias of the matched StringBase setter reached by retail ILT 0x0001711B
 ?setText@NetChatCommandMsg@@QAEXVUnicodeString@@@Z,0x006752B0,"NetChatCommandMsg::setText; ILT 0x31151; this+0x1c StringBase assignment, by-value UnicodeString destruction, ret 4 independently reviewed"
 ?setText@WinInstanceDataShim@@QAEXVUnicodeString@@@Z,0x00004205,WinInstanceData::setText via ILT thunk
 ?setTexture@BfmeStreakObject@@QAEXABQAVTextureClass@@@Z,0x00955880,retail callee pin for W3DStreakDraw constructor
