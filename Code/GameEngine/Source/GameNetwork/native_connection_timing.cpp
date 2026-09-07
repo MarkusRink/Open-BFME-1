@@ -1,6 +1,15 @@
-// cl: /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB
+// stlport
+
+#include <stl/_config.h>
+#undef _STLP_DEFAULT_CONSTRUCTOR_BUG
+#include <map>
 
 #include "../../../../reference/shims/stringinline/StringInline.h"
+
+typedef std::map<unsigned short, AsciiString> FileCommandMap;
+typedef std::map<unsigned short, unsigned char> FileMaskMap;
+typedef std::map<unsigned short, int> FileProgressMap;
 
 extern const UnicodeString BFMEEmptyPlayerName;
 
@@ -253,6 +262,8 @@ class NetCommandWrapperList
 {
 public:
 	NetCommandList *getReadyCommands();
+	void processWrapper(NetCommandRef *ref);
+	int getPercentComplete(unsigned short commandID);
 };
 class Network;
 struct BFMEReceiveNetworkVTable
@@ -462,7 +473,21 @@ private:
 	unsigned char m_percent;
 };
 class NetFileAnnounceCommandMsg;
-class NetFileProgressCommandMsg;
+class NetFileProgressCommandMsg : public NetCommandMsg
+{
+public:
+	NetFileProgressCommandMsg();
+	void setFileID(unsigned short commandID);
+	void setProgress(int progress);
+private:
+	unsigned short m_fileID;
+	int m_progress;
+};
+class NetWrapperCommandMsg : public NetCommandMsg
+{
+public:
+	unsigned short getWrappedCommandID();
+};
 
 class ConnectionManager
 {
@@ -548,7 +573,7 @@ public:
 	void update();
 	void runRelayPass();
 	void destroy();
-	void processWrappedCommand(void *msg);
+	void processWrappedCommand(NetCommandRef *ref);
 	void sendFileChunk(const char *path, int playerMask, int chunk);
 	void updateFileProgress();
 	void buildPlayerStatusText(void *out);
@@ -596,6 +621,10 @@ private:
 	NetCommandList *m_pendingRelays;
 	NetCommandWrapperList *m_wrapperList;
 	unsigned int m_localLeaveStarted;
+	char m_unknown12114[4];
+	FileCommandMap m_fileCommandMap;
+	FileMaskMap m_fileRecipientMaskMap;
+	FileProgressMap m_fileProgressMap[8];
 };
 
 
@@ -3214,187 +3243,38 @@ L13_668F57:
 	}
 }
 
-// Reassembles a chunked command. Feeds the message to
-// NetCommandWrapperList::processWrapper on the list at this+0x12130, keyed by
-// getWrappedCommandID, then reports progress with getPercentComplete and sends
-// the acknowledgement back through sendLocalCommand.
-__declspec(naked) void BFMEConnectionManager::processWrappedCommand(void *msg)
+// Reassembles a chunked command through the wrapper list at +0x1210C.
+// Announced files also publish increased completion percentages below 100;
+// the file maps at +0x12118/+0x12130 associate wrapped IDs with transfers.
+void BFMEConnectionManager::processWrappedCommand(NetCommandRef *ref)
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 104464Bh
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		push ebx
-		push ebp
-		mov ebp, dword ptr [esp+1Ch]
-		push esi
-		mov esi, ecx
-		mov ecx, dword ptr [ebp]
-		push edi
-		__emit 0E8h
-		__emit 04Fh
-		__emit 0BBh
-		__emit 099h
-		__emit 0FFh   // call 0x57C7
-		lea edi,  [esi+12118h]
-		mov ecx, edi
-		mov dword ptr [esp+10h], 0h
-		mov dword ptr [esp+24h], eax
-		lea eax,  [esp+24h]
-		push eax
-		__emit 0E8h
-		__emit 074h
-		__emit 0BBh
-		__emit 09Ch
-		__emit 0FFh   // call 0x3580A
-		mov ebx, eax
-		cmp ebx, dword ptr [edi]
-		je L00_669CBC
-		mov eax, dword ptr [esi+12028h]
-		lea ecx,  [esp+24h]
-		__emit 08Dh
-		__emit 014h
-		__emit 040h   // lea edx, [eax + eax*2]
-		push ecx
-		lea ecx,  [esi+edx*4+12130h]
-		__emit 0E8h
-		__emit 03Bh
-		__emit 066h
-		__emit 09Ch
-		__emit 0FFh   // call 0x302F1
-		mov eax, dword ptr [eax]
-		mov dword ptr [esp+10h], eax
-L00_669CBC:
-		mov ecx, dword ptr [esi+1210Ch]
-		test ecx, ecx
-		je L01_669DA9
-		push ebp
-		__emit 0E8h
-		__emit 039h
-		__emit 06Eh
-		__emit 09Ah
-		__emit 0FFh   // call 0x10B09
-		cmp ebx, dword ptr [edi]
-		je L01_669DA9
-		mov ecx, dword ptr [esp+24h]
-		push ecx
-		mov ecx, dword ptr [esi+1210Ch]
-		__emit 0E8h
-		__emit 083h
-		__emit 00Dh
-		__emit 09Eh
-		__emit 0FFh   // call 0x4AA6B
-		mov ebp, eax
-		cmp ebp, dword ptr [esp+10h]
-		jle L01_669DA9
-		cmp ebp, 64h
-		jge L01_669DA9
-		mov eax, dword ptr [esi+12028h]
-		lea edx,  [esp+24h]
-		__emit 08Dh
-		__emit 004h
-		__emit 040h   // lea eax, [eax + eax*2]
-		push edx
-		lea ecx,  [esi+eax*4+12130h]
-		__emit 0E8h
-		__emit 0DAh
-		__emit 065h
-		__emit 09Ch
-		__emit 0FFh   // call 0x302F1
-		mov dword ptr [eax], ebp
-		mov ecx, dword ptr [esi+12028h]
-		mov ebx, 1h
-		shl ebx, cl
-		push 24h
-		xor ebx, 0FFh
-		__emit 0E8h
-		__emit 0FDh
-		__emit 081h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+10h], eax
-		xor edi, edi
-		cmp eax, edi
-		mov dword ptr [esp+1Ch], edi
-		je L02_669D4D
-		mov ecx, eax
-		__emit 0E8h
-		__emit 08Fh
-		__emit 06Ch
-		__emit 09Dh
-		__emit 0FFh   // call 0x409DA
-		mov edi, eax
-L02_669D4D:
-		mov ecx, dword ptr [esi+12028h]
-		mov eax, dword ptr [edi+14h]
-		push eax
-		mov dword ptr [esp+20h], 0FFFFFFFFh
-		mov dword ptr [edi+0Ch], ecx
-		mov word ptr [edi+10h], 0h
-		__emit 0E8h
-		__emit 005h
-		__emit 0BEh
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L03_669D7D
-		__emit 0E8h
-		__emit 0DFh
-		__emit 067h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [edi+10h], ax
-L03_669D7D:
-		mov edx, dword ptr [esp+24h]
-		push edx
-		mov ecx, edi
-		__emit 0E8h
-		__emit 065h
-		__emit 0AAh
-		__emit 09Bh
-		__emit 0FFh   // call 0x247EE
-		push ebp
-		mov ecx, edi
-		__emit 0E8h
-		__emit 025h
-		__emit 0B6h
-		__emit 09Ah
-		__emit 0FFh   // call 0x153B6
-		push ebx
-		push edi
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0E0h
-		__emit 053h
-		__emit 09Dh
-		__emit 0FFh   // call 0x3F17A
-		push edi
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0D1h
-		__emit 065h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30373
-		mov ecx, edi
-		__emit 0E8h
-		__emit 0FBh
-		__emit 062h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-L01_669DA9:
-		mov ecx, dword ptr [esp+14h]
-		pop edi
-		pop esi
-		pop ebp
-		pop ebx
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret 4h
+	unsigned short commandID = static_cast<NetWrapperCommandMsg *>(ref->getCommand())->getWrappedCommandID();
+	int originalProgress = 0;
+	FileCommandMap::iterator file = m_fileCommandMap.find(commandID);
+	if (file != m_fileCommandMap.end())
+		originalProgress = m_fileProgressMap[m_localSlot][commandID];
+	if (m_wrapperList)
+	{
+		m_wrapperList->processWrapper(ref);
+		if (file != m_fileCommandMap.end())
+		{
+			int progress = m_wrapperList->getPercentComplete(commandID);
+			if (progress > originalProgress && progress < 100)
+			{
+				m_fileProgressMap[m_localSlot][commandID] = progress;
+				int relay = 0xFF ^ (1 << m_localSlot);
+				NetFileProgressCommandMsg *msg = new NetFileProgressCommandMsg;
+				msg->setPlayerID(m_localSlot);
+				msg->setID(0);
+				if (DoesCommandRequireACommandID(msg->getNetCommandType()))
+					msg->setID(GenerateNextCommandID());
+				msg->setFileID(commandID);
+				msg->setProgress(progress);
+				reinterpret_cast<ConnectionManager *>(this)->sendLocalCommand(msg, relay);
+				reinterpret_cast<ConnectionManager *>(this)->processFileProgress(msg);
+				msg->detach();
+			}
+		}
 	}
 }
 
