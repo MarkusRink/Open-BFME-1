@@ -84740,3 +84740,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?Peek_Texture@MeshLoadContextClass@@AAE?AVBfmeHandleCX@@H@Z,0x0096D080,BFME texture-ID loader returns owning handle from context texture array+F8; helper increments sixteen-bit refs+4
 ?bfmeSameSX@@YA_NABUBfmeInnerSX@@0@Z,0x00015195,pin
 ?bfmeSendVX@BfmeSinkVX@@QAEXPAUBfmeArgsVX@@H@Z,0x000307E7,pin
+?bfmeFindNY@BfmeTableNY@@QAEXPAPAVBfmeNodeNY@@PAPAX@Z,0x00016C70,pin
