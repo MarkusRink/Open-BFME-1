@@ -1,390 +1,114 @@
-// cl: /DNDEBUG /MD /EHsc
-// readable body of ?getPreferredMap@CustomMatchPreferences@@QAE?AVAsciiString@@XZ: Code/GameEngine/Source/Common/UserPreferences.cpp
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// CustomMatchPreferences::getPreferredMap at retail RVA 0x000AC690, 377B (ZH
+// SkirmishGameOptionsMenu.cpp). Three levers made it exact (docs/shape_levers.md):
+// find() carries throw() so the "Map" temporary needs no EH state around the
+// lookup; the by-value strings use the StringInline shape (inline forwarders to
+// StringBase<char>) so the QuotedPrintable temporary is built in place; and the
+// tail is the ZH one -- isEmpty tests the 16-bit length at +4 of the data block,
+// then isValidMap(ret, TRUE) decides the getDefaultMap(TRUE) fallback (TRUE lives
+// in ebx for both calls, hence push ebx).
+// Same shape as the ZH source (reference/.../LanLobbyMenu.cpp:160): the
+// retail body keeps the isValidMap(TRUE) guard before its getDefaultMap(TRUE)
+// fallback. Model follows the minimal-shim style proven for the three landed
+// getPreferredMap siblings in GameClient/GUI/GUICallbacks/Menus.
 
-class AsciiString {};
-class CustomMatchPreferences { public: AsciiString getPreferredMap(); };
+template <typename T> struct StringInlineData
+{
+	unsigned short m_refCount;
+	unsigned short m_reserved;
+	unsigned short m_length;	// +4: the word retail tests in isEmpty
+	unsigned short m_pad;
+	T m_text[1];
+};
+
+template <typename T> class StringBase
+{
+	friend class AsciiString;
+private:
+	StringBase() : m_data( 0 ) {}
+	StringBase( const T *text );
+	StringBase( const StringBase<T> &other );
+	~StringBase();
+	StringInlineData<T> *m_data;
+};
+
+// reference/shims/stringinline/StringInline.h shape: by-value temporaries are
+// built in place only when the copy ctor and dtor are INLINE forwarders to the
+// StringBase<char> that owns the out-of-line bodies.
+class AsciiString : private StringBase<char>
+{
+public:
+	AsciiString() : StringBase<char>() {}
+	AsciiString( const char *text ) : StringBase<char>( text ) {}
+	AsciiString( const AsciiString &other ) : StringBase<char>( other ) {}
+	~AsciiString() {}
+
+	AsciiString &operator=( const AsciiString &other );
+
+	bool isEmpty() const
+	{
+		return m_data == 0 || m_data->m_length == 0;
+	}
+
+	void trim();
+
+	const char *str() const
+	{
+		return m_data ? m_data->m_text : "";
+	}
+};
+
+AsciiString QuotedPrintableToAsciiString(AsciiString original);
+AsciiString getDefaultMap(bool useIfNotFound);
+bool isValidMap(AsciiString map, bool flag);   // by value + a zero flag, returns al
+
+struct PreferenceNode
+{
+	char m_pad[0x14];
+	AsciiString m_value;
+};
+
+class PreferenceMap
+{
+public:
+	PreferenceNode *find(const AsciiString &) const throw();
+	PreferenceNode *end() const
+	{
+		return m_end;
+	}
+
+private:
+	PreferenceNode *m_end;
+};
+
+class UserPreferences : public PreferenceMap
+{
+public:
+	virtual ~UserPreferences();
+};
+
+class CustomMatchPreferences : public UserPreferences
+{
+public:
+	AsciiString getPreferredMap(void);
+};
 
 // ?getPreferredMap@CustomMatchPreferences@@QAE?AVAsciiString@@XZ
-__declspec(naked) AsciiString CustomMatchPreferences::getPreferredMap()
+AsciiString CustomMatchPreferences::getPreferredMap(void)
 {
-	__asm {
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x68
-		__emit 0xc9
-		__emit 0x77
-		__emit 0xff
-		__emit 0x00
-		__emit 0x64
-		__emit 0xa1
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x50
-		__emit 0x64
-		__emit 0x89
-		__emit 0x25
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x83
-		__emit 0xec
-		__emit 0x0c
-		__emit 0x53
-		__emit 0x56
-		__emit 0xc7
-		__emit 0x44
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x57
-		__emit 0x8b
-		__emit 0xf1
-		__emit 0xc7
-		__emit 0x44
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xbb
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x68
-		__emit 0x84
-		__emit 0xc7
-		__emit 0x07
-		__emit 0x01
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x18
-		__emit 0x89
-		__emit 0x5c
-		__emit 0x24
-		__emit 0x24
-		__emit 0xe8
-		__emit 0xec
-		__emit 0xc4
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x44
-		__emit 0x24
-		__emit 0x14
-		__emit 0x83
-		__emit 0xc6
-		__emit 0x04
-		__emit 0x50
-		__emit 0x8b
-		__emit 0xce
-		__emit 0xe8
-		__emit 0xc9
-		__emit 0xe7
-		__emit 0xf5
-		__emit 0xff
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x14
-		__emit 0x8b
-		__emit 0xf8
-		__emit 0xe8
-		__emit 0x52
-		__emit 0xb2
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x3b
-		__emit 0x3e
-		__emit 0x75
-		__emit 0x3f
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x14
-		__emit 0x53
-		__emit 0x51
-		__emit 0xe8
-		__emit 0xe4
-		__emit 0xda
-		__emit 0xf5
-		__emit 0xff
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0x50
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x10
-		__emit 0xc6
-		__emit 0x44
-		__emit 0x24
-		__emit 0x24
-		__emit 0x02
-		__emit 0xe8
-		__emit 0x81
-		__emit 0xb5
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x14
-		__emit 0x88
-		__emit 0x5c
-		__emit 0x24
-		__emit 0x20
-		__emit 0xe8
-		__emit 0x24
-		__emit 0xb2
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x74
-		__emit 0x24
-		__emit 0x28
-		__emit 0x8d
-		__emit 0x54
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x52
-		__emit 0x8b
-		__emit 0xce
-		__emit 0xe8
-		__emit 0x34
-		__emit 0xb4
-		__emit 0x7d
-		__emit 0x00
-		__emit 0xe9
-		__emit 0xb0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x51
-		__emit 0x89
-		__emit 0x64
-		__emit 0x24
-		__emit 0x18
-		__emit 0x8b
-		__emit 0xcc
-		__emit 0x83
-		__emit 0xc7
-		__emit 0x14
-		__emit 0x57
-		__emit 0xe8
-		__emit 0x1f
-		__emit 0xb4
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x44
-		__emit 0x24
-		__emit 0x18
-		__emit 0x50
-		__emit 0xe8
-		__emit 0x02
-		__emit 0x8e
-		__emit 0xf9
-		__emit 0xff
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0x50
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x10
-		__emit 0xc6
-		__emit 0x44
-		__emit 0x24
-		__emit 0x24
-		__emit 0x03
-		__emit 0xe8
-		__emit 0x33
-		__emit 0xb5
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x14
-		__emit 0x88
-		__emit 0x5c
-		__emit 0x24
-		__emit 0x20
-		__emit 0xe8
-		__emit 0xd6
-		__emit 0xb1
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x0c
-		__emit 0xe8
-		__emit 0x2d
-		__emit 0xc5
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x44
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x85
-		__emit 0xc0
-		__emit 0x74
-		__emit 0x2c
-		__emit 0x66
-		__emit 0x83
-		__emit 0x78
-		__emit 0x04
-		__emit 0x00
-		__emit 0x74
-		__emit 0x25
-		__emit 0x53
-		__emit 0x51
-		__emit 0x8d
-		__emit 0x54
-		__emit 0x24
-		__emit 0x14
-		__emit 0x89
-		__emit 0x64
-		__emit 0x24
-		__emit 0x1c
-		__emit 0x8b
-		__emit 0xcc
-		__emit 0x52
-		__emit 0xe8
-		__emit 0xcc
-		__emit 0xb3
-		__emit 0x7d
-		__emit 0x00
-		__emit 0xe8
-		__emit 0x4e
-		__emit 0xe8
-		__emit 0xf5
-		__emit 0xff
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0x84
-		__emit 0xc0
-		__emit 0x74
-		__emit 0x07
-		__emit 0x8d
-		__emit 0x44
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x50
-		__emit 0xeb
-		__emit 0x2f
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x14
-		__emit 0x53
-		__emit 0x51
-		__emit 0xe8
-		__emit 0x2f
-		__emit 0xda
-		__emit 0xf5
-		__emit 0xff
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0x50
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x10
-		__emit 0xc6
-		__emit 0x44
-		__emit 0x24
-		__emit 0x24
-		__emit 0x04
-		__emit 0xe8
-		__emit 0xcc
-		__emit 0xb4
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x14
-		__emit 0x88
-		__emit 0x5c
-		__emit 0x24
-		__emit 0x20
-		__emit 0xe8
-		__emit 0x6f
-		__emit 0xb1
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x54
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x52
-		__emit 0x8b
-		__emit 0x74
-		__emit 0x24
-		__emit 0x2c
-		__emit 0x8b
-		__emit 0xce
-		__emit 0xe8
-		__emit 0x7f
-		__emit 0xb3
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x89
-		__emit 0x5c
-		__emit 0x24
-		__emit 0x10
-		__emit 0xc6
-		__emit 0x44
-		__emit 0x24
-		__emit 0x20
-		__emit 0x00
-		__emit 0xe8
-		__emit 0x4d
-		__emit 0xb1
-		__emit 0x7d
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x18
-		__emit 0x5f
-		__emit 0x8b
-		__emit 0xc6
-		__emit 0x5e
-		__emit 0x64
-		__emit 0x89
-		__emit 0x0d
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x5b
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x18
-		__emit 0xc2
-		__emit 0x04
-		__emit 0x00
+	AsciiString ret;
+	PreferenceNode *it = find("Map");
+	if (it == end())
+	{
+		ret = getDefaultMap(true);
+		return ret;
 	}
+
+	ret = QuotedPrintableToAsciiString(it->m_value);
+	ret.trim();
+	if (!ret.isEmpty() && isValidMap(ret, true))
+		return ret;
+
+	ret = getDefaultMap(true);
+	return ret;
 }
