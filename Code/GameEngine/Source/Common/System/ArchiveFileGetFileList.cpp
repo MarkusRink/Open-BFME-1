@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /ICode/GameEngine/Source/Common/System/archivefile_downloadmanager /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
 // stlport
 
 #define Matrix4x4 Matrix4
@@ -255,6 +255,16 @@ public:
 		((StringBase<char> *)this)->set(*(const StringBase<char> *)&source);
 	}
 
+	void toLower()
+	{
+		((StringBase<char> *)this)->toLower();
+	}
+
+	Bool nextToken(BFMERetailAsciiString *out, const char *delimiters)
+	{
+		return ((StringBase<char> *)this)->nextToken((StringBase<char> *)out, delimiters);
+	}
+
 private:
 	void releaseBuffer();
 };
@@ -293,6 +303,31 @@ static inline void bfmeConcat(BFMERetailAsciiString& str, const AsciiString& suf
 static inline void bfmeConcat(BFMERetailAsciiString& str, char suffix)
 {
 	((StringBase<char> *)&str)->concat(&suffix, 1);
+}
+
+// ?getFileListInDirectory@ArchiveFile@@QBEXABVAsciiString@@00AAV?$set@VAsciiString@@U?$less_than_nocase@VAsciiString@@@rts@@V?$allocator@VAsciiString@@@_STL@@@_STL@@_N@Z
+void ArchiveFile::getFileListInDirectory(const AsciiString& currentDirectory, const AsciiString& originalDirectory, const AsciiString& searchName, FilenameList &filenameList, Bool searchSubdirectories) const
+{
+	BFMERetailAsciiString searchDir;
+	const DetailedArchivedDirectoryInfo *dirInfo = &m_rootDirectory;
+
+	searchDir.set(originalDirectory);
+	searchDir.toLower();
+	BFMERetailAsciiString token;
+	searchDir.nextToken(&token, "\\/");
+
+	while (token.getLength() > 0) {
+		DetailedArchivedDirectoryInfoMap::const_iterator it = dirInfo->m_directories.find(*(const AsciiString *)&token);
+		if (it != dirInfo->m_directories.end()) {
+			dirInfo = &it->second;
+		} else {
+			return;
+		}
+
+		searchDir.nextToken(&token, "\\/");
+	}
+
+	getFileListInDirectory(dirInfo, originalDirectory, searchName, filenameList, searchSubdirectories);
 }
 
 // ?getFileListInDirectory@ArchiveFile@@QBEXPBVDetailedArchivedDirectoryInfo@@ABVAsciiString@@1AAV?$set@VAsciiString@@U?$less_than_nocase@VAsciiString@@@rts@@V?$allocator@VAsciiString@@@_STL@@@_STL@@_N@Z
