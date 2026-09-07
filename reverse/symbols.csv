@@ -10553,6 +10553,7 @@ name,address,notes
 ?Get_String@INIClass@@QBEHPBD00PADH@Z,0x009E3DA0
 ?Get_String@RegistryClass@@QAEPADPBDPADH0@Z,0x009DC4E0,pinharvest x1 (body)
 ?Get_String@StringClass@@AAEXH_N@Z,0x009DB890
+?Get_String@StringClass@@QAEXH_N@Z,0x009DB890,public-access spelling emitted by the BFMEValueName shim for the protected StringClass body
 ?Get_Texture@MeshMatDescClass@@QBE?AVBfmeHandleCX@@HHH@Z,0x00929A20,Remap_Mesh92F2C0 direct call;existing matched MeshMatDesc getter/setter body proves owning Texture handle ABI
 ?Get_Texture@MeshMatDescClass@@QBEPAVTextureClass@@HHH@Z,0x0002F8E2,pinharvest x1 (thunk)
 ?Get_Texture@ParticleBufferClass@@QBE?AVTextureHandleClass@1@XZ,0x00988F60,sret holder-returning getter

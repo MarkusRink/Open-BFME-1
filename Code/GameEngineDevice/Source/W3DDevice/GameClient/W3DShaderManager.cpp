@@ -302,9 +302,13 @@ protected:
 };
 
 //this table will contain custom versions of each shader tuned for specific video card and user options.
-static W3DFilterInterface *W3DFilters[FT_MAX];
+static W3DFilterInterface *W3DFilters[10];
 static W3DShaderInterface *W3DShaders[W3DShaderManager::ST_MAX];
 static Int W3DShadersPassCount[W3DShaderManager::ST_MAX];	//number of passes for each of the above shaders
+extern void *rva012F9D14; // BFME shader resource cleared by shutdown.
+extern void *rva012F9D18; // BFME shader resource cleared by shutdown.
+extern void *rva012F9D1C; // BFME vertex buffer cleared by shutdown.
+extern unsigned rva012F9D20; // BFME shader resource flag.
 TextureClass *W3DShaderManager::m_Textures[8];
 W3DShaderManager::ShaderTypes W3DShaderManager::m_currentShader;
 FilterTypes W3DShaderManager::m_currentFilter=FT_NULL_FILTER; ///< Last filter that was set.
@@ -2901,7 +2905,6 @@ W3DFilterInterface **MasterFilterList[]=
 // W3DShaderManager::W3DShaderManager =========================================
 /** Constructor - just clears some variables */
 //=============================================================================
-// ??0W3DShaderManager@@QAE@XZ present-unmatched
 W3DShaderManager::W3DShaderManager(void)
 {
 	m_currentShader = ST_INVALID;
@@ -2911,17 +2914,17 @@ W3DShaderManager::W3DShaderManager(void)
 	m_newRenderSurface = NULL;
 	m_oldDepthSurface = NULL;
 	m_renderingToTexture = false;
+	rva012F9D14 = NULL;
+	rva012F9D18 = NULL;
+	rva012F9D1C = NULL;
+	rva012F9D20 = 0;
 	Int i;
 	for (i=0; i<W3DShaderManager::ST_MAX; i++)
 	{	W3DShaders[i]=NULL;
 		W3DShadersPassCount[i]=0;
 	}
-	for (i=0; i<FT_MAX; i++)
+	for (i=0; i<10; i++)
 	{	W3DFilters[i]=NULL;
-	}
-	for (i=0; i<8; i++)
-	{
-		m_Textures[i]=NULL;
 	}
 	m_currentShader=(W3DShaderManager::ShaderTypes)-1;
 }
@@ -4113,7 +4116,6 @@ void FlatTerrainShaderPixelShader::reset(void)
 
 	DX8Wrapper::Invalidate_Cached_Render_States();
 }
-
 
 
 
