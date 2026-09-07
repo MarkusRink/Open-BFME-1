@@ -85743,3 +85743,5 @@ _Rva008921B0Atof,0x008921B0,address-derived 14-byte cdecl atof wrapper at 0x0089
 ?g_bfmeDefaultESE@@3MA,0x00C75334,pin
 ?bfmeCheckESF@BfmeHostESF@@QAEDPAVBfmeAESF@@PAUBfmePairESF@@@Z,0x000171E8,pin
 ?bfmeFindESF@BfmeHostESF@@QAEPAVBfmeCESF@@PAVBfmeBESF@@HH@Z,0x00020671,pin
+??1BfmeMemberESG@@QAE@XZ,0x000298E8,pin
+__imp__bfmeDecESG@4,0x00F58E54,pin
