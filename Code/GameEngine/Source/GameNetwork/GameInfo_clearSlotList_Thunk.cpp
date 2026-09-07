@@ -1,235 +1,87 @@
-// cl: /DNDEBUG /MD /EHsc
-// readable body of ?clearSlotList@GameInfo@@QAEXXZ: Code/GameEngine/Source/GameNetwork/GameInfo.cpp
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
-
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/GameInfo.h
-class GameInfo
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/stringbaseunicode /Ireference/shims/gameinfo /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /ICode/Libraries/Source/WWVegas/WWLib /ICode/Libraries/Source/WWVegas/WWMath
+// stlport
+/*
+** Copyright 2025 Electronic Arts Inc.
+** This program is free software: you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation, either version 3 of the License, or
+** (at your option) any later version.
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+** You should have received a copy of the GNU General Public License
+** along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+// BFME GameInfo::clearSlotList, RVA 0x0061F520, complete 218-byte body.
+// RecorderClass::bfmeInit names this call through ILT 0x00026418.
+// The final RET at 0x0061F5F9 is followed by alignment padding.
+// These inline GameSlot helpers retain the original GameInfo.cpp structure;
+// the BFME StringBase adapter supplies the independently matched string calls.
+#define Matrix4x4 Matrix4
+#include "PreRTS.h"
+#include "GameClient/GameText.h"
+#include "GameNetwork/GameInfo.h"
+inline Bool GameSlot::isAI() const
 {
-public:
-	void clearSlotList();
-};
+    return m_state == SLOT_EASY_AI || m_state == SLOT_MED_AI || m_state == SLOT_BRUTAL_AI;
+}
 
-// ?clearSlotList@GameInfo@@QAEXXZ
-__declspec(naked) void GameInfo::clearSlotList()
+inline void GameSlot::setState( SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo )
 {
-	__asm {
-        __emit 0x6a
-        __emit 0xff
-        __emit 0x68
-        __emit 0x50
-        __emit 0xf2
-        __emit 0x03
-        __emit 0x01
-        __emit 0x64
-        __emit 0xa1
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x50
-        __emit 0x64
-        __emit 0x89
-        __emit 0x25
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x83
-        __emit 0xec
-        __emit 0x14
-        __emit 0x53
-        __emit 0x55
-        __emit 0x56
-        __emit 0x57
-        __emit 0x8d
-        __emit 0x59
-        __emit 0x14
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x10
-        __emit 0x08
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x83
-        __emit 0xcf
-        __emit 0xff
-        __emit 0x8d
-        __emit 0x9b
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x03
-        __emit 0x33
-        __emit 0xed
-        __emit 0x3b
-        __emit 0xc5
-        __emit 0x74
-        __emit 0x7d
-        __emit 0x68
-        __emit 0x54
-        __emit 0x6e
-        __emit 0x33
-        __emit 0x01
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x1c
-        __emit 0x66
-        __emit 0x89
-        __emit 0x6c
-        __emit 0x24
-        __emit 0x24
-        __emit 0xe8
-        __emit 0x95
-        __emit 0x8e
-        __emit 0x26
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x33
-        __emit 0x55
-        __emit 0x89
-        __emit 0x7e
-        __emit 0x0c
-        __emit 0x89
-        __emit 0x7e
-        __emit 0x10
-        __emit 0x89
-        __emit 0x7e
-        __emit 0x14
-        __emit 0x89
-        __emit 0x7e
-        __emit 0x18
-        __emit 0xc7
-        __emit 0x46
-        __emit 0x04
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0xc6
-        __emit 0x46
-        __emit 0x08
-        __emit 0x01
-        __emit 0xc6
-        __emit 0x46
-        __emit 0x09
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x7c
-        __emit 0x14
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x68
-        __emit 0xb4
-        __emit 0xf2
-        __emit 0x0f
-        __emit 0x01
-        __emit 0x8d
-        __emit 0x54
-        __emit 0x24
-        __emit 0x1c
-        __emit 0x52
-        __emit 0x89
-        __emit 0x6c
-        __emit 0x24
-        __emit 0x38
-        __emit 0xff
-        __emit 0x50
-        __emit 0x28
-        __emit 0x8d
-        __emit 0x4e
-        __emit 0x28
-        __emit 0x50
-        __emit 0xc6
-        __emit 0x44
-        __emit 0x24
-        __emit 0x30
-        __emit 0x05
-        __emit 0xe8
-        __emit 0x80
-        __emit 0x8f
-        __emit 0x26
-        __emit 0x00
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x14
-        __emit 0xc6
-        __emit 0x44
-        __emit 0x24
-        __emit 0x2c
-        __emit 0x00
-        __emit 0xe8
-        __emit 0x12
-        __emit 0x8c
-        __emit 0x26
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x20
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x18
-        __emit 0x89
-        __emit 0x6e
-        __emit 0x30
-        __emit 0x89
-        __emit 0x46
-        __emit 0x34
-        __emit 0x89
-        __emit 0x7c
-        __emit 0x24
-        __emit 0x2c
-        __emit 0xe8
-        __emit 0xfb
-        __emit 0x8b
-        __emit 0x26
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x10
-        __emit 0x83
-        __emit 0xc3
-        __emit 0x04
-        __emit 0x48
-        __emit 0x89
-        __emit 0x44
-        __emit 0x24
-        __emit 0x10
-        __emit 0x0f
-        __emit 0x85
-        __emit 0x69
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x24
-        __emit 0x5f
-        __emit 0x5e
-        __emit 0x5d
-        __emit 0x64
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5b
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x20
-        __emit 0xc3
+	if (!(isAI() &&  (state == SLOT_EASY_AI || state == SLOT_MED_AI || state == SLOT_BRUTAL_AI)))
+	{
+		m_color = -1;
+		m_startPos = -1;
+		m_playerTemplate = -1;
+		m_teamNumber = -1;
+
+	}
+	if (state == SLOT_PLAYER)
+	{
+		reset();
+		m_state = state;
+		m_name = name;
+	}// state == SLOT_PLAYER
+	else
+	{
+		m_state = state;
+		m_isAccepted = true;
+		m_hasMap = true;
+		switch(state)
+		{
+		case SLOT_OPEN:
+			m_name = TheGameText->fetch("GUI:Open");
+			break;
+		case SLOT_EASY_AI:
+			m_name = TheGameText->fetch("GUI:EasyAI");
+			break;
+		case SLOT_MED_AI:
+			m_name = TheGameText->fetch("GUI:MediumAI");
+			break;
+		case SLOT_BRUTAL_AI:
+			m_name = TheGameText->fetch("GUI:HardAI");
+			break;
+		case SLOT_CLOSED:
+		default:
+			m_name = TheGameText->fetch("GUI:Closed");
+			break;
+		}
+	}
+
+	m_connectInfo = *connectInfo;
+}
+
+void GameInfo::clearSlotList( void )
+{
+	for (int i=0; i<MAX_SLOTS; ++i)
+	{
+		if (m_slot[i])
+		{
+			GameSlotConnectInfo info;
+			info.m_nat = FirewallHelperClass::FIREWALL_TYPE_UNKNOWN;
+			info.m_port = 0;
+			m_slot[i]->setState(SLOT_CLOSED, UnicodeString::TheEmptyString, &info);
+		}
 	}
 }
