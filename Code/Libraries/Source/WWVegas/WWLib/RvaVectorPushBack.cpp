@@ -37,6 +37,10 @@ struct Rva0035B130Element
 {
 	char m_body[20];
 };
+struct Rva003A5500Element
+{
+	char m_body[20];
+};
 }
 
 struct Rva000FB210Element
@@ -210,6 +214,13 @@ __forceinline void BfmeElementConstruct(Rva00143CE0Element *destination,
 }
 
 template <>
+__forceinline void BfmeElementConstruct(Rva003A5500Element *destination,
+	const Rva003A5500Element &value)
+{
+	_Construct(destination, value);
+}
+
+template <>
 __forceinline void BfmeElementConstruct(Rva0035AFC0Element *destination,
 	const Rva0035AFC0Element &value)
 {
@@ -286,6 +297,9 @@ template class vector<Rva0035AFC0Element, allocator<Rva0035AFC0Element> >;
 
 // retail 0x0035BA70, sharing its 20-byte element with overflow at 0x0035B130
 template class vector<Rva0035B130Element, allocator<Rva0035B130Element> >;
+
+// retail 0x003A5860, sharing its 20-byte element with overflow at 0x003A5500
+template class vector<Rva003A5500Element, allocator<Rva003A5500Element> >;
 
 // retail 0x000FB210, a 96-byte element
 template class vector<Rva000FB210Element, allocator<Rva000FB210Element> >;
