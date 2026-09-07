@@ -1799,7 +1799,7 @@ void InGameUI::setRadiusCursor(RadiusCursorType cursorType, const SpecialPowerTe
 //-------------------------------------------------------------------------------------------------
 /** handle updating of "radius cursors" that follow the mouse pos */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/InGameUIHandleRadiusCursor.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/InGameUIBodies.cpp
 // ?handleRadiusCursor@InGameUI@@IAEXXZ present-unmatched
 void InGameUI::handleRadiusCursor()
 {
@@ -4067,7 +4067,7 @@ Bool InGameUI::isAllSelectedKindOf( KindOfType kindOf ) const
 //-------------------------------------------------------------------------------------------------
 /** Set the input enabled/disabled */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/InGameUISetInputEnabled.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/InGameUIBodies.cpp
 // ?setInputEnabled@InGameUI@@UAEX_N@Z present-unmatched
 void InGameUI::setInputEnabled( Bool enable )
 {
