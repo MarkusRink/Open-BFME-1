@@ -1,332 +1,242 @@
-// cl: /DNDEBUG /MD /EHsc
-// readable body of ?doMoveUnitTowardsNearest@ScriptActions@@IAEXABVAsciiString@@0V2@@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
-// Open-BFME5: lift MASM dump ScriptActions::doMoveUnitTowardsNearest to C++ thunk.
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/stringinline
+// ScriptActions::doMoveUnitTowardsNearest, retail RVA 0x00302D70, 314 bytes.
+//
+// The executeAction dispatcher names this operation
+// UNIT_MOVE_TOWARDS_NEAREST_OBJECT_TYPE (ScriptActions.cpp, around 0x8862).
+// Retail first resolves the named unit, then its AIUpdateInterface at +0x204,
+// finds one ThingTemplate, resolves the qualified trigger, and queries the
+// three linked partition filters before issuing BFME command 0x01.
 
-class AsciiString {};
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ScriptActions.h
+#include "StringInline.h"
+
+typedef bool Bool;
+typedef int Int;
+typedef float Real;
+
+class Object;
+class PolygonTrigger;
+class ThingTemplate;
+
+class ScriptEngine
+{
+public:
+	virtual void slot00(void) = 0;
+	virtual void slot01(void) = 0;
+	virtual void slot02(void) = 0;
+	virtual void slot03(void) = 0;
+	virtual void slot04(void) = 0;
+	virtual void slot05(void) = 0;
+	virtual void slot06(void) = 0;
+	virtual void slot07(void) = 0;
+	virtual void slot08(void) = 0;
+	virtual void slot09(void) = 0;
+	virtual void slot10(void) = 0;
+	virtual void slot11(void) = 0;
+	virtual void slot12(void) = 0;
+	virtual void slot13(void) = 0;
+	virtual void slot14(void) = 0;
+	virtual void slot15(void) = 0;
+	virtual void slot16(void) = 0;
+	virtual void slot17(void) = 0;
+	virtual void slot18(void) = 0;
+	virtual void slot19(void) = 0;
+	virtual void slot20(void) = 0;
+	virtual void slot21(void) = 0;
+	virtual PolygonTrigger *getQualifiedTriggerAreaByName(AsciiString name) = 0;
+	virtual void slot23(void) = 0;
+	virtual void slot24(void) = 0;
+	virtual void slot25(void) = 0;
+	virtual Object *getUnitNamed(const AsciiString &name) = 0;
+};
+
+class BfmeThingFactory
+{
+public:
+	const ThingTemplate *findTemplate(const AsciiString &name);
+};
+
+struct Coord3D
+{
+	Real x;
+	Real y;
+	Real z;
+};
+
+enum CommandSourceType
+{
+	CMD_FROM_PLAYER = 0,
+	CMD_FROM_SCRIPT = 1
+};
+
+class AICommandInterface
+{
+public:
+	void bfmeCommand01(Object *objectToEnter, CommandSourceType cmdSource);
+};
+
+class AIUpdateInterface
+{
+public:
+	unsigned char m_beforeCommands[0x20];
+	AICommandInterface m_commands;
+};
+
+class Object
+{
+public:
+	const Coord3D *getPosition(void) const
+	{
+		return &m_position;
+	}
+
+	AIUpdateInterface *getAIUpdateInterface(void) const
+	{
+		return m_aiUpdate;
+	}
+
+private:
+	unsigned char m_beforePosition[0x38];
+	Coord3D m_position;
+	unsigned char m_betweenPositionAndAI[0x1c0];
+	AIUpdateInterface *m_aiUpdate;
+};
+
+class PartitionFilter
+{
+public:
+	PartitionFilter(void) {}
+	PartitionFilter *link(PartitionFilter *next);
+
+	// Retail stores the filter vptr at +0 and the link at +4.  These are
+	// explicit TU-local layout words because the shared filter declarations
+	// do not expose the three BFME vtables; all four values are read directly
+	// from this body's constructor/destructor stores.
+	unsigned int m_vptr;
+	PartitionFilter *m_next;
+};
+
+class PartitionFilterThing : public PartitionFilter
+{
+public:
+	PartitionFilterThing(const ThingTemplate *thingTemplate, Bool match)
+		: PartitionFilter()
+	{
+		m_next = 0;
+		m_vptr = 0x010CFFD0; // retail PartitionFilterThing vtable
+		m_thingTemplate = thingTemplate;
+		m_match = match;
+	}
+
+	~PartitionFilterThing(void)
+	{
+		m_vptr = 0x01083B5C; // retail PartitionFilter base vtable
+	}
+
+	const ThingTemplate *m_thingTemplate;
+	Bool m_match;
+};
+
+class PartitionFilterPolygonTrigger : public PartitionFilter
+{
+public:
+	PartitionFilterPolygonTrigger(const PolygonTrigger *trigger)
+		: PartitionFilter()
+	{
+		m_next = 0;
+		m_vptr = 0x01095714; // retail PartitionFilterPolygonTrigger vtable
+		m_trigger = trigger;
+	}
+
+	~PartitionFilterPolygonTrigger(void)
+	{
+		m_vptr = 0x01083B5C; // retail PartitionFilter base vtable
+	}
+
+	const PolygonTrigger *m_trigger;
+};
+
+class PartitionFilterSameMapStatus : public PartitionFilter
+{
+public:
+	PartitionFilterSameMapStatus(const Object *object)
+		: PartitionFilter()
+	{
+		m_next = 0;
+		m_vptr = 0x01085DD0; // retail PartitionFilterSameMapStatus vtable
+		m_object = object;
+	}
+
+	~PartitionFilterSameMapStatus(void)
+	{
+		m_vptr = 0x01083B5C; // retail PartitionFilter base vtable
+	}
+
+	const Object *m_object;
+};
+
+class PartitionManager
+{
+public:
+	Object *getClosestObject(const Coord3D *position, Real maxDistance,
+		Int distanceCalculation, PartitionFilter *filters);
+};
+
+extern ScriptEngine *TheScriptEngine;
+extern BfmeThingFactory *TheThingFactory;
+extern PartitionManager *ThePartitionManager;
+
 class ScriptActions
 {
 protected:
-void doMoveUnitTowardsNearest(const AsciiString &, const AsciiString &, AsciiString);
+	// ?doMoveUnitTowardsNearest@ScriptActions@@IAEXABVAsciiString@@0V2@@Z
+	void doMoveUnitTowardsNearest(const AsciiString &unitName,
+		const AsciiString &objectType, AsciiString triggerName);
 };
 
-// ?doMoveUnitTowardsNearest@ScriptActions@@IAEXABVAsciiString@@0V2@@Z
-__declspec(naked) void ScriptActions::doMoveUnitTowardsNearest(const AsciiString &, const AsciiString &, AsciiString)
+void ScriptActions::doMoveUnitTowardsNearest(const AsciiString &unitName,
+	const AsciiString &objectType, AsciiString triggerName)
 {
-__asm {
-        __emit 0x6a
-        __emit 0xff
-        __emit 0x68
-        __emit 0xd0
-        __emit 0x6c
-        __emit 0x01
-        __emit 0x01
-        __emit 0x64
-        __emit 0xa1
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x50
-        __emit 0x64
-        __emit 0x89
-        __emit 0x25
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x83
-        __emit 0xec
-        __emit 0x28
-        __emit 0x53
-        __emit 0x55
-        __emit 0x56
-        __emit 0x57
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x6c
-        __emit 0x07
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x54
-        __emit 0x24
-        __emit 0x48
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x33
-        __emit 0xdb
-        __emit 0x52
-        __emit 0x89
-        __emit 0x5c
-        __emit 0x24
-        __emit 0x44
-        __emit 0xff
-        __emit 0x50
-        __emit 0x68
-        __emit 0x8b
-        __emit 0xf0
-        __emit 0x3b
-        __emit 0xf3
-        __emit 0x0f
-        __emit 0x84
-        __emit 0xd8
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x8b
-        __emit 0xae
-        __emit 0x04
-        __emit 0x02
-        __emit 0x00
-        __emit 0x00
-        __emit 0x3b
-        __emit 0xeb
-        __emit 0x0f
-        __emit 0x84
-        __emit 0xca
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x4c
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0xd8
-        __emit 0xf1
-        __emit 0x2e
-        __emit 0x01
-        __emit 0x50
-        __emit 0xe8
-        __emit 0x96
-        __emit 0x57
-        __emit 0xd2
-        __emit 0xff
-        __emit 0x8b
-        __emit 0xf8
-        __emit 0x3b
-        __emit 0xfb
-        __emit 0x0f
-        __emit 0x84
-        __emit 0xb0
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x51
-        __emit 0x8d
-        __emit 0x54
-        __emit 0x24
-        __emit 0x54
-        __emit 0x89
-        __emit 0x64
-        __emit 0x24
-        __emit 0x4c
-        __emit 0x8b
-        __emit 0xcc
-        __emit 0x52
-        __emit 0xe8
-        __emit 0x7b
-        __emit 0x4d
-        __emit 0x58
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x6c
-        __emit 0x07
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x01
-        __emit 0xff
-        __emit 0x50
-        __emit 0x58
-        __emit 0x3b
-        __emit 0xc3
-        __emit 0x0f
-        __emit 0x84
-        __emit 0x8c
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x89
-        __emit 0x5c
-        __emit 0x24
-        __emit 0x20
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x1c
-        __emit 0xd0
-        __emit 0x5d
-        __emit 0x08
-        __emit 0x01
-        __emit 0x89
-        __emit 0x74
-        __emit 0x24
-        __emit 0x24
-        __emit 0x89
-        __emit 0x5c
-        __emit 0x24
-        __emit 0x14
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x10
-        __emit 0x14
-        __emit 0x57
-        __emit 0x09
-        __emit 0x01
-        __emit 0x89
-        __emit 0x44
-        __emit 0x24
-        __emit 0x18
-        __emit 0x89
-        __emit 0x5c
-        __emit 0x24
-        __emit 0x2c
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x28
-        __emit 0xd0
-        __emit 0xff
-        __emit 0x0c
-        __emit 0x01
-        __emit 0x89
-        __emit 0x7c
-        __emit 0x24
-        __emit 0x30
-        __emit 0xc6
-        __emit 0x44
-        __emit 0x24
-        __emit 0x34
-        __emit 0x01
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x1c
-        __emit 0x51
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x14
-        __emit 0xc6
-        __emit 0x44
-        __emit 0x24
-        __emit 0x44
-        __emit 0x03
-        __emit 0xe8
-        __emit 0xa0
-        __emit 0xfc
-        __emit 0x6e
-        __emit 0x00
-        __emit 0x50
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x2c
-        __emit 0xe8
-        __emit 0x96
-        __emit 0xfc
-        __emit 0x6e
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0xb8
-        __emit 0xd5
-        __emit 0x2e
-        __emit 0x01
-        __emit 0x50
-        __emit 0x53
-        __emit 0x68
-        __emit 0x00
-        __emit 0x24
-        __emit 0x74
-        __emit 0x49
-        __emit 0x83
-        __emit 0xc6
-        __emit 0x38
-        __emit 0x56
-        __emit 0xe8
-        __emit 0x40
-        __emit 0xf8
-        __emit 0x6e
-        __emit 0x00
-        __emit 0x3b
-        __emit 0xc3
-        __emit 0xb9
-        __emit 0x5c
-        __emit 0x3b
-        __emit 0x08
-        __emit 0x01
-        __emit 0x89
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x28
-        __emit 0x89
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x10
-        __emit 0x88
-        __emit 0x5c
-        __emit 0x24
-        __emit 0x40
-        __emit 0x89
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x1c
-        __emit 0x74
-        __emit 0x0b
-        __emit 0x6a
-        __emit 0x01
-        __emit 0x50
-        __emit 0x8d
-        __emit 0x4d
-        __emit 0x20
-        __emit 0xe8
-        __emit 0xf0
-        __emit 0xe1
-        __emit 0xd3
-        __emit 0xff
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x50
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x40
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xab
-        __emit 0x4a
-        __emit 0x58
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x38
-        __emit 0x5f
-        __emit 0x5e
-        __emit 0x5d
-        __emit 0x64
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5b
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x34
-        __emit 0xc2
-        __emit 0x0c
-        __emit 0x00
-}
+	Object *object = TheScriptEngine->getUnitNamed(unitName);
+	if (!object)
+	{
+		return;
+	}
+
+	AIUpdateInterface *ai = object->getAIUpdateInterface();
+	if (!ai)
+	{
+		return;
+	}
+
+	const ThingTemplate *thingTemplate =
+		TheThingFactory->findTemplate(objectType);
+	if (!thingTemplate)
+	{
+		return;
+	}
+
+	PolygonTrigger *trigger =
+		TheScriptEngine->getQualifiedTriggerAreaByName(triggerName);
+	if (!trigger)
+	{
+		return;
+	}
+
+	Object *nearestObject;
+	{
+		PartitionFilterSameMapStatus mapFilter(object);
+		PartitionFilterPolygonTrigger triggerFilter(trigger);
+		PartitionFilterThing thingFilter(thingTemplate, true);
+
+		nearestObject = ThePartitionManager->getClosestObject(
+			object->getPosition(), 1000000.0f, 0,
+			thingFilter.link(triggerFilter.link(&mapFilter)));
+	}
+
+	if (!nearestObject)
+	{
+		return;
+	}
+
+	ai->m_commands.bfmeCommand01(nearestObject, CMD_FROM_SCRIPT);
 }
