@@ -6084,48 +6084,8 @@ void ScriptActions::doUnitStopSequentialScript(const AsciiString& unitName)
 		Orders unit to fire a waypoint following capable weapon to follow a waypoint and attack the
 		final waypoint position. */
 //-------------------------------------------------------------------------------------------------
-// ?doNamedFireWeaponFollowingWaypointPath@ScriptActions@@IAEXABVAsciiString@@0@Z present-unmatched
-void ScriptActions::doNamedFireWeaponFollowingWaypointPath( const AsciiString& unit, const AsciiString& waypointPath )
-{
-	//Get the unit... if it fails, abort.
-	Object *theUnit = TheScriptEngine->getUnitNamed( unit );
-	if( !theUnit ) 
-	{
-		return;
-	}
-	
-	Coord3D pos = *theUnit->getPosition();
-
-
-	//Find the closest waypoint on the path.
-	Waypoint *way = TheTerrainLogic->getClosestWaypointOnPath( &pos, waypointPath );
-	if( !way )
-	{
-		return;
-	}
-	//We have to do special checking to make sure our unit even has a waypoint following capable weapon.
-	Weapon *weapon = theUnit->findWaypointFollowingCapableWeapon();
-	if( !weapon )
-	{
-		return;
-	}
-
-	Object *projectile = weapon->forceFireWeapon( theUnit, &pos );
-	if( projectile )
-	{
-		//Get the AIUpdateInterface... if it fails, abort.
-		AIUpdateInterface* aiUpdate = projectile->getAIUpdateInterface();
-		if( !aiUpdate )
-		{
-			return;
-		}
-		DEBUG_ASSERTLOG(TheTerrainLogic->isPurposeOfPath(way, waypointPath), ("***Wrong waypoint purpose. Make jba fix this.\n"));
-		
-		projectile->leaveGroup();
-		aiUpdate->chooseLocomotorSet(LOCOMOTORSET_NORMAL);
-		aiUpdate->aiFollowWaypointPath(way, CMD_FROM_SCRIPT);
-	}
-}
+// ?doNamedFireWeaponFollowingWaypointPath@ScriptActions@@IAEXABVAsciiString@@0@Z
+// The byte-exact body lives in ScriptActions_doNamedFireWeaponFollowingWaypointPath.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** doTeamStartSequentialScript */

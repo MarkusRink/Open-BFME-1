@@ -85324,3 +85324,4 @@ _bfmeCbBZC,0x007F4740
 ?bfmeStopZJ@BfmeBaseZJ@@QAEXXZ,0x0003C740
 ?bfmeClearZJ@BfmeBaseZJ@@QAEXXZ,0x00041970
 ?bfmeTopZJ@BfmeHostZJ@@QAEPAVBfmeTargetZJ@@XZ,0x0000DE9F
+?forceFireWeapon@Weapon@@QAEPAVObject@@PBV2@PBUCoord3D@@@Z,0x00040746,retail callee of ScriptActions::doNamedFireWeaponFollowingWaypointPath; Weapon body at 0x001EA700
