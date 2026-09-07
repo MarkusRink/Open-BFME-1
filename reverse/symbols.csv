@@ -85757,3 +85757,6 @@ __imp__bfmeDecESG@4,0x00F58E54,pin
 ?bfmeFindByIdESK@BfmeLogicESK@@QAEPAVBfmeObjESK@@H@Z,0x0001F253,pin
 ?g_bfmeLogicESK@@3PAVBfmeLogicESK@@A,0x00EF0898,pin
 ?bfmeCheckESK@BfmeHostESK@@QAEDPAVBfmeMsgESK@@PAVBfmeThingESK@@@Z,0x0001D813,pin
+?bfmeMarkESM@BfmeHostESM@@QAEXPAVBfmeThingESM@@H@Z,0x00030963,pin
+?bfmePrepESM@BfmeHostESM@@QAEXPAVBfmeThingESM@@@Z,0x00044693,pin
+?bfmeDoESM@BfmeHostESM@@QAEDPAVBfmeThingESM@@UBfmePairESM@@PAPAXHH@Z,0x00021CEC,pin
