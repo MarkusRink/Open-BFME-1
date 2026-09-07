@@ -32,10 +32,10 @@
 // The 81-byte row is longer by exactly the operand-size prefix on its store,
 // which is the only thing separating it from the byte rows.
 //
-// IDENTITY IS NOT RECOVERED.  Address-derived names throughout.  Padding fields
-// exist only to place +0x0C, +0x10 and +0x14 in the message and +0x0C in the
-// reference; nothing here reads them and the bytes say nothing about what they
-// hold or what the five records are.
+// The two dword-payload records now use caller-proven type-8/type-9 message
+// identities. Their getter ILTs resolve to the same bodies used by the matched
+// leave-frame and replay-range handlers. The other address-derived identities
+// remain unrecovered.
 
 class Rva00677280Msg
 {
@@ -148,77 +148,77 @@ void Rva00677450( unsigned char *buffer, Rva00677450Ref *ref )
 	*(unsigned int *)( buffer + 12 ) = msg->fetchB();
 }
 
-class Rva006774C0Msg
+class BFMENetInformPlayerLeaveFrameCommandMsg
 {
 public:
-	unsigned int fetchA();
-	unsigned int fetchB();
+	int getLeavingPlayerID();
+	unsigned int getLeaveFrame();
 	char           m_pad0[ 0x0c ];
-	unsigned char  m_type;
+	unsigned char  m_sourcePlayerID;
 	char           m_pad1[ 3 ];
 	unsigned short m_id;
 	char           m_pad2[ 2 ];
-	unsigned char  m_player;
+	unsigned char  m_commandType;
 };
 
 class Rva006774C0Ref
 {
 public:
-	Rva006774C0Msg *m_msg;
+	BFMENetInformPlayerLeaveFrameCommandMsg *m_msg;
 	char m_pad[ 8 ];
 	unsigned char m_relay;
 };
 
 void Rva006774C0( unsigned char *buffer, Rva006774C0Ref *ref )
 {
-	Rva006774C0Msg *msg = ref->m_msg;
+	BFMENetInformPlayerLeaveFrameCommandMsg *msg = ref->m_msg;
 	buffer[ 0 ] = 'T';
-	buffer[ 1 ] = msg->m_player;
+	buffer[ 1 ] = msg->m_commandType;
 	buffer[ 2 ] = 'R';
 	buffer[ 3 ] = ref->m_relay;
 	buffer[ 4 ] = 'P';
-	buffer[ 5 ] = msg->m_type;
+	buffer[ 5 ] = msg->m_sourcePlayerID;
 	buffer[ 6 ] = 'C';
 	*(unsigned short *)( buffer + 7 ) = msg->m_id;
 	buffer[ 9 ] = 'D';
-	*(unsigned int *)( buffer + 10 ) = msg->fetchA();
-	*(unsigned int *)( buffer + 14 ) = msg->fetchB();
+	*(unsigned int *)( buffer + 10 ) = msg->getLeavingPlayerID();
+	*(unsigned int *)( buffer + 14 ) = msg->getLeaveFrame();
 }
 
-class Rva00677590Msg
+class BFMENetRequestFrameDataCommandMsg
 {
 public:
-	unsigned int fetchA();
-	unsigned int fetchB();
+	unsigned int getFirstFrame();
+	unsigned int getLastFrame();
 	char           m_pad0[ 0x0c ];
-	unsigned char  m_type;
+	unsigned char  m_sourcePlayerID;
 	char           m_pad1[ 3 ];
 	unsigned short m_id;
 	char           m_pad2[ 2 ];
-	unsigned char  m_player;
+	unsigned char  m_commandType;
 };
 
 class Rva00677590Ref
 {
 public:
-	Rva00677590Msg *m_msg;
+	BFMENetRequestFrameDataCommandMsg *m_msg;
 	char m_pad[ 8 ];
 	unsigned char m_relay;
 };
 
 void Rva00677590( unsigned char *buffer, Rva00677590Ref *ref )
 {
-	Rva00677590Msg *msg = ref->m_msg;
+	BFMENetRequestFrameDataCommandMsg *msg = ref->m_msg;
 	buffer[ 0 ] = 'T';
-	buffer[ 1 ] = msg->m_player;
+	buffer[ 1 ] = msg->m_commandType;
 	buffer[ 2 ] = 'R';
 	buffer[ 3 ] = ref->m_relay;
 	buffer[ 4 ] = 'P';
-	buffer[ 5 ] = msg->m_type;
+	buffer[ 5 ] = msg->m_sourcePlayerID;
 	buffer[ 6 ] = 'C';
 	*(unsigned short *)( buffer + 7 ) = msg->m_id;
 	buffer[ 9 ] = 'D';
-	*(unsigned int *)( buffer + 10 ) = msg->fetchA();
-	*(unsigned int *)( buffer + 14 ) = msg->fetchB();
+	*(unsigned int *)( buffer + 10 ) = msg->getFirstFrame();
+	*(unsigned int *)( buffer + 14 ) = msg->getLastFrame();
 }
 

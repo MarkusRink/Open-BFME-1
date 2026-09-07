@@ -77425,13 +77425,9 @@ name,address,notes
 ?fetchA@Rva00677280Msg@@QAEEXZ,0x00028A1F,S3 wire-record fill family fetch callee (address-derived name)
 ?fetchA@Rva006772F0Msg@@QAEEXZ,0x000058B7,S3 wire-record fill family fetch callee (address-derived name)
 ?fetchA@Rva00677450Msg@@QAEGXZ,0x00012C15,S3 wire-record fill family fetch callee (address-derived name)
-?fetchA@Rva006774C0Msg@@QAEIXZ,0x00034612,S3 wire-record fill family fetch callee (address-derived name)
-?fetchA@Rva00677590Msg@@QAEIXZ,0x0000911F,S3 wire-record fill family fetch callee (address-derived name)
 ?fetchB@Rva00677280Msg@@QAEIXZ,0x0003F62A,S3 wire-record fill family fetch callee (address-derived name)
 ?fetchB@Rva006772F0Msg@@QAEIXZ,0x00013F20,S3 wire-record fill family fetch callee (address-derived name)
 ?fetchB@Rva00677450Msg@@QAEIXZ,0x00033668,S3 wire-record fill family fetch callee (address-derived name)
-?fetchB@Rva006774C0Msg@@QAEIXZ,0x0002DF06,S3 wire-record fill family fetch callee (address-derived name)
-?fetchB@Rva00677590Msg@@QAEIXZ,0x00035EF4,S3 wire-record fill family fetch callee (address-derived name)
 ?fill@BfmeRvaA760Output@@QAEXPAH@Z,0x00031525,assigned body helper for Rva0024A760
 ?fill@BfmeShadowBufferEntry@@QAEXPAE@Z,0x00034BE9,buffer build fill helper via retail ILT
 ?fill@Gen003C0350Found@@QAE_NPAX0@Z,0x000325B0,ILT to fill body 0x00619840; callee of 0x003C0350

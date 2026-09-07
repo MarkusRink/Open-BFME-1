@@ -28,16 +28,9 @@
 // FrameMessage's own code, per the alias row at 0x006779F0) rather than a
 // separately matched isRoomForRequestFrameDataMessage.
 //
-// The two payload getter calls in addInformPlayerLeaveFrameCommand and
-// addRequestFrameDataCommand do NOT reach the already-matched
-// BFMENetInformPlayerLeaveFrameCommandMsg::getLeavingPlayerID/getLeaveFrame or
-// BFMENetRequestFrameDataCommandMsg::getRequestedPlayerID/getRequestedFrame
-// (those sit at 0x006741D0/0x6741E0/0x6742F0/0x674300, all far from this
-// body's actual call targets 0x00034612/0x0002DF06/0x0000911F/0x00035EF4).
-// Whatever those four callees really are remains unrecovered -- same
-// "IDENTITY IS NOT RECOVERED" situation S3WireRecordFills.cpp already
-// documented for these exact two address-derived classes and the exact same
-// pinned fetchA/fetchB names, reused verbatim here rather than invented twice.
+// The payload getter ILTs are now anchored by the matched receivers:
+// type 8: 0x34612 -> 0x6741E0 (leaving player), 0x2DF06 -> 0x6741D0 (frame).
+// type 9: 0x0911F -> 0x6742F0 (first frame), 0x35EF4 -> 0x674300 (last frame).
 
 extern "C" void *__cdecl memcpy(void *dest, const void *src, unsigned int count);
 #pragma intrinsic(memcpy)
@@ -77,22 +70,18 @@ public:
 	Int getRequestedPlayerID();
 };
 
-// Address-derived placeholder names, reused from
-// Code/GameEngine/Source/Common/S3WireRecordFills.cpp: identity of the two
-// fetch callees is not recovered, only their addresses (0x00034612/0x0002DF06
-// and 0x0000911F/0x00035EF4, pinned in reverse/symbols.csv).
-class Rva006774C0Msg : public NetCommandMsg
+class BFMENetInformPlayerLeaveFrameCommandMsg : public NetCommandMsg
 {
 public:
-	unsigned int fetchA();
-	unsigned int fetchB();
+	int getLeavingPlayerID();
+	unsigned int getLeaveFrame();
 };
 
-class Rva00677590Msg : public NetCommandMsg
+class BFMENetRequestFrameDataCommandMsg : public NetCommandMsg
 {
 public:
-	unsigned int fetchA();
-	unsigned int fetchB();
+	unsigned int getFirstFrame();
+	unsigned int getLastFrame();
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/NetCommandRef.h
@@ -206,7 +195,7 @@ Bool NetPacket::addInformPlayerLeaveFrameCommand(NetCommandRef *msg)
 {
 	Bool needNewCommandID = false;
 	if (isRoomForInformPlayerLeaveFrameMessage(msg)) {
-		Rva006774C0Msg *cmdMsg = (Rva006774C0Msg *)msg->getCommand();
+		BFMENetInformPlayerLeaveFrameCommandMsg *cmdMsg = (BFMENetInformPlayerLeaveFrameCommandMsg *)msg->getCommand();
 
 		if (m_lastCommandType != cmdMsg->getNetCommandType()) {
 			m_packet[m_packetLen] = 'T'; ++m_packetLen;
@@ -242,10 +231,10 @@ Bool NetPacket::addInformPlayerLeaveFrameCommand(NetCommandRef *msg)
 		m_lastCommandID = cmdMsg->getID();
 
 		m_packet[m_packetLen] = 'D'; ++m_packetLen;
-		UnsignedInt fieldA = cmdMsg->fetchA();
+		UnsignedInt fieldA = cmdMsg->getLeavingPlayerID();
 		memcpy(m_packet + m_packetLen, &fieldA, sizeof(fieldA));
 		m_packetLen += sizeof(fieldA);
-		UnsignedInt fieldB = cmdMsg->fetchB();
+		UnsignedInt fieldB = cmdMsg->getLeaveFrame();
 		memcpy(m_packet + m_packetLen, &fieldB, sizeof(fieldB));
 		m_packetLen += sizeof(fieldB);
 
@@ -265,7 +254,7 @@ Bool NetPacket::addRequestFrameDataCommand(NetCommandRef *msg)
 {
 	Bool needNewCommandID = false;
 	if (isRoomForRequestFrameDataMessage(msg)) {
-		Rva00677590Msg *cmdMsg = (Rva00677590Msg *)msg->getCommand();
+		BFMENetRequestFrameDataCommandMsg *cmdMsg = (BFMENetRequestFrameDataCommandMsg *)msg->getCommand();
 
 		if (m_lastCommandType != cmdMsg->getNetCommandType()) {
 			m_packet[m_packetLen] = 'T'; ++m_packetLen;
@@ -301,10 +290,10 @@ Bool NetPacket::addRequestFrameDataCommand(NetCommandRef *msg)
 		m_lastCommandID = cmdMsg->getID();
 
 		m_packet[m_packetLen] = 'D'; ++m_packetLen;
-		UnsignedInt fieldA = cmdMsg->fetchA();
+		UnsignedInt fieldA = cmdMsg->getFirstFrame();
 		memcpy(m_packet + m_packetLen, &fieldA, sizeof(fieldA));
 		m_packetLen += sizeof(fieldA);
-		UnsignedInt fieldB = cmdMsg->fetchB();
+		UnsignedInt fieldB = cmdMsg->getLastFrame();
 		memcpy(m_packet + m_packetLen, &fieldB, sizeof(fieldB));
 		m_packetLen += sizeof(fieldB);
 

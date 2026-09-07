@@ -162,20 +162,18 @@ private:
 class BFMENetInformPlayerLeaveFrameCommandMsg : public NetCommandMsg
 {
 public:
-	// Legacy names are swapped: the first field is the frame; the second is the player.
-	int getLeavingPlayerID();
 	unsigned int getLeaveFrame();
+	int getLeavingPlayerID();
 };
 
 class BFMENetRequestFrameDataCommandMsg : public NetCommandMsg
 {
 public:
 	BFMENetRequestFrameDataCommandMsg();
-	void setRequestedPlayerID(int firstFrame);
-	void setRequestedFrame(unsigned int lastFrame);
-	// Legacy getter names: the type-9 payload actually stores [firstFrame,lastFrame].
-	int getRequestedPlayerID();
-	unsigned int getRequestedFrame();
+	void setFirstFrame(unsigned int firstFrame);
+	void setLastFrame(unsigned int lastFrame);
+	unsigned int getFirstFrame();
+	unsigned int getLastFrame();
 private:
 	unsigned int m_firstFrame;
 	unsigned int m_lastFrame;
@@ -577,8 +575,8 @@ void BFMEConnectionManager::processRequestFrameDataCommand(void *command)
 	BFMENetRequestFrameDataCommandMsg *msg = static_cast<BFMENetRequestFrameDataCommandMsg *>(command);
 	if (msg == 0)
 		return;
-	unsigned int startFrame = msg->getRequestedPlayerID();
-	unsigned int endFrame = msg->getRequestedFrame();
+	unsigned int startFrame = msg->getFirstFrame();
+	unsigned int endFrame = msg->getLastFrame();
 	if (endFrame < startFrame)
 		return;
 	unsigned int slack = TheWritableGlobalData->networkRunAheadSlack;
@@ -654,8 +652,8 @@ void BFMEConnectionManager::processInformPlayerLeaveFrameCommand(void *command)
 	BFMENetInformPlayerLeaveFrameCommandMsg *msg = static_cast<BFMENetInformPlayerLeaveFrameCommandMsg *>(command);
 	if (msg == 0)
 		return;
-	unsigned int leaveFrame = msg->getLeavingPlayerID();
-	unsigned short leavingPlayer = msg->getLeaveFrame();
+	unsigned int leaveFrame = msg->getLeaveFrame();
+	unsigned short leavingPlayer = msg->getLeavingPlayerID();
 	if (leaveFrame < TheGameLogic->getFrame() + TheWritableGlobalData->networkRunAheadSlack)
 	{
 		if (msg->getPlayerID() < 8)
@@ -666,8 +664,8 @@ void BFMEConnectionManager::processInformPlayerLeaveFrameCommand(void *command)
 		BFMENetRequestFrameDataCommandMsg *request = new BFMENetRequestFrameDataCommandMsg;
 		request->setPlayerID(m_localSlot);
 		request->setExecutionFrame(-1);
-		request->setRequestedPlayerID(TheGameLogic->getFrame() + 1);
-		request->setRequestedFrame(leaveFrame);
+		request->setFirstFrame(TheGameLogic->getFrame() + 1);
+		request->setLastFrame(leaveFrame);
 		if (DoesCommandRequireACommandID(request->getNetCommandType()))
 			request->setID(GenerateNextCommandID());
 		if (msg->getPlayerID() < 8)

@@ -563,78 +563,72 @@ void NetFileAnnounceCommandMsg::setPlayerMask(UnsignedByte v) { m_playerMask = v
 // BFMENet* style the other BFME-only additions in this tree already use. The
 // layouts and the type constants ARE from the image.
 
-// Stamps 8. m_leaveFrame starts at -1 rather than 0, the same "not yet bound to a
-// frame" convention the base uses for m_executionFrame -- which is what makes the
-// +0x20 field the frame and the +0x1C field the player.
+// The matched type-8 receiver (0x00664430) proves frame at +0x1C and
+// leaving player at +0x20. The wire reader transmits player first, then frame.
 class BFMENetInformPlayerLeaveFrameCommandMsg : public NetCommandMsg
 {
 public:
 	BFMENetInformPlayerLeaveFrameCommandMsg();
-	Int getLeavingPlayerID();
-	void setLeavingPlayerID(Int playerID);
 	UnsignedInt getLeaveFrame();
 	void setLeaveFrame(UnsignedInt frame);
-	void setLeaveInfo(UnsignedInt frame, Int playerID);
+	Int getLeavingPlayerID();
+	void setLeavingPlayerID(Int playerID);
+	void setLeaveInfo(Int playerID, UnsignedInt frame);
 
-	Int m_leavingPlayerID;							// this+0x1C
-	UnsignedInt m_leaveFrame;						// this+0x20
+	UnsignedInt m_leaveFrame; // +0x1C
+	Int m_leavingPlayerID; // +0x20
 };
 
 BFMENetInformPlayerLeaveFrameCommandMsg::BFMENetInformPlayerLeaveFrameCommandMsg()
 {
 	m_commandType = NETCOMMANDTYPE_INFORMPLAYERLEAVEFRAME;
-	m_leavingPlayerID = 0;
-	m_leaveFrame = -1;
+	m_leaveFrame = 0;
+	m_leavingPlayerID = -1;
 }
 
-Int BFMENetInformPlayerLeaveFrameCommandMsg::getLeavingPlayerID() { return m_leavingPlayerID; }
+UnsignedInt BFMENetInformPlayerLeaveFrameCommandMsg::getLeaveFrame() { return m_leaveFrame; }
 
-// Re-stamps the command type on the way in. Nothing else in the family does
-// that, and the constructor has already set it -- but the store is there in
-// retail, ahead of the field write.
-void BFMENetInformPlayerLeaveFrameCommandMsg::setLeavingPlayerID(Int playerID)
+// This setter also re-stamps the type; the player-only setter does not.
+void BFMENetInformPlayerLeaveFrameCommandMsg::setLeaveFrame(UnsignedInt frame)
 {
 	m_commandType = NETCOMMANDTYPE_INFORMPLAYERLEAVEFRAME;
-	m_leavingPlayerID = playerID;
-}
-UnsignedInt BFMENetInformPlayerLeaveFrameCommandMsg::getLeaveFrame() { return m_leaveFrame; }
-void BFMENetInformPlayerLeaveFrameCommandMsg::setLeaveFrame(UnsignedInt frame) { m_leaveFrame = frame; }
-
-// Retail assigns the frame first and the player second even though the frame is
-// the second parameter, which is why the two stores read [ecx+0x1c] = arg2 then
-// [ecx+0x20] = arg1.
-void BFMENetInformPlayerLeaveFrameCommandMsg::setLeaveInfo(UnsignedInt frame, Int playerID)
-{
-	m_leavingPlayerID = playerID;
 	m_leaveFrame = frame;
 }
+Int BFMENetInformPlayerLeaveFrameCommandMsg::getLeavingPlayerID() { return m_leavingPlayerID; }
+void BFMENetInformPlayerLeaveFrameCommandMsg::setLeavingPlayerID(Int playerID) { m_leavingPlayerID = playerID; }
 
-// Stamps 9. Both fields start at zero, so neither carries the -1 sentinel and the
-// pairing below follows type 8's rather than being pinned by the constructor.
+void BFMENetInformPlayerLeaveFrameCommandMsg::setLeaveInfo(Int playerID, UnsignedInt frame)
+{
+	m_leaveFrame = frame;
+	m_leavingPlayerID = playerID;
+}
+
+// Type 9 requests the inclusive [firstFrame,lastFrame] replay range. The
+// matched sender 0x00664430 and range validator 0x006659B0 prove both fields.
 class BFMENetRequestFrameDataCommandMsg : public NetCommandMsg
 {
 public:
 	BFMENetRequestFrameDataCommandMsg();
-	Int getRequestedPlayerID();
-	UnsignedInt getRequestedFrame();
-	void setRequestedPlayerID(Int playerID);
-	void setRequestedFrame(UnsignedInt frame);
+	UnsignedInt getFirstFrame();
+	UnsignedInt getLastFrame();
+	void setFirstFrame(UnsignedInt frame);
+	void setLastFrame(UnsignedInt frame);
 
-	Int m_requestedPlayerID;						// this+0x1C
-	UnsignedInt m_requestedFrame;					// this+0x20
+	UnsignedInt m_firstFrame; // +0x1C
+	UnsignedInt m_lastFrame; // +0x20
 };
 
 BFMENetRequestFrameDataCommandMsg::BFMENetRequestFrameDataCommandMsg()
 {
 	m_commandType = NETCOMMANDTYPE_REQUESTFRAMEDATA;
-	m_requestedPlayerID = 0;
-	m_requestedFrame = 0;
+	m_firstFrame = 0;
+	m_lastFrame = 0;
 }
 
-Int BFMENetRequestFrameDataCommandMsg::getRequestedPlayerID() { return m_requestedPlayerID; }
-UnsignedInt BFMENetRequestFrameDataCommandMsg::getRequestedFrame() { return m_requestedFrame; }
-void BFMENetRequestFrameDataCommandMsg::setRequestedPlayerID(Int playerID) { m_requestedPlayerID = playerID; }
-void BFMENetRequestFrameDataCommandMsg::setRequestedFrame(UnsignedInt frame) { m_requestedFrame = frame; }
+UnsignedInt BFMENetRequestFrameDataCommandMsg::getFirstFrame() { return m_firstFrame; }
+UnsignedInt BFMENetRequestFrameDataCommandMsg::getLastFrame() { return m_lastFrame; }
+void BFMENetRequestFrameDataCommandMsg::setFirstFrame(UnsignedInt frame) { m_firstFrame = frame; }
+void BFMENetRequestFrameDataCommandMsg::setLastFrame(UnsignedInt frame) { m_lastFrame = frame; }
 
 void NetChatCommandMsg::setPlayerMask(Int playerMask) { m_playerMask = playerMask; }
 

@@ -206,22 +206,20 @@ class BFMENetInformPlayerLeaveFrameCommandMsg : public NetCommandMsg
 {
 public:
 	BFMENetInformPlayerLeaveFrameCommandMsg();
-	void setLeaveFrame(UnsignedInt frame);
 	void setLeavingPlayerID(Int playerID);
-
-	Int m_leavingPlayerID;							// this+0x1C
-	UnsignedInt m_leaveFrame;						// this+0x20
+	void setLeaveFrame(UnsignedInt frame);
+	UnsignedInt m_leaveFrame;
+	Int m_leavingPlayerID;
 };
 
 class BFMENetRequestFrameDataCommandMsg : public NetCommandMsg
 {
 public:
 	BFMENetRequestFrameDataCommandMsg();
-	void setRequestedPlayerID(Int playerID);
-	void setRequestedFrame(UnsignedInt frame);
-
-	Int m_requestedPlayerID;						// this+0x1C
-	UnsignedInt m_requestedFrame;					// this+0x20
+	void setFirstFrame(UnsignedInt frame);
+	void setLastFrame(UnsignedInt frame);
+	UnsignedInt m_firstFrame;
+	UnsignedInt m_lastFrame;
 };
 
 // Type 3, the frame-info command, and the only one whose constructor retail
@@ -559,34 +557,28 @@ NetCommandMsg *NetPacket::readDisconnectScreenOffMessage(UnsignedByte *data, Int
 NetCommandMsg *NetPacket::readInformPlayerLeaveFrameMessage(UnsignedByte *data, Int &i)
 {
 	BFMENetInformPlayerLeaveFrameCommandMsg *msg = new BFMENetInformPlayerLeaveFrameCommandMsg;
-
-	UnsignedInt leaveFrame = 0;
-	memcpy(&leaveFrame, data + i, sizeof(leaveFrame));
-	i += sizeof(leaveFrame);
-	msg->setLeaveFrame(leaveFrame);
-
 	Int playerID = 0;
 	memcpy(&playerID, data + i, sizeof(playerID));
 	i += sizeof(playerID);
 	msg->setLeavingPlayerID(playerID);
-
+	UnsignedInt leaveFrame = 0;
+	memcpy(&leaveFrame, data + i, sizeof(leaveFrame));
+	i += sizeof(leaveFrame);
+	msg->setLeaveFrame(leaveFrame);
 	return msg;
 }
 
 NetCommandMsg *NetPacket::readRequestFrameDataMessage(UnsignedByte *data, Int &i)
 {
 	BFMENetRequestFrameDataCommandMsg *msg = new BFMENetRequestFrameDataCommandMsg;
-
-	Int playerID = 0;
-	memcpy(&playerID, data + i, sizeof(playerID));
-	i += sizeof(playerID);
-	msg->setRequestedPlayerID(playerID);
-
-	UnsignedInt frame = 0;
-	memcpy(&frame, data + i, sizeof(frame));
-	i += sizeof(frame);
-	msg->setRequestedFrame(frame);
-
+	UnsignedInt firstFrame = 0;
+	memcpy(&firstFrame, data + i, sizeof(firstFrame));
+	i += sizeof(firstFrame);
+	msg->setFirstFrame(firstFrame);
+	UnsignedInt lastFrame = 0;
+	memcpy(&lastFrame, data + i, sizeof(lastFrame));
+	i += sizeof(lastFrame);
+	msg->setLastFrame(lastFrame);
 	return msg;
 }
 
