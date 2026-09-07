@@ -42,6 +42,29 @@ static int stringLength(const wchar_t *s)
     return (int)wcslen(s);
 }
 
+// Retail compares wide strings through a temporary traits functor (the this
+// pointer lands in a dead parameter slot); the member is the 0x0005C4B0 body.
+struct Rva0005C4B0WideTraits
+{
+    int compare(const wchar_t *a, const wchar_t *b, int len);
+};
+// The no-case wide compare is the private StringBase<wchar_t>::compareNoCaseRaw
+// body at 0x0009ECA0, reached the same way; the length-aware compare at
+// 0x0005DC70 is a five-argument cdecl helper (the last argument selects case
+// folding). Retail substitutes the shared empty UnicodeString buffer for a
+// null m_data.
+struct Rva0009ECA0NoCaseTraits
+{
+    int compareNoCaseRaw(const wchar_t *a, const wchar_t *b, int len) const;
+};
+struct Rva0005DC70Flags
+{
+    bool noCase;
+};
+int __cdecl Rva0005DC70CompareWideLengths(const wchar_t *a, int aLen, const wchar_t *b, int bLen, Rva0005DC70Flags flags);
+extern const char g_bfmeEmptyUnicode[];
+
+
 template <typename T>
 StringBase<T>::StringBase()
 {
@@ -173,251 +196,29 @@ int StringBase<char>::compare(const char *str, int len) const
     return result;
 }
 
-__declspec(naked) int StringBase<wchar_t>::compare(const StringBase<wchar_t> &str) const
+int StringBase<wchar_t>::compare(const wchar_t *str, int len) const
 {
-    __asm {
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x04
-        __emit 0x8b
-        __emit 0x00
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x56
-        __emit 0x57
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x70
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xf6
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x8d
-        __emit 0x50
-        __emit 0x08
-        __emit 0x75
-        __emit 0x05
-        __emit 0xba
-        __emit 0x8c
-        __emit 0x38
-        __emit 0x07
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0xc6
-        __emit 0x44
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x00
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x48
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc9
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x05
-        __emit 0x83
-        __emit 0xc0
-        __emit 0x08
-        __emit 0xeb
-        __emit 0x05
-        __emit 0xb8
-        __emit 0x8c
-        __emit 0x38
-        __emit 0x07
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x7c
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x57
-        __emit 0x56
-        __emit 0x52
-        __emit 0x51
-        __emit 0x50
-        __emit 0xe8
-        __emit 0xe6
-        __emit 0xa8
-        __emit 0xfa
-        __emit 0xff
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x14
-        __emit 0x5f
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-    }
+    Rva0005DC70Flags flags;
+    flags.noCase = false;
+    const int myLen = m_data ? m_data->length : 0;
+    const wchar_t *data = m_data ? &m_data->data[0] : (const wchar_t *)g_bfmeEmptyUnicode;
+    return Rva0005DC70CompareWideLengths(data, myLen, str, len, flags);
 }
 
-__declspec(naked) int StringBase<wchar_t>::compare(const wchar_t *str) const
+int StringBase<wchar_t>::compare(const StringBase<wchar_t> &str) const
 {
-    __asm {
-        __emit 0x56
-        __emit 0x57
-        __emit 0x8b
-        __emit 0x7c
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x85
-        __emit 0xff
-        __emit 0x8b
-        __emit 0xf1
-        __emit 0x74
-        __emit 0x0c
-        __emit 0x57
-        __emit 0xff
-        __emit 0x15
-        __emit 0x24
-        __emit 0x95
-        __emit 0x35
-        __emit 0x01
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x8b
-        __emit 0x0e
-        __emit 0x85
-        __emit 0xc9
-        __emit 0xc6
-        __emit 0x44
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x00
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x51
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xd2
-        __emit 0x85
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x05
-        __emit 0x83
-        __emit 0xc1
-        __emit 0x08
-        __emit 0xeb
-        __emit 0x05
-        __emit 0xb9
-        __emit 0x8c
-        __emit 0x38
-        __emit 0x07
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x56
-        __emit 0x50
-        __emit 0x57
-        __emit 0x52
-        __emit 0x51
-        __emit 0xe8
-        __emit 0x4c
-        __emit 0xbd
-        __emit 0xef
-        __emit 0xff
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x14
-        __emit 0x5f
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-    }
+    int len = str.m_data ? str.m_data->length : 0;
+    const wchar_t *data = str.m_data ? &str.m_data->data[0] : (const wchar_t *)g_bfmeEmptyUnicode;
+    return compare(data, len);
 }
 
-__declspec(naked) int StringBase<wchar_t>::compare(const wchar_t *str, int len) const
+int StringBase<wchar_t>::compare(const wchar_t *str) const
 {
-    __asm {
-        __emit 0x51
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0xc6
-        __emit 0x04
-        __emit 0x24
-        __emit 0x00
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x48
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc9
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x05
-        __emit 0x83
-        __emit 0xc0
-        __emit 0x08
-        __emit 0xeb
-        __emit 0x05
-        __emit 0xb8
-        __emit 0x8c
-        __emit 0x38
-        __emit 0x07
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x14
-        __emit 0x24
-        __emit 0x52
-        __emit 0x8b
-        __emit 0x54
-        __emit 0x24
-        __emit 0x10
-        __emit 0x52
-        __emit 0x8b
-        __emit 0x54
-        __emit 0x24
-        __emit 0x10
-        __emit 0x52
-        __emit 0x51
-        __emit 0x50
-        __emit 0xe8
-        __emit 0x6f
-        __emit 0xb2
-        __emit 0xfa
-        __emit 0xff
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x18
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-    }
+    return compare(str, str ? stringLength(str) : 0);
 }
+
+
+
 
 template <>
 int StringBase<char>::compareNoCase(const StringBase<char> &str) const
@@ -445,272 +246,32 @@ int StringBase<char>::compareNoCase(const char *str, int len) const
     return result;
 }
 
-__declspec(naked) int StringBase<wchar_t>::compareNoCase(const StringBase<wchar_t> &str) const
+int StringBase<wchar_t>::compareNoCase(const wchar_t *str, int len) const
 {
-    __asm {
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x04
-        __emit 0x8b
-        __emit 0x00
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x56
-        __emit 0x57
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x78
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xff
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x8d
-        __emit 0x50
-        __emit 0x08
-        __emit 0x75
-        __emit 0x05
-        __emit 0xba
-        __emit 0x8c
-        __emit 0x38
-        __emit 0x07
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x70
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xf6
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x8d
-        __emit 0x48
-        __emit 0x08
-        __emit 0x75
-        __emit 0x05
-        __emit 0xb9
-        __emit 0x8c
-        __emit 0x38
-        __emit 0x07
-        __emit 0x01
-        __emit 0x3b
-        __emit 0xf7
-        __emit 0x8b
-        __emit 0xc6
-        __emit 0x7c
-        __emit 0x02
-        __emit 0x8b
-        __emit 0xc7
-        __emit 0x50
-        __emit 0x52
-        __emit 0x51
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x18
-        __emit 0xe8
-        __emit 0xc6
-        __emit 0x90
-        __emit 0xfa
-        __emit 0xff
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x75
-        __emit 0x04
-        __emit 0x2b
-        __emit 0xf7
-        __emit 0x8b
-        __emit 0xc6
-        __emit 0x5f
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
+    const int myLen = m_data ? m_data->length : 0;
+    const wchar_t *data = m_data ? &m_data->data[0] : (const wchar_t *)g_bfmeEmptyUnicode;
+    Rva0009ECA0NoCaseTraits traits;
+    int result = traits.compareNoCaseRaw(data, str, myLen < len ? myLen : len);
+    if (result == 0) {
+        result = myLen - len;
     }
+    return result;
 }
 
-__declspec(naked) int StringBase<wchar_t>::compareNoCase(const wchar_t *str) const
+int StringBase<wchar_t>::compareNoCase(const StringBase<wchar_t> &str) const
 {
-    __asm {
-        __emit 0x53
-        __emit 0x8b
-        __emit 0x5c
-        __emit 0x24
-        __emit 0x08
-        __emit 0x85
-        __emit 0xdb
-        __emit 0x56
-        __emit 0x57
-        __emit 0x8b
-        __emit 0xf1
-        __emit 0x74
-        __emit 0x0e
-        __emit 0x53
-        __emit 0xff
-        __emit 0x15
-        __emit 0x24
-        __emit 0x95
-        __emit 0x35
-        __emit 0x01
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x04
-        __emit 0x8b
-        __emit 0xf8
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xff
-        __emit 0x8b
-        __emit 0x06
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x70
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xf6
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x8d
-        __emit 0x48
-        __emit 0x08
-        __emit 0x75
-        __emit 0x05
-        __emit 0xb9
-        __emit 0x8c
-        __emit 0x38
-        __emit 0x07
-        __emit 0x01
-        __emit 0x3b
-        __emit 0xf7
-        __emit 0x8b
-        __emit 0xc6
-        __emit 0x7c
-        __emit 0x02
-        __emit 0x8b
-        __emit 0xc7
-        __emit 0x50
-        __emit 0x53
-        __emit 0x51
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x1c
-        __emit 0xe8
-        __emit 0x79
-        __emit 0xd9
-        __emit 0xb5
-        __emit 0xff
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x75
-        __emit 0x04
-        __emit 0x2b
-        __emit 0xf7
-        __emit 0x8b
-        __emit 0xc6
-        __emit 0x5f
-        __emit 0x5e
-        __emit 0x5b
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-    }
+    int len = str.m_data ? str.m_data->length : 0;
+    const wchar_t *data = str.m_data ? &str.m_data->data[0] : (const wchar_t *)g_bfmeEmptyUnicode;
+    return compareNoCase(data, len);
 }
 
-__declspec(naked) int StringBase<wchar_t>::compareNoCase(const wchar_t *str, int len) const
+int StringBase<wchar_t>::compareNoCase(const wchar_t *str) const
 {
-    __asm {
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x56
-        __emit 0x57
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x70
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xf6
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x8d
-        __emit 0x48
-        __emit 0x08
-        __emit 0x75
-        __emit 0x05
-        __emit 0xb9
-        __emit 0x8c
-        __emit 0x38
-        __emit 0x07
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x7c
-        __emit 0x24
-        __emit 0x10
-        __emit 0x3b
-        __emit 0xf7
-        __emit 0x8b
-        __emit 0xc6
-        __emit 0x7c
-        __emit 0x02
-        __emit 0x8b
-        __emit 0xc7
-        __emit 0x50
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x10
-        __emit 0x50
-        __emit 0x51
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x1c
-        __emit 0xe8
-        __emit 0x4c
-        __emit 0x92
-        __emit 0xfa
-        __emit 0xff
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x75
-        __emit 0x04
-        __emit 0x2b
-        __emit 0xf7
-        __emit 0x8b
-        __emit 0xc6
-        __emit 0x5f
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-    }
+    return compareNoCase(str, str ? stringLength(str) : 0);
 }
+
+
+
 
 __declspec(naked) StringBase<char>::StringBase(const StringBase<char> &src)
 {
@@ -1459,151 +1020,29 @@ bool StringBase<char>::endsWith(const char *str, int len) const
 }
 
 
-__declspec(naked) bool StringBase<wchar_t>::endsWith(const StringBase<wchar_t> &str) const
+bool StringBase<wchar_t>::endsWith(const wchar_t *str, int len) const
 {
-    __asm {
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x04
-        __emit 0x8b
-        __emit 0x00
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x50
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xd2
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x0d
-        __emit 0x83
-        __emit 0xc0
-        __emit 0x08
-        __emit 0x52
-        __emit 0x50
-        __emit 0xe8
-        __emit 0x70
-        __emit 0xfc
-        __emit 0xff
-        __emit 0xff
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0xb8
-        __emit 0x8c
-        __emit 0x38
-        __emit 0x07
-        __emit 0x01
-        __emit 0x52
-        __emit 0x50
-        __emit 0xe8
-        __emit 0x61
-        __emit 0xfc
-        __emit 0xff
-        __emit 0xff
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
+    if (str[0] == L'\0') {
+        return true;
     }
+    int myLen = m_data ? m_data->length : 0;
+    if (myLen < len) {
+        return false;
+    }
+    int length = m_data ? m_data->length : 0;
+    const wchar_t *addr = &m_data->data[length - len];
+    Rva0005C4B0WideTraits traits;
+    return traits.compare(addr, str, len) == 0;
 }
 
-__declspec(naked) bool StringBase<wchar_t>::endsWith(const wchar_t *str, int len) const
+bool StringBase<wchar_t>::endsWith(const StringBase<wchar_t> &str) const
 {
-    __asm {
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0x66
-        __emit 0x83
-        __emit 0x3e
-        __emit 0x00
-        __emit 0x75
-        __emit 0x06
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x09
-        __emit 0x85
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x41
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x8b
-        __emit 0x54
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x3b
-        __emit 0xc2
-        __emit 0x7d
-        __emit 0x06
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-        __emit 0x85
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x41
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x52
-        __emit 0x2b
-        __emit 0xc2
-        __emit 0x8d
-        __emit 0x44
-        __emit 0x41
-        __emit 0x08
-        __emit 0x56
-        __emit 0x50
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x14
-        __emit 0xe8
-        __emit 0xc6
-        __emit 0x93
-        __emit 0x79
-        __emit 0xff
-        __emit 0xf7
-        __emit 0xd8
-        __emit 0x1b
-        __emit 0xc0
-        __emit 0x40
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-    }
+    int len = str.m_data ? str.m_data->length : 0;
+    const wchar_t *data = str.m_data ? &str.m_data->data[0] : (const wchar_t *)g_bfmeEmptyUnicode;
+    return endsWith(data, len);
 }
+
+
 
 
 template <>
@@ -1622,95 +1061,21 @@ __declspec(noinline) bool StringBase<char>::endsWithNoCase(const char *str, int 
 }
 
 
-__declspec(naked) bool StringBase<wchar_t>::endsWithNoCase(const wchar_t *str, int len) const
+bool StringBase<wchar_t>::endsWithNoCase(const wchar_t *str, int len) const
 {
-    __asm {
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0x66
-        __emit 0x83
-        __emit 0x3e
-        __emit 0x00
-        __emit 0x75
-        __emit 0x06
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x09
-        __emit 0x85
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x41
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x8b
-        __emit 0x54
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x3b
-        __emit 0xc2
-        __emit 0x7d
-        __emit 0x06
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-        __emit 0x85
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x41
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x52
-        __emit 0x2b
-        __emit 0xc2
-        __emit 0x8d
-        __emit 0x44
-        __emit 0x41
-        __emit 0x08
-        __emit 0x56
-        __emit 0x50
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x14
-        __emit 0xe8
-        __emit 0xd9
-        __emit 0x0e
-        __emit 0x7c
-        __emit 0xff
-        __emit 0xf7
-        __emit 0xd8
-        __emit 0x1b
-        __emit 0xc0
-        __emit 0x40
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
+    if (str[0] == L'\0') {
+        return true;
     }
+    int myLen = m_data ? m_data->length : 0;
+    if (myLen < len) {
+        return false;
+    }
+    int length = m_data ? m_data->length : 0;
+    const wchar_t *addr = &m_data->data[length - len];
+    Rva0009ECA0NoCaseTraits traits;
+    return traits.compareNoCaseRaw(addr, str, len) == 0;
 }
+
 
 __declspec(naked) void StringBase<char>::ensureUniqueBufferOfSize(int newLen, bool keepData, const char *src1, int src1Len, const char *src2, int src2Len)
 {
@@ -4837,609 +4202,75 @@ __declspec(naked) void StringBase<wchar_t>::set(const StringBase<wchar_t> &src, 
     }
 }
 
-__declspec(naked) bool StringBase<wchar_t>::startsWith(const StringBase<wchar_t> &str) const
+bool StringBase<wchar_t>::startsWith(const wchar_t *str, int len) const
 {
-    __asm {
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x04
-        __emit 0x8b
-        __emit 0x00
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x56
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x70
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xf6
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x0a
-        __emit 0x66
-        __emit 0x83
-        __emit 0x78
-        __emit 0x08
-        __emit 0x00
-        __emit 0x8d
-        __emit 0x50
-        __emit 0x08
-        __emit 0x75
-        __emit 0x06
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x48
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc9
-        __emit 0x3b
-        __emit 0xce
-        __emit 0x7d
-        __emit 0x06
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0x56
-        __emit 0x52
-        __emit 0x83
-        __emit 0xc0
-        __emit 0x08
-        __emit 0x50
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x14
-        __emit 0xe8
-        __emit 0xb3
-        __emit 0x91
-        __emit 0x79
-        __emit 0xff
-        __emit 0xf7
-        __emit 0xd8
-        __emit 0x1a
-        __emit 0xc0
-        __emit 0xfe
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
+    if (str[0] == L'\0') {
+        return true;
     }
+    int myLen = m_data ? m_data->length : 0;
+    if (myLen < len) {
+        return false;
+    }
+    Rva0005C4B0WideTraits traits;
+    return traits.compare(&m_data->data[0], str, len) == 0;
 }
 
-__declspec(naked) bool StringBase<wchar_t>::startsWith(const wchar_t *str) const
+bool StringBase<wchar_t>::startsWith(const StringBase<wchar_t> &str) const
 {
-    __asm {
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0x85
-        __emit 0xf6
-        __emit 0x57
-        __emit 0x8b
-        __emit 0xf9
-        __emit 0x74
-        __emit 0x0c
-        __emit 0x56
-        __emit 0xff
-        __emit 0x15
-        __emit 0x24
-        __emit 0x95
-        __emit 0x35
-        __emit 0x01
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x66
-        __emit 0x83
-        __emit 0x3e
-        __emit 0x00
-        __emit 0x75
-        __emit 0x07
-        __emit 0x5f
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x0f
-        __emit 0x85
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x51
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xd2
-        __emit 0x3b
-        __emit 0xd0
-        __emit 0x7d
-        __emit 0x07
-        __emit 0x5f
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0x50
-        __emit 0x83
-        __emit 0xc1
-        __emit 0x08
-        __emit 0x56
-        __emit 0x51
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x18
-        __emit 0xe8
-        __emit 0x12
-        __emit 0x92
-        __emit 0x79
-        __emit 0xff
-        __emit 0xf7
-        __emit 0xd8
-        __emit 0x1a
-        __emit 0xc0
-        __emit 0x5f
-        __emit 0xfe
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-    }
+    int len = str.m_data ? str.m_data->length : 0;
+    const wchar_t *data = str.m_data ? &str.m_data->data[0] : L"";
+    return startsWith(data, len);
 }
 
-__declspec(naked) bool StringBase<wchar_t>::startsWith(const wchar_t *str, int len) const
+bool StringBase<wchar_t>::startsWith(const wchar_t *str) const
 {
-    __asm {
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0x66
-        __emit 0x83
-        __emit 0x3e
-        __emit 0x00
-        __emit 0x75
-        __emit 0x06
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x48
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc9
-        __emit 0x8b
-        __emit 0x54
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x3b
-        __emit 0xca
-        __emit 0x7d
-        __emit 0x06
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-        __emit 0x52
-        __emit 0x56
-        __emit 0x83
-        __emit 0xc0
-        __emit 0x08
-        __emit 0x50
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x14
-        __emit 0xe8
-        __emit 0x75
-        __emit 0x94
-        __emit 0x79
-        __emit 0xff
-        __emit 0xf7
-        __emit 0xd8
-        __emit 0x1b
-        __emit 0xc0
-        __emit 0x40
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-    }
+    return startsWith(str, str ? stringLength(str) : 0);
 }
 
-__declspec(naked) bool StringBase<char>::startsWithNoCase(const char *str, int len) const
+
+
+
+__declspec(noinline) bool StringBase<char>::startsWithNoCase(const char *str, int len) const
 {
-    __asm {
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0x80
-        __emit 0x3e
-        __emit 0x00
-        __emit 0x75
-        __emit 0x06
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x50
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xd2
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x3b
-        __emit 0xd1
-        __emit 0x7d
-        __emit 0x06
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-        __emit 0x51
-        __emit 0x83
-        __emit 0xc0
-        __emit 0x08
-        __emit 0x56
-        __emit 0x50
-        __emit 0xff
-        __emit 0x15
-        __emit 0x10
-        __emit 0x93
-        __emit 0x35
-        __emit 0x01
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x0c
-        __emit 0xf7
-        __emit 0xd8
-        __emit 0x1b
-        __emit 0xc0
-        __emit 0x40
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
+    if (str[0] == '\0') {
+        return true;
     }
+    int myLen = m_data ? m_data->length : 0;
+    if (myLen < len) {
+        return false;
+    }
+    const char *data = &m_data->data[0];
+    return _memicmp(data, str, len) == 0;
 }
 
-__declspec(naked) bool StringBase<wchar_t>::startsWithNoCase(const StringBase<wchar_t> &str) const
+
+bool StringBase<wchar_t>::startsWithNoCase(const wchar_t *str, int len) const
 {
-    __asm {
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x04
-        __emit 0x8b
-        __emit 0x00
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x56
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x70
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xf6
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x0a
-        __emit 0x66
-        __emit 0x83
-        __emit 0x78
-        __emit 0x08
-        __emit 0x00
-        __emit 0x8d
-        __emit 0x50
-        __emit 0x08
-        __emit 0x75
-        __emit 0x06
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x48
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc9
-        __emit 0x3b
-        __emit 0xce
-        __emit 0x7d
-        __emit 0x06
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0x56
-        __emit 0x52
-        __emit 0x83
-        __emit 0xc0
-        __emit 0x08
-        __emit 0x50
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x14
-        __emit 0xe8
-        __emit 0x66
-        __emit 0x0c
-        __emit 0x7c
-        __emit 0xff
-        __emit 0xf7
-        __emit 0xd8
-        __emit 0x1a
-        __emit 0xc0
-        __emit 0xfe
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
+    if (str[0] == L'\0') {
+        return true;
     }
+    int myLen = m_data ? m_data->length : 0;
+    if (myLen < len) {
+        return false;
+    }
+    Rva0009ECA0NoCaseTraits traits;
+    return traits.compareNoCaseRaw(&m_data->data[0], str, len) == 0;
 }
 
-__declspec(naked) bool StringBase<wchar_t>::startsWithNoCase(const wchar_t *str) const
+bool StringBase<wchar_t>::startsWithNoCase(const StringBase<wchar_t> &str) const
 {
-    __asm {
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0x85
-        __emit 0xf6
-        __emit 0x57
-        __emit 0x8b
-        __emit 0xf9
-        __emit 0x74
-        __emit 0x0c
-        __emit 0x56
-        __emit 0xff
-        __emit 0x15
-        __emit 0x24
-        __emit 0x95
-        __emit 0x35
-        __emit 0x01
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x66
-        __emit 0x83
-        __emit 0x3e
-        __emit 0x00
-        __emit 0x75
-        __emit 0x07
-        __emit 0x5f
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x0f
-        __emit 0x85
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x51
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xd2
-        __emit 0x3b
-        __emit 0xd0
-        __emit 0x7d
-        __emit 0x07
-        __emit 0x5f
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0x50
-        __emit 0x83
-        __emit 0xc1
-        __emit 0x08
-        __emit 0x56
-        __emit 0x51
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x18
-        __emit 0xe8
-        __emit 0xc5
-        __emit 0x0c
-        __emit 0x7c
-        __emit 0xff
-        __emit 0xf7
-        __emit 0xd8
-        __emit 0x1a
-        __emit 0xc0
-        __emit 0x5f
-        __emit 0xfe
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-    }
+    int len = str.m_data ? str.m_data->length : 0;
+    const wchar_t *data = str.m_data ? &str.m_data->data[0] : L"";
+    return startsWithNoCase(data, len);
 }
 
-__declspec(naked) bool StringBase<wchar_t>::startsWithNoCase(const wchar_t *str, int len) const
+bool StringBase<wchar_t>::startsWithNoCase(const wchar_t *str) const
 {
-    __asm {
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0x66
-        __emit 0x83
-        __emit 0x3e
-        __emit 0x00
-        __emit 0x75
-        __emit 0x06
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x06
-        __emit 0x0f
-        __emit 0xb7
-        __emit 0x48
-        __emit 0x04
-        __emit 0xeb
-        __emit 0x02
-        __emit 0x33
-        __emit 0xc9
-        __emit 0x8b
-        __emit 0x54
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x3b
-        __emit 0xca
-        __emit 0x7d
-        __emit 0x06
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-        __emit 0x52
-        __emit 0x56
-        __emit 0x83
-        __emit 0xc0
-        __emit 0x08
-        __emit 0x50
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x14
-        __emit 0xe8
-        __emit 0x98
-        __emit 0x0f
-        __emit 0x7c
-        __emit 0xff
-        __emit 0xf7
-        __emit 0xd8
-        __emit 0x1b
-        __emit 0xc0
-        __emit 0x40
-        __emit 0x5e
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-    }
+    return startsWithNoCase(str, str ? stringLength(str) : 0);
 }
+
+
+
 
 __declspec(naked) void StringBase<char>::toLower()
 {

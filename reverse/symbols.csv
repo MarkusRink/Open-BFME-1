@@ -85609,3 +85609,6 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeConcatERC@BfmeStrERC@@QAEXPBDH@Z,0x00887D60,pin
 ?releaseBuffer@BfmeStrERC@@AAEXXZ,0x00887940,pin
 ?g_bfmeEmptyERC@@3PADA,0x00C7388B,pin
+?compare@Rva0005C4B0WideTraits@@QAEHPBG0H@Z,0x00020581,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008870D0 calls; autopin
+?compareNoCaseRaw@Rva0009ECA0NoCaseTraits@@QBEHPBG0H@Z,0x000480F4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00887120 calls; autopin
+?Rva0005DC70CompareWideLengths@@YAHPBGH0HURva0005DC70Flags@@@Z,0x0000A8D5,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0005F630 calls; autopin

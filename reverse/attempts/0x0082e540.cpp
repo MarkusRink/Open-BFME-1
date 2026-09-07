@@ -1,5 +1,5 @@
 // ?allocate@__new_alloc@_STL@@SAPAXI@Z
-// partial score=0.97 date=2026-09-05
+// partial score=0.98 date=2026-09-07
 // cl: /DNDEBUG /MD /EHsc /Og-
 // NEAR MISS - 160/162 bytes exact (0x0082E540, ?allocate@__new_alloc@_STL@@SAPAXI@Z,
 // ICF-aliased to ?_M_allocate@?$__node_alloc@$00$0A@@_STL@@CAPAXI@Z at the same
