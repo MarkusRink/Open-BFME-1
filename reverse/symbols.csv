@@ -3673,6 +3673,7 @@ name,address,notes
 ??1?$_List_base@PAVShellMenuSchemeLine@@V?$allocator@PAVShellMenuSchemeLine@@@_STL@@@_STL@@QAE@XZ,0x00049706,Open-BFME5 exact REL32 callee from ShellMenuScheme destructor; ILT body 0x00580A40
 ??1?$_List_base@UEvacuationRecord@@V?$allocator@UEvacuationRecord@@@_STL@@@_STL@@QAE@XZ,0x00023411,EvacuateDamage m_pendingEvacuations list-base dtor called by ??1EvacuateDamage@@UAE@XZ at 0x00251200
 ??1?$_List_base@UGen_p8pod@@V?$allocator@UGen_p8pod@@@_STL@@@_STL@@QAE@XZ,0x000078C4,ContestableContain list member destructor call target (tg_0021aed0)
+??1?$_List_base@UGen_p8pod@@V?$allocator@UGen_p8pod@@@_STL@@@_STL@@QAE@XZ,0x00027854,ObjectSMCHelper timer-list destructor thunk to 0x001C3C70
 ??1?$_List_base@UICoord2D@@V?$allocator@UICoord2D@@@_STL@@@_STL@@QAE@XZ,0x008881D0,derived-ICF
 ??1?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@QAE@XZ,0x00032FD3
 ??1?$_Rb_tree@HU?$pair@$$CBHI@_STL@@U?$_Select1st@U?$pair@$$CBHI@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHI@_STL@@@2@@_STL@@QAE@XZ,0x00009895,Open-BFME7 ILT thunk the PSPlayerStats destructor at 0x000A5150 calls for each map member teardown (own COMDAT copy in that TU)
