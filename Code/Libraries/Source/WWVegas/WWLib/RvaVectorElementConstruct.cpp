@@ -3,6 +3,18 @@
 // The vector's element width does not identify its members. These placement
 // constructors retain the out-of-line copy constructor each retail body calls.
 
+struct Gen002E9E10
+{
+	char m_body[20];
+};
+
+class Rva002E8FC0
+{
+public:
+	Rva002E8FC0(const Rva002E8FC0 &value);
+	char m_body[20];
+};
+
 class Open2Rec134500
 {
 public:
@@ -53,6 +65,13 @@ template <>
 void _Construct(Rva00143CE0Element *destination, const Rva00143CE0Element &value)
 {
 	new (destination) Open2Rec134500(reinterpret_cast<const Open2Rec134500 &>(value));
+}
+
+// Retail 0x002EA020 calls the copy constructor at 0x002E8FC0 through 0x00036B10.
+template <>
+void _Construct(Gen002E9E10 *destination, const Gen002E9E10 &value)
+{
+	new (destination) Rva002E8FC0(reinterpret_cast<const Rva002E8FC0 &>(value));
 }
 
 // Retail 0x003A4670 calls the copy constructor at 0x003A4420 through 0x0000988B.

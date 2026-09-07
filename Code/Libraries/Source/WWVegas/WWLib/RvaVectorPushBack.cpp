@@ -18,6 +18,11 @@
 // The empty dispatch tag is aliased onto the value parameter's own stack slot,
 // the same trick the _M_insert_overflow family uses on its trailing bool.
 
+struct Gen002E9E10
+{
+	char m_body[20];
+};
+
 class Open2Rec355050;
 void Open2Construct355050(Open2Rec355050 *destination, const Open2Rec355050 &value);
 class Open2Rec3550F0;
@@ -211,6 +216,13 @@ template <class Type>
 void _Construct(Type *destination, const Type &value);
 
 template <>
+__forceinline void BfmeElementConstruct(Gen002E9E10 *destination,
+	const Gen002E9E10 &value)
+{
+	_Construct(destination, value);
+}
+
+template <>
 __forceinline void BfmeElementConstruct(Rva00143CE0Element *destination,
 	const Rva00143CE0Element &value)
 {
@@ -302,6 +314,9 @@ void vector<Gen_t_003b4b60_p16cd, allocator<Gen_t_003b4b60_p16cd> >::push_back(
 
 // retail 0x00144EA0, sharing its 20-byte element with overflow at 0x00143CE0
 template class vector<Rva00143CE0Element, allocator<Rva00143CE0Element> >;
+
+// retail 0x002EBAA0, sharing its 20-byte element with vector teardown at 0x002EB1F0
+template class vector<Gen002E9E10, allocator<Gen002E9E10> >;
 
 // retail 0x0035BA20, sharing its 20-byte element with overflow at 0x0035AFC0
 template class vector<Rva0035AFC0Element, allocator<Rva0035AFC0Element> >;

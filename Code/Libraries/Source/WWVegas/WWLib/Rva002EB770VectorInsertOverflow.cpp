@@ -1,42 +1,18 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /ICode/GameEngine/Source/Common/System /ICode/GameEngine/Include /ICode/GameEngine/Include/Precompiled /ICode/Libraries/Source/WWVegas/WWLib
 
-// Open-BFME5: STLport vector<pair<ICoord2D, Coord3D> > reallocating insert,
-// retail 0x002EB770, 287 bytes. The name sat on the 5-byte incremental-link
-// thunk at 0x00009052 and the body it jumps to carried only a machine byte-dump
-// row.
-//
-// The element is 20 bytes -- two Ints and three Reals -- so both size
-// computations go through the signed divide-by-twenty magic multiply, every copy
-// loop strides by 0x14, and the new end-of-storage is a pair of leas. The
-// per-element copy stays out of line through the ILT at 0x0002A400, and the
-// teardown is the vector's own clear through the ILT at 0x0002A914, whose body
-// at 0x002EB1F0 the ledger already holds under the destructor spelling the
-// linker folded it with.
+// Retail 0x002EB770 releases the old buffer through the existing vector
+// destructor. Reconstruct the vector before installing the replacement buffer.
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct ICoord2D
+struct Gen002E9E10
 {
-	int x;
-	int y;
+	char m_body[20];
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+inline void *operator new(unsigned int, void *place) { return place; }
+inline void operator delete(void *, void *) {}
 
 namespace _STL
 {
-template <class First, class Second>
-struct pair
-{
-	First first;
-	Second second;
-};
-
 template <class Type>
 class allocator
 {
@@ -49,8 +25,8 @@ struct __false_type
 void *__cdecl vectorLargeAllocate(unsigned int bytes);
 void *__cdecl vectorSmallAllocate(unsigned int bytes);
 
-void __cdecl BfmeElementConstruct(pair<ICoord2D, Coord3D> *destination,
-	const pair<ICoord2D, Coord3D> &value);
+template <class Type>
+void __cdecl _Construct(Type *destination, const Type &value);
 
 template <class Type>
 __forceinline Type *uninitialized_copy(Type *first, Type *last, Type *result)
@@ -59,7 +35,7 @@ __forceinline Type *uninitialized_copy(Type *first, Type *last, Type *result)
 	{
 		do
 		{
-			BfmeElementConstruct(result, *first);
+			_Construct(result, *first);
 			++first;
 			++result;
 		}
@@ -73,7 +49,7 @@ __forceinline Type *uninitialized_fill_n(Type *result, unsigned int count, const
 {
 	for (; count > 0; --count)
 	{
-		BfmeElementConstruct(result, value);
+		_Construct(result, value);
 		++result;
 	}
 	return result;
@@ -82,10 +58,18 @@ __forceinline Type *uninitialized_fill_n(Type *result, unsigned int count, const
 template <class Type, class Allocator>
 class vector
 {
+public:
+	~vector();
+
 protected:
 	void _M_insert_overflow(Type *position, const Type &value,
 		const __false_type &, unsigned int fillLength, bool atEnd);
-	void _M_clear();
+	__forceinline vector(Type *start, Type *finish, Type *endOfStorage)
+	{
+		_M_finish = finish;
+		_M_start = start;
+		_M_end_of_storage = endOfStorage;
+	}
 
 	Type *_M_start;
 	Type *_M_finish;
@@ -119,7 +103,7 @@ void vector<Type, Allocator>::_M_insert_overflow(
 
 	if (fillLength == 1)
 	{
-		BfmeElementConstruct(newFinish, value);
+		_Construct(newFinish, value);
 		++newFinish;
 	}
 	else
@@ -130,12 +114,9 @@ void vector<Type, Allocator>::_M_insert_overflow(
 	if (!atEnd)
 		newFinish = uninitialized_copy(position, _M_finish, newFinish);
 
-	_M_clear();
-
-	_M_finish = newFinish;
-	_M_start = newStart;
-	_M_end_of_storage = newStart + length;
+	this->~vector();
+	new (this) vector(newStart, newFinish, newStart + length);
 }
 
-template class vector<pair<ICoord2D, Coord3D>, allocator<pair<ICoord2D, Coord3D> > >;
+template class vector<Gen002E9E10, allocator<Gen002E9E10> >;
 }

@@ -85729,3 +85729,7 @@ _Rva008921B0Atof,0x008921B0,address-derived 14-byte cdecl atof wrapper at 0x0089
 ?bfmeRangeESA@BfmeRecESA@@QAE?AUBfmePairESA@@XZ,0x000345AE,pin
 ?bfmeIdESB@BfmeThingESB@@QAEHXZ,0x00020824,pin
 ?bfmeOtherESB@BfmeHostESB@@QAEXPAVBfmeThingESB@@@Z,0x00034955,pin
+??$_Construct@UGen002E9E10@@@_STL@@YAXPAUGen002E9E10@@ABU1@@Z,0x0002A400,route=0x002EA020; retail 0x002EBAA0 vector family directly reaches this exact matched identity
+?_M_insert_overflow@?$vector@UGen002E9E10@@V?$allocator@UGen002E9E10@@@_STL@@@_STL@@IAEXPAUGen002E9E10@@ABU3@ABU__false_type@2@I_N@Z,0x00009052,route=0x002EB770; retail 0x002EBAA0 vector family directly reaches this exact matched identity
+??0Rva002E8FC0@@QAE@ABV0@@Z,0x00036B10,route=0x002E8FC0; retail 0x002EBAA0 vector family directly reaches this exact matched identity
+??1?$vector@UGen002E9E10@@V?$allocator@UGen002E9E10@@@_STL@@@_STL@@QAE@XZ,0x0002A914,route=0x002EB1F0; retail 0x002EBAA0 vector family directly reaches this exact matched identity
