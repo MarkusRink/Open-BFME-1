@@ -85567,3 +85567,9 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeSetDO@BfmeSubDO@@QAEXHHHH@Z,0x0003FFBC
 ?j_0003a355@@YAXXZ,0x0003A355,HordeContain::createPayload calls the matched thunk at 0x0003A355
 ??0?$list@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@ABV01@@Z,0x000385F5,HordeContain::createPayload list copy constructor call at 0x0023C078
+?bfmeAddEHR@BfmeMgrEHR@@QAEXPAXPBDH1HHHH@Z,0x00015235,pin
+?bfmeWinEHR@@YAPAXPAVBfmeObjEHR@@@Z,0x00010901,pin
+?bfmeNameEHR@BfmeObjEHR@@QAE?AVBfmeStrEHR@@XZ,0x000488A1,pin
+?releaseBuffer@BfmeStrEHR@@AAEXXZ,0x00887940,pin
+?g_bfmeMgrEHR@@3PAVBfmeMgrEHR@@A,0x00EF19E8,pin
+?g_bfmeEmptyEHR@@3PADA,0x00C7388B,pin
