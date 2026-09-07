@@ -1,7 +1,21 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /ICode/Libraries/Source/WWVegas/WWLib
 //
-// GameWindowManager::gogoMessageBox, retail 0x0047EF70, 1518 bytes -- the
-// 13-argument overload (`ret 0x30` is x/y/w/h + flags + two by-value
+// Both GameWindowManager::gogoMessageBox overloads:
+//
+//   gogoMessageBox (11 args)  0x0047DB60   183 B  UAE, vtable slot 13
+//   gogoMessageBox (12 args)  0x0047EF70  1518 B  UAE, vtable slot 12
+//
+// The short one exists only to call the long one with useLogo=FALSE, and they
+// were in two files that disagreed about where the long one sits: the
+// forwarder's copy had to put it at slot 12 because that is the `call
+// [edx+0x30]` it compiles, and the long one's copy parked it at the end of the
+// table past winSetModal, which its own body could not contradict because no
+// body calls it through the table. Slot 12 is the pinned reading and the
+// merged table uses it -- the placeholder slots the long body needs
+// (winCreateFromScript 26, winSetFocus 44, winGetWindowFromId 55, winSetModal
+// 59) all land unchanged around it.
+//
+// The 12-argument overload (`ret 0x30` is x/y/w/h + flags + two by-value
 // UnicodeStrings + four callbacks + useLogo).
 //
 // Lifted out of GameWindowManager.cpp rather than converted in place. That
@@ -161,7 +175,22 @@ public:
 	virtual void slot03(); virtual void slot04(); virtual void slot05();
 	virtual void slot06(); virtual void slot07(); virtual void slot08();
 	virtual void slot09(); virtual void slot10(); virtual void slot11();
-	virtual void slot12(); virtual void slot13(); virtual void slot14();
+	// The two overloads share a name, so MSVC lays them out in REVERSE
+	// declaration order: the 12-argument form, declared second, lands at slot
+	// 12 -- exactly where the forwarder's `call [edx+0x30]` puts it -- and the
+	// forwarder itself at slot 13. Declared the intuitive way round, the
+	// forwarding call compiles to +0x34 and misses.
+	virtual GameWindow *gogoMessageBox( Int x, Int y, Int width, Int height,
+			UnsignedShort buttonFlags, UnicodeString titleString,
+			UnicodeString bodyString, GameWinMsgBoxFunc yesCallback,
+			GameWinMsgBoxFunc noCallback, GameWinMsgBoxFunc okCallback,
+			GameWinMsgBoxFunc cancelCallback );
+	virtual GameWindow *gogoMessageBox( Int x, Int y, Int width, Int height,
+			UnsignedShort buttonFlags, UnicodeString titleString,
+			UnicodeString bodyString, GameWinMsgBoxFunc yesCallback,
+			GameWinMsgBoxFunc noCallback, GameWinMsgBoxFunc okCallback,
+			GameWinMsgBoxFunc cancelCallback, Bool useLogo );
+	virtual void slot14();
 	virtual void slot15(); virtual void slot16(); virtual void slot17();
 	virtual void slot18(); virtual void slot19(); virtual void slot20();
 	virtual void slot21(); virtual void slot22(); virtual void slot23();
@@ -183,11 +212,6 @@ public:
 	virtual GameWindow *winGetWindowFromId( GameWindow *win, Int id );	// +0xdc
 	virtual void slot56(); virtual void slot57(); virtual void slot58();
 	virtual void winSetModal( GameWindow *win );					// +0xec
-	virtual GameWindow *gogoMessageBox( Int x, Int y, Int width, Int height,
-			UnsignedShort buttonFlags, UnicodeString titleString,
-			UnicodeString bodyString, GameWinMsgBoxFunc yesCallback,
-			GameWinMsgBoxFunc noCallback, GameWinMsgBoxFunc okCallback,
-			GameWinMsgBoxFunc cancelCallback, Bool useLogo );
 };
 
 extern GameWindowManager *TheWindowManager;
@@ -334,4 +358,14 @@ GameWindow *GameWindowManager::gogoMessageBox( Int x, Int y, Int width, Int heig
 	parent->winBringToTop();
 
 	return trueParent;
+}
+
+// ?gogoMessageBox@GameWindowManager@@UAEPAVGameWindow@@HHHHGVUnicodeString@@0P6AXXZ111@Z
+GameWindow *GameWindowManager::gogoMessageBox( Int x, Int y, Int width, Int height,
+		UnsignedShort buttonFlags, UnicodeString titleString, UnicodeString bodyString,
+		GameWinMsgBoxFunc yesCallback, GameWinMsgBoxFunc noCallback,
+		GameWinMsgBoxFunc okCallback, GameWinMsgBoxFunc cancelCallback )
+{
+	return gogoMessageBox(x, y, width, height, buttonFlags, titleString, bodyString,
+			yesCallback, noCallback, okCallback, cancelCallback, FALSE);
 }
