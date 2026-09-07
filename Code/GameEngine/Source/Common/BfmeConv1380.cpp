@@ -57,14 +57,16 @@ class BfmeThingCIB
 {
 public:
 	void bfmeGoCIB(void *one, void *two);
+	unsigned char m_bfmeHead[0x10];
+	void *m_bfmeA;
+	void *m_bfmeB;
+	unsigned char m_bfmeGap[0xc];
+	int m_bfmeErr;
 };
 
 extern Rva007EB810Diag *Rva007EB810Get();
 extern void *bfmeGo929C();
-extern void d_007ff100();
-
-typedef void (__cdecl *Rva007FF100Decoder)(unsigned int length,
-	const char *source, void *destination);
+void rva007FF100Decode(unsigned int length, const char *source, void *destination);
 
 void BfmeThingVIY::bfmeGoVIY(BfmeMsgVIX *m, void *a, void *b, void *c, void *d, void *e)
 {
@@ -92,7 +94,7 @@ void BfmeThingVIY::bfmeSubVIY(BfmeMsgVIX *m, void *c, void *d)
 			0x17c);
 		return;
 	}
-	((Rva007FF100Decoder)d_007ff100)(length, (const char *)c, content);
+	rva007FF100Decode(length, (const char *)c, content);
 	m->rva007E8EF0("content", content);
 	((Rva007EFFC0Allocator *)bfmeGo929C())->release(content, 0);
 	((BfmeThingCIB *)m)->bfmeGoCIB((void *)"size", d);
