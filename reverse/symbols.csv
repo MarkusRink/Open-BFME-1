@@ -84814,3 +84814,5 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?bfmeFlushXA@BfmeStateXA@@QAEXXZ,0x00014182
 ?bfmeReleaseXA@@YAXPAX@Z,0x00012E90
 ?bfmeDoneXA@BfmeStateXA@@QAEXXZ,0x00004156
+?bfmeAddXB@BfmeBaseXB@@QAEXPAVBfmeItemXB@@@Z,0x0000E633
+?bfmeLinkXB@BfmeBaseXB@@QAEXPAVBfmeItemXB@@@Z,0x0001CDD7
