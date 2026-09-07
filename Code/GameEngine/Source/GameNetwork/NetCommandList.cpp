@@ -51,6 +51,7 @@ NetCommandList::~NetCommandList() {
 /**
  * Append the given list of commands to this list.
  */
+// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/NetCommandListOperations.cpp
 // ?appendList@NetCommandList@@QAEXPAV1@@Z present-unmatched
 void NetCommandList::appendList(NetCommandList *list) {
 	if (list == NULL) {
@@ -129,7 +130,7 @@ void NetCommandList::init() {
 /**
  * Reset the contents of this list.
  */
-// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/NetCommandList_reset.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/NetCommandListOperations.cpp
 // ?reset@NetCommandList@@QAEXXZ present-unmatched
 void NetCommandList::reset() {
 	NetCommandRef *temp = m_first;
