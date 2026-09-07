@@ -2,15 +2,18 @@
 """Flag ledger rows whose retail stack cleanup contradicts their decorated name.
 
 A callee-cleaned convention (__thiscall, __stdcall, __fastcall) ends in
-`ret N`, and N is fixed by the parameter list encoded in the symbol. When the
-two disagree the row's identity is wrong -- typically a naked dump parked under
-a borrowed name, or an ICF alias whose body belongs to a different function.
-Those rows still byte-match, so the normal gate cannot see the problem, but they
-cannot be converted to clean C++ without renaming.
+`ret N`, and N is fixed by the parameter list encoded in the symbol. A parsed
+ordinary __cdecl function is caller-cleaned, so its fixed cleanup is `ret 0`;
+when either rule disagrees with the bytes the row's identity is wrong --
+typically a naked dump parked under a borrowed name, or an ICF alias whose body
+belongs to a different function. Those rows still byte-match, so the normal
+gate cannot see the problem, but they cannot be converted to clean C++ without
+renaming.
 
-Conservative by construction: anything whose parameter list this cannot parse
-with certainty (templates, by-value classes, varargs) is skipped rather than
-guessed at. Exit 0 always; this reports, it does not gate.
+Conservative by construction: anything whose return or parameter list this
+cannot parse with certainty (templates, by-value classes, hidden return ABIs,
+varargs) is skipped rather than guessed at. Exit 0 always; this reports, it
+does not gate.
 """
 import argparse
 import csv
@@ -22,9 +25,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 EXE = ROOT / "baselines" / "bfme1" / "workshop-vanilla-1.03" / "files" / "lotrbfme.exe"
 
-# Calling-convention letter -> who cleans the stack. __cdecl (A) is caller-cleaned,
-# so its `ret 0` says nothing about arity and those rows are skipped.
+# Calling-convention letter -> who cleans the stack. A parsed __cdecl signature
+# is the one caller-cleaned case whose cleanup is still known: it must end in
+# `ret 0`, regardless of its fixed ordinary arguments.
 CALLEE_CLEANS = {"E": "__thiscall", "G": "__stdcall", "I": "__fastcall"}
+CONVENTIONS = {"A": "__cdecl", **CALLEE_CLEANS}
 
 # Access codes for static members: these encode no `this` cv qualifier, so the
 # convention letter follows immediately instead of one position later.
@@ -124,8 +129,28 @@ def arg_size(sym, i):
     return 4, True, skip_type(sym, i)    # pointer, reference or enum
 
 
+def cdecl_return_is_known(sym, i):
+    """Whether a cdecl return has a fixed, non-hidden x86 ABI.
+
+    User-defined by-value returns can use a hidden sret argument, while a
+    scalar, pointer, reference, enum, or void return cannot. The caller-cleanup
+    result is useful only after this distinction and the complete signature
+    have both been proven.
+    """
+    if i >= len(sym):
+        return False
+    if sym[i:i + 2] in EXTENDED:
+        return True
+    ch = sym[i]
+    if ch in "VUT":                 # by-value class/struct/union
+        return False
+    if ch == "Z":                   # parameter-list marker, not a return type
+        return False
+    return ch in PRIMITIVE or ch in "PAQRW"
+
+
 def expected_ret(sym):
-    """Bytes the callee must pop, or None when this cannot be decided safely."""
+    """Bytes the body must pop, or None when cleanup cannot be decided safely."""
     m = re.search(r"@@([A-Z])", sym)
     if not m:
         return None, None
@@ -139,8 +164,14 @@ def expected_ret(sym):
         pos = m.end() + 1
     if pos >= len(sym):
         return None, None
-    convention = CALLEE_CLEANS.get(sym[pos])
+    convention = CONVENTIONS.get(sym[pos])
     if convention is None:
+        return None, None
+    # A template name has additional grammar before the calling-convention
+    # marker. Do not let the `@@` belonging to one of its encoded components
+    # turn an incomplete cdecl parse into a confident cleanup claim. Preserve
+    # the established callee-cleaned parser behavior for existing aliases.
+    if convention == "__cdecl" and "?$" in sym:
         return None, None
     i = pos + 1
     try:
@@ -149,9 +180,14 @@ def expected_ret(sym):
         # skip_type drifts the parse, which is why every ??0 and ??1 row was
         # being skipped as unparsable. They are the easiest rows to check, not
         # the hardest: a destructor takes nothing and must pop nothing.
-        if re.match(r"\?\?[01]", sym) and i < len(sym) and sym[i] == "@":
+        special_member = re.match(r"\?\?[01]", sym)
+        if special_member and convention == "__cdecl":
+            return None, None       # no scalar return ABI to prove
+        if special_member and i < len(sym) and sym[i] == "@":
             i += 1
         else:
+            if convention == "__cdecl" and not cdecl_return_is_known(sym, i):
+                return None, None
             i = skip_type(sym, i)         # return type
         total = 0
         registers = 2 if convention == "__fastcall" else 0
@@ -161,6 +197,8 @@ def expected_ret(sym):
             while i < len(sym) and sym[i] != "@":
                 if sym[i] == "Z":         # varargs: arity is not fixed
                     return None, None
+                if convention == "__cdecl" and sym[i] == "X":
+                    return None, None     # void is valid only as the full list
                 size, in_register, i = arg_size(sym, i)
                 if registers and in_register:
                     registers -= 1        # consumed by ecx/edx, never pushed
@@ -173,6 +211,8 @@ def expected_ret(sym):
     # else means the parse drifted, and a drifted parse must not accuse a row.
     if sym[i:] not in ("@Z", "Z"):
         return None, None
+    if convention == "__cdecl":
+        return 0, convention
     return total, convention
 
 

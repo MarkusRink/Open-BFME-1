@@ -64,6 +64,20 @@ import pytest  # noqa: E402
 import re_log  # noqa: E402
 
 
+SCRIPT_LIST = (
+    "?ParseScriptListDataChunk@ScriptList@@SA_NAAVDataChunkInput@@"
+    "PAUDataChunkInfo@@PAX@Z"
+)
+
+
+def test_cdecl_arity_filter_rejects_the_real_script_list_ret16_body():
+    body = b"\x55\x8b\xec\xc2\x10\x00"
+    assert queue.arity_contradicts(SCRIPT_LIST, body)
+    assert not queue.arity_contradicts(SCRIPT_LIST, b"\x55\x8b\xec\xc3")
+    # An unsupported return ABI remains an opinion-free queue item.
+    assert not queue.arity_contradicts("?make@@YA?AVRecord@@XZ", body)
+
+
 def test_partial_survives_the_legacy_three_field_filter(tmp_path, monkeypatch):
     """The silent blocking path: logged_no_match reads only the 3-field shape
     and has no latest-wins, so before the fix a stale `no-match` out-voted the

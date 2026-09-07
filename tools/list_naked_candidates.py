@@ -56,12 +56,13 @@ def actual_ret(data):
 def arity_contradicts(symbol, data):
     """True when the decorated name cannot possibly produce this body.
 
-    A name says how many bytes a callee-cleaned function must pop and the
-    transcribed bytes say how many it does pop. When they disagree the row's
-    name is on the wrong body, so no amount of writing the C++ correctly will
-    ever make it compile to these bytes -- offering it as a conversion
-    candidate only burns an afternoon. audit_ret_arity.py already reports these
-    repo-wide; this keeps them out of the queue that hands out work.
+    A name says how many bytes a callee-cleaned function must pop; a parsed
+    __cdecl name says the caller-cleaned body must pop zero. The transcribed
+    bytes say how many the body does pop. When they disagree the row's name is
+    on the wrong body, so no amount of writing the C++ correctly will ever make
+    it compile to these bytes -- offering it as a conversion candidate only
+    burns an afternoon. audit_ret_arity.py already reports these repo-wide;
+    this keeps them out of the queue that hands out work.
     """
     if not symbol:
         return False

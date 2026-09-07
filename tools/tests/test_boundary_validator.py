@@ -213,7 +213,8 @@ def test_arity_is_per_name_and_read_from_the_retail_body():
     verdict = known.validate(["?g@C@@QAEXHH@Z", "?f@C@@QAEXH@Z", "?anon@@YAXXZ"],
                              0x1400, 6)
     assert verdict["reject"] is None, verdict
-    # cdecl says nothing about arity, so it survives; the wrong thiscall does not
+    # Boundary validation leaves caller-cleaned names opinion-free; the naked
+    # queue's dedicated arity filter handles parsed cdecl cleanup.
     assert verdict["names"] == ["?g@C@@QAEXHH@Z", "?anon@@YAXXZ"], verdict
     assert "?f@C@@QAEXH@Z" in verdict["refuted"], verdict
 

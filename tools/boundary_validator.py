@@ -133,8 +133,15 @@ class BoundaryValidator:
     def check_arity(self, symbol, rva, size):
         """C3: does the body's stack cleanup match the name's parameter list?"""
         want, convention = audit_ret_arity.expected_ret(symbol)
+        # This validator's acceptance population contains many byte-verified
+        # aliases and naked thunks whose decorated cdecl names are not an
+        # identity proof. Keep caller-cleaned names opinion-free here; the
+        # naked conversion queue has the body-level check that specifically
+        # retires a parsed cdecl name ending in positive `ret N`.
+        if convention == "__cdecl":
+            return None, "caller-cleaned-not-validated"
         if want is None:
-            return None, "name-unparsable-or-cdecl"
+            return None, "name-unparsable-or-unsupported-abi"
         got = audit_ret_arity.actual_ret(self.read(rva, size))
         if got is None:
             return None, "no-ret-tail"
