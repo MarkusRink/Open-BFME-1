@@ -2814,7 +2814,7 @@ name,address,notes
 ??0LevelGrantSpecialPowerBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x00013462,Open-BFME5 LevelGrantSpecialPower base pin
 ??0LifetimeUpdateModuleData@@QAE@XZ,0x0002E6D1,LifetimeUpdate ModuleData ctor
 ??0LightEnvironmentClass@@QAE@XZ,0x0094AAF0,constructor used by SimpleSceneClass::Customized_Render's static light environment
-??0LightPulseFXNugget@@QAE@XZ,0x00021175,LightPulse parser calls this constructor ILT; target resolves to the 0x00828E10 body
+??0LightPulseFXNugget@@QAE@XZ,0x00021175,LightPulse parser calls this constructor ILT; target resolves to the 0x00428E10 body
 ??0LightningDrawModuleTemplate@FXParticleSystem@@QAE@ABV01@@Z,0x19614,LightningDrawModuleTemplate clone copy-ctor pin
 ??0LightningEmissionModuleTemplate@FXParticleSystem@@QAE@ABV01@@Z,0x19f88,LightningEmissionModuleTemplate clone copy-ctor pin
 ??0Line3DClass@@QAE@ABV0@@Z,0x009510A0,Line3D Clone at 0x009513E0 allocates 0x148 bytes and directly invokes this copy constructor on its fresh block

@@ -1,21 +1,38 @@
-// cl: /O2 /Ob0 /DNDEBUG /MD /EHsc
-// Open-BFME5: near-twin of CameraShakerVolumeFXNugget::doFXPos
-// (CameraShakerVolumeFXNugget_doFXPos_Thunk.cpp); positional dispatch sibling of
-// LightPulseFXNugget::doFXObj (LightPulseFXNugget_doFXObj_Thunk.cpp), BFME's four-arg
-// doFXPos (no overrideRadius) per reference/CnC_Generals_Zero_Hour FXList.cpp:344.
+// cl: /DNDEBUG /MD /EHsc
+typedef float Real;
+typedef unsigned int UnsignedInt;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
 struct Coord3D
 {
-	float x, y, z;
+	Real x;
+	Real y;
+	Real z;
 };
 
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
 struct RGBColor
 {
-	float red, green, blue;
+	Real red;
+	Real green;
+	Real blue;
 };
 
 class Matrix3D;
+
+// This view models only the Object offsets read by these effects.
+class Object
+{
+public:
+	const Coord3D *getPosition() const { return &m_position; }
+	Real getBoundingCircleRadius() const { return m_boundingCircleRadius; }
+
+private:
+	unsigned char m_unreconstructed00[0x38];
+	Coord3D m_position;
+	unsigned char m_unreconstructed44[0x78];
+	Real m_boundingCircleRadius;
+};
 
 class Display
 {
@@ -36,21 +53,47 @@ public:
 
 extern Display *TheDisplay;
 
-class LightPulseFXNugget
+class FXNugget
 {
 public:
-	virtual void v00();
+	virtual ~FXNugget();
 	virtual void doFXPos(const Coord3D *, const Matrix3D *, float, const Coord3D *) const;
-	virtual void doFXObj(const void *, const void *) const;
+	virtual void doFXObj(const Object *, const Object *) const;
 
 private:
-	unsigned char m_unmodelled[0xB0];
-	RGBColor m_color;
-	float m_radius;
-	float m_boundingCirclePct;
-	unsigned int m_increaseFrames;
-	unsigned int m_decreaseFrames;
+	unsigned char m_unreconstructed04[0xB0];
 };
+
+class LightPulseFXNugget : public FXNugget
+{
+public:
+	virtual void doFXPos(const Coord3D *, const Matrix3D *, float, const Coord3D *) const;
+	virtual void doFXObj(const Object *, const Object *) const;
+
+private:
+	RGBColor m_color;
+	Real m_radius;
+	Real m_boundingCirclePct;
+	UnsignedInt m_increaseFrames;
+	UnsignedInt m_decreaseFrames;
+};
+
+// ?doFXObj@LightPulseFXNugget@@UBEXPBVObject@@0@Z
+void LightPulseFXNugget::doFXObj(const Object *primary, const Object *) const
+{
+	if (primary)
+	{
+		Real radius = m_radius;
+		if (m_boundingCirclePct > 0.0f)
+		{
+			radius = primary->getBoundingCircleRadius()
+				* m_boundingCirclePct;
+		}
+
+		TheDisplay->createLightPulse(primary->getPosition(), &m_color, 1.0f,
+			radius, m_increaseFrames, m_decreaseFrames);
+	}
+}
 
 // ?doFXPos@LightPulseFXNugget@@UBEXPBUCoord3D@@PBVMatrix3D@@M0@Z
 void LightPulseFXNugget::doFXPos(const Coord3D *primary,
