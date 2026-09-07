@@ -25039,3 +25039,9 @@ tg_000bc760,0x000BC760,Generated 50-byte push body replaced by a descriptive Xfe
 ??_GNetCommandRef@@MAEPAXI@Z,0x007851A0,False network identity retired for proven counted-resource handle owner
 ?setName@LANPlayer@@QAEXVUnicodeString@@@Z,0x00624C10,False Unicode LANPlayer identity; IPEnumeration address callers prove EnumeratedIP::setIPstring(AsciiString)
 ?setName@User@@QAEXVUnicodeString@@@Z,0x00685420,False User Unicode name setter; RequestGameCreate and ASCII translation prove LANGameSlot::setHost(AsciiString)
+?GetMyName@LANAPI@@UAE?AVUnicodeString@@XZ,0x004C7970,Wrong canonical owner; DownloadManager OnError caller4C79D5 establishes error getter here
+dup_361960,0x00361960,Rehomed to neutral address owner; does not belong to LANAPI getter family
+dup_489b30,0x00489B30,Rehomed to neutral address owner; does not belong to LANAPI getter family
+dup_685660,0x00685660,Replaced alias with true LANAPI::GetMyName proved by virtual slot47
+dup_6e2280,0x006E2280,Rehomed to neutral address owner; does not belong to LANAPI getter family
+dup_af1f0,0x000AF1F0,Rehomed to neutral address owner; does not belong to LANAPI getter family
