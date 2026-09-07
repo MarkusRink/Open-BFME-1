@@ -24,6 +24,7 @@
 // Original bodies: GeneralsMD WW3D2/vertmaterial.cpp and w3d_util.cpp.
 #include "wwstring.h"
 #include "w3d_file.h"
+#include "w3d_obsolete.h"
 #include "w3d_util.h"
 #include "vector3.h"
 #include "d3d8.h"
@@ -54,6 +55,7 @@ public:
     void Set_Shininess(float shin) { CRCDirty=true; Material->Power=shin; }
     void Set_Opacity(float o) { CRCDirty=true; Material->Diffuse.a=o; }
     void Set_Name(const char *name) { Name=name; }
+    void Init_From_Material3(const W3dMaterial3Struct &);
     void Parse_W3dVertexMaterialStruct(const W3dVertexMaterialStruct &);
     void Parse_Mapping_Args(const W3dVertexMaterialStruct &,char *,char *);
     bool Load_W3D(ChunkLoadClass &);
@@ -151,5 +153,40 @@ bool VertexMaterialClass::Load_W3D(ChunkLoadClass & cload)
 	mapping1_arg_buffer = NULL;
 
 	return true;
+}
+
+
+// BFME legacy material initialization at 0x00921A50, complete 558 bytes.
+// The version-3 material reader calls this at 0x0096F6E5 after reading a
+// 44-byte W3dMaterial3Struct. Original GeneralsMD color/coefficient products,
+// emissive and ambient conversion, shininess and opacity update the D3D
+// material at +8 and mark its CRC dirty at +0x68. RET4 ends at 0x00921C7D;
+// two INT3 bytes separate it from Parse_W3dVertexMaterialStruct at 0x00921C80.
+void VertexMaterialClass::Init_From_Material3(const W3dMaterial3Struct & mat3)
+{
+	Vector3 tmp0,tmp1,tmp2;
+	
+	W3dUtilityClass::Convert_Color(mat3.DiffuseColor,&tmp0);
+	W3dUtilityClass::Convert_Color(mat3.DiffuseCoefficients,&tmp1);
+	tmp2.X = tmp0.X * tmp1.X;
+	tmp2.Y = tmp0.Y * tmp1.Y;
+	tmp2.Z = tmp0.Z * tmp1.Z;
+	Set_Diffuse(tmp2);
+
+	W3dUtilityClass::Convert_Color(mat3.SpecularColor,&tmp0);
+	W3dUtilityClass::Convert_Color(mat3.SpecularCoefficients,&tmp1);
+	tmp2.X = tmp0.X * tmp1.X;
+	tmp2.Y = tmp0.Y * tmp1.Y;
+	tmp2.Z = tmp0.Z * tmp1.Z;
+	Set_Specular(tmp2);
+
+	W3dUtilityClass::Convert_Color(mat3.EmissiveCoefficients,&tmp0);
+	Set_Emissive(tmp0);
+
+	W3dUtilityClass::Convert_Color(mat3.AmbientCoefficients,&tmp0);
+	Set_Ambient(tmp0);
+
+	Set_Shininess(mat3.Shininess);
+	Set_Opacity(mat3.Opacity);
 }
 
