@@ -14,6 +14,13 @@
 //     2-byte `mov ecx,eax`: 70 bytes.
 // Naming the local AFTER the member guard collapses back to the 70-byte form.
 // See [[local-picks-ecx-receiver]] -- this is that lever seen from both sides.
+// /Os and /O1 DO remove the pad (79 -> 67) but rewrite the head into
+// `cmp dword ptr [ecx+0xc],0` plus a reload, so they are not the answer either.
+// Data point from the sibling 0x006BC7B0, which lands EXACT at 90: its loop
+// head sits 8 bytes below a 16-boundary and MSVC does not pad. Here the head
+// sits 7 bytes below one and it does. So the threshold is <= 7, and the pad is
+// decided by the head's ADDRESS -- meaning the only way out is an earlier
+// byte-length change, not a loop-level rewrite.
 class BfmeBBM;
 class BfmeUBM;
 class BfmeItemBM;
