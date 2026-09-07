@@ -53042,7 +53042,7 @@ name,address,notes
 ?b_0051e6e0@@YAXXZ,0x0051E6E0,gen-thunk body
 ?b_0051e700@@YAXXZ,0x0051E700,gen-thunk body
 ?b_0051e900@@YAXXZ,0x0051E900,gen-thunk body
-?b_0051e9b0@@YAXXZ,0x0051E9B0,gen-thunk body
+?bfmeProvide@BfmeAptScreenMainMenu@@QAEXPBDPAX_N@Z,0x0051E9B0,MainMenu.apt provider body; MainMenu constructor 0x0051F3A0 registers callback thunk 0x0002BC2E and owns fields at +0x25D and +0x27C
 ?b_0051eab0@@YAXXZ,0x0051EAB0,gen-thunk body
 ?b_0051ead0@@YAXXZ,0x0051EAD0,gen-thunk body
 ?b_0051eaf0@@YAXXZ,0x0051EAF0,gen-thunk body
