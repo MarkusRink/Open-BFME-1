@@ -34,7 +34,7 @@
 // Rename the shim's inline out of the way for this TU only (the shim is shared
 // and must not be edited) and declare the real stdcall entry point.
 #define D3DXVec4Transform D3DXVec4Transform_cdecl_shim_unused
-#include "bezier_segment.h"
+#include "../bezier_segment.h"
 #undef D3DXVec4Transform
 
 extern "C" D3DXVECTOR4* __stdcall D3DXVec4Transform(D3DXVECTOR4 *pOut,

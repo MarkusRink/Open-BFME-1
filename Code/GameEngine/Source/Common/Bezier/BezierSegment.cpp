@@ -101,7 +101,7 @@ BezierSegment::BezierSegment(Coord3D cp[4])
 
 
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/Common/W4BezierSegmentEval.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/Common/Bezier/BezierSegmentEvaluation.cpp
 // ?evaluateBezSegmentAtT@BezierSegment@@ present-unmatched
 void BezierSegment::evaluateBezSegmentAtT(Real tValue, Coord3D *outResult) const
 
@@ -148,7 +148,7 @@ void BezierSegment::getSegmentPoints(Int numSegments, VecCoord3D *outResult) con
 // This function isn't terribly fast. There are alternatives, and if this is too slow, we can 
 // take a look at the other approximations.
 // There is no known close-form solution to this problem.
-// byte-exact reconstruction: Code/GameEngine/Source/Common/W4BezierSegmentBFME.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/Common/Bezier/BezierSegmentConstructionAndLength.cpp
 // ?getApproximateLength@BezierSegment@@ present-unmatched
 Real BezierSegment::getApproximateLength(Real withinTolerance) const
 {
@@ -197,7 +197,7 @@ Real BezierSegment::getApproximateLength(Real withinTolerance) const
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?splitSegmentAtT@BezierSegment@@ present-unmatched
+// ?splitSegmentAtT@BezierSegment@@QBEXMAAV1@0@Z
 void BezierSegment::splitSegmentAtT(Real tValue, BezierSegment &outSeg1, BezierSegment &outSeg2) const
 {
 	// I think there are faster ways to do this. Could someone clue me in?
