@@ -18,6 +18,9 @@ UNMATCHED_MARKER_RE = re.compile(
     r"^\s*//\s*(\S+)\s+(present-unmatched|absent-from-retail)\b", re.MULTILINE
 )
 
+# `typedef <anything without a ;> Name;` -- the trailing identifier is the alias.
+TYPEDEF_RE = re.compile(r"\btypedef\b[^;]*?(\w+)\s*;", re.DOTALL)
+
 
 def load_claims_whitelist():
     if not CLAIMS_WHITELIST.exists():
@@ -259,6 +262,7 @@ def main():
             )
         own_names = {n for n, srcs in matched_sources.items()
                      if rel_path.as_posix() in srcs}
+        local_typedefs = set(TYPEDEF_RE.findall(text))
         label_counts = {}
         for label, _m in marker_labels:
             label_counts[label] = label_counts.get(label, 0) + 1
@@ -310,6 +314,26 @@ def main():
                     continue
                 unmatched.append((rel_path, class_name, method_name))
                 continue
+
+            # A class introduced by a local typedef cannot be mangled from the
+            # source text at all. TeamFactory_M_insert.cpp explicitly instantiates
+            # `BfmeTeamPrototypeTree::_M_insert`, where BfmeTeamPrototypeTree is a
+            # typedef for an _STL::_Rb_tree specialisation, so the ledger's name is
+            # the expanded ?_M_insert@?$_Rb_tree@... and the needle built here --
+            # ?_M_insert@BfmeTeamPrototypeTree@ -- can never appear in it. The file
+            # HAS matched rows for both instantiations; the tool simply could not
+            # see them, and reported the definition as unclaimed. That blocked any
+            # commit touching the file, including a merge that changed nothing
+            # about it.
+            #
+            # Where the class is a typedef, fall back to what IS checkable: does
+            # THIS FILE own a matched row for a method of that name. That still
+            # requires a row, and requires it to belong to this source, so it
+            # cannot excuse a genuinely unclaimed definition -- it only declines to
+            # assert a decoration the source does not carry.
+            if class_name in local_typedefs:
+                if any(name.startswith("?%s@" % method_name) for name in own_names):
+                    continue
 
             needle = mangle_method(class_name, method_name)
             # The namespace tracker below loses its stack in very large files, so
