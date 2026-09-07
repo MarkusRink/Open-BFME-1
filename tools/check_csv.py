@@ -167,8 +167,6 @@ def check_functions(raw, problems, sources_ok):
     by_name = {}
     matched_ranges = []
     for i, r in enumerate(rows[1:], start=2):
-        if not r or (len(r) == 1 and not r[0]):
-            continue
         if len(r) != 7:
             problems.append(f"functions.csv line {i}: {len(r)} fields, expected 7: {r[:2]}...")
             continue

@@ -119,6 +119,34 @@ def test_check_csv_allows_rows_that_are_not_tombstoned(tmp_path, monkeypatch):
     assert not any("come back" in p for p in problems), problems
 
 
+@pytest.mark.parametrize("payload", [b"", b'""', b"broken,row"])
+@pytest.mark.parametrize("terminator", [b"\n", b"\r\n", b"\r\r\n"])
+def test_check_csv_rejects_empty_and_short_function_records(payload, terminator):
+    """An empty record passed the commit gate but stopped readability measurement."""
+    src = "Code/GameEngine/Source/Common/Thing.cpp"
+    first = f"?a@Thing@@QAEXXZ,,0x00401000,16,{src},matched,\r\r\n"
+    second = f"?b@Thing@@QAEXXZ,,0x00402000,16,{src},matched,\n"
+    raw = (HEADER + "\r\n" + first).encode() + payload + terminator + second.encode()
+    problems = []
+
+    assert check_csv.check_functions(raw, problems, {src}) == 2
+
+    assert len(problems) == 1, problems
+    assert "functions.csv line 3:" in problems[0], problems
+    assert "fields, expected 7" in problems[0], problems
+
+
+def test_check_csv_accepts_mixed_function_terminators():
+    src = "Code/GameEngine/Source/Common/Thing.cpp"
+    raw = (HEADER + "\r\n"
+           + f"?a@Thing@@QAEXXZ,,0x00401000,16,{src},matched,\r\r\n"
+           + f"?b@Thing@@QAEXXZ,,0x00402000,16,{src},matched,\n").encode()
+    problems = []
+
+    assert check_csv.check_functions(raw, problems, {src}) == 2
+    assert problems == []
+
+
 def test_shipped_tombstone_file_parses():
     """The real reverse/deleted_rows.csv must load, or the guard is silently off."""
     entries = check_csv.tombstones()
