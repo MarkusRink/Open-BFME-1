@@ -85365,3 +85365,5 @@ _g_bfmeDirtyZR,0x00EEF418
 ?bfmeGoZX@BfmeSubZX@@QAEXXZ,0x008F8BC0
 ?bfmeTryZY@BfmeOwnerZY@@QAEDPAVBfmeItemZY@@@Z,0x000441A2
 ??$_M_insert_dispatch@U?$_List_iterator@PAVNetPacket@@U?$_Const_traits@PAVNetPacket@@@_STL@@@_STL@@@?$list@PAVNetPacket@@V?$allocator@PAVNetPacket@@@_STL@@@_STL@@QAEXU?$_List_iterator@PAVNetPacket@@U?$_Nonconst_traits@PAVNetPacket@@@_STL@@@1@U?$_List_iterator@PAVNetPacket@@U?$_Const_traits@PAVNetPacket@@@_STL@@@1@1ABU__false_type@1@@Z,0x00681150,typed NetPacket* STLport insert-dispatch body; retail ILT 0x00034117 bytes e9 34 d0 64 00 jump to 0x00681150; RvaListInsertRange.cpp proves the 66-byte pointer-list body and factory/list instantiation proves the element type
+?g_bfmeEmptyAA@@3QBDB,0x00C7388C
+?bfmeLookupAA@BfmeSubAA@@QAEXPAMPBD@Z,0x00941930
