@@ -10793,6 +10793,7 @@ name,address,notes
 ?Rva00209130StatusNames@@3QBQBDB,0x012A6670,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00209130 calls; autopin
 ?Rva002098B0PhaseNames@@3QBQBDB,0x012AE110,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002098B0 calls; autopin
 ?Rva0020AA00TheRegistry@@3PAURva0020AA00Registry@@A,0x012EF1D8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0020AA00 calls; autopin
+?Rva00234200Apply@@YAXPAURva00234200Owner@@HH@Z,0x00030602,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00234200 calls; autopin
 ?Rva0025CD50CopyConstruct@@YAXPAURva0025CDB0Entry@@ABU1@@Z,0x0001B99B,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0025CDB0 calls; autopin
 ?Rva002B7240FindModule@@YAPAURva002B7240Module@@PAVObject@@@Z,0x00010424,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002B7240 calls; autopin
 ?Rva002B7240Lookup@@YAPAURva002B7240Source@@H@Z,0x00042424,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002B7240 calls; autopin
@@ -13285,6 +13286,7 @@ name,address,notes
 ?apply@Rva00202DF0Head@@QAEXPAVRva00202DF0Face@@H@Z,0x000157DA,address-derived callee of Rva00202DF0Part::seed; ILT to 0x002B2040
 ?apply@Rva0025CAA0ElvenWoodDispatch@@QAEXPAVRva0025CAA0Subject@@PAVRva0025CAA0Context@@@Z,0x000170DA,address-derived dispatch call from the 73-byte Elven Wood body
 ?apply@Rva0025D7E0FreezingRainDispatch@@QAEXPAVRva0025D7E0Subject@@PAVRva0025D7E0Context@@@Z,0x000170DA,address-derived dispatch target read from retail RVA 0x0025D7E0
+?apply@Rva002EE330Sub@@QAEXH@Z,0x0001F8C0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002F0F60 calls; autopin
 ?apply@Rva00367E30Sink@@QAEXPAHH@Z,0x00037A56,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00367E30 calls; autopin
 ?apply@Rva003BF540@@QAEX_N@Z,0x003BD960,boolean applier called by the mirrored-flag update at 0x003BF540; address-derived name
 ?apply@Rva0069AFC0Block@@QAEXPAX0000@Z,0x000017BC,ILT to 5-arg channel apply used by Rva0069AFC0Owner::call
@@ -75515,6 +75517,9 @@ name,address,notes
 ?bfmeResolveMeleeTarget@Object@@QAEPAV1@H@Z,0x0000FAA6,TU-specific name for the melee target resolution helper used by AIAttackMeleeHordeWaitState
 ?bfmeResolveNS@BfmeInnerNS@@QAEPAVBfmeThingNS@@XZ,0x000022BB,pin
 ?bfmeResolveNW@BfmeInnerNW@@QAEPAVBfmeThingNW@@XZ,0x000022BB,pin
+?bfmeResolvePD@BfmeInnerPD@@QAEPAVBfmeThingPD@@XZ,0x000022BB,pin
+?bfmeResolveVQ@BfmeInnerVQ@@QAEPAVBfmeThingVQ@@XZ,0x000022BB,pin
+?bfmeResolveWQ@BfmeInnerWQ@@QAEPAVBfmeThingWQ@@XZ,0x000022BB,pin
 ?bfmeResolveXK@BfmeInnerXK@@QAEPAVBfmeThingXK@@XZ,0x000022BB,pin
 ?bfmeResolveZones@@YAXHHPAG00@Z,0x0002B648,Open-BFME5 ILT thunk to exact body 0x00403C90; BFME zone-equivalence list merger
 ?bfmeRestart@Gen_0018BC70@@AAEXXZ,0x0003F1FC,Open-BFME5 the ICF thunk (to 0x0043F1FC) the compaction at 0x0018BC70 calls when its flag is set
@@ -81450,6 +81455,8 @@ name,address,notes
 ?onScript002EEB60@Rva002EE330Player@@QAEXH@Z,0x0002B094,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EEB60 calls; autopin
 ?onScript002EF410@Rva002EE330Player@@QAEXH@Z,0x00041A15,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EF410 calls; autopin
 ?onScript002EF470@Rva002EE330Player@@QAEXH@Z,0x00046A29,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EF470 calls; autopin
+?onScript002F0020A@Rva002EE330Player@@QAEXH@Z,0x0000E881,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002F0020 calls; autopin
+?onScript002F0020B@Rva002EE330Player@@QAEXH@Z,0x000259CD,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002F0020 calls; autopin
 ?onScript002F02C0@Rva002EE330Player@@QAEXXZ,0x00035887,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002F02C0 calls; autopin
 ?onShown@AptPalantirSpellBook@@QAEXXZ,0x00035F85,AptPalantir OnSpellBookUIShown dispatches through the +0x17C subobject
 ?onTunnelCreated@TunnelTracker@@QAEXPBVObject@@@Z,0x00038938,Open-BFME5 retail tunnel created pin
@@ -82047,6 +82054,7 @@ name,address,notes
 ?resolveMeleeTarget@BfmeTargetObject@@QAEPAV1@D@Z,0x0000FAA6,BannerCarrier target predicate resolves contained melee targets through the retail object helper
 ?resolveOwnerPosition@AudioEventRTS@@QAEXPAUCoord3D@@PA_N@Z,0x00029AE1,AudioEventRTS owner-position resolve ILT to 0x000B4020 used by the ObjectID constructor
 ?resolvePlayerMask@ScriptEngine@@QAEHHH@Z,0x0004B290,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EE330 calls; autopin
+?resolvePlayerMask@ScriptEngine@@QAEHPAXH@Z,0x0004B290,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002F0F60 calls; autopin
 ?restore@Rva0051D690Shell@@QAEXXZ,0x0002359C,ILT TheShell restore used by 0x0051D690
 ?restoreGlobalDataFields@RecorderClass@@QAEXXZ,0x0000BD1B,BFME-only RecorderClass entry ReplayMenuShutdown opens with; ILT thunk to body 0x00097360
 ?restoreParentObject@W3DGhostObject@@IAEXXZ,0x006BC7B0,BFME W3DGhostObject helper called by setLocalPlayerIndex
@@ -84601,6 +84609,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolvePD@BfmeInnerPD@@QAEPAVBfmeThingPD@@XZ,0x000022BB,pin
-?bfmeResolveVQ@BfmeInnerVQ@@QAEPAVBfmeThingVQ@@XZ,0x000022BB,pin
-?bfmeResolveWQ@BfmeInnerWQ@@QAEPAVBfmeThingWQ@@XZ,0x000022BB,pin
