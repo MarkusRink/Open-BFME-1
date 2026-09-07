@@ -85797,3 +85797,4 @@ __imp__bfmeSprintfESP,0x00F5948C,pin
 ?bfmeToCellETD@BfmeGridETD@@QAEXPAVBfmePosETD@@PAUBfmePairETD@@@Z,0x000171E8,pin
 ?bfmeSetOwnerETD@BfmeCellETD@@QAEXPAVBfmeOwnerETD@@@Z,0x00040D7C,pin
 ?bfmeNotifyETD@BfmeSinkETD@@QAEXHHHPAVBfmeOwnerETD@@@Z,0x0004399B,pin
+?pushPosition@XferBlockPositionStack@@QAEXABH@Z,0x00018034,route=0x000BC760; block-writer call 0x009D898C reaches this reconstructed file-position stack interface; original STL template spelling unresolved
