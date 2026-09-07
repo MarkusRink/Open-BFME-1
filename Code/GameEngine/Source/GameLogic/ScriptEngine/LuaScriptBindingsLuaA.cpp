@@ -193,7 +193,7 @@ public:
 	virtual void v34( void ) {}
 	virtual void v35( void ) {}
 	virtual void v36( void ) {}
-	virtual void v37call( int arg ) {}
+	virtual void v37call( bool arg ) {}
 };
 
 // ?Rva002E9F70ObjectDock@@YAHPAUlua_State@@@Z
@@ -293,3 +293,21 @@ int Rva002E6A00ObjectSetFlagB( lua_State *state )
 	return 1;
 }
 
+// ?ObjectSetDelayedDeath@@YAHPAUlua_State@@@Z
+int ObjectSetDelayedDeath( lua_State *state )
+{
+	if( lua_gettop( state ) < 2 )
+		return 0;
+	unsigned id = Rva00990030Lookup( state, 1 );
+	if( !id && lua_type( state, 1 ) != 1 )
+		return 0;
+	Object *object = TheGameLogic->bfmeFind1011( id );
+	if( !object )
+		return 0;
+	bool delayed = Rva00990210Lookup( state, 2 ) != 0;
+	Rva002E9F70Vtbl94 *contain = (Rva002E9F70Vtbl94 *)object->m_at200;
+	if( !contain )
+		return 0;
+	contain->v37call( delayed );
+	return 0;
+}
