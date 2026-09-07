@@ -22,18 +22,112 @@ BfmeThingEOA *BfmeThingEOA::bfmeCtorEOA(char flag)
 
 float __cdecl bfmeCalcEOC(void *a);
 
+class BfmeRetBWF
+{
+};
+
+class BfmeCalcBWF
+{
+public:
+	void bfmeCalcBWF(BfmeRetBWF *one, int value, BfmeRetBWF *two);
+};
+
+struct BfmeOwnerBWF
+{
+	unsigned char m_bfmeHead[0x60];
+	BfmeCalcBWF m_bfmeSub;
+};
+
+class ClientSubsystem
+{
+public:
+#define BFME_CLIENT_SLOT(n) virtual void slot##n();
+	BFME_CLIENT_SLOT(00) BFME_CLIENT_SLOT(01) BFME_CLIENT_SLOT(02)
+	BFME_CLIENT_SLOT(03) BFME_CLIENT_SLOT(04) BFME_CLIENT_SLOT(05)
+	BFME_CLIENT_SLOT(06) BFME_CLIENT_SLOT(07) BFME_CLIENT_SLOT(08)
+	BFME_CLIENT_SLOT(09) BFME_CLIENT_SLOT(10) BFME_CLIENT_SLOT(11)
+	BFME_CLIENT_SLOT(12) BFME_CLIENT_SLOT(13) BFME_CLIENT_SLOT(14)
+	BFME_CLIENT_SLOT(15) BFME_CLIENT_SLOT(16) BFME_CLIENT_SLOT(17)
+	BFME_CLIENT_SLOT(18) BFME_CLIENT_SLOT(19) BFME_CLIENT_SLOT(20)
+	BFME_CLIENT_SLOT(21) BFME_CLIENT_SLOT(22) BFME_CLIENT_SLOT(23)
+	BFME_CLIENT_SLOT(24) BFME_CLIENT_SLOT(25) BFME_CLIENT_SLOT(26)
+	BFME_CLIENT_SLOT(27) BFME_CLIENT_SLOT(28) BFME_CLIENT_SLOT(29)
+	BFME_CLIENT_SLOT(30) BFME_CLIENT_SLOT(31) BFME_CLIENT_SLOT(32)
+	BFME_CLIENT_SLOT(33) BFME_CLIENT_SLOT(34) BFME_CLIENT_SLOT(35)
+	BFME_CLIENT_SLOT(36) BFME_CLIENT_SLOT(37) BFME_CLIENT_SLOT(38)
+	BFME_CLIENT_SLOT(39) BFME_CLIENT_SLOT(40) BFME_CLIENT_SLOT(41)
+	BFME_CLIENT_SLOT(42) BFME_CLIENT_SLOT(43) BFME_CLIENT_SLOT(44)
+	virtual void updateAudioEvent(unsigned int handle, BfmeRetBWF *event);
+#undef BFME_CLIENT_SLOT
+};
+
+extern ClientSubsystem *TheAudioClientUpdate;
+
+class BfmeThingCEF
+{
+public:
+	void bfmeOneCEF();
+};
+
 struct BfmeThingEOC
 {
 	void bfmeGoEOC(void *a);
 	void bfmeAfterEOC();
-	unsigned char m_bfmeHead[0x1c];
-	float m_bfmeF;
+	unsigned char m_bfmeHead[8];
+	BfmeRetBWF m_bfmeOne;
+	unsigned char m_bfmeGap[0xf];
+	BfmeOwnerBWF *m_bfmeOwner;
+	union
+	{
+		float m_bfmeF;
+		int m_bfmeArg;
+	};
+	unsigned char m_bfmeGap2[0x28];
+	BfmeRetBWF m_bfmeTwo;
+	unsigned char m_bfmeGap3[0xb];
+	unsigned int m_bfmeHandleA;
+	unsigned int m_bfmeHandleB;
 };
 
 void BfmeThingEOC::bfmeGoEOC(void *a)
 {
 	m_bfmeF = bfmeCalcEOC(a);
 	bfmeAfterEOC();
+}
+
+void BfmeThingEOC::bfmeAfterEOC()
+{
+	BfmeThingEOC *self = this;
+	if (TheAudioClientUpdate == 0)
+	{
+		return;
+	}
+
+	if (self->m_bfmeHandleA < 5)
+	{
+		if (self->m_bfmeHandleB < 5)
+		{
+			return;
+		}
+	}
+
+	BfmeRetBWF *event;
+	if (self->m_bfmeOwner != 0)
+	{
+		event = &self->m_bfmeTwo;
+		self->m_bfmeOwner->m_bfmeSub.bfmeCalcBWF(&self->m_bfmeOne, self->m_bfmeArg, event);
+	}
+	else
+	{
+		event = &self->m_bfmeOne;
+	}
+	if (event != 0)
+	{
+		TheAudioClientUpdate->updateAudioEvent(self->m_bfmeHandleA, event);
+		TheAudioClientUpdate->updateAudioEvent(self->m_bfmeHandleB, event);
+	}
+	else
+		reinterpret_cast<BfmeThingCEF *>(self)->bfmeOneCEF();
 }
 
 struct BfmeThingEOD
