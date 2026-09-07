@@ -138,6 +138,8 @@ class NetCommandRef
 {
 	public:
 	unsigned char getRelay() { return relay; }
+	NetCommandMsg *getCommand() { return msg; }
+	NetCommandRef *getNext() { return next; }
 	~NetCommandRef();
 	NetCommandMsg *msg;
 	NetCommandRef *next;
@@ -148,9 +150,13 @@ class NetCommandRef
 class NetCommandList
 {
 public:
+	NetCommandRef *getFirstMessage() { return m_first; }
 	NetCommandRef *findMessage(UnsignedShort id, unsigned char player);
 	NetCommandRef *findMessage(UnsignedShort id, unsigned char player, unsigned int frame);
 	void removeMessage(NetCommandRef *ref);
+private:
+	void *m_vtable;
+	NetCommandRef *m_first;
 };
 
 class BFMENetRequestPlayerLeaveCommandMsg
@@ -202,11 +208,18 @@ public:
 
 extern GlobalData *TheWritableGlobalData;
 extern unsigned int g_lastPacketRouterStallFrame;
+extern int FRAMES_TO_KEEP;
+
+template <class T> const T &frameMinimum(const T &a, const T &b)
+{
+	return b < a ? b : a;
+}
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/FrameDataManager.h
 class FrameDataManager
 {
 public:
+	NetCommandList *getFrameCommandList(unsigned int frame);
 	Bool getIsQuitting();
 	unsigned int getCommandCount(unsigned int frame);
 	unsigned int getFrameCommandCount(unsigned int frame);
@@ -1900,190 +1913,37 @@ void BFMEConnectionManager::relayCommand(void *ref)
 // re-sends each stored command to the requesting slot alone, and issues a
 // FRAMEINFO carrying getFrameCommandCount so the receiver knows how many to
 // expect.
-__declspec(naked) void BFMEConnectionManager::resendFrameRangeToPlayer(int playerID, unsigned int startFrame, unsigned int endFrame)
+void BFMEConnectionManager::resendFrameRangeToPlayer(int playerID, unsigned int startFrame, unsigned int endFrame)
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 104414Bh
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		__emit 0A1h
-		__emit 098h
-		__emit 008h
-		__emit 02Fh
-		__emit 001h   // mov eax, dword ptr [0x12f0898]
-		mov eax, dword ptr [eax+3Ch]
-		push ebp
-		push esi
-		push edi
-		dec eax
-		mov edi, ecx
-		mov ecx, dword ptr [esp+28h]
-		mov dword ptr [esp+0Ch], eax
-		cmp eax, ecx
-		lea eax,  [esp+0Ch]
-		jb L00_664B78
-		lea eax,  [esp+28h]
-L00_664B78:
-		mov edx, dword ptr [eax]
-		__emit 08Bh
-		__emit 00Dh
-		__emit 08Ch
-		__emit 0A0h
-		__emit 02Bh
-		__emit 001h   // mov ecx, dword ptr [0x12ba08c]
-		mov eax, dword ptr [esp+24h]
-		__emit 08Dh
-		__emit 034h
-		__emit 001h   // lea esi, [ecx + eax]
-		cmp esi, edx
-		mov dword ptr [esp+0Ch], edx
-		jae L01_664B9B
-		cmp edx, ecx
-		jbe L02_664B99
-		mov eax, edx
-		sub eax, ecx
-		jmp L01_664B9B
-L02_664B99:
-		xor eax, eax
-L01_664B9B:
-		cmp eax, edx
-		mov ebp, eax
-		ja L03_664CAC
-		mov ecx, dword ptr [esp+20h]
-		mov dl, 1h
-		shl dl, cl
-		push ebx
-		mov byte ptr [esp+2Ch], dl
-		mov ebx, dword ptr [esp+2Ch]
-L10_664BB6:
-		lea eax,  [edi+120E4h]
-		mov dword ptr [esp+2Ch], eax
-		mov dword ptr [esp+28h], 8h
-L06_664BC8:
-		mov ecx, dword ptr [eax]
-		test ecx, ecx
-		je L04_664BF2
-		push ebp
-		__emit 0E8h
-		__emit 0FDh
-		__emit 0EEh
-		__emit 09Dh
-		__emit 0FFh   // call 0x43AD1
-		test eax, eax
-		je L04_664BF2
-		mov esi, dword ptr [eax+4h]
-		test esi, esi
-		je L04_664BF2
-		nop
-L05_664BE0:
-		mov eax, dword ptr [esi]
-		push ebx
-		push eax
-		mov ecx, edi
-		__emit 0E8h
-		__emit 0ECh
-		__emit 0C5h
-		__emit 09Dh
-		__emit 0FFh   // call 0x411D7
-		mov esi, dword ptr [esi+4h]
-		test esi, esi
-		jne L05_664BE0
-L04_664BF2:
-		mov eax, dword ptr [esp+2Ch]
-		mov ecx, dword ptr [esp+28h]
-		add eax, 4h
-		dec ecx
-		mov dword ptr [esp+2Ch], eax
-		mov dword ptr [esp+28h], ecx
-		jne L06_664BC8
-		push 28h
-		__emit 0E8h
-		__emit 021h
-		__emit 0D3h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		mov esi, eax
-		add esp, 4h
-		mov dword ptr [esp+2Ch], esi
-		test esi, esi
-		mov dword ptr [esp+1Ch], 0h
-		je L07_664C49
-		mov ecx, esi
-		__emit 0E8h
-		__emit 089h
-		__emit 0E6h
-		__emit 09Ah
-		__emit 0FFh   // call 0x132B4
-		xor eax, eax
-		mov dword ptr [esi], 111A220h
-		mov dword ptr [esi+1Ch], eax
-		mov dword ptr [esi+20h], eax
-		mov dword ptr [esi+24h], 0FFFFFFFFh
-		mov dword ptr [esi+14h], 3h
-		jmp L08_664C4B
-L07_664C49:
-		xor esi, esi
-L08_664C4B:
-		mov eax, dword ptr [esi+14h]
-		push eax
-		mov dword ptr [esp+20h], 0FFFFFFFFh
-		mov dword ptr [esi+1Ch], ebp
-		__emit 0E8h
-		__emit 013h
-		__emit 00Fh
-		__emit 09Bh
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L09_664C6F
-		__emit 0E8h
-		__emit 0EDh
-		__emit 0B8h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L09_664C6F:
-		mov eax, dword ptr [edi+12028h]
-		mov dword ptr [esi+0Ch], eax
-		mov ecx, dword ptr [edi+12028h]
-		mov ecx, dword ptr [edi+ecx*4+120E4h]
-		push ebp
-		__emit 0E8h
-		__emit 018h
-		__emit 08Bh
-		__emit 09Dh
-		__emit 0FFh   // call 0x3D7A3
-		push ebx
-		push esi
-		mov ecx, edi
-		mov dword ptr [esi+24h], eax
-		__emit 0E8h
-		__emit 040h
-		__emit 0C5h
-		__emit 09Dh
-		__emit 0FFh   // call 0x411D7
-		mov ecx, esi
-		__emit 0E8h
-		__emit 006h
-		__emit 0B4h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		mov eax, dword ptr [esp+10h]
-		inc ebp
-		cmp ebp, eax
-		jbe L10_664BB6
-		pop ebx
-L03_664CAC:
-		mov ecx, dword ptr [esp+10h]
-		pop edi
-		pop esi
-		pop ebp
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret 0Ch
+	unsigned int lastFrame = frameMinimum(endFrame, TheGameLogic->getFrame() - 1);
+	if (startFrame + FRAMES_TO_KEEP < lastFrame)
+		startFrame = lastFrame > (unsigned int)FRAMES_TO_KEEP ? lastFrame - FRAMES_TO_KEEP : 0;
+	for (unsigned int frame = startFrame; frame <= lastFrame; ++frame)
+	{
+		unsigned char relay = (unsigned char)1 << playerID;
+		FrameDataManager **manager = m_frameData;
+		int slotsRemaining = 8;
+		do
+		{
+			if (*manager != 0)
+			{
+				NetCommandList *list = (*manager)->getFrameCommandList(frame);
+				if (list != 0)
+				{
+					for (NetCommandRef *ref = list->getFirstMessage(); ref != 0; ref = ref->getNext())
+						reinterpret_cast<ConnectionManager *>(this)->sendLocalCommandDirect(ref->getCommand(), relay);
+				}
+			}
+			++manager;
+		} while (--slotsRemaining != 0);
+		NetFrameCommandMsg *msg = new NetFrameCommandMsg;
+		msg->setFrame(frame);
+		if (DoesCommandRequireACommandID(msg->getNetCommandType()))
+			msg->setID(GenerateNextCommandID());
+		msg->setPlayerID(m_localSlot);
+		msg->setCommandCount(m_frameData[m_localSlot]->getFrameCommandCount(frame));
+		reinterpret_cast<ConnectionManager *>(this)->sendLocalCommandDirect(msg, relay);
+		msg->detach();
 	}
 }
 
