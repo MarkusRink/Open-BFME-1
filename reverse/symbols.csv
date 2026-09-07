@@ -10235,7 +10235,6 @@ name,address,notes
 ?Compute_Caps@DX8Caps@@AAEXW4WW3DFormat@@ABU_D3DADAPTER_IDENTIFIER8@@@Z,0x0091C230
 ?Compute_Current_Frame@Animatable3DObjClass@@IBEMPAM@Z,0x00982540,called by Simple_Evaluate_Bone
 ?Compute_Ram_Size@AABTreeClass@@QAEHXZ,0x0096A630,callee of byte-verified MeshGeometryClass::Compute_Ram_Size
-?Compute_Texture_Coordinate@MatrixMapperClass@@QAEXABVVector3@@PAV2@@Z,0x00924C30,pinharvest x1 (body)
 ?Cons0013A700@@YAXPAUElem00000128@@PBU1@@Z,0x0013A700,per-element callee of the 51-byte strided copy walks in BigStridedCopyWalks.cpp
 ?Cons0013A760@@YAXPAUElem000000BC@@PBU1@@Z,0x0013A760,per-element callee of the 51-byte strided copy walks in BigStridedCopyWalks.cpp
 ?Cons00195060@@YAXPAUElem0000008C@@PBU1@@Z,0x00195060,per-element callee of the 51-byte strided copy walks in BigStridedCopyWalks.cpp
