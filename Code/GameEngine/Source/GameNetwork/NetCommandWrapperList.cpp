@@ -103,112 +103,22 @@ Bool NetCommandWrapperListNode::isComplete() {
 	return m_numChunksPresent == m_numChunks;
 }
 
-// The retail body uses x87 conversion and rounding instructions whose MSVC
-// 2003 code generation is not reproduced by the current clean expression.
-__declspec(naked) Int NetCommandWrapperListNode::getPercentComplete(void)
+// A value of 100 means every chunk arrived. Partial transfers are capped at
+// 99 even when the floating-point percentage rounds up. Retail uses the normal
+// C++ x87-to-int conversion helper; no assembly escape hatch is needed.
+namespace {
+inline const int &wrapperPercentMin(const int &a, const int &b)
 {
-	__asm {
-		_emit 08Bh
-		_emit 041h
-		_emit 01Ch
-		_emit 08Bh
-		_emit 049h
-		_emit 018h
-		_emit 083h
-		_emit 0ECh
-		_emit 008h
-		_emit 03Bh
-		_emit 0C1h
-		_emit 075h
-		_emit 009h
-		_emit 0B8h
-		_emit 064h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 083h
-		_emit 0C4h
-		_emit 008h
-		_emit 0C3h
-		_emit 085h
-		_emit 0C0h
-		_emit 089h
-		_emit 044h
-		_emit 024h
-		_emit 004h
-		_emit 0DBh
-		_emit 044h
-		_emit 024h
-		_emit 004h
-		_emit 07Dh
-		_emit 006h
-		_emit 0D8h
-		_emit 005h
-		_emit 058h
-		_emit 053h
-		_emit 007h
-		_emit 001h
-		_emit 085h
-		_emit 0C9h
-		_emit 089h
-		_emit 04Ch
-		_emit 024h
-		_emit 004h
-		_emit 0DBh
-		_emit 044h
-		_emit 024h
-		_emit 004h
-		_emit 07Dh
-		_emit 006h
-		_emit 0D8h
-		_emit 005h
-		_emit 058h
-		_emit 053h
-		_emit 007h
-		_emit 001h
-		_emit 0DEh
-		_emit 0F9h
-		_emit 0D8h
-		_emit 00Dh
-		_emit 0C4h
-		_emit 0FAh
-		_emit 007h
-		_emit 001h
-		_emit 0E8h
-		_emit 051h
-		_emit 006h
-		_emit 038h
-		_emit 000h
-		_emit 089h
-		_emit 044h
-		_emit 024h
-		_emit 004h
-		_emit 083h
-		_emit 0F8h
-		_emit 063h
-		_emit 0C7h
-		_emit 004h
-		_emit 024h
-		_emit 063h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 08Dh
-		_emit 004h
-		_emit 024h
-		_emit 07Fh
-		_emit 004h
-		_emit 08Dh
-		_emit 044h
-		_emit 024h
-		_emit 004h
-		_emit 08Bh
-		_emit 000h
-		_emit 083h
-		_emit 0C4h
-		_emit 008h
-		_emit 0C3h
-	}
+    return a < b ? a : b;
+}
+}
+Int NetCommandWrapperListNode::getPercentComplete()
+{
+    if (m_numChunksPresent == m_numChunks)
+        return 100;
+    return wrapperPercentMin(99,
+        static_cast<int>(static_cast<float>(m_numChunksPresent) /
+                         static_cast<float>(m_numChunks) * 100.0f));
 }
 
 UnsignedShort NetCommandWrapperListNode::getCommandID() {
