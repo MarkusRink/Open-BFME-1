@@ -1,17 +1,28 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// Clean reconstruction of the two-array owner destructor at retail
-// 0x007A1230.  The target vtable and member layout are known, but no named
-// caller identifies the retail class, so the owner and cell names remain
-// address-derived.
+// No named caller proves the owner class. The distinct retail callbacks
+// identify AsciiString names at +0x0C and owning texture references at +0x24;
+// using one cell type for both concealed two different destructor targets.
 
-class Rva007A1230Cell
+class AsciiString
 {
 public:
-	~Rva007A1230Cell();
+	~AsciiString();
 
 private:
-	void *m_value;
+	void *m_data;
+};
+
+class TextureClass;
+
+template <class T>
+class RefCountPtr
+{
+public:
+	~RefCountPtr();
+
+private:
+	T *m_referent;
 };
 
 class Rva007A1230ArrayOwner
@@ -22,8 +33,8 @@ public:
 private:
 	void releaseOwnedState(void);
 	unsigned char m_beforeArrays[8];
-	Rva007A1230Cell m_first[6];
-	Rva007A1230Cell m_second[6];
+	AsciiString m_textureNames[6];
+	RefCountPtr<TextureClass> m_textureReferences[6];
 };
 
 Rva007A1230ArrayOwner::~Rva007A1230ArrayOwner()

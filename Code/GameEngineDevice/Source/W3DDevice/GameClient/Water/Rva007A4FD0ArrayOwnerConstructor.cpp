@@ -1,27 +1,29 @@
 // cl: /DNDEBUG /MD /EHsc
-// Retail 0x007A4FD0: constructor for the 0x80-byte water polygon record.
-// The vtable/dtor at 0x007A1230 and the two six-element EH arrays identify
-// the record; its polygon-trigger initializer is the adjacent 0x007A4D40
-// body.
+// The vtable and array callbacks tie this constructor to the owner at
+// 0x007A1230, whose original class identity remains unproven. The paired
+// callbacks distinguish ASCII texture names from owning texture references.
 
-class Rva007A4FD0AsciiString
+class AsciiString
 {
 public:
-	Rva007A4FD0AsciiString(void);
-	~Rva007A4FD0AsciiString(void);
+	AsciiString(void);
+	~AsciiString(void);
 
 private:
 	void *m_data;
 };
 
-class Rva007A4FD0Cell
+class TextureClass;
+
+template <class T>
+class RefCountPtr
 {
 public:
-	Rva007A4FD0Cell(void);
-	~Rva007A4FD0Cell(void);
+	RefCountPtr(void);
+	~RefCountPtr(void);
 
 private:
-	void *m_data;
+	T *m_referent;
 };
 
 class Rva007A4FD0ArrayOwner
@@ -35,8 +37,8 @@ private:
 	unsigned char m_firstFlag;
 	unsigned char m_firstPadding[3];
 	void *m_firstValue;
-	Rva007A4FD0AsciiString m_names[6];
-	Rva007A4FD0Cell m_cells[6];
+	AsciiString m_textureNames[6];
+	RefCountPtr<TextureClass> m_textureReferences[6];
 	unsigned char m_secondFlag;
 	unsigned char m_secondPadding[0x0f];
 	unsigned int m_value4c;
