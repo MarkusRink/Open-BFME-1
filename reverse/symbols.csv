@@ -84801,6 +84801,8 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?bfmeStepXF@BfmeOwnerXF@@QAEXPAX0@Z,0x0002F1CB
 ?TheBfmeLogicXF@@3PAVBfmeLogicXF@@A,0x00EF0898
 ?bfmeNoteXF@BfmeLogicXF@@QAEXPAX@Z,0x0001F253
+??1Rva0048D530CandidateString@@QAE@XZ,0x0043B304,candidate UnicodeString element destructor from IMEManager closeCandidateList
+?close@GameWindow@@QAEX_N@Z,0x00027F2A,GameWindow close call from IMEManager closeCandidateList
 ?bfmeTestXG@BfmeSubXG@@QAE_NPAVBfmeUnitXG@@PAX@Z,0x000357D8
 ?bfmeNoteXG@BfmeHookXG@@QAEXXZ,0x00025BFD
 ?bfmeKillXG@BfmeLogicXG@@QAEXPAVBfmeUnitXG@@HH@Z,0x0001EC2C
