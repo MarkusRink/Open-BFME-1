@@ -8,7 +8,12 @@ class BFMEConnectionManager
 {
 public:
 	void sendFileChunk(AsciiString path, UnsignedByte playerMask, UnsignedShort commandID);
-	UnsignedShort sendFileAnnouncement(AsciiString path, UnsignedByte playerMask);
+};
+
+class ConnectionManager
+{
+public:
+	UnsignedShort sendFileAnnounce(AsciiString path, UnsignedByte playerMask);
 };
 
 class Network
@@ -29,5 +34,5 @@ void Network::sendFile(AsciiString path, UnsignedByte playerMask, UnsignedShort 
 
 UnsignedShort Network::sendFileAnnounce(AsciiString path, UnsignedByte playerMask)
 {
-	return m_conMgr->sendFileAnnouncement(path, playerMask);
+	return reinterpret_cast<ConnectionManager *>(m_conMgr)->sendFileAnnounce(path, playerMask);
 }

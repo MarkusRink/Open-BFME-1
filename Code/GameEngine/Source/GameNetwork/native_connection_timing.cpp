@@ -6,7 +6,49 @@
 #include <map>
 #include <string.h>
 
-#include "../../../../reference/shims/stringinline/StringInline.h"
+// TU-scoped extension of the canonical StringInline owning ABI for format().
+template <typename T> struct StringInlineData
+{
+	int m_refCount;
+	int m_length;
+	T m_text[1];
+};
+
+template <typename T> class StringBase
+{
+	friend class AsciiString;
+	friend class UnicodeString;
+
+private:
+	StringBase() : m_data( 0 ) {}
+	StringBase( const T *text );
+	StringBase( const StringBase<T> &other );
+	~StringBase();
+
+	StringInlineData<T> *m_data;
+};
+
+class AsciiString : private StringBase<char>
+{
+public:
+	AsciiString() : StringBase<char>() {}
+	AsciiString( const char *text ) : StringBase<char>( text ) {}
+	AsciiString( const AsciiString &other ) : StringBase<char>( other ) {}
+	~AsciiString() {}
+	const char *str( void ) const { return m_data ? m_data->m_text : ""; }
+};
+
+class UnicodeString : private StringBase<unsigned short>
+{
+public:
+	UnicodeString() : StringBase<unsigned short>() {}
+	UnicodeString( const unsigned short *text ) : StringBase<unsigned short>( text ) {}
+	UnicodeString( const UnicodeString &other ) : StringBase<unsigned short>( other ) {}
+	~UnicodeString() {}
+	void format(UnicodeString pattern, ...);
+	const unsigned short *str( void ) const;
+};
+
 
 // Retail string headers store ushort length/capacity before the text at +8.
 // StringInline supplies the owning ABI; this local view supplies comparison.
@@ -514,6 +556,9 @@ public:
 	virtual void close();
 	virtual void unknown0C();
 	virtual int write(const void *buffer, int length);
+	virtual void unknown14(); virtual void unknown18(); virtual void unknown1C();
+	virtual void unknown20(); virtual void unknown24(); virtual void unknown28();
+	virtual int size();
 };
 class FileSystem
 {
@@ -523,7 +568,68 @@ public:
 };
 extern FileSystem *TheFileSystem;
 
-class NetFileAnnounceCommandMsg;
+// BFME LAN chat passes an IP/port record by address, unlike the ZH scalar IP.
+struct BFMEFileTransferAddress
+{
+	unsigned int ip;
+	unsigned short port;
+	BFMEFileTransferAddress(unsigned int value, unsigned short portValue) : ip(value), port(portValue) {}
+};
+class LANAPI
+{
+public:
+	virtual void unknown00();
+	virtual void unknown04();
+	virtual void unknown08();
+	virtual void unknown0C();
+	virtual void unknown10();
+	virtual void unknown14();
+	virtual void unknown18();
+	virtual void unknown1C();
+	virtual void unknown20();
+	virtual void unknown24();
+	virtual void unknown28();
+	virtual void unknown2C();
+	virtual void unknown30();
+	virtual void unknown34();
+	virtual void unknown38();
+	virtual void unknown3C();
+	virtual void unknown40();
+	virtual void unknown44();
+	virtual void unknown48();
+	virtual void unknown4C();
+	virtual void unknown50();
+	virtual void unknown54();
+	virtual void unknown58();
+	virtual void unknown5C();
+	virtual void unknown60();
+	virtual void unknown64();
+	virtual void unknown68();
+	virtual void unknown6C();
+	virtual void unknown70();
+	virtual void unknown74();
+	virtual void unknown78();
+	virtual void unknown7C();
+	virtual void unknown80();
+	virtual void unknown84();
+	virtual void unknown88();
+	virtual void OnChat(UnicodeString player, const BFMEFileTransferAddress &address,
+		UnicodeString message, int format);
+};
+extern LANAPI *TheLAN;
+
+class NetFileAnnounceCommandMsg : public NetCommandMsg
+{
+public:
+	NetFileAnnounceCommandMsg();
+	void setRealFilename(AsciiString filename);
+	void setPlayerMask(unsigned char playerMask);
+	void setFileID(unsigned short fileID);
+private:
+	AsciiString m_filename;
+	unsigned short m_fileID;
+	unsigned char m_playerMask;
+};
 class NetFileProgressCommandMsg : public NetCommandMsg
 {
 public:
@@ -551,6 +657,7 @@ public:
 	void sendDisconnectChat(UnicodeString text);
 	UnicodeString getPlayerName(int slot);
 	int getFileTransferProgress(int playerID, AsciiString path);
+	unsigned short sendFileAnnounce(AsciiString path, unsigned char playerMask);
 	friend class BFMEConnectionManager;
 	unsigned int getPacketRouterSlot();
 
@@ -649,7 +756,6 @@ public:
 	void sendLoadCompleteCommand();
 	void attachPlayersFromGameInfo(void *gameInfo);
 	void resolvePlayerFromName(void *msg);
-	void sendFileAnnouncement(const char *path, int playerMask);
 	void processAck(NetCommandMsg *msg);
 	void processGameSpyStatsAuthKeyCommand(void *msg);
 	void processAckCommand(void *msg);
@@ -5079,273 +5185,34 @@ void ConnectionManager::processFile(NetFileCommandMsg *msg)
 	progress->detach();
 }
 
-// Announces a file transfer to the other players: opens the file to size it,
-// builds the announcement command, and sends it with sendLocalCommand.
-__declspec(naked) void BFMEConnectionManager::sendFileAnnouncement(const char *path, int playerMask)
+// Opens the source and publishes its filename, recipients and a separately reserved file ID.
+unsigned short ConnectionManager::sendFileAnnounce(AsciiString path, unsigned char playerMask)
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 10446D3h
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		sub esp, 10h
-		push ebx
-		push ebp
-		push esi
-		push edi
-		mov ebp, ecx
-		mov eax, dword ptr [esp+30h]
-		xor ebx, ebx
-		cmp eax, ebx
-		mov dword ptr [esp+28h], ebx
-		je L00_66A1A1
-		add eax, 8h
-		jmp L01_66A1A6
-L00_66A1A1:
-		mov eax, 107388Bh
-L01_66A1A6:
-		__emit 08Bh
-		__emit 00Dh
-		__emit 048h
-		__emit 0CBh
-		__emit 034h
-		__emit 001h   // mov ecx, dword ptr [0x134cb48]
-		push ebx
-		push eax
-		__emit 0E8h
-		__emit 0ADh
-		__emit 0E6h
-		__emit 035h
-		__emit 000h   // call 0x9C8860
-		mov esi, eax
-		cmp esi, ebx
-		je L02_66A2A4
-		mov eax, dword ptr [esi]
-		mov ecx, esi
-		call dword ptr [eax+2Ch]
-		test eax, eax
-		je L02_66A2A4
-		mov edx, dword ptr [esi]
-		mov ecx, esi
-		call dword ptr [edx+8h]
-		mov ecx, dword ptr [ebp+12028h]
-		mov edi, 1h
-		shl edi, cl
-		push 24h
-		xor edi, 0FFh
-		__emit 0E8h
-		__emit 043h
-		__emit 07Dh
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+10h], eax
-		cmp eax, ebx
-		mov byte ptr [esp+28h], 3h
-		je L03_66A208
-		mov ecx, eax
-		__emit 0E8h
-		__emit 00Dh
-		__emit 0BDh
-		__emit 09Dh
-		__emit 0FFh   // call 0x45F11
-		mov esi, eax
-		jmp L04_66A20A
-L03_66A208:
-		xor esi, esi
-L04_66A20A:
-		mov eax, dword ptr [ebp+12028h]
-		mov dword ptr [esi+0Ch], eax
-		mov eax, dword ptr [esi+14h]
-		push eax
-		mov byte ptr [esp+2Ch], bl
-		__emit 0E8h
-		__emit 052h
-		__emit 0B9h
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		cmp al, 1h
-		jne L05_66A230
-		__emit 0E8h
-		__emit 02Ch
-		__emit 063h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L05_66A230:
-		push ecx
-		lea eax,  [esp+34h]
-		mov dword ptr [esp+18h], esp
-		mov ecx, esp
-		push eax
-		__emit 0E8h
-		__emit 01Fh
-		__emit 0D9h
-		__emit 021h
-		__emit 000h   // call 0x887B60
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0E8h
-		__emit 04Ah
-		__emit 09Bh
-		__emit 0FFh   // call 0x1ED30
-		mov ecx, dword ptr [esp+34h]
-		push ecx
-		mov ecx, esi
-		__emit 0E8h
-		__emit 095h
-		__emit 071h
-		__emit 09Dh
-		__emit 0FFh   // call 0x413E9
-		__emit 0E8h
-		__emit 0FFh
-		__emit 062h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov ecx, esi
-		mov ebx, eax
-		push ebx
-		__emit 0E8h
-		__emit 020h
-		__emit 072h
-		__emit 099h
-		__emit 0FFh   // call 0x1483
-		push esi
-		mov ecx, ebp
-		__emit 0E8h
-		__emit 089h
-		__emit 0E7h
-		__emit 099h
-		__emit 0FFh   // call 0x89F4
-		push edi
-		push esi
-		mov ecx, ebp
-		__emit 0E8h
-		__emit 006h
-		__emit 04Fh
-		__emit 09Dh
-		__emit 0FFh   // call 0x3F17A
-		mov ecx, esi
-		__emit 0E8h
-		__emit 029h
-		__emit 05Eh
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		lea ecx,  [esp+30h]
-		mov dword ptr [esp+28h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 0B4h
-		__emit 0D6h
-		__emit 021h
-		__emit 000h   // call 0x887940
-		mov ax, bx
-		mov ecx, dword ptr [esp+20h]
-		mov dword ptr fs:[0h], ecx
-		pop edi
-		pop esi
-		pop ebp
-		pop ebx
-		add esp, 1Ch
-		ret 8h
-L02_66A2A4:
-		mov dword ptr [esp+10h], ebx
-		movzx edx, byte ptr [esp+34h]
-		mov eax, dword ptr [esp+30h]
-		cmp eax, ebx
-		mov byte ptr [esp+28h], 1h
-		push edx
-		je L06_66A2C0
-		add eax, 8h
-		jmp L07_66A2C5
-L06_66A2C0:
-		mov eax, 107388Bh
-L07_66A2C5:
-		push eax
-		push ecx
-		mov dword ptr [esp+40h], esp
-		mov ecx, esp
-		push 111A268h
-		__emit 0E8h
-		__emit 009h
-		__emit 0EBh
-		__emit 021h
-		__emit 000h   // call 0x888DE0
-		lea eax,  [esp+1Ch]
-		push eax
-		__emit 0E8h
-		__emit 0AFh
-		__emit 0EEh
-		__emit 021h
-		__emit 000h   // call 0x889190
-		__emit 0A1h
-		__emit 030h
-		__emit 077h
-		__emit 02Fh
-		__emit 001h   // mov eax, dword ptr [0x12f7730]
-		add esp, 10h
-		cmp eax, ebx
-		je L08_66A337
-		push 2h
-		push ecx
-		lea edx,  [esp+18h]
-		mov dword ptr [esp+3Ch], esp
-		mov ecx, esp
-		push edx
-		__emit 0E8h
-		__emit 000h
-		__emit 0E1h
-		__emit 021h
-		__emit 000h   // call 0x888400
-		lea eax,  [esp+20h]
-		push eax
-		push ecx
-		mov dword ptr [esp+24h], esp
-		mov ecx, esp
-		push 111A250h
-		mov byte ptr [esp+3Ch], 2h
-		mov dword ptr [esp+2Ch], ebx
-		mov word ptr [esp+30h], bx
-		__emit 0E8h
-		__emit 0BCh
-		__emit 0EAh
-		__emit 021h
-		__emit 000h   // call 0x888DE0
-		__emit 08Bh
-		__emit 00Dh
-		__emit 030h
-		__emit 077h
-		__emit 02Fh
-		__emit 001h   // mov ecx, dword ptr [0x12f7730]
-		mov edx, dword ptr [ecx]
-		mov byte ptr [esp+38h], 1h
-		call dword ptr [edx+8Ch]
-L08_66A337:
-		lea ecx,  [esp+10h]
-		mov byte ptr [esp+28h], bl
-		__emit 0E8h
-		__emit 08Ch
-		__emit 0DEh
-		__emit 021h
-		__emit 000h   // call 0x8881D0
-		lea ecx,  [esp+30h]
-		mov dword ptr [esp+28h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 0EBh
-		__emit 0D5h
-		__emit 021h
-		__emit 000h   // call 0x887940
-		mov ecx, dword ptr [esp+20h]
-		pop edi
-		pop esi
-		pop ebp
-		xor ax, ax
-		mov dword ptr fs:[0h], ecx
-		pop ebx
-		add esp, 1Ch
-		ret 8h
+	File *file = TheFileSystem->openFile(path.str(), 0);
+	if (!file || !file->size())
+	{
+		UnicodeString log;
+		log.format(UnicodeString(L"Not sending file '%hs' to %X\n"), path.str(), playerMask);
+		if (TheLAN)
+		{
+			TheLAN->OnChat(UnicodeString(L"sendFile"), BFMEFileTransferAddress(0, 0), log, 2);
+		}
+		return 0;
 	}
+	file->close();
+	int relay = 0xFF ^ (1 << m_localSlot);
+	NetFileAnnounceCommandMsg *msg = new NetFileAnnounceCommandMsg;
+	msg->setPlayerID(m_localSlot);
+	if (DoesCommandRequireACommandID(msg->getNetCommandType()) == true)
+		msg->setID(GenerateNextCommandID());
+	msg->setRealFilename(path);
+	msg->setPlayerMask(playerMask);
+	unsigned short fileID = GenerateNextCommandID();
+	msg->setFileID(fileID);
+	processFileAnnounce(msg);
+	sendLocalCommand(msg, relay);
+	msg->detach();
+	return fileID;
 }
 
 // Retail's name -- the ZH reference declares it with this signature. Returns
