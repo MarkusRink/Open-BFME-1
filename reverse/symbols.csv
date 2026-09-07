@@ -84750,3 +84750,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ??0BfmeLocalZP@@QAE@XZ,0x0000A628,pin
 ?bfmeLowerRQ@@YAPAPAXPAPAX00UBfmeCmpRQ@@H@Z,0x00016B21,pin
 ?bfmeInsertRQ@BfmeVecRQ@@QAEXPAPAX0@Z,0x00034D7E,pin
+??1BfmeThingHT@@QAE@XZ,0x0003A48B,pin
