@@ -111,6 +111,45 @@ __declspec(noinline) void bfmeConstructDeliverPayloadNuggetPayload(
 
 #include "Common/CRCDebug.h"
 
+// The five pooled nuggets below free their block through the CRT free IMPORT
+// the linker handed retail, not ::operator delete.  <stdlib.h> declares free
+// __declspec(dllimport) under /MD, so the redeclaration is what turns the call
+// into an `e8` into the import thunk instead of an `ff 15` through the IAT.
+extern "C" void free(void *);
+#undef MEMORY_POOL_GLUE_WITHOUT_GCMP
+#define MEMORY_POOL_GLUE_WITHOUT_GCMP(ARGCLASS) \
+protected: \
+	virtual ~ARGCLASS(); \
+public: \
+	enum ARGCLASS##MagicEnum { ARGCLASS##_GLUE_NOT_IMPLEMENTED = 0 }; \
+public: \
+	inline void *operator new(size_t s, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ \
+		DEBUG_ASSERTCRASH(s == sizeof(ARGCLASS), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly")); \
+		return MP_GLUE_ALLOCATE(ARGCLASS); \
+	} \
+public: \
+	inline void operator delete(void *p, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ \
+		free(p); \
+	} \
+protected: \
+	inline void *operator new(size_t s) \
+	{ \
+		DEBUG_ASSERTCRASH(s == sizeof(ARGCLASS), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly")); \
+		return ::operator new(s); \
+	} \
+	inline void operator delete(void *p) \
+	{ \
+		free(p); \
+	} \
+private: \
+	virtual MemoryPool *getObjectMemoryPool() \
+	{ \
+		return ARGCLASS::getClassMemoryPool(); \
+	} \
+public:
+
 #ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)
