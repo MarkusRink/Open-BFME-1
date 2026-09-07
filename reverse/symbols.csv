@@ -85784,3 +85784,7 @@ __imp__bfmeSprintfESP,0x00F5948C,pin
 ?g_bfmeDispatchESQ@@3UBfmePtrESQ@@A,0x00F4B280,pin
 ?bfmeReadyESR@BfmeSubESR@@QAEDXZ,0x00017607,pin
 ?bfmeDetachESR@BfmeOwnerESR@@QAEXPAVBfmeSubESR@@@Z,0x00040737,pin
+??0BfmeStrETA@@QAE@ABVBfmeUniETA@@@Z,0x00889090,pin
+?releaseBuffer@BfmeStrETA@@AAEXXZ,0x00887940,pin
+?g_bfmeEmptyETA@@3PADA,0x00C7388B,pin
+?g_bfmeInfoETA@@3PAVBfmeInfoETA@@A,0x00EF7194,pin
