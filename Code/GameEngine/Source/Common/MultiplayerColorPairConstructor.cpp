@@ -1,4 +1,5 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/asciistring_downloadmanager /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
 /*
 ** Command & Conquer Generals Zero Hour(tm)
 ** Copyright 2025 Electronic Arts Inc.
@@ -9,7 +10,28 @@
 ** (at your option) any later version.
 */
 
-#include "Common/AsciiString.h"
+// Give VC7.1 a declared pair destructor that explicit instantiation can emit.
+#define _STLP_TRIVIAL_DESTRUCTOR_BUG
+#include <utility>
+
+class AsciiString;
+
+template <typename T>
+class StringBase
+{
+    friend class AsciiString;
+private:
+    StringBase(const StringBase<T> &source);
+    void *m_data;
+};
+
+// Retail inlines the forwarding copy and calls the narrow StringBase body.
+class AsciiString : private StringBase<char>
+{
+public:
+    __forceinline AsciiString(const AsciiString &source) : StringBase<char>(source) {}
+    ~AsciiString();
+};
 
 struct RGBColor
 {
@@ -28,34 +50,9 @@ private:
 	int m_colorNight;
 };
 
-namespace _STL
-{
-	template <class First, class Second>
-	struct pair;
+typedef std::pair<const int, MultiplayerColorDefinition> MultiplayerColorPair;
 
-	template <>
-	struct pair<const int, MultiplayerColorDefinition>
-	{
-		pair(const int &firstValue, const MultiplayerColorDefinition &secondValue);
-		pair(const pair &other);
-		~pair(void);
-
-		const int first;
-		MultiplayerColorDefinition second;
-	};
-
-	pair<const int, MultiplayerColorDefinition>::pair(
-		const int &firstValue, const MultiplayerColorDefinition &secondValue) :
-		first(firstValue), second(secondValue)
-	{
-	}
-
-	pair<const int, MultiplayerColorDefinition>::pair(const pair &other) :
-		first(other.first), second(other.second)
-	{
-	}
-
-	pair<const int, MultiplayerColorDefinition>::~pair(void)
-	{
-	}
-}
+// The map subscript at 0x0008F160 reaches this key/value constructor via 0x00048FEA.
+template MultiplayerColorPair::pair(const int &, const MultiplayerColorDefinition &);
+template MultiplayerColorPair::pair(const MultiplayerColorPair &);
+template MultiplayerColorPair::~pair();
