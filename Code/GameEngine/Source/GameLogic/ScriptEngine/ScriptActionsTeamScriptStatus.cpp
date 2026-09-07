@@ -1,5 +1,18 @@
 // cl: /DNDEBUG /DWIN32 /MD /Ireference/shims/stringinline /Ireference/shims/objectdlink
-// Open-BFME: ScriptActions::doTeamEnableStealth, retail 0x002F46F0, 105 bytes.
+// readable body of ?doTeamSetStrictControlEnabled@ScriptActions@@IAEXABVAsciiString@@_N@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
+//
+// The three team walks that set one script-status bit on every member:
+//
+//   0x002F46F0  doTeamEnableStealth           bit 0x08, inverted
+//   0x002F4780  doTeamSetStrictControlEnabled bit 0x20
+//   0x002F5100  d_002f5100                    a helper at 0x002EFB20 instead
+//
+// The first two are the same body with a different bit; the third is the same
+// body again with the per-member call swapped from the thiscall setter to a
+// two-explicit-stack-arg helper the caller cleans up after (push value; push
+// obj; call; add esp,8). That substitution is its whole 15-byte difference,
+// and it still lands at 100 bytes. Its real script-action name is unproven, so
+// it keeps its address-derived one.
 
 #include "StringInline.h"
 
@@ -40,7 +53,8 @@ public:
 
 enum ObjectScriptStatusBit
 {
-	OBJECT_STATUS_SCRIPT_UNSTEALTHED = 8
+	OBJECT_STATUS_SCRIPT_UNSTEALTHED = 8,
+	OBJECT_STATUS_SCRIPT_STRICT_CONTROL = 0x20
 };
 
 class Object : public BfmeObjectVtbl, public BfmeObjectDlinkBase,
@@ -120,11 +134,18 @@ public:
 };
 
 extern ScriptEngine *TheScriptEngine;
+// Retail calls this address (0x002EFB20) with two explicit stack args and
+// cleans the stack itself afterward, unlike the thiscall bfmeSet1026 its two
+// siblings use -- see FlammableUpdate_getModuleNameKey_Thunk.cpp for the same
+// address under its currently-matched (unproven, gen-dump) name.
+extern "C" void __cdecl bfmeCall_002efb20(void *obj, Bool flag);
 
 class ScriptActions
 {
 protected:
 	void doTeamEnableStealth(const AsciiString &teamName, Bool enabled);
+	void doTeamSetStrictControlEnabled(const AsciiString &teamName, Bool enabled);
+	void d_002f5100(const AsciiString &teamName, Bool enabled);
 };
 
 void ScriptActions::doTeamEnableStealth(
@@ -148,6 +169,55 @@ void ScriptActions::doTeamEnableStealth(
 			}
 			((BfmeX1026 *)obj)->bfmeSet1026(
 				OBJECT_STATUS_SCRIPT_UNSTEALTHED, !enabled);
+		}
+	}
+}
+
+void ScriptActions::doTeamSetStrictControlEnabled(
+	const AsciiString &teamName, Bool enabled)
+{
+	Team *theSrcTeam = TheScriptEngine->getTeamNamed(teamName, false);
+	if (!theSrcTeam)
+	{
+		return;
+	}
+
+	if (theSrcTeam)
+	{
+		for (DLINK_ITERATOR<Object> iter = theSrcTeam->iterate_TeamMemberList();
+			!iter.done(); iter.advance())
+		{
+			Object *obj = iter.cur();
+			if (!obj)
+			{
+				continue;
+			}
+			((BfmeX1026 *)obj)->bfmeSet1026(
+				OBJECT_STATUS_SCRIPT_STRICT_CONTROL, enabled);
+		}
+	}
+}
+
+void ScriptActions::d_002f5100(
+	const AsciiString &teamName, Bool enabled)
+{
+	Team *theSrcTeam = TheScriptEngine->getTeamNamed(teamName, false);
+	if (!theSrcTeam)
+	{
+		return;
+	}
+
+	if (theSrcTeam)
+	{
+		for (DLINK_ITERATOR<Object> iter = theSrcTeam->iterate_TeamMemberList();
+			!iter.done(); iter.advance())
+		{
+			Object *obj = iter.cur();
+			if (!obj)
+			{
+				continue;
+			}
+			bfmeCall_002efb20(obj, enabled);
 		}
 	}
 }
