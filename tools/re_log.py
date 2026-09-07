@@ -24,6 +24,12 @@ Two rules keep this from over-suppressing, which would be worse than the leak:
   RVA there is no boundary to have moved, and the verdict stands: the 3-field
   shape is a finding about the symbol.
 
+The historical tree-wide pruning pass is an annotation, not a conversion
+verdict: it inferred recovery solely from a .cpp SOURCE PATH. Naked byte dumps
+also live in .cpp files, so that pass cannot overturn a measured boundary or
+identity finding. Recognize only its specific boilerplate; genuine subsequent
+conversion and partial verdicts still win normally. The raw log stays intact.
+
 A third rule keeps it from UNDER-correcting. Statuses are a closed vocabulary
 and anything outside it is an annotation, so before `void` existed there was no
 way to take back a row — an address typed rather than measured stayed live
@@ -102,6 +108,17 @@ def _parse(fields):
     """Return (symbol, status, rva) for one log row, or None if it carries neither."""
     if len(fields) >= 5:
         symbol, rva_text, status = fields[0], fields[1], fields[3]
+        # This particular bulk pass explicitly used pathname, not body or byte
+        # evidence. In particular it released the truncated 0x00497140 thunk.
+        # Do not generalize to other `converted` rows or inspect live source
+        # paths here: both readers must interpret the same immutable evidence.
+        if (status == "converted"
+                and fields[4].startswith(
+                    "Superseded by the ledger: this symbol is matched from ")
+                and "Recorded by the tree-wide pruning pass that cross-referenced "
+                    "every logged symbol against its current ledger SOURCE PATH"
+                    in fields[4]):
+            status = "note"
         try:
             rva = int(rva_text, 16) if rva_text else None
         except ValueError:
