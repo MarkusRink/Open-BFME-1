@@ -15,7 +15,34 @@
 
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
-#include "StringInline.h"
+
+template <typename T> struct StringInlineData
+{
+	int m_refCount;
+	int m_length;
+	T m_text[ 1 ];
+};
+
+template <typename T> class StringBase
+{
+	friend class AsciiString;
+
+private:
+	StringBase() : m_data( 0 ) {}
+	StringBase( const StringBase<T> &other );
+	~StringBase();
+	StringInlineData<T> *m_data;
+};
+
+class AsciiString : private StringBase<char>
+{
+public:
+	AsciiString() : StringBase<char>() {}
+	AsciiString( const AsciiString &other ) : StringBase<char>( other ) {}
+	~AsciiString() {}
+	const char *str( void ) const { return m_data ? m_data->m_text : ""; }
+	int compare( const AsciiString &other ) const;
+};
 
 struct Rva0034DEB0Elem
 {
@@ -25,6 +52,16 @@ struct Rva0034DEB0Elem
 };
 
 typedef _STL::list<Rva0034DEB0Elem, _STL::allocator<Rva0034DEB0Elem> > Rva0034DEB0List;
+
+class ScriptEngine
+{
+public:
+	bool isSpecialPowerTriggered( int playerIndex, const AsciiString &completedPower, bool removeFromList, int sourceObj );
+
+private:
+	char m_pad[ 0x17274 ];
+	Rva0034DEB0List m_triggeredSpecialPowers[ 32 ];
+};
 
 class Rva0034DEB0OwnerA
 {
@@ -65,6 +102,28 @@ private:
 void Rva0034DEB0OwnerA::insert( int index, const AsciiString &name, int extra )
 {
 	m_lists[ index ].push_back( Rva0034DEB0Elem( name, extra ) );
+}
+
+bool ScriptEngine::isSpecialPowerTriggered( int playerIndex, const AsciiString &completedPower, bool removeFromList, int sourceObj )
+{
+	if( playerIndex < 0 || playerIndex >= 32 )
+		return false;
+
+	Rva0034DEB0List *specialList = &m_triggeredSpecialPowers[ playerIndex ];
+	for( Rva0034DEB0List::iterator it = specialList->begin(); it != specialList->end(); ++it )
+	{
+		Rva0034DEB0Elem elem = *it;
+		register int elemExtra = elem.m_extra;
+		if( elem.m_name.compare( completedPower ) == 0 && ( sourceObj == 0 || sourceObj == elemExtra ) )
+		{
+			if( removeFromList )
+			{
+				specialList->erase( it );
+			}
+			return true;
+		}
+	}
+	return false;
 }
 
 void Rva0034DEB0OwnerB::insert( int index, const AsciiString &name, int extra )
