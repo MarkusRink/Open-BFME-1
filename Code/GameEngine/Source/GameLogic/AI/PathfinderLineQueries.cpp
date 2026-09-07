@@ -3,12 +3,13 @@
 // Open-BFME: the Pathfinder queries that answer a question about a straight
 // segment of the world.
 //
-//   ?snapLine@         0x003E6AF0, 110 bytes
-//   ?isLinePassable@   0x003EE7A0, 131 bytes  (eight arguments)
-//   ?isLinePassable@   0x003EE8D0, 119 bytes  (six arguments)
-//   ?lineClear@        0x003EE970, 102 bytes
+//   ?snapLine@              0x003E6AF0, 110 bytes
+//   ?isGroundPathPassable@  0x003EAC00,  91 bytes
+//   ?isLinePassable@        0x003EE7A0, 131 bytes  (eight arguments)
+//   ?isLinePassable@        0x003EE8D0, 119 bytes  (six arguments)
+//   ?lineClear@             0x003EE970, 102 bytes
 //
-// One body four times: build a payload object on the stack, convert both world
+// One body five times: build a payload object on the stack, convert both world
 // endpoints to cell coordinates with worldToCell, walk the cells between them,
 // and turn the walk's verdict into the answer. snapLine is the only one that
 // does anything else -- when the walk reports a hit it copies the payload's
@@ -20,11 +21,24 @@
 // could only ever declare "the" iterateCellsAlongLine, so nothing said that
 // different bodies are being called:
 //
-//   Rva003DE480Struct     ILT 0x00005713 -> 0x003DE480   snapLine
-//   BfmeCheckMovementInfo ILT 0x00029DF7 -> 0x003E7F80   both isLinePassable
-//   Rva003E5A50Info       ILT 0x0001DAA2 -> 0x003E8440   lineClear
+//   Rva003DE480Struct      ILT 0x00005713 -> 0x003DE480   snapLine
+//   GroundPathPassableInfo ILT 0x00013DC2 -> 0x003E33F0   isGroundPathPassable
+//   BfmeCheckMovementInfo  ILT 0x00029DF7 -> 0x003E7F80   both isLinePassable
+//   Rva003E5A50Info        ILT 0x0001DAA2 -> 0x003E8440   lineClear
 //
-// A fifth query belongs in this file and is not in it: lineBlocked (0x003EE850,
+// isGroundPathPassable reaches its walker through a PRIVATE overload, which is
+// why it sits in its own section below: access is part of the mangled name, so
+// `?iterateCellsAlongLine@Pathfinder@@AAEH...PAUGroundPathPassableInfo@@@Z` and
+// the public ones are different symbols. The ledger pins that private symbol and
+// a public `...PAURva003E33F0Struct@@...` to the SAME ILT 0x00013DC2, so
+// GroundPathPassableInfo and Rva003E33F0Struct are one struct under two names --
+// the meaningful one is kept here.
+//
+// isGroundPathPassable also takes its arguments in a different order from the
+// other four: the layer sits between the two endpoints rather than before them,
+// and it names the layer of the START point specifically.
+//
+// One more query belongs in this file and is not in it: lineBlocked (0x003EE850,
 // ILT 0x00023DDF -> 0x003E81E0, payload Rva003DB640Info) is the same body
 // answering the opposite question -- true when the walk DID hit something. It
 // stays in Pathfinder_lineBlocked.cpp because that file also DEFINES
@@ -104,6 +118,13 @@ public:
 	unsigned char m_body[0x58];
 };
 
+// ------------------------------------------------------ isGroundPathPassable
+struct GroundPathPassableInfo
+{
+	Pathfinder *pathfinder;
+	int pathDiameter;
+};
+
 // --------------------------------------------------------------- lineClear
 class Rva003E5A50Info
 {
@@ -128,6 +149,9 @@ public:
 		PathfindLayerEnum layer, Rva003E5A50Info *info);			///< ILT 0x0001DAA2 -> 0x003E8440
 
 	void snapLine(const Coord3D *from, Coord3D *to);
+	bool isGroundPathPassable(const Coord3D &startWorld,
+		PathfindLayerEnum startLayer, const Coord3D &endWorld,
+		int pathDiameter);
 	Bool isLinePassable(Object *obj, Int zone, PathfindLayerEnum layer,
 		const Coord3D *start, const Coord3D *end, Bool considerTransient,
 		Bool isCrusher, Bool restrictSurfaces);
@@ -135,6 +159,12 @@ public:
 		const Coord3D *start, const Coord3D *end, Bool considerTransient);
 	Bool lineClear(Object *obj, Int value, PathfindLayerEnum layer,
 		const Coord3D *start, const Coord3D *end);
+
+private:
+	// Same ILT as the public ...PAURva003E33F0Struct@@... spelling, but the
+	// access specifier is part of the mangled name, so this one has to be here.
+	Int iterateCellsAlongLine(const ICoord2D &startCell, const ICoord2D &endCell,
+		PathfindLayerEnum layer, GroundPathPassableInfo *info);		///< ILT 0x00013DC2 -> 0x003E33F0
 };
 
 // ?snapLine@Pathfinder@@QAEXPBUCoord3D@@PAU2@@Z
@@ -153,6 +183,25 @@ void Pathfinder::snapLine(const Coord3D *from, Coord3D *to)
 		to->y = info.m_pos.y;
 		to->z = info.m_pos.z;
 	}
+}
+
+// ?isGroundPathPassable@Pathfinder@@QAE_NABUCoord3D@@W4PathfindLayerEnum@@0H@Z
+// Endpoints by reference, layer in the middle, and the payload is two words
+// built in place rather than a constructed object.
+bool Pathfinder::isGroundPathPassable(const Coord3D &startWorld,
+	PathfindLayerEnum startLayer, const Coord3D &endWorld,
+	int pathDiameter)
+{
+	GroundPathPassableInfo info;
+	ICoord2D endCell;
+	ICoord2D startCell;
+
+	info.pathfinder = this;
+	info.pathDiameter = pathDiameter;
+	worldToCell(&startWorld, &startCell);
+	worldToCell(&endWorld, &endCell);
+
+	return iterateCellsAlongLine(startCell, endCell, startLayer, &info) == 0;
 }
 
 // ?isLinePassable@Pathfinder@@QAEHPAVObject@@HW4PathfindLayerEnum@@PBUCoord3D@@2HHH@Z
