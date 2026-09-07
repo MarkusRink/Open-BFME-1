@@ -85396,3 +85396,7 @@ _htonl@4,0x0081BDDE,route=WSOCK32.dll!htonl; matched piSBInit callback identity 
 ?bfmeHighAR@BfmeHostAR@@QAEXPAVBfmeAgentAR@@@Z,0x000044C1
 ?bfmeLowAR@BfmeHostAR@@QAEXPAVBfmeAgentAR@@@Z,0x000160B3
 ?bfmeNotifyAR@BfmeSubAR@@QAEXPAVBfmeAgentAR@@@Z,0x00029DAC
+?bfmeFindAS@Rva00367E30Logic@@QAEPAVBfmeObjAS@@H@Z,0x0001F253
+?bfmeClearAS@BfmeObjAS@@QAEXH@Z,0x00031F7A
+?bfmeParentAS@BfmeObjAS@@QAEPAV1@H@Z,0x0000FAA6
+?bfmeFinishAS@BfmeHostAS@@QAEXPAX0@Z,0x0000F975
