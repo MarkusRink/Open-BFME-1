@@ -85840,3 +85840,4 @@ _bfmeVtblEVD,0x00CF3920,pin vftable data for BfmeConv1995
 ?open@Rva009D8630BlockWriter@@QAE_NPAVBfmeByteStream@@@Z,0x009D6300,Retail getCRC 0x003831A3 forwards its sole optional stream arg to EALA/RTS2 writer activation; existing exact Gen009D6300 body proves one pointer arg and bool result
 ?close@Rva009D8630BlockWriter@@QAEXXZ,0x009D6DD0,Retail getCRC 0x00383314 closes the stack writer; exact Gen009D6DD0 body conditionally emits END and clears stream pointer
 ?bfmeXferFW@BfmeThingFW@@QAEXPAVBfmeXferFW@@@Z,0x0003DA69,route=0x00065D90; retail getCRC 0x003831B7 passes CRC writer to TheCRCParameterCheck; target exact body writes literal CRCParameterCheck then its AsciiString vector
+?bfmeApplyEVF@@YAXPAXPAVBfmeStrVKI@@H@Z,0x008C4FA0,pin apply callee for BfmeConv1997
