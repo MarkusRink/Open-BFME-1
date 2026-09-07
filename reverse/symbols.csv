@@ -84724,3 +84724,5 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeFindNH@@YGHPAUBfmeSetNH@@PAX@Z,0x007F76F0,pin
 ?bfmeSameUW@@YADPAXPAVBfmeItemUW@@0@Z,0x000162E8,pin
 ?g_bfmeKRW@@3MA,0x00C90DDC,pin
+?bfmeZeroKX@@YGXPAUBfmeVec3KX@@@Z,0x0002990B,pin
+?bfmeSendTP@@YAXPAXPAUBfmeBlockTP@@1U1@0H@Z,0x00022D95,pin
