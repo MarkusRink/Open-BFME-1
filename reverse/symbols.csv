@@ -85485,3 +85485,8 @@ _bfmeExitBZ,0x008830B0
 ?bfmeStopCL@BfmeGateCL@@QAEXXZ,0x00013A61
 ?bfmeDropOneCL@BfmePathCL@@QAEXPAVBfmeHostCL@@@Z,0x00006D7F
 ?bfmeDropTwoCL@BfmePathCL@@QAEXPAVBfmeHostCL@@@Z,0x0000B81B
+?getStateTypeForBird@AIUpdateInterface@@QBE?AW4AIStateType@@XZ,0x0001E33A,local codegen alias to the retail AIUpdateInterface state getter ILT
+?appendGoalPath@AIStateMachine@@QAEXPBUCoord3D@@@Z,0x00046A65,local codegen alias to the retail AIStateMachine goal-path append ILT
+?push_back@PathVector@@QAEXABUCoord3D@@@Z,0x00035F8F,local vector view alias to the retail Coord3D push_back ILT
+??1PathVector@@QAE@XZ,0x0000DE68,local vector view alias to the retail Coord3D vector destructor ILT
+?insertInitial@SinglePathVector@@AAEXPAUCoord3D@@ABU2@ABUFalseType@@I_N@Z,0x000070CC,local one-element vector constructor alias to the retail Coord3D insert-overflow ILT
