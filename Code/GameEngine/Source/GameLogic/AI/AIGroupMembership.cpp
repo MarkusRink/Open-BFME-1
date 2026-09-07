@@ -16,10 +16,19 @@
 //
 // remove is the only one of the four that says what AIGroup actually looks like.
 // The other three declare `unsigned char m_unmodelled_000[4]` at this+0x00 and
-// stop at the member list; remove names the whole prefix -- a pool object's vptr
-// at +0x00, the list at +0x04, the cached size at +0x08, the cached speed at
-// +0x0C and the dirty flag at +0x10 -- and it is the reason the four bodies
-// agree that the list is at +0x04 rather than at the start.
+// stop at the member list; remove names the prefix -- a pool object's vptr at
+// +0x00, the list at +0x04, the cached size at +0x08, the dirty flag at +0x10 --
+// and it is the reason the four bodies agree the list is at +0x04 rather than at
+// the start.
+//
+// Only two of those names are proved by a body in this TU: remove decrements
+// +0x08 and sets +0x10. +0x0C it never touches, and the account it inherited
+// called that slot m_speed. The constructor at 0x00151BF0
+// (AIGroupAttackMoveOrder.cpp's flag family, so it cannot live here) settles it
+// by writing every field: +0x0C is the ground path, and m_speed is at +0x24,
+// past the group id at +0x14 and the seven formation floats. The name is
+// corrected below; it is a void* either way, so the layout and these four bodies
+// are unaffected.
 //
 // removeAny used to reach remove through a declaration carrying `ILT 0x000441A2`,
 // because the definition was in another file. It is now a call inside one TU.
@@ -68,7 +77,7 @@ private:
 
 	_STL::list<Object *> m_memberList;			// this+0x04
 	UnsignedInt m_memberListSize;				// this+0x08
-	Real m_speed;						// this+0x0C
+	void *m_groundPath;					// this+0x0C, not m_speed
 	Bool m_dirty;						// this+0x10
 };
 
