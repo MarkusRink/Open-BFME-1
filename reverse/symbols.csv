@@ -80706,6 +80706,7 @@ name,address,notes
 ?ignoreObstacle@AIUpdateInterface@@QAEXPBVObject@@@Z,0x0000315C,Open-BFME5 const-qualified BFME thunk alias
 ?imbue@ios_base@_STL@@QAE?AVlocale@2@ABV32@@Z,0x0083EC50,retail callee decoded from assigned basic_ios imbue at 0x0053F690
 ?incorporate@PSPlayerStats@@QAEXABV1@@Z,0x0002B0E4,REL32 pin from PSPlayerStats' copy ctor @0x6577D0 (thunk to 0x656D60)
+?decreaseAIPriorityForFailure@TeamPrototype@@QBEXXZ,0x0003DDBB,ScriptActions::doTeamDecreasePriority retail caller at 0x002F3A60; ILT j_0003DDBB targets BFME body 0x000EC8C0
 ?increaseAIPriorityForSuccess@TeamPrototype@@QBEXXZ,0x0000ADBC,ScriptActions retail call; ILT body 0x000EC8A0 adds +0x1CC into +0x1C8
 ?indexMissions@LivingWorldCampaign@@QAEXXZ,0x003A73C0,Open-BFME5 post-parse pass; stores the element count of the vector at +0xC/+0x10 less one into +0x18 - name is descriptive of the call site not from the image
 ?iniParseFactionVictoryDefinition@@YAXPAVINI@@@Z,0x000C31B0,INI block table 0x012A88AC binds FactionVictoryData to its ILT 0x00411FAE; cdecl INI* from [esp+0x21c] and plain ret at 0x000C331A; token compareNoCase neutral; TheVictorySystem 0x012EF734 -> findOrCreateFactionVictoryParameters 0x001E04B0 -> initFromINI with table 0x0109FBC8; the assert at 0x000C32CB names iniParseFactionVictoryDefinition; ledger ?removeSide@SidesList@@QAEXH@Z is wrong
