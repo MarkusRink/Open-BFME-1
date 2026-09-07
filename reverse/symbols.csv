@@ -85751,3 +85751,6 @@ __imp__bfmeDecESG@4,0x00F58E54,pin
 ?rva007F76D0@Rva00802550Host@@QAEPAHPAVBfmeVecCZ@@H@Z,0x007F76D0,neutral call-site receiver view; retail 0x00802550 and family callers load host ECX plus vector/index stack arguments; body ignores ECX; not a recovered public member identity; campaign=luna36h-20260907;lane=netpacket
 ?bfmeBusyESH@BfmeSubESH@@QAEDXZ,0x00035A5D,pin
 ?bfmeFireESH@BfmeHostESH@@QAEXH@Z,0x000294B5,pin
+?bfmeGetESI@BfmeDictESI@@QAEPAXPBDPAX@Z,0x007E8900,pin
+?bfmeLogGetESI@@YAPAVBfmeLogESI@@XZ,0x007EB810,pin
+?bfmeSetESI@BfmeStateESI@@QAEXH@Z,0x008014F0,pin
