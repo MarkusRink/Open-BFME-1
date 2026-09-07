@@ -84882,3 +84882,7 @@ __real@3FE0000000000000,0x00C9B3F0,MSVC double constant 0.5 read by the RoadSegm
 ?erase@W3DProjectileStreamResources@@QAEXPAX0@Z,0x00007A45,ILT thunk for the resources clear the W3DProjectileStreamDraw ctor at 0x00369FD0 performs (body 0x001D2940)
 _g_bfmeFormatXK,0x00C7C7B4
 ?TheBfmeDisplayXL@@3PAVBfmeDisplayXL@@A,0x00EF1270
+?advanceUpdate@SpecialAbilityUpdate@@QAEXXZ,0x0003D0EB,GiveUpgradeUpdate update calls the matched special-ability transition body through this ILT
+?checkTarget@SpecialAbilityUpdate@@QAE_NPAVObject@@@Z,0x00008995,GiveUpgradeUpdate update calls the matched special-ability target check through this ILT
+?update@SpecialAbilityUpdate@@QAE?AW4UpdateSleepTime@@XZ,0x00044B0C,GiveUpgradeUpdate update calls the inherited special-ability update through this ILT
+?update@UpdateModuleInterface@@QAE?AW4UpdateSleepTime@@XZ,0x00044B0C,GiveUpgradeUpdate update calls the inherited update body through this ILT
