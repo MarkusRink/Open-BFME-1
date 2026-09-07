@@ -79297,7 +79297,7 @@ name,address,notes
 ?getCenterPoint@PolygonTrigger@@QBEXPAUCoord3D@@@Z,0x00007AD6,PolygonTrigger center point ILT used by the four-argument guard-area helper
 ?getChipset@BfmeChipsetQuery@@SA?AW4ChipsetType@@XZ,0x000162A7,alias of ?getChipset@W3DShaderManager@@SA?AW4ChipsetType@@XZ pinned at the same ILT; declared-only view so the call keeps the ordinary convention where the same-TU definition would use MSVC's private one
 ?getChipset@W3DShaderManager@@SA?AW4ChipsetType@@XZ,0x000162A7
-?getRenderTexture@W3DShaderManager@@SAPAUIDirect3DTexture8@@XZ,0x00006DAC,CrossFade postRender call reaches the six-byte getter body at 0x007175A0 which reads BFME render-texture global 0x012F9D08; named donor and target call site agree; campaign=luna36h-20260907;lane=shaders
+?getRenderTexture@W3DShaderManager@@SAPAUIDirect3DTexture8@@XZ,0x00006DAC,CrossFade postRender call reaches the six-byte getter body at 0x007175A0 which reads BFME render-texture global 0x012F9D08; named donor and target call site agree; route=0x007175A0; campaign=luna36h-20260907;lane=shaders
 ?getChunkNumber@NetWrapperCommandMsg@@QAEIXZ,0x0003F814
 ?getClassMemoryPool@Anim2D@@CAPAVMemoryPool@@XZ,0x00AFF960,pinharvest x3 (body)
 ?getClassMemoryPool@ObjectDefectionHelper@@SAPAVMemoryPool@@XZ,0x0000B9CE,pinharvest x1 (thunk)
