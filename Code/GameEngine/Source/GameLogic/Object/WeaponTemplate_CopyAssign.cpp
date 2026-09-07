@@ -6,7 +6,8 @@
 // +0x40, preferred target bone at +0x80, nine AudioEventRTS assigns from +0xB4,
 // copied-override flag at +0x528. Focused TU; member types recover the
 // 14 typed calls. Do not fold this into Weapon.cpp (ZH offsets differ).
-// Field names follow retail FieldParse table 0x00C9FE18 and reverse/field_names.csv.
+// Property names follow retail FieldParse table 0x00C9FE18 (reverse/field_names.csv).
+// Reload/shot timing bounds follow the matched getters in sibling TUs.
 // Scalar slots retain raw integer storage to preserve retail copy codegen;
 // INI names identify properties, not recovered C++ types.
 
@@ -137,10 +138,10 @@ private:
 	AudioEventRTS m_audio128[8];
 	int m_d4a8;
 	int m_clipSize;
-	int m_d4b0;
-	int m_d4b4;
-	int m_d4b8;
-	int m_d4bc;
+	int m_minClipReloadTime;
+	int m_maxClipReloadTime;
+	int m_minDelayBetweenShots;
+	int m_maxDelayBetweenShots;
 	int m_continuousFireOneShotsNeeded;
 	int m_continuousFireTwoShotsNeeded;
 	int m_continuousFireCoastFrames;
@@ -256,10 +257,10 @@ WeaponTemplate &WeaponTemplate::operator=(const WeaponTemplate &that)
 	m_audio128[7].assign(that.m_audio128[7]);
 	m_d4a8 = that.m_d4a8;
 	m_clipSize = that.m_clipSize;
-	m_d4b0 = that.m_d4b0;
-	m_d4b4 = that.m_d4b4;
-	m_d4b8 = that.m_d4b8;
-	m_d4bc = that.m_d4bc;
+	m_minClipReloadTime = that.m_minClipReloadTime;
+	m_maxClipReloadTime = that.m_maxClipReloadTime;
+	m_minDelayBetweenShots = that.m_minDelayBetweenShots;
+	m_maxDelayBetweenShots = that.m_maxDelayBetweenShots;
 	m_continuousFireOneShotsNeeded = that.m_continuousFireOneShotsNeeded;
 	m_continuousFireTwoShotsNeeded = that.m_continuousFireTwoShotsNeeded;
 	m_continuousFireCoastFrames = that.m_continuousFireCoastFrames;
