@@ -3942,7 +3942,7 @@ ControlBarSchemeManager::ControlBarSchemeManager( void )
 //
 // Destructor for the Manager
 //-----------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/Common/ControlBarSchemeManagerDestructor.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarSchemeManagerBodies.cpp
 // ??1ControlBarSchemeManager@@QAE@XZ present-unmatched
 ControlBarSchemeManager::~ControlBarSchemeManager( void )
 {
