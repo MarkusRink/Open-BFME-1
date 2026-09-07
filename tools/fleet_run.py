@@ -24,6 +24,13 @@ import uuid
 ROOT = Path(__file__).resolve().parents[1]
 TARGET = re.compile(r"^- (0x[0-9a-fA-F]+) (\d+)B", re.M)
 DIFF = re.compile(r"^(diff --git |index [0-9a-f]+\.\.|\+\+\+ |--- |@@ |[-+])")
+# dis_retail.py prints +OFFSET HEX-BYTES MNEMONIC.  These are evidence, not
+# added patch lines: dropping them made successful disassemblies look empty.
+DISASSEMBLY = re.compile(r"^\+[0-9a-fA-F]{4,}\s+(?:[0-9a-fA-F]{2}\s+)+[a-zA-Z]")
+
+
+def keep_transcript_line(line):
+    return bool(DISASSEMBLY.match(line)) or not DIFF.match(line)
 
 
 def connect(root):
@@ -128,11 +135,12 @@ def execute(root, brief, legacy_log, engine, seat, command):
             record["pid"] = child.pid
             save(directory / "record.json", record)
             # Bound memory even if a tool emits a multi-megabyte single line.
-            while chunk := child.stdout.readline(65536):
-                line = chunk.decode("utf-8", errors="replace")
-                if not DIFF.match(line):
-                    log.write(line.rstrip("\r\n")[:400] + "\n")
-                    log.flush()
+            with child.stdout:
+                while chunk := child.stdout.readline(65536):
+                    line = chunk.decode("utf-8", errors="replace")
+                    if keep_transcript_line(line):
+                        log.write(line.rstrip("\r\n")[:400] + "\n")
+                        log.flush()
             code = child.wait()
         record.update(status="finished", exit_code=code)
         return code

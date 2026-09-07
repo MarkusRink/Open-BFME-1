@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+"""The compact fleet log must retain byte-level diagnostic evidence."""
+import contextlib
+import io
+import json
+from pathlib import Path
+import sys
+import tempfile
+from types import SimpleNamespace
+import unittest
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import fleet_run
+
+
+class TranscriptFilterTests(unittest.TestCase):
+    def test_retail_instructions_survive(self):
+        for line in (
+            "+0000 56                       push    esi",
+            "+0003 a1 b0 bd 2d 01           mov     eax, dword ptr [0x12dbdb0]",
+            "+00c0 e8 bf 5d 1f 00           call    0xdf74f4 ;security_check_cookie",
+            "+00c8 c2 04 00                 ret     4",
+            "+ABCD 0F B6 04 1E              movzx   eax, byte ptr [esi + ebx]",
+            "+10000 90                      nop",
+        ):
+            with self.subTest(line=line):
+                self.assertTrue(fleet_run.keep_transcript_line(line))
+
+    def test_patch_noise_is_still_suppressed(self):
+        for line in (
+            "diff --git a/test.cpp b/test.cpp",
+            "index 1234abcd..5678abcd 100644",
+            "--- a/test.cpp", "+++ b/test.cpp", "@@ -1,2 +1,3 @@",
+            "+return result;", "-return 0;",
+            "+0000 is not disassembly",
+        ):
+            with self.subTest(line=line):
+                self.assertFalse(fleet_run.keep_transcript_line(line))
+
+    def test_ambiguous_instruction_shaped_text_is_kept(self):
+        # Logging must not require a decoder dependency or guess which
+        # mnemonics are real before allowing evidence into the transcript.
+        self.assertTrue(fleet_run.keep_transcript_line("+abcd ef unknown value"))
+
+    def test_other_diagnostics_survive(self):
+        for line in ("; retail rva=0x00801670 size=203", "result EXACT",
+                     "!!0080 mov ecx, edi", "Functions: FAIL 1/2", ""):
+            with self.subTest(line=line):
+                self.assertTrue(fleet_run.keep_transcript_line(line))
+
+    def test_worker_log_and_exit_status(self):
+        with tempfile.TemporaryDirectory() as temporary, contextlib.ExitStack() as cleanup:
+            root = Path(temporary)
+            brief = root / "brief.txt"
+            brief.write_text("TARGETS\n- 0x00123456 2B\n", encoding="utf-8")
+            pointer = root / "latest.log"
+            lines = ["; retail rva=0x00123456 size=2",
+                     "+0000 90                       nop",
+                     "+0001 c3                       ret",
+                     "+return 0;", "diagnostic " + "x" * 600]
+            command = [sys.executable, "-c",
+                       "import sys; print(" + repr("\n".join(lines)) + "); sys.exit(7)"]
+            original_connect = fleet_run.connect
+
+            def connect(path):
+                connection = original_connect(path)
+                cleanup.callback(connection.close)
+                return connection
+
+            with patch.object(fleet_run, "connect", side_effect=connect), \
+                    patch.object(fleet_run.subprocess, "run",
+                              return_value=SimpleNamespace(stdout="fixture-head\n")), \
+                    contextlib.redirect_stdout(io.StringIO()):
+                result = fleet_run.execute(root, brief, pointer, "test", "test", command)
+            self.assertEqual(result, 7)
+            log_path = Path(pointer.read_text(encoding="utf-8").splitlines()[1])
+            logged = log_path.read_text(encoding="utf-8").splitlines()
+            self.assertEqual(logged[:3], lines[:3])
+            self.assertNotIn(lines[3], logged)
+            self.assertEqual(len(logged[3]), 400)
+            record = json.loads((log_path.parent / "record.json").read_text())
+            self.assertEqual(record["status"], "finished")
+            self.assertEqual(record["exit_code"], 7)
+            with contextlib.closing(original_connect(root)) as database:
+                self.assertEqual(database.execute("SELECT rva FROM claims").fetchall(), [])
+
+
+if __name__ == "__main__":
+    unittest.main()
