@@ -85761,3 +85761,8 @@ __imp__bfmeDecESG@4,0x00F58E54,pin
 ?bfmeMarkESM@BfmeHostESM@@QAEXPAVBfmeThingESM@@H@Z,0x00030963,pin
 ?bfmePrepESM@BfmeHostESM@@QAEXPAVBfmeThingESM@@@Z,0x00044693,pin
 ?bfmeDoESM@BfmeHostESM@@QAEDPAVBfmeThingESM@@UBfmePairESM@@PAPAXHH@Z,0x00021CEC,pin
+?bfmeFindByIdESN@BfmeLogicESN@@QAEPAVBfmeObjESN@@H@Z,0x0001F253,pin
+?g_bfmeLogicESN@@3PAVBfmeLogicESN@@A,0x00EF0898,pin
+?bfmeAttachESN@BfmeHostESN@@QAEXPAVBfmeObjESN@@@Z,0x0003DE5B,pin
+?bfmeNotifyESN@@YGXPAVBfmeSinkESN@@@Z,0x0000A3B2,pin
+?bfmeSendESN@BfmeSinkESN@@QAEXPAUBfmeCmdESN@@H@Z,0x000307E7,pin
