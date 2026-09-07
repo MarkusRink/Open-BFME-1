@@ -85490,3 +85490,5 @@ _bfmeExitBZ,0x008830B0
 ?push_back@PathVector@@QAEXABUCoord3D@@@Z,0x00035F8F,local vector view alias to the retail Coord3D push_back ILT
 ??1PathVector@@QAE@XZ,0x0000DE68,local vector view alias to the retail Coord3D vector destructor ILT
 ?insertInitial@SinglePathVector@@AAEXPAUCoord3D@@ABU2@ABUFalseType@@I_N@Z,0x000070CC,local one-element vector constructor alias to the retail Coord3D insert-overflow ILT
+?bfmeBeginCN@BfmeHostCN@@QAEXPAVBfmeUnitCN@@@Z,0x0000FC0E
+?bfmeDoneCN@BfmeUnitCN@@QAEXXZ,0x00020E9B
