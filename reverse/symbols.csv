@@ -85813,3 +85813,12 @@ _g_xferExceptionThrowInfo,0x00DDFE5C,Opaque exception ThrowInfo; retail catchabl
 ?bfmeApplyETH@BfmeViewETH@@QAEXPAVBfmeSubETH@@@Z,0x00030846,pin thunk for BfmeConv1985
 ?beginPlayerLeave@BFMEConnectionManager@@QAEHE@Z,0x00667320,byte player ID proven by entry movzx edi byte [esp+0x28]; int result tested by Network::RelayCommandsToCommandList at 0x00682B69
 ??0NetGameCommandMsg@@QAE@PAVGameMessage@@@Z,0x00674A40,sendGameCommand allocation 0x30 followed by ctor copying GameMessage type and argument list into command type 4 per ZH constructor
+_ImmCreateContext@0,0x009F88B4,retail FF25 thunk verified from PE IMM32.dll import ImmCreateContext; campaign=luna36h-20260907;lane=mid
+_ImmGetContext@4,0x009F88AE,retail FF25 thunk verified from PE IMM32.dll import ImmGetContext; campaign=luna36h-20260907;lane=mid
+??_7IMEManager@@6B@,0x010F9978,derived vtable installed by ctor48D200 and restored by destructor48D8B0; campaign=luna36h-20260907;lane=mid
+??_7IMEManagerInterface@@6B@,0x010F98F0,interface vtable restored immediately before SubsystemInterface destructor in48D8B0; campaign=luna36h-20260907;lane=mid
+_ImmDestroyContext@4,0x009F88A2,FF25 thunk verified from PE IMM32.dll import ImmDestroyContext slot1359558; campaign=luna36h-20260907;lane=mid
+_ImmReleaseContext@8,0x009F88A8,FF25 thunk verified from PE IMM32.dll import ImmReleaseContext slot1359574; campaign=luna36h-20260907;lane=mid
+?detatch@IMEManager@@UAEXXZ,0x0048CD50,IME vtable010F9978 slot10 points through ILT155C3 to48CD50; window0C/context10/composing1C match caller and body; campaign=luna36h-20260907;lane=mid
+?updateTexture@Rva006D23C0Owner@@QAEXVAsciiString@@@Z,0x006CBA30,refresh6CCDB0 same receiver ECX; ILT3B66 ->6CBA30; char-buffer consumer90E910 proves narrow string; campaign=luna36h-20260907;lane=shaders
+?updateMacroTexture@Rva006D23C0Owner@@QAEXVBaseHeightMapResetAsciiString@@_N@Z,0x006CB8D0,refresh6CCDB0 same receiver ECX; ILT3CE2 ->6CB8D0; macro texture name3070 and force306C match existing body; campaign=luna36h-20260907;lane=shaders
