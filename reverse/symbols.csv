@@ -81215,9 +81215,11 @@ name,address,notes
 ?j0003767d@Rva00285300Base@@QAEXXZ,0x0003767D,thiscall pin over matched forwarding thunk for Rva00285300::update sibling call
 ?j000454d0@Rva00285300Base@@QAEXPAVObject@@@Z,0x000454D0,thiscall pin over matched forwarding thunk for Rva00285300::update sibling call
 ?j_00007e96@?$vector@PAVRva003C2280Item@@V?$allocator@PAVRva003C2280Item@@@_STL@@@_STL@@IAEXPAPAVRva003C2280Item@@ABQAV3@ABU__true_type@2@I_N@Z,0x00007E96,STLport pointer vector overflow ILT for Rva003C2280Owner
+?j_000055e7@@YAXXZ,0x000055E7,portrait-entry lookup ILT called by the adjacent Rva000FA830 body
 ?j_00008053@Glo012F1024Item@@QAEXXZ,0x00008053,direct retail thunk called by ?bfmeEnter@Glo012F1024Item@@QAEXXZ
 ?j_00008c0b@Glo012F1028Type@@QAEXXZ,0x00008C0B,conditional global notification thunk called by ?bfmeEnter@Glo012F1024Item@@QAEXXZ
 ?j_0000ca59@Glo012F1024Item@@QAE_NXZ,0x0000CA59,conditional direct retail thunk called by ?bfmeEnter@Glo012F1024Item@@QAEXXZ
+?j_0000d2a6@@YAXXZ,0x0000D2A6,portrait-entry getPortrait ILT called by the adjacent Rva000FA830 body
 ?j_0000d1d4@Glo012F1024Item@@QAEXXZ,0x0000D1D4,direct retail thunk called by ?bfmeEnter@Glo012F1024Item@@QAEXXZ
 ?j_0000df76@Glo012F1024Item@@QAEXXZ,0x0000DF76,direct retail thunk called by ?bfmeEnter@Glo012F1024Item@@QAEXXZ
 ?j_000100d7@?$vector@PAVRva003C5890Item@@V?$allocator@PAVRva003C5890Item@@@_STL@@@_STL@@IAEXPAPAVRva003C5890Item@@ABQAV3@ABU__true_type@2@I_N@Z,0x000100D7,STLport pointer vector overflow ILT for Rva003C5890Owner
@@ -84774,3 +84776,5 @@ __imp__bfmeMathVE,0x00F59394,pin
 ?bfmeNotifyZY@BfmeOwnerZY@@QAEXXZ,0x00022999,pin
 ?updateLadderDetails@@YAXPAVGameWindow@@0H@Z,0x004D7E60,structural callee pin: retail call target decoded from e8 at 0x004D8796 inside populateLadderListBox body; TU-local fastcall static
 __imp__bfmeApiLK@8,0x00F595DC,pin
+?getEntry@Rva000FA830PortraitList@@QAEPAVRva000FA830PortraitEntry@@H@Z,0x000055E7,portrait-entry lookup method resolves through the 0x000055E7 ILT
+?getPortrait@Rva000FA830PortraitEntry@@QAEPBVImage@@PAVPlayer@@@Z,0x0000D2A6,portrait-entry getPortrait method resolves through the 0x0000D2A6 ILT
