@@ -4,11 +4,19 @@
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
+class Anim2D;
+
+// The polymorphic 0x74-byte icon object places emoticon index 10 at +0x2C/+0x64.
+enum { ICON_EMOTICON = 10 };
+
 class DrawableIconInfo
 {
 public:
-    void *m_icon[14];
+    Anim2D *m_icon[14];
     UnsignedInt m_keepTillFrame[14];
+
+protected:
+    virtual ~DrawableIconInfo();
 };
 
 class Anim2D
@@ -49,17 +57,17 @@ private:
 // ?drawEmoticon@Drawable@@AAEXXZ
 void Drawable::drawEmoticon()
 {
-    if (m_iconInfo != 0 && getIconInfo()->m_icon[11] != 0)
+    if (m_iconInfo != 0 && getIconInfo()->m_icon[ICON_EMOTICON] != 0)
     {
         UnsignedInt now = TheBfmeGameLogic->m_frame;
-        if (getIconInfo()->m_keepTillFrame[11] >= now)
+        if (getIconInfo()->m_keepTillFrame[ICON_EMOTICON] >= now)
         {
             Int barWidth = m_emoticonRegionRight - m_emoticonRegionLeft;
-            Int frameWidth = ((Anim2D *)getIconInfo()->m_icon[11])->getCurrentFrameWidth();
-            Int frameHeight = ((Anim2D *)getIconInfo()->m_icon[11])->getCurrentFrameHeight();
+            Int frameWidth = getIconInfo()->m_icon[ICON_EMOTICON]->getCurrentFrameWidth();
+            Int frameHeight = getIconInfo()->m_icon[ICON_EMOTICON]->getCurrentFrameHeight();
             Int screenX = (Int)(m_emoticonRegionLeft + (barWidth * 0.5f) - (frameWidth * 0.5f));
             Int screenY = m_emoticonRegionBottom - frameHeight;
-            ((Anim2D *)getIconInfo()->m_icon[11])->draw(screenX, screenY, frameWidth, frameHeight);
+            getIconInfo()->m_icon[ICON_EMOTICON]->draw(screenX, screenY, frameWidth, frameHeight);
         }
         else
         {
