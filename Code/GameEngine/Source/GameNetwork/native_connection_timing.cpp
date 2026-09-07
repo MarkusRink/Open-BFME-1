@@ -159,6 +159,14 @@ private:
 	NetCommandRef *m_first;
 };
 
+class BFMENetRequestFrameDataCommandMsg : public NetCommandMsg
+{
+public:
+	// Legacy getter names: the type-9 payload actually stores [firstFrame,lastFrame].
+	int getRequestedPlayerID();
+	unsigned int getRequestedFrame();
+};
+
 class BFMENetRequestPlayerLeaveCommandMsg
 {
 public:
@@ -209,6 +217,11 @@ public:
 extern GlobalData *TheWritableGlobalData;
 extern unsigned int g_lastPacketRouterStallFrame;
 extern int FRAMES_TO_KEEP;
+
+template <class T> const T &frameMaximum(const T &a, const T &b)
+{
+	return b > a ? b : a;
+}
 
 template <class T> const T &frameMinimum(const T &a, const T &b)
 {
@@ -545,95 +558,23 @@ Bool BFMEConnectionManager::hasPacketRouterFrameStall()
 	return false;
 }
 
-__declspec(naked) void BFMEConnectionManager::processRequestFrameDataCommand(void *msg)
+void BFMEConnectionManager::processRequestFrameDataCommand(void *command)
 {
-	__asm {
-		sub esp, 8
-		push ebp
-		push edi
-		mov edi, dword ptr [esp+14h]
-		test edi, edi
-		mov ebp, ecx
-		je done
-		push ebx
-		mov ecx, edi
-		__emit 0E8h
-		__emit 058h
-		__emit 037h
-		__emit 09Ah
-		__emit 0FFh
-		mov ebx, eax
-		mov ecx, edi
-		mov dword ptr [esp+10h], ebx
-		__emit 0E8h
-		__emit 020h
-		__emit 005h
-		__emit 09Dh
-		__emit 0FFh
-		cmp eax, ebx
-		mov dword ptr [esp+0Ch], eax
-		jb popEbxDone
-		__emit 08Bh
-		__emit 00Dh
-		__emit 0C8h
-		__emit 0D5h
-		__emit 02Eh
-		__emit 001h
-		mov edx, dword ptr [ecx+0CB4h]
-		__emit 08Bh
-		__emit 00Dh
-		__emit 098h
-		__emit 008h
-		__emit 02Fh
-		__emit 001h
-		mov ecx, dword ptr [ecx+3Ch]
-		push esi
-		lea esi, [edx+eax]
-		cmp esi, ecx
-		jb popEsiDone
-		cmp ecx, eax
-		mov dword ptr [esp+1Ch], ecx
-		lea eax, [esp+1Ch]
-		jb haveStartPointer
-		lea eax, [esp+10h]
-haveStartPointer:
-		cmp ecx, edx
-		mov esi, dword ptr [eax]
-		jb clampLowToZero
-		sub ecx, edx
-		cmp ecx, ebx
-		mov dword ptr [esp+1Ch], ecx
-		lea eax, [esp+1Ch]
-		ja haveEndPointer
-useOriginalEndPointer:
-		lea eax, [esp+14h]
-haveEndPointer:
-		mov eax, dword ptr [eax]
-		cmp eax, esi
-		ja popEsiDone
-		mov edx, dword ptr [edi+0Ch]
-		push esi
-		push eax
-		push edx
-		mov ecx, ebp
-		__emit 0E8h
-		__emit 099h
-		__emit 07Eh
-		__emit 09Ah
-		__emit 0FFh
-popEsiDone:
-		pop esi
-popEbxDone:
-		pop ebx
-done:
-		pop edi
-		pop ebp
-		add esp, 8
-		ret 4
-clampLowToZero:
-		mov dword ptr [esp+1Ch], 0
-		jmp useOriginalEndPointer
-	}
+	BFMENetRequestFrameDataCommandMsg *msg = static_cast<BFMENetRequestFrameDataCommandMsg *>(command);
+	if (msg == 0)
+		return;
+	unsigned int startFrame = msg->getRequestedPlayerID();
+	unsigned int endFrame = msg->getRequestedFrame();
+	if (endFrame < startFrame)
+		return;
+	unsigned int slack = TheWritableGlobalData->networkRunAheadSlack;
+	unsigned int currentFrame = TheGameLogic->getFrame();
+	if (endFrame + slack < currentFrame)
+		return;
+	unsigned int lastFrame = frameMinimum(endFrame, TheGameLogic->getFrame());
+	unsigned int firstFrame = frameMaximum(startFrame, currentFrame >= slack ? currentFrame - slack : 0);
+	if (firstFrame <= lastFrame)
+		resendFrameRangeToPlayer(msg->getPlayerID(), firstFrame, lastFrame);
 }
 
 // The readiness gate the frame scheduler consults (0x00681F70 calls it with
