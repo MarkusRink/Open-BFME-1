@@ -47,7 +47,7 @@ enum NetCommandType {
     NETCOMMANDTYPE_FILE = 19,
     NETCOMMANDTYPE_FILEANNOUNCE = 20,
     NETCOMMANDTYPE_FILEPROGRESS = 21,
-    NETCOMMANDTYPE_PLAYERFRAMERATIOS = 22,
+    NETCOMMANDTYPE_ROUTERFALLBACK = 22,
     NETCOMMANDTYPE_DISCONNECTSTART = 23,
     NETCOMMANDTYPE_DISCONNECTKEEPALIVE = 24,
     NETCOMMANDTYPE_DISCONNECTPLAYER = 25,
@@ -123,7 +123,7 @@ protected:
     static NetCommandMsg *readAckStage1Message(unsigned char *data, int &offset);
     static NetCommandMsg *readAckStage2Message(unsigned char *data, int &offset);
     static NetCommandMsg *readFrameMessage(unsigned char *data, int &offset);
-    static NetCommandMsg *readPlayerFrameRatiosMessage(unsigned char *data, int &offset);
+    static NetCommandMsg *readRouterFallbackMessage(unsigned char *data, int &offset);
     static NetCommandMsg *readPlayerLeaveMessage(unsigned char *data, int &offset);
     static NetCommandMsg *readDestroyPlayerMessage(unsigned char *data, int &offset);
     static NetCommandMsg *readKeepAliveMessage(unsigned char *data, int &offset);
@@ -181,7 +181,7 @@ NetCommandList *NetPacket::getCommandList()
             case NETCOMMANDTYPE_ACKSTAGE1:msg = readAckStage1Message(data,i);break;
             case NETCOMMANDTYPE_ACKSTAGE2:msg = readAckStage2Message(data,i);break;
             case NETCOMMANDTYPE_FRAMEINFO:msg = readFrameMessage(data,i);break;
-            case NETCOMMANDTYPE_PLAYERFRAMERATIOS:msg = readPlayerFrameRatiosMessage(data,i);break;
+            case NETCOMMANDTYPE_ROUTERFALLBACK:msg = readRouterFallbackMessage(data,i);break;
             case NETCOMMANDTYPE_PLAYERLEAVE:msg = readPlayerLeaveMessage(data,i);break;
             case NETCOMMANDTYPE_DESTROYPLAYER:msg = readDestroyPlayerMessage(data,i);break;
             case NETCOMMANDTYPE_KEEPALIVE:msg = readKeepAliveMessage(data,i);break;

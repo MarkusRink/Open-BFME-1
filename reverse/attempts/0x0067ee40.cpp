@@ -10,7 +10,7 @@
 // Retail dispatch and every reader destination were independently decoded.
 // All 28 reader names below already have matched bodies. BFME has no parser
 // case for disconnect-start marker 23, no ZH run-ahead or router-query/ack
-// readers; player-frame ratios, leave coordination, and auth keys replace them.
+// readers; router fallback plans, leave coordination, and auth keys replace them.
 // Default type is ACKBOTH (0), not the reference's GAMECOMMAND (4). Unknown
 // command types and null reader results return null before metadata/ref creation.
 //
@@ -50,7 +50,7 @@ enum NetCommandType {
     NETCOMMANDTYPE_FILE = 19,
     NETCOMMANDTYPE_FILEANNOUNCE = 20,
     NETCOMMANDTYPE_FILEPROGRESS = 21,
-    NETCOMMANDTYPE_PLAYERFRAMERATIOS = 22,
+    NETCOMMANDTYPE_ROUTERFALLBACK = 22,
     NETCOMMANDTYPE_DISCONNECTSTART = 23,
     NETCOMMANDTYPE_DISCONNECTKEEPALIVE = 24,
     NETCOMMANDTYPE_DISCONNECTPLAYER = 25,
@@ -96,7 +96,7 @@ protected:
     static NetCommandMsg *readAckStage1Message(unsigned char *data, int &offset);
     static NetCommandMsg *readAckStage2Message(unsigned char *data, int &offset);
     static NetCommandMsg *readFrameMessage(unsigned char *data, int &offset);
-    static NetCommandMsg *readPlayerFrameRatiosMessage(unsigned char *data, int &offset);
+    static NetCommandMsg *readRouterFallbackMessage(unsigned char *data, int &offset);
     static NetCommandMsg *readPlayerLeaveMessage(unsigned char *data, int &offset);
     static NetCommandMsg *readDestroyPlayerMessage(unsigned char *data, int &offset);
     static NetCommandMsg *readKeepAliveMessage(unsigned char *data, int &offset);
@@ -171,8 +171,8 @@ NetCommandRef * NetPacket::ConstructNetCommandMsgFromRawData(UnsignedByte *data,
 			else if (commandType == NETCOMMANDTYPE_FRAMEINFO) {
 				msg = readFrameMessage(data, payloadOffset);
 			}
-			else if (commandType == NETCOMMANDTYPE_PLAYERFRAMERATIOS) {
-				msg = readPlayerFrameRatiosMessage(data, payloadOffset);
+			else if (commandType == NETCOMMANDTYPE_ROUTERFALLBACK) {
+				msg = readRouterFallbackMessage(data, payloadOffset);
 			}
 			else if (commandType == NETCOMMANDTYPE_PLAYERLEAVE) {
 				msg = readPlayerLeaveMessage(data, payloadOffset);

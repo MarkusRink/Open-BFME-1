@@ -1,10 +1,10 @@
-// ?addPlayerFrameRatiosCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z
+// ?addRouterFallbackCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z
 // partial score=0.92 date=2026-09-07
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 
 // The matched addCommand dispatcher names this type-22 arm.  Retail opens
-// through ILT00039DA1 to isRoomForPlayerFrameRatiosMessage, writes T/R/P/C/D,
-// then copies eight bytes from the first byte of eight four-byte ratio slots.
+// through ILT00039DA1 to isRoomForRouterFallbackMessage, writes T/R/P/C/D,
+// then copies eight bytes from the first byte of eight four-byte player-order slots.
 // A byte temporary copied with memcpy reproduces the full header/prologue
 // and the duplicated constructor-result tails. Only the eight-entry loop
 // remains different: 547 emitted bytes versus 554 retail bytes. MSVC
@@ -40,10 +40,10 @@ public:
 	Int m_referenceCount;
 };
 
-class BFMENetPlayerFrameRatiosCommandMsg : public NetCommandMsg
+class BFMENetRouterFallbackCommandMsg : public NetCommandMsg
 {
 public:
-	Int m_metrics[8];
+	Int m_playerOrder[8];
 };
 
 class NetCommandRef
@@ -73,8 +73,8 @@ public:
 	virtual ~NetPacket();
 
 protected:
-	Bool isRoomForPlayerFrameRatiosMessage(NetCommandRef *msg);
-	Bool addPlayerFrameRatiosCommand(NetCommandRef *msg);
+	Bool isRoomForRouterFallbackMessage(NetCommandRef *msg);
+	Bool addRouterFallbackCommand(NetCommandRef *msg);
 
 public:
 	UnsignedByte m_packet[0x1DC];
@@ -89,16 +89,16 @@ public:
 	UnsignedByte m_lastRelay;
 };
 
-// ?addPlayerFrameRatiosCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z
-Bool NetPacket::addPlayerFrameRatiosCommand(NetCommandRef *msg)
+// ?addRouterFallbackCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z
+Bool NetPacket::addRouterFallbackCommand(NetCommandRef *msg)
 {
 	NetCommandRef *ref = msg;
 	Bool needNewCommandID;
 	needNewCommandID = false;
-	if (isRoomForPlayerFrameRatiosMessage(ref))
+	if (isRoomForRouterFallbackMessage(ref))
 	{
-		BFMENetPlayerFrameRatiosCommandMsg *cmdMsg =
-			(BFMENetPlayerFrameRatiosCommandMsg *)(ref->getCommand());
+		BFMENetRouterFallbackCommandMsg *cmdMsg =
+			(BFMENetRouterFallbackCommandMsg *)(ref->getCommand());
 		if (m_lastCommandType != cmdMsg->getNetCommandType())
 		{
 			m_packet[m_packetLen] = 'T';
@@ -138,8 +138,8 @@ Bool NetPacket::addPlayerFrameRatiosCommand(NetCommandRef *msg)
 		m_packet[m_packetLen] = 'D';
 		++m_packetLen;
 		for (Int i = 0; i < 8; ++i) {
-			UnsignedByte ratio = (UnsignedByte)cmdMsg->m_metrics[i];
-			memcpy(m_packet + m_packetLen + i, &ratio, 1);
+			UnsignedByte player = (UnsignedByte)cmdMsg->m_playerOrder[i];
+			memcpy(m_packet + m_packetLen + i, &player, 1);
 		}
 		m_packetLen += 8;
 		++m_numCommands;
