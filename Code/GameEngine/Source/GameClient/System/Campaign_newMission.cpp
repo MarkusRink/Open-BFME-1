@@ -1,8 +1,7 @@
 // ?newMission@Campaign@@QAEPAVMission@@VAsciiString@@@Z
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
-// readable body of ?newMission@Campaign@@QAEPAVMission@@VAsciiString@@@Z:
-// Code/GameEngine/Source/GameClient/System/CampaignManager.cpp
+// readable body of ?newMission@Campaign@@QAEPAVMission@@VAsciiString@@@Z: Code/GameEngine/Source/GameClient/System/CampaignManager.cpp
 //
 // Same case-insensitive linked-list replace-or-insert shape as the already
 // landed Campaign::getNextMission (Campaign_getNextMission.cpp): lower-case

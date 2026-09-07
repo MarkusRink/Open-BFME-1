@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// readable body of ?areAllQueuesEmpty@ConnectionManager@@: ZH ConnectionManager.cpp
+// readable body of ?areAllQueuesEmpty@ConnectionManager@@QAE_NXZ: Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp
 // Open-BFME: ConnectionManager::areAllQueuesEmpty, retail 0x00662DF0. This is
 // the near-miss twin of the landed GameResultsQueue::areThreadsRunning
 // (0x0063FD10, GameResultsThread.cpp): same loop-and-early-return shape, but

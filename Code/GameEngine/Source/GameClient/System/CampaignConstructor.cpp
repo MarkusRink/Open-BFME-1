@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
-// readable body of ??0Campaign@@QAE@XZ: Campaign constructor at 0x005BBF40
+// readable body of ??0Campaign@@QAE@XZ: Code/GameEngine/Source/GameClient/System/CampaignManager.cpp
 
 #include <list>
 

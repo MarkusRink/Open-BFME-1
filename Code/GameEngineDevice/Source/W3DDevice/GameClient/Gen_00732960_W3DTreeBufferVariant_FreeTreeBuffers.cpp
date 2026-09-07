@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
-// readable body of ?d_00732960@@YAXXZ: address-derived near-twin of
+// The owner at 0x00732960 remains unidentified; this body is a near-twin of
 // ?freeTreeBuffers@W3DTreeBuffer@@QAEXXZ @ Code/GameEngineDevice/Source/W3DDevice/GameClient/Gen_0071C2D0_W3DTreeBuffer_FreeTreeBuffers.cpp
 // Same shape; this class's tree texture/count fields sit at +0x2A9904/+0x2A9908
 // instead of +0x1E3914/+0x1E3918 (a wider padding block between the shader
