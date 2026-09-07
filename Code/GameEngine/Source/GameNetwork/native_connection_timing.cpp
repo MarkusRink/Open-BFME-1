@@ -172,6 +172,12 @@ private:
 	int m_players[8];
 };
 
+class NetKeepAliveCommandMsg : public NetCommandMsg
+{
+public:
+	NetKeepAliveCommandMsg();
+};
+
 class NetPlayerLeaveCommandMsg : public NetCommandMsg
 {
 public:
@@ -357,10 +363,12 @@ class Connection
 {
 	public:
 	void sendNetCommandMsg(NetCommandMsg *msg, unsigned char relay);
+	long getLastTimeSent() { return m_lastTimeSent; }
 	int m_openState;
 	char m_unknown04[0x1C];
 	float m_averageLatency;
-	char m_unknown24[0x328];
+	char m_unknown24[0x324];
+	long m_lastTimeSent;
 	unsigned int m_lastHeardFrom;
 };
 
@@ -5650,114 +5658,22 @@ int ConnectionManager::getNumPlayers()
 	return playerCount;
 }
 
-// Sends command type 12 (KEEPALIVE), built by the constructor at 0x00673B80. Named from the type its message carries, which is
-// evidence rather than inference now that the enum at 0x00683020 is recovered.
-__declspec(naked) void BFMEConnectionManager::sendKeepAliveCommand()
+// Queues a direct keepalive after a connection has been silent for more than
+// one second. The send path owns updating the connection's last-send time.
+void BFMEConnectionManager::sendKeepAliveCommand()
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 104400Bh
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		sub esp, 8h
-		push ebx
-		push ebp
-		push esi
-		push edi
-		mov ebx, ecx
-		__emit 0FFh
-		__emit 015h
-		__emit 044h
-		__emit 095h
-		__emit 035h
-		__emit 001h   // call dword ptr [0x1359544]
-		mov dword ptr [esp+10h], eax
-		xor edi, edi
-		lea ebp,  [ebx+4h]
-		__emit 08Dh
-		__emit 049h
-		__emit 000h   // lea ecx, [ecx]
-L03_663610:
-		mov eax, dword ptr [ebp]
-		xor esi, esi
-		cmp eax, esi
-		je L00_66368E
-		mov eax, dword ptr [eax+348h]
-		mov ecx, dword ptr [esp+10h]
-		sub ecx, eax
-		cmp ecx, 3E8h
-		jbe L00_66368E
-		push 1Ch
-		__emit 0E8h
-		__emit 0FCh
-		__emit 0E8h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+14h], eax
-		cmp eax, esi
-		mov dword ptr [esp+20h], esi
-		je L01_66364C
-		mov ecx, eax
-		__emit 0E8h
-		__emit 03Dh
-		__emit 019h
-		__emit 09Ch
-		__emit 0FFh   // call 0x24F87
-		mov esi, eax
-L01_66364C:
-		mov eax, dword ptr [esi+14h]
-		mov edx, dword ptr [ebx+12028h]
-		push eax
-		mov dword ptr [esp+24h], 0FFFFFFFFh
-		mov dword ptr [esi+0Ch], edx
-		__emit 0E8h
-		__emit 00Ch
-		__emit 025h
-		__emit 09Bh
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		cmp al, 1h
-		jne L02_663676
-		__emit 0E8h
-		__emit 0E6h
-		__emit 0CEh
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L02_663676:
-		xor eax, eax
-		mov al, 1h
-		mov ecx, edi
-		shl al, cl
-		mov ecx, ebx
-		push eax
-		push esi
-		__emit 0E8h
-		__emit 050h
-		__emit 0DBh
-		__emit 09Dh
-		__emit 0FFh   // call 0x411D7
-		mov ecx, esi
-		__emit 0E8h
-		__emit 016h
-		__emit 0CAh
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-L00_66368E:
-		inc edi
-		add ebp, 4h
-		cmp edi, 8h
-		jl L03_663610
-		mov ecx, dword ptr [esp+18h]
-		pop edi
-		pop esi
-		pop ebp
-		pop ebx
-		mov dword ptr fs:[0h], ecx
-		add esp, 14h
-		ret
+	unsigned int now = timeGetTime();
+	for (int player = 0; player < 8; ++player)
+	{
+		if (m_connections[player] && now - m_connections[player]->getLastTimeSent() > 1000)
+		{
+			NetKeepAliveCommandMsg *msg = new NetKeepAliveCommandMsg;
+			msg->setPlayerID(m_localSlot);
+			if (DoesCommandRequireACommandID(msg->getNetCommandType()) == true)
+				msg->setID(GenerateNextCommandID());
+			reinterpret_cast<ConnectionManager *>(this)->sendLocalCommandDirect(msg, (unsigned char)(1 << player));
+			msg->detach();
+		}
 	}
 }
 
