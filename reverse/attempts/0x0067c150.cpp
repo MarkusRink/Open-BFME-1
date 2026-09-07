@@ -1,12 +1,15 @@
 // ?addPlayerFrameRatiosCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z
-// partial score=0.8 date=2026-09-05
+// partial score=0.92 date=2026-09-07
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 
 // The matched addCommand dispatcher names this type-22 arm.  Retail opens
 // through ILT00039DA1 to isRoomForPlayerFrameRatiosMessage, writes T/R/P/C/D,
 // then copies eight bytes from the first byte of eight four-byte ratio slots.
-// The retained reconstruction is still a 527-byte prologue/register near
-// miss against the 554-byte body; this source preserves that measured shape.
+// A byte temporary copied with memcpy reproduces the full header/prologue
+// and the duplicated constructor-result tails. Only the eight-entry loop
+// remains different: 547 emitted bytes versus 554 retail bytes. MSVC
+// strength-reduces the source pointer where retail spills its base to the
+// argument slot and indexes it. No matched claim is made for this bank.
 
 extern "C" void *__cdecl memcpy(void *dest, const void *src, unsigned int count);
 #pragma intrinsic(memcpy)
@@ -21,7 +24,6 @@ typedef bool Bool;
 
 enum { MAX_PACKET_SIZE = 0x1DC };
 
-extern void j_00039da1(void);
 
 class NetCommandMsg
 {
@@ -38,16 +40,10 @@ public:
 	Int m_referenceCount;
 };
 
-struct MetricEntry
-{
-	UnsignedByte value;
-	UnsignedByte pad[3];
-};
-
-class NetPlayerFrameRatiosCommandMsg : public NetCommandMsg
+class BFMENetPlayerFrameRatiosCommandMsg : public NetCommandMsg
 {
 public:
-	MetricEntry m_metrics[8];
+	Int m_metrics[8];
 };
 
 class NetCommandRef
@@ -77,16 +73,7 @@ public:
 	virtual ~NetPacket();
 
 protected:
-	class RatioRoomReceiver
-	{
-	public:
-		Bool isRoomForPlayerFrameRatiosMessage(NetCommandRef *msg);
-	};
-	union RatioRoomCall
-	{
-		void (*free_function)(void);
-		Bool (RatioRoomReceiver::*member_function)(NetCommandRef *msg);
-	};
+	Bool isRoomForPlayerFrameRatiosMessage(NetCommandRef *msg);
 	Bool addPlayerFrameRatiosCommand(NetCommandRef *msg);
 
 public:
@@ -108,12 +95,10 @@ Bool NetPacket::addPlayerFrameRatiosCommand(NetCommandRef *msg)
 	NetCommandRef *ref = msg;
 	Bool needNewCommandID;
 	needNewCommandID = false;
-	RatioRoomCall call;
-	call.free_function = &j_00039da1;
-	if ((((RatioRoomReceiver *)this)->*call.member_function)(ref))
+	if (isRoomForPlayerFrameRatiosMessage(ref))
 	{
-		NetPlayerFrameRatiosCommandMsg *cmdMsg =
-			(NetPlayerFrameRatiosCommandMsg *)(ref->getCommand());
+		BFMENetPlayerFrameRatiosCommandMsg *cmdMsg =
+			(BFMENetPlayerFrameRatiosCommandMsg *)(ref->getCommand());
 		if (m_lastCommandType != cmdMsg->getNetCommandType())
 		{
 			m_packet[m_packetLen] = 'T';
@@ -152,8 +137,10 @@ Bool NetPacket::addPlayerFrameRatiosCommand(NetCommandRef *msg)
 		m_lastCommandID = cmdMsg->getID();
 		m_packet[m_packetLen] = 'D';
 		++m_packetLen;
-		for (Int i = 0; i < 8; ++i)
-			m_packet[m_packetLen + i] = cmdMsg->m_metrics[i].value;
+		for (Int i = 0; i < 8; ++i) {
+			UnsignedByte ratio = (UnsignedByte)cmdMsg->m_metrics[i];
+			memcpy(m_packet + m_packetLen + i, &ratio, 1);
+		}
 		m_packetLen += 8;
 		++m_numCommands;
 		if (m_lastCommand != NULL)

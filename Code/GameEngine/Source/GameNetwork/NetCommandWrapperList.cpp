@@ -204,8 +204,8 @@ Int NetCommandWrapperList::getPercentComplete(UnsignedShort wrappedCommandID)
 
 void NetCommandWrapperList::processWrapper(NetCommandRef *ref) {
 	NetCommandWrapperListNode *temp = m_list;
-	// BFME quirk: retail dereferences the ref pointer itself here (reading its
-	// vtable slot) rather than calling getCommand(); mirrored for byte parity.
+	// BFME de-pooled NetCommandRef: the command pointer is at +0, without
+	// the reference header's inherited pool/vtable field. This is getCommand().
 	NetWrapperCommandMsg *msg = *(NetWrapperCommandMsg **)ref;
 
 	while ((temp != NULL) && (temp->getCommandID() != msg->getWrappedCommandID())) {
