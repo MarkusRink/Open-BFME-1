@@ -115,7 +115,7 @@ void SimpleObjectIterator::reset()
 }
 
 //=============================================================================
-// byte-exact reconstruction: Code/GameEngine/Source/Common/SimpleObjectIterator_makeEmpty.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/SimpleObjectIteratorClear.cpp
 // ?makeEmpty@SimpleObjectIterator@@QAEXXZ present-unmatched
 void SimpleObjectIterator::makeEmpty()
 {

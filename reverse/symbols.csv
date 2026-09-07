@@ -81403,8 +81403,6 @@ name,address,notes
 ?makeDecoratedNameKey@ModuleFactory@@SAHABVAsciiString@@W4ModuleType@@@Z,0x0004B439,ILT thunk to the module name decorator at 0x00126260
 ?makeDirty@BfmeDirtyablePartitionData@@QAEXXZ,0x008F7B30,alias of the no-argument PartitionData::makeDirty; Object.cpp reaches it through a view class because the reference PartitionManager.h declares Zero Hour's makeDirty(Bool)
 ?makeDirty@PartitionData@@QAEXXZ,0x008F7B30,BFME PartitionData::makeDirty() takes no argument; pinned from setScriptStatus 0x1D01D0
-?makeEmpty@SimpleObjectIterator@@QAEXXZ,0x00015479,pinharvest x1 (thunk)
-?makeEmpty@SimpleObjectIteratorMakeEmptyShim@@QAEXXZ,0x0040AD80,SimpleObjectIterator incremental-link thunk target through a TU-local forwarding shim
 ?makeInto@Rva006AAC20@@AAEXPAURva006AAC20Result@@PAX@Z,0x00005A42,ILT thunk to 0x006A0730 called from 0x006AAC20
 ?makeSortedTmp@HuffStat@@IAEHPAUHuffStatTmpStruct@@@Z,0x00825E80
 ?markAsDead@AIUpdateInterface@@QAEXXZ,0x00025BFD,ILT thunk read out of StructureCollapseUpdate::onDie call displacement; real body 0x0026EE80 (d_0026ee80, gen-dump)
