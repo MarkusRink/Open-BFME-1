@@ -1,30 +1,12 @@
-// ?addRunAheadMetricsCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z
+// ?addPlayerFrameRatiosCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z
 // partial score=0.8 date=2026-09-05
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 
-// NetPacket::addRunAheadMetricsCommand, retail 0x0067C150, 554 bytes.
-//
-// addCommand's jump table pins this address, and it opens with the isRoomFor
-// guard already a matched, byte-true row (0x00678050, still a gen-asm dump,
-// which a prior attempt (reverse/re_attempts.log) already identified as
-// isRoomForRunAheadMetricsMessage from the source/address order and matching
-// packet-layout CFG).
-//
-// Not Zero Hour's addRunAheadMetricsCommand: that body writes a Real
-// averageLatency plus an UnsignedShort averageFps (6 payload bytes) through
-// two out-of-line getter calls. Retail's disassembly here has neither call:
-// after the 'D' tag it loops eight times reading a single byte at
-// cmdMsg+0x1C+i*4 (scale 4, byte-sized load) with no further callee, i.e. an
-// 8-entry, 4-byte-stride array whose first byte is the payload -- BFME
-// replaced the two scalar metrics with a per-player array. Field test order
-// is T/R/P/C/D with NO needNewCommandID/lastCommandID-changed test at all:
-// the 'C' (command id) tag and value are written unconditionally, which is
-// also why this body never touches an ebx-class register the way every
-// needNewCommandID sibling does.
-//
-// Layout and NetCommandRef/NetCommandMsg fields are the other add*Command
-// siblings' (NetPacket_addFileCommand.cpp): BFME's de-pooled NetCommandRef
-// with no vptr.
+// The matched addCommand dispatcher names this type-22 arm.  Retail opens
+// through ILT00039DA1 to isRoomForPlayerFrameRatiosMessage, writes T/R/P/C/D,
+// then copies eight bytes from the first byte of eight four-byte ratio slots.
+// The retained reconstruction is still a 527-byte prologue/register near
+// miss against the 554-byte body; this source preserves that measured shape.
 
 extern "C" void *__cdecl memcpy(void *dest, const void *src, unsigned int count);
 #pragma intrinsic(memcpy)
@@ -39,22 +21,21 @@ typedef bool Bool;
 
 enum { MAX_PACKET_SIZE = 0x1DC };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/NetCommandMsg.h
+extern void j_00039da1(void);
+
 class NetCommandMsg
 {
 public:
 	UnsignedInt getPlayerID() { return m_playerID; }
-	UnsignedInt getExecutionFrame() { return m_executionFrame; }
 	UnsignedShort getID() { return m_id; }
 	Int getNetCommandType() { return m_commandType; }
-
-	void *m_vptr;									// this+0x00
-	UnsignedInt m_timestamp;						// this+0x04
-	UnsignedInt m_executionFrame;					// this+0x08
-	UnsignedInt m_playerID;							// this+0x0C
-	UnsignedShort m_id;								// this+0x10
-	Int m_commandType;								// this+0x14
-	Int m_referenceCount;							// this+0x18
+	void *m_vptr;
+	UnsignedInt m_timestamp;
+	UnsignedInt m_executionFrame;
+	UnsignedInt m_playerID;
+	UnsignedShort m_id;
+	Int m_commandType;
+	Int m_referenceCount;
 };
 
 struct MetricEntry
@@ -63,28 +44,25 @@ struct MetricEntry
 	UnsignedByte pad[3];
 };
 
-class NetRunAheadMetricsCommandMsg : public NetCommandMsg
+class NetPlayerFrameRatiosCommandMsg : public NetCommandMsg
 {
 public:
-	MetricEntry m_metrics[8];						// this+0x1C
+	MetricEntry m_metrics[8];
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/NetCommandRef.h
 class NetCommandRef
 {
 public:
-	NetCommandRef(NetCommandMsg *msg);				// ILT thunk 0x000079E6
-	~NetCommandRef();								// ILT thunk 0x00038960
-
+	NetCommandRef(NetCommandMsg *msg);
+	~NetCommandRef();
 	NetCommandMsg *getCommand() { return m_msg; }
 	UnsignedByte getRelay() const { return m_relay; }
 	void setRelay(UnsignedByte relay) { m_relay = relay; }
-
-	NetCommandMsg *m_msg;							// this+0x00
-	NetCommandRef *m_next;							// this+0x04
-	NetCommandRef *m_prev;							// this+0x08
-	UnsignedByte m_relay;							// this+0x0C
-	UnsignedInt m_timeLastSent;						// this+0x10
+	NetCommandMsg *m_msg;
+	NetCommandRef *m_next;
+	NetCommandRef *m_prev;
+	UnsignedByte m_relay;
+	UnsignedInt m_timeLastSent;
 };
 
 struct NetPacketAddress
@@ -93,68 +71,78 @@ struct NetPacketAddress
 	UnsignedShort port;
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/NetPacket.h
 class NetPacket
 {
 public:
 	virtual ~NetPacket();
 
 protected:
-	Bool isRoomForRunAheadMetricsMessage(NetCommandRef *msg);	// 0x00678050
-	Bool addRunAheadMetricsCommand(NetCommandRef *msg);
+	class RatioRoomReceiver
+	{
+	public:
+		Bool isRoomForPlayerFrameRatiosMessage(NetCommandRef *msg);
+	};
+	union RatioRoomCall
+	{
+		void (*free_function)(void);
+		Bool (RatioRoomReceiver::*member_function)(NetCommandRef *msg);
+	};
+	Bool addPlayerFrameRatiosCommand(NetCommandRef *msg);
 
 public:
-	UnsignedByte m_packet[0x1DC];					// this+0x004
-	Int m_packetLen;								// this+0x1E0
-	NetPacketAddress m_dest;						// this+0x1E4
-	Int m_numCommands;								// this+0x1EC
-	NetCommandRef *m_lastCommand;					// this+0x1F0
-	UnsignedInt m_lastFrame;						// this+0x1F4
-	UnsignedShort m_lastCommandID;					// this+0x1F8
-	UnsignedByte m_lastPlayerID;					// this+0x1FA
-	UnsignedByte m_lastCommandType;					// this+0x1FB
-	UnsignedByte m_lastRelay;						// this+0x1FC
+	UnsignedByte m_packet[0x1DC];
+	Int m_packetLen;
+	NetPacketAddress m_dest;
+	Int m_numCommands;
+	NetCommandRef *m_lastCommand;
+	UnsignedInt m_lastFrame;
+	UnsignedShort m_lastCommandID;
+	UnsignedByte m_lastPlayerID;
+	UnsignedByte m_lastCommandType;
+	UnsignedByte m_lastRelay;
 };
 
-
-Bool NetPacket::addRunAheadMetricsCommand(NetCommandRef *msg) {
-	Bool needNewCommandID = false;
-	if (isRoomForRunAheadMetricsMessage(msg)) {
-		NetRunAheadMetricsCommandMsg *cmdMsg = (NetRunAheadMetricsCommandMsg *)(msg->getCommand());
-
-		// If necessary, put the NetCommandType into the packet.
-		if (m_lastCommandType != cmdMsg->getNetCommandType()) {
+// ?addPlayerFrameRatiosCommand@NetPacket@@IAE_NPAVNetCommandRef@@@Z
+Bool NetPacket::addPlayerFrameRatiosCommand(NetCommandRef *msg)
+{
+	NetCommandRef *ref = msg;
+	Bool needNewCommandID;
+	needNewCommandID = false;
+	RatioRoomCall call;
+	call.free_function = &j_00039da1;
+	if ((((RatioRoomReceiver *)this)->*call.member_function)(ref))
+	{
+		NetPlayerFrameRatiosCommandMsg *cmdMsg =
+			(NetPlayerFrameRatiosCommandMsg *)(ref->getCommand());
+		if (m_lastCommandType != cmdMsg->getNetCommandType())
+		{
 			m_packet[m_packetLen] = 'T';
 			++m_packetLen;
 			m_packet[m_packetLen] = cmdMsg->getNetCommandType();
 			m_packetLen += sizeof(UnsignedByte);
-
 			m_lastCommandType = cmdMsg->getNetCommandType();
 		}
-
-		// If necessary, put the relay into the packet.
-		if (m_lastRelay != msg->getRelay()) {
+		if (m_lastRelay != ref->getRelay())
+		{
 			m_packet[m_packetLen] = 'R';
 			++m_packetLen;
-			UnsignedByte newRelay = msg->getRelay();
+			UnsignedByte newRelay = ref->getRelay();
 			memcpy(m_packet + m_packetLen, &newRelay, sizeof(UnsignedByte));
 			m_packetLen += sizeof(UnsignedByte);
-
 			m_lastRelay = newRelay;
 		}
-
-		if (m_lastPlayerID != cmdMsg->getPlayerID()) {
+		if (m_lastPlayerID != cmdMsg->getPlayerID())
+		{
 			m_packet[m_packetLen] = 'P';
 			++m_packetLen;
 			m_packet[m_packetLen] = cmdMsg->getPlayerID();
 			m_packetLen += sizeof(UnsignedByte);
-
 			m_lastPlayerID = cmdMsg->getPlayerID();
 			needNewCommandID = true;
 		}
-
-		// If necessary, specify the command ID of this command.
-		if (((m_lastCommandID + 1) != (UnsignedShort)(cmdMsg->getID())) || (needNewCommandID == true)) {
+		if (((m_lastCommandID + 1) != (UnsignedShort)cmdMsg->getID()) ||
+			(needNewCommandID == true))
+		{
 			m_packet[m_packetLen] = 'C';
 			++m_packetLen;
 			UnsignedShort newID = cmdMsg->getID();
@@ -162,22 +150,20 @@ Bool NetPacket::addRunAheadMetricsCommand(NetCommandRef *msg) {
 			m_packetLen += sizeof(UnsignedShort);
 		}
 		m_lastCommandID = cmdMsg->getID();
-
 		m_packet[m_packetLen] = 'D';
 		++m_packetLen;
-
-		for (Int i = 0; i < 8; ++i) {
+		for (Int i = 0; i < 8; ++i)
 			m_packet[m_packetLen + i] = cmdMsg->m_metrics[i].value;
-		}
 		m_packetLen += 8;
-
 		++m_numCommands;
-		if (m_lastCommand != NULL) {
+		if (m_lastCommand != NULL)
+		{
 			delete m_lastCommand;
 			m_lastCommand = NULL;
 		}
-		m_lastCommand = new NetCommandRef(msg->getCommand());
-		m_lastCommand->setRelay(msg->getRelay());
+		NetCommandRef *newRef = new NetCommandRef(ref->getCommand());
+		m_lastCommand = newRef;
+		newRef->setRelay(ref->getRelay());
 		return true;
 	}
 	return false;
