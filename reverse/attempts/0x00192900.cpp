@@ -12,16 +12,22 @@
 // Code/GameEngine/Source/Common/DozerAIUpdate_xferMethodThunk.cpp, which also
 // carries the assert macro verbatim.
 // Two residues, both allocation, worth ~29 bytes:
-//   * frame slots. retail lays them out in DECLARATION order downward --
-//     version at E-4, count at E-8, the 8-byte error block at E-0x10 (sharing
-//     with the dead loop index). MSVC sorts by size instead: count E-4,
-//     error E-0xc, version E-0x10, so every stack displacement differs.
+//   * frame slots -- SOLVED 2026-09-07. MSVC groups locals by size, so the
+//     2-byte XferVersion was sinking below the 4-byte count and the 8-byte
+//     error block. Padding XferVersion to 4 bytes puts it back at E-4 and
+//     every stack displacement in the body then matches retail. Keep the pad.
 //   * induction form. retail spills `i` to [esp+0x10] and keeps the SCALED
 //     byte offset in ebp (`lea eax,[ebx+ebp+0x24]`); MSVC keeps `i` in ebx and
 //     hoists the array base into a stack slot. `this` lands in ebx for retail
 //     and ebp for MSVC, which is the same choice seen from the other side.
-// Next lever to try: force the index spill (address-taken loop counter, or a
-// separate byte-offset variable walked by 0x18) before touching anything else.
+// Remaining: the induction form is the whole rest of the gap. retail builds a
+// SCALED byte-offset IV in ebp (`test ebp,ebp / jl` for the i<0 check,
+// `lea eax,[ebx+ebp+0x24]` for the element) and spills `i` to [esp+0x10] for
+// the `i >= m_count` compare; MSVC never strength-reduces here, keeps `i` in
+// ebx and hoists the array base into a slot instead. Naming the receiver in a
+// local does NOT flip it (tried) -- the ebx/ebp role swap is a consequence of
+// the IV choice, not the cause. Next lever: raise register pressure, or write
+// the scaled offset explicitly as a second loop variable walked by 0x18.
 // Open-BFME5: retail-layout C++ conversion of a snapshot-array transfer.
 typedef unsigned char UnsignedByte;
 typedef bool Bool;
@@ -30,6 +36,7 @@ struct XferVersion
 {
 	UnsignedByte m_version;
 	UnsignedByte m_currentVersion;
+	UnsignedByte m_pad[2];
 };
 
 struct BfmeFormattedText
