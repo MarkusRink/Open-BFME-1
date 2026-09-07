@@ -84816,3 +84816,8 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?bfmeDoneXA@BfmeStateXA@@QAEXXZ,0x00004156
 ?bfmeAddXB@BfmeBaseXB@@QAEXPAVBfmeItemXB@@@Z,0x0000E633
 ?bfmeLinkXB@BfmeBaseXB@@QAEXPAVBfmeItemXB@@@Z,0x0001CDD7
+?bfmeNotifyXC@BfmeStateXC@@QAEXH@Z,0x00010AA0
+?bfmeApplyXC@BfmeStateXC@@QAEXPAXH@Z,0x00047807
+?bfmeFlushXC@BfmeStateXC@@QAEXXZ,0x00014182
+?bfmeReleaseXC@@YAXPAX@Z,0x00012E90
+?bfmeDoneXC@BfmeStateXC@@QAEXXZ,0x00004156
