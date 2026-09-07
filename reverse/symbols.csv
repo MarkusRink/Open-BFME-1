@@ -10762,7 +10762,6 @@ name,address,notes
 ?Render_Particles@ParticleBufferClass@@IAEXAAVRenderInfoClass@@@Z,0x0098B800
 ?Render_Seg_Line@SegmentedLineClass@@IAEXAAVRenderInfoClass@@@Z,0x00950960
 ?Replace_Texture@MeshModelClass@@QAEXPAVTextureClass@@0@Z,0x00924C30,pinharvest x1 (body)
-?Replace_VertexMaterial@MeshModelClass@@QAEXPAVVertexMaterialClass@@0@Z,0x00924C30,pinharvest x1 (body)
 ?Reset@HAnimComboClass@@QAEXXZ,0x00974DC0
 ?Reset@LightEnvironmentClass@@QAEXABVVector3@@0@Z,0x0094AC70,light environment reset method called by SimpleSceneClass::Customized_Render
 ?Reset@MeshModelClass@@QAEXHHH_N@Z,0x0094DFD0,BFME four-argument mesh reset reached from the exact Load_W3D header path
