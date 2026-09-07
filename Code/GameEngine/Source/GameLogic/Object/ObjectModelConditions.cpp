@@ -5,9 +5,8 @@
 //   notifyModelConditionChanged    0x001BE1C0  push the current flags at the Drawable
 //   replaceModelConditionFlags     0x001C4830  swap the whole mask, notify on change
 //   setFiringConditionForCurrentWeapon 0x001CC820  set the firing bit for the current slot
-//   bfmeApplySpecialModelCondition 0x001C1FB0  hand one condition to the tail object
 //
-// They sat in four files, and the first three disagreed about how wide
+// They sat in separate files, and the three disagreed about how wide
 // ModelConditionFlags is: 0x24 bytes, `UnsignedInt m_bits[10]`, and
 // `BitFlags<320>`.  Retail says 40 bytes, three separate ways:
 //
@@ -45,13 +44,18 @@
 //
 // The Object layout the four settle between them:
 //
-//   +0x080  m_drawable          all but bfmeApplySpecialModelCondition
+//   +0x080  m_drawable
 //   +0x110  m_modelConditionFlags (40 bytes, so it ends at +0x138)
-//   +0x1F8  m_smcHelper         one dword below m_contain, which ObjectUpgrades.cpp
-//                               and ObjectContainQueries.cpp put at +0x1FC
 //   +0x204  m_ai
-//   +0x214  m_next
 //   +0x27C  m_curWeaponSlot
+//
+// A fourth body, bfmeApplySpecialModelCondition (0x001C1FB0), was merged here
+// first and then moved out to ObjectContainedByChain.cpp. Its name fits this
+// file; its bytes do not. It never reads the condition flags at +0x110 -- it
+// walks m_containedBy at +0x214 to the outermost object and calls a helper at
+// +0x1F8 -- and it shares both of those fields, and both of their contested
+// names, with Object::forceEmotion. Grouping by what a body touches put it
+// there.
 //
 // Object::setSingleModelCondition (0x000F2150) is NOT here even though the name
 // fits.  That body reserves 0x0C bytes and zeroes three dwords, so whatever it
@@ -96,15 +100,6 @@ public:
 	virtual void friend_notifyStateMachineChanged(void);
 };
 
-// The helper the tail of an Object chain hands its special model condition to.
-// reference/shims/bfmeobjectlayout/GameLogic/Object.h calls the member's type
-// ObjectSMCHelper; nothing here sees more of it than the one call.
-class BfmeSMCTarget
-{
-public:
-	void bfmeApply(Int condition, const void *animation, Int frames);
-};
-
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Weapon.h
 enum WeaponSlotType
 {
@@ -143,7 +138,6 @@ public:
 	void notifyModelConditionChanged(void);
 	void replaceModelConditionFlags(const ModelConditionFlags &flags, Bool forceReplace);
 	void setFiringConditionForCurrentWeapon() const;
-	void bfmeApplySpecialModelCondition(Int condition, const void *animation, Int frames);
 
 	void clearAndSetModelConditionFlags(const BitFlags<320> &clear, const BitFlags<320> &set);
 
@@ -152,13 +146,9 @@ private:
 	Drawable *m_drawable;					// +0x080
 	unsigned char m_unmodelled084[0x110 - 0x84];
 	ModelConditionFlags m_modelConditionFlags;		// +0x110, 40 bytes
-	unsigned char m_unmodelled138[0x1f8 - 0x138];
-	BfmeSMCTarget *m_smcHelper;				// +0x1F8
-	unsigned char m_unmodelled1fc[0x204 - 0x1fc];
+	unsigned char m_unmodelled138[0x204 - 0x138];
 	AIUpdateInterface *m_ai;				// +0x204
-	unsigned char m_unmodelled208[0x214 - 0x208];
-	Object *m_next;						// +0x214
-	unsigned char m_unmodelled218[0x27c - 0x218];
+	unsigned char m_unmodelled208[0x27c - 0x208];
 	WeaponSlotType m_curWeaponSlot;				// +0x27C
 };
 
@@ -213,19 +203,4 @@ void Object::setFiringConditionForCurrentWeapon() const
 		BitFlags<320> flags = WeaponSet::getModelConditionForWeaponSlot(slot, WSF_FIRING);
 		self->clearAndSetModelConditionFlags(s_allWeaponFireFlags[slot], flags);
 	}
-}
-
-// ?bfmeApplySpecialModelCondition@Object@@QAEXHPBXH@Z
-//
-// The retail spelling and the optional descriptor's canonical type are
-// unrecovered.  The bytes prove the Object chain traversal and all three
-// arguments forwarded unchanged to the tail Object's SMC helper.
-void Object::bfmeApplySpecialModelCondition(Int condition, const void *animation, Int frames)
-{
-	Object *last = this;
-	while (last->m_next != 0)
-		last = last->m_next;
-
-	if (last->m_smcHelper != 0)
-		last->m_smcHelper->bfmeApply(condition, animation, frames);
 }
