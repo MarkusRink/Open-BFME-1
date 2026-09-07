@@ -1,364 +1,227 @@
-// cl: /DNDEBUG /MD /EHsc
-// readable body of ?evaluateHasUnits@ScriptConditions@@IAE_NPAVParameter@@@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions.cpp
-// Open-BFME5: lift MASM dump ScriptConditions::evaluateHasUnits to C++ thunk.
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/stringinline
+// Clean C++ recovery of ScriptConditions::evaluateHasUnits.
+// Retail RVA 0x0032A2E0 (346 bytes); executeCondition's
+// TEAM_HAS_UNITS arm names this body.
 
-class Parameter;
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ScriptConditions.h
+typedef bool Bool;
+typedef int Int;
+
+class AsciiString;
+
+// BFME's AsciiString is the one-word StringBase view.  Keeping the copy and
+// destruction in the base is important: evaluateHasUnits owns a local copy
+// and passes further copies by value to ScriptEngine::getTeamNamed.
+template <typename T> struct BfmeStringData
+{
+	Int m_refCount;
+	Int m_length;
+	T m_text[1];
+};
+
+template <typename T> class StringBase
+{
+friend class AsciiString;
+
+private:
+	StringBase() : m_data(0) {}
+	StringBase(const T *text);
+	StringBase(const StringBase &other);
+	~StringBase();
+
+public:
+	Int compare(const char *text) const;
+	Int compare(const StringBase &other) const;
+
+protected:
+	BfmeStringData<T> *m_data;
+};
+
+class AsciiString : private StringBase<char>
+{
+public:
+	AsciiString() : StringBase<char>() {}
+	AsciiString(const char *text) : StringBase<char>(text) {}
+	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
+	~AsciiString() {}
+
+	Int compare(const char *text) const
+	{
+		return ((const StringBase<char> *)this)->compare(text);
+	}
+
+	Int compare(const AsciiString &other) const
+	{
+		return ((const StringBase<char> *)this)->compare(
+			*(const StringBase<char> *)&other);
+	}
+};
+
+// Script parameters keep their string at +0x10, as shown by the initial copy
+// constructor's source load in the retail body.
+class Parameter
+{
+public:
+	const AsciiString &getString() const { return m_string; }
+
+private:
+	unsigned char m_beforeString[0x10];
+	AsciiString m_string;
+};
+
+class TeamPrototype;
+
+// The BFME team prototype pointer is at Team+0x04.  Team's vptr occupies the
+// first word, so this local view does not assume the ZH tail layout.
+class Team
+{
+public:
+	virtual void slot00() = 0;
+	TeamPrototype *m_proto;
+
+	Bool hasAnyUnits() const;
+};
+
+// The prototype name is at +0x14 and its instance-list head at +0x274 in the
+// BFME image.  Only those two fields are used here.
+class TeamPrototype
+{
+public:
+	unsigned char m_beforeName[0x14];
+	AsciiString m_name;
+	unsigned char m_beforeInstances[0x274 - 0x18];
+	Team *m_teamInstanceList;
+};
+
+// ScriptEngine slot 17 is the by-value team lookup used twice by retail.
+class ScriptEngine
+{
+public:
+	virtual void slot00() = 0;
+	virtual void slot01() = 0;
+	virtual void slot02() = 0;
+	virtual void slot03() = 0;
+	virtual void slot04() = 0;
+	virtual void slot05() = 0;
+	virtual void slot06() = 0;
+	virtual void slot07() = 0;
+	virtual void slot08() = 0;
+	virtual void slot09() = 0;
+	virtual void slot10() = 0;
+	virtual void slot11() = 0;
+	virtual void slot12() = 0;
+	virtual void slot13() = 0;
+	virtual void slot14() = 0;
+	virtual void slot15() = 0;
+	virtual void slot16() = 0;
+	virtual Team *getTeamNamed(AsciiString name, Bool exact) = 0;
+};
+
+class TeamFactory
+{
+};
+
+// These are the real ILT entries used by the target body.  The declarations
+// stay TU-local instead of asserting an unproven source identity for their
+// destination bodies.
+extern void j_000064f6();
+extern void j_00022a70();
+extern void j_0002ab9e();
+
+static Bool bfmeHasAnyUnits(Team *team)
+{
+	typedef Bool (Team::*Function)() const;
+	union { void (*raw)(void); Function member; } fn;
+	fn.raw = j_000064f6;
+	return (reinterpret_cast<Team *>(team)->*fn.member)();
+}
+
+static Team *bfmeNextTeamInstance(Team *team)
+{
+	typedef Team *(Team::*Function)();
+	union { void (*raw)(void); Function member; } fn;
+	fn.raw = j_00022a70;
+	return (reinterpret_cast<Team *>(team)->*fn.member)();
+}
+
+static TeamPrototype *bfmeFindTeamPrototype(TeamFactory *factory,
+	const AsciiString &name)
+{
+	typedef TeamPrototype *(TeamFactory::*Function)(const AsciiString &);
+	union { void (*raw)(void); Function member; } fn;
+	fn.raw = j_0002ab9e;
+	return (reinterpret_cast<TeamFactory *>(factory)->*fn.member)(name);
+}
+
+// The fallback object is AsciiString::TheEmptyString at retail 0x01336E50.
+// Its one-word storage is layout-compatible with AsciiString's base view.
+struct BfmeEmptyString
+{
+	void *m_data;
+};
+
+extern BfmeEmptyString Rva01336E50Str;
+extern ScriptEngine *TheScriptEngine;
+extern TeamFactory *TheTeamFactory;
+
+class BfmeTeamInstanceIterator
+{
+public:
+	BfmeTeamInstanceIterator(Team *current) : m_current(current) {}
+
+	Bool done() const { return m_current == 0; }
+	Team *cur() const { return m_current; }
+
+	void advance()
+	{
+		if (m_current)
+			m_current = bfmeNextTeamInstance(m_current);
+	}
+
+private:
+	Team *m_current;
+};
+
 class ScriptConditions
 {
 protected:
-bool evaluateHasUnits(Parameter *);
+	Bool evaluateHasUnits(Parameter *);
 };
 
 // ?evaluateHasUnits@ScriptConditions@@IAE_NPAVParameter@@@Z
-__declspec(naked) bool ScriptConditions::evaluateHasUnits(Parameter *)
+Bool ScriptConditions::evaluateHasUnits(Parameter *pTeamParm)
 {
-__asm {
-        __emit 0x6a
-        __emit 0xff
-        __emit 0x68
-        __emit 0xc8
-        __emit 0x72
-        __emit 0x01
-        __emit 0x01
-        __emit 0x64
-        __emit 0xa1
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x50
-        __emit 0x64
-        __emit 0x89
-        __emit 0x25
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x51
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x14
-        __emit 0x53
-        __emit 0x56
-        __emit 0x83
-        __emit 0xc0
-        __emit 0x10
-        __emit 0x50
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x20
-        __emit 0xe8
-        __emit 0x57
-        __emit 0xd8
-        __emit 0x55
-        __emit 0x00
-        __emit 0x68
-        __emit 0xd0
-        __emit 0x1f
-        __emit 0x0e
-        __emit 0x01
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x20
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x18
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0xe8
-        __emit 0xfb
-        __emit 0x0c
-        __emit 0xd2
-        __emit 0xff
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x6a
-        __emit 0x00
-        __emit 0x51
-        __emit 0x8b
-        __emit 0xcc
-        __emit 0x89
-        __emit 0x64
-        __emit 0x24
-        __emit 0x10
-        __emit 0x75
-        __emit 0x4c
-        __emit 0x8d
-        __emit 0x54
-        __emit 0x24
-        __emit 0x24
-        __emit 0x52
-        __emit 0xe8
-        __emit 0x2a
-        __emit 0xd8
-        __emit 0x55
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x6c
-        __emit 0x07
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x01
-        __emit 0xff
-        __emit 0x50
-        __emit 0x44
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x0f
-        __emit 0x84
-        __emit 0xa5
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x8b
-        __emit 0xc8
-        __emit 0xe8
-        __emit 0xa6
-        __emit 0xc1
-        __emit 0xcd
-        __emit 0xff
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x1c
-        __emit 0x8a
-        __emit 0xd8
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x14
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xdd
-        __emit 0xd5
-        __emit 0x55
-        __emit 0x00
-        __emit 0x8a
-        __emit 0xc3
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x64
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5e
-        __emit 0x5b
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x10
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0x68
-        __emit 0xd0
-        __emit 0x1f
-        __emit 0x0e
-        __emit 0x01
-        __emit 0xe8
-        __emit 0x3e
-        __emit 0xe8
-        __emit 0x55
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x6c
-        __emit 0x07
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x11
-        __emit 0xff
-        __emit 0x52
-        __emit 0x44
-        __emit 0x8b
-        __emit 0xf0
-        __emit 0x85
-        __emit 0xf6
-        __emit 0x74
-        __emit 0x21
-        __emit 0x8b
-        __emit 0x46
-        __emit 0x04
-        __emit 0x85
-        __emit 0xc0
-        __emit 0xb9
-        __emit 0x50
-        __emit 0x6e
-        __emit 0x33
-        __emit 0x01
-        __emit 0x74
-        __emit 0x03
-        __emit 0x8d
-        __emit 0x48
-        __emit 0x14
-        __emit 0x8d
-        __emit 0x44
-        __emit 0x24
-        __emit 0x1c
-        __emit 0x50
-        __emit 0xe8
-        __emit 0x19
-        __emit 0x7d
-        __emit 0xcf
-        __emit 0xff
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x75
-        __emit 0x04
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xeb
-        __emit 0x97
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x1c
-        __emit 0x51
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x10
-        __emit 0xd8
-        __emit 0x2e
-        __emit 0x01
-        __emit 0xe8
-        __emit 0xda
-        __emit 0x07
-        __emit 0xd0
-        __emit 0xff
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x26
-        __emit 0x8b
-        __emit 0xb0
-        __emit 0x74
-        __emit 0x02
-        __emit 0x00
-        __emit 0x00
-        __emit 0x85
-        __emit 0xf6
-        __emit 0x74
-        __emit 0x1c
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xe8
-        __emit 0x1d
-        __emit 0xc1
-        __emit 0xcd
-        __emit 0xff
-        __emit 0x84
-        __emit 0xc0
-        __emit 0x75
-        __emit 0x37
-        __emit 0x85
-        __emit 0xf6
-        __emit 0x74
-        __emit 0x0d
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xe8
-        __emit 0x88
-        __emit 0x86
-        __emit 0xcf
-        __emit 0xff
-        __emit 0x8b
-        __emit 0xf0
-        __emit 0x85
-        __emit 0xf6
-        __emit 0x75
-        __emit 0xe4
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x1c
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x14
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x41
-        __emit 0xd5
-        __emit 0x55
-        __emit 0x00
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x64
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5e
-        __emit 0x5b
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x10
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-        __emit 0x8d
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x1c
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x14
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x1b
-        __emit 0xd5
-        __emit 0x55
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x5e
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x64
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x5b
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x10
-        __emit 0xc2
-        __emit 0x04
-        __emit 0x00
-}
+	AsciiString desiredTeamName = pTeamParm->getString();
+	if (desiredTeamName.compare((const char *)0x010E1FD0) == 0)
+	{
+		Team *theTeam = TheScriptEngine->getTeamNamed(desiredTeamName, false);
+		if (theTeam)
+			return bfmeHasAnyUnits(theTeam);
+		return false;
+	}
+
+	Team *thisTeam = TheScriptEngine->getTeamNamed(
+		AsciiString((const char *)0x010E1FD0), false);
+	if (thisTeam)
+	{
+		const AsciiString *thisTeamName =
+			(const AsciiString *)&Rva01336E50Str;
+		if (thisTeam->m_proto)
+			thisTeamName = &thisTeam->m_proto->m_name;
+		if (thisTeamName->compare(desiredTeamName) == 0)
+			return bfmeHasAnyUnits(thisTeam);
+	}
+
+	TeamPrototype *prototype =
+		bfmeFindTeamPrototype(TheTeamFactory, desiredTeamName);
+	if (prototype)
+	{
+		BfmeTeamInstanceIterator iter(prototype->m_teamInstanceList);
+		for (; !iter.done(); iter.advance())
+		{
+			if (bfmeHasAnyUnits(iter.cur()))
+				return true;
+		}
+	}
+
+	return false;
 }
