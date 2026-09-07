@@ -1,11 +1,18 @@
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/objectdlink
-// Open-BFME: ScriptActions::doTeamSetUnmanned, retail 0x003024E0, 112 bytes.
+// stlport
+// readable body of ?doTeamSetRepulsor@ScriptActions@@IAEXABVAsciiString@@_N@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
 //
-// BFME's implementation forwards the unmanned action to each member's AI
-// command interface.  The team walk uses Object's virtually-inherited DLINK
-// member-function layout from reference/shims/objectdlink.
+// The two actions that walk a team and set a flag on every member:
+//
+//   0x002FD570  doTeamSetRepulsor  Object::setStatus with the repulsor bit
+//   0x003024E0  doTeamSetUnmanned  a two-argument call on the member's AI
+//
+// Both walk the member list through Object's virtually-inherited DLINK
+// pointer-to-member {pfn=0x00401140, delta=-100, vbindex=0}; only what they do
+// to each member differs.
 
 #define _STLP_NO_EXCEPTIONS 1
+#include <bitset>
 
 typedef int Int;
 typedef bool Bool;
@@ -39,6 +46,34 @@ private:
 	char *m_text;
 };
 
+enum ObjectStatusTypes
+{
+	OBJECT_STATUS_REPULSOR = 8
+};
+
+template<int NUMBITS>
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/BitFlags.h
+class BitFlags
+{
+public:
+	enum _dummy_kInit { kInit };
+
+	BitFlags(_dummy_kInit, Int idx1)
+	{
+		m_bits.set(idx1);
+	}
+
+	BitFlags() { }
+
+private:
+	_STL::bitset<NUMBITS>	m_bits;
+};
+
+typedef BitFlags<86> ObjectStatusMaskType;
+
+#define MAKE_OBJECT_STATUS_MASK(k) ObjectStatusMaskType(ObjectStatusMaskType::kInit, (k))
+
+// Object skeleton copied from reference/shims/objectdlink/ObjectDlinkPmf.h.
 class Object;
 
 class BfmeObjectVirtualTail { public: unsigned char m_vt[4]; };
@@ -59,16 +94,26 @@ public:
 
 class BfmeObjectDlinkPad { public: unsigned char m_pad[0x64]; };
 
+// setStatus is declared here, not on a cast-to helper, so the reloc names the
+// matched ?setStatus@Object@@QAEXABV?$BitFlags@$0FG@@@_N@Z at 0x001C7370.
+//
+// The tail runs to 0x194 rather than the 0x40 stub one of the two files carried:
+// the four bases above occupy 0x70, so 0x194 is what puts the AI pointer that
+// doTeamSetUnmanned reads at +0x204 inside the object rather than past its end.
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Object.h
 class Object : public BfmeObjectVtbl, public BfmeObjectDlinkBase,
 	public BfmeObjectDlinkPad, public BfmeObjectVbptrCarrier
 {
 public:
 	unsigned char m_tail[0x194];
+	void setStatus(const BitFlags<86> &objectStatus, bool set = true);
 };
+
+typedef Object *(Object::*BfmeGetNextTeamMemberFunc)(void) const;
 
 class AIUpdateInterface;
 
+// The AI command block at AIUpdateInterface+0x20.
 class BfmeInnerRQ
 {
 public:
@@ -82,7 +127,7 @@ template<class OBJCLASS>
 class DLINK_ITERATOR
 {
 public:
-	typedef OBJCLASS* (OBJCLASS::*GetNextFunc)() const;
+	typedef OBJCLASS *(OBJCLASS::*GetNextFunc)() const;
 
 private:
 	OBJCLASS *m_cur;
@@ -121,23 +166,23 @@ public:
 class ScriptEngine
 {
 public:
-	virtual void _se_0(void) = 0;
-	virtual void _se_1(void) = 0;
-	virtual void _se_2(void) = 0;
-	virtual void _se_3(void) = 0;
-	virtual void _se_4(void) = 0;
-	virtual void _se_5(void) = 0;
-	virtual void _se_6(void) = 0;
-	virtual void _se_7(void) = 0;
-	virtual void _se_8(void) = 0;
-	virtual void _se_9(void) = 0;
-	virtual void _se_10(void) = 0;
-	virtual void _se_11(void) = 0;
-	virtual void _se_12(void) = 0;
-	virtual void _se_13(void) = 0;
-	virtual void _se_14(void) = 0;
-	virtual void _se_15(void) = 0;
-	virtual void _se_16(void) = 0;
+	virtual void _se_0() = 0;
+	virtual void _se_1() = 0;
+	virtual void _se_2() = 0;
+	virtual void _se_3() = 0;
+	virtual void _se_4() = 0;
+	virtual void _se_5() = 0;
+	virtual void _se_6() = 0;
+	virtual void _se_7() = 0;
+	virtual void _se_8() = 0;
+	virtual void _se_9() = 0;
+	virtual void _se_10() = 0;
+	virtual void _se_11() = 0;
+	virtual void _se_12() = 0;
+	virtual void _se_13() = 0;
+	virtual void _se_14() = 0;
+	virtual void _se_15() = 0;
+	virtual void _se_16() = 0;
 	virtual Team *getTeamNamed(BfmeAsciiStringArg, Bool) = 0;
 };
 
@@ -147,8 +192,31 @@ extern ScriptEngine *TheScriptEngine;
 class ScriptActions
 {
 protected:
+	void doTeamSetRepulsor(const AsciiString& teamName, Bool repulsor);
 	void doTeamSetUnmanned(const AsciiString &teamName);
 };
+
+void ScriptActions::doTeamSetRepulsor(const AsciiString& teamName, Bool repulsor)
+{
+	Team *theSrcTeam = TheScriptEngine->getTeamNamed(teamName, false);
+	if (!theSrcTeam) {
+		return;
+	}
+
+	if (theSrcTeam)
+	{
+		for (DLINK_ITERATOR<Object> iter = theSrcTeam->iterate_TeamMemberList(); !iter.done(); iter.advance())
+		{
+			Object *obj = iter.cur();
+			if (!obj)
+			{
+				continue;
+			}
+			obj->setStatus(
+				MAKE_OBJECT_STATUS_MASK(OBJECT_STATUS_REPULSOR), repulsor);
+		}
+	}
+}
 
 void ScriptActions::doTeamSetUnmanned(const AsciiString &teamName)
 {
