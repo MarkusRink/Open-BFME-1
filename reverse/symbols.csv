@@ -85903,3 +85903,5 @@ _bfmeVftCEVK,0x00D12DA4,pin vftable for BfmeConv2001
 ??1BfmeStrEAU@@QAE@XZ,0x00887940,pin string dtor for BfmeConv2010
 ??0BfmeThingEAU@@QAE@PAX@Z,0x00024E01,pin thing ctor for BfmeConv2010
 ?bfmeRegisterEAU@ParticleSystemManager@@QAEXPAVBfmeStrEAU@@PAVBfmeThingEAU@@@Z,0x00043E19,pin register for BfmeConv2010
+??0BfmeMsgEAV@@QAE@XZ,0x00042069,pin message ctor for BfmeConv2011
+??1BfmeMsgEAV@@QAE@XZ,0x00044733,pin message dtor for BfmeConv2011
