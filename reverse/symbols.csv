@@ -84727,3 +84727,6 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeZeroKX@@YGXPAUBfmeVec3KX@@@Z,0x0002990B,pin
 ?bfmeSendTP@@YAXPAXPAUBfmeBlockTP@@1U1@0H@Z,0x00022D95,pin
 ?bfmeSendTQ@@YAXPAXPAUBfmeBlockTQ@@1U1@0H@Z,0x00022D95,pin
+?preflight@HordeTransportContain@@QBE_NPAVObject@@_N@Z,0x000237B8,HordeTransportContain validity preflight helper reaches retail 0x00226A80
+?size@?$list@HV?$allocator@H@_STL@@@_STL@@QBEIXZ,0x0000C176,STLport list<int>::size thunk used by HordeTransportContain validity check
+?find2@Rva002493A0@@QAEPAVBfmeRva493A0Result@@PAVBfmeRva493A0Object@@@Z,0x000037C4,HordeTransportContain validity fallback calls the Rva002493A0 search thunk
