@@ -42,6 +42,7 @@
 
 typedef bool Bool;
 typedef unsigned short PlayerMaskType;
+typedef unsigned int UnsignedInt;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/BitFlags.h
 template <int NUMBITS>
@@ -97,13 +98,29 @@ public:
 	int getKillsOfKindOf(KindOfMaskType setMask, KindOfMaskType clearMask);	// retail 0x00036D72
 };
 
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Money.h
+class Money
+{
+public:
+	virtual void unused();
+
+	UnsignedInt countMoney() const { return m_money; }
+
+private:
+	UnsignedInt m_money;
+	int m_playerIndex;
+};
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Player.h
 class Player
 {
 public:
 	int countObjects(KindOfMaskType setMask, KindOfMaskType clearMask);	// retail 0x0001FF1E
+	Money *getMoney() { return &m_money; }
 
-	unsigned char m_beforeEnergy[0xA4];
+	unsigned char m_beforeMoney[0x48];
+	Money m_money;						// this+0x48
+	unsigned char m_beforeEnergy[0xA4 - 0x48 - sizeof(Money)];
 	Gen_000C7DE0 m_energy;					// this+0xA4
 	unsigned char m_beforeKills[0x348 - 0xA4 - sizeof(Gen_000C7DE0)];
 	PlayerKills m_kills;					// this+0x348
@@ -146,6 +163,7 @@ static __forceinline int getPlayerLightPoints(Player *player)
 class ScriptConditions
 {
 protected:
+	Bool evaluatePlayerHasCredits(Parameter *, Parameter *, Parameter *);
 	Bool evaluatePlayerHasComparisonPercentPower(Parameter *, Parameter *, Parameter *);
 	Bool evaluatePlayerDestroyedNOrMoreBuildings(Parameter *, Parameter *, Parameter *);
 	Bool evaluatePlayerCompareLightPoints(Parameter *, Parameter *, Parameter *);
@@ -284,4 +302,35 @@ Bool ScriptConditions::evaluatePlayerHasKilledKindOfUnits(
 	}
 
 	return false;
+}
+
+// ?evaluatePlayerHasCredits@ScriptConditions@@IAE_NPAVParameter@@00@Z
+Bool ScriptConditions::evaluatePlayerHasCredits(Parameter *creditsParm,
+	Parameter *comparisonParm, Parameter *playerParm)
+{
+	PlayerMaskType playerMask =
+		TheScriptEngine->unidentified_0034DB40(playerParm);
+	int totalMoney = 0;
+	while (playerMask)
+	{
+		Player *player = ThePlayerList->getEachPlayerFromMask(playerMask);
+		if (player)
+		{
+			if (player->getMoney())
+				totalMoney += player->getMoney()->countMoney();
+		}
+	}
+
+	int comparison = comparisonParm->getInt();
+	Bool result = false;
+	switch (comparison)
+	{
+	case 0: result = creditsParm->getInt() < totalMoney; break;
+	case 1: result = creditsParm->getInt() <= totalMoney; break;
+	case 2: result = creditsParm->getInt() == totalMoney; break;
+	case 3: result = creditsParm->getInt() >= totalMoney; break;
+	case 4: result = creditsParm->getInt() > totalMoney; break;
+	case 5: result = creditsParm->getInt() != totalMoney; break;
+	}
+	return result;
 }
