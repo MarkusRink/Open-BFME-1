@@ -60,7 +60,7 @@ CombineHordeSpecialPower	REGISTERED	CombineHordeSpecialPower	1	1	no	2	0x00121840
 CommandButtonHuntUpdate	REGISTERED	CommandButtonHuntUpdate	2	1	yes	2	0x00119890 0x00119910
 CommandSetUpgrade	REGISTERED	CommandSetUpgrade	1	1	yes	2	0x0011D220 0x0012B0B0
 ContestableContain	REGISTERED	ContestableContain	2	1	no	2	0x00116140 0x001165C0
-ConvertToCarBombCrateCollide	ABSENT	ConvertToCarBombCrateCollide	0	0	yes	1	0x00125FD0
+ConvertToCarBombCrateCollide	ABSENT	ConvertToCarBombCrateCollide	0	0	yes	0	
 ConvertToHijackedVehicleCrateCollide	ABSENT	ConvertToHijackedVehicleCrateCollide	0	0	yes	0	
 CostModifierUpgrade	REGISTERED	CostModifierUpgrade	4	2	yes	1	0x0011D9D0
 CountermeasuresBehavior	ABSENT	CountermeasuresBehavior	0	0	yes	1	0x00117420
@@ -257,7 +257,7 @@ RunOffMapBehavior	REGISTERED	RunOffMapBehavior	1	1	no	2	0x001158E0 0x001267E0
 SabotageCommandCenterCrateCollide	ABSENT	SabotageCommandCenterCrateCollide	0	0	yes	0	
 SabotageFakeBuildingCrateCollide	ABSENT	SabotageFakeBuildingCrateCollide	0	0	yes	0	
 SabotageInternetCenterCrateCollide	ABSENT	SabotageInternetCenterCrateCollide	0	0	yes	0	
-SabotageMilitaryFactoryCrateCollide	ABSENT	SabotageMilitaryFactoryCrateCollide	0	0	yes	1	0x0012B650
+SabotageMilitaryFactoryCrateCollide	ABSENT	SabotageMilitaryFactoryCrateCollide	0	0	yes	0	
 SabotagePowerPlantCrateCollide	ABSENT	SabotagePowerPlantCrateCollide	0	0	yes	0	
 SabotageSuperweaponCrateCollide	ABSENT	SabotageSuperweaponCrateCollide	0	0	yes	0	
 SabotageSupplyCenterCrateCollide	ABSENT	SabotageSupplyCenterCrateCollide	0	0	yes	0	
@@ -338,7 +338,7 @@ VeterancyGainCreate	ABSENT	VeterancyGainCreate	0	0	yes	0
 W3DBuffDraw	REGISTERED	W3DBuffDraw	2	1	no	2	0x006BF7A0 0x006BF820
 W3DDebrisDraw	REGISTERED	W3DDebrisDraw	1	1	yes	2	0x00113BE0 0x006BEF40
 W3DDefaultDraw	REGISTERED	W3DDefaultDraw	2	2	yes	1	0x006BEFC0
-W3DDependencyModelDraw	ABSENT	W3DDependencyModelDraw	0	0	yes	1	0x00118990
+W3DDependencyModelDraw	ABSENT	W3DDependencyModelDraw	0	0	yes	0	
 W3DFloorDraw	REGISTERED	W3DFloorDraw	2	1	no	2	0x006BF9C0 0x006BFA40
 W3DHordeModelDraw	REGISTERED	W3DHordeModelDraw	2	1	no	2	0x006BFBE0 0x006BFC60
 W3DLaserDraw	REGISTERED	W3DLaserDraw	1	1	yes	2	0x00114320 0x006BF150
@@ -348,17 +348,17 @@ W3DOverlordAircraftDraw	ABSENT	W3DOverlordAircraftDraw	0	0	yes	1	0x0011F9C0
 W3DOverlordTankDraw	ABSENT	W3DOverlordTankDraw	0	0	yes	1	0x0011E130
 W3DOverlordTruckDraw	ABSENT	W3DOverlordTruckDraw	0	0	yes	0	
 W3DPoliceCarDraw	UNREGISTERED_NAMED	W3DPoliceCarDraw	2	1	yes	0	
-W3DProjectileStreamDraw	ABSENT	W3DProjectileStreamDraw	0	0	yes	2	0x00118AA0 0x001194C0
-W3DPropDraw	REGISTERED	W3DPropDraw	1	1	yes	2	0x00114B50 0x006BF8B0
+W3DProjectileStreamDraw	ABSENT	W3DProjectileStreamDraw	0	0	yes	1	0x001194C0
+W3DPropDraw	REGISTERED	W3DPropDraw	1	1	yes	1	0x006BF8B0
 W3DQuadrupedDraw	REGISTERED	W3DQuadrupedDraw	1	1	no	2	0x006BF260 0x006BFEB0
 W3DRopeDraw	REGISTERED	W3DRopeDraw	2	1	yes	2	0x00113BE0 0x006BF2E0
-W3DScienceModelDraw	ABSENT	W3DScienceModelDraw	0	0	yes	1	0x00118990
+W3DScienceModelDraw	ABSENT	W3DScienceModelDraw	0	0	yes	0	
 W3DScriptedModelDraw	REGISTERED	W3DScriptedModelDraw	2	1	no	2	0x006BF040 0x006BF0C0
 W3DStreakDraw	REGISTERED	W3DStreakDraw	1	1	no	2	0x006BFCF0 0x006BFD70
 W3DSupplyDraw	REGISTERED	W3DSupplyDraw	1	1	yes	2	0x006BF360 0x006BF3E0
 W3DTankDraw	REGISTERED	W3DTankDraw	1	1	yes	2	0x006BF580 0x006BF600
 W3DTankTruckDraw	ABSENT	W3DTankTruckDraw	0	0	yes	0	
-W3DTracerDraw	ABSENT	W3DTracerDraw	0	0	yes	1	0x00114200
+W3DTracerDraw	ABSENT	W3DTracerDraw	0	0	yes	0	
 W3DTreeDraw	REGISTERED	W3DTreeDraw	2	1	yes	2	0x006BF690 0x006BF710
 W3DTruckDraw	REGISTERED	W3DTruckDraw	1	1	yes	2	0x006BF470 0x006BF4F0
 WallUpgradeUpdate	REGISTERED	WallUpgradeUpdate	1	1	no	1	0x0011C170
