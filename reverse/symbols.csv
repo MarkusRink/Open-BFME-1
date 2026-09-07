@@ -85858,3 +85858,4 @@ _bfmeVftCEVJ,0x00D12CFC,pin vftable for BfmeConv2000
 _bfmeVftAEVK,0x00D12DBC,pin vftable for BfmeConv2001
 _bfmeVftBEVK,0x00D12DB8,pin vftable for BfmeConv2001
 _bfmeVftCEVK,0x00D12DA4,pin vftable for BfmeConv2001
+?bfmeApplyEVM@BfmeSubEVM@@QAEXH@Z,0x00024D70,pin sub apply for BfmeConv2002
