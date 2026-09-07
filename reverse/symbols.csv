@@ -85734,3 +85734,4 @@ _Rva008921B0Atof,0x008921B0,address-derived 14-byte cdecl atof wrapper at 0x0089
 ??1?$vector@UGen002E9E10@@V?$allocator@UGen002E9E10@@@_STL@@@_STL@@QAE@XZ,0x0002A914,route=0x002EB1F0; retail 0x002EBAA0 vector family directly reaches this exact matched identity
 ?bfmeDoneESC@BfmeHostESC@@QAEXH@Z,0x0003DA46,pin
 ?bfmeCallESC@BfmeHostESC@@QAEXPAXHEHHHHEH@Z,0x0003472F,pin
+?bfmeAssignESD@BfmeSubESD@@QAEXPAX0PAPAX@Z,0x00021A58,pin
