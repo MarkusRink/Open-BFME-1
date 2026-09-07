@@ -8640,7 +8640,6 @@ name,address,notes
 ??1RunwayInfo@FlightDeckBehavior@@QAE@XZ,0x00036241,Open-BFME5 ILT fronts unclaimed 90-byte body 0x002BC7A0; called by the _Destroy range loop over that element type
 ??1Rva00008D32MultiBase@@UAE@XZ,0x00008D32,base destructor address decoded from the retail REL32 tail jump; name is address-derived
 ??1Rva00009E35TailBase@@UAE@XZ,0x00009E35,base destructor address decoded from the retail REL32 tail jump; name is address-derived
-??1Rva0000DBA7TailBase@@UAE@XZ,0x0000DBA7,base destructor address decoded from the retail REL32 tail jump; name is address-derived
 ??1Rva00013994MultiBase@@QAE@XZ,0x00013994,base destructor address decoded from the retail REL32 tail jump; name is address-derived
 ??1Rva00017EEAFlatBase@@UAE@XZ,0x00017EEA,base destructor address decoded from the retail REL32 tail jump; name is address-derived
 ??1Rva00017EEAMultiBase@@UAE@XZ,0x00017EEA,base destructor address decoded from the retail REL32 tail jump; name is address-derived
@@ -82191,7 +82190,6 @@ name,address,notes
 ?run@Rva009EDD30Cleanup@@QAEXXZ,0x009EDD30,__thiscall callee address decoded from the retail REL32 call site; name is address-derived
 ?run@Rva8CD130IdleHook@@QAEXXZ,0x008A30C0,address-derived idle hook called by 0x008CD130
 ?run@TeamFactoryClearShim@@QAEXXZ,0x000F6CA0,TeamFactory clear incremental-link thunk target through a TU-local forwarding shim
-?run@VectorClassClearShim@@QAEXXZ,0x00410970,VectorClass Clear incremental-link thunk target through a TU-local forwarding shim
 ?run@VectorClassClearSplineShim@@QAEXXZ,0x006731A0,VectorClass spline Clear incremental-link thunk target through a TU-local forwarding shim
 ?run@WideRunner@@QAEXPAVWideCall@@PBDHHHHHH@Z,0x00015235,incremental-link thunk to 0x004675F0; __thiscall with eight stack args (ret 0x20); address-derived name
 ?run@WinInstanceDataInitShim@@QAEXXZ,0x00499850,WinInstanceData init incremental-link thunk target through a TU-local forwarding shim
@@ -85026,7 +85024,6 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?b_00218190@@YAXXZ,0x00218190,gen-thunk body
 ?b_001c1170@@YAXXZ,0x001C1170,gen-thunk body
 ??1BfmeDrawableSnapshot@@QAE@XZ,0x009A1A40,"Drawable.cpp TU-local name for the polymorphic Snapshot base ~TintEnvelope destroys: vptr store then tail-jump to the AsciiString release"
-?clear@BfmeDrawableIconInfoClear@@QAEXXZ,0x00037565,"Drawable.cpp TU-local name for BFME's own DrawableIconInfo::clear body at 0x001DDD60; the vendored ZH twin's copy folded with ?makeEmpty@SimpleObjectIterator@@QAEXXZ, so one name cannot carry both"
 ?bfmeCopyBTB@BfmeSubBTB@@QAEXABU1@@Z,0x00047B27,"the ILT the BTB copy body at 0x00133BB0 encodes for its +4 member; same TU-local BTB spelling as ?bfmeSetBTB@BfmeSubBTB@@QAEXPAX0@Z"
 ??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@1@@Z,0x0006E5F0,zhstl_006 per-site _Rb_tree_base ctor copy
 ??0?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@U12@V?$allocator@U?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@_STL@@@1@PAU?$_Rb_tree_node@U?$pair@$$CBW4NameKeyType@@M@_STL@@@1@@Z,0x0006EF70,zhstl_006 per-site _Rb_tree_base ctor copy

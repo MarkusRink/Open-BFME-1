@@ -196,6 +196,8 @@ static DynamicAudioEventInfo  * getNoSoundMarker()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableIconInfoLifecycle.cpp
+// ??0DrawableIconInfo@@QAE@XZ present-unmatched
 DrawableIconInfo::DrawableIconInfo()
 {
 	for (int i = 0; i < MAX_ICONS; ++i)
@@ -207,24 +209,16 @@ DrawableIconInfo::DrawableIconInfo()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// BFME compiles its own DrawableIconInfo::clear (the body at 0x001DDD60); the
-// vendored Zero Hour copy of this destructor calls ITS clear, which folded with
-// ?makeEmpty@SimpleObjectIterator@@QAEXXZ.  One name cannot pin two bodies of
-// different sizes, so this call site gets a TU-local spelling and the shared
-// name keeps the Zero Hour address the twin needs.
-class BfmeDrawableIconInfoClear
-{
-public:
-	void clear();
-};
-
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableIconInfoLifecycle.cpp
+// ??1DrawableIconInfo@@MAE@XZ present-unmatched
 DrawableIconInfo::~DrawableIconInfo()
 {
-	reinterpret_cast<BfmeDrawableIconInfoClear *>(this)->clear();
+	clear();
 }
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableIconInfoLifecycle.cpp
 // ?clear@DrawableIconInfo@@QAEXXZ present-unmatched
 void DrawableIconInfo::clear()
 {

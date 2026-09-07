@@ -34,12 +34,6 @@ public:
 	virtual ~Rva00009E35TailBase();
 };
 
-class Rva0000DBA7TailBase
-{
-public:
-	virtual ~Rva0000DBA7TailBase();
-};
-
 class Rva0001AA9BTailBase
 {
 public:
@@ -243,7 +237,6 @@ BFME_VPTR_TAIL_JUMP_DTOR( Rva00321FE0TailDtor, SubsystemInterface )
 BFME_VPTR_TAIL_JUMP_DTOR( Rva0033C070TailDtor, Rva00020BA3TailBase )
 BFME_VPTR_TAIL_JUMP_DTOR( Rva0035F110TailDtor, SubsystemInterface )
 BFME_VPTR_TAIL_JUMP_DTOR( Rva00410290TailDtor, SubsystemInterface )
-BFME_VPTR_TAIL_JUMP_DTOR( Rva004133C0TailDtor, Rva0000DBA7TailBase )
 BFME_VPTR_TAIL_JUMP_DTOR( Rva0048CCD0TailDtor, SubsystemInterface )
 BFME_VPTR_TAIL_JUMP_DTOR( Rva0052CC80TailDtor, Rva00021FC1TailBase )
 BFME_VPTR_TAIL_JUMP_DTOR( Rva0059D1E0TailDtor, Rva0001AA9BTailBase )
