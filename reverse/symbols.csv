@@ -85413,3 +85413,5 @@ _bfmeXferAW,0x0000FFE2
 ?read_header@HLodDefClass@@AAE_NAAVChunkLoadClass@@@Z,0x0097B8A0,BFME HLOD definition header reader called by Load_W3D; exact retail call target
 ?bfmeBeginAX@BfmeHostAX@@QAEXPAVBfmeAgentAX@@@Z,0x000183FE
 _bfmeXferIntAX,0x00001A87
+?bfmeBeginAY@BfmeHostAY@@QAEXPAVBfmeAgentAY@@@Z,0x00002379
+_bfmeXferAY,0x00004B79
