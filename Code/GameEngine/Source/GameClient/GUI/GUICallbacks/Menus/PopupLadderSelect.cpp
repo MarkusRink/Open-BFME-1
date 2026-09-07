@@ -110,7 +110,7 @@ static NameKeyType badPasswordParentID = NAMEKEY_INVALID;
 static NameKeyType buttonBadPasswordOkID = NAMEKEY_INVALID;
 static GameWindow *badPasswordParent = NULL;
 
-static void updateLadderDetails( Int ladderID, GameWindow *staticTextLadderName, GameWindow *listboxLadderDetails );
+static void updateLadderDetails( GameWindow *listboxLadderDetails, GameWindow *staticTextLadderName, Int ladderID );
 
 void PopulateQMLadderComboBox( void );
 void PopulateCustomLadderComboBox( void );
@@ -143,7 +143,7 @@ static void populateLadderListBox( void )
 	selID = (Int)GadgetListBoxGetItemData(listboxLadderSelect, selIndex);
 	if (!selID)
 		return;
-	updateLadderDetails(selID, staticTextLadderName, listboxLadderDetails);
+	updateLadderDetails(listboxLadderDetails, staticTextLadderName, selID);
 }
 
 static void handleLadderSelection( Int ladderID )
@@ -453,7 +453,7 @@ WindowMsgHandledType PopupLadderSelectSystem( GameWindow *window, UnsignedInt ms
 			if (!selID)
 				break;
 
-			updateLadderDetails(selID, staticTextLadderName, listboxLadderDetails);
+			updateLadderDetails(listboxLadderDetails, staticTextLadderName, selID);
 			break;
 		}  // end GLM_DOUBLE_CLICKED
 
@@ -500,7 +500,7 @@ WindowMsgHandledType PopupLadderSelectSystem( GameWindow *window, UnsignedInt ms
 // PRIVATE FUNCTIONS //////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
 
-static void updateLadderDetails( Int selID, GameWindow *staticTextLadderName, GameWindow *listboxLadderDetails )
+static void updateLadderDetails( GameWindow *listboxLadderDetails, GameWindow *staticTextLadderName, Int selID )
 {
 	if (!staticTextLadderName || !listboxLadderDetails)
 		return;
@@ -673,7 +673,7 @@ WindowMsgHandledType RCGameDetailsMenuSystem( GameWindow *window, UnsignedInt ms
 								NAMEKEY("PopupLadderDetails.wnd:StaticTextLadderName"));
 							GameWindow *lb = TheWindowManager->winGetWindowFromId(NULL,
 								NAMEKEY("PopupLadderDetails.wnd:ListBoxLadderDetails"));
-							updateLadderDetails(selectedID, st, lb);
+							updateLadderDetails(lb, st, selectedID);
 						}
 					}
 				}

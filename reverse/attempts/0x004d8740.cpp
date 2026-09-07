@@ -1,5 +1,6 @@
 // ?populateLadderListBox@@YAXXZ
-// partial score=0.88 date=2026-09-01
+// partial score=0.96 date=2026-09-07
+// ?populateLadderListBox@@YAXXZ partial bank2 2026-09-07: plain static (lb,st,id) + YAX pin @0x004D7E60; size 98=98 exact, ecx+order+cleanup exact; remaining: private-convention arg2 in esi vs retail edx (callee-body-driven), ~4B
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/languagefilter /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
@@ -112,7 +113,7 @@ static NameKeyType badPasswordParentID = NAMEKEY_INVALID;
 static NameKeyType buttonBadPasswordOkID = NAMEKEY_INVALID;
 static GameWindow *badPasswordParent = NULL;
 
-static void __fastcall updateLadderDetails( GameWindow *staticTextLadderName, GameWindow *listboxLadderDetails, Int ladderID );
+static void updateLadderDetails( GameWindow *listboxLadderDetails, GameWindow *staticTextLadderName, Int ladderID );
 
 void PopulateQMLadderComboBox( void );
 void PopulateCustomLadderComboBox( void );
@@ -145,7 +146,7 @@ static void populateLadderListBox( void )
 	selID = (Int)GadgetListBoxGetItemData(listboxLadderSelect, selIndex);
 	if (!selID)
 		return;
-	updateLadderDetails(staticTextLadderName, listboxLadderDetails, selID);
+	updateLadderDetails(listboxLadderDetails, staticTextLadderName, selID);
 }
 
 static void handleLadderSelection( Int ladderID )
@@ -455,7 +456,7 @@ WindowMsgHandledType PopupLadderSelectSystem( GameWindow *window, UnsignedInt ms
 			if (!selID)
 				break;
 
-			updateLadderDetails(staticTextLadderName, listboxLadderDetails, selID);
+			updateLadderDetails(listboxLadderDetails, staticTextLadderName, selID);
 			break;
 		}  // end GLM_DOUBLE_CLICKED
 
@@ -502,7 +503,7 @@ WindowMsgHandledType PopupLadderSelectSystem( GameWindow *window, UnsignedInt ms
 // PRIVATE FUNCTIONS //////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
 
-static void __fastcall updateLadderDetails( GameWindow *staticTextLadderName, GameWindow *listboxLadderDetails, Int selID )
+static void updateLadderDetails( GameWindow *listboxLadderDetails, GameWindow *staticTextLadderName, Int selID )
 {
 	if (!staticTextLadderName || !listboxLadderDetails)
 		return;
@@ -675,7 +676,7 @@ WindowMsgHandledType RCGameDetailsMenuSystem( GameWindow *window, UnsignedInt ms
 								NAMEKEY("PopupLadderDetails.wnd:StaticTextLadderName"));
 							GameWindow *lb = TheWindowManager->winGetWindowFromId(NULL,
 								NAMEKEY("PopupLadderDetails.wnd:ListBoxLadderDetails"));
-							updateLadderDetails(st, lb, selectedID);
+							updateLadderDetails(lb, st, selectedID);
 						}
 					}
 				}
