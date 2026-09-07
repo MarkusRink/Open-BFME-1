@@ -5,6 +5,8 @@ extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 typedef bool Bool;
 typedef unsigned short UnsignedShort;
 
+void __cdecl operator delete(void *block) throw();
+
 enum NetCommandType
 {
 	NETCOMMANDTYPE_ACKBOTH = 0,
@@ -83,6 +85,31 @@ private:
 	int m_commandCount;
 };
 
+class NetAckBothCommandMsg : public NetCommandMsg
+{
+public:
+	UnsignedShort getCommandID();
+	unsigned char getOriginalPlayerID();
+	unsigned int getOriginalExecutionFrame() { return m_originalExecutionFrame; }
+private:
+	UnsignedShort m_commandID;
+	unsigned char m_originalPlayerID;
+	unsigned int m_originalExecutionFrame;
+};
+
+class NetAckStage2CommandMsg : public NetCommandMsg
+{
+public:
+	NetAckStage2CommandMsg(NetCommandMsg *msg);
+	UnsignedShort getCommandID();
+	unsigned char getOriginalPlayerID();
+	unsigned int getOriginalExecutionFrame() { return m_originalExecutionFrame; }
+private:
+	UnsignedShort m_commandID;
+	unsigned char m_originalPlayerID;
+	unsigned int m_originalExecutionFrame;
+};
+
 class GameMessage;
 class GameMessageArgument;
 
@@ -110,10 +137,20 @@ UnsignedShort GenerateNextCommandID();
 class NetCommandRef
 {
 	public:
+	unsigned char getRelay() { return relay; }
+	~NetCommandRef();
 	NetCommandMsg *msg;
 	NetCommandRef *next;
 	NetCommandRef *prev;
 	unsigned char relay;
+};
+
+class NetCommandList
+{
+public:
+	NetCommandRef *findMessage(UnsignedShort id, unsigned char player);
+	NetCommandRef *findMessage(UnsignedShort id, unsigned char player, unsigned int frame);
+	void removeMessage(NetCommandRef *ref);
 };
 
 class BFMENetRequestPlayerLeaveCommandMsg
@@ -286,6 +323,8 @@ private:
 	char m_unknown120C0[0x20];
 	DisconnectManager *m_disconnectManager;
 	FrameDataManager *m_frameData[8];
+	NetCommandList *m_pendingCommands;
+	NetCommandList *m_pendingRelays;
 };
 
 
@@ -3935,211 +3974,55 @@ L01_669DA9:
 // player from either a stage-2 or a both-stages ack message, then searches the
 // two pending-command lists at this+0x12104 and this+0x12108 with
 // NetCommandList::findMessage and removes the entry.
-__declspec(naked) void BFMEConnectionManager::processAckCommand(void *msg)
+void BFMEConnectionManager::processAckCommand(void *command)
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 104420Bh
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		sub esp, 8h
-		push ebx
-		push esi
-		push edi
-		mov edi, dword ptr [esp+24h]
-		mov eax, dword ptr [edi+14h]
-		cmp eax, 2h
-		mov esi, ecx
-		mov dword ptr [esp+0Ch], esi
-		jne L00_66574A
-		mov ecx, edi
-		__emit 0E8h
-		__emit 041h
-		__emit 002h
-		__emit 09Ah
-		__emit 0FFh   // call 0x5975
-		mov ecx, edi
-		mov ebx, eax
-		__emit 0E8h
-		__emit 00Fh
-		__emit 01Ah
-		__emit 09Ch
-		__emit 0FFh   // call 0x2714C
-		mov byte ptr [esp+24h], al
-		mov eax, dword ptr [edi+20h]
-		mov dword ptr [esp+10h], eax
-		jmp L01_66576D
-L00_66574A:
-		test eax, eax
-		jne L02_66586F
-		mov ecx, edi
-		__emit 0E8h
-		__emit 088h
-		__emit 01Dh
-		__emit 09Ah
-		__emit 0FFh   // call 0x74E1
-		mov ecx, edi
-		mov ebx, eax
-		__emit 0E8h
-		__emit 0B5h
-		__emit 015h
-		__emit 09Eh
-		__emit 0FFh   // call 0x46D17
-		mov ecx, dword ptr [edi+20h]
-		mov byte ptr [esp+24h], al
-		mov dword ptr [esp+10h], ecx
-L01_66576D:
-		mov ecx, dword ptr [esi+12104h]
-		test ecx, ecx
-		push ebp
-		mov ebp, dword ptr [esp+28h]
-		je L03_6657A9
-		push ebp
-		push ebx
-		__emit 0E8h
-		__emit 0D2h
-		__emit 0A8h
-		__emit 09Ah
-		__emit 0FFh   // call 0x10055
-		mov esi, eax
-		test esi, esi
-		je L03_6657A9
-		mov edx, dword ptr [esp+10h]
-		mov ecx, dword ptr [edx+12104h]
-		push esi
-		__emit 0E8h
-		__emit 0D1h
-		__emit 096h
-		__emit 09Ch
-		__emit 0FFh   // call 0x2EE6A
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0C0h
-		__emit 031h
-		__emit 09Dh
-		__emit 0FFh   // call 0x38960
-		push esi
-		__emit 0E8h
-		__emit 00Ah
-		__emit 0C7h
-		__emit 021h
-		__emit 000h   // call 0x881EB0
-		add esp, 4h
-L03_6657A9:
-		mov eax, dword ptr [esp+10h]
-		mov ecx, dword ptr [eax+12108h]
-		test ecx, ecx
-		je L04_66586E
-		mov edx, dword ptr [esp+14h]
-		push edx
-		push ebp
-		push ebx
-		__emit 0E8h
-		__emit 0CFh
-		__emit 083h
-		__emit 09Ch
-		__emit 0FFh   // call 0x2DB96
-		mov esi, eax
-		test esi, esi
-		je L04_66586E
-		mov ecx, dword ptr [edi+0Ch]
-		mov dl, byte ptr [esi+0Ch]
-		mov al, 1h
-		shl al, cl
-		not al
-		and al, dl
-		jne L05_66586B
-		mov ebx, dword ptr [esp+10h]
-		mov ecx, dword ptr [ebx+12108h]
-		push esi
-		__emit 0E8h
-		__emit 075h
-		__emit 096h
-		__emit 09Ch
-		__emit 0FFh   // call 0x2EE6A
-		push 24h
-		__emit 0E8h
-		__emit 034h
-		__emit 0C7h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+28h], eax
-		test eax, eax
-		mov dword ptr [esp+20h], 0h
-		je L06_66581D
-		mov ecx, dword ptr [esi]
-		push ecx
-		mov ecx, eax
-		__emit 0E8h
-		__emit 068h
-		__emit 0CFh
-		__emit 09Ch
-		__emit 0FFh   // call 0x32781
-		mov edi, eax
-		jmp L07_66581F
-L06_66581D:
-		xor edi, edi
-L07_66581F:
-		mov ecx, edi
-		mov dword ptr [esp+20h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 01Eh
-		__emit 019h
-		__emit 09Ch
-		__emit 0FFh   // call 0x2714C
-		xor edx, edx
-		mov dl, 1h
-		mov ecx, eax
-		shl dl, cl
-		mov ecx, ebx
-		push edx
-		push edi
-		__emit 0E8h
-		__emit 03Bh
-		__emit 099h
-		__emit 09Dh
-		__emit 0FFh   // call 0x3F17A
-		mov ecx, esi
-		__emit 0E8h
-		__emit 01Ah
-		__emit 031h
-		__emit 09Dh
-		__emit 0FFh   // call 0x38960
-		push esi
-		__emit 0E8h
-		__emit 064h
-		__emit 0C6h
-		__emit 021h
-		__emit 000h   // call 0x881EB0
-		add esp, 4h
-		mov ecx, edi
-		__emit 0E8h
-		__emit 04Eh
-		__emit 0A8h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		pop ebp
-		pop edi
-		pop esi
-		pop ebx
-		mov ecx, dword ptr [esp+8h]
-		mov dword ptr fs:[0h], ecx
-		add esp, 14h
-		ret 4h
-L05_66586B:
-		mov byte ptr [esi+0Ch], al
-L04_66586E:
-		pop ebp
-L02_66586F:
-		mov ecx, dword ptr [esp+14h]
-		pop edi
-		pop esi
-		pop ebx
-		mov dword ptr fs:[0h], ecx
-		add esp, 14h
-		ret 4h
+	NetCommandMsg *msg = static_cast<NetCommandMsg *>(command);
+	UnsignedShort commandID;
+	unsigned char originalPlayerID;
+	unsigned int originalExecutionFrame;
+	if (msg->getNetCommandType() == NETCOMMANDTYPE_ACKSTAGE2)
+	{
+		NetAckStage2CommandMsg *ack = static_cast<NetAckStage2CommandMsg *>(msg);
+		commandID = ack->getCommandID();
+		originalPlayerID = ack->getOriginalPlayerID();
+		originalExecutionFrame = ack->getOriginalExecutionFrame();
+	}
+	else if (msg->getNetCommandType() == NETCOMMANDTYPE_ACKBOTH)
+	{
+		NetAckBothCommandMsg *ack = static_cast<NetAckBothCommandMsg *>(msg);
+		commandID = ack->getCommandID();
+		originalPlayerID = ack->getOriginalPlayerID();
+		originalExecutionFrame = ack->getOriginalExecutionFrame();
+	}
+	else
+		return;
+
+	if (m_pendingCommands != 0)
+	{
+		NetCommandRef *ref = m_pendingCommands->findMessage(commandID, originalPlayerID);
+		if (ref != 0)
+		{
+			m_pendingCommands->removeMessage(ref);
+			delete ref;
+		}
+	}
+	if (m_pendingRelays != 0)
+	{
+		NetCommandRef *ref = m_pendingRelays->findMessage(commandID, originalPlayerID, originalExecutionFrame);
+		if (ref != 0)
+		{
+			unsigned char relay = ref->getRelay() & ~(1 << msg->getPlayerID());
+			if (relay == 0)
+			{
+				m_pendingRelays->removeMessage(ref);
+				NetAckStage2CommandMsg *ack = new NetAckStage2CommandMsg(ref->msg);
+				reinterpret_cast<ConnectionManager *>(this)->sendLocalCommand(ack, (unsigned char)1 << ack->getOriginalPlayerID());
+				delete ref;
+				ack->detach();
+			}
+			else
+				ref->relay = relay;
+		}
 	}
 }
 
