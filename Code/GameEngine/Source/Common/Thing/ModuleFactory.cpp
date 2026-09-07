@@ -182,9 +182,11 @@ class CreateObjectDieModuleData;
 class CrushDieModuleData;
 class DemoTrapUpdateModuleData;
 class DynamicShroudClearingRangeUpdateModuleData;
+class ExperienceScalarUpgradeModuleData;
 class FireWeaponUpdateModuleData;
 class FireWeaponWhenDeadBehaviorModuleData;
 class GarrisonContainModuleData;
+class InstantDeathBehaviorModuleData;
 class InternetHackContainModuleData;
 class LaserUpdateModuleData;
 class MaxHealthUpgradeModuleData;
@@ -221,9 +223,11 @@ template <> struct BFMEFactoryInstanceSize<CreateObjectDieModuleData> { enum { V
 template <> struct BFMEFactoryInstanceSize<CrushDieModuleData> { enum { VALUE = 0x204 }; };
 template <> struct BFMEFactoryInstanceSize<DemoTrapUpdateModuleData> { enum { VALUE = 0x3C }; };
 template <> struct BFMEFactoryInstanceSize<DynamicShroudClearingRangeUpdateModuleData> { enum { VALUE = 0x58 }; };
+template <> struct BFMEFactoryInstanceSize<ExperienceScalarUpgradeModuleData> { enum { VALUE = 0x74 }; };
 template <> struct BFMEFactoryInstanceSize<FireWeaponUpdateModuleData> { enum { VALUE = 0x10 }; };
 template <> struct BFMEFactoryInstanceSize<FireWeaponWhenDeadBehaviorModuleData> { enum { VALUE = 0xB4 }; };
 template <> struct BFMEFactoryInstanceSize<GarrisonContainModuleData> { enum { VALUE = 0x33C }; };
+template <> struct BFMEFactoryInstanceSize<InstantDeathBehaviorModuleData> { enum { VALUE = 0x64 }; };
 template <> struct BFMEFactoryInstanceSize<InternetHackContainModuleData> { enum { VALUE = 0x16C }; };
 template <> struct BFMEFactoryInstanceSize<LaserUpdateModuleData> { enum { VALUE = 0x1C }; };
 template <> struct BFMEFactoryInstanceSize<MaxHealthUpgradeModuleData> { enum { VALUE = 0x78 }; };
@@ -266,9 +270,11 @@ BFME_FACTORY_DATA_CHOICE(CreateObjectDieModuleData)
 BFME_FACTORY_DATA_CHOICE(CrushDieModuleData)
 BFME_FACTORY_DATA_CHOICE(DemoTrapUpdateModuleData)
 BFME_FACTORY_DATA_CHOICE(DynamicShroudClearingRangeUpdateModuleData)
+BFME_FACTORY_DATA_CHOICE(ExperienceScalarUpgradeModuleData)
 BFME_FACTORY_DATA_CHOICE(FireWeaponUpdateModuleData)
 BFME_FACTORY_DATA_CHOICE(FireWeaponWhenDeadBehaviorModuleData)
 BFME_FACTORY_DATA_CHOICE(GarrisonContainModuleData)
+BFME_FACTORY_DATA_CHOICE(InstantDeathBehaviorModuleData)
 BFME_FACTORY_DATA_CHOICE(InternetHackContainModuleData)
 BFME_FACTORY_DATA_CHOICE(LaserUpdateModuleData)
 BFME_FACTORY_DATA_CHOICE(MaxHealthUpgradeModuleData)
