@@ -28,18 +28,21 @@ public:
 
 extern int Rva007EB810Get();
 
-void d_007ff250();
-typedef void (__cdecl *Rva007FF250Decoder)( int size, void *dest, const char *source );
+// Retail calls the decoder with the encoded blob first and writes decoded bytes
+// into this method's destination buffer.  Its return value is intentionally
+// ignored by this caller, as in the retail body.
+extern int rva007FF250Decode(
+	int encodedLength, const char *encodedInput, unsigned char *decodedOutput );
 
 class Rva007F04B0BlobService
 {
 public:
-	bool fetchContent( const char *source, unsigned int length );
+	bool fetchContent( char *destination, unsigned int length );
 
 	BfmeThingUPB *m_reader;
 };
 
-bool Rva007F04B0BlobService::fetchContent( const char *source, unsigned int length )
+bool Rva007F04B0BlobService::fetchContent( char *destination, unsigned int length )
 {
 	Rva007F04B0BlobService *self = this;
 	Rva007EFFC0Allocator *allocator = (Rva007EFFC0Allocator *)bfmeGo929C();
@@ -61,7 +64,8 @@ bool Rva007F04B0BlobService::fetchContent( const char *source, unsigned int leng
 		((Rva007EFFC0Allocator *)bfmeGo929C())->release( content, 0 );
 		return false;
 	}
-	((Rva007FF250Decoder)d_007ff250)( ( (int)length + 2 ) / 3 * 4, content, source );
+	rva007FF250Decode( ( (int)length + 2 ) / 3 * 4, (const char *)content,
+		(unsigned char *)destination );
 	((Rva007EFFC0Allocator *)bfmeGo929C())->release( content, 0 );
 	return true;
 }

@@ -40,12 +40,16 @@ struct Rva002E5FF0Field23C
 	void *m_field4;
 };
 
+class ThingTemplate;
+
 class Object
 {
 public:
 	bool getAttributeModifierBonus( int type, float *bonus ) const;
 
-	char m_unreconstructed00[ 0x200 ];
+	void *m_vftable;
+	ThingTemplate *m_thingTemplate;
+	char m_unreconstructed08[ 0x1F8 ];
 	void *m_at200;
 	BfmeAI956 *m_ai;
 	void *m_at208;
@@ -228,9 +232,55 @@ public:
 	AsciiString( const char *text );
 	~AsciiString();
 	AsciiString &operator=( const AsciiString &text );
+	const char *str() const
+	{
+		return m_data ? (const char *)m_data + 8 : g_bfmeEmptyAscii;
+	}
 
 	void *m_data;
 };
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Overridable.h
+class Overridable
+{
+public:
+	void *m_vftable;
+	Overridable *m_nextOverride;
+	Overridable *getFinalOverride();
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/ThingTemplate.h
+class ThingTemplate : public Overridable
+{
+public:
+	char m_pad08[ 0x18 ];
+	AsciiString m_name;
+};
+
+// ?Rva002E60B0ObjectOverrideName@@YAHPAUlua_State@@@Z
+// The neutral name records the proven Lua callback boundary; no public EA
+// spelling is claimed.  Object::m_thingTemplate is the Thing +4 pointer, and
+// ThingTemplate::m_name is the source-backed AsciiString at +20.
+int Rva002E60B0ObjectOverrideName( lua_State *state )
+{
+	unsigned id = Rva00990030Lookup( state, 1 );
+	if( !id && lua_type( state, 1 ) != 1 )
+	{
+		lua_pushnil( state );
+		return 1;
+	}
+	Object *object = TheGameLogic->bfmeFind1011( id );
+	if( object )
+	{
+		ThingTemplate *thingTemplate = object->m_thingTemplate;
+		if( thingTemplate && thingTemplate->m_nextOverride )
+			thingTemplate = (ThingTemplate *)thingTemplate->m_nextOverride->getFinalOverride();
+		lua_pushstring( state, thingTemplate->m_name.str() );
+		return 1;
+	}
+	lua_pushnil( state );
+	return 1;
+}
 
 AsciiString DescribeObject( const Object *object );
 

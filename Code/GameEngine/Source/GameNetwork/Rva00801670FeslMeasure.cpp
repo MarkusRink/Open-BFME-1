@@ -2,10 +2,13 @@
 // FESL game-browser record measurement at retail 0x00801670.
 //
 // The enclosing object is the BfmeThingVHW family: the matched
-// BfmeThingVHW::bfmeClearVHW body installs the same vtable that the nearby
-// constructor/destructor pair installs, and its direct caller writes the host
-// pointer at +0x04 before calling this body.  The method name below is kept
-// address-derived because no public source name for this slot was recovered.
+// BfmeThingVHW::bfmeClearVHW body finishes by writing the 0x0112C358 vtable
+// at +0. The independently decoded 0x00801CB0/523 generated caller writes
+// the host pointer at +0x04 before calling this body at its +0x2B. That caller
+// also reads the same long record's N/HN/V and join fields. It is boundary
+// evidence, not a recovered public caller name. The method name remains
+// address-derived because no public
+// source name for this slot was recovered.
 //
 // The helper at 0x007F76D0 is already matched as the bfmeAt body.  Its body
 // reads the vector and index from [esp+4]/[esp+8] and returns with ret 8, but
@@ -41,38 +44,48 @@ class Rva00801670Host
 {
 public:
 	int *rva007F76D0( BfmeVecCZ *vector, int index );
+
+	unsigned char m_unreconstructed00[0x2A8];
+	BfmeVecCZ m_gameKeys;
 };
 
-class Rva007FBEF0GameRecord
+typedef __int64 FeslInt64;
+
+// This is the data-bearing record from the matched Rva007FBC60Game
+// constructor.  Its message is at +8, N/HN/V are at +26/+A6/+130, and the
+// platform buffer used by the matched +0x7FBE70 accessor is at +190.  The
+// short Rva007FBEF0GameRecord is a different 0x34-byte UGID record and is not
+// used as this body's argument view.
+class Rva007FBC60Game
 {
 public:
-	bool Rva007FBE80( const char *key, char *dest, unsigned destSize );
+	char *rva007FBE70();
+	bool rva007FBE80( const char *key, char *dest, unsigned destSize );
 
-	char m_pad00[0x26];
-	char m_str26;
-	char m_pad27[0x7F];
-	char m_strA6;
-	char m_padA7[0x89];
-	char m_str130;
-};
-
-// The matched 0x007FBE70 accessor reads its receiver's byte at +0x190 and
-// returns that buffer or null.  Keep that existing address-derived owner view
-// separate from the record's named lookup-helper view; the retail call passes
-// the same record pointer to both bodies.
-class Gen_007fbe70
-{
-public:
-	char *bfmeText();
-
-	char m_bfmeHead[0x190];
-	char m_bfmeBuffer[1];
+	int m_lid;
+	int m_gid;
+	void *m_msg;
+	int m_ap;
+	int m_jp;
+	int m_qp;
+	int m_mp;
+	int m_p;
+	int m_nf;
+	bool m_f;
+	bool m_pw;
+	char m_n[ 0x80 ];
+	char m_hn[ 0x80 ];
+	FeslInt64 m_hu;
+	char m_v[ 0x40 ];
+	char m_i[ 0x20 ];
+	char m_platform[ 0x20 ];
+	int m_join;
 };
 
 class BfmeThingVHW
 {
 public:
-	void rva00801670( Rva007FBEF0GameRecord *rec );
+	void rva00801670( Rva007FBC60Game *rec );
 
 	void *m_bfmeVfptr;
 	Rva00801670Host *m_bfme04;
@@ -80,7 +93,7 @@ public:
 	Rva00800290Buffer m_bfme10;
 };
 
-void BfmeThingVHW::rva00801670( Rva007FBEF0GameRecord *rec )
+void BfmeThingVHW::rva00801670( Rva007FBC60Game *rec )
 {
 	char slot[0x40];
 	int count;
@@ -88,22 +101,22 @@ void BfmeThingVHW::rva00801670( Rva007FBEF0GameRecord *rec )
 	BfmeVecCZ *vector;
 	char *key;
 
-	m_bfme10.addString( &rec->m_str26 );
-	m_bfme10.addString( &rec->m_strA6 );
-	m_bfme10.addString( &rec->m_str130 );
-	if( ( (Gen_007fbe70 *)rec )->bfmeText() )
+	m_bfme10.addString( rec->m_n );
+	m_bfme10.addString( rec->m_hn );
+	m_bfme10.addString( rec->m_v );
+	if( rec->rva007FBE70() )
 		m_bfme10.addPadded( 0x28 );
 	else
 		m_bfme10.addPadded( 0x10 );
 
-	vector = (BfmeVecCZ *)( (char *)m_bfme04 + 0x2A8 );
+	vector = &m_bfme04->m_gameKeys;
 	count = vector->m_bfmeCount;
 	m_bfme10.addPadded( count * 4 );
 	for( i = 0; i < count; i++ )
 	{
 		key = (char *)m_bfme04->rva007F76D0( vector, i );
 		slot[0] = 0;
-		if( rec->Rva007FBE80( key, slot, 0x40 ) )
+		if( rec->rva007FBE80( key, slot, 0x40 ) )
 			m_bfme10.addString( slot );
 	}
 }
