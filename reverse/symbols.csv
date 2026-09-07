@@ -3782,6 +3782,7 @@ name,address,notes
 ??1?$pair@$$CBHVAsciiString@@@_STL@@QAE@XZ,0x0000240F
 ??1?$pair@$$CBHVGameSpyGroupRoom@@@_STL@@QAE@XZ,0x00021274
 ??1?$pair@$$CBJVLadderPref@@@_STL@@QAE@XZ,0x0002517B
+??1?$pair@$$CBJVLadderPref@@@_STL@@QAE@XZ,0x0004723F,route=0x000A9C90; retail map<long LadderPref>::operator[] at 0x000ACC40 calls this incremental-link destructor thunk
 ??1?$pair@$$CBUGen_t_00077340_k4@@UGen_t_00077340_p4pod@@@_STL@@QAE@XZ,0x000479D3,gen-tgrid payload member
 ??1?$pair@$$CBUGen_t_0007d1f0_k4@@UGen_t_0007d1f0_p4pod@@@_STL@@QAE@XZ,0x0007CB30,gen-tgrid payload member
 ??1?$pair@$$CBUGen_t_0007d250_k4@@UGen_t_0007d250_p4pod@@@_STL@@QAE@XZ,0x0007CB30,gen-tgrid payload member
