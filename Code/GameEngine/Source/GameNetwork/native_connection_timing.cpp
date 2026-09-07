@@ -159,12 +159,26 @@ private:
 	NetCommandRef *m_first;
 };
 
+class BFMENetInformPlayerLeaveFrameCommandMsg : public NetCommandMsg
+{
+public:
+	// Legacy names are swapped: the first field is the frame; the second is the player.
+	int getLeavingPlayerID();
+	unsigned int getLeaveFrame();
+};
+
 class BFMENetRequestFrameDataCommandMsg : public NetCommandMsg
 {
 public:
+	BFMENetRequestFrameDataCommandMsg();
+	void setRequestedPlayerID(int firstFrame);
+	void setRequestedFrame(unsigned int lastFrame);
 	// Legacy getter names: the type-9 payload actually stores [firstFrame,lastFrame].
 	int getRequestedPlayerID();
 	unsigned int getRequestedFrame();
+private:
+	unsigned int m_firstFrame;
+	unsigned int m_lastFrame;
 };
 
 class BFMENetRequestPlayerLeaveCommandMsg
@@ -635,169 +649,30 @@ int BFMEConnectionManager::getFrameHeadroom()
 // and the leaving player is not us -- allocates a 0x24-byte command type 9
 // (REQUESTFRAMEDATA), stamps the range [currentFrame+1, announcedFrame] into its
 // two payload dwords at +0x1C and +0x20, and sends it back to the sender alone.
-__declspec(naked) void BFMEConnectionManager::processInformPlayerLeaveFrameCommand(void *msg)
+void BFMEConnectionManager::processInformPlayerLeaveFrameCommand(void *command)
 {
-	__asm {
-		mov eax, dword ptr fs:[0h]
-		push 0FFFFFFFFh
-		push 10440ABh
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ebx
-		push ebp
-		mov ebp, dword ptr [esp+18h]
-		push esi
-		xor esi, esi
-		cmp ebp, esi
-		push edi
-		mov ebx, ecx
-		je done
-		mov ecx, ebp
-		__emit 0E8h
-		__emit 0A6h
-		__emit 09Ah
-		__emit 09Ch
-		__emit 0FFh   // call 0x2DF06
-		mov edi, eax
-		mov ecx, ebp
-		mov dword ptr [esp+20h], edi
-		__emit 0E8h
-		__emit 0A5h
-		__emit 001h
-		__emit 09Dh
-		__emit 0FFh   // call 0x34612
-		__emit 08Bh
-		__emit 00Dh
-		__emit 098h
-		__emit 008h
-		__emit 02Fh
-		__emit 001h   // mov ecx, dword ptr [0x12f0898]
-		__emit 08Bh
-		__emit 015h
-		__emit 0C8h
-		__emit 0D5h
-		__emit 02Eh
-		__emit 001h   // mov edx, dword ptr [0x12ed5c8]
-		mov ecx, dword ptr [ecx+3Ch]
-		mov edx, dword ptr [edx+0CB4h]
-		add edx, ecx
-		cmp edi, edx
-		jae frameRecorded
-		mov ecx, dword ptr [ebp+0Ch]
-		cmp ecx, 8h
-		jae frameRecorded
-		cmp dword ptr [ebx+ecx*4+12060h], edi
-		lea edx,  [ebx+ecx*4+12060h]
-		ja useIncomingFrame
-		lea edx,  [esp+20h]
-useIncomingFrame:
-		mov edx, dword ptr [edx]
-		mov dword ptr [ebx+ecx*4+12060h], edx
-frameRecorded:
-		__emit 08Bh
-		__emit 00Dh
-		__emit 098h
-		__emit 008h
-		__emit 02Fh
-		__emit 001h   // mov ecx, dword ptr [0x12f0898]
-		cmp dword ptr [ecx+3Ch], edi
-		jae done
-		movzx edx, ax
-		cmp edx, dword ptr [ebx+12028h]
-		je done
-		push 24h
-		__emit 0E8h
-		__emit 05Eh
-		__emit 0DAh
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+20h], eax
-		cmp eax, esi
-		mov dword ptr [esp+18h], esi
-		je haveRequest
-		mov ecx, eax
-		__emit 0E8h
-		__emit 078h
-		__emit 0DDh
-		__emit 09Ah
-		__emit 0FFh   // call 0x12260
-		mov esi, eax
-haveRequest:
-		mov ecx, dword ptr [ebx+12028h]
-		or eax, 0FFFFFFFFh
-		mov dword ptr [esi+0Ch], ecx
-		mov dword ptr [esi+8h], eax
-		__emit 08Bh
-		__emit 015h
-		__emit 098h
-		__emit 008h
-		__emit 02Fh
-		__emit 001h   // mov edx, dword ptr [0x12f0898]
-		mov dword ptr [esp+18h], eax
-		mov eax, dword ptr [edx+3Ch]
-		inc eax
-		push eax
-		mov ecx, esi
-		__emit 0E8h
-		__emit 051h
-		__emit 0CEh
-		__emit 09Ah
-		__emit 0FFh   // call 0x11360
-		push edi
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0BEh
-		__emit 0BFh
-		__emit 09Dh
-		__emit 0FFh   // call 0x404D5
-		mov eax, dword ptr [esi+14h]
-		push eax
-		__emit 0E8h
-		__emit 052h
-		__emit 016h
-		__emit 09Bh
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je sendToSender
-		__emit 0E8h
-		__emit 02Ch
-		__emit 0C0h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-sendToSender:
-		mov ecx, dword ptr [ebp+0Ch]
-		cmp ecx, 8h
-		jae releaseRequest
-		xor edx, edx
-		mov dl, 1h
-		shl dl, cl
-		mov ecx, ebx
-		push edx
-		push esi
-		__emit 0E8h
-		__emit 090h
-		__emit 0CCh
-		__emit 09Dh
-		__emit 0FFh   // call 0x411D7
-releaseRequest:
-		mov ecx, esi
-		__emit 0E8h
-		__emit 056h
-		__emit 0BBh
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-done:
-		mov ecx, dword ptr [esp+10h]
-		pop edi
-		pop esi
-		pop ebp
-		mov dword ptr fs:[0h], ecx
-		pop ebx
-		add esp, 0Ch
-		ret 4h
+	BFMENetInformPlayerLeaveFrameCommandMsg *msg = static_cast<BFMENetInformPlayerLeaveFrameCommandMsg *>(command);
+	if (msg == 0)
+		return;
+	unsigned int leaveFrame = msg->getLeavingPlayerID();
+	unsigned short leavingPlayer = msg->getLeaveFrame();
+	if (leaveFrame < TheGameLogic->getFrame() + TheWritableGlobalData->networkRunAheadSlack)
+	{
+		if (msg->getPlayerID() < 8)
+			m_playerLatestFrame[msg->getPlayerID()] = frameMaximum(leaveFrame, m_playerLatestFrame[msg->getPlayerID()]);
+	}
+	if (TheGameLogic->getFrame() < leaveFrame && leavingPlayer != m_localSlot)
+	{
+		BFMENetRequestFrameDataCommandMsg *request = new BFMENetRequestFrameDataCommandMsg;
+		request->setPlayerID(m_localSlot);
+		request->setExecutionFrame(-1);
+		request->setRequestedPlayerID(TheGameLogic->getFrame() + 1);
+		request->setRequestedFrame(leaveFrame);
+		if (DoesCommandRequireACommandID(request->getNetCommandType()))
+			request->setID(GenerateNextCommandID());
+		if (msg->getPlayerID() < 8)
+			reinterpret_cast<ConnectionManager *>(this)->sendLocalCommandDirect(request, (unsigned char)1 << msg->getPlayerID());
+		request->detach();
 	}
 }
 
