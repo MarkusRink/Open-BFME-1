@@ -1,5 +1,17 @@
 # Multiplayer delay reconstruction
 
+> Current-reading note (2026-09-07): this file preserves the investigation's
+> earlier conclusions and later corrections. Use
+> [the lockstep guide](../../docs/multiplayer-lockstep.md) for the current map.
+> The actual engine caller consumes a positive admission result as a boolean,
+> not a frame-batching count. The accumulator cap is two seconds
+> (`frequency * 2`), not two 200 ms quanta. Early command sending can reduce
+> latency without changing the simulation quantum. Failed Zero Hour twin
+> matches do not prove a BFME method is absent: `Network::update` and its
+> command pump are now recovered. The complete command-name mapper begins at
+> RVA `0x00682FF0`; the receive pass is 798 bytes, including its final epilogue.
+
+
 Goal: recover the original BFME 1 multiplayer command-delay path, byte-verify it,
 and document the exact BFME addresses needed for any future opt-in patch. This
 track does not change gameplay behavior.

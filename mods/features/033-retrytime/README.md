@@ -14,42 +14,51 @@ results; this file records the mechanism and the limits.
 
 ## Why 2000 is the wrong number
 
-The abandonment horizon is `NetworkRunAheadSlack` frames — 10 at runtime
-(confirmed live, not assumed), which at 5 Hz is exactly 2000 ms. The retry
-interval is also 2000 ms. So a lost command's single retransmission fires at the
-instant it becomes eligible to be discarded: one attempt, no margin.
+The age window is `NetworkRunAheadSlack` logic frames. It was 10 in the
+measured installation: nominally 2000 ms at 5 Hz, matching the original retry
+interval. A shorter retry interval provides more opportunities while a stamped
+command is still retained. It does not guarantee an exact number of attempts:
+the comparison is strict, acknowledgements can retire a reference sooner, and
+logic-frame age advances with the simulation rather than wall time.
 
-`Connection::doSend` order verified: `mov [esi+0x10],edx` (timeLastSent) at
-`0x00A6208E` precedes the horizon test at `0x00A620A4`. Resend, then discard.
+`Connection::doSend` updates the last-send time before testing command age.
+Frame `-1` bypasses age removal; this is how an original guest command is kept
+until the router can receive and stamp it.
 
-## Why nothing else recovers a lost command
+## Recovery paths and their limits
 
-BFME diverges from Zero Hour here, and it matters:
+The 2026-09-07 reconstruction corrects the earlier claim that the responder
+has no callers. `processRequestFrameDataCommand` at `0x006659B0` calls
+`resendFrameRangeToPlayer` at `0x00664B40`. The latter sends retained payloads
+from every frame-data manager and then a fresh `FRAMEINFO` count for each frame.
+`DisconnectManager::processDisconnectFrame` at `0x0066BD80` also calls it.
 
-* `areFrameCommandsComplete` (`0x006633E0`) is a plain `Bool` equality. ZH returns
-  a tri-state with `FRAMEDATA_RESEND`.
-* `resendFrameRangeToPlayer` exists with **no callers** — the responder half of a
-  protocol whose requester was never wired.
-* Type 9 (`REQUESTFRAMEDATA`) is constructed only on the receive path and on
-  player-leave.
+The outgoing type 9 request is emitted by
+`processInformPlayerLeaveFrameCommand` at `0x00664430`: during router-departure
+recovery it requests frames from current+1 through the announced leave frame.
+The ordinary `areFrameCommandsComplete` gate remains an equality check; it does
+not implement Zero Hour's tri-state resend mechanism.
 
-So a missing command blocks its frame forever, and the symptom would be a
-**stuck seat and a drop**, not a CRC mismatch — a desync gate cannot see this.
-
-**But that is the consequence of losing a command, not of every discard.** See
-below: every discard actually observed was of a command the peer already had.
+History replay cannot recreate a guest command that the router never received:
+it has not yet been stamped or inserted into the frame archive. Timer retries
+are essential for that case. A permanently missing command can stall readiness
+without causing a checksum mismatch, so checksum-only validation is insufficient.
 
 ## Duplicate delivery is safe, measured and traced
 
 `FrameData::addCommand` matches by **identity** — player (`+0x0C`) and a 16-bit
 command id (`+0x10`), compared between two distinct objects, so a retransmit at a
 fresh allocation matches its original. Duplicates occur at 1.0–2.5% in **every**
-arm including retail. The proof they are absorbed is structural: the readiness
-test uses `==` with no recovery path, so one tolerated duplicate wedges a seat
-permanently. No match wedged in 29.
+arm including retail. Duplicate suppression is present in the recovered command-ID history and
+frame insertion paths. No match wedged in the 29 recorded trials. The readiness
+equality explains why an overcount could block a frame, but it does not prove
+that all possible duplicates, reorderings or session lengths are safe.
 
-Caveat: the id is 16 bits and wraps after ~3 hours of play. A wrap drops a
-legitimate command rather than executing a duplicate — it fails safe.
+IDs are 16 bits. The recovered `BFMECommandIDHistory::accept` path also
+clears an older region of its bitmap before testing and setting a new ID, so
+wraparound is not by itself proof that a legitimate command will be dropped.
+These short-match measurements do not establish long-session or wraparound
+behavior; that requires a separate test.
 
 ## The constant is proven to cause the behaviour
 
@@ -58,12 +67,14 @@ Duplicate-arrival gaps track the poked value, per event, across nine matches:
 exact multiples (3996 = 2×2000). This is prediction, not fit — 800 was never
 used to derive it.
 
-## Upper bound
+## Tested RTT range
 
-The timer must exceed the round trip or it retransmits before an ack can arrive.
-400 ms works at 300 ms RTT (1.33×) and is the best arm there. EA's own
-commented-out `m_retryTime = m_averageLatency * 1.5` brackets every value we
-found to work. Above ~300 ms RTT prefer 800; see `035-adaptretry`.
+A timer shorter than the round trip can trigger redundant traffic before an
+ACK returns. That is a tradeoff, not by itself a correctness failure. The later
+500 ms RTT experiment in `035-adaptretry/README.md` retained the 400 ms timer
+and recorded zero desync flags with improved stalls in those short two-player
+runs. It supersedes this page's earlier advice to prefer 800 ms above 300 ms.
+Higher RTTs, long sessions and larger lobbies remain separate validation work.
 
 ## The discard branch, measured at the decision site
 

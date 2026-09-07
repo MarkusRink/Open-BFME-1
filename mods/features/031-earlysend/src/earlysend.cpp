@@ -20,8 +20,9 @@
 //     compiled-in LOGICFRAMES_PER_SECOND, so raising the rate multiplies the
 //     speed of the game. That is the naive trap, not the fix.
 //   * the frame ceiling and its writers, and GameLogic's cadence. Commands only
-//     arrive EARLIER; the router still executes them at 5 Hz, in the same order,
-//     on the same frames.
+//     arrive earlier; the router keeps its frame-assignment and ordering rules.
+//     Earlier arrival can change which frame receives a command, which is why
+//     the change requires multiplayer validation despite preserving the rules.
 //
 // Why draining twice in one tick is safe: the pump removes and destroys every
 // message it takes (RVA 0x00682941), so a logic tick that pumps again after this
