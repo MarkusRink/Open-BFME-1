@@ -84767,3 +84767,5 @@ __imp__bfmeMathVE,0x00F59394,pin
 ?read_aabtree@MeshGeometryClass@@IAE_NAAVChunkLoadClass@@@Z,0x00923930,BFME read_chunks geometry chunk0x90 arm9700A8 calls923930; callee149B tail sets AL=1 before RET4
 ?read_vertex_normals@MeshGeometryClass@@IAE_NAAVChunkLoadClass@@_N@Z,0x009274C0,BFME read_chunks geometry chunks0x03/0xC01; two stack arguments select format and callee returns AL status
 ?Load_Texture@@YA?AVBfmeHandleCX@@AAVChunkLoadClass@@@Z,0x0090EB00,BFME free texture helper tests chunk0x31 and reads name0x32/info0x33; hidden result and caller reference operations prove owning-handle return
+?bfmeConstructQV@@YAXPAUBfmeElemQV@@0@Z,0x00007554,pin
+?bfmeGrowQV@BfmeVecQV@@QAEXPAUBfmeElemQV@@0PAPAXHH@Z,0x0003827B,pin
