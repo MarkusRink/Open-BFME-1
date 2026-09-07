@@ -84720,3 +84720,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeLookupPV@BfmeTablePV@@QAEXPAPAVBfmeNodePV@@PAPAX@Z,0x0002DF6F,pin
 ?g_bfmeHoldCW@@3PAVBfmeHoldCW@@A,0x00EF706C,pin
 ?g_bfmeDefaultCW@@3UBfmeTextCW@@A,0x00F36E50,pin
+?bfmeDoFW@BfmeBaseFW@@QAEXXZ,0x00026044,pin
