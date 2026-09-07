@@ -1,6 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 
-// Open-BFME5: STLport vector<T>::push_back, 27 bodies of 62 bytes.  Every one
+// Open-BFME5: STLport vector<T>::push_back, 27 generic bodies of 62 bytes plus
+// one 72-byte polymorphic payload body.  Every one
 // carried only a machine byte-dump row; the same shape is already converted at
 // 0x000BD360 and appears many times over in the ZH reference translation units.
 //
@@ -11,8 +12,8 @@
 // construct call rather than reusing the copy it already had, which is what a
 // plain `++_M_finish` on a member produces.
 //
-// The element width is the `add eax, N` that steps the finish pointer, and it
-// is the only thing that varies across the 27: 20, 28, 36, 44, 56, 88, 92, 96, 108, 120, 140, 180, 184, 188, 220, 296, 496, 528.  Nothing else about the
+// The generic element width is the `add eax, N` that steps the finish pointer, and it
+// is the only thing that varies across the 27 generic bodies: 20, 28, 36, 44, 56, 88, 92, 96, 108, 120, 140, 180, 184, 188, 220, 296, 496, 528.  Nothing else about the
 // element is knowable -- the copy is a call -- so each is a byte array named
 // for the address of its body.
 //
@@ -154,6 +155,17 @@ struct Rva0081D280Element
 	char m_body[ 28 ];
 };
 
+extern int R2Data010EC760;
+
+struct Gen_t_003b4b60_p16cd
+{
+	void *m_vtable;
+	int m_at04;
+	unsigned char m_at08;
+	char m_pad09[ 3 ];
+	int m_at0c;
+};
+
 namespace _STL
 {
 struct __false_type
@@ -194,6 +206,30 @@ void vector<Type, Allocator>::push_back( const Type *value )
 	else
 	{
 		_M_insert_overflow( _M_finish, *value, reinterpret_cast<const __false_type &>( value ), 1, true );
+	}
+}
+
+template <>
+void vector<Gen_t_003b4b60_p16cd, allocator<Gen_t_003b4b60_p16cd> >::push_back(
+	const Gen_t_003b4b60_p16cd *value )
+{
+	if ( _M_finish != _M_end_of_storage )
+	{
+		Gen_t_003b4b60_p16cd *destination = _M_finish;
+		if ( destination != 0 )
+		{
+			const Gen_t_003b4b60_p16cd *source = value;
+			destination->m_vtable = &R2Data010EC760;
+			destination->m_at04 = source->m_at04;
+			destination->m_at08 = source->m_at08;
+			destination->m_at0c = source->m_at0c;
+		}
+		++_M_finish;
+	}
+	else
+	{
+		_M_insert_overflow( _M_finish, *value,
+			reinterpret_cast<const __false_type &>( value ), 1, true );
 	}
 }
 
