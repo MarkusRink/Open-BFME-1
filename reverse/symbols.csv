@@ -84771,3 +84771,4 @@ __imp__bfmeMathVE,0x00F59394,pin
 ?bfmeGrowQV@BfmeVecQV@@QAEXPAUBfmeElemQV@@0PAPAXHH@Z,0x0003827B,pin
 ?bfmeCallAPT@BfmeOwnerPT@@QAEXXZ,0x004445DA,pin
 ?bfmeCallBPT@BfmeOwnerPT@@QAEXXZ,0x00002941,pin
+?bfmeNotifyZY@BfmeOwnerZY@@QAEXXZ,0x00022999,pin
