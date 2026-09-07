@@ -84890,3 +84890,5 @@ _g_bfmeFormatXK,0x00C7C7B4
 ??1Rva00900FF0VecOfVec@@QAE@XZ,0x0000B109,vector shell destructor called five times by 0x00900FF0
 ?erase@Rva00900FF0VecOfVec@@QAEXPAVRva00900FF0InnerVector@@0@Z,0x00006730,vector range erase called five times by 0x00900FF0
 ?Free_String@StringClass@@QAEXXZ,0x009DB7A0,public StringClass cleanup aliases the matched Free_String body
+_bfmeVftXN,0x00CEC760
+?bfmeGrowXN@BfmeVecXN@@QAEXPAVBfmeItemXN@@0PAPAV2@HH@Z,0x0001ECEA
