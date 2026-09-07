@@ -84778,3 +84778,5 @@ __imp__bfmeMathVE,0x00F59394,pin
 __imp__bfmeApiLK@8,0x00F595DC,pin
 ?getEntry@Rva000FA830PortraitList@@QAEPAVRva000FA830PortraitEntry@@H@Z,0x000055E7,portrait-entry lookup method resolves through the 0x000055E7 ILT
 ?getPortrait@Rva000FA830PortraitEntry@@QAEPBVImage@@PAVPlayer@@@Z,0x0000D2A6,portrait-entry getPortrait method resolves through the 0x0000D2A6 ILT
+?bfmeCheckXR@BfmeOwnerXR@@QAE_NPAX@Z,0x00040390,pin
+?bfmeFindXR@Rva00367E30Logic@@QAEPAVBfmeUnitXR@@PAX@Z,0x0001F253,pin
