@@ -81204,6 +81204,7 @@ name,address,notes
 ?j_0001bc70@BfmeThingCDA@@QAEXXZ,0x0001BC70,address-derived BfmeThingCDA call used by the 0x005976B0 state updater
 ?j_0001d6c4@BfmeSingletonH@@QAEXXZ,0x0001D6C4,BFME stop-helper layout alias; retail loads the singleton into ECX before this thunk
 ?j_0001eb9b@Glo012F1024Item@@QAEXXZ,0x0001EB9B,direct retail thunk called by ?bfmeEnter@Glo012F1024Item@@QAEXXZ
+?j_00021e27@@YAXXZ,0x00021E27,AIInternalMoveToState onEnter body called through its retail ILT
 ?j_00021f26@Glo012F1024Item@@QAEXXZ,0x00021F26,direct retail thunk called by ?bfmeEnter@Glo012F1024Item@@QAEXXZ
 ?j_000250d6@Glo012F1024Item@@QAEXXZ,0x000250D6,direct retail thunk called by ?bfmeEnter@Glo012F1024Item@@QAEXXZ
 ?j_0002a969@Glo012F1024Item@@QAEXXZ,0x0002A969,direct retail thunk called by ?bfmeEnter@Glo012F1024Item@@QAEXXZ
@@ -82409,6 +82410,7 @@ name,address,notes
 ?setData@NetWrapperCommandMsg@@QAEXPAEI@Z,0x00049ECC,ILT thunk; real body 0xA73E70
 ?setDataOffset@NetWrapperCommandMsg@@QAEXI@Z,0x00023709,ILT thunk; real body 0xA73EF0
 ?setDefaultControlBarConfig@ControlBar@@IAEXXZ,0x00043E73
+?setDesiredSpeed@AIUpdateInterface@@QAEXM@Z,0x00048CA7,retail ICF call site stores the formation speed in the AI update state
 ?setDestroyed@BFMEPathfindLayer@@QAE_N_N@Z,0x003FCEC0,alias of the ledgered spelling at the same body; AIPathfind.cpp reaches it through a view class because the reference AIPathfind.h inlines it
 ?setDestroyed@PathfindLayer@@QAE_N_N@Z,0x00005510,Open-BFME5 ILT; ?changeBridgeState@Pathfinder@@QAEXW4PathfindLayerEnum@@_N@Z at 0x003D58C0 hands it the inverted repaired flag
 ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z,0x0003364A
