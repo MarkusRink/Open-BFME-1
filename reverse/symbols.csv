@@ -3203,6 +3203,7 @@ name,address,notes
 ??0Rva4048AString@@QAE@XZ,0x0004048A,Open-BFME6 string default ctor ILT called by 0x00844520
 ??0Rva7F4CC0Child@@QAE@XZ,0x007E86B0,Open-BFME5 child-constructor call pin
 ??0Rva899F00Base@@QAE@PBDH@Z,0x00899F00
+??0Rva00899F00Base@@QAE@II@Z,0x00899F00,Descriptive raw-width base constructor; retail 0x008B2EF0+0x0A calls this body with its first argument and literal 8; original class and argument types unresolved
 ??0Rva8CB820Payload@@QAE@HHHHHHHHHHHHH@Z,0x008AD100,address-derived secondary-base constructor called by 0x008CB820
 ??0S4Elem007746E0@@QAE@XZ,0x0000345E,"Root removed all three generated-thunk alternatename fallbacks and replaced address-pinned empty string with real literals;253B remains exact. Independently disassembled complete constructor754590117B (two empty string ctors at0/C, default string at18, zero integers24/28, this return) and assignment755610104B (three owning string range assignments, copy integers24/28, this return ret4). Destructor753E80200B has three matching12B owning blocks, already real source. Identity remains address-derived. Typed constructor/assignment pins proven by those complete callees; no emitted vtable."
 ??0S4Guarded0055BA20@@QAE@H@Z,0x005538A0,S4 constructor of a guarded new-expression family (address-derived name; target read from the REL32 at its call site and followed through its ILT thunk)
@@ -3470,7 +3471,6 @@ name,address,notes
 ??0TextureVectorBaseCtorShim@@QAE@HPBV?$RefCountPtr@VTextureClass@@@@@Z,0x0092FBA0,Open-BFME5 texture vector base constructor object symbol;candidate identity is the reloc-named TextureVectorBaseCtorShim construct
 ??0ThingTemplate@@QAE@XZ,0x00009192,ThingFactory::newOverride calls the ThingTemplate constructor through retail ILT
 ??0ThreadClass@@QAE@PBD@Z,0x009DB4E0,BFME ThreadClass constructor called by Watchdog and initializing vptr/name/running/handle/priority through +0x4C
-??0ThreadClass@@QAE@PBDP6AHHPAU_EXCEPTION_POINTERS@@@Z@Z,0x008B2EF0,pin for LoaderThreadClass ctor callee
 ??0TightenPathStruct@@QAE@PAVPathfinder@@PAVObject@@PBVLocomotorSet@@W4PathfindLayerEnum@@PBUCoord3D@@@Z,0x0002D7F9,tightenPath info init (thunk->0x003E1720)
 ??0TileData@@QAE@XZ,0x0003B6B5
 ??0TimeCodedBitChannelClass@@QAE@XZ,0x00977AF0

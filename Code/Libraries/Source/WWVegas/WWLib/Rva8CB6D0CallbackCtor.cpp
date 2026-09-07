@@ -1,12 +1,9 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 //
-// Same family as Code/Libraries/Source/WWVegas/WWLib/ThreadClassCtorThunk.cpp: a
+// Same family as Code/GameEngine/Source/Common/Rva008B2EF0Constructors.cpp: a
 // __thiscall constructor whose first act is Rva899F00Base(id, kind) at 0x00899F00.
-// ThreadClass passed a runtime name pointer as id and kind=8; this one passes the
-// compiled-in constant id=0x2A (42) and the same kind=8, so it is a sibling derived
-// class, not ThreadClass itself.
 //
-// Unlike ThreadClass, the base call here can be followed by a THROWING operation
+// The base call here can be followed by a THROWING operation
 // (retail carries a full SEH frame, scope table @ 0x0105A0? [DIR32, resolved by the
 // patcher] and an explicit try-state store of 0 right before the risky call), so the
 // generated code must protect the just-completed Rva899F00Base subobject: if the

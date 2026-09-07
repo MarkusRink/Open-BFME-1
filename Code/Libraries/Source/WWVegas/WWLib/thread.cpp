@@ -34,7 +34,6 @@
 #pragma warning ( pop )
 
 
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WWLib/ThreadClassCtorThunk.cpp
 // ??0ThreadClass@@ present-unmatched
 ThreadClass::ThreadClass(const char *thread_name, ExceptionHandlerType exception_handler) : handle(0), running(false), thread_priority(0)
 {
