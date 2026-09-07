@@ -85581,3 +85581,7 @@ g_bfmeMsgVftDN,0x010F5738
 ??$_M_find@VAsciiString@@@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@PAUBfmeFontSizeTable@@@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAUBfmeFontSizeTable@@@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@PAUBfmeFontSizeTable@@@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@PAUBfmeFontSizeTable@@@_STL@@@1@ABVAsciiString@@@Z,0x00026409,FontLibraryBFMERetail::bfmeFindRecord outer font-name tree lookup
 ??$find@H@?$_Rb_tree@HU?$pair@$$CBHI@_STL@@U?$_Select1st@U?$pair@$$CBHI@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHI@_STL@@@2@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHI@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHI@_STL@@@2@@1@ABH@Z,0x0000F03D,FontLibraryBFMERetail::bfmeFindRecord nested integer tree lookup
 ??1ObjectModule@@MAE@XZ,0x00047C53,DockUpdate protected base destructor call shares the pinned ObjectModule destructor body
+?bfmeAEQT@BfmeSubEQT@@QAEDXZ,0x00028F74,pin
+?bfmeBEQT@BfmeSubEQT@@QAEDXZ,0x0000B8AC,pin
+?bfmeCEQT@BfmeThingEQT@@QAEDH@Z,0x0003251F,pin
+?bfmeRunEQT@BfmeObjEQT@@QAEDPAX@Z,0x00013E71,pin
