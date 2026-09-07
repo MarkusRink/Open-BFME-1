@@ -83,6 +83,10 @@
 extern unsigned char g_012F0239;
 extern void *g_012ED4FC;
 extern void j_0003a17a( void );
+extern void j_00008a9e( void );
+extern void j_00049413( void );
+extern void j_000022bb( void );
+extern const Real BfmeZeroRange;
 
 typedef void (__cdecl *BFMEPathDebugLogFunction)( void *, const char *, ... );
 
@@ -368,6 +372,19 @@ class BFMELocomotorOverride
 public:
 	BFMELocomotorOverride *friend_getFinalOverride();	///< retail ILT 0x000022bb
 
+	Real getWanderWidthFactor() const
+	{
+		BFMELocomotorOverride *locoTemplate = m_nextOverride;
+		if (locoTemplate && locoTemplate->m_nextOverride)
+		{
+			typedef BFMELocomotorOverride *(BFMELocomotorOverride::*FinalOverrideCall)();
+			union { void *asVoid; FinalOverrideCall asMember; } overrideCast;
+			overrideCast.asVoid = (void *)j_000022bb;
+			locoTemplate = (locoTemplate->m_nextOverride->*overrideCast.asMember)();
+		}
+		return *(const Real *)((const char *)locoTemplate + 0xEC);
+	}
+
 	UnsignedInt getLegalSurfaces() const
 	{
 		BFMELocomotorOverride *finalOverride = m_nextOverride;
@@ -401,6 +418,32 @@ public:
 	UnsignedInt m_legalSurfaces;				///< retail this+0x10
 	char m_unreconstructed_014[0x70 - 0x14];
 	Int m_appearance;					///< retail this+0x70
+};
+
+class BFMENeedToRotatePath
+{
+};
+
+class BFMENeedToRotateObject
+{
+};
+
+struct BFMENeedToRotateFields
+{
+	char m_unreconstructed_000[0x08];
+	Object *m_object;
+	char m_unreconstructed_00C[0x140 - 0x0C];
+	Path *m_path;
+	char m_unreconstructed_144[0x1CC - 0x144];
+	BFMELocomotorOverride *m_curLocomotor;
+	char m_unreconstructed_1D0[0x31E - 0x1D0];
+	Bool m_waitingForPath;
+};
+
+struct BFMENeedToRotatePoint
+{
+	Coord3D m_posOnPath;
+	char m_unreconstructed_00C[0x21 - 0x0C];
 };
 
 // The two locomotor appearance values these bodies test. Only the VALUES are
@@ -1050,6 +1093,7 @@ void AIUpdateInterface::doPathfind( PathfindServicesInterface *pathfinder )
 
 #define TheGameLogic BFME_PATH_GAME_LOGIC
 #define TheAI BFME_PATH_AI
+// ?doPathfind@AIUpdateInterface@@ present-unmatched
 void AIUpdateInterface::doPathfind( PathfindServicesInterface *pathfinder )
 {
 	BFMEApproachPathFields *retail = reinterpret_cast<BFMEApproachPathFields *>( this );
@@ -2473,24 +2517,36 @@ Bool AIUpdateInterface::blockedBy(Object *other)
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?needToRotate@AIUpdateInterface@@ present-unmatched
 Bool AIUpdateInterface::needToRotate(void)
 /* Returns TRUE if we need to rotate to point in our path's direcion.*/
 {
-	if (isWaitingForPath()) 
+	const BFMENeedToRotateFields *fields = reinterpret_cast<const BFMENeedToRotateFields *>(this);
+	if (fields->m_waitingForPath)
 		return TRUE; // new path will probably require rotation.
 
-	if (this->getCurLocomotor() && this->getCurLocomotor()->getWanderWidthFactor()>0.0f) 
+	BFMELocomotorOverride *curLocomotor = fields->m_curLocomotor;
+	if (curLocomotor && curLocomotor->getWanderWidthFactor()>BfmeZeroRange)
 		return FALSE; // wanderers don't need to rotate.
 
 	Real deltaAngle = 0;
-	if (getPath())
+	Path *path = fields->m_path;
+	if (path)
 	{
-		ClosestPointOnPathInfo info;
+		BFMENeedToRotatePoint info;
+		BFMENeedToRotatePoint *point = &info;
 		CRCDEBUG_LOG(("AIUpdateInterface::needToRotate() - calling computePointOnPath() for object %d\n", getObject()->getID()));
-		getPath()->computePointOnPath(getObject(), m_locomotorSet, *getObject()->getPosition(), info);
-		deltaAngle = ThePartitionManager->getRelativeAngle2D( getObject(), &info.posOnPath );
-	}	
+		typedef void (BFMENeedToRotatePath::*ComputePointCall)(Object *, BFMELocomotorOverride *, BFMENeedToRotatePoint *, Bool);
+		union { void *asVoid; ComputePointCall asMember; } pointCast;
+		pointCast.asVoid = (void *)j_00008a9e;
+		(reinterpret_cast<BFMENeedToRotatePath *>(path)->*pointCast.asMember)(
+			fields->m_object, curLocomotor, point, FALSE);
+
+		typedef Real (BFMENeedToRotateObject::*RelativeAngleCall)(const Coord3D *);
+		union { void *asVoid; RelativeAngleCall asMember; } angleCast;
+		angleCast.asVoid = (void *)j_00049413;
+		deltaAngle = (reinterpret_cast<BFMENeedToRotateObject *>(fields->m_object)->*angleCast.asMember)(
+			reinterpret_cast<const Coord3D *>(reinterpret_cast<const char *>(point) + 4));
+	}
 
 	if (fabs(deltaAngle)>PI/30) 
 	{
