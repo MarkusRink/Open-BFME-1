@@ -129,6 +129,137 @@ static void ciSendGetKey(CHAT chat,
 	ciSocketSend(&connection->chatSocket, buffer);
 }
 
+typedef void (*chatGetGlobalKeysCallback)(CHAT chat, CHATBool success,
+	const char *user, int num, const char **keys, const char **values,
+	void *param);
+
+int ciAddGETKEYFilter(CHAT chat, const char *cookie, int num,
+	const char **keys, const char *channel,
+	chatGetGlobalKeysCallback callback, void *param);
+void msleep(unsigned int milliseconds);
+
+typedef struct ciServerMessage
+{
+	char *message;
+	char beforeCommand[16];
+	char *command;
+} ciServerMessage;
+
+typedef struct ciServerMessageType
+{
+	const char *command;
+	void (*handler)(CHAT chat, const ciServerMessage *message);
+} ciServerMessageType;
+
+extern int numServerMessageTypes;
+extern ciServerMessageType serverMessageTypes[];
+
+void ciSocketThink(void *chatSocket);
+ciServerMessage *ciSocketRecv(void *chatSocket);
+void ciHandleDisconnect(CHAT chat, const char *reason);
+void ciFilterThink(CHAT chat);
+void ciCallCallbacks(CHAT chat, int ID);
+
+static __declspec(noinline) int ciProcessServerMessage(CHAT chat,
+	const ciServerMessage *message)
+{
+	int i;
+
+	for(i = 0 ; i < numServerMessageTypes ; i++)
+	{
+		if(_stricmp(message->command, serverMessageTypes[i].command) == 0)
+		{
+			if(serverMessageTypes[i].handler)
+				serverMessageTypes[i].handler(chat, message);
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+typedef struct ciThinkConnection
+{
+	int connected;
+	char beforeSocket[24];
+	int socketOpaque;
+	int connectState;
+	char beforeRaw[0x7f8 - 0x24];
+	void *rawCallback;
+	char beforeParam[12];
+	void *callbackParam;
+} ciThinkConnection;
+
+static __declspec(noinline) void ciThink(CHAT chat, int ID)
+{
+	ciServerMessage *message;
+	ciThinkConnection *connection = (ciThinkConnection *)chat;
+
+	if(connection->connectState == 1)
+	{
+		ciSocketThink(&connection->socketOpaque);
+		while((message = ciSocketRecv(&connection->socketOpaque)) != 0)
+		{
+			if(connection->rawCallback)
+			{
+				struct
+				{
+					const char *raw;
+				} params;
+
+				params.raw = message->message;
+				ciAddCallback_(chat, 0, connection->rawCallback, &params,
+					connection->callbackParam, 0, 0, sizeof(params));
+			}
+			ciProcessServerMessage(chat, message);
+		}
+
+		if(connection->connectState == 2)
+			ciHandleDisconnect(chat, "Disconnected");
+	}
+
+	ciFilterThink(chat);
+	ciCallCallbacks(chat, ID);
+}
+
+void chatGetGlobalKeysA(CHAT chat,
+	const char *target, int num, const char **keys,
+	chatGetGlobalKeysCallback callback, void *param, CHATBool blocking)
+{
+	char *cookie;
+	const char *channel;
+	int ID;
+	ciConnection *connection = (ciConnection *)chat;
+
+	if(!connection || !connection->connected)
+		return;
+
+	assert(num >= 0);
+	assert(keys);
+
+	if(!target || !target[0])
+		target = connection->nick;
+
+	cookie = ciRandomCookie();
+	ciSendGetKey(chat, target, cookie, num, keys);
+
+	if(target[0] == '#')
+		channel = target;
+	else
+		channel = NULL;
+	ID = ciAddGETKEYFilter(chat, cookie, num, keys, channel, callback, param);
+
+	if(blocking)
+	{
+		do
+		{
+			ciThink(chat, ID);
+			msleep(10);
+		}
+		while(ciCheckForID(chat, ID));
+	}
+}
+
 /* Keep the TU-local SDK helper reachable in this partial reconstruction.  In
    the complete SDK chatGetGlobalKeys calls it; retaining a caller also lets
    VC7.1 reproduce the helper's internal register argument assignment. */
