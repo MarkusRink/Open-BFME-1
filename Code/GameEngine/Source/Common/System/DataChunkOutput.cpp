@@ -3,15 +3,6 @@
 // readable body of ?writeAsciiString@DataChunkOutput@@QAEXABVAsciiString@@@Z: Code/GameEngine/Source/Common/System/DataChunk.cpp
 // readable body of ?writeUnicodeString@DataChunkOutput@@QAEXVUnicodeString@@@Z: Code/GameEngine/Source/Common/System/DataChunk.cpp
 
-// DataChunkOutput's writing half: opening a chunk (0x00102B60) and the two
-// string writers, AsciiString at 0x00102C80 and UnicodeString at 0x00102D00.
-//
-// All three write through the temporary file at this+0x04, which is what ties
-// them together and what fixes the layout below: the three used to declare
-// that field three ways -- once as the real FILE * behind m_contents and
-// m_chunkStack, twice as a bare void * behind four bytes of padding -- and
-// nothing checked that the offset agreed.
-
 #include <stdio.h>
 
 typedef int Int;
@@ -20,27 +11,35 @@ typedef unsigned short WideChar;
 
 struct BfmeStringData
 {
-	UnsignedShort m_refCount;
-	UnsignedShort m_numCharsAllocated;
-	UnsignedShort m_len;					// this+0x04
-	UnsignedShort m_pad;
+    UnsignedShort m_refCount;
+    UnsignedShort m_numCharsAllocated;
+    UnsignedShort m_len;
+    UnsignedShort m_pad;
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString
+class AsciiString;
+template <typename T>
+class StringBase
+{
+    friend class AsciiString;
+private:
+    StringBase(const StringBase<T> &);
+    StringBase(const T *);
+    ~StringBase();
+    void concat(const T *, int);
+    BfmeStringData *m_data;
+};
+
+// The retail call sites inline these wrappers around the private char base.
+class AsciiString : private StringBase<char>
 {
 public:
-	AsciiString( const char *text );
-	~AsciiString();
-
-	// Both accessors inline, which is where the offsets come from: the halfword
-	// length at the buffer's +4 and the characters from +8, with an empty
-	// string standing in for a null buffer.
-	Int getLength(void) const { return m_data ? m_data->m_len : 0; }
-	const char *str(void) const { return m_data ? (const char *)(m_data + 1) : ""; }
-
-private:
-	BfmeStringData *m_data;
+    AsciiString(const char *text) : StringBase<char>(text) {}
+    AsciiString(const AsciiString &other) : StringBase<char>(other) {}
+    ~AsciiString() {}
+    void concat(const char *text, int length) { StringBase<char>::concat(text, length); }
+    Int getLength() const { return m_data ? m_data->m_len : 0; }
+    const char *str() const { return m_data ? reinterpret_cast<const char *>(m_data + 1) : ""; }
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/UnicodeString.h
@@ -64,21 +63,30 @@ private:
 	void *m_data;
 };
 
+class GlobalData
+{
+public:
+    AsciiString getPath_UserData() const;
+};
+extern GlobalData *TheGlobalData;
+
+class Mapping;
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/DataChunk.h
 class DataChunkTableOfContents
 {
 public:
-	unsigned int allocateID( const AsciiString &name );
-
+    DataChunkTableOfContents()
+        : m_list(0), m_listLength(0), m_nextID(1), m_headerOpened(false) {}
+    ~DataChunkTableOfContents();
+    unsigned int allocateID(const AsciiString &name);
 private:
-	void *m_list;
-	int m_listLength;
-	unsigned int m_nextID;
-	bool m_headerOpened;
-	char m_pad[ 3 ];
+    Mapping *m_list;
+    int m_listLength;
+    unsigned int m_nextID;
+    bool m_headerOpened;
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/DataChunk.h
+class OutputStream;
 class OutputChunk
 {
 public:
@@ -88,20 +96,31 @@ public:
 	int filepos;
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/DataChunk.h
+// The retail stores agree with the reference writer layout through m_chunkStack (+0x18).
 class DataChunkOutput
 {
 public:
-	void openDataChunk( char *name, unsigned short version );
-	void writeAsciiString( const AsciiString &theString );
-	void writeUnicodeString( UnicodeString theString );
-
+    DataChunkOutput(OutputStream *output);
+    void openDataChunk(char *name, unsigned short version);
+    void writeAsciiString(const AsciiString &theString);
+    void writeUnicodeString(UnicodeString theString);
 private:
-	void *m_output;						// this+0x00
-	FILE *m_tmpFile;					// this+0x04
-	DataChunkTableOfContents m_contents;			// this+0x08
-	OutputChunk *m_chunkStack;				// this+0x18
+    OutputStream *m_pOut;
+    FILE *m_tmp_file;
+    DataChunkTableOfContents m_contents;
+    OutputChunk *m_chunkStack;
 };
+
+// The reference temporary-file constructor agrees with retail getter 0x000106EA
+// and its narrow-string concat/release calls; no named direct caller is recovered.
+// ??0DataChunkOutput@@QAE@PAVOutputStream@@@Z
+DataChunkOutput::DataChunkOutput(OutputStream *output) : m_pOut(output)
+{
+    AsciiString temporaryFileName = TheGlobalData->getPath_UserData();
+    temporaryFileName.concat("_tmpChunk.dat", 13);
+    m_tmp_file = fopen(temporaryFileName.str(), "wb");
+    m_chunkStack = 0;
+}
 
 // ?openDataChunk@DataChunkOutput@@QAEXPADG@Z
 void DataChunkOutput::openDataChunk( char *name, unsigned short version )
@@ -118,12 +137,12 @@ void DataChunkOutput::openDataChunk( char *name, unsigned short version )
 	m_chunkStack = chunk;
 	chunk->id = id;
 
-	fwrite( &id, sizeof( id ), 1, m_tmpFile );
-	fwrite( &version, sizeof( version ), 1, m_tmpFile );
-	chunk->filepos = ftell( m_tmpFile );
+	fwrite( &id, sizeof( id ), 1, m_tmp_file );
+	fwrite( &version, sizeof( version ), 1, m_tmp_file );
+	chunk->filepos = ftell( m_tmp_file );
 
 	int dummy = 0xffff;
-	fwrite( &dummy, sizeof( dummy ), 1, m_tmpFile );
+	fwrite( &dummy, sizeof( dummy ), 1, m_tmp_file );
 }
 
 // ?writeAsciiString@DataChunkOutput@@QAEXABVAsciiString@@@Z
@@ -133,8 +152,8 @@ void DataChunkOutput::openDataChunk( char *name, unsigned short version )
 void DataChunkOutput::writeAsciiString( const AsciiString& theString )
 {
 	UnsignedShort len = theString.getLength();
-	fwrite( (const char *)&len, sizeof(UnsignedShort) , 1, m_tmpFile );
-	fwrite( theString.str(), len , 1, m_tmpFile );
+	fwrite( (const char *)&len, sizeof(UnsignedShort) , 1, m_tmp_file );
+	fwrite( theString.str(), len , 1, m_tmp_file );
 }
 
 // ?writeUnicodeString@DataChunkOutput@@QAEXVUnicodeString@@@Z
@@ -142,6 +161,6 @@ void DataChunkOutput::writeAsciiString( const AsciiString& theString )
 void DataChunkOutput::writeUnicodeString(UnicodeString theString)
 {
 	UnsignedShort len = theString.getLength();
-	::fwrite((const char *)&len, sizeof(UnsignedShort), 1, m_tmpFile);
-	::fwrite((const char *)theString.str(), len * sizeof(WideChar), 1, m_tmpFile);
+	::fwrite((const char *)&len, sizeof(UnsignedShort), 1, m_tmp_file);
+	::fwrite((const char *)theString.str(), len * sizeof(WideChar), 1, m_tmp_file);
 }

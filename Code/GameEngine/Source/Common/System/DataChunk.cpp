@@ -370,7 +370,7 @@ void FileInputStream::rewind()
 
 #define TEMP_FILENAME		"_tmpChunk.dat"
 
-// byte-exact reconstruction: Code/GameEngine/Source/Common/System/DataChunkOutputConstructor.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/Common/System/DataChunkOutput.cpp
 // ??0DataChunkOutput@@QAE@PAVOutputStream@@@Z present-unmatched
 DataChunkOutput::DataChunkOutput( OutputStream *pOut ) :  
 m_pOut(pOut)
