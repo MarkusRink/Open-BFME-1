@@ -2,7 +2,7 @@
 // stlport
 
 // Address-derived STLport operator[] for the table embedded at +0x18 in the
-// object constructed at retail 0x009D8630.  The named same-object caller at
+// object constructed at retail 0x009D8630.  The retail same-object caller at
 // 0x009D86E0 passes a temporary basic_string and uses the returned int slot;
 // retail's insert callee at 0x009D8350 constructs pair<const basic_string,
 // int>.  No public owner name is inferred from the generated dump.
