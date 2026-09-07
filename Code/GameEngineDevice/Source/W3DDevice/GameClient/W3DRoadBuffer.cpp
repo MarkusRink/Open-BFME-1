@@ -1328,7 +1328,6 @@ Bool W3DRoadBuffer::visibilityChanged(const IRegion2D &bounds)
 //=============================================================================
 /** Loads the roads into the vertex buffer for drawing. */
 //=============================================================================
-// ?loadLitRoadsInVertexAndIndexBuffers@W3DRoadBuffer@@IAEXPAV?$RefMultiListIterator@VRenderObjClass@@@@@Z present-unmatched
 void W3DRoadBuffer::loadLitRoadsInVertexAndIndexBuffers(RefRenderObjListIterator *pDynamicLightsIterator)
 {
 	if ( !m_initialized) {
@@ -1339,27 +1338,20 @@ void W3DRoadBuffer::loadLitRoadsInVertexAndIndexBuffers(RefRenderObjListIterator
 	VertexFormatXYZDUV1 *vb;
 	UnsignedShort *ib;
 	// Lock the buffers.
-	DX8IndexBufferClass::WriteLockClass lockIdxBuffer(m_roadTypes[m_curRoadType].getIB());
-	DX8VertexBufferClass::WriteLockClass lockVtxBuffer(m_roadTypes[m_curRoadType].getVB());
+	DX8IndexBufferClass::WriteLockClass lockIdxBuffer(m_roadTypes[m_curRoadType].getIB(), 0);
+	DX8VertexBufferClass::WriteLockClass lockVtxBuffer(m_roadTypes[m_curRoadType].getVB(), 0);
 	vb=(VertexFormatXYZDUV1*)lockVtxBuffer.Get_Vertex_Array();
 	ib = lockIdxBuffer.Get_Index_Array();
 	// Add to the index buffer & vertex buffer.
 
 	Int curRoad;
-	if (true) {
-		// Do road segments.
-		TCorner corner;
-		try {
-		for (corner = SEGMENT; corner < NUM_JOINS; corner = (TCorner)(corner+1)) {
-			for (curRoad=0; curRoad<m_numRoads; curRoad++) {
-				if (m_roads[curRoad].m_type == corner) {
-					loadLit4PtSection(&m_roads[curRoad], ib, vb, pDynamicLightsIterator);
-				}
-			}		
-		}
-		IndexBufferExceptionFunc();
-		} catch(...) {
-			IndexBufferExceptionFunc();
+	// Do road segments.
+	TCorner corner;
+	for (corner = SEGMENT; corner < NUM_JOINS; corner = (TCorner)(corner+1)) {
+		for (curRoad=0; curRoad<m_numRoads; curRoad++) {
+			if (m_roads[curRoad].m_type == corner) {
+				loadLit4PtSection(&m_roads[curRoad], ib, vb, pDynamicLightsIterator);
+			}
 		}
 	}
 	this->m_roadTypes[m_curRoadType].setNumVertices(m_curNumRoadVertices);
