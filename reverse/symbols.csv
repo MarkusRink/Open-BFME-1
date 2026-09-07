@@ -85478,3 +85478,4 @@ _bfmeXferTwoBG,0x00034815
 _bfmeMakeBZ,0x00040F3E
 _bfmeExitBZ,0x008830B0
 ?loadLit4PtSection@W3DRoadBuffer@@IAEXPAVRoadSegment@@PAGPAUVertexFormatXYZDUV1@@PAV?$RefMultiListIterator@VRenderObjClass@@@@@Z,0x00709540,retail thunk 0x0003130E reaches the four-argument lit road helper
+??1BfmeObjCF@@QAE@XZ,0x00030841

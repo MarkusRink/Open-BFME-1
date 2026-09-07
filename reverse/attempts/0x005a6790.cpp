@@ -1,58 +1,55 @@
-// ?setMode@LookAtTranslator@@QAEHH@Z
-// partial score=0.93 date=2026-09-04
-// ?setMode@LookAtTranslator@@QAEHH@Z
-// partial score=0.93 date=2026-09-02
-// cl: /O2 /Ob0
-// ?setMode@LookAtTranslator@@QAEHH@Z
-// 60/60 instructions; residue is eax/edx swap on TheMouse vslot 14:
-// retail mov edx,[esi+0x1ec]; mov eax,[ecx]; push edx; call [eax+0x38]
-// ours   mov eax,[esi+0x1ec]; mov edx,[ecx]; push eax; call [edx+0x38]
-
-class BfmeC977
+// ?bfmeSetCursorCE@BfmeHostCE@@QAEPAXPAX@Z (identity unknown)
+// partial score=0.97 date=2026-09-07
+// 60/60 at exact size. Only the two scratch registers in the final virtual call
+// are swapped: retail holds the argument in edx and the vftable in eax, MSVC the
+// reverse (4 modrm bytes). Hoisting the argument into a local and hoisting the
+// receiver global into a local both leave it unchanged -- same wall as
+// [[chain-middle-link-flip]].
+struct Rva00579160Manager
 {
-public:
-	char bfmeGo977C();
+	char bfmeCheckCE();
 };
 
-extern BfmeC977 *g_theWindowManager;
+extern Rva00579160Manager *Rva00579160TheManager;
 
-class Mouse
+struct Rva005A63D0Mouse
 {
-public:
-	virtual void unused00();
-	virtual void unused01();
-	virtual void unused02();
-	virtual void unused03();
-	virtual void unused04();
-	virtual void unused05();
-	virtual void unused06();
-	virtual void unused07();
-	virtual void unused08();
-	virtual void unused09();
-	virtual void unused10();
-	virtual void unused11();
-	virtual void unused12();
-	virtual void unused13();
-	virtual void setVisibility(int visible);
+	virtual void bfmeSlot00CE();
+	virtual void bfmeSlot01CE();
+	virtual void bfmeSlot02CE();
+	virtual void bfmeSlot03CE();
+	virtual void bfmeSlot04CE();
+	virtual void bfmeSlot05CE();
+	virtual void bfmeSlot06CE();
+	virtual void bfmeSlot07CE();
+	virtual void bfmeSlot08CE();
+	virtual void bfmeSlot09CE();
+	virtual void bfmeSlot10CE();
+	virtual void bfmeSlot11CE();
+	virtual void bfmeSlot12CE();
+	virtual void bfmeSlot13CE();
+	virtual void bfmeApplyCE(void *cursor);
 };
 
-extern Mouse *TheMouse;
+extern Rva005A63D0Mouse *TheMouse;
 
-class LookAtTranslator
+class BfmeHostCE
 {
 public:
-	int setMode(int value);
+	void *bfmeSetCursorCE(void *cursor);
 
-private:
-	char m_pad[0x1EC];
-	int m_mode;
+	unsigned char m_bfmeHeadCE[0x1ec];
+	void *m_bfmeCursorCE;
 };
 
-int LookAtTranslator::setMode(int value)
+void *BfmeHostCE::bfmeSetCursorCE(void *cursor)
 {
-	int old = m_mode;
-	m_mode = value;
-	if (g_theWindowManager->bfmeGo977C())
-		TheMouse->setVisibility(m_mode);
+	void *old = m_bfmeCursorCE;
+
+	m_bfmeCursorCE = cursor;
+
+	if (Rva00579160TheManager->bfmeCheckCE() != 0)
+		TheMouse->bfmeApplyCE(m_bfmeCursorCE);
+
 	return old;
 }
