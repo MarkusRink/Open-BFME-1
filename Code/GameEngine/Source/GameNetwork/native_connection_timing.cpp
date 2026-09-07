@@ -48,6 +48,7 @@ public:
 	void setPlayerID(unsigned int playerID) { m_playerID = playerID; }
 	unsigned int getPlayerID() { return m_playerID; }
 	void setID(UnsignedShort id) { m_id = id; }
+	UnsignedShort getID() { return m_id; }
 	void setNetCommandType(NetCommandType type) { m_commandType = type; }
 	NetCommandType getNetCommandType() { return m_commandType; }
 
@@ -358,7 +359,7 @@ public:
 	void buildPlayerStatusText(void *out);
 	void queueLocalCommand(void *msg);
 	void sendGameCommand(void *msg);
-	void decideCommandRelay(void *msg);
+	Bool isDuplicateCommand(NetCommandMsg *msg);
 	void getPlayerNameForSlot(void *out, int slot);
 	void sendPlayerLeaveCommands();
 	void sendFrameInfoToPlayer(int slot);
@@ -384,7 +385,8 @@ public:
 private:
 	char m_unknown00[4];
 	Connection *m_connections[8];
-	char m_unknown24[0x12004];
+	BFMECommandIDHistory m_commandHistory[9];
+	void *m_transport;
 	int m_localSlot;
 	int m_packetRouterSlot;
 	unsigned int m_playerFrameRatios[8];
@@ -7332,94 +7334,30 @@ void BFMEConnectionManager::sendGameCommand(void *msg)
 	netmsg->detach();
 }
 
-// Works out who a command has to reach. It compares m_localSlot against
-// m_packetRouterSlot and the message's own player id at +0x0C, asks
-// DoesCommandRequireACommandID whether the command needs an id at all, and
-// hands off to 0x006688D0.
-__declspec(naked) void BFMEConnectionManager::decideCommandRelay(void *msg)
+// A router filters each originating player's command IDs separately. Clients
+// filter the router's stream through the ninth history. A true result means
+// this copy has already been accepted and must not be dispatched again.
+Bool BFMEConnectionManager::isDuplicateCommand(NetCommandMsg *msg)
 {
-	__asm {
-		push esi
-		mov esi, dword ptr [esp+8h]
-		push edi
-		mov edi, ecx
-		mov eax, dword ptr [edi+1202Ch]
-		cmp dword ptr [edi+12028h], eax
-		jne L00_66941C
-		mov ecx, dword ptr [esi+0Ch]
-		cmp ecx, eax
-		je L01_669450
-		cmp ecx, 8h
-		jae L01_669450
-		mov eax, dword ptr [esi+14h]
-		push eax
-		__emit 0E8h
-		__emit 087h
-		__emit 0C7h
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L01_669450
-		__emit 0A1h
-		__emit 098h
-		__emit 008h
-		__emit 02Fh
-		__emit 001h   // mov eax, dword ptr [0x12f0898]
-		mov ecx, dword ptr [eax+3Ch]
-		mov eax, dword ptr [esi+0Ch]
-		xor edx, edx
-		mov dx, word ptr [esi+10h]
-		push ecx
-		shl eax, 0Dh
-		lea ecx,  [eax+edi+24h]
-		push edx
-		__emit 0E8h
-		__emit 02Ah
-		__emit 0AEh
-		__emit 09Ah
-		__emit 0FFh   // call 0x1423B
-		test al, al
-		jne L01_669450
-		pop edi
-		mov al, 1h
-		pop esi
-		ret 4h
-L00_66941C:
-		cmp dword ptr [esi+0Ch], eax
-		jne L01_669450
-		mov eax, dword ptr [esi+14h]
-		push eax
-		__emit 0E8h
-		__emit 048h
-		__emit 0C7h
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L01_669450
-		mov eax, dword ptr [esi+8h]
-		movzx esi, word ptr [esi+10h]
-		push eax
-		push esi
-		lea ecx,  [edi+10024h]
-		__emit 0E8h
-		__emit 0F6h
-		__emit 0ADh
-		__emit 09Ah
-		__emit 0FFh   // call 0x1423B
-		test al, al
-		jne L01_669450
-		pop edi
-		mov al, 1h
-		pop esi
-		ret 4h
-L01_669450:
-		pop edi
-		xor al, al
-		pop esi
-		ret 4h
+	if (m_localSlot == m_packetRouterSlot)
+	{
+		if (msg->getPlayerID() != m_packetRouterSlot && msg->getPlayerID() < 8 &&
+			DoesCommandRequireACommandID(msg->getNetCommandType()))
+		{
+			if (!m_commandHistory[msg->getPlayerID()].accept(msg->getID(), TheGameLogic->getFrame()))
+				return true;
+		}
 	}
+	else
+	{
+		if (msg->getPlayerID() == m_packetRouterSlot &&
+			DoesCommandRequireACommandID(msg->getNetCommandType()))
+		{
+			if (!m_commandHistory[8].accept(msg->getID(), msg->getExecutionFrame()))
+				return true;
+		}
+	}
+	return false;
 }
 
 // Copies a player's display name out. For our own slot it reads the string at
