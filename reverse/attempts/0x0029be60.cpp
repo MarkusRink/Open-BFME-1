@@ -1,62 +1,59 @@
 // ?d_0029be60@@YAXXZ
-// partial score=0.94 date=2026-09-04
-// cl: /DNDEBUG /MD /EHsc
-
-class BfmeHelperD77
+// partial score=0.97 date=2026-09-08
+class BfmeNodeEVP
 {
 public:
-	char query(void *);
+	int m_bfmeHeadEVP;
+	int m_bfmeKindEVP;
+	void *m_bfmeKeyEVP;
+	int m_bfmePadAEVP;
+	void *m_bfmeDataEVP;
+	unsigned char m_bfmePadBEVP[0x28];
+	BfmeNodeEVP *m_bfmeNextEVP;
 };
 
-struct Gen0029BE60Node
-{
-	void *m_unused0;
-	int m_type;
-	void *m_key;
-	void *m_unused0C;
-	void *m_payload;
-	unsigned char m_pad14[0x28];
-	Gen0029BE60Node *m_next;
-};
-
-class Gen0029BE60
+class BfmeFilterEVP
 {
 public:
-	virtual void slot00();
-	virtual void slot04();
-	virtual void slot08();
-	virtual void slot0C();
-	virtual void slot10();
-	virtual void slot14();
-	virtual void slot18();
-	virtual void slot1C();
-	virtual void applyPayload(void *payload);
-
-	void walk(BfmeHelperD77 *target);
-
-private:
-	void *m_unused4;
-	Gen0029BE60Node *m_head;
+	char bfmeAcceptEVP(void *key);
 };
 
-void Gen0029BE60::walk(BfmeHelperD77 *target)
+class BfmeHostEVP
 {
-	Gen0029BE60Node *node = m_head;
-	if (!node)
-		return;
-	do
+public:
+	virtual void bfmeSlot00EVP();
+	virtual void bfmeSlot01EVP();
+	virtual void bfmeSlot02EVP();
+	virtual void bfmeSlot03EVP();
+	virtual void bfmeSlot04EVP();
+	virtual void bfmeSlot05EVP();
+	virtual void bfmeSlot06EVP();
+	virtual void bfmeSlot07EVP();
+	virtual void bfmeHandleEVP(void *data);
+
+	void bfmeSweepEVP(BfmeFilterEVP *filter);
+
+	int m_bfmePadEVP;
+	BfmeNodeEVP *m_bfmeListEVP;
+};
+
+void BfmeHostEVP::bfmeSweepEVP(BfmeFilterEVP *filter)
+{
+	BfmeNodeEVP *node = m_bfmeListEVP;
+
+	while (node != 0)
 	{
-		if (node->m_type == 1)
+		if (node->m_bfmeKindEVP == 1 && filter->bfmeAcceptEVP(node->m_bfmeKeyEVP))
 		{
-			if (target->query(node->m_key))
-			{
-				void *payload = node->m_payload;
-				Gen0029BE60Node *next = node->m_next;
-				applyPayload(payload);
-				node = next;
-				continue;
-			}
+			BfmeNodeEVP *next = node->m_bfmeNextEVP;
+
+			bfmeHandleEVP(node->m_bfmeDataEVP);
+
+			node = next;
 		}
-		node = node->m_next;
-	} while (node);
+		else
+		{
+			node = node->m_bfmeNextEVP;
+		}
+	}
 }
