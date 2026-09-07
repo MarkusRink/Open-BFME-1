@@ -22,7 +22,10 @@
 
 typedef bool Bool;
 typedef int Int;
+typedef unsigned int UnsignedInt;
 typedef float Real;
+
+extern float g_bfmeUint32Scale; // retail 0x01075358 (2^32 conversion fixup)
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
 class AsciiString
@@ -61,8 +64,8 @@ public:
 	virtual void slot00() = 0; virtual void slot01() = 0; virtual void slot02() = 0;
 	virtual void slot03() = 0; virtual void slot04() = 0; virtual void slot05() = 0;
 	virtual void slot06() = 0; virtual void slot07() = 0; virtual void slot08() = 0;
-	virtual void slot09() = 0; virtual void slot10() = 0; virtual void slot11() = 0;
-	virtual void slot12() = 0; virtual void slot13() = 0; virtual void slot14() = 0;
+	virtual void slot09() = 0; virtual void slot10() = 0; virtual UnsignedInt getWidth() = 0;
+	virtual UnsignedInt getHeight() = 0; virtual void slot13() = 0; virtual void slot14() = 0;
 	virtual void slot15() = 0; virtual void slot16() = 0; virtual void slot17() = 0;
 	virtual void slot18() = 0; virtual void slot19() = 0; virtual void slot20() = 0;
 	virtual void slot21() = 0; virtual void slot22() = 0; virtual void slot23() = 0;
@@ -108,6 +111,14 @@ private:
 	unsigned char m_unmodelled[0x104];
 	Bool m_moviePlaying;
 };
+
+void Display::rva002ED2E0(Real left, Real top, Real right, Real bottom)
+{
+	*(Real *)((unsigned char *)this + 0xf8) = (Real)getWidth() * left;
+	*(Real *)((unsigned char *)this + 0xfc) = (Real)getHeight() * top;
+	*(Real *)((unsigned char *)this + 0x100) = (Real)getWidth() * right;
+	*(Real *)((unsigned char *)this + 0x104) = (Real)getHeight() * bottom;
+}
 
 struct BfmeGameLODManager
 {
