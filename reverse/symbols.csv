@@ -84630,3 +84630,6 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
+?bfmeResolveLP@BfmeInnerLP@@QAEPAVBfmeThingLP@@XZ,0x000022BB,pin
+?bfmeTestLP@BfmeThingLP@@QAEPAXPAI@Z,0x00021044,pin
+?bfmeHitLP@BfmeHolderLP@@QAEXI@Z,0x000348EC,pin
