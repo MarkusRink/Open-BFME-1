@@ -83060,6 +83060,7 @@ name,address,notes
 ?xfer@SpecialAbilityUpdate@@QAEXPAVXfer@@@Z,0x000289F7,SpecialAbilityUpdate base xfer ILT called by WeaponFireSpecialAbilityUpdate::xfer
 ?xfer@UpdateModule@@MAEXPAVXfer@@@Z,0x000044C1,UpdateModule xfer ILT called by BridgeBehavior::xfer
 ?xfer@W3DRopeDrawDrawModule@@MAEXPAVXfer@@@Z,0x0002FD88,
+?xfer@W3DDebrisDrawDrawModule@@MAEXPAVXfer@@@Z,0x0002FD88,W3DDebrisDraw inherits the same DrawModule Xfer ILT as W3DRopeDraw
 ?xferBase2298B0@BfmeBase002298B0@@AAEXPAVXfer@@@Z,0x000489DC,"Decoded489DC JMP2298B0 and reviewed complete snapshot routine through ret at229E22; typed Xfer receiver argument, not old22CD40 label"
 ?xferBlob_0010CC40@@YAXPAVXfer@@PAX@Z,0x00035814,"Address-qualified cdecl field transfer; retail 0x000F9CF0 calls ILT to 0x0010CC40; target takes Xfer then field pointer on stack, versioned virtual xfer calls, bare ret"
 ?xferInteger@@YAXAAVXfer@@AAH@Z,0x0002153A,ParticleSystemInfo::DoXfer raw ParticleType enum helper call target

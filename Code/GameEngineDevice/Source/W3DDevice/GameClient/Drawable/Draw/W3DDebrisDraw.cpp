@@ -36,7 +36,6 @@
 #include "Common/FileSystem.h"	// this is only here to pull in LOAD_TEST_ASSETS
 #include "Common/GlobalData.h"
 #include "Common/ThingTemplate.h"
-#include "Common/Xfer.h"
 #include "GameClient/Drawable.h"
 #include "GameLogic/Object.h"
 #include "GameClient/Shadow.h"
@@ -273,56 +272,8 @@ void W3DDebrisDraw::crc( Xfer *xfer )
 
 }  // end crc
 
-// ------------------------------------------------------------------------------------------------
-/** Xfer method
-	* Version Info:
-	* 1: Initial version */
-// ------------------------------------------------------------------------------------------------
-// ?xfer@W3DDebrisDraw@@MAEXPAVXfer@@@Z present-unmatched
-void W3DDebrisDraw::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	DrawModule::xfer( xfer );
-
-	// model name
-	xfer->xferAsciiString( &m_modelName );
-	
-	// model color
-	xfer->xferColor( &m_modelColor );
-
-	// set the model and color
-	if( xfer->getXferMode() == XFER_LOAD )
-		setModelName( m_modelName, m_modelColor, SHADOW_NONE );
-
-	// animation initial
-	xfer->xferAsciiString( &m_animInitial );
-
-	// anim flying
-	xfer->xferAsciiString( &m_animFlying );
-
-	// anim final
-	xfer->xferAsciiString( &m_animFinal );
-
-	// when loading, set the animations
-	if( xfer->getXferMode() == XFER_LOAD )
-		setAnimNames( m_animInitial, m_animFlying, m_animFinal, NULL );
-
-	// state
-	xfer->xferInt( &m_state );
-
-	// frames
-	xfer->xferInt( &m_frames );
-
-	// final stop
-	xfer->xferBool( &m_finalStop );
-
-}  // end xfer
+// The exact xfer body lives in W3DDebrisDrawXfer.cpp, which declares BFME's
+// retail Xfer and by-value string layouts.
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
