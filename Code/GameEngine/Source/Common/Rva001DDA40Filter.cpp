@@ -9,7 +9,12 @@ typedef bool Bool;
 typedef unsigned char UnsignedByte;
 typedef unsigned int UnsignedInt;
 
-class Player;
+class Player
+{
+public:
+	unsigned char m_unreconstructed_00[0x2C];
+	int m_difficulty;
+};
 
 class Overridable
 {
@@ -72,16 +77,39 @@ public:
 	ContainModuleInterface *m_contain;
 };
 
-class Rva001DDA40Filter
+class Rva001DDA40Base
+{
+public:
+	Rva001DDA40Base() : m_unreconstructed_04(0) { }
+	virtual ~Rva001DDA40Base() { }
+
+protected:
+	int m_unreconstructed_04;
+};
+
+class Rva001DDA40Filter : public Rva001DDA40Base
 {
 protected:
 	virtual Bool allow(Object *other);
 
 private:
-	unsigned char m_unreconstructed_04[0x08 - 0x04];
 	const Object *m_self;
 	Bool m_allowFlag0c;
+
+public:
+	Rva001DDA40Filter(const Object *self);
 };
+
+Rva001DDA40Filter::Rva001DDA40Filter(const Object *self)
+{
+	m_self = self;
+	m_allowFlag0c = false;
+	if (self->getControllingPlayer() != 0
+		&& *reinterpret_cast<volatile const int *>(reinterpret_cast<const char *>(m_self->getControllingPlayer()) + 0x2C) == 1)
+	{
+		m_allowFlag0c = true;
+	}
+}
 
 Bool Rva001DDA40Filter::allow(Object *other)
 {
