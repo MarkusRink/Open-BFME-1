@@ -85601,3 +85601,6 @@ g_bfmeMsgVftDN,0x010F5738
 ?g_bfmeEmptyERA@@3PADA,0x00C7388B,pin
 ?g_bfmeOwnerERA@@3PAVBfmeOwnerERA@@A,0x00EEF504,pin
 ?bfmeFindERA@BfmeMapERA@@QAEXPAPAVBfmeNodeERA@@PAH@Z,0x0003DB09,pin
+?bfmeNameToKeyERB@BfmeKeyGenERB@@QAEHPBD@Z,0x0003ADD7,pin
+?g_bfmeKeyGenERB@@3PAVBfmeKeyGenERB@@A,0x00EED600,pin
+?bfmeGrowERB@BfmeVecERB@@QAEXPAPAVBfmeNodeERB@@0PAPAVBfmeOwnerERB@@HH@Z,0x0003E14E,pin
