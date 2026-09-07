@@ -44,6 +44,8 @@ public:
 	~LivingWorldPlayerArmy();
 	void clearArmies();
 	Int currentCommandPoints() const;
+	// Takes the index by int * -- PAH in its own mangled name -- not Int *.
+	LivingWorldArmy *findArmy( const AsciiString &name, int *outIndex );
 	virtual void crc( Xfer *xfer );
 	virtual void xfer( Xfer *xfer );
 	virtual void loadPostProcess();
@@ -202,6 +204,24 @@ void BfmeLivingWorldCampaignManager::addPlayerArmy( LivingWorldPlayerArmy *army 
 {
 	m_playerArmies.push_back( *army );
 	m_playerArmies.back().m_index = m_playerArmies.size() - 1;
+}
+
+// The player army's own findArmy, placed beside the campaign manager's so the
+// two are not mistaken for one: this one searches a single army list and can
+// report the index, the one below searches the manager's player armies.
+LivingWorldArmy *LivingWorldPlayerArmy::findArmy(const AsciiString &name, int *outIndex)
+{
+	for (unsigned i = 0; i < m_armies.size(); ++i)
+	{
+		AsciiString current = m_armies[i].getName();
+		if (current.compare(name) == 0)
+		{
+			if (outIndex)
+				*outIndex = (int)i;
+			return &m_armies[i];
+		}
+	}
+	return 0;
 }
 
 LivingWorldArmy *BfmeLivingWorldCampaignManager::findArmy( const AsciiString &name )
