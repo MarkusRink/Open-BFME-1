@@ -3,6 +3,7 @@
 //
 //   0x00336F20  isTimeFrozenDebug          is the LOGIC frame held
 //   0x00336F50  _bfme_isClientFrameFrozen  is the CLIENT frame held
+//   0x00336F80  notifyCameraChange         poke the window when the camera moves
 //   0x00339B10  _bfme_updateLogicDebugFrame
 //   0x00339B90  _bfme_updateClientDebugFrame
 //
@@ -26,6 +27,7 @@ public:
 	bool _bfme_isClientFrameFrozen(void);
 	void _bfme_updateClientDebugFrame(void);
 	void _bfme_updateLogicDebugFrame(void);
+	void notifyCameraChange(void);
 
 private:
 	char m_unknown00[0x17638];
@@ -33,6 +35,7 @@ private:
 };
 
 typedef int (__stdcall *FarProc)(void);
+typedef int (__stdcall *FARPROC)();
 extern "C" __declspec(dllimport) FarProc __stdcall GetProcAddress(
 	void *module, const char *name);
 
@@ -99,6 +102,18 @@ bool ScriptEngine::_bfme_isClientFrameFrozen(void)
 	if (!m_useLogicDebugFrame && TheScriptDebugWindowDLL)
 		return !ClientCanAppContinue;
 	return false;
+}
+
+void ScriptEngine::notifyCameraChange(void)
+{
+	typedef void (*funcptr)(void);
+
+	if (TheScriptDebugWindowDLL)
+	{
+		FARPROC proc = GetProcAddress(TheScriptDebugWindowDLL, "NotifyCameraChange");
+		if (proc)
+			((funcptr)proc)();
+	}
 }
 
 void _bfme_updateDebugWindowInputs(void)
