@@ -77,6 +77,8 @@ __forceinline long fast_float2long_round(Real f)
 
 #define REAL_TO_INT_FLOOR(x) (fast_float2long_round(fast_float_floor(x)))
 
+class Locomotor;
+
 // Ordinal-only: mangling needs the enum's name, not its enumerators. Retail's
 // range check (Pathfinder::getCell) accepts 2..15 inclusive - LAYER_LAST is
 // therefore 15, one below the 16-slot m_layers[] array declared below.
@@ -91,6 +93,8 @@ public:
 	// ordinals differ between the two trees, so this is a raw literal, not a
 	// named enumerator.
 	Int getRawType(void) const { return m_packed & 0x7; }
+	Int getType(void) const { return m_packed & 0x7; }
+	Int getLayer(void) const { return (m_packed >> 6) & 0x3f; }
 
 private:
 	void *m_info;          // +0x00 (matches ZH; unread here)
@@ -118,6 +122,7 @@ class Pathfinder
 {
 public:
 	PathfindCell *getCell(PathfindLayerEnum layer, Int x, Int y);
+	Bool validMovementTerrain(Int layer, const Locomotor *locomotor, const Coord3D *pos);
 	Bool worldToCell(const Coord3D *pos, ICoord2D *cell);
 	void clip(Coord3D *from, Coord3D *to);
 
