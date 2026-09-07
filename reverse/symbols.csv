@@ -75569,6 +75569,8 @@ name,address,notes
 ?bfmeResetUJC@@YAXPAUBfmeConnUJC@@@Z,0x008EBFC0,pin
 ?bfmeResetVJO@BfmeCVJO@@QAEXPAVBfmeXVJO@@@Z,0x008014F0,pin
 ?bfmeResize@Gen009D7B80@@AAEXI@Z,0x009D7BC0,hashtable resize callee of Gen009D7B80 insert
+?find@Gen009D7B80@@QBEPAUBfmeStringNode@@PBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@Z,0x009D7680,lookup body called by Gen009D7B80 operator[]
+?bfmeInsert@Gen009D7B80@@QAEPAU?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@_STL@@PBU23@@Z,0x009D8350,insert body called by Gen009D7B80 operator[]
 ?bfmeResolve1281@BfmeSlotDispatcher1281@@QAEXHHPAPAXPA_N@Z,0x008BC3E0,address-derived resolver callee; argument shape decoded from the 0x008BCCC0 retail call site
 ?bfmeResolveGA@BfmeItemGA@@QAEPAVBfmeThingGA@@XZ,0x00003B52,pin
 ?bfmeResolveGN@BfmeInnerGN@@QAEPAVBfmeThingGN@@XZ,0x000022BB,pin
