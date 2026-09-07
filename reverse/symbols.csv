@@ -3574,6 +3574,7 @@ name,address,notes
 ??0W3DTerrainVisualBase@@QAE@XZ,0x0001693C,Open-BFME5 the incremental-link thunk that constructor encodes
 ??0W3DTreeDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x00034C25,link thunk to the W3DTreeDraw constructor; named from the draw-module registration that pairs "W3DTreeDraw" with factory 0x006BF690
 ??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x00036AED,link thunk to the W3DTruckDraw constructor; named from the draw-module registration that pairs "W3DTruckDraw" with factory 0x006BF470
+??0W3DTruckDrawModuleData@@QAE@XZ,0x0003616F,"the ILT the matched factory ?friend_newModuleData@W3DTruckDraw@@ encodes; it reaches the 181-byte body at 0x0077F830. The harvested 0x0000CC3E reaches a 50-byte body already owned by ??0DetachableRiderBodyModuleData@@QAE@XZ and ??0FlightDeckBehaviorModuleData@@QAE@XZ, which cannot also be this ctor"
 ??0W3DVideoBuffer@@QAE@H@Z,0x0002B733,"W3DVideoBuffer constructor ILT; actual body calls VideoBuffer base, installs vtable 0x112165c, initializes fields through +0x4a; allocation 0x4c verified"
 ??0W3DVolumetricShadow@@QAE@XZ,0x00034171,addShadow constructor call via retail ILT
 ??0WOLLoginNickList@@QAE@ABV0@@Z,0x0003FA67,WOLLogin pair list-layout copy thunk;target=0x00443D60
@@ -8622,6 +8623,7 @@ name,address,notes
 ??1RiderChangeContainModuleDataMemberD@@QAE@XZ,0x00026F35,Open-BFME5 pin
 ??1RiderChangeContainModuleDataMemberE@@QAE@XZ,0x00887940,Open-BFME5 pin
 ??1RiderChangeContainModuleDataMemberF@@QAE@XZ,0x0001A401,Open-BFME5 pin
+??1RoadType@@QAE@XZ,0x00018FCF,exact retail rel32 target of ??_ERoadType@@QAEPAXI@Z; the same row's already-matching DIR32 push of 0x00418FCF names this address as the per-element destructor
 ??1RopeInfo@ChinookCombatDropState@@QAE@XZ,0x0003D041,Open-BFME5 ILT fronts unclaimed 8-byte body 0x00191910; called by the _Destroy range loop over that element type
 ??1RotateTextureMapperClass@@UAE@XZ,0x00967080,constructor 0x00964A70 installs vtable 0x0113E3F0 whose first slot is deleting wrapper 0x00967060; that wrapper directly calls this scalar body
 ??1RousingSpeechUpdateModuleDataBase@@UAE@XZ,0x0001980D,Open-BFME5 pin
@@ -12813,6 +12815,8 @@ name,address,notes
 ?_M_pop_back_aux@Rva006A3A00AudioDeque@@QAEXXZ,0x0001309D,Address-derived thiscall deque helper through retail ILT to 0x0069E810; independently reviewed 86B buffer-retirement body
 ?_M_push_back_aux_v@?$deque@HV?$allocator@H@_STL@@@_STL@@IAEXABH@Z,0x006472C0,gen-tgrid shared callee
 ?_M_push_back_aux_v@?$deque@PAVMapObject@@V?$allocator@PAVMapObject@@@_STL@@@_STL@@IAEXABQAVMapObject@@@Z,0x00008553,pinharvest x4 (thunk)
+?_M_push_back_aux_v@?$deque@PAVPartitionCell@@V?$allocator@PAVPartitionCell@@@_STL@@@_STL@@IAEXABQAVPartitionCell@@@Z,0x0002FF1D,PartitionManager's queue<PartitionCell*> push_back tail-jumps here; ILT to the 101-byte body 0x00089CE0. The old 0x00008553 (body 0x0035AEC0) is a different copy of the helper and no call site encodes it for this instantiation
+?_M_push_back_aux_v@?$deque@PAVSightingInfo@@V?$allocator@PAVSightingInfo@@@_STL@@@_STL@@IAEXABQAVSightingInfo@@@Z,0x0002FF1D,PartitionManager's deque<SightingInfo*> push_back tail-jumps here; ILT to the 101-byte body 0x00089CE0. The old 0x00008553 (body 0x0035AEC0) is a different copy of the helper and no call site encodes it for this instantiation
 ?_M_push_back_aux_v@?$deque@UGen_t_00595870_p12cd@@V?$allocator@UGen_t_00595870_p12cd@@@_STL@@@_STL@@IAEXABUGen_t_00595870_p12cd@@@Z,0x00594220,gen-tgrid payload member
 ?_M_push_back_aux_v@?$deque@UGen_t_008fbc70_p8cd@@V?$allocator@UGen_t_008fbc70_p8cd@@@_STL@@@_STL@@IAEXABUGen_t_008fbc70_p8cd@@@Z,0x008FB570,gen-tgrid payload member
 ?_M_push_back_aux_v@?$deque@VBFMENetworkQueueItem1@@V?$allocator@VBFMENetworkQueueItem1@@@_STL@@@_STL@@IAEXABVBFMENetworkQueueItem1@@@Z,0x0001B018,BFMENetwork callback deque growth-helper ILT
