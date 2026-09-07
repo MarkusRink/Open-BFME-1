@@ -2526,6 +2526,7 @@ name,address,notes
 ??0GenBase004B2C80@@QAE@XZ,0x004B2C80,base constructor called by the 18-byte vptr-only derived constructors in MidVptrOnlyDerivedCtors.cpp
 ??0GenBase008AD3F0@@QAE@XZ,0x008AD3F0,base constructor called by the 18-byte vptr-only derived constructors in MidVptrOnlyDerivedCtors.cpp
 ??0GenBase00944940@@QAE@XZ,0x00944940,base constructor called by the 18-byte vptr-only derived constructors in MidVptrOnlyDerivedCtors.cpp
+??0SimpleSceneClass@@QAE@XZ,0x00944940,retail body installs SimpleSceneClass vtable 0x0113CF48; target RTS2DScene ctor calls it before its proven 0x01120A80 table; campaign=luna36h-20260907;lane=shaders
 ??0GenBase009A1A30@@QAE@XZ,0x009A1A30,base constructor called by the 18-byte vptr-only derived constructors in MidVptrOnlyDerivedCtors.cpp
 ??0GenBase009CA9E0@@QAE@XZ,0x009CA9E0,base constructor called by the 18-byte vptr-only derived constructors in MidVptrOnlyDerivedCtors.cpp
 ??0GenBase009EB7D0@@QAE@XZ,0x009EB7D0,base constructor called by the 18-byte vptr-only derived constructors in MidVptrOnlyDerivedCtors.cpp
