@@ -3,8 +3,9 @@
 Started: 2026-09-07 16:41:55 UTC (2026-09-08 01:41:55 JST).
 Deadline: 2026-09-08 04:41:55 UTC (13:41:55 JST).
 Execution base: `8fe7448503316d344fb623d467f3b107126cd9c5`.
-Status: phase 2 integration active. Full baseline completed with pre-existing
-failures; verified units are being published while isolated identity repairs run.
+Status: phase 3 ownership/cohesion work is active. The phase 2 batch is published
+through `49dc6716e0`; the next full integration gate includes this cutoff. The initial
+full baseline completed with pre-existing failures; isolated workers continue.
 The full gate has not passed. See [README.md](README.md) for the standing runbook.
 
 ## Ownership
@@ -14,9 +15,9 @@ branches, indexes and build outputs. Coordinator alone publishes master.
 
 | Worker/root suffix | Current exclusive responsibility |
 |---|---|
-| cleanup_metrics / metrics | LadderPref real-C++ copy/pair investigation; three reviewed units queued |
-| cleanup_placement / placement | Five LANGameInfo identity failures, then GameSlot filename/navigation cleanup |
-| cleanup_evidence / evidence | Proven STL allocator body mislabeled XferSave; independent cross-lane reviews |
+| cleanup_metrics / metrics | TeamPrototype comment correction; LadderInfo and DataChunk commits queued |
+| cleanup_placement / placement | LAN cohesion queued; independent hour 3 and TeamPrototype review |
+| cleanup_evidence / evidence | Corrected block writer/helper queued; read-only NetPacket/Eva cohesion screen |
 
 Existing contributor worktrees are preserved. No new service, port, database,
 shared writable cache or external fleet configuration is required.
@@ -46,10 +47,10 @@ areas. The malformed parent has no valid score; no repair delta is invented.
 
 ## Publications
 
-Twenty-eight prerequisite/source commits are confirmed ancestors of origin/master
-at the hour 2 review; twenty-seven source units followed the hour 1 prerequisite.
-Planning and review-only commits are excluded. Worker and published identities
-are separate; this table lists final published SHAs.
+Forty-nine prerequisite/source commits are confirmed ancestors of origin/master
+at 19:40 UTC: 48 source units and one prerequisite. Planning and review-only
+commits are excluded. Worker and published identities are separate; this table
+lists final published SHAs.
 
 | Improvement | Published SHAs | Integrated verification |
 |---|---|---|
@@ -68,12 +69,23 @@ are separate; this table lists final published SHAs.
 | Detailed construction and EH ownership | 7e528a2f37 | 45/45 |
 | ArchivedFileInfo pair identities | 119cc727c7 | 172/172 across affected family |
 | Six vector payload repairs and helpers | e9ab38ad66, ab278985a2, f8a7496214, df39e0b0d9, 780a03ae7c, f3e2f9d63a | 29/29 through 39/39; all 24 routes re-derived |
+| Bezier difference-vector name | f96e28e852 | 7/7 |
+| IP enumeration cohesion and opaque storage | 4b7e57c577, 82b6229606 | 6/6; one TU and 40 lines removed |
+| Water array types, owner, paths and point fields | 61de60bf96, b215debf16, 6059ef5c6f, 94be7599a6 | 2/2 then 3/3; false pin removed; unknown original owner explicit |
+| Honest 48-byte record; simpler archive pair | 98527989b3, f6ae151a4b | 2/2 and 1/1; archive pair removes three lines |
+| Actual multiplayer color pair and STLport | 41d7fb7883 | 98/98 across six sources |
+| LadderPref copy, pair/EH ownership and map placement | ac87dfbfd0, df88350659, 38603315c2, 904b626b31 | 3/3 through 6/6; map 1/1; 95 bytes converted to real C++ |
+| STLport out-of-memory allocator identity | 15a90a0d51 | 3/3 family; 78 bytes converted; 95-line dump becomes 40 lines |
+| Subsystem setter; retire false Player alias | fc22cf46e6, 577c439483 | 1/1 each; matched caller evidence |
+| Wide pair; honest unknown narrow setter | e36a1744d7, 4bd89709c0 | 2/2 and 1/1 |
+| LAN username and slot-lookup filenames/navigation | fac2890274, 49dc6716e0 | 15/15, then 20/20 across six affected sources |
 
 The last vector push raced another contributor, then published after a clean
 rebase; final published additions/deletions equal the reviewed worker patch.
 The first 26 source units were published before 18:41:55; the final vector unit
 published during the hour 2 review. Initial planning commits: 26e52f92a2,
-72482bb98a, 577f32a077; hour 1 checkpoint: 81a06ec1cf.
+72482bb98a, 577f32a077; hour 1 checkpoint: 81a06ec1cf; hour 2: b64e8e92db.
+The next 21 source units were published after that review and before 19:40 UTC.
 
 ## Reviewed integration queue
 
@@ -84,9 +96,14 @@ and all affected surviving sources before normal commit/push.
 
 | Lane | Worker SHAs in order | Improvement |
 |---|---|---|
-| placement | 43ff18c322, a6fca8a244, f014c3e1aa | Bezier difference-vector name; IPEnumeration runtime cohesion and eight-line simplification |
-| evidence | 7d85810ee2, 256ba53e41, 61deadaca7, 063f38ae7f | Water array types/pin correction; true small-object ownership and coherent files; proven point fields |
-| metrics | 78d8c2ba0f, 44d4a944ce, c3f5f7a385 | Honest 48-byte record; cast-free archive pair; correct multiplayer color pair with actual STLport |
+| placement | 4917a76344 | Three LAN runtime bodies in one TU; 71 lines removed, 16/16 |
+| evidence | 1a75102a91, 65b1da9bca | Honest block-position helper and address-named block writer; 50/230 bytes, 2/2 |
+| metrics | dfa629c80e, 4b680ca8db, 31613137b6 | LadderInfo placement 25/25; real DataChunk constructor 45/45; TeamPrototype comments 7/7 |
+
+These wait until the full integration snapshot finishes. Metrics now uses branch
+`cleanup-20260907-metrics-h3` from published `904b626b31`; its old branch is
+preserved. Evidence's superseded helper `61ace767d7` is preserved only on
+`cleanup-20260907-evidence-xfer-before-owner`; never integrate it.
 
 ## Hourly reviews
 
@@ -121,12 +138,13 @@ observed results; do not prefill reviews or claim unmeasured speedups.
 - Next owners are above; coordinator drains the reviewed queue and keeps the
   pre-existing full-build debt explicit. Next review: 18:41:55 UTC.
 
-### Hour 2: reviewed 18:42–18:49 UTC
+### Hour 2: reviewed 18:42–18:45 UTC
 
 - Delivered: the 27 source units above, plus the hour 1 prerequisite. All 28
   commit ancestries were checked. Prepared Water/IP/neutral-record/color work is
-  excluded. This is 27 source units over three worker-hours in the second hour,
-  drawing on work prepared during hour 1; it is not a steady-state forecast.
+  excluded. Twenty-six source units landed before the second-hour boundary;
+  the final vector unit landed during this review. This drew on work prepared
+  during hour 1 and is not a steady-state throughput forecast.
 - Independent sample: final vector overflow is exactly the previously reviewed
   blob c05c90e0ebb00d60e4959e15826a4735e15104f2. All old-object reads precede
   destruction; placement construction then initializes the same complete,
@@ -166,6 +184,64 @@ observed results; do not prefill reviews or claim unmeasured speedups.
 - Next: drain the reviewed queue in dependency order, then run the full gate on
   a frozen integration SHA using the warm cache. Workers continue in isolated
   roots. No full gate currently runs. Next review: 19:41:55 UTC.
+
+### Hour 3: reviewed 19:42–19:43 UTC
+
+- Delivered: 49 source/prerequisite commits, all ancestry-confirmed; 48 are
+  source units. Twenty-one source units landed since the hour 2 review, plus
+  the final vector unit during that review: 22 in the elapsed third hour, or
+  7.3 per nominal worker-hour across three lanes. This includes carried-over
+  preparation and is not a measurement of editing effort. Prepared queue work
+  above is excluded.
+- Independent landed sample found no material regression. Water's constructor
+  allocation/initializer and bounding-box call establish the small object's
+  point storage, count and validity fields; its original class name remains
+  explicitly unknown. Ladder copy/destruction now uses real string lifetimes
+  and the vendor pair; retail callback routes and both unwind maps were checked.
+  Repeated ledger names and unmatched reference callers were not counted as
+  independent identity witnesses. No unchanged green source was rebuilt by the
+  reviewer.
+- The highest-risk pending block writer was byte-green but lacked evidence for
+  the original XferSave class spelling. Review caught that before publication.
+  The corrected queue uses Rva009D8630BlockWriter, a descriptive position-stack
+  helper and RTTI-backed XferException metadata. The old helper commit is kept
+  on an explicit branch, not published. A normal member call also resolved all
+  16 register differences in the banked body in one roughly 0.8s probe: verify
+  callee ABI/visibility before trying speculative register shapes.
+- Concrete outcomes include the 40-line IP reduction, coherent Water ownership,
+  truthful LAN string identities, and 173 bytes of naked code replaced by real
+  LadderPref/allocator C++. Most naming/path metrics remain unchanged. Local
+  moves included +0.01 pp and -0.01 pp results; honest unknown Water ownership
+  reduced SrcIdent by 0.01 pp. These are not reasons to restore false claims.
+  Whole-repository coverage movement from other contributors is excluded.
+- Hour 2 experiment: early evidence packets remain useful, but no overall
+  speedup is established. Two later review waits were 93s and 307.277s. Across
+  13 recorded packets the median was 120s, range 42–307.277s. Fifteen complete
+  normal publication loops had median
+  63.65s and total 888.20s; this omits retries/manual paths and is not total
+  integration time. Push races were a separate recurring delay.
+- Two stale-branch union merges imported unrelated ledger changes. Exact patch
+  checks caught both before compilation/commit; restored only owned paths and
+  reapplied the reviewed original patch without a merge. The guard now compares
+  additions/deletions both before commit and after rebase. One worker's broad
+  ledger byte replacement was also caught and narrowed before commit. Baselines
+  were never increased. Metrics was refreshed at a clean, drained boundary;
+  whether that reduces coordinator merge rejection is still unmeasured.
+- Next single experiment: assign one named final reviewer upfront, retaining
+  early evidence sharing. Target readiness-to-approval under 120s for three
+  packets; also record when the author resumes to expose delivery/handling
+  delay. TeamPrototype pilot: approval 116.702s, author resume 182.863s, so the
+  first threshold passed but end-to-end speedup is not established. Placement
+  reviews that unit; metrics reviews the next approved evidence-lane unit.
+  Explicit original-owner evidence or an unknown-owner statement is now part
+  of ordinary identity review after the block-writer finding.
+- Next: publish this checkpoint, freeze the coordinator tree and run one full
+  gate with BUILD_POOL=4 and unbuffered logging. The cold baseline still has
+  five red categories. Its complete failure census is 214; an earlier narrow
+  parser omitted 32 reference-path failures, now retained in the ignored
+  baseline-failures.json. Compare exact failure identities, not just totals.
+  Workers keep isolated reviewed commits and bounded read-only investigations.
+  Next review: 20:41:55 UTC.
 
 ## Resume
 

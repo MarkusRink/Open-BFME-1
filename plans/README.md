@@ -109,6 +109,9 @@ ledger update must land together.
 1. Worker verifies every affected surviving source using `./build.sh <paths...>`,
    stages explicit paths, inspects the diff/index and commits normally with hooks.
    It provides the commit, purpose, identity evidence, affected rows and checks.
+   State the original-owner witness explicitly, or say the owner is descriptive
+   and its original spelling unknown. Name one final reviewer before starting;
+   record readiness, approval and author-resumption times separately.
 2. Coordinator independently reviews the diff and evidence, pulls/rebases master,
    runs `python3 tools/check_csv.py`, then integrates one worker commit with
    `git cherry-pick --no-commit <worker-sha>`. Inspect every staged path.
