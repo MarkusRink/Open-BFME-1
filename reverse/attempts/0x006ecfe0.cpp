@@ -1,74 +1,81 @@
 // ?d_006ecfe0@@YAXXZ
-// partial score=0.7 date=2026-09-02
-class SubtitleResetTexture
+// partial score=0.9 date=2026-09-07
+class TextureEVG
 {
 public:
-	void Release_Ref();
+	void bfmeReleaseRefEVG();
 };
 
-class SubtitleResetRenderer
+class BfmeRefEVG
 {
 public:
-	void reset();
-	void setTexture(SubtitleResetTexture *texture)
+	__forceinline BfmeRefEVG() { m_bfmePtrEVG = 0; }
+	__forceinline ~BfmeRefEVG()
 	{
-		if (m_texture)
-			m_texture->Release_Ref();
-		m_texture = texture;
-		m_currentBatch = m_texture ? -1 : 0;
+		if (m_bfmePtrEVG != 0)
+			m_bfmePtrEVG->bfmeReleaseRefEVG();
 	}
 
-private:
-	char m_head[0x4C];
-	SubtitleResetTexture *m_texture;
-	int m_currentBatch;
+	TextureEVG *m_bfmePtrEVG;
 };
 
-class SubtitleResetTemporary
+class Render2DEVG
 {
 public:
-	SubtitleResetTemporary() : m_texture(0) {}
-	~SubtitleResetTemporary()
+	void bfmeResetEVG();
+
+	unsigned char m_bfmeHeadEVG[0x4c];
+	TextureEVG *volatile m_bfmeTexEVG;
+	int m_bfmeFlagEVG;
+};
+
+class BfmeItemEVG
+{
+public:
+	virtual void bfmeSlot00EVG();
+	virtual void bfmeSlot01EVG();
+	virtual void bfmeSlot02EVG();
+	virtual void bfmeSlot03EVG();
+	virtual void bfmeSlot04EVG();
+	virtual void bfmeSlot05EVG();
+	virtual void bfmeSlot06EVG();
+	virtual void bfmeSlot07EVG();
+	virtual void bfmeSlot08EVG();
+	virtual void bfmeSlot09EVG();
+	virtual void bfmeSlot10EVG();
+	virtual void bfmeReleaseEVG();
+};
+
+class BfmeHostEVG
+{
+public:
+	void bfmeClearEVG();
+
+	unsigned char m_bfmeHeadEVG[0x164];
+	Render2DEVG *m_bfmeR2DEVG;
+	unsigned char m_bfmePadEVG[0x134];
+	BfmeItemEVG **m_bfmeBeginEVG;
+	BfmeItemEVG **m_bfmeEndEVG;
+};
+
+void BfmeHostEVG::bfmeClearEVG()
+{
+	BfmeRefEVG ref;
+	Render2DEVG *r = m_bfmeR2DEVG;
+
+	if (r->m_bfmeTexEVG != 0)
 	{
-		if (m_texture)
-			m_texture->Release_Ref();
+		TextureEVG *tex = r->m_bfmeTexEVG;
+
+		if (tex != 0)
+			tex->bfmeReleaseRefEVG();
+
+		r->m_bfmeTexEVG = 0;
+		r->m_bfmeFlagEVG = -(r->m_bfmeTexEVG != 0);
 	}
 
-private:
-	SubtitleResetTexture *m_texture;
-};
+	m_bfmeR2DEVG->bfmeResetEVG();
 
-class SubtitleResetDisplayString
-{
-public:
-	virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0C();
-	virtual void slot10(); virtual void slot14(); virtual void slot18(); virtual void slot1C();
-	virtual void slot20(); virtual void slot24(); virtual void slot28();
-	virtual void reset();
-};
-
-class SubtitleManagerResetView
-{
-public:
-	void reset();
-
-private:
-	char m_head[0x164];
-	SubtitleResetRenderer *m_renderer;
-	char m_middle[0x134];
-	SubtitleResetDisplayString **m_stringsStart;
-	SubtitleResetDisplayString **m_stringsFinish;
-	SubtitleResetDisplayString **m_stringsEnd;
-};
-
-void SubtitleManagerResetView::reset()
-{
-	{
-		SubtitleResetTemporary temporary;
-		m_renderer->setTexture(0);
-	}
-	m_renderer->reset();
-
-	for (SubtitleResetDisplayString **it = m_stringsStart; it != m_stringsFinish; ++it)
-		(*it)->reset();
+	for (BfmeItemEVG **p = m_bfmeBeginEVG; p != m_bfmeEndEVG; p++)
+		(*p)->bfmeReleaseEVG();
 }
