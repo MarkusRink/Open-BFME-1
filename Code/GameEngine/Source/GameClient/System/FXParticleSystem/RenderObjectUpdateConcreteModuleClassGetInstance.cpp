@@ -3,10 +3,10 @@
 // The public FX particle header keeps ConcreteModuleClass specializations
 // empty because fx_particle_system.cpp also builds an FXPS_V virtual view.
 // This TU owns the named RenderObjectUpdate singleton ABI only.  The module
-// is the category-1 particle-update family (its MSVC tag spelling is
-// ModuleTag<2,...>), and its four data words are the retail object at
-// 0x012F6B0C: table, the two source-pointer values, and the category-1
-// registry link.  The constructor and destructor remain the independently
+// is the RenderObjectParticleUpdate family represented by ModuleTag<2,...>
+// (the MSVC $01 spelling), and its four data words are the retail object at
+// 0x012F6B0C: table, the two source-pointer values, and the registry link at
+// 0x012F64F0.  The constructor and destructor remain the independently
 // matched definitions in fx_particle_system_bulk.cpp.
 
 namespace FXParticleSystem
@@ -36,7 +36,7 @@ typedef ModuleTag<2, RENDEROBJECT_UPDATE_MODULE_KEY,
 	RenderObjectUpdateTag;
 
 // Retail globals: +4 reads [0x012F6D20], +8 reads [0x012F6D24], and the
-// category-1 chain head is [0x012F64F0].  These names are TU-local ABI
+// registry chain head is [0x012F64F0].  These names are TU-local ABI
 // declarations; their DIR32 relocations are checked against those operands.
 extern void **renderObjectUpdateSourceAt4;
 extern void **renderObjectUpdateSourceAt8;
