@@ -1,5 +1,5 @@
 // ?exitObjectViaDoor@DefaultProductionExitUpdate@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.88 date=2026-09-03
+// partial score=0.89 date=2026-09-07
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /DBFME_STLP_NODE_ALLOC /MD /GX /Ireference/shims/stlp_nodealloc /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug
 // stlport
 // Isolated TU for DefaultProductionExitUpdate::exitObjectViaDoor.
@@ -82,7 +82,7 @@ public:
 	DPEU_V10(05); DPEU_V10(06); DPEU_V10(07); DPEU_V10(08); DPEU_V10(09);
 	DPEU_V10(10); DPEU_V10(11);
 	DPEU_V(120); DPEU_V(121); DPEU_V(122);
-	virtual Bool isDoingGroundMovement() const;
+	virtual bool isDoingGroundMovement() const;
 
 	const LocomotorSet &getLocomotorSet() const
 	{
@@ -223,7 +223,6 @@ void DefaultProductionExitUpdate::exitObjectViaDoor(Object *newObj, ExitDoorType
 		createPoint.x = loc.X;
 		createPoint.y = loc.Y;
 		createPoint.z = loc.Z;
-
 		newObj->setPosition(&createPoint);
 		newObj->setOrientation(exitAngle);
 		newObj->setLayer((PathfindLayerEnum)creationObject->getLayer());
