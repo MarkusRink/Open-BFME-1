@@ -115,6 +115,7 @@ StructureToppleUpdate::~StructureToppleUpdate( void )
 }
 
 //-------------------------------------------------------------------------------------------------
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/StructureToppleObjectCreationLists.cpp
 static void parseOCL( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
 {
 	StructureToppleUpdateModuleData* self = (StructureToppleUpdateModuleData*)instance;

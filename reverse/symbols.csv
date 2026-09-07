@@ -77530,7 +77530,6 @@ name,address,notes
 ?findDefinition@AttributeModifierDefinitionStore@@QAEPAUAttributeModifierDefinition@@I@Z,0x0001DBBA,AttributeModifierPoolUpdate active-entry test resolves each modifier key through the definition store
 ?findEnemyNear@AI@@QAEPAVObject@@PAV2@MHHH@Z,0x0003F990,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0016DF90 calls; autopin
 ?findExperienceScalarTable@ExperienceLevelSystem@@QAEPAUBfmeVec@@ABVAsciiString@@@Z,0x00021797,BfmeThingEFE constructor calls this ILT to resolve its configured scalar table
-?findFXList@FXListStore@@QBEPBVFXList@@PBD@Z,0x0001EDE9
 ?findFlag@BFMEScriptEngineFlagLookup@@QAEPA_NVAsciiString@@@Z,0x0004278F,TU-scoped ABI name for the ScriptEngine flag lookup ILT; target body 0x00344E10 is semantically proven but its canonical retail spelling is unknown
 ?findFormat@@YA?AW4WW3DFormat@@QBW41@@Z,0x006C09B0,W3DRadar retail texture format selector
 ?findFunction@FunctionLexicon@@IAEPAXW4NameKeyType@@W4TableIndex@1@@Z,0x00025CD4

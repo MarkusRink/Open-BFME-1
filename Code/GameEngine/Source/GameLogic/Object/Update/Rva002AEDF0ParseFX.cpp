@@ -1,10 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
-// Open-BFME5: near-twin of parseFX (0x002B0890, StructureCollapseUpdate.cpp)
-// and the InstantDeathBehavior parseFX twin (InstantDeathBehaviorParseFXThunk.cpp);
-// same scanIndexList-then-push_back shape, but the lookup here goes through
-// TerrainCollisionEventFXLookupShim (a per-phase array at +0x8c) instead of a
-// single TheFXListStore->findFXList vector at a fixed offset.
+// The module view retains only the parsed per-phase FX vectors at +0x8C.
 
 #include <vector>
 

@@ -90,6 +90,7 @@ StructureCollapseUpdate::~StructureCollapseUpdate( void )
 }
 
 //-------------------------------------------------------------------------------------------------
+// ?parseFX@@YAXPAVINI@@PAX1PBX@Z present-unmatched
 static void parseFX( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
 {
 	StructureCollapseUpdateModuleData* self = (StructureCollapseUpdateModuleData*)instance;
