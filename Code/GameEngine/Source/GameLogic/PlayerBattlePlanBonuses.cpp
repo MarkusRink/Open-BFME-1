@@ -1,6 +1,36 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 // readable body of ?becomingTeamMember@Player@@QAEXPAVObject@@_N@Z: Code/GameEngine/Source/Common/RTS/Player.cpp
 
+// The Player battle-plan bonuses and the membership change that drives them:
+//
+//   0x000D5C20  removeBattlePlanBonusesForObject  196 bytes
+//   0x000D7680  becomingTeamMember                238 bytes
+//
+// becomingTeamMember is what runs when an object joins or leaves this player's
+// team, and one of the four things it does is apply or remove the battle-plan
+// bonuses -- calling, for the removal, the function the other file defines.
+// Definition and caller sat in separate files, so neither could state the
+// block they share.
+//
+// They both reach the same four fields and disagreed about the last one.
+// becomingTeamMember named the three battle-plan counters at +0x64, +0x68 and
+// +0x6C and then declared the pointer after them as a bare void *;
+// removeBattlePlanBonusesForObject spelled 0x70 bytes of padding and then
+// declared the same pointer as BattlePlanBonuses *, the type it needs to copy
+// the struct and invert it. One layout keeps the counters named AND the
+// pointer typed, which is the pair of facts neither file could hold alone.
+//
+// The bonus file built with /DNDEBUG /MD and no exceptions; it byte-verifies
+// unchanged under becomingTeamMember's flags, which is what let the two share
+// a TU.
+//
+// Defining removeBattlePlanBonusesForObject in the same TU as a caller was the
+// risk here: under /O2 MSVC may inline an out-of-line function whose body it
+// can see. It did not, and both rows byte-verify.
+
+#include <cstring>
+#include <stdlib.h>
+
 typedef bool Bool;
 typedef int Int;
 
@@ -163,6 +193,29 @@ public:
 
 void localApplyBattlePlanBonusesToObject(Object *object, void *bonuses);
 
+
+struct KindOfMaskType
+{
+	unsigned m_bits[6];
+	// The default ctor is a memset of the 0x18-byte / 192-bit mask; that inlines
+	// as xor ecx / lea edx [eax+disp] / six stores, which member stores fold away.
+	KindOfMaskType() { memset(this, 0, sizeof(*this)); }
+};
+
+struct BattlePlanBonuses
+{
+	float m_armorScalar;
+	int m_bombardment;
+	int m_searchAndDestroy;
+	int m_holdTheLine;
+	float m_sightRangeScalar;
+	KindOfMaskType m_validKindOf;
+	KindOfMaskType m_invalidKindOf;
+};
+
+extern float g_01076C24;
+extern float g_bfmeDefaultBU;
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Player.h
 class Player
 {
@@ -187,18 +240,33 @@ public:
 
 private:
 	unsigned char m_unreconstructed_00[0x24];
-	Int m_playerIndex;
+	Int m_playerIndex;					// this+0x24
 	unsigned char m_unreconstructed_28[0x3C];
-	Int m_bombardBattlePlans;
-	Int m_holdTheLineBattlePlans;
-	Int m_searchAndDestroyBattlePlans;
-	void *m_battlePlanBonuses;
+	Int m_bombardBattlePlans;				// this+0x64
+	Int m_holdTheLineBattlePlans;				// this+0x68
+	Int m_searchAndDestroyBattlePlans;			// this+0x6C
+	BattlePlanBonuses *m_battlePlanBonuses;			// this+0x70
 };
 
 extern PlayerList *ThePlayerList;
 extern NameKeyGenerator *TheNameKeyGenerator;
 extern InGameUI *TheInGameUI;
 
+// ?removeBattlePlanBonusesForObject@Player@@QBEXPAVObject@@@Z
+void Player::removeBattlePlanBonusesForObject(Object *obj) const
+{
+	BattlePlanBonuses *bonus = new BattlePlanBonuses;
+	*bonus = *m_battlePlanBonuses;
+	bonus->m_armorScalar = g_bfmeDefaultBU / __max(bonus->m_armorScalar, g_01076C24);
+	bonus->m_sightRangeScalar = g_bfmeDefaultBU / __max(bonus->m_sightRangeScalar, g_01076C24);
+	bonus->m_bombardment = -1000000;
+	bonus->m_searchAndDestroy = -1000000;
+	bonus->m_holdTheLine = -1000000;
+	localApplyBattlePlanBonusesToObject(obj, bonus);
+	delete bonus;
+}
+
+// ?becomingTeamMember@Player@@QAEXPAVObject@@_N@Z
 void Player::becomingTeamMember(Object *object, Bool yes)
 {
 	if (!object)
