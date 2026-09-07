@@ -488,6 +488,7 @@ private:
 	NetCommandList *m_pendingCommands;
 	NetCommandList *m_pendingRelays;
 	NetCommandWrapperList *m_wrapperList;
+	unsigned int m_localLeaveStarted;
 };
 
 
@@ -6453,97 +6454,19 @@ void BFMEConnectionManager::sendLoadCompleteCommand()
 	msg->detach();
 }
 
-// Sends command type 10 (PLAYERLEAVE) and 11 (DESTROYPLAYER) -- it builds both. Named from the type its message carries.
-__declspec(naked) void BFMEConnectionManager::sendPlayerLeaveCommands()
+// Announces the local departure, then starts the leave timeout clock. The
+// router's receive pass separately emits the eventual DESTROYPLAYER command.
+void BFMEConnectionManager::sendPlayerLeaveCommands()
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 104424Bh
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		push esi
-		push edi
-		push 20h
-		mov edi, ecx
-		__emit 0E8h
-		__emit 0FFh
-		__emit 0C2h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+8h], eax
-		xor esi, esi
-		cmp eax, esi
-		mov dword ptr [esp+14h], esi
-		je L00_665C4B
-		mov ecx, eax
-		__emit 0E8h
-		__emit 044h
-		__emit 0F0h
-		__emit 09Dh
-		__emit 0FFh   // call 0x44C8D
-		mov esi, eax
-L00_665C4B:
-		xor eax, eax
-		mov al, byte ptr [edi+12028h]
-		mov ecx, esi
-		mov dword ptr [esp+14h], 0FFFFFFFFh
-		push eax
-		__emit 0E8h
-		__emit 0EAh
-		__emit 067h
-		__emit 09Dh
-		__emit 0FFh   // call 0x3C44D
-		mov eax, dword ptr [esi+14h]
-		push eax
-		mov dword ptr [esi+8h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 0FFh
-		__emit 0FEh
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L01_665C83
-		__emit 0E8h
-		__emit 0D9h
-		__emit 0A8h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L01_665C83:
-		mov ecx, dword ptr [edi+12028h]
-		push 0FFh
-		mov dword ptr [esi+0Ch], ecx
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 0E1h
-		__emit 094h
-		__emit 09Dh
-		__emit 0FFh   // call 0x3F17A
-		mov ecx, esi
-		__emit 0E8h
-		__emit 004h
-		__emit 0A4h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		__emit 0FFh
-		__emit 015h
-		__emit 044h
-		__emit 095h
-		__emit 035h
-		__emit 001h   // call dword ptr [0x1359544]
-		mov ecx, dword ptr [esp+0Ch]
-		mov dword ptr [edi+12110h], eax
-		pop edi
-		pop esi
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret
-	}
+	NetPlayerLeaveCommandMsg *msg = new NetPlayerLeaveCommandMsg;
+	msg->setLeavingPlayerID((unsigned char)m_localSlot);
+	msg->setExecutionFrame(-1);
+	if (DoesCommandRequireACommandID(msg->getNetCommandType()))
+		msg->setID(GenerateNextCommandID());
+	msg->setPlayerID(m_localSlot);
+	reinterpret_cast<ConnectionManager *>(this)->sendLocalCommand(msg, 0xFF);
+	msg->detach();
+	m_localLeaveStarted = timeGetTime();
 }
 
 // Sends command type 3 (FRAMEINFO), the single-recipient counterpart to sendFrameInfo. Named from the type its message carries.
