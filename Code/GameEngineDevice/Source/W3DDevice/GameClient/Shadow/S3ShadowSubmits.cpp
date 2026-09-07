@@ -30,8 +30,9 @@ void bfmeHandle_00790330(Gen_00790330 *owner, void *argument);		// ILT 0x000011A
 class Gen_00790b60;
 void bfmeHandle_00790b60(Gen_00790b60 *owner, void *argument);		// ILT 0x0000C036
 
-class Gen_00790b80;
-void bfmeHandle_00790b80(Gen_00790b80 *owner, void *argument);		// ILT 0x00016C02
+class GameWindow;
+class WinInstanceData;
+void W3DGadgetComboBoxImageDraw(GameWindow *window, WinInstanceData *instData);
 
 class Gen_007916f0;
 void bfmeHandle_007916f0(Gen_007916f0 *owner, void *argument);		// ILT 0x000148BC
@@ -237,7 +238,7 @@ int Gen_00790b60::bfmeSubmit(void *argument)
 // ?bfmeSubmit@Gen_00790b80@@QAEHPAX@Z
 int Gen_00790b80::bfmeSubmit(void *argument)
 {
-	bfmeHandle_00790b80(this, argument);
+	W3DGadgetComboBoxImageDraw((GameWindow *)this, (WinInstanceData *)argument);
 
 	return 1;
 }

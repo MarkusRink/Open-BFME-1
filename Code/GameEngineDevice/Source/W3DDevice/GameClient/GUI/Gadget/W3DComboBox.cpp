@@ -65,6 +65,46 @@
 
 // PRIVATE TYPES //////////////////////////////////////////////////////////////
 
+// BFME calls setTextColor at vtable +0x28 and draw at vtable +0x38.
+class BfmeComboDisplayString
+{
+public:
+	virtual void unused00();
+	virtual void unused01();
+	virtual void unused02();
+	virtual Int getTextLength();
+	virtual void unused04();
+	virtual void unused05();
+	virtual void setFont(GameFont *font);
+	virtual GameFont *getFont();
+	virtual void unused08();
+	virtual void unused09();
+	virtual void setTextColor(Color color, Color border);
+	virtual void unused11();
+	virtual void unused12();
+	virtual void unused13();
+	virtual void draw(Int x, Int y, Int color, Int border);
+};
+
+inline const Image *bfmeComboEnabledImage(GameWindow *window)
+{
+	return *(const Image **)((const char *)window + 0x48);
+}
+
+inline const Image *bfmeComboDisabledImage(GameWindow *window)
+{
+	return *(const Image **)((const char *)window + 0xb4);
+}
+
+inline const Image *bfmeComboHiliteImage(GameWindow *window)
+{
+	return *(const Image **)((const char *)window + 0x120);
+}
+
+// Keep the existing inline helper rows emitted while this body reads BFME's shifted data.
+static const Image *(*s_bfmeKeepComboDisabledImage)(GameWindow *) = GadgetComboBoxGetDisabledImage;
+static const Image *(*s_bfmeKeepComboHiliteImage)(GameWindow *) = GadgetComboBoxGetHiliteImage;
+
 // PRIVATE DATA ///////////////////////////////////////////////////////////////
 
 // PUBLIC DATA ////////////////////////////////////////////////////////////////
@@ -161,10 +201,9 @@ void W3DGadgetComboBoxImageDraw( GameWindow *window, WinInstanceData *instData )
 {
 	Int width, height, x, y;
 	const Image *image;
-//	ComboBoxData *combo = (ComboBoxData *)window->winGetUserData();
 	ICoord2D size;
 	Color titleColor, titleBorder;
-	DisplayString *title = instData->getTextDisplayString();
+	BfmeComboDisplayString *title = (BfmeComboDisplayString *)instData->getTextDisplayString();
 
 	// get window position and size
 	window->winGetScreenPosition( &x, &y );
@@ -177,19 +216,19 @@ void W3DGadgetComboBoxImageDraw( GameWindow *window, WinInstanceData *instData )
 	// get the image
 	if( BitTest( window->winGetStatus(), WIN_STATUS_ENABLED ) == FALSE )
 	{
-		image				= GadgetComboBoxGetDisabledImage( window );
+		image				= bfmeComboDisabledImage( window );
 		titleColor	= window->winGetDisabledTextColor();
 		titleBorder = window->winGetDisabledTextBorderColor();
 	}
 	else if( BitTest( instData->getState(), WIN_STATE_HILITED ) )
 	{
-		image				= GadgetComboBoxGetHiliteImage( window );
+		image				= bfmeComboHiliteImage( window );
 		titleColor	= window->winGetHiliteTextColor();
 		titleBorder = window->winGetHiliteTextBorderColor();
 	}
 	else
 	{
-		image				= GadgetComboBoxGetEnabledImage( window );
+		image				= bfmeComboEnabledImage( window );
 		titleColor	= window->winGetEnabledTextColor();
 		titleBorder = window->winGetEnabledTextBorderColor();
 	}
@@ -218,7 +257,8 @@ void W3DGadgetComboBoxImageDraw( GameWindow *window, WinInstanceData *instData )
 			title->setFont( window->winGetFont() );
 
 		// draw the text
-		title->draw( x + 1, y, titleColor, titleBorder );
+		title->setTextColor( titleColor, titleBorder );
+		title->draw( x + 1, y, 1, 1 );
 
 		y += TheWindowManager->winFontHeight( instData->getFont() );
 		height -= TheWindowManager->winFontHeight( instData->getFont() ) + 1;
@@ -227,4 +267,3 @@ void W3DGadgetComboBoxImageDraw( GameWindow *window, WinInstanceData *instData )
 
 
 }  // end W3DGadgetComboBoxImageDraw
-
