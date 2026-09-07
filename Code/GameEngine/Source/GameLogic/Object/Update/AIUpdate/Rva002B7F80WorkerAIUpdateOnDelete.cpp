@@ -14,6 +14,11 @@
 typedef int ObjectID;
 typedef unsigned char Bool;
 
+enum KindOfType
+{
+	KINDOF_BRIDGE_TOWER = 0x18
+};
+
 class Object;
 typedef _STL::hash_map<ObjectID, Object *, _STL::hash<ObjectID>, _STL::equal_to<ObjectID> > ObjectPtrHash;
 
@@ -41,6 +46,12 @@ private:
 extern GameLogic *TheGameLogic;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Object.h
+class Thing
+{
+public:
+	bool isKindOf(KindOfType kind) const;
+};
+
 class Object
 {
 public:
@@ -109,6 +120,7 @@ class Rva002B7F80Update : public Rva002B7F80InterfaceSlice,
 {
 public:
 	virtual void onDelete(void);
+	virtual Bool canAcceptNewRepair(Object *target);
 
 private:
 	struct DozerTaskInfo
@@ -138,4 +150,46 @@ void Rva002B7F80Update::onDelete(void)
 	}
 
 	finishBuildingSound();
+}
+
+struct Rva002B7240Source
+{
+public:
+	virtual void unused(void) = 0;
+	virtual ObjectID getBridgeID(void) = 0;
+};
+
+Rva002B7240Source *Rva002B7240Lookup(ObjectID id);
+
+Bool Rva002B7F80Update::canAcceptNewRepair(Object *obj)
+{
+	if (obj == 0)
+		return false;
+
+	if (getCurrentTask() != 1)
+		return true;
+
+	Object *currentRepair = TheGameLogic->findObjectByID(m_task[1].m_targetObjectID);
+	if (currentRepair != 0)
+	{
+		if (currentRepair == obj)
+			return false;
+
+		if (((Thing *)currentRepair)->isKindOf(KINDOF_BRIDGE_TOWER) &&
+			((Thing *)obj)->isKindOf(KINDOF_BRIDGE_TOWER))
+		{
+			Rva002B7240Source *currentTowerInterface =
+				Rva002B7240Lookup((ObjectID)(unsigned long)currentRepair);
+			Rva002B7240Source *newTowerInterface =
+				Rva002B7240Lookup((ObjectID)(unsigned long)obj);
+
+			if (currentTowerInterface == 0 || newTowerInterface == 0)
+				return false;
+
+			if (currentTowerInterface->getBridgeID() == newTowerInterface->getBridgeID())
+				return false;
+		}
+	}
+
+	return true;
 }
