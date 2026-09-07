@@ -84831,3 +84831,6 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ??0?$pair@$$CBVAsciiString@@VRva0045EF90Object@@@_STL@@QAE@ABVAsciiString@@ABVRva0045EF90Object@@@Z,0x00041BD7,operator[] call at 0x00461C7B reaches the matched 0x0045F410 pair constructor through this ILT
 ?_M_insert@?$hashtable@U?$pair@$$CBVAsciiString@@VRva0045EF90Object@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@VRva0045EF90Object@@@_STL@@@2@U?$equal_to@VAsciiString@@@5@V?$allocator@U?$pair@$$CBVAsciiString@@VRva0045EF90Object@@@_STL@@@2@@_STL@@QAEAAU?$pair@$$CBVAsciiString@@VRva0045EF90Object@@@2@ABU32@@Z,0x00029CD0,operator[] call at 0x00461C93 reaches the matched 0x00461360 insert body through this ILT
 ??1?$pair@$$CBVAsciiString@@VRva0045EF90Object@@@_STL@@QAE@XZ,0x0003D2B7,operator[] call at 0x00461CBA reaches the matched 0x0045F300 pair destructor through this ILT
+?bfmeStepXF@BfmeOwnerXF@@QAEXPAX0@Z,0x0002F1CB
+?TheBfmeLogicXF@@3PAVBfmeLogicXF@@A,0x00EF0898
+?bfmeNoteXF@BfmeLogicXF@@QAEXPAX@Z,0x0001F253
