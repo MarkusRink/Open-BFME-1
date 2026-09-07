@@ -1,8 +1,10 @@
-// ?d_00621170@@YAXXZ
-// partial score=0.82 date=2026-09-07
-// Best scratch reconstruction for RVA 0x00621170; not an official source body.
-// stlport
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /DBFME_STLP_NODE_ALLOC /D_STLP_USE_STATIC_LIB /Ivendor/stlport /Ireference/shims/stlp_nodealloc /Ireference/shims/sweep /Ireference/shims/stringinline /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
+//
+// Retail 0x00621170 is the map-path formatter's compact token loop.  Its
+// public owner/spelling is not recovered, so this source keeps the proven
+// free-function ABI address-derived.  The matched caller's object flow names
+// the two GameState routes: the ordinary real-to-portable conversion at
+// 0x0010F280 and the distinct hidden-sret/const-reference route at 0x0010F820.
 
 typedef bool Bool;
 
@@ -20,12 +22,7 @@ private:
 		T data[1];
 	};
 
-	StringBase() : m_data(0) {}
-	StringBase(const T *text);
-	StringBase(const StringBase<T> &other);
-	~StringBase();
-	void releaseBuffer();
-
+public:
 	int getLength() const { return m_data ? m_data->length : 0; }
 	const T *str() const { return m_data ? &m_data->data[0] : (const T *)""; }
 	bool nextToken(StringBase<T> *out, const T *delimiters);
@@ -40,9 +37,16 @@ private:
 		}
 		return 0;
 	}
+	void concat(const T *text, int length);
 	void concat(const StringBase<T> &source);
-	void concat(T source);
 	void set(const StringBase<T> &source);
+
+private:
+	StringBase() : m_data(0) {}
+	StringBase(const T *text);
+	StringBase(const StringBase<T> &other);
+	~StringBase();
+	void releaseBuffer();
 
 	Header *m_data;
 };
@@ -59,6 +63,7 @@ public:
 		StringBase<char>::set(other);
 		return *this;
 	}
+
 	int getLength() const { return StringBase<char>::getLength(); }
 	const char *str() const { return StringBase<char>::str(); }
 	bool nextToken(AsciiString *out, const char *delimiters)
@@ -77,24 +82,36 @@ public:
 		}
 		return 0;
 	}
-	void concat(char c) { StringBase<char>::concat(c); }
-	void concat(const AsciiString &source) { StringBase<char>::concat(source); }
+
+	// Retail inlines this character append as pointer-plus-length-one into
+	// StringBase::concat(const char *,int), not as the single-character body.
+	void concat(char source)
+	{
+		StringBase<char>::concat(&source, 1);
+	}
+
+	// Retail likewise forwards the source data and header length to the same
+	// two-argument concat body; it does not call the object overload here.
+	void concat(const AsciiString &source)
+	{
+		StringBase<char>::concat(source.str(), source.getLength());
+	}
 };
 
 class GameState
 {
 public:
 	AsciiString realMapPathToPortableMapPath(const AsciiString &in) const;
-	AsciiString _Rva0010F820MapPathTransform(const AsciiString &in) const;
+	AsciiString rva0010f820MapPathCode(const AsciiString &in) const;
 };
 
 extern GameState *TheGameState;
 
-AsciiString _Rva00621170MapPathHelperBest(const AsciiString &input, Bool option)
+AsciiString _Rva00621170MapPathHelperConcat(const AsciiString &input, Bool option)
 {
 	AsciiString mapName = TheGameState->realMapPathToPortableMapPath(input);
 	if (option)
-		mapName = TheGameState->_Rva0010F820MapPathTransform(mapName);
+		mapName = TheGameState->rva0010f820MapPathCode(mapName);
 
 	AsciiString newMapName;
 	if (mapName.getLength() > 0)
