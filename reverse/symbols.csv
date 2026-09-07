@@ -85621,3 +85621,6 @@ g_bfmeMsgVftDN,0x010F5738
 ??1BfmeSubERE@@QAE@XZ,0x00026AB2,pin
 ?bfmeEraseERE@BfmeVecERE@@QAEXPAUBfmeItemERE@@0@Z,0x0002F86F,pin
 ?bfmeInsertERE@BfmeVecERE@@QAEXPAUBfmeItemERE@@I0@Z,0x00039234,pin
+??1BfmeSubERF@@QAE@XZ,0x00011FDB,pin
+?bfmeEraseERF@BfmeVecERF@@QAEXPAUBfmeItemERF@@0@Z,0x0002104E,pin
+?bfmeInsertERF@BfmeVecERF@@QAEXPAUBfmeItemERF@@I0@Z,0x00026B4D,pin
