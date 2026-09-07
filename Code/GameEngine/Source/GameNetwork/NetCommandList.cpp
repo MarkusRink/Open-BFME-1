@@ -43,6 +43,9 @@ NetCommandList::NetCommandList() {
 /**
  * Destructor.
  */
+// Reference-layout destructor only; BFME deleting destructor is recovered in
+// NetCommandList_destructor.cpp. The former 0x001DDFD0 claim belonged to
+// another list whose cleanup calls clear, not NetCommandList::reset.
 // ??1NetCommandList@@MAE@XZ present-unmatched
 NetCommandList::~NetCommandList() {
 	reset();
