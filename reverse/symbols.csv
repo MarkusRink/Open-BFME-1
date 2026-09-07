@@ -85231,3 +85231,5 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?bfmePopXS@BfmeThingXS@@QAEXXZ,0x008D2CC0
 ?logGameEnd@RecorderClass@@IAEXXZ,0x00097280,RecorderClass::stopRecording caller reaches the exact clean C++ logGameEnd body
 ?b_008631f0@@YAXXZ,0x008631F0,gen-thunk target pin: Code/gen_small/gthunks_085.cpp resolves its E9 displacement from this pin (see the file header)
+?bfmeMakeXU@BfmeMakerXU@@QAEPAVBfmeShownXU@@H@Z,0x00034991
+?bfmeShowXU@BfmeShownXU@@QAEXXZ,0x0002E073
