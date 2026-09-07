@@ -85678,3 +85678,7 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeFindERP@BfmeThingERP@@QAEPAVBfmeModERP@@H@Z,0x0002AE23,pin
 ?bfmeNameToKeyERP@BfmeKeyGenERP@@QAEHPBD@Z,0x0003ADD7,pin
 ?g_bfmeKeyGenERP@@3PAVBfmeKeyGenERP@@A,0x00EED600,pin
+?bfmeNameToKeyERQ@BfmeKeyGenERQ@@QAEIPBD@Z,0x0003ADD7,pin
+?g_bfmeKeyGenERQ@@3PAVBfmeKeyGenERQ@@A,0x00EED600,pin
+?g_bfmeEmptyERQ@@3PADA,0x00C7388B,pin
+?bfmeAddERQ@@YAXPAXPAVBfmeItemERQ@@@Z,0x0000F8B7,pin
