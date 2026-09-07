@@ -1,21 +1,33 @@
 // cl: /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB
 // stlport
-// Open-BFME: ScriptEngine::doNamedMapReveal, retail 0x0034D200, 226 bytes.
+// The four named-map-reveal entry points, which are one feature:
 //
-// The reference's body, sharing its first half with removeNamedMapReveal --
-// the same scan of the 0x10-stride vector at ScriptEngine+0x175F8 with the
-// same inlined AsciiString compare -- and diverging once the entry is found.
+//   0x0034D200  doNamedMapReveal      226 bytes  reveal it
+//   0x0034D320  undoNamedMapReveal    226 bytes  un-reveal it
+//   0x0034D440  removeNamedMapReveal  217 bytes  drop the entry
+//   0x0034EF80  createNamedMapReveal  379 bytes  add the entry
 //
-// NamedReveal is reordered here: the reveal radius sits at +8 and the player
-// name at +0x0C, where the reference has them the other way round. The two
-// `lea`s off the element say so directly, one feeding the player-mask lookup
-// and the other pushed as the radius.
+// All four scan the same 0x10-stride vector at ScriptEngine+0x175F8 for an
+// entry whose name matches, using the same inlined AsciiString compare, and
+// then diverge: two act on the shroud, one erases, one refuses a duplicate and
+// pushes a new element. The scan is written once here instead of four times.
 //
-// And the reference's three steps collapse to two. The player is never
-// materialised: BFME asks the script engine for the mask straight from the
-// name and never checks it, so the only bail-out left is the waypoint. The
-// reveal then takes the waypoint location whole rather than an x and a y,
-// three arguments instead of four.
+// NamedReveal's layout is the reason this merge is worth more than its line
+// count. Three of the four files put the reveal radius at +0x08 and the player
+// name at +0x0C -- the reference has them the other way round, and BFME
+// reordered them. doNamedMapReveal proves it from the instruction operands: the
+// two `lea`s off the element feed the player-mask lookup and the radius push
+// respectively. removeNamedMapReveal still carried the reference's order,
+// player name at +0x08 and radius at +0x0C, and byte-matched anyway because its
+// body never reads either field -- it compares the name at +0x00 and erases the
+// element. Nothing inside that file could have caught it. One declaration now
+// states the order its siblings proved.
+//
+// AsciiString drifted the same way and for the same reason: removeNamedMapReveal
+// declared the copy constructor out of line where the other three define it as
+// an inline forwarder into StringBase, which is what puts the __$SEHRec$ store
+// ahead of `mov ecx, esp` when a name is built by value in an outgoing argument
+// slot. That file never builds one, so its spelling was unconstrained.
 #define _STLP_NO_EXCEPTIONS 1
 #include <vector>
 
@@ -53,6 +65,7 @@ public:
 	// Delegating, and visibly so: it is what puts the __$SEHRec$ store ahead of
 	// `mov ecx, esp` when the by-value name is built in the outgoing argument
 	// slot for getWaypointByName.
+	AsciiString(void) : m_data(0) {}
 	AsciiString(const AsciiString &that)
 	{
 		((StringBase<char> *)this)->StringBase<char>::StringBase(
@@ -60,6 +73,8 @@ public:
 	}
 
 	~AsciiString();
+
+	AsciiString &operator=(const AsciiString &that);
 
 	Int getLength(void) const { return m_data ? m_data->m_len : 0; }
 	const char *str(void) const { return m_data ? (const char *)(m_data + 1) : ""; }
@@ -88,6 +103,10 @@ private:
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ScriptEngine.h
 struct NamedReveal
 {
+	// Declared, so the whole element is one object to the unwinder: retail
+	// carries a single state across the three strings, not one apiece.
+	NamedReveal(void) {}
+
 	AsciiString m_revealName;				// +0x00
 	AsciiString m_waypointName;				// +0x04
 	Real m_radiusToReveal;					// +0x08
@@ -153,12 +172,13 @@ class PartitionManager
 {
 public:
 	void doShroudReveal(const Coord3D *pos, Real radius, UnsignedInt playerMask);	// retail 0x008F7680
+	void undoShroudReveal(const Coord3D *pos, Real radius, UnsignedInt playerMask);	// retail 0x008F7730
 };
 
 // The shroud subsystem is a SEPARATE global from the partition manager in BFME:
 // the engine-init tag block at 0x0038A1F0 stores 0x012ED5BC and then pushes the
 // tag "TheShroudManager", while ThePartitionManager is constructed just before it
-// at 0x012ED5B8.  This entry point reaches the former.
+// at 0x012ED5B8.  These entry points reach the former.
 extern PartitionManager *TheShroudManager;				///< retail 0x012ED5BC
 
 // The mask resolver the ledger already pins on its ILT.
@@ -175,6 +195,10 @@ class ScriptEngine
 {
 public:
 	void doNamedMapReveal(const AsciiString &revealName);
+	void undoNamedMapReveal(const AsciiString &revealName);
+	void removeNamedMapReveal(const AsciiString &revealName);
+	void createNamedMapReveal(const AsciiString &revealName, const AsciiString &waypointName,
+														Real radiusToReveal, const AsciiString &playerName);
 
 private:
 	char m_slice_pad[0x175F8];				// retail this+0x00 .. +0x175F7, untouched
@@ -205,4 +229,62 @@ void ScriptEngine::doNamedMapReveal(const AsciiString& revealName)
 	UnsignedShort playerMask = TheScriptEngine->getPlayerMaskFromAsciiString(reveal->m_playerName, 0);
 
 	TheShroudManager->doShroudReveal(way->getLocation(), reveal->m_radiusToReveal, playerMask);
+}
+
+void ScriptEngine::undoNamedMapReveal(const AsciiString& revealName)
+{
+	VecNamedRevealIt it;
+
+	NamedReveal *reveal = 0;
+	for (it = m_namedReveals.begin(); it != m_namedReveals.end(); ++it) {
+		if (it->m_revealName == revealName) {
+			reveal = &(*it);
+			break;
+		}
+	}
+
+	if (!reveal) {
+		return;
+	}
+
+	Waypoint *way = TheTerrainLogic->getWaypointByName(reveal->m_waypointName);
+	if (!way) {
+		return;
+	}
+
+	UnsignedShort playerMask = TheScriptEngine->getPlayerMaskFromAsciiString(reveal->m_playerName, 0);
+
+	TheShroudManager->undoShroudReveal(way->getLocation(), reveal->m_radiusToReveal, playerMask);
+}
+
+void ScriptEngine::removeNamedMapReveal(const AsciiString& revealName)
+{
+	VecNamedRevealIt it;
+
+	for (it = m_namedReveals.begin(); it != m_namedReveals.end(); ++it) {
+		if (it->m_revealName == revealName) {
+			m_namedReveals.erase(it);
+			return;
+		}
+	}
+}
+
+void ScriptEngine::createNamedMapReveal(const AsciiString& revealName, const AsciiString& waypointName, Real radiusToReveal, const AsciiString& playerName)
+{
+	VecNamedRevealIt it;
+
+	// Will fail if there's already one in existence of the same name.
+	for (it = m_namedReveals.begin(); it != m_namedReveals.end(); ++it) {
+		if (it->m_revealName == revealName) {
+			return;
+		}
+	}
+
+	NamedReveal reveal;
+	reveal.m_playerName = playerName;
+	reveal.m_radiusToReveal = radiusToReveal;
+	reveal.m_revealName = revealName;
+	reveal.m_waypointName = waypointName;
+
+	m_namedReveals.push_back(reveal);
 }
