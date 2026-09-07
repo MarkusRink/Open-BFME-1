@@ -85515,3 +85515,6 @@ _bfmeExitBZ,0x008830B0
 ??1BfmeReqDA@@QAE@XZ,0x00026F35
 ??0?$_Vector_base@UBfmeSortElem20TailElement@@V?$allocator@UBfmeSortElem20TailElement@@@_STL@@@_STL@@QAE@IABV?$allocator@UBfmeSortElem20TailElement@@@1@@Z,0x002E3EA0,proven direct body reached by the E9 ILT at 0x0001D11A; typed vector-base call in BfmeSortElem20Tail copy constructor; additive body candidate follows the ILT for retail callsite encoding; campaign=luna36h-20260907; lane=mesh
 ?get_allocator@BfmeSortElem20Tail@@QBE?AV?$allocator@UBfmeSortElem20TailElement@@@_STL@@XZ,0x002E3E90,proven direct body reached by the E9 ILT at 0x0001EE66; typed allocator handoff in BfmeSortElem20Tail copy constructor; additive body candidate follows the ILT for retail callsite encoding; campaign=luna36h-20260907; lane=mesh
+?releaseBuffer@StringBaseG@@AAEXXZ,0x008881D0
+_bfmeAllocDB,0x0082E540
+_bfmeCopyDB,0x000365CA
