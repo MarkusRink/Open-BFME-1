@@ -25028,3 +25028,10 @@ tg_000bc760,0x000BC760,Generated 50-byte push body replaced by a descriptive Xfe
 ?bfmeGoEEAb@BfmeThingEEA@@QAEXXZ,0x0019DB10,Placeholder replaced at the same complete range by ?reset@Rva0019BE80SidesList@@QAEXXZ; Descriptive reset interface: registered SidesList constructor 0x0019EA80 installs primary vtable VA 0x0109C204 whose +0x10 slot reaches this body via ILT 0x0000AFC4; observed subsystem reset dispatch uses +0x10; original method spelling and flag +0x668 meaning unknown
 ??0BfmeB1164@@QAE@XZ,0x002551A0,Generic constructor replaced by neutral DieMux-role owner with primary field-table names; same complete58-byte range retained. Existing other constructor pins remain independent.
 ?bfmeLeaveBQ@BfmeHostBQ@@QAEXPAX@Z,0x0051DE00,wrong provisional identity retracted because the MainMenuToBattleSchool string and the AptMainMenu constructor callback table identify AptMainMenu::BattleSchool at this address.
+?d_00671100@@YAXXZ,0x00671100,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
+?d_00677770@@YAXXZ,0x00677770,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
+?d_006747c0@@YAXXZ,0x006747C0,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
+?d_00674940@@YAXXZ,0x00674940,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
+?d_00674a40@@YAXXZ,0x00674A40,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
+?d_00670920@@YAXXZ,0x00670920,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
+?d_00670f10@@YAXXZ,0x00670F10,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
