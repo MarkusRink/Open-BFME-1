@@ -84790,3 +84790,6 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?bfmeFindVK@Rva00367E30Logic@@QAEPAVBfmePlayerVK@@PAX@Z,0x0001F253,pin
 ?bfmeAddPlayerVK@BfmeListVK@@QAEXPAVBfmePlayerVK@@H@Z,0x00044A44,pin
 ?bfmeAddSetVK@BfmeListVK@@QAEXPAUBfmeSetVK@@H@Z,0x000339FB,pin
+?bfmeFindTG@Rva00367E30Logic@@QAEPAVBfmePlayerTG@@PAX@Z,0x0001F253,pin
+?bfmeHasTG@Rva002EE330PlayerList@@QAEDPAVBfmePlayerTG@@@Z,0x00003A85,pin
+?bfmeSelectTG@ControlBar@@QAEXPAXH@Z,0x0003BCCD,pin
