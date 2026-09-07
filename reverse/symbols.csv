@@ -84880,3 +84880,4 @@ _bfmeLockXH,0x0082C760
 ?getStaticDiffuse@BfmeA1087@@QAEHHH@Z,0x0002B04E,ILT thunk for the terrain getStaticDiffuse the RoadSegment lighting loop at 0x007040D0 calls (body 0x006CC7B0)
 __real@3FE0000000000000,0x00C9B3F0,MSVC double constant 0.5 read by the RoadSegment lighting loop at 0x007040D0
 ?erase@W3DProjectileStreamResources@@QAEXPAX0@Z,0x00007A45,ILT thunk for the resources clear the W3DProjectileStreamDraw ctor at 0x00369FD0 performs (body 0x001D2940)
+_g_bfmeFormatXK,0x00C7C7B4
