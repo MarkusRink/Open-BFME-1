@@ -71,6 +71,16 @@ struct Gen_t_008fb350_p12pod
 class ShroudManagerImpl008FBA40;
 class PartitionManager;
 
+class BfmePartVRA;
+
+class BfmeShroudVRA
+{
+public:
+	char bfmeUpdateVRA(int x, int y, int radius);
+	BfmePartVRA *m_bfme00;
+	int m_bfme04;
+};
+
 bool processShroudRevealCircle008F9A70(Int cellX, Int cellY, Int cellRadius,
 	ShroudManagerImpl008FBA40 *manager, Int playerMask);
 bool processShroudRevealCircle008F9B10(Int cellX, Int cellY, Int cellRadius,
@@ -181,6 +191,54 @@ private:
 	friend class ShroudManagerImpl008FBA40Element;
 	friend class PartitionManager;
 };
+
+bool processShroudRevealCircle008F9A70(Int cellX, Int cellY, Int cellRadius,
+	ShroudManagerImpl008FBA40 *manager, Int playerMask)
+{
+	Int touched = 0;
+	Int currentRadius = cellRadius;
+	Int error = 2;
+	error -= currentRadius * 2;
+	Int left = cellX;
+	Int right = cellX;
+
+	for (;;)
+	{
+		if (error + currentRadius > 0)
+		{
+			if (currentRadius == 0 && cellRadius == 1)
+			{
+				++touched;
+				++right;
+				--left;
+			}
+
+			if (!reinterpret_cast<BfmeShroudVRA *>(&manager)->bfmeUpdateVRA(
+				left, right, cellY + currentRadius))
+				return false;
+
+			if (currentRadius == 0)
+				return true;
+
+			if (!reinterpret_cast<BfmeShroudVRA *>(&manager)->bfmeUpdateVRA(
+				left, right, cellY - currentRadius))
+				return false;
+
+			--currentRadius;
+			error += 1 - currentRadius * 2;
+		}
+
+		if (touched > error)
+		{
+			++touched;
+			++right;
+			--left;
+			error += touched * 2 + 1;
+		}
+	}
+
+	return true;
+}
 
 ShroudManagerImpl008FBA40::ShroudManagerImpl008FBA40()
 	: mode(2),
