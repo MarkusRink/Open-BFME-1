@@ -27,7 +27,7 @@ struct Rva0081BD40Comm
 	 * doing anything, and both convert a 5 into their own result -- 3 and 2
 	 * respectively.  Nothing converted so far shows what sets it to 5. */
 	int m_state;                    /* +0xCC */
-	char m_gapCC[ 0x04 ];
+	int m_pendingValue;             /* +0xD0, sent by the state transition */
 	int m_recvRecordSize;               /* +0xD4 */
 	int m_recvBufferSize;               /* +0xD8 */
 	int m_recvWriteOffset;              /* +0xDC */
@@ -335,6 +335,27 @@ void Rva0081A810( struct Rva0081BD40Comm *comm )
 	*(int *)packet = 0;
 
 	Rva0081A3B0( comm, (struct Rva0081AA20SendRecord *)packet );
+}
+
+int Rva0081A5C0( struct Rva0081BD40Comm *comm )
+{
+	char packet[ 0x810 ];
+
+	if ( comm->m_state == 1 || comm->m_state == 7 )
+	{
+		return 0;
+	}
+
+	*(int *)packet = 0;
+	*(int *)( packet + 8 ) = 3;
+	*(int *)( packet + 0xC ) = comm->m_pendingValue;
+
+	Rva0081A3B0( comm, (struct Rva0081AA20SendRecord *)packet );
+
+	comm->m_pendingValue = 0;
+	comm->m_state = 7;
+
+	return 0;
 }
 
 /* 0x0081A8C0 IS A WINDOWED SENDER: it transmits queued records while a
