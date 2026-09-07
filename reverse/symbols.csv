@@ -9665,7 +9665,7 @@ name,address,notes
 ??_7Rva007461B0Path@@6B@,0x010C7E28,vftable of the Rva00740AE0Base-derived path objects embedded at +0x22f4/+0x2358 of the owner
 ??_7Rva007A1230ArrayOwner@@6B@,0x01127EB4,address-derived one-slot vtable installed by the destructor at 0x007A1230
 ??_7Rva00885AF0Class@@6B@,0x00D32ECC,pin
-??_7Rva00886F60Class@@6B@,0x00D32FFC,pin
+??_7Rva00886F60Class@@6B@,0x01132FFC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00886F30 calls; autopin
 ??_7Rva0090E470Thing@@6B@,0x0113A668,address-derived vftable written by the 0x0090E470 constructor; class identity not recovered
 ??_7Rva0090E570Thing@@6B@,0x0113A6B0,address-derived vftable written by the 0x0090E570 constructor (byte-twin of 0x0090E470); class identity not recovered
 ??_7Rva0097BB40HLod@@6BMultiListObjectClass@@@,0x00D3EBE4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0097BB40 calls; autopin
@@ -10919,6 +10919,8 @@ name,address,notes
 ?Rva00873960D8@@3HA,0x01356504,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00873960 calls; autopin
 ?Rva00873960D9@@3HA,0x013564E4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00873960 calls; autopin
 ?Rva00873960Src@@3HA,0x0135654C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00873960 calls; autopin
+?Rva00885430Address@@3PADA,0x01336CF4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00885430 calls; autopin
+?Rva00885430Resolved@@3HA,0x01336D00,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00885430 calls; autopin
 ?Rva0088EA50@@YAPAXI@Z,0x0088EA50,pin
 ?Rva0088EAB0@@YAXPAX@Z,0x0088EAB0,pin
 ?Rva0088EAD0@@YAXPAX@Z,0x0088EAD0,pin
@@ -10941,6 +10943,7 @@ name,address,notes
 ?Rva008D2A20Head@@3PAURva008D2A20Node@@A,0x013387D0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008D2A20 calls; autopin
 ?Rva008D2A30Head@@3PAURva008D2A30Node@@A,0x013387D4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008D2A30 calls; autopin
 ?Rva008D2A40Head@@3PAURva008D2A40Node@@A,0x013387D4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008D2A40 calls; autopin
+?Rva008D2A90Head@@3PAURva008D2A90Node@@A,0x013387D4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008D2A90 calls; autopin
 ?Rva008FCE00SurfaceOperation@@YAXXZ,0x008FCE00,address-derived ABI alias for unnamed W3DRadarResetSurface operation used by 0x00732B00
 ?Rva00906E70ComputeCaps@DX8Wrapper@@KAXPAX@Z,0x00906E70,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0090ADC0 calls; autopin
 ?Rva0090C610Invoke@@YGXPAX@Z,0x0090C610,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006D4FF0 calls; autopin
@@ -75487,6 +75490,7 @@ name,address,notes
 ?bfmeResolveMR@BfmeInnerMR@@QAEPAVBfmeKeyMR@@XZ,0x000022BB,pin
 ?bfmeResolveMeleeTarget@Object@@QAEPAV1@H@Z,0x0000FAA6,TU-specific name for the melee target resolution helper used by AIAttackMeleeHordeWaitState
 ?bfmeResolveNW@BfmeInnerNW@@QAEPAVBfmeThingNW@@XZ,0x000022BB,pin
+?bfmeResolveXK@BfmeInnerXK@@QAEPAVBfmeThingXK@@XZ,0x000022BB,pin
 ?bfmeResolveZones@@YAXHHPAG00@Z,0x0002B648,Open-BFME5 ILT thunk to exact body 0x00403C90; BFME zone-equivalence list merger
 ?bfmeRestart@Gen_0018BC70@@AAEXXZ,0x0003F1FC,Open-BFME5 the ICF thunk (to 0x0043F1FC) the compaction at 0x0018BC70 calls when its flag is set
 ?bfmeResume@Gen_0018BC70@@AAEXXZ,0x0000764E,Open-BFME5 the ICF thunk (to 0x0040764E) the compaction at 0x0018BC70 calls when its flag is clear
@@ -75564,6 +75568,7 @@ name,address,notes
 ?bfmeRunVJC@BfmeMsgVJC@@QAEXXZ,0x007E8AC0,pin
 ?bfmeRunVJF@BfmeMsgVJF@@QAEXXZ,0x007E8AC0,pin
 ?bfmeRunZC@BfmeOwnZC@@QAEXVBfmeRoomZC@@PAX@Z,0x0000D97C,pin
+?bfmeSameRX@@YA_NABUBfmeInnerRX@@0@Z,0x00015195,pin
 ?bfmeSay1025@BfmeP1025@@QAEDPAD@Z,0x009EEBB0,pin
 ?bfmeSearchQW@@YAPADPAD0E@Z,0x0082DF70,pin
 ?bfmeSecondBK@BfmeTargetBK@@QAEXVAsciiStringBK@@@Z,0x00003B66,Open-BFME5 the second forward the setter at 0x00731800 makes
@@ -81409,6 +81414,7 @@ name,address,notes
 ?onRandomGate@Gen0060BE20@@AAEXXZ,0x00012846,random-gate ILT used by exact Living World eye tower gate at 0x0060BE20
 ?onRemovedFrom@Object@@QAEXPAV1@@Z,0x00023D30,ILT thunk to already-matched body 0x001CBAE0; resolved via decode_calls at TunnelTracker::onTunnelDestroyed
 ?onRemoving@BfmeRvaBBD0Owner@@QAEXPAVBfmeRvaBBD0Object@@@Z,0x0003F396,assigned-body helper for Rva0024BBD0
+?onScript002EE2D0@Rva002EE330Player@@QAEXHH@Z,0x0003B345,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EE2D0 calls; autopin
 ?onScript002EE330@Rva002EE330Player@@QAEXXZ,0x0001DEFD,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EE330 calls; autopin
 ?onScript002EEB60@Rva002EE330Player@@QAEXH@Z,0x0002B094,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EEB60 calls; autopin
 ?onScript002EF410@Rva002EE330Player@@QAEXH@Z,0x00041A15,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EF410 calls; autopin
@@ -81728,6 +81734,7 @@ name,address,notes
 ?refresh@Gen0060BE20@@AAEXXZ,0x00025CED,refresh ILT used by exact Living World eye tower gate at 0x0060BE20
 ?refresh@Q1Receiver0134FAAC@@QAEXXZ,0x009EFF50,Q1 receiver refresh helper used by the 0x009F1A60 body
 ?refresh@Rva000F72D0FrameCachedValue@@AAEXM@Z,0x0004154C,Float radius proven through F67B0 to partition query 9F63D0 floating range arithmetic
+?refresh@Rva001BE920Owner@@QAEXXZ,0x00034BE4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x001BE920 calls; autopin
 ?refresh@Rva00435270Layout@@AAEXXZ,0x0001CE9F,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00435270 calls; autopin
 ?refresh@Rva00454200Element@@QAEXXZ,0x000102FD,Open-BFME5 ILT reached by the cursor advance at 0x00454200
 ?refresh@Rva0060C120@@QAEXXZ,0x00025CED,Open2 0x0060C120 callee (ILT -> 0x0061CE00)
@@ -84563,5 +84570,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeSameRX@@YA_NABUBfmeInnerRX@@0@Z,0x00015195,pin
-?bfmeResolveXK@BfmeInnerXK@@QAEPAVBfmeThingXK@@XZ,0x000022BB,pin
