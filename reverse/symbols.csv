@@ -27960,6 +27960,7 @@ name,address,notes
 ?b_001c9310@@YAXXZ,0x001C9310,gen-thunk body
 ?b_001c9380@@YAXXZ,0x001C9380,gen-thunk body
 ?b_001c9490@@YAXXZ,0x001C9490,gen-thunk body
+?report@BFMEReportDamageSource@@QAEXPAVObject@@H@Z,0x001C9490,AIMoveToPositionAndDieState and SpawnBehavior call this body with the owner object and setting 1
 ?b_001c96b0@@YAXXZ,0x001C96B0,gen-thunk body
 ?b_001c98c0@@YAXXZ,0x001C98C0,gen-thunk body
 ?b_001c9980@@YAXXZ,0x001C9980,gen-thunk body
