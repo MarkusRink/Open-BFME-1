@@ -1,386 +1,162 @@
-// cl: /DNDEBUG /MD /EHsc
-// readable body of ??0SkirmishPreferences@@: Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/SkirmishGameOptionsMenu.cpp
-// Open-BFME5: lift the retail SkirmishPreferences constructor MASM body into a C++ thunk.
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// stlport
+//
+// BFME extends the ZH SkirmishPreferences constructor after load("Skirmish.ini"):
+// it finds the UserNames preference, decodes it to Unicode, and splits its
+// comma-delimited tokens into the list at this+0x14.  The constructor callers,
+// the vtable 0x010806B0, and the destructor's list clear establish this layout.
 
-extern "C" __declspec(naked) void bfme_SkirmishPreferencesCtor_09F850()
+#include <list>
+
+typedef bool Bool;
+typedef unsigned short WideChar;
+
+class AsciiString;
+class UnicodeString;
+
+template <class T> class StringBase
 {
-    __asm {
-        __emit 0x6a;
-        __emit 0xff;
-        __emit 0x68;
-        __emit 0xac;
-        __emit 0x6b;
-        __emit 0xff;
-        __emit 0x0;
-        __emit 0x64;
-        __emit 0xa1;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x50;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0x25;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x83;
-        __emit 0xec;
-        __emit 0x14;
-        __emit 0x53;
-        __emit 0x55;
-        __emit 0x56;
-        __emit 0x8b;
-        __emit 0xe9;
-        __emit 0x57;
-        __emit 0x89;
-        __emit 0x6c;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0xe8;
-        __emit 0x24;
-        __emit 0xb9;
-        __emit 0xfa;
-        __emit 0xff;
-        __emit 0x33;
-        __emit 0xf6;
-        __emit 0x8d;
-        __emit 0x5d;
-        __emit 0x14;
-        __emit 0x56;
-        __emit 0x8b;
-        __emit 0xcb;
-        __emit 0x89;
-        __emit 0x74;
-        __emit 0x24;
-        __emit 0x30;
-        __emit 0xc7;
-        __emit 0x45;
-        __emit 0x0;
-        __emit 0xb0;
-        __emit 0x6;
-        __emit 0x8;
-        __emit 0x1;
-        __emit 0xe8;
-        __emit 0x54;
-        __emit 0x97;
-        __emit 0xf7;
-        __emit 0xff;
-        __emit 0x51;
-        __emit 0x89;
-        __emit 0x64;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0x8b;
-        __emit 0xcc;
-        __emit 0x68;
-        __emit 0xe8;
-        __emit 0x6;
-        __emit 0x8;
-        __emit 0x1;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x34;
-        __emit 0x1;
-        __emit 0xe8;
-        __emit 0x1b;
-        __emit 0x93;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x8b;
-        __emit 0xcd;
-        __emit 0xe8;
-        __emit 0x5c;
-        __emit 0x4a;
-        __emit 0xf7;
-        __emit 0xff;
-        __emit 0x89;
-        __emit 0x74;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x89;
-        __emit 0x74;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0x68;
-        __emit 0xdc;
-        __emit 0x6;
-        __emit 0x8;
-        __emit 0x1;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x30;
-        __emit 0x3;
-        __emit 0xe8;
-        __emit 0xf9;
-        __emit 0x92;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x8d;
-        __emit 0x75;
-        __emit 0x4;
-        __emit 0x50;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0xe8;
-        __emit 0xd6;
-        __emit 0xb5;
-        __emit 0xf6;
-        __emit 0xff;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x8b;
-        __emit 0xf8;
-        __emit 0xe8;
-        __emit 0x5f;
-        __emit 0x80;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x3b;
-        __emit 0x3e;
-        __emit 0xf;
-        __emit 0x84;
-        __emit 0xaf;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x51;
-        __emit 0x89;
-        __emit 0x64;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0x8b;
-        __emit 0xcc;
-        __emit 0x83;
-        __emit 0xc7;
-        __emit 0x14;
-        __emit 0x57;
-        __emit 0xe8;
-        __emit 0x67;
-        __emit 0x82;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0x51;
-        __emit 0xe8;
-        __emit 0x1;
-        __emit 0xfe;
-        __emit 0xf6;
-        __emit 0xff;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x8;
-        __emit 0x50;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x30;
-        __emit 0x4;
-        __emit 0xe8;
-        __emit 0x1b;
-        __emit 0x8c;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x2c;
-        __emit 0x3;
-        __emit 0xe8;
-        __emit 0xad;
-        __emit 0x88;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0xe8;
-        __emit 0xa4;
-        __emit 0x95;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x68;
-        __emit 0xd8;
-        __emit 0x6;
-        __emit 0x8;
-        __emit 0x1;
-        __emit 0x8d;
-        __emit 0x54;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x52;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0xe8;
-        __emit 0x71;
-        __emit 0x90;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x84;
-        __emit 0xc0;
-        __emit 0x74;
-        __emit 0x55;
-        __emit 0x8b;
-        __emit 0x3b;
-        __emit 0x6a;
-        __emit 0xc;
-        __emit 0xe8;
-        __emit 0xf4;
-        __emit 0xeb;
-        __emit 0x78;
-        __emit 0x0;
-        __emit 0x8b;
-        __emit 0xf0;
-        __emit 0x8d;
-        __emit 0x4e;
-        __emit 0x8;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x4;
-        __emit 0x89;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x89;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x20;
-        __emit 0x85;
-        __emit 0xc9;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x2c;
-        __emit 0x5;
-        __emit 0x74;
-        __emit 0xa;
-        __emit 0x8d;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0x50;
-        __emit 0xe8;
-        __emit 0x91;
-        __emit 0x8a;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x8b;
-        __emit 0x47;
-        __emit 0x4;
-        __emit 0x68;
-        __emit 0xd8;
-        __emit 0x6;
-        __emit 0x8;
-        __emit 0x1;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x89;
-        __emit 0x3e;
-        __emit 0x89;
-        __emit 0x46;
-        __emit 0x4;
-        __emit 0x51;
-        __emit 0x89;
-        __emit 0x30;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x34;
-        __emit 0x3;
-        __emit 0x89;
-        __emit 0x77;
-        __emit 0x4;
-        __emit 0xe8;
-        __emit 0x1c;
-        __emit 0x90;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x84;
-        __emit 0xc0;
-        __emit 0x75;
-        __emit 0xab;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x2c;
-        __emit 0x2;
-        __emit 0xe8;
-        __emit 0x2a;
-        __emit 0x88;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x2c;
-        __emit 0x1;
-        __emit 0xe8;
-        __emit 0x1c;
-        __emit 0x88;
-        __emit 0x7e;
-        __emit 0x0;
-        __emit 0x8b;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0x5f;
-        __emit 0x5e;
-        __emit 0x8b;
-        __emit 0xc5;
-        __emit 0x5d;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0xd;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x5b;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x20;
-        __emit 0xc3;
-    }
+	friend class AsciiString;
+	friend class UnicodeString;
+
+public:
+	StringBase(void) : m_data(0) {}
+
+private:
+	StringBase(const T *text);
+	StringBase(const StringBase<T> &other);
+	~StringBase();
+
+	public:
+	Bool nextToken(StringBase<T> *token, const T *separators);
+
+	private:
+	void set(const StringBase<T> &other);
+	void trim(void);
+	void releaseBuffer(void);
+
+	void *m_data;
+};
+
+class AsciiString
+{
+public:
+	AsciiString(const char *text)
+	{
+		((StringBase<char> *)this)->StringBase<char>::StringBase(text);
+	}
+
+	AsciiString(const AsciiString &other)
+	{
+		((StringBase<char> *)this)->StringBase<char>::StringBase(
+			*(const StringBase<char> *)&other);
+	}
+
+	~AsciiString();
+
+private:
+	char *m_text;
+};
+
+class UnicodeString : private StringBase<WideChar>
+{
+public:
+	UnicodeString(void) : StringBase<WideChar>() {}
+
+	UnicodeString(const UnicodeString &other)
+		: StringBase<WideChar>(other) {}
+
+	~UnicodeString()
+	{
+		releaseBuffer();
+	}
+
+	UnicodeString &operator=(const UnicodeString &other)
+	{
+		StringBase<WideChar>::set(other);
+		return *this;
+	}
+
+	void trim(void)
+	{
+		StringBase<WideChar>::trim();
+	}
+
+	Bool nextToken(UnicodeString *token, const WideChar *separators)
+	{
+		return StringBase<WideChar>::nextToken(
+			(StringBase<WideChar> *)token, separators);
+	}
+};
+
+UnicodeString QuotedPrintableToUnicodeString(AsciiString original);
+
+// The constructor at 0x0009F630 is the existing STLport sized-list body;
+// m_userNames(0) deliberately consumes that out-of-line specialization.
+extern template class _STL::list<UnicodeString>;
+
+struct PreferenceNode
+{
+	unsigned char m_pad[0x14];
+	AsciiString m_value;
+};
+
+class PreferenceMap
+{
+public:
+	PreferenceNode *find(const AsciiString &) const throw();
+
+	PreferenceNode *end(void) const
+	{
+		return m_end;
+	}
+
+private:
+	PreferenceNode *m_end;
+	unsigned char m_unreconstructed[8];
+};
+
+class UserPreferences : public PreferenceMap
+{
+public:
+	UserPreferences(void);
+	virtual ~UserPreferences();
+	virtual Bool load(AsciiString filename);
+	virtual Bool write(void);
+
+private:
+	AsciiString m_filename;
+};
+
+class SkirmishPreferences : public UserPreferences
+{
+public:
+	SkirmishPreferences(void);
+	virtual ~SkirmishPreferences();
+	virtual Bool write(void);
+
+private:
+	_STL::list<UnicodeString> m_userNames;
+};
+
+// ??0SkirmishPreferences@@
+SkirmishPreferences::SkirmishPreferences(void)
+	: m_userNames(0)
+{
+	load("Skirmish.ini");
+	UnicodeString userNames;
+	UnicodeString token;
+	PreferenceNode *it;
+	{
+		AsciiString key("UserNames");
+		it = find(key);
+	}
+
+	if (it == end())
+		return;
+
+	userNames = QuotedPrintableToUnicodeString(it->m_value);
+	userNames.trim();
+	while (userNames.nextToken(&token, L","))
+		m_userNames.push_back(token);
 }
