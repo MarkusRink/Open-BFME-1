@@ -1,19 +1,42 @@
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/objectdlink
-// Open-BFME5: Team inside-area DLINK walks.
-//   allInside              0x000F5A30  278B  ScriptConditions::evaluateTeamInsideAreaEntirely
-//   noneInside             0x000F5B90  259B  ZH sibling between the two named conditions
-//   someInsideSomeOutside  0x000F5CE0  276B  ScriptConditions::evaluateTeamInsideAreaPartially
+
+// Every Team question that is answered by walking the member list and asking
+// each member where it is relative to a trigger area:
 //
-// Same Object DLINK PMF as Team::hasAnyUnits. allInside fails empty teams via
-// hasAnyObjects(false). Locomotor filter is the inlined locoSetMatches against
-// AI+0x1B8 (or GROUND when Object+0x204 is null). Dead is bit 0 of Object+0x344.
-// Two KindOf skips re-walk the template at +0x04 through the Overridable
-// final-override ILT: dword +0xD0 bit 0x01000000, then byte +0xD8 bit 0x20.
-// isInside is the ILT at 0x0000D6ED to Object::isInside.
+//   0x000F56D0  didPartialEnter        191B  evaluateTeamEnteredAreaPartially
+//   0x000F57C0  didPartialExit         191B  evaluateTeamExitedAreaPartially
+//   0x000F58B0  didAllExit             297B  evaluateTeamExitedAreaEntirely
+//   0x000F5A30  allInside              278B  evaluateTeamInsideAreaEntirely
+//   0x000F5B90  noneInside             259B  ZH sibling between the two above
+//   0x000F5CE0  someInsideSomeOutside  276B  evaluateTeamInsideAreaPartially
+//
+// This is the callee side of ScriptConditionsTriggerAreas.cpp: that file holds
+// the six conditions, this one holds the six Team bodies they call. All six
+// walk the member list through the same Object DLINK pointer-to-member and open
+// with the same member filter -- the locomotor-surface test against AI+0x1B8
+// (or the GROUND bit alone when Object+0x204 is null), then the dead bit at
+// Object+0x344, then a re-walk of the template at Object+0x04 through the
+// Overridable final-override ILT.
+//
+// They sat in four files, each carrying its own DLINK_ITERATOR, Overridable,
+// ThingTemplate, object views and bfmeFinalTemplate -- and its own Team.
+//
+// The Team copies had drifted in the way that matters here: three of the four
+// knew the entered-or-exited guard at Team+0x30 and one did not, because the
+// three bodies that read it happened to live together and the three that do
+// not happened to live apart. One layout states the member list head at +0x0C
+// and the guard at +0x30 together.
+//
+// The filter is NOT factored into a helper, because it is not one filter. The
+// four entirely-bodies apply both KindOf skips -- the dword at +0xD0 bit
+// 0x01000000 and then the byte at +0xD8 bit 0x20 -- while the two partial
+// bodies apply only the first. Sharing the models is safe; sharing the filter
+// would have quietly given two bodies a skip retail does not perform.
 
 #include "ObjectDlinkPmf.h"
 
 typedef bool Bool;
+typedef int Int;
 typedef unsigned int UnsignedInt;
 
 #define callMemberFunction(object,ptrToMember)  ((object).*(ptrToMember))
@@ -74,7 +97,9 @@ public:
 	unsigned char m_mid[0x344 - 0x208];
 	unsigned char m_dead;						// +0x344, bit 0
 
-	Bool isInside(class PolygonTrigger *pTrigger) const;
+	Bool didEnter(class PolygonTrigger *pTrigger) const;
+	Bool didExit(class PolygonTrigger *pTrigger) const;
+	Bool isInside(class PolygonTrigger *pTrigger) const;		// ILT 0x0000D6ED
 };
 
 class BfmeAISurfacesView
@@ -100,6 +125,9 @@ class Team
 {
 public:
 	Bool hasAnyObjects(Bool bfmeFlag) const;
+	Bool didPartialEnter(PolygonTrigger *pTrigger, UnsignedInt whichToConsider) const;
+	Bool didPartialExit(PolygonTrigger *pTrigger, UnsignedInt whichToConsider) const;
+	Bool didAllExit(PolygonTrigger *pTrigger, UnsignedInt whichToConsider) const;
 	Bool allInside(PolygonTrigger *pTrigger, UnsignedInt whichToConsider) const;
 	Bool noneInside(PolygonTrigger *pTrigger, UnsignedInt whichToConsider) const;
 	Bool someInsideSomeOutside(PolygonTrigger *pTrigger, UnsignedInt whichToConsider) const;
@@ -108,6 +136,8 @@ public:
 	void *m_proto;
 	void *m_id;
 	Object *m_head;							// +0x0C
+	unsigned char m_mid[0x30 - 0x10];
+	Bool m_enteredOrExited;					// +0x30
 
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const
 	{
@@ -127,6 +157,112 @@ static Bool locoSetMatches(UnsignedInt lstm, UnsignedInt surfaceBitFlags)
 {
 	surfaceBitFlags = surfaceBitFlags & 0x01 | ((surfaceBitFlags & 0x02) << 2);
 	return (surfaceBitFlags & lstm) != 0;
+}
+
+// ?didPartialEnter@Team@@QBE_NPAVPolygonTrigger@@I@Z
+Bool Team::didPartialEnter(PolygonTrigger *pTrigger, UnsignedInt whichToConsider) const
+{
+	if (!m_enteredOrExited)
+		return false;
+
+	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance())
+	{
+		Object *cur = iter.cur();
+		void *ai = ((BfmeObjectInsideView *)cur)->m_ai;
+		if (ai)
+		{
+			if ((((BfmeAISurfacesView *)ai)->m_surfaces
+				& ((whichToConsider & 1) | ((whichToConsider & 2) << 2))) == 0)
+				continue;
+		}
+		else if ((whichToConsider & 1) == 0)
+			continue;
+
+		if ((((BfmeObjectInsideView *)cur)->m_dead & 1) != 0)
+			continue;
+
+		ThingTemplate *tmpl = (ThingTemplate *)bfmeFinalTemplate(cur);
+		if ((tmpl->m_kindOf2 & 0x01000000) != 0)
+			continue;
+
+		if (((BfmeObjectInsideView *)cur)->didEnter(pTrigger))
+			return true;
+	}
+	return false;
+}
+
+// ?didPartialExit@Team@@QBE_NPAVPolygonTrigger@@I@Z
+Bool Team::didPartialExit(PolygonTrigger *pTrigger, UnsignedInt whichToConsider) const
+{
+	if (!m_enteredOrExited)
+		return false;
+
+	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance())
+	{
+		Object *cur = iter.cur();
+		void *ai = ((BfmeObjectInsideView *)cur)->m_ai;
+		if (ai)
+		{
+			if ((((BfmeAISurfacesView *)ai)->m_surfaces
+				& ((whichToConsider & 1) | ((whichToConsider & 2) << 2))) == 0)
+				continue;
+		}
+		else if ((whichToConsider & 1) == 0)
+			continue;
+
+		if ((((BfmeObjectInsideView *)cur)->m_dead & 1) != 0)
+			continue;
+
+		ThingTemplate *tmpl = (ThingTemplate *)bfmeFinalTemplate(cur);
+		if ((tmpl->m_kindOf2 & 0x01000000) != 0)
+			continue;
+
+		if (((BfmeObjectInsideView *)cur)->didExit(pTrigger))
+			return true;
+	}
+	return false;
+}
+
+// ?didAllExit@Team@@QBE_NPAVPolygonTrigger@@I@Z
+Bool Team::didAllExit(PolygonTrigger *pTrigger, UnsignedInt whichToConsider) const
+{
+	if (!m_enteredOrExited)
+		return false;
+
+	Bool anyConsidered = false;
+	Bool exited = false;
+	Bool inside = false;
+	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance())
+	{
+		Object *cur = iter.cur();
+		void *ai = ((BfmeObjectInsideView *)cur)->m_ai;
+		if (ai)
+		{
+			if ((((BfmeAISurfacesView *)ai)->m_surfaces
+				& ((whichToConsider & 1) | ((whichToConsider & 2) << 2))) == 0)
+				continue;
+		}
+		else if ((whichToConsider & 1) == 0)
+			continue;
+
+		if ((((BfmeObjectInsideView *)cur)->m_dead & 1) != 0)
+			continue;
+
+		ThingTemplate *tmpl = (ThingTemplate *)bfmeFinalTemplate(cur);
+		if ((tmpl->m_kindOf2 & 0x01000000) != 0)
+			continue;
+
+		tmpl = (ThingTemplate *)bfmeFinalTemplate(cur);
+		if ((tmpl->m_kindOf4 & 0x20) != 0)
+			continue;
+
+		if (((BfmeObjectInsideView *)cur)->didExit(pTrigger))
+			exited = true;
+		else if (((BfmeObjectInsideView *)cur)->isInside(pTrigger))
+			inside = true;
+		anyConsidered = true;
+	}
+	return anyConsidered && exited && !inside;
 }
 
 // ?allInside@Team@@QBE_NPAVPolygonTrigger@@I@Z
