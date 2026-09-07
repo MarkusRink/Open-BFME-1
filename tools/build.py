@@ -25,6 +25,14 @@ FUNCTIONS = ROOT / "reverse" / "functions.csv"
 SYMBOLS = ROOT / "reverse" / "symbols.csv"
 BUILD_DIR = ROOT / "build" / "match"
 PATCH_DIR = ROOT / "build" / "patch"
+# A run that DIES leaves its marker behind, and that is the whole point: an
+# object half-written by a killed compile is exactly as fresh as a whole one, so
+# no comparison of file contents can see it. Removed on the way out even when
+# the gate fails red -- a failed run still ran to completion and its objects are
+# consistent -- but not on SIGKILL, and not on SIGTERM either, since CPython's
+# default handler terminates without unwinding `finally`. tools/object_cache.py
+# reads these, so a marker whose pid is gone is proof rather than suspicion.
+INFLIGHT_DIR = BUILD_DIR / ".inflight"
 
 
 LIB_SUFFIX = ".lib"
@@ -2060,5 +2068,38 @@ def main(only=None):
     print("\nFULL GATE: OK — every check green")
 
 
+def run_marked(argv):
+    """main(), bracketed by the in-flight marker tools/object_cache.py reads."""
+    marker = INFLIGHT_DIR / str(os.getpid())
+    try:
+        INFLIGHT_DIR.mkdir(parents=True, exist_ok=True)
+        marker.write_text(f"{os.getpid()} {' '.join(argv)}\n")
+    except OSError as exc:
+        # Never fail a build over bookkeeping. A tree object_cache cannot
+        # evaluate is reported UNKNOWN, which is the safe direction.
+        print(f"build: could not write in-flight marker ({exc})", file=sys.stderr)
+        marker = None
+    try:
+        main(argv)
+        if not argv:
+            # A full run that reached here recompiled whatever was not current
+            # and verified every row, so the tree is consistent again and the
+            # markers left by earlier DEATHS no longer describe it. Only those:
+            # a marker whose process is alive belongs to a build running beside
+            # this one, and clearing it would hide a genuine unknown.
+            for stale in INFLIGHT_DIR.glob("*"):
+                if stale == marker or not stale.name.isdigit():
+                    continue
+                try:
+                    os.kill(int(stale.name), 0)
+                except ProcessLookupError:
+                    stale.unlink(missing_ok=True)
+                except OSError:
+                    pass
+    finally:
+        if marker is not None:
+            marker.unlink(missing_ok=True)
+
+
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    run_marked(sys.argv[1:])
