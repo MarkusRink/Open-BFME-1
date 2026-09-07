@@ -1,21 +1,35 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/stringbaseascii /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /ICode/Libraries/Source/WWVegas/WWLib
 // stlport
 //
-// The ExperienceScalarTable block, retail 0x00380400. BFME-only; the INI block
-// table in .data names it.
+// The ExperienceScalarTable block and its one field callback:
 //
-// The store is TheExperienceLevelSystem at 0x012F0888 - GameEngine::init builds
+//   0x0037EF50  ExperienceScalarTable::ExperienceScalarTable
+//   0x00380300  BfmeExperienceLevelSystem::addScalarTable
+//   0x00380350  parseExperienceScalarTableScalars   the Scalars field
+//   0x00380400  parseExperienceScalarTable          the block
+//
+// BFME-only; the INI block table in .data names the block, and the field table
+// at 0x010EA91C names the callback as the parser for the table's variable-length
+// Real vector. The block builds a table from the name, lets initFromINI fill it
+// through that same field table, and appends it -- so the callback the block
+// dispatches to was in the other file, one indirection away and no way to see it.
+//
+// The store is TheExperienceLevelSystem at 0x012F0888 -- GameEngine::init builds
 // the literal "TheExperienceLevelSystem" into the AsciiString it hands the
-// registrar in the instruction before that address is pushed - and the tables
+// registrar in the instruction before that address is pushed -- and the tables
 // go into a vector at +0x20 of it. Retail inlines the whole push_back fast path
 // (compare finish against end_of_storage, copy-construct, bump finish) and only
 // calls out to _M_insert_overflow, which is what says it is a vector and not a
 // list.
 //
-// The table record is 0x10 bytes and this block reads none of it: it is built
-// from the name, filled by the field table, and appended.
+// The table record is 0x10 bytes and the block reads none of it.
 //
+// _STLP_NO_EXCEPTIONS was defined by the field-callback file alone. It governs
+// the whole TU once the two share one, so it was probed on the block file
+// first -- define added, nothing else touched -- and all three of its bodies
+// still matched before anything was merged.
 ///////////////////////////////////////////////////////////////////////////////
+#define _STLP_NO_EXCEPTIONS 1
 #include "PreRTS.h"
 #include "Common/INI.h"
 #include "Common/STLTypedefs.h"
@@ -53,6 +67,25 @@ public:
 
 extern BfmeExperienceLevelSystem *TheExperienceLevelSystem;	// 0x012F0888
 
+__declspec(noinline) ExperienceScalarTable::ExperienceScalarTable( const AsciiString &name ) :
+	m_unmodelled_00( 0 ),
+	m_unmodelled_04( 0 ),
+	m_name( name )
+{
+}
+
+// ?parseExperienceScalarTableScalars@@YAXPAVINI@@PAX1PBX@Z
+void parseExperienceScalarTableScalars(INI *ini, void *, void *store, const void *)
+{
+	std::vector<Real> *values = (std::vector<Real> *)store;
+	values->clear();
+	for (const char *token = ini->getNextTokenOrNull(); token != NULL;
+		token = ini->getNextTokenOrNull())
+	{
+		values->push_back(INI::scanReal(token));
+	}
+}
+
 // ?parseExperienceScalarTable@@YAXPAVINI@@@Z
 void parseExperienceScalarTable( INI *ini )
 {
@@ -66,11 +99,4 @@ void parseExperienceScalarTable( INI *ini )
 	ini->initFromINI( table, ExperienceScalarTable::m_fieldParseTable );
 
 	TheExperienceLevelSystem->addScalarTable( table );
-}
-
-__declspec(noinline) ExperienceScalarTable::ExperienceScalarTable( const AsciiString &name ) :
-	m_unmodelled_00( 0 ),
-	m_unmodelled_04( 0 ),
-	m_name( name )
-{
 }
