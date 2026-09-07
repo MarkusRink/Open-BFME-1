@@ -81649,6 +81649,7 @@ name,address,notes
 ?pickAndPlayUnitVoiceResponse@@YAXPBV?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@W4Type@GameMessage@@PAVPickAndPlayInfo@@@Z,0x000196C8,BFME voice dispatcher; adjacent helpers pass the local DrawableList message IDs 0x7E7 or 0x7E8 and PickAndPlayInfo
 ?pieceAt@BfmeGeometryInfo@@QBEPBUBfmeGeometryPiece@@H@Z,0x0087E150,Single-box distance helper calls the retail GeometryInfo piece accessor
 ?pitchCameraOneFrame@W3DView@@AAEXXZ,0x0073C890,address-derived BFME W3DView camera helper
+?updateOneFrame@Gen0073C890Owner@@AAEXXZ,0x00025F0E,retail pitch setter calls the incremental thunk at 0x00025F0E before the matched W3DView one-frame body
 ?playAttackVoiceResponse@AIUpdateInterface@@IAEXPAVObject@@@Z,0x00002EF0,BFME AIUpdate attack-voice helper ILT; 0x002737B0 passes the state machine goal for direct player or script commands
 ?playAttackVoiceResponse@AIUpdateInterface@@IAEXPBUCoord3D@@@Z,0x0001060E,BFME attack-position voice helper ILT; privateAttackPosition at 0x0027DB50 passes its local goal Coord3D after setting AI_ATTACK_POSITION and the helper dispatches MSG_DO_ATTACK_OBJECT
 ?playAttackVoiceResponse@BFMEAttackVoiceAI@@QAEXPAVObject@@@Z,0x00002EF0,alias of the AIUpdateInterface spelling pinned below; AIUpdate.cpp reaches the helper through a view class because the vendored AIUpdate.h does not declare it
