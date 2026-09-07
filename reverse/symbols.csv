@@ -84723,3 +84723,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?read_texture_ids@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096DB40,BFME read_texture_stage chunk0x49 dispatches via call0x0096EDA1 and tests the returned AL as Boolean
 ?bfmeFindNH@@YGHPAUBfmeSetNH@@PAX@Z,0x007F76F0,pin
 ?bfmeSameUW@@YADPAXPAVBfmeItemUW@@0@Z,0x000162E8,pin
+?g_bfmeKRW@@3MA,0x00C90DDC,pin
