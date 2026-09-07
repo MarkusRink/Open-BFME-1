@@ -74295,6 +74295,7 @@ name,address,notes
 ?bfmeFlushSTA@@YAXXZ,0x0088A670,pin
 ?bfmeFlushSXA@@YAXXZ,0x0088A670,pin
 ?bfmeFlushSlots1289@BfmeSlotDispatcher1281@@QAEXXZ,0x008BCD80,address-derived slot-state flush reconstructed from the 0x008BCD80 retail body
+?bfmeFmtDYG@@3PADA,0x010F71E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00892230 calls; autopin
 ?bfmeFmtVJJ@BfmeThingVJJ@@QAEXPADH@Z,0x007E8760,pin
 ?bfmeForgetCC@BfmeRegistryCC@@QAEXPAX@Z,0x0002CAB1,Open-BFME5 the deregistration the destructor at 0x0073A4E0 makes
 ?bfmeFormatAPB@@YAXPADHPAX@Z,0x00850600,pin
