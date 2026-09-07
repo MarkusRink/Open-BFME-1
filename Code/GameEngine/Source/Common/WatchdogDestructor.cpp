@@ -1,17 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
-// Open-BFME7: the destructor at 0x0010BC80 (176 B) of Watchdog (see
-// Watchdog.cpp for the matched constructor/methods; vtable 0x0108E834 --
-// (0x01088E34, installed here and by ??0Watchdog@@QAE@HHH@Z) confirms the
-// class.  The
-// body: release the owned MutexClass::LockClass through a holder (delete +
-// null, matching the model Rva00641C60LockHolder shape), close the thread
-// handle at +0x44/+0x48 (the already-matched closeLiveHandle body, which
-// operates on those relative offsets regardless of the object's real type),
-// then delete the critical section at +0x70.  The holder's own destructor
-// then fires automatically (no-op, already released), then the MutexClass
-// member at +0x88 (whose real destructor is ICF-folded with
-// GameResultsCounter's), then the base ThreadClass destructor -- a trivial
-// empty virtual dtor that only restores its own vtable (0x01144844).
+#include <windows.h>
+
+// Preserve holder, mutex and ThreadClass destruction in retail order.
 
 class MutexClass
 {
@@ -30,12 +20,6 @@ public:
 private:
 	void *m_handle;
 	unsigned int m_locked;
-};
-
-class WatchdogCriticalSection
-{
-public:
-	char m_storage[ 0x18 ];
 };
 
 class WatchdogLockHolder
@@ -57,18 +41,11 @@ public:
 	MutexClass::LockClass *m_lock;
 };
 
-class BFMENetworkBackend
-{
-public:
-	void closeLiveHandle( void );
-};
-
-extern "C" __declspec(dllimport) void __stdcall bfmeInitDXB( void *cs );
-
 class ThreadClass
 {
 public:
 	virtual ~ThreadClass();
+	void Stop(void);
 
 private:
 	char m_name[ 0x40 ];
@@ -91,7 +68,7 @@ private:
 	unsigned int m_warningDelay;
 	unsigned int m_nextWarning;
 	int m_suppressionCount;
-	WatchdogCriticalSection m_criticalSection;
+	CRITICAL_SECTION m_criticalSection;
 	MutexClass m_mutex;
 	WatchdogLockHolder m_ownedLock;
 };
@@ -100,6 +77,6 @@ private:
 Watchdog::~Watchdog()
 {
 	m_ownedLock.release();
-	( (BFMENetworkBackend *)this )->closeLiveHandle();
-	bfmeInitDXB( &m_criticalSection );
+	ThreadClass::Stop();
+	DeleteCriticalSection( &m_criticalSection );
 }
