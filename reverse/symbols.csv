@@ -85393,3 +85393,6 @@ _g_bfmeDirtyZR,0x00EEF418
 ?Load_W3D@HLodDefClass@@QAE_NAAVChunkLoadClass@@@Z,0x0097CC70,campaign=luna36h-20260907;lane=mesh;BFME HLOD loader callee; target body is the named HLodDefClass Load_W3D boundary
 _htonl@4,0x0081BDDE,route=WSOCK32.dll!htonl; matched piSBInit callback identity and sb_serverlist htonl caller; raw thunk equals 0x0081BE32; run=luna4-week-0906-r0007-w2
 ?bfmeResize@Gen009D76F0@@QAEXI@Z,0x009D78B0,hashtable resize callee of Gen009D76F0 insert
+?bfmeHighAR@BfmeHostAR@@QAEXPAVBfmeAgentAR@@@Z,0x000044C1
+?bfmeLowAR@BfmeHostAR@@QAEXPAVBfmeAgentAR@@@Z,0x000160B3
+?bfmeNotifyAR@BfmeSubAR@@QAEXPAVBfmeAgentAR@@@Z,0x00029DAC
