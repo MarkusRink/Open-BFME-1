@@ -1,20 +1,40 @@
 // cl: /DNDEBUG /MD /EHsc
-
-// AIPlayer::removeAll_TeamBuildQueue and removeAll_TeamReadyQueue, retail
-// 0x001607C0 and 0x00160990. The same DLINK macro expanded twice, with the two
-// list heads at AIPlayer+0x04 and +0x08. A team in the queues carries TWO link
-// pairs, one per list, at node+0x04/+0x08 and node+0x0C/+0x10 - which is what
-// the second body's displacements say, and the reason it is not just the first
-// with a different head.
+// readable body of ?removeAll_TeamBuildQueue@AIPlayer@@: Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp
+// readable body of ?removeAll_TeamReadyQueue@AIPlayer@@: Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp
+// readable body of ??1AIPlayer@@MAE@XZ: Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp
 //
-// Both bodies inline the whole of dlink_removeFrom: unlink from the next, unlink
-// from the previous, and ONLY when there is no previous move the list head on to
-// the next. That else arm is the jump over the head store, and it is why the
-// two functions differ by exactly one displacement.
+// Open-BFME: emptying AIPlayer's two team queues, and the destructor that is the
+// only caller of both.
+//
+//   ?removeAll_TeamBuildQueue@  0x001607C0,  82 bytes
+//   ?removeAll_TeamReadyQueue@  0x00160990,  82 bytes
+//   ??1AIPlayer@                0x001613C0,  87 bytes
+//
+// The destructor is four lines and does nothing else: drain the build queue,
+// drain the ready queue, both with a callback that does nothing. Its own file
+// could only declare the two functions it calls; here it sits under them.
+//
+// The two removeAll bodies are the same DLINK macro expanded twice, with the
+// list heads at AIPlayer+0x04 and +0x08. A team in the queues carries TWO link
+// pairs, one per list, at node+0x04/+0x08 and node+0x0C/+0x10 -- which is what
+// the second body's displacements say, and the reason it is not simply the first
+// with a different head. Both inline the whole of dlink_removeFrom: unlink from
+// the next, unlink from the previous, and ONLY when there is no previous move
+// the list head on to the next. That else arm is the jump over the head store,
+// and it is why the two functions differ by exactly one displacement.
 //
 // Zero Hour's removeAll goes through removeFrom, which first asks isInList.
-// Retail asks nothing - the node it is unlinking is the head, so the question
-// has one answer - and the DLINK node keeps its links at +0x04 and +0x08.
+// Retail asks nothing -- the node it is unlinking is the head, so the question
+// has one answer.
+//
+// The build queue head at +0x04 is the same field AIPlayerDozer.cpp walks when
+// it asks whether a dozer has already been ordered.
+
+class PlayerController
+{
+protected:
+	virtual ~PlayerController() {}
+};
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AIPlayer.h
 class TeamInQueue
@@ -56,17 +76,20 @@ private:
 	TeamInQueue *m_dlink_next_ready;			// +0x10
 };
 
+static void deleteQueue(TeamInQueue *) {}
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AIPlayer.h
-class AIPlayer
+class AIPlayer : public PlayerController
 {
 protected:
 	typedef void (*RemoveAllProc)( TeamInQueue *o );
+
+	virtual ~AIPlayer();
 
 	void removeAll_TeamBuildQueue( RemoveAllProc p );
 	void removeAll_TeamReadyQueue( RemoveAllProc p );
 
 private:
-	unsigned int m_unmodelled_00;				// +0x00
 	TeamInQueue *m_buildQueueHead;				// +0x04
 	TeamInQueue *m_readyQueueHead;				// +0x08
 };
@@ -97,4 +120,11 @@ void AIPlayer::removeAll_TeamReadyQueue( RemoveAllProc p )
 		if( p )
 			(*p)( tmp );
 	}
+}
+
+// ??1AIPlayer@@MAE@XZ
+AIPlayer::~AIPlayer()
+{
+	removeAll_TeamBuildQueue(deleteQueue);
+	removeAll_TeamReadyQueue(deleteQueue);
 }
