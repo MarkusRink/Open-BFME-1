@@ -72985,6 +72985,7 @@ name,address,notes
 ?bfmeAccept@Gen_0024E710@@AAEXPAVBfmeSeedTarget@@@Z,0x00007658,Open-BFME5 ILT the version block at 0x0024E710 accepts through
 ?bfmeAccept@Gen_0024F500@@AAEXPAVBfmeSeedTarget@@@Z,0x000160B3,Open-BFME5 ILT the seeder at 0x0024F500 accepts through
 ?bfmeAccept@Gen_00250A80@@AAEXPAVBfmeSeedTarget@@@Z,0x000099CB,Open-BFME5 ILT the version block at 0x00250A80 accepts through
+?bfmeAccept@Gen_00251BC0@@AAEXPAVBfmeSeedTarget@@@Z,0x000099CB,seed-pair helper shares the proven 0x000099CB ILT with Gen_00250A80
 ?bfmeAccept@Gen_00255F60@@AAEXPAVBfmeSeedTarget@@@Z,0x00001681,Open-BFME5 ILT the seeder at 0x00255F60 accepts through
 ?bfmeAccept@Gen_00256360@@AAEXPAVBfmeSeedTarget@@@Z,0x00003AEE,Open-BFME5 ILT the seeder at 0x00256360 accepts through
 ?bfmeAccept@Gen_00257D10@@AAEXPAVBfmeSeedTarget@@@Z,0x000289F7,Open-BFME5 ILT the seeder at 0x00257D10 accepts through
