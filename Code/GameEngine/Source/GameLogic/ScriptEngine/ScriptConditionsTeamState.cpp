@@ -1,32 +1,42 @@
 // cl: /DNDEBUG /MD /EHsc
-// readable body of ?evaluateTeamCreated@ScriptConditions@@IAE_NPAVParameter@@@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions.cpp
 // readable body of ?evaluateIsDestroyed@ScriptConditions@@IAE_NPAVParameter@@@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions.cpp
+// readable body of ?evaluateTeamCreated@ScriptConditions@@IAE_NPAVParameter@@@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions.cpp
+// readable body of ?evaluateTeamHasNamed@ScriptConditions@@IAE_NPAVParameter@@0@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions.cpp
+// readable body of ?evaluateTeamStateIs@ScriptConditions@@IAE_NPAVParameter@@0@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions.cpp
+// readable body of ?evaluateTeamStateIsNot@ScriptConditions@@IAE_NPAVParameter@@0@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions.cpp
 
-// The two ScriptConditions conditions that ask about a team's own lifecycle
-// rather than where it is: has it been created yet, and has it been destroyed.
-// Both look the team up by name and read a flag, so they share every model
-// here -- and each carried a private copy of all of it, with a Team that
-// stopped at whichever flag its own body read.
+// Every ScriptConditions condition that asks a team about itself rather than
+// about where it is:
 //
-// Declared once, the two flags sit in one layout: m_created at +0x32 and
-// m_ready at +0xFC.
+//   0x003245A0  evaluateIsDestroyed     ready, and nothing left alive in it
+//   0x00324D00  evaluateTeamCreated     has it spawned yet
+//   0x00326960  evaluateTeamHasNamed    is this unit one of its members
+//   0x0032AFD0  evaluateTeamStateIs     its state string equals this one
+//   0x0032B0B0  evaluateTeamStateIsNot  ... and the same comparison negated
+//
+// All five look the team up through getTeamNamed and then read one thing off
+// it, so they share every model here. They sat in three files that each
+// carried a private copy of AsciiString, Parameter and the ScriptEngine
+// vtable, and a Team that stopped at whichever field its own body reached.
+//
+// Declared once, that Team is a single layout instead of three overlapping
+// guesses: the state string at +0x18, the created flag at +0x32, the ready
+// flag at +0xFC. The state comparison keeps its own shim class because the
+// callee it reaches is pinned under that name -- AsciiString::compare through
+// the ILT thunk at 0x000220C5, not a member of the string model below.
 
 typedef bool Bool;
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Team.h
-class Team
+class AsciiString;
+
+// The string comparison the state conditions reach; retail 0x000220C5.
+class AsciiStringCompareShim
 {
 public:
-	Bool hasAnyObjects(Bool includeDead);
-
-	Bool isCreated(void) { return m_created; }
-	Bool isReady(void) { return m_ready; }
+	int compare(const AsciiString &other) const throw();
 
 private:
-	unsigned char m_pad[0x32];
-	Bool m_created;						// this+0x32
-	unsigned char m_pad33[0xFC - 0x33];
-	Bool m_ready;						// this+0xFC
+	char *m_text;
 };
 
 template <class T> class StringBase
@@ -51,6 +61,26 @@ public:
 
 private:
 	char *m_text;
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Team.h
+class Team
+{
+public:
+	Bool hasAnyObjects(Bool includeDead);
+	char contains(const AsciiString &key);
+
+	const AsciiStringCompareShim &getState(void) const { return m_state; }
+	Bool isCreated(void) { return m_created; }
+	Bool isReady(void) { return m_ready; }
+
+private:
+	unsigned char m_pad[0x18];
+	AsciiStringCompareShim m_state;				// this+0x18
+	unsigned char m_pad1C[0x32 - 0x1C];
+	Bool m_created;						// this+0x32
+	unsigned char m_pad33[0xFC - 0x33];
+	Bool m_ready;						// this+0xFC
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Scripts.h
@@ -94,9 +124,25 @@ extern ScriptEngine *TheScriptEngine;
 class ScriptConditions
 {
 protected:
-	Bool evaluateTeamCreated(Parameter *);
 	Bool evaluateIsDestroyed(Parameter *);
+	Bool evaluateTeamCreated(Parameter *);
+	Bool evaluateTeamHasNamed(Parameter *, Parameter *);
+	Bool evaluateTeamStateIs(Parameter *, Parameter *);
+	Bool evaluateTeamStateIsNot(Parameter *, Parameter *);
 };
+
+// ?evaluateIsDestroyed@ScriptConditions@@IAE_NPAVParameter@@@Z
+Bool ScriptConditions::evaluateIsDestroyed(Parameter *pTeamParm)
+{
+	Team *theTeam = TheScriptEngine->getTeamNamed(pTeamParm->getString(), false);
+	if (theTeam) {
+		if (!theTeam->isReady()) {
+			return false;
+		}
+		return (!theTeam->hasAnyObjects(false));
+	}
+	return false;
+}
 
 // ?evaluateTeamCreated@ScriptConditions@@IAE_NPAVParameter@@@Z
 Bool ScriptConditions::evaluateTeamCreated(Parameter *pTeamParm)
@@ -108,15 +154,39 @@ Bool ScriptConditions::evaluateTeamCreated(Parameter *pTeamParm)
 	return ( false );
 }
 
-// ?evaluateIsDestroyed@ScriptConditions@@IAE_NPAVParameter@@@Z
-Bool ScriptConditions::evaluateIsDestroyed(Parameter *pTeamParm)
+// ?evaluateTeamHasNamed@ScriptConditions@@IAE_NPAVParameter@@0@Z
+Bool ScriptConditions::evaluateTeamHasNamed(Parameter *pTeamParm, Parameter *pNameParm)
 {
 	Team *theTeam = TheScriptEngine->getTeamNamed(pTeamParm->getString(), false);
+	if (!theTeam) {
+		return false;
+	}
+	if (theTeam->contains(pNameParm->getString())) {
+		return true;
+	}
+	return false;
+}
+
+// ?evaluateTeamStateIs@ScriptConditions@@IAE_NPAVParameter@@0@Z
+Bool ScriptConditions::evaluateTeamStateIs(
+	Parameter *pTeamParm, Parameter *pStateParm)
+{
+	Team *theTeam = TheScriptEngine->getTeamNamed(pTeamParm->getString(), false);
+	AsciiString stateName = pStateParm->getString();
 	if (theTeam) {
-		if (!theTeam->isReady()) {
-			return false;
-		}
-		return (!theTeam->hasAnyObjects(false));
+		return theTeam->getState().compare(stateName) == 0;
+	}
+	return false;
+}
+
+// ?evaluateTeamStateIsNot@ScriptConditions@@IAE_NPAVParameter@@0@Z
+Bool ScriptConditions::evaluateTeamStateIsNot(
+	Parameter *pTeamParm, Parameter *pStateParm)
+{
+	Team *theTeam = TheScriptEngine->getTeamNamed(pTeamParm->getString(), false);
+	AsciiString stateName = pStateParm->getString();
+	if (theTeam) {
+		return theTeam->getState().compare(stateName) != 0;
 	}
 	return false;
 }
