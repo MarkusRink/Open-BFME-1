@@ -61,4 +61,62 @@ void BfmeOwnerDR::bfmeAddDR(Drawable *value)
 		vec->bfmeOverflowDR(vec->m_bfmeFinishDR, value, BfmeTagDR(), 1, true);
 
 	m_bfmeDirtyDR = 1;
+// ?unidentified_0002e9a1@WindowManager@@QAEXH@Z
+// partial score=0.95 date=2026-09-07
+// cl: /DNDEBUG /MD /EHsc
+
+namespace _STL
+{
+struct __false_type
+{
+};
+
+template <class Type>
+class allocator
+{
+};
+
+template <class Type, class Allocator>
+class vector
+{
+public:
+	Type *_M_start;
+	Type *_M_finish;
+	Type *_M_end_of_storage;
+
+	void _M_insert_overflow( Type *position, const Type &value,
+		const __false_type &, unsigned int fillLength, bool atEnd );
+
+
+
+};
+}
+
+class WindowManager
+{
+public:
+	void unidentified_0002e9a1( int value );
+
+private:
+	char m_bfmePrefix[ 0x198 ];
+	_STL::vector< int, _STL::allocator< int > > m_bfmeValues;
+	bool m_bfmeValuesChanged;
+};
+
+void WindowManager::unidentified_0002e9a1( int value )
+{
+	_STL::vector< int, _STL::allocator< int > > &values = m_bfmeValues;
+
+	if ( values._M_finish != values._M_end_of_storage )
+	{
+		if ( values._M_finish )
+			*values._M_finish = value;
+		++values._M_finish;
+	}
+	else
+	{
+		values._M_insert_overflow( values._M_finish, value,
+			reinterpret_cast<const _STL::__false_type &>( value ), 1, true );
+	}
+	m_bfmeValuesChanged = true;
 }
