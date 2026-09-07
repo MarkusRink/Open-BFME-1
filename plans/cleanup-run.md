@@ -3,10 +3,10 @@
 Started: 2026-09-07 16:41:55 UTC (2026-09-08 01:41:55 JST).
 Deadline: 2026-09-08 04:41:55 UTC (13:41:55 JST).
 Execution base: `8fe7448503316d344fb623d467f3b107126cd9c5`.
-Status: phase 3 ownership/cohesion work is active; 62 cleanup/prerequisite units
-are published through `a820be5b88`. Full integration at `b7bb936fc0` completed with
-four existing red categories and no new function-comparison failure. Later
-scoped repairs are published; isolated workers continue.
+Status: phase 3 ownership/cohesion work is active; 73 cleanup/prerequisite units
+are published through `03d4a2485e`. Full integration at `1fe94e9ded` completed with
+three red categories and no new function-comparison failure. The later runtime
+unit has scoped verification; isolated workers continue.
 The full gate has not passed. See [README.md](README.md) for the standing runbook.
 
 ## Ownership
@@ -16,9 +16,9 @@ branches, indexes and build outputs. Coordinator alone publishes master.
 
 | Worker/root suffix | Current exclusive responsibility |
 |---|---|
-| cleanup_metrics / metrics | DataChunk cohesion queued; independent ThreadClass review |
-| cleanup_placement / placement | Watchdog API correction queued; bounded next-family screen |
-| cleanup_evidence / evidence | ThreadClass lifecycle on clean h4 branch; independent reviews |
+| cleanup_metrics / metrics | Independent final review of both active units; baseline attribution |
+| cleanup_placement / placement | Iterator clear, reference-state identity and existing Clump delete repair |
+| cleanup_evidence / evidence | Callable-loss consumer selection and checked hook failure propagation |
 
 Existing contributor worktrees are preserved. No new service, port, database,
 shared writable cache or external fleet configuration is required.
@@ -74,10 +74,43 @@ Tested SHA: `b7bb936fc0e3916fe9102d9674922dc71fba6d8b`.
   No patch modified Code/gen_small or Code/gen_asm. Naming/identity corrections
   dominate this phase; concrete per-unit reductions are listed below.
 
+### Integration checkpoint: 21:32:58–21:39:30 UTC
+
+Tested SHA: `1fe94e9dede43ff7aab5df1e4d808d9cd417b634`.
+`BUILD_POOL=4 ./build.sh` exited 1 after 392.019s; log:
+`build/cleanup-20260907/integration-1fe94e9ded.log`. Session 11606 and PID
+2222877 are terminal. The coordinator snapshot remained unchanged throughout.
+
+- Functions: 184/161,800 failures, an exact subset of the previous 190 and the
+  initial 214. There are zero new symbol/source failure pairs. The six removed
+  since the last full check are three retired false aliases, two corrected EH
+  labels and one sentinel allocator repair. The cumulative 30 comprise six
+  same-identity/range source repairs, two EH labels, three range corrections and
+  nineteen misleading names retired. These are not 30 runtime bug fixes.
+- All 30 directly intersect this team's published patches across 24 old ranges;
+  none has a direct external source/row touch among the 205 intervening commits.
+  This does not exclude indirect dependency effects. The remaining iterator and
+  Drawable claims at 1DDFD0 still fail and are not credited as repaired.
+- DIR32 inconsistencies: 96, down from 97; the additional reduction is not yet
+  attributed to a specific patch. Source claims pass for 13,337 sources.
+- All 19,476 literals and 1,122 empty-string references pass. Null relocation
+  passes at 65 findings in 19 bodies, with 740 unreadable rows below the
+  unchanged 1,000 limit. The no-op check remains unrunnable. Three categories
+  remain red; this is not a passing full gate.
+- There were 64 compiled TUs and 13,857 cache hits. Different snapshots and
+  changed TUs prevent treating 401.77s versus 392.019s as a controlled speedup.
+
+The null-baseline correction `7f8af23610` is separate bookkeeping for the
+pre-run external fix `fcf825b4f7`: that fix retired the false 9-byte FXNugget
+constructor at 61D90. Historical comparison and an independently reproduced
+object relocation identified exactly the missing finding. Only rows 66 to 65
+changed; the 19-body count and unreadable limit stayed fixed. No source-fix
+credit is assigned to this correction, and no baseline was raised.
+
 ### Published units
 
-Sixty-two cleanup/prerequisite commits are confirmed ancestors of origin/master:
-61 cleanup units and one prerequisite. Planning and review-only commits are
+Seventy-three cleanup/prerequisite commits are confirmed ancestors of origin/master:
+72 cleanup units and one prerequisite. Planning and review-only commits are
 excluded. Worker and published identities are separate; this table lists final
 published SHAs. Hourly counts below retain their actual cutoff times.
 
@@ -120,6 +153,17 @@ published SHAs. Hourly counts below retain their actual cutoff times.
 | TeamPrototype shared view and honest argument alias | 6a5a353a53 | 7/7; duplicate 13-line view removed |
 | PeerDefs unwind object-symbol roles | e5c550c72c | 168/168 across implementation and unchanged reference TU |
 | Actual network sentinel pool allocator | a820be5b88 | 28/28; existing 127-byte mismatch repaired |
+| Watchdog thread and Win32 API declarations | cbff26b98f | 1/1; 105 to 82 lines, import-table evidence |
+| DataChunk output cohesion | 4d40a07918 | 45/45; 219 to 166 lines |
+| Neutral owners for false thread constructors | 80b48e98af | Worker 30/30, integrated 14/14; old false pin removed |
+| Nine FX constructor filenames | f0bef83407 | 9/9; source bytes identical, readability unchanged |
+| ThreadClass construction and priority cohesion | 4082dba47a | 3/3; 42 source lines removed |
+| Real ThreadClass virtual destructor | d2e5776d43 | 3/3; seven-byte body converted to C++ |
+| Retire false NetCommandList destructor aliases | c5ad1c6252 | Retained canonical family 6/6 |
+| NetCommandList reset and append cohesion | cd43adc013 | 8/8; 37 source lines removed |
+| Remove retired FXNugget claims from prose | 9022232d55 | 1/1; body and pin address unchanged |
+| ExperienceTracker progression cohesion | 1fe94e9ded | 7/7; 23 source lines removed |
+| ThreadClass runtime ownership and callback ABI | 03d4a2485e | 32/32; four source consumers, source net +6 lines |
 
 The last vector push raced another contributor, then published after a clean
 rebase; final published additions/deletions equal the reviewed worker patch.
@@ -130,36 +174,23 @@ The next 21 source units were published after that review and before 19:40 UTC.
 
 ## Reviewed integration queue
 
-Worker SHAs below are prepared, not delivered. Preserve each branch's order;
-append-only union ledgers can silently import dependency rows out of order.
-All units received independent review. Coordinator rechecks the integrated diff
-and all affected surviving sources before normal commit/push.
+The reviewed publication queue is drained through runtime worker `2d0353d930`,
+published as `03d4a2485e`; session 61011 is terminal. No coordinator build or
+publication is running. Preserve worker order and compare exact patches before
+commit and after rebase; ledger union merges can import unrelated changes.
 
-| Lane | Worker SHAs in order | Improvement |
-|---|---|---|
-| placement | ad2c7fbc19 | Accurate Watchdog thread/Win32 APIs; 105 to 82 lines, 1/1 |
-| metrics | 721fce25ef | DataChunk cohesion; 219 to 166 lines, 45/45 |
+Placement is implementing the independently approved eight-path proposal from
+`cleanup-20260907-placement-h5` at `cd43adc013`: three row changes, two false pin
+deletions, two tombstones, truthful ObjectIterator inheritance, and the existing
+12-byte Clump placement delete using the proven CRT free route. Scratch proof
+is 3/3 bodies plus 11/11 retained canonical claims. Constructor promotion and
+Drawable identity repair are separate work. Final implementation review remains
+required; no prepared commit is listed until it exists.
 
-The five-unit sequential publication trial completed normally, including one
-bounded remote-race retry. Its session 33251 is terminal; no coordinator gate or
-publication currently runs. Integrate the two reviewed units above next.
-Metrics uses branch
-`cleanup-20260907-metrics-h3` from published `904b626b31`; its old branch is
-preserved. Evidence's superseded helper `61ace767d7` is preserved only on
-`cleanup-20260907-evidence-xfer-before-owner`; never integrate it.
-Placement preserved `cleanup-20260907-placement-before-water-rebase` at
-`4917a76344`, then replayed only that LAN unit onto `b7bb936fc0` as `a5a906124c`;
-the exact patch is unchanged. Both LAN and Water are now published.
-Evidence's local `bb1c5efd0e` repeats published marker prerequisite `cc09850f21`;
-exclude it from publication. Evidence is clean on `cleanup-20260907-evidence-h4`
-from published `2f938bd5fb`; its old tip is preserved on
-`cleanup-20260907-evidence-pre-h4`. It owns the ThreadClass constructor/priority
-cohesion unit and a separate seven-byte destructor conversion. Both are held
-before commit: an independent DIR32 check found that the proposed proven
-constructor and an existing two-argument constructor bind ThreadClass's vtable
-symbol to different retail tables. Evidence investigates the older owner while
-metrics independently reviews the collision. Four green byte checks do not
-resolve this identity conflict. Generated bodies remain untouched.
+Evidence owns the bounded delta_sources/hook unit on its runtime branch.
+Metrics reviews both units from `cleanup-20260907-metrics-h4`. Older branches
+remain preserved. Superseded helper `61ace767d7` and duplicate prerequisite
+`bb1c5efd0e` must never be added to the publication queue.
 
 ## Hourly reviews
 
@@ -355,6 +386,53 @@ observed results; do not prefill reviews or claim unmeasured speedups.
   a clean refresh. The coordinator drains reviewed units and investigates the
   stale null-relocation baseline without changing it on a guess. Next review:
   21:41:55 UTC. Deadline remains 04:41:55 UTC.
+
+### Hour 5: reviewed 21:40–21:57 UTC
+
+- Delivered by the 21:41:55 boundary: 72 cleanup/prerequisite units, 15 since the
+  previous boundary, plus the separate external-fix baseline bookkeeping above.
+  Runtime `03d4a2485e` landed after the cutoff and is excluded. The 72 patches
+  add 4,238 and remove 4,804 Code lines: net -566 across 119 distinct source
+  paths. Other contributors, unpublished work and baseline bookkeeping are
+  excluded. No generated source was edited. Units include ledger/tool repairs
+  and are not a count of newly reconstructed functions.
+- Independent landed sample: a nonauthor compared the published neutral and
+  real ThreadClass sources against the frozen integration snapshot, rechecked
+  their distinct constructor arguments, layouts and vtable slots, and confirmed
+  five same-range rows retain separate truthful owners. The old two-argument
+  pin is removed; unknown original names and allocation extent remain explicit.
+  No unsupported identity or source drift was found; no duplicate build ran.
+- The completed full result above improves the initial failure census from
+  214 to 184 with zero new failing identities. Null-relocation bookkeeping is
+  supported by the retired claim's history and independent object evidence.
+  Three categories still fail. Filename-only and prose-only FX cleanup has no
+  measurable readability-score improvement; runtime accuracy costs six source
+  lines. Neither is represented as a line-count reduction.
+- Hour 4 publication experiment met its three-transition target: actual
+  in-queue completion-to-next-start delays were 0.000199, 0.000107 and 0.000191s,
+  all below 2s. No new patch or verification defect occurred in those batches.
+  Retain sequential publication. Gaps between separate queue invocations are
+  excluded from that specific measure, not from elapsed work; this does not
+  establish faster end-to-end throughput or eliminate remote push races.
+- Named review activation remains useful, with observed reviews of 34–110s,
+  but coordinator reviews of NetCommandList and ExperienceTracker took 138s
+  and 125.182s, missing the 120s target. Author reaction also took 55s and 77s
+  on two coordinator units. The hourly checkpoint itself was finalized late.
+  These are real coordination delays, not compiler cost. Keep a named reviewer
+  and record both approval and author action; do not claim instant handoffs.
+- Next single measured adjustment: audit lost callable names before the first
+  extraction compile, targeting zero late consumer-scope additions over the
+  next three identity units. A 237-byte queue destructor was discovered late
+  during ThreadClass scratch work because removing a ledger-provided callable
+  can affect callers without deleting a pin. It was corrected before commit.
+  The bounded tool patch reuses retail/COFF consumer selection, mirrors the
+  resolver's ordered last-row semantics, includes overlapping owners, and
+  checks selector exit status in both hooks. Pure fixtures cover these actual
+  failure modes. No coverage gate or conservative missing-object rule is relaxed.
+- Next owners: placement implements the approved iterator/reference-state
+  split; evidence implements the bounded consumer guard; metrics independently
+  reviews both. Coordinator publishes this checkpoint and drains reviewed units.
+  Next review: 22:41:55 UTC. Deadline remains 04:41:55 UTC.
 
 ## Resume
 
