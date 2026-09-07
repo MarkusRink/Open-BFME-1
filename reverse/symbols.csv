@@ -50243,6 +50243,10 @@ name,address,notes
 ?b_0048b550@@YAXXZ,0x0048B550,gen-thunk body
 ?b_0048b690@@YAXXZ,0x0048B690,gen-thunk body
 ?rva0048B390@TransitionGroup@@QAEXPAX@Z,0x0048B390,address-derived TransitionGroup list-copy helper body; the verified existing ILT 0x0000BE97 is the compiler resolver candidate for the 0x0048B690 calls; campaign=luna36h-20260907;lane=files
+??1TransitionGroup@@QAE@XZ,0x0048AB20,existing BFME TransitionGroup destructor body identified by its constructor and list layout; compiler resolver uses the verified incremental thunk for the destructor call; campaign=luna36h-20260907;lane=files
+??_7GameWindowTransitionsHandler@@6B@,0x010F9610,GameWindowTransitionsHandler vtable installed by the matched retail constructor at 0x0048BF40 and used by destructor 0x0048B410; campaign=luna36h-20260907;lane=files
+??1Rva0048B1A0TransitionMap@@QAE@XZ,0x0048B1A0,retail transition-map teardown body reached through existing ILT 0x000099C6; local ABI view preserves the 0x14-byte member; campaign=luna36h-20260907;lane=files
+??1?$_List_base@PAVTransitionGroup@@V?$allocator@PAVTransitionGroup@@@_STL@@@_STL@@QAE@XZ,0x00489E50,retail TransitionGroup-pointer list teardown body reached through existing ILT 0x0001F1B3; campaign=luna36h-20260907;lane=files
 ?b_0048b740@@YAXXZ,0x0048B740,gen-thunk body
 ?b_0048b7c0@@YAXXZ,0x0048B7C0,gen-thunk body
 ?b_0048b8a0@@YAXXZ,0x0048B8A0,gen-thunk body
