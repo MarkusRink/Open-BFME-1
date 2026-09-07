@@ -293,21 +293,6 @@ QuickMatchPreferences::~QuickMatchPreferences()
 {
 }
 
-// ?isMapSelected@QuickMatchPreferences@@QAE_NABVAsciiString@@@Z present-unmatched
-Bool QuickMatchPreferences::isMapSelected(const AsciiString& mapName)
-{
-	Int ret;
-	QuickMatchPreferences::const_iterator it = find(AsciiStringToQuotedPrintable(mapName));
-	if (it == end())
-	{
-		return TRUE;
-	}
-
-	ret = atoi(it->second.str());
-
-	return (ret != 0);
-}
-
 void QuickMatchPreferences::setLastLadder(const AsciiString& addr, UnsignedShort port)
 {
 	AsciiString strVal;
