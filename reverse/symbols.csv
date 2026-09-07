@@ -77136,7 +77136,7 @@ name,address,notes
 ?doNamedMapReveal@ScriptEnginedoNamedMapRevealShim@@QAEXABVAsciiString@@@Z,0x0034D200,ScriptEngine::doNamedMapReveal incremental-link thunk target through a TU-local forwarding shim
 ?doPhaseStuff@StructureCollapseUpdate@@IAEXW4StructureCollapsePhaseType@@PBUCoord3D@@@Z,0x00022872,StructureCollapse initial-phase ILT thunk
 ?doRepopulateBuildTooltipLayout@ControlBar@@QAEXXZ,0x004C1320,Open-BFME5 the zero-argument member repopulateBuildTooltipLayout tail-jumps to; unnamed in the image
-?doSend@Connection@@QAEI_N@Z,0x00661F10,ZH doSend with a Bool five-packet cap: MaxQuitFlushTime add ecx 0x7530 at 0x00661F57; NetCommandList::reset 0x006731A0; m_retryTime +0x1C; CommandRequiresAck 0x00682DB0; inlined doRetryMetrics 10s window on +0x354; Transport::queueSend 0x00683830; callers flushConnections 0x00663708 and update 0x0066ADB1 via ILT 0x00013633
+?doSend@Connection@@QAEI_N@Z,0x00661F10,BFME doSend with a Bool six-packet cap (stop after count exceeds five): MaxQuitFlushTime add ecx 0x7530 at 0x00661F57; NetCommandList::reset 0x006731A0; m_retryTime +0x1C; CommandRequiresAck 0x00682DB0; inlined doRetryMetrics 10s window on +0x354; Transport::queueSend 0x00683830; callers flushConnections 0x00663708 and update 0x0066ADB1 via ILT 0x00013633
 ?doSend@NATProbeTransport@@QAEXXZ,0x00015D3E,NAT sendAProbe transport send ILT thunk
 ?doSend@Transport@@QAE_NXZ,0x00015D3E,ILT thunk; real body 0x6834B0 (from NAT::sendAProbe)
 ?doShroudReveal@PartitionManager@@QAEXPBUCoord3D@@MI@Z,0x008F7680,Open-BFME5 direct body call; ?doNamedMapReveal@ScriptEngine@@QAEXABVAsciiString@@@Z at 0x0034D200 ends in it with the waypoint location the reveal radius and the resolved player mask
