@@ -167,4 +167,8 @@ template basic_string<char, char_traits<char>, allocator<char> > &
 basic_string<char, char_traits<char>, allocator<char> >::append<const char *>(
 	const char *, const char *, const forward_iterator_tag &);
 
+template basic_string<char, char_traits<char>, allocator<char> > &
+basic_string<char, char_traits<char>, allocator<char> >::append<char *>(
+	char *, char *, const forward_iterator_tag &);
+
 }
