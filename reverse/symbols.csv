@@ -12379,6 +12379,7 @@ name,address,notes
 ?_M_insert_overflow@?$vector@PAVLightPointLevel@@V?$allocator@PAVLightPointLevel@@@_STL@@@_STL@@IAEXPAPAVLightPointLevel@@ABQAV3@ABU__true_type@2@I_N@Z,0x0003A6F2,Reviewed39C440 STL pointer vector growth allocation copies fill andret20
 ?_M_insert_overflow@?$vector@PAVLivingWorldAnimObject@@V?$allocator@PAVLivingWorldAnimObject@@@_STL@@@_STL@@IAEXPAPAVLivingWorldAnimObject@@ABQAV3@ABU__true_type@2@I_N@Z,0x000094D5,LivingWorldAnimObject vector helper ILT decoded from exact findAnimObject body
 ?_M_insert_overflow@?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@IAEXPAPAVObject@@ABQAV3@ABU__true_type@2@I_N@Z,0x000486BC,ILT thunk used by call site
+?_M_insert_overflow@?$vector@PAVObjectTypes@@V?$allocator@PAVObjectTypes@@@_STL@@@_STL@@IAEXPAPAVObjectTypes@@ABQAV3@ABU__true_type@2@I_N@Z,0x0000D6FC,ScriptEngine::doObjectTypeListMaintenance at retail 0x0034E370 uses the ObjectTypes pointer-vector overflow ILT
 ?_M_insert_overflow@?$vector@PAVObjectCreationNugget@@V?$allocator@PAVObjectCreationNugget@@@_STL@@@_STL@@IAEXPAPAVObjectCreationNugget@@ABQAV3@ABU__true_type@2@I_N@Z,0x0002B6E8
 ?_M_insert_overflow@?$vector@PAVRva00144100Item@@V?$allocator@PAVRva00144100Item@@@_STL@@@_STL@@IAEXPAPAVRva00144100Item@@ABQAV3@ABU__true_type@2@I_N@Z,0x00004F8E,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00144100 calls; autopin
 ?_M_insert_overflow@?$vector@PAVScienceInfo@@V?$allocator@PAVScienceInfo@@@_STL@@@_STL@@IAEXPAPAVScienceInfo@@ABQAV3@ABU__true_type@2@I_N@Z,0x0003076F,harvested from friend_parseScienceDefinition (thunk)
