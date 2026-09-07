@@ -9678,6 +9678,10 @@ name,address,notes
 ??_7Rva007A1230ArrayOwner@@6B@,0x01127EB4,address-derived one-slot vtable installed by the destructor at 0x007A1230
 ??_7Rva00885AF0Class@@6B@,0x00D32ECC,pin
 ??_7Rva00886F60Class@@6B@,0x01132FFC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00886F30 calls; autopin
+??_7Rva00899560Value@@6B@,0x01135D68,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00899560 calls; autopin
+??_7Rva008995E0Value@@6B@,0x011360A8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008995E0 calls; autopin
+??_7Rva008A1110Value@@6B@,0x01136400,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A1110 calls; autopin
+??_7Rva008A4C00Value@@6B@,0x01136698,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4C00 calls; autopin
 ??_7Rva0090E470Thing@@6B@,0x0113A668,address-derived vftable written by the 0x0090E470 constructor; class identity not recovered
 ??_7Rva0090E570Thing@@6B@,0x0113A6B0,address-derived vftable written by the 0x0090E570 constructor (byte-twin of 0x0090E470); class identity not recovered
 ??_7Rva00947170SkinContainer@@6B@,0x0113D05C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00947170 calls; autopin
@@ -11319,6 +11323,7 @@ name,address,notes
 ?TheWindowManager@@3PAVGameWindowManager@@A,0x012F1B40,BFME global game-window manager pointer
 ?TheWorkerAIUpdatePool@?1??getClassMemoryPool@WorkerAIUpdate@@CAPAVMemoryPool@@XZ@4PAV3@A,0x00EF047C,pool-glue cascade static (back-solved)
 ?TheWritableGlobalData@@3PAURva006C9270GlobalData@@A,0x012ED5C8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006C9270 calls; autopin
+?TheWritableGlobalData@@3PAURva006D23C0GlobalData@@A,0x012ED5C8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006D23C0 calls; autopin
 ?TheWritableGlobalData@@3PAVGlo012ED5C8Type@@A,0x012ED5C8,typed pin for Rva003BFB20::run global load
 ?TheWritableGlobalData@@3PAVGlobalData@@A,0x012ED5C8,GlobalData* global
 ?TimedOperationInputLocked@@3HA,0x00EED530,timed-operation input lock state used by GameEngine client update
@@ -73581,6 +73586,7 @@ name,address,notes
 ?bfmeCanAttackTarget@BfmeAttackQuery@@QBE_NPBVObject@@PBUCoord3D@@0PBX@Z,0x0002DB1E,Object BFME attack query calls this protected ILT for source-target permission
 ?bfmeCanAutoFire@AutoAbilityBehavior@@QBE_NXZ,0x00008ECC,Open-BFME5 ILT thunk to body 0x001EDC00; AutoAbilityBehavior Object+8 AsciiString+0x20 command-ready predicate; bfme prefix records unrecovered retail spelling
 ?bfmeCanHF@BfmeActorHF@@QAEDH@Z,0x0003251F,pin
+?bfmeCanPX@BfmeUnitPX@@QAEDH@Z,0x0003251F,pin
 ?bfmeCanTM@BfmeActorTM@@QAEDH@Z,0x0003251F,pin
 ?bfmeCanZK@BfmeActorZK@@QAEDH@Z,0x0003251F,pin
 ?bfmeCanZK@BfmeActorZK@@QAE_NH@Z,0x0003251F,pin
@@ -74717,6 +74723,7 @@ name,address,notes
 ?bfmeGo76A0@@YAXHPAHPAXHHH1@Z,0x009A76A0,8x8 block helper called from bfmeGo7820
 ?bfmeGo7760@@YAXPAHPAXHHHH1@Z,0x009A7760,8x8 block helper called from bfmeGo7820
 ?bfmeGo9F@BfmeObj9F@@QAEXIE@Z,0x0003C3A8,ILT of BfmeObj9F::bfmeGo9F from the +0xE4 pointer-vector foreach
+?bfmeGoBKF@BfmeThingBKF@@QAEXXZ,0x00029384,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006D23C0 calls; autopin
 ?bfmeGoBUZA@BfmeThingBUZA@@QBE?AVBfmeHandleCX@@HH@Z,0x0092CA90,return-type alias of landed bfmeGoBUZA (HandleCX vs HandleUZA)
 ?bfmeGoD540@BfmeObjD540@@QAEXVAsciiString@@@Z,0x00033302,Open-BFME5 ILT to 0x0040D540 quoted-string consumer
 ?bfmeGoD820@BfmeHelpD820@@QAEXPAVObject@@PBUCoord3D@@H@Z,0x00002B49,ILT to FUN_005bb090 used by 0x0026D820
@@ -75553,6 +75560,7 @@ name,address,notes
 ?bfmeResolveNW@BfmeInnerNW@@QAEPAVBfmeThingNW@@XZ,0x000022BB,pin
 ?bfmeResolvePD@BfmeInnerPD@@QAEPAVBfmeThingPD@@XZ,0x000022BB,pin
 ?bfmeResolvePE@BfmeInnerPE@@QAEPAVBfmeThingPE@@XZ,0x000022BB,pin
+?bfmeResolvePX@BfmeInnerPX@@QAEPAVBfmeThingPX@@XZ,0x000022BB,pin
 ?bfmeResolveQD@BfmeInnerQD@@QAEPAVBfmeThingQD@@XZ,0x000022BB,pin
 ?bfmeResolveTM@BfmeInnerTM@@QAEPAVBfmeThingTM@@XZ,0x000022BB,pin
 ?bfmeResolveVQ@BfmeInnerVQ@@QAEPAVBfmeThingVQ@@XZ,0x000022BB,pin
@@ -76969,6 +76977,7 @@ name,address,notes
 ?create_node@AnimateWindowListCreateNodeShim@_STL@@QAEPAU?$_List_node@PAVAnimateWindow@@@2@ABQAVAnimateWindow@@@Z,0x0045DAE0,incremental-link thunk target through a TU-local forwarding shim
 ?currentCommandPoints@LivingWorldPlayerArmy@@QBEHXZ,0x00033AC8,LivingWorldPlayerArmy loadPostProcess retail call at 0x00365833 uses the ILT thunk to the 0x003619C0 command-point calculation body
 ?customMatchGameListTooltip@@YAXPAVGameWindow@@PAVWinInstanceData@@I@Z,0x0053A280,GameList tooltip callback pushed by Apt OnlineCustomMatch onInitGadget 0x0053A710 via winSetTooltipFunc
+?d_006ccdb0@@YAXXZ,0x0001F2FD,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006D23C0 calls; autopin
 ?d_00794790@@YAXPAVGameWindow@@PAVWinInstanceData@@@Z,0x00794790,caller-proven BFME special push-button image path
 ?d_008790b0@@YAJJ@Z,0x008790B0,nbench randnum remap; same body as ?d_008790b0@@YAHH@Z (int32 is long)
 ?d_00881770@@YAXHHHUSomeStruct@@@Z,0x00881770,pin
@@ -78037,6 +78046,7 @@ name,address,notes
 ?g_bfmeDescriptor3C0600@@3HA,0x012BA450,Open-BFME5 first descriptor registered by 0x006C0600 with ID 3
 ?g_bfmeDescriptor5C0600@@3HA,0x012F7F34,Open-BFME5 third descriptor registered by 0x006C0600 with ID 5
 ?g_bfmeDescriptor8C0600@@3HA,0x012F7F28,Open-BFME5 second descriptor registered by 0x006C0600 with ID 8
+?g_bfmeDirtyBG@@3IA,0x012EF418,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0018EEF0 calls; autopin
 ?g_bfmeDisconnectPingResult@@3HA,0x012B9810,standalone disconnect ping-result state read and set by updateDisconnectStatus after the sub-ten-percent ratio check
 ?g_bfmeDoneAPB@@3_NA,0x00EED4E6,pin
 ?g_bfmeDoneSJA@@3DA,0x00EF4CA4,pin
@@ -78774,6 +78784,7 @@ name,address,notes
 ?g_rva00914860PoolB@@3VRva00914860PoolB@@A,0x01343698,Open-BFME5 second pool object used by the 0x00914860 sizing update
 ?g_rva00914860PoolC@@3VRva00914860PoolC@@A,0x013466B8,Open-BFME5 third pool object used by the 0x00914860 sizing update
 ?g_rva012F49B4@@3PAURva012F49B4Thing@@A,0x012F49B4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0051D4A0 calls; autopin
+?g_rva8CD130IdleHook@@3PAURva00899560Pool@@A,0x01337810,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00899560 calls; autopin
 ?g_rva8D0D80CreateTag@@3DA,0x01338610,decorated address-derived Apt creation tag passed by 0x008D0D80
 ?g_s5Head0059D9E0@@3HA,0x0110C878,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0059D9E0 calls; autopin
 ?g_s5Head0059DE10@@3HA,0x0110C920,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0059DE10 calls; autopin
@@ -84661,5 +84672,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolvePX@BfmeInnerPX@@QAEPAVBfmeThingPX@@XZ,0x000022BB,pin
-?bfmeCanPX@BfmeUnitPX@@QAEDH@Z,0x0003251F,pin
