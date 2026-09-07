@@ -84732,3 +84732,5 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?find2@Rva002493A0@@QAEPAVBfmeRva493A0Result@@PAVBfmeRva493A0Object@@@Z,0x000037C4,HordeTransportContain validity fallback calls the Rva002493A0 search thunk
 ?bfmeDoZD@BfmeCZD@@QAEXHHH@Z,0x0004A12E,pin
 ?bfmeQueryJC@BfmeUnitJC@@QAEHPAUBfmePairJC@@PAM@Z,0x0000E359,pin
+?bfmeMakeQK@@YGPAXPAX@Z,0x00033CA8,pin
+?bfmeDoQK@BfmeSinkQK@@QAEXPAX0@Z,0x000110E5,pin
