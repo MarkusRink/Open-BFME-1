@@ -1,74 +1,73 @@
-// ?apply@Rva00267D00Owner@@QAEX_N@Z
-// partial score=0.97 date=2026-09-03
-// cl: /DNDEBUG /MD
-
-typedef unsigned int UnsignedInt;
-typedef bool Bool;
-
-struct Coord3D
-{
-	float x, y, z;
-};
-
-class Matrix3D;
-
-class Object
+// ?bfmeStopCO@BfmeHostCO@@QAEXD@Z (identity unknown)
+// partial score=0.93 date=2026-09-07
+// 99/102. The whole chain matches -- `test ah,8` for the 0x800 bit, the four
+// guards, the secondary member walk and the four-argument tail call.
+// The 3 bytes: retail COPIES the flags before masking
+//   mov eax,[esi+0x130] / test ah,8 / mov ecx,eax / and ecx,0xfffff7ff /
+//   mov [esi+0x130],ecx
+// where MSVC masks in place (`and eax,0xfffff7ff`). eax is dead either way, so
+// retail is simply preserving it -- possibly because `test ah,8` reads only a
+// sub-register and its optimizer kept eax live.
+// Tried: a separate named local for the cleared value. Identical output.
+class BfmeAgentCO
 {
 public:
-	void notifyModelConditionChanged(void);
-
-	char m_pad00[0x38];
-	Coord3D m_pos;
-	char m_pad44[0x130 - 0x44];
-	UnsignedInt m_flags130;
+	char bfmeBusyCO();
+	void bfmeSendCO(void *at, int a, int b, int c);
 };
 
-class FXList
+class BfmeUnitCO
 {
 public:
-	Bool isEmpty(void) const;
-	void doFXPos(const Coord3D *pos, const Matrix3D *mtx, float speed, const Coord3D *extra) const;
+	void bfmeWakeCO();
+
+	unsigned char m_bfmeHeadCO[0x38];
+	unsigned char m_bfmeAtCO[4];
+	unsigned char m_bfmeMidCO[0xf4];
+	int m_bfmeFlagsCO;
 };
 
-class Rva00267D00ModuleData
+class BfmeOtherCO
 {
 public:
-	char m_pad[0x264];
-	FXList *m_fx;
+	unsigned char m_bfmeHeadCO[0x264];
+	BfmeAgentCO *m_bfmeAgentCO;
 };
 
-class Rva00267D00Owner
+class BfmeHostCO
 {
 public:
-	void apply(Bool skipFx);
-	void helper(int arg);
+	void bfmeStopCO(char quiet);
+	void bfmeHaltCO(int mode);
 
-private:
-	char m_pad00[4];
-	Rva00267D00ModuleData *m_data;
-	Object *m_object;
+	unsigned char m_bfmeHeadCO[4];
+	BfmeOtherCO *m_bfmeOtherCO;
+	BfmeUnitCO *m_bfmeUnitCO;
 };
 
-// ?apply@Rva00267D00Owner@@QAEX_N@Z
-void Rva00267D00Owner::apply(Bool skipFx)
+void BfmeHostCO::bfmeStopCO(char quiet)
 {
-	Object *object = m_object;
-	UnsignedInt value = object->m_flags130;
-	UnsignedInt tmp = value;
-	if ((value & 0x800) != 0)
-	{
-		tmp &= ~0x800u;
-		object->m_flags130 = tmp;
-		object->notifyModelConditionChanged();
-		if (!skipFx)
-		{
-			helper(1);
-			FXList *fx = m_data->m_fx;
-			if (fx != 0)
-			{
-				if (!fx->isEmpty())
-					fx->doFXPos(&object->m_pos, 0, 0, 0);
-			}
-		}
-	}
+	BfmeUnitCO *u = m_bfmeUnitCO;
+	int flags = u->m_bfmeFlagsCO;
+
+	if ((flags & 0x800) == 0)
+		return;
+
+	u->m_bfmeFlagsCO = flags & ~0x800;
+	u->bfmeWakeCO();
+
+	if (quiet != 0)
+		return;
+
+	bfmeHaltCO(1);
+
+	BfmeAgentCO *a = m_bfmeOtherCO->m_bfmeAgentCO;
+
+	if (a == 0)
+		return;
+
+	if (a->bfmeBusyCO() != 0)
+		return;
+
+	a->bfmeSendCO(u->m_bfmeAtCO, 0, 0, 0);
 }
