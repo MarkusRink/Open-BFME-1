@@ -85247,3 +85247,4 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?receiveGrant@StealthUpdate@@QAEX_NI@Z,0x00040DC2,ILT to the two-argument StealthUpdate receiveGrant body at 0x002AD380; OpenContain::markAllPassengersDetected passes false and one frame
 _g_bfmeFormatYA,0x00C7C7B4
 _bfmeScanYA,0x009F6FA6
+?TheBfmeClientYB@@3PAVBfmeClientYB@@A,0x00EF1464
