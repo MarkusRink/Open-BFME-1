@@ -8,7 +8,7 @@ AimWeaponBehavior	REGISTERED	AimWeaponBehavior	2	1	no	2	0x00115130 0x001151B0
 AnimalAIUpdate	REGISTERED	AnimalAIUpdate	3	1	no	2	0x00116990 0x00116A10
 AnimatedParticleSysBoneClientUpdate	REGISTERED	AnimatedParticleSysBoneClientUpdate	1	1	yes	1	0x00121A70
 AnimationSoundClientBehavior	REGISTERED	AnimationSoundClientBehavior	3	1	no	2	0x00121D20 0x00121DA0
-AnimationSteeringUpdate	ABSENT	AnimationSteeringUpdate	0	0	yes	1	0x00114B50
+AnimationSteeringUpdate	ABSENT	AnimationSteeringUpdate	0	0	yes	0	
 ArmorUpgrade	REGISTERED	ArmorUpgrade	3	3	yes	2	0x0011D090 0x0012AF20
 ArrowStormUpdate	REGISTERED	ArrowStormUpdate	2	1	no	2	0x00118EB0 0x00118F30
 AssaultTransportAIUpdate	REGISTERED	AssaultTransportAIUpdate	1	1	yes	2	0x001187F0 0x00118870
@@ -62,7 +62,7 @@ CommandSetUpgrade	REGISTERED	CommandSetUpgrade	1	1	yes	2	0x0011D220 0x0012B0B0
 ContestableContain	REGISTERED	ContestableContain	2	1	no	2	0x00116140 0x001165C0
 ConvertToCarBombCrateCollide	ABSENT	ConvertToCarBombCrateCollide	0	0	yes	1	0x00125FD0
 ConvertToHijackedVehicleCrateCollide	ABSENT	ConvertToHijackedVehicleCrateCollide	0	0	yes	0	
-CostModifierUpgrade	REGISTERED	CostModifierUpgrade	4	2	yes	2	0x0011D9D0 0x0011DB70
+CostModifierUpgrade	REGISTERED	CostModifierUpgrade	4	2	yes	1	0x0011D9D0
 CountermeasuresBehavior	ABSENT	CountermeasuresBehavior	0	0	yes	1	0x00117420
 CountermeasuresBehaviorModuleData	ABSENT	CountermeasuresBehavior	0	0	yes	1	0x00123180
 CreateCrateDie	REGISTERED	CreateCrateDie	2	1	yes	2	0x00117760 0x00129A30
@@ -71,7 +71,7 @@ CreateObjectDie	REGISTERED	CreateObjectDie	1	1	yes	2	0x001177E0 0x00117860
 CritterEmitterUpdate	REGISTERED	CritterEmitterUpdate	1	1	no	2	0x00115730 0x00121950
 CrushDie	REGISTERED	CrushDie	2	1	yes	2	0x00117900 0x00123460
 CrushDieModuleData	REGISTERED	CrushDie	2	1	yes	1	0x00123350
-DamDie	ABSENT	DamDie	0	0	yes	1	0x00114D70
+DamDie	ABSENT	DamDie	0	0	yes	0	
 DamageModule	UNREGISTERED_NAMED	DamageModule	1	1	no	1	0x00124080
 DamageModuleData	UNREGISTERED_NAMED	Damage	192	13	no	1	0x00122D60
 DarknessSpecialPower	REGISTERED	DarknessSpecialPower	1	1	no	2	0x00120920 0x001209A0
@@ -91,17 +91,16 @@ DestroyEnvironmentUpdate	REGISTERED	DestroyEnvironmentUpdate	1	1	no	2	0x0011C420
 DetachableRiderBody	REGISTERED	DetachableRiderBody	2	1	no	1	0x0011FA50
 DetachableRiderUpdate	REGISTERED	DetachableRiderUpdate	2	1	no	1	0x0011CAF0
 DevastateSpecialPower	REGISTERED	DevastateSpecialPower	1	1	no	2	0x00121510 0x00121590
-DieModule	UNREGISTERED_NAMED	DieModule	1	1	no	1	0x00114D70
 DieModuleData	UNREGISTERED_NAMED	Die	31	12	no	1	0x00122EB0
 DominateEnemySpecialPower	REGISTERED	DominateEnemySpecialPower	1	1	no	2	0x00122140 0x001221C0
 DozerAIUpdate	REGISTERED	DozerAIUpdate	1	1	yes	2	0x00117FA0 0x00118020
 DualWeaponBehavior	REGISTERED	DualWeaponBehavior	1	1	no	2	0x00115020 0x001150A0
 DumbProjectileBehavior	ABSENT	DumbProjectileBehavior	0	0	yes	0	
-DynamicGeometryInfoUpdate	ABSENT	DynamicGeometryInfoUpdate	0	0	yes	1	0x001145D0
+DynamicGeometryInfoUpdate	ABSENT	DynamicGeometryInfoUpdate	0	0	yes	0	
 DynamicPortalBehaviour	REGISTERED	DynamicPortalBehaviour	1	1	no	1	0x001156B0
 DynamicShroudClearingRangeUpdate	REGISTERED	DynamicShroudClearingRangeUpdate	1	1	yes	2	0x001180B0 0x00118130
 EMPUpdate	ABSENT	EMPUpdate	0	0	yes	0	
-EjectPilotDie	ABSENT	EjectPilotDie	0	0	yes	1	0x001145D0
+EjectPilotDie	ABSENT	EjectPilotDie	0	0	yes	0	
 ElvenWoodSpecialPower	REGISTERED	ElvenWoodSpecialPower	2	1	no	2	0x001202C0 0x00120340
 EmotionTrackerUpdate	REGISTERED	EmotionTrackerUpdate	2	1	no	2	0x0011CE60 0x0011CEE0
 EnemyNearUpdate	ABSENT	EnemyNearUpdate	0	0	yes	0	
@@ -153,7 +152,7 @@ HeroModeSpecialAbilityUpdate	REGISTERED	HeroModeSpecialAbilityUpdate	1	1	no	2	0x
 HighlanderBody	REGISTERED	HighlanderBody	1	1	yes	1	0x0011F4B0
 HijackerUpdate	REGISTERED	HijackerUpdate	1	1	yes	2	0x0011B4F0 0x00126D50
 HitReactionBehavior	REGISTERED	HitReactionBehavior	1	1	no	2	0x00114BE0 0x0011D000
-HiveStructureBody	ABSENT	HiveStructureBody	0	0	yes	1	0x001145D0
+HiveStructureBody	ABSENT	HiveStructureBody	0	0	yes	0	
 HiveStructureBodyModuleData	ABSENT	HiveStructureBody	0	0	yes	1	0x00248F00
 HordeAIUpdate	REGISTERED	HordeAIUpdate	1	1	no	1	0x00123FB0
 HordeContain	REGISTERED	HordeContain	17	4	no	2	0x00115BC0 0x00115D60
@@ -181,7 +180,7 @@ LockWeaponCreate	REGISTERED	LockWeaponCreate	1	1	yes	2	0x0011E2D0 0x0011E350
 LocomotorSetUpgrade	REGISTERED	LocomotorSetUpgrade	1	1	yes	2	0x0011D3A0 0x0012B430
 ManTheWallsSpecialPower	REGISTERED	ManTheWallsSpecialPower	1	1	no	2	0x001211E0 0x00121260
 MaxHealthUpgrade	REGISTERED	MaxHealthUpgrade	1	1	yes	2	0x0011DC00 0x0011DC80
-MinefieldBehavior	ABSENT	MinefieldBehavior	0	0	yes	1	0x001145D0
+MinefieldBehavior	ABSENT	MinefieldBehavior	0	0	yes	0	
 MissileAIUpdate	ABSENT	MissileAIUpdate	0	0	yes	1	0x0011F9C0
 MissileLauncherBuildingUpdate	ABSENT	MissileLauncherBuildingUpdate	0	0	yes	1	0x00117420
 MobMemberSlavedUpdate	ABSENT	MobMemberSlavedUpdate	0	0	yes	0	
@@ -219,7 +218,7 @@ PlayerUpgradeSpecialPower	REGISTERED	PlayerUpgradeSpecialPower	1	1	no	2	0x001212
 PointDefenseLaserUpdate	ABSENT	PointDefenseLaserUpdate	0	0	yes	1	0x00113FB0
 PoisonedBehavior	REGISTERED	PoisonedBehavior	1	1	yes	2	0x00117050 0x001170D0
 PorcupineFormationBodyModule	REGISTERED	PorcupineFormationBodyModule	1	1	no	2	0x0011FBE0 0x0011FC60
-PowerPlantUpdate	ABSENT	PowerPlantUpdate	0	0	yes	1	0x00114B50
+PowerPlantUpdate	ABSENT	PowerPlantUpdate	0	0	yes	0	
 PowerPlantUpgrade	ABSENT	PowerPlantUpgrade	0	0	yes	0	
 PreorderCreate	REGISTERED	PreorderCreate	1	1	yes	1	0x0011E700
 PrisonBehavior	ABSENT	PrisonBehavior	0	0	yes	0	
@@ -234,15 +233,15 @@ QueueProductionExitUpdate	REGISTERED	QueueProductionExitUpdate	1	1	yes	2	0x00115
 RadarUpdate	REGISTERED	RadarUpdate	1	1	yes	2	0x0011AEC0 0x00124240
 RadarUpgrade	REGISTERED	RadarUpgrade	1	1	yes	2	0x0011D540 0x0012B530
 RadiusDecalUpdate	REGISTERED	RadiusDecalUpdate	1	1	yes	2	0x0011A580 0x00123E50
-RailedTransportAIUpdate	ABSENT	RailedTransportAIUpdate	0	0	yes	1	0x001145D0
+RailedTransportAIUpdate	ABSENT	RailedTransportAIUpdate	0	0	yes	0	
 RailedTransportContain	ABSENT	RailedTransportContain	0	0	yes	0	
-RailedTransportDockUpdate	UNREGISTERED_NAMED	RailedTransportDockUpdate	1	1	yes	1	0x00118AA0
+RailedTransportDockUpdate	UNREGISTERED_NAMED	RailedTransportDockUpdate	1	1	yes	0	
 RailroadBehavior	ABSENT	RailroadBehavior	0	0	yes	0	
 RainOfFireUpdate	REGISTERED	RainOfFireUpdate	2	1	no	2	0x0011C310 0x0011C390
 RampageBehavior	REGISTERED	RampageBehavior	1	1	no	1	0x001149C0
 RandomSoundSelectorClientBehavior	REGISTERED	RandomSoundSelectorClientBehavior	2	1	no	2	0x00122040 0x0012BE60
 RebuildHoleBehavior	ABSENT	RebuildHoleBehavior	0	0	yes	0	
-RebuildHoleExposeDie	ABSENT	RebuildHoleExposeDie	0	0	yes	1	0x001145D0
+RebuildHoleExposeDie	ABSENT	RebuildHoleExposeDie	0	0	yes	0	
 ReflectDamage	REGISTERED	ReflectDamage	2	1	no	2	0x0011E900 0x0011E980
 RefundDie	REGISTERED	RefundDie	1	1	no	2	0x001176E0 0x001232C0
 RepairDockUpdate	REGISTERED	RepairDockUpdate	1	1	yes	2	0x0011B050 0x0011B0D0
@@ -326,7 +325,7 @@ TransitionDamageFXModuleData	REGISTERED	TransitionDamageFX	3	1	yes	1	0x00124740
 TransportAIUpdate	REGISTERED	TransportAIUpdate	3	2	yes	2	0x00116860 0x0011BD80
 TransportContain	REGISTERED	TransportContain	4	2	yes	2	0x00115C50 0x00125470
 TunnelContain	REGISTERED	TunnelContain	2	1	yes	2	0x00116470 0x00116530
-UndeadBody	ABSENT	UndeadBody	0	0	yes	1	0x00114D70
+UndeadBody	ABSENT	UndeadBody	0	0	yes	0	
 UnitCrateCollide	REGISTERED	UnitCrateCollide	1	1	yes	2	0x0011F030 0x00125F10
 UnpauseSpecialPowerUpgrade	REGISTERED	UnpauseSpecialPowerUpgrade	1	1	yes	2	0x0011D740 0x0011D7C0
 UpdateModule	UNREGISTERED_NAMED	UpdateModule	135	5	no	1	0x00124080
@@ -366,7 +365,7 @@ WallUpgradeUpdate	REGISTERED	WallUpgradeUpdate	1	1	no	1	0x0011C170
 WanderAIUpdate	REGISTERED	WanderAIUpdate	3	1	yes	2	0x0011BE60 0x0011BEE0
 WargBehavior	REGISTERED	WargBehavior	1	1	no	1	0x00115620
 WaveGuideUpdate	ABSENT	WaveGuideUpdate	0	0	yes	0	
-WeaponBonusUpdate	ABSENT	WeaponBonusUpdate	0	0	yes	1	0x006BFAD0
+WeaponBonusUpdate	ABSENT	WeaponBonusUpdate	0	0	yes	0	
 WeaponBonusUpgrade	REGISTERED	WeaponBonusUpgrade	1	1	yes	1	0x0011D850
 WeaponChangeSpecialPowerModule	REGISTERED	WeaponChangeSpecialPowerModule	1	1	no	2	0x001203D0 0x00120450
 WeaponFireSpecialAbilityUpdate	REGISTERED	WeaponFireSpecialAbilityUpdate	1	1	no	2	0x001193B0 0x00119430
