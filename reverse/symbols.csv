@@ -85455,3 +85455,10 @@ _bfmeXferTwoBG,0x00034815
 ?bfmeSetBS@BfmeSubBS@@QAEXM@Z,0x00034D29
 ?bfmeAddBS@BfmeSubBS@@QAEXPAX@Z,0x00003913
 ?bfmeReportBT@BfmeHostBT@@QAEXHH@Z,0x007F7C00
+?bfmeStopBU@BfmeThingBU@@QAEXH@Z,0x00008337
+?bfmeRemoveBU@Radar@@QAEXPAVBfmeHostBU@@@Z,0x000251E4
+?bfmeDropBU@BfmePathBU@@QAEXPAVBfmeHostBU@@@Z,0x0000B81B
+?bfmeUnlinkBU@BfmeSubBU@@QAEXPAVBfmeHostBU@@@Z,0x0003C0AB
+?bfmeCleanBU@BfmeHostBU@@QAEXXZ,0x0002AE5F
+?bfmeFinishBU@BfmeHostBU@@QAEXXZ,0x0001D2C8
+?bfmeNotifyBU@BfmeHostBU@@QAEXH@Z,0x00031F7A
