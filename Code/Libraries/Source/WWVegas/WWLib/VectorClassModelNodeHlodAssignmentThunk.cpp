@@ -1,243 +1,84 @@
-// cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift the retail VectorClass<ModelNodeClass,HLodClass> assignment MASM body into a C++ thunk.
+// cl: /DNDEBUG /MD /EHsc /ICode/Libraries/Source/WWVegas/WWMath /ICode/Libraries/Source/WWVegas/WWLib /ICode/Libraries/Source/WWVegas/WW3D2 /ICode/Libraries/Source/WWVegas/WWSaveLoad /ICode/Libraries/Source/WWVegas/Wwutil /ICode/Libraries/Source/WWVegas/WWDownload /ICode/Libraries/Source/Compression /ICode/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// Open-BFME: clean C++ instantiation of VectorClass<HLodClass::ModelNodeClass>
+// assignment at retail RVA 0x0097ACA0 (234 bytes).
+//
+// This TU deliberately keeps the known BFME ModelNode layout local.  The
+// retail vector body calls the element's non-trivial default constructor when
+// allocating (the Vector3 member makes that constructor non-trivial), then
+// copies all five words of the 0x14-byte node.  The explicit state updates are
+// the BFME VectorClass ABI; the reference header's generic assignment omits
+// those two IsValid transitions and therefore cannot reproduce this body.
 
-extern "C" __declspec(naked) void bfme_VectorClassModelNodeHlodAssignment_97ACA0()
+void __cdecl operator delete[](void *) throw();
+
+#include "vector3.h"
+
+class RenderObjClass;
+
+class HLodClass
 {
-    __asm {
-        __emit 0x64;
-        __emit 0xa1;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x6a;
-        __emit 0xff;
-        __emit 0x68;
-        __emit 0x5b;
-        __emit 0xf6;
-        __emit 0x05;
-        __emit 0x01;
-        __emit 0x50;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0x25;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x53;
-        __emit 0x8b;
-        __emit 0x5c;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0x55;
-        __emit 0x56;
-        __emit 0x8b;
-        __emit 0xf1;
-        __emit 0x3b;
-        __emit 0xf3;
-        __emit 0x57;
-        __emit 0x0f;
-        __emit 0x84;
-        __emit 0xac;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0x06;
-        __emit 0xff;
-        __emit 0x50;
-        __emit 0x0c;
-        __emit 0xc6;
-        __emit 0x46;
-        __emit 0x0c;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0x7b;
-        __emit 0x08;
-        __emit 0x85;
-        __emit 0xff;
-        __emit 0x89;
-        __emit 0x7e;
-        __emit 0x08;
-        __emit 0x0f;
-        __emit 0x84;
-        __emit 0x86;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x8d;
-        __emit 0x0c;
-        __emit 0xbf;
-        __emit 0xc1;
-        __emit 0xe1;
-        __emit 0x02;
-        __emit 0x51;
-        __emit 0xe8;
-        __emit 0x86;
-        __emit 0x72;
-        __emit 0xf0;
-        __emit 0xff;
-        __emit 0x8b;
-        __emit 0xe8;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x04;
-        __emit 0x89;
-        __emit 0x6c;
-        __emit 0x24;
-        __emit 0x20;
-        __emit 0x85;
-        __emit 0xed;
-        __emit 0xc7;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x74;
-        __emit 0x10;
-        __emit 0x68;
-        __emit 0x90;
-        __emit 0x96;
-        __emit 0xd7;
-        __emit 0x00;
-        __emit 0x57;
-        __emit 0x6a;
-        __emit 0x14;
-        __emit 0x55;
-        __emit 0xe8;
-        __emit 0x4f;
-        __emit 0x01;
-        __emit 0x69;
-        __emit 0xff;
-        __emit 0xeb;
-        __emit 0x02;
-        __emit 0x33;
-        __emit 0xed;
-        __emit 0x85;
-        __emit 0xed;
-        __emit 0x89;
-        __emit 0x6e;
-        __emit 0x04;
-        __emit 0x74;
-        __emit 0x5b;
-        __emit 0xb0;
-        __emit 0x01;
-        __emit 0x88;
-        __emit 0x46;
-        __emit 0x0d;
-        __emit 0x88;
-        __emit 0x46;
-        __emit 0x0c;
-        __emit 0x8b;
-        __emit 0x46;
-        __emit 0x08;
-        __emit 0x33;
-        __emit 0xff;
-        __emit 0x85;
-        __emit 0xc0;
-        __emit 0x7e;
-        __emit 0x4a;
-        __emit 0x33;
-        __emit 0xd2;
-        __emit 0xeb;
-        __emit 0x03;
-        __emit 0x8d;
-        __emit 0x49;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0x43;
-        __emit 0x04;
-        __emit 0x8b;
-        __emit 0x4e;
-        __emit 0x04;
-        __emit 0x8b;
-        __emit 0x2c;
-        __emit 0x10;
-        __emit 0x03;
-        __emit 0xc2;
-        __emit 0x03;
-        __emit 0xca;
-        __emit 0x89;
-        __emit 0x29;
-        __emit 0x8b;
-        __emit 0x68;
-        __emit 0x04;
-        __emit 0x89;
-        __emit 0x69;
-        __emit 0x04;
-        __emit 0x8b;
-        __emit 0x68;
-        __emit 0x08;
-        __emit 0x89;
-        __emit 0x69;
-        __emit 0x08;
-        __emit 0x8b;
-        __emit 0x68;
-        __emit 0x0c;
-        __emit 0x89;
-        __emit 0x69;
-        __emit 0x0c;
-        __emit 0x8b;
-        __emit 0x40;
-        __emit 0x10;
-        __emit 0x89;
-        __emit 0x41;
-        __emit 0x10;
-        __emit 0x8b;
-        __emit 0x46;
-        __emit 0x08;
-        __emit 0x47;
-        __emit 0x83;
-        __emit 0xc2;
-        __emit 0x14;
-        __emit 0x3b;
-        __emit 0xf8;
-        __emit 0x7c;
-        __emit 0xce;
-        __emit 0xeb;
-        __emit 0x0f;
-        __emit 0xc7;
-        __emit 0x46;
-        __emit 0x04;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xc6;
-        __emit 0x46;
-        __emit 0x0d;
-        __emit 0x00;
-        __emit 0xc6;
-        __emit 0x46;
-        __emit 0x0c;
-        __emit 0x01;
-        __emit 0x8b;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x5f;
-        __emit 0x8b;
-        __emit 0xc6;
-        __emit 0x5e;
-        __emit 0x5d;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0x0d;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x5b;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x0c;
-        __emit 0xc2;
-        __emit 0x04;
-        __emit 0x00;
-    }
-}
+public:
+	class ModelNodeClass
+	{
+	public:
+		RenderObjClass *Model;
+		int BoneIndex;
+		Vector3 Offset;
 
+		bool operator == (const ModelNodeClass &that) const
+		{
+			return (Model == that.Model) && (BoneIndex == that.BoneIndex);
+		}
+
+		bool operator != (const ModelNodeClass &that) const
+		{
+			return !operator == (that);
+		}
+	};
+};
+
+template<class T>
+class VectorClass
+{
+public:
+	virtual ~VectorClass(void);
+	virtual bool operator == (const VectorClass<T> &) const;
+	virtual bool Resize(int, const T * = 0);
+	virtual void Clear(void);
+	virtual int ID(const T *);
+	virtual int ID(const T &);
+
+	VectorClass<T> &operator = (const VectorClass<T> &that)
+	{
+		if (this != &that) {
+			Clear();
+			IsValid = false;
+			VectorMax = that.VectorMax;
+			if (VectorMax) {
+				Vector = new T[VectorMax];
+				if (Vector) {
+					IsAllocated = true;
+					IsValid = true;
+					for (int index = 0; index < VectorMax; ++index)
+						Vector[index] = that.Vector[index];
+				}
+			} else {
+				Vector = 0;
+				IsAllocated = false;
+				IsValid = true;
+			}
+		}
+		return *this;
+	}
+
+protected:
+	T *Vector;
+	int VectorMax;
+	bool IsValid;
+	bool IsAllocated;
+	bool VectorClassPad[2];
+};
+
+template VectorClass<HLodClass::ModelNodeClass> &
+VectorClass<HLodClass::ModelNodeClass>::operator =
+	(const VectorClass<HLodClass::ModelNodeClass> &);
