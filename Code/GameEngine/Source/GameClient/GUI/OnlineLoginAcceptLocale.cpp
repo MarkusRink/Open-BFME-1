@@ -1,9 +1,8 @@
 // ?_bfme_acceptLocale@BfmeAptScreenOnlineLogin@@QAEXPBD@Z
-// partial score=0.84 date=2026-09-07
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /DBFME_STLP_NODE_ALLOC /Ireference/shims/campaignmanagerascii /Ireference/shims/stlp_nodealloc /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /ICode/Libraries/Source/WWVegas/WWLib
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /DBFME_STLP_NODE_ALLOC /Ireference/shims/campaignmanagerascii /Ireference/shims/stlp_nodealloc /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /ICode/Libraries/Source/WWVegas/WWLib
 // stlport
 //
-// AptOnline::Login::AcceptLocale callback.  The registration in the matched
+// AptOnline::Login::AcceptLocale callback.  The registration in the retail
 // OnlineLogin constructor at 0x005538A0 stores this method under that exact
 // action name and the 0x0001EC77 ILT reaches retail 0x005533F0.
 
@@ -27,12 +26,6 @@ public:
 // singleton's tail action.  The retail global slot is also read as
 // TheBfmeOnlineLogin by the matched OnlineLogin destructor/constructor family;
 // only the callee's already-proven ABI is viewed here.
-class BfmeObjELB
-{
-public:
-	void bfmeTailELB( int argument );
-};
-
 extern WindowManager *g_theWindowManager;
 
 struct BfmeOnlineLoginContext
@@ -47,6 +40,7 @@ public:
 	// OnlineLogin's registered callbacks receive one const-char pointer
 	// argument; this callback ignores it, as do the matched link callbacks.
 	void _bfme_acceptLocale( const char *argument );
+	void rva00552C40( bool argument );
 
 private:
 	const void *m_vftable; // constructor 0x005538A0 installs 0x01107F58
@@ -55,7 +49,7 @@ private:
 	unsigned char m_unmodelled38[ 0x50 ];
 	GameWindow *m_localeList; // retail [this+0x88]
 	unsigned char m_unmodelled8C[ 0x13 ];
-	unsigned char m_closeLocaleArgument; // retail [this+0x9F]
+	bool m_closeLocaleArgument; // retail [this+0x9F]
 	unsigned char m_unmodelledA0[ 4 ];
 	int m_locale; // retail [this+0xA4]
 };
@@ -79,5 +73,5 @@ void BfmeAptScreenOnlineLogin::_bfme_acceptLocale( const char * )
 	g_theWindowManager->add( m_context->m_window,
 		"CallChild", 1, (void *)"DoCloseLocale", 0, 0, 0, 0 );
 
-	(*(BfmeObjELB **)0x012F4AAC)->bfmeTailELB( m_closeLocaleArgument );
+	(*(BfmeAptScreenOnlineLogin **)0x012F4AAC)->rva00552C40( m_closeLocaleArgument );
 }

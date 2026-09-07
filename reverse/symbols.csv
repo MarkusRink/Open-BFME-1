@@ -82219,6 +82219,7 @@ name,address,notes
 ?rva0046ef50@@YAXXZ,0x00018E8F,Open-BFME5 ILT thunk b_0046ef50
 ?rva00536870@@YAXXZ,0x000436E9,Open-BFME5 ILT thunk b_00536870
 ?rva00547730@@YAXXZ,0x0003F2C9,Open-BFME5 ILT thunk b_00547730
+?rva00552C40@BfmeAptScreenOnlineLogin@@QAEX_N@Z,0x00552C40,direct body pin: neutral OnlineLogin bool tail ABI; retail ILT 0x00049E1D is a genuine E9 to this body; campaign=luna36h-20260907;lane=hlod
 ?rva005588E0Ready@BfmeAptScreenOnlineQuickMatch@@QAE_NXZ,0x00046E3E,incremental-link thunk called by the OnlineQuickMatch APT update slot
 ?rva00558A30Ready@BfmeAptScreenOnlineQuickMatch@@QAE_NXZ,0x0001B31A,incremental-link thunk called by the OnlineQuickMatch APT update slot
 ?rva00559E60Ready@BfmeAptScreenOnlineQuickMatch@@QAE_NXZ,0x0004A9D0,incremental-link thunk called by the OnlineQuickMatch APT update slot
