@@ -169947,3 +169947,11 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?b_008631f0@@YAXXZ,0x008631F0,gen-thunk target pin: Code/gen_small/gthunks_085.cpp resolves its E9 displacement from this pin (see the file header)
 ??0?$BFMEFactoryModuleData@VInstantDeathBehaviorModuleData@@$0GE@@@QAE@XZ,0x00023DCB,ModuleFactory retail data facade: TU-local 0x64 stand-in for BFME's InstantDeathBehaviorModuleData (ZH's is 0x44); this address is the ILT thunk onto ??0InstantDeathBehaviorModuleData@@QAE@XZ at 0x00201650
 ??0?$BFMEFactoryModuleData@VExperienceScalarUpgradeModuleData@@$0HE@@@QAE@XZ,0x00025D47,ModuleFactory retail data facade: TU-local 0x74 stand-in for BFME's ExperienceScalarUpgradeModuleData (ZH's is 0x64); this address is the ILT thunk onto ??0ExperienceScalarUpgradeModuleData@@QAE@XZ at 0x002D5180
+??0ModelConditionInfo@@QAE@ABU0@@Z,0x00887B60,ILT-less direct body retail encodes at the pair/_Construct copy sites
+??1W3DAnimationInfo@@QAE@XZ,0x00034AE0,ILT the _Destroy loop encodes
+??$__copy@PBUParticleSysBoneInfo@@PAU1@H@_STL@@YAPAUParticleSysBoneInfo@@PBU1@0PAU1@ABUrandom_access_iterator_tag@0@PAH@Z,0x0003DB1D,ILT the __copy_ptrs forwarder encodes
+?countIntersection@?$BitFlags@$0HF@@@QBEHABV1@@Z,0x000497D3,ILT the SparseMatchFinder count forwarder encodes
+?countInverseIntersection@?$BitFlags@$0HF@@@QBEHABV1@@Z,0x000497D3,ILT the SparseMatchFinder count forwarder encodes
+?_M_insert_overflow@?$vector@UWeaponRecoilInfo@W3DModelDraw@@V?$allocator@UWeaponRecoilInfo@W3DModelDraw@@@_STL@@@_STL@@IAEXPAUWeaponRecoilInfo@W3DModelDraw@@ABU34@ABU__false_type@2@I_N@Z,0x00017FB2,ILT the push_back site encodes
+?_M_insert_overflow@?$vector@V?$BitFlags@$0HF@@@V?$allocator@V?$BitFlags@$0HF@@@@_STL@@@_STL@@IAEXPAV?$BitFlags@$0HF@@@ABV3@ABU__false_type@2@I_N@Z,0x0000FCAE,ILT the push_back site encodes
+??$__copy@PAUParticleSysBoneInfo@@PAU1@H@_STL@@YAPAUParticleSysBoneInfo@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00021DEB,ILT the vector erase site encodes
