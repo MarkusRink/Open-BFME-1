@@ -3544,7 +3544,6 @@ name,address,notes
 ??0W3DMouseSurfaceRef@@QAE@XZ,0x00006A8C,W3DMouse surface-reference default constructor ILT used by its EH vector constructor
 ??0W3DOverlordAircraftDrawModuleData@@QAE@XZ,0x00025EBE,pinharvest x1 (thunk)
 ??0W3DOverlordTankDrawModuleData@@QAE@XZ,0x0000260D
-??0W3DOverlordTruckModuleDataBase@@QAE@XZ,0x000426E0,TU-local ABI name for the 225-byte retail base called at 0x00429460
 ??0W3DProjectedShadowManager@@QAE@XZ,0x000246BD,retail ILT called by the exact W3DShadowManager constructor at 0x007B7900
 ??0W3DProjectileStreamDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x00002B67,pinharvest x1 (thunk)
 ??0W3DProjectileStreamDrawModuleData@@QAE@XZ,0x00001780,pinharvest x1 (thunk)
