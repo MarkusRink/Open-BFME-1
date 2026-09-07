@@ -5,7 +5,8 @@
 //
 // The matched PeerRequest deque push_back_aux (RVA 0x00648810) calls this
 // copy constructor twice through ILT0x0003C308 -> 0x00647470, while allocating
-// 0x194-byte elements. The string/vector prefix and opaque union copy spans
+// 0x194-byte elements. GameSpyPeerMessageQueue::getRequest at 0x0064C840
+// names assignment through ILT0x000336A4 -> 0x00648C00. The string/vector prefix and opaque union copy spans
 // reproduce that BFME layout without assigning meanings to unknown payloads.
 // Keeping these views local leaves the shared reference headers unchanged.
 
@@ -60,3 +61,7 @@ PeerRequest *forcePeerRequestCopy(PeerRequest *destination, const PeerRequest &s
 {
     return new (destination) PeerRequest(source);
 }
+
+// Emit the implicit assignment without introducing a wrapper function.
+PeerRequest &(PeerRequest::*forcePeerRequestAssignment)(const PeerRequest &) =
+    &PeerRequest::operator=;
