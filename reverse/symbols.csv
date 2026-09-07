@@ -86043,3 +86043,5 @@ _BfmeSpinSleep,0x0082BE10,STLport nanosecond backoff helper; final call operand 
 _gsiSocketInterface,0x0130E628,GameSpy common socket interface global; exact ciSocketConnect local-bind setup loads it before htonl
 ?bfmeFindEY@BfmeMapEY@@QBE?AVBfmeIterEY@@PAX@Z,0x0094C5E0,pin map find for BfmeConv2045
 ?bfmeRefreshEY@BfmeHostEY@@QAEXXZ,0x0094D450,pin refresh for BfmeConv2045
+_j_0003b75a,0x0003B75A,COFF C-linkage alias for the existing incremental-link thunk
+_j_0003b971,0x0003B971,COFF C-linkage alias for the existing incremental-link thunk
