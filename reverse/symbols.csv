@@ -84794,3 +84794,5 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?bfmeHasTG@Rva002EE330PlayerList@@QAEDPAVBfmePlayerTG@@@Z,0x00003A85,pin
 ?bfmeSelectTG@ControlBar@@QAEXPAXH@Z,0x0003BCCD,pin
 ?bfmeOverflowDR@BfmeVecDR@@QAEXPAPAVDrawable@@ABQAV2@ABUBfmeTagDR@@I_N@Z,0x0001CBFC,pin
+?bfmeQueryWD@@YGXHHPA_N000@Z,0x0001CDB9,pin
+?bfmeComputeQW@@YAHPAX@Z,0x0078A490,pin
