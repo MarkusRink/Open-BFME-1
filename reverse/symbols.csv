@@ -85248,3 +85248,7 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 _g_bfmeFormatYA,0x00C7C7B4
 _bfmeScanYA,0x009F6FA6
 ?TheBfmeClientYB@@3PAVBfmeClientYB@@A,0x00EF1464
+??0BfmeRoomYC@@QAE@ABV0@@Z,0x00887B60
+?bfmeSubYC@BfmeElemYC@@QAEPAVBfmeSubYC@@XZ,0x00027CCD
+?bfmeRoomYC@BfmeSubYC@@QAE?AVBfmeRoomYC@@XZ,0x0000CA95
+?g_bfmeDefaultYC@@3VBfmeRoomYC@@A,0x00F36E50
