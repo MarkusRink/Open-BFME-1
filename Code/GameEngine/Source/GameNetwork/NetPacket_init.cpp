@@ -103,6 +103,7 @@ public:
 	NetPacket();
 	NetPacket(TransportMessage *msg);
 	void init();
+	void reset();
 
 	UnsignedByte m_packet[0x1DC];					// this+0x004
 	Int m_packetLen;								// this+0x1E0
@@ -172,4 +173,15 @@ void NetPacket::init() {
 	m_lastRelay = 0;
 
 	m_lastCommand = 0;
+}
+
+// Reset reuses init after releasing the retained previous-command reference.
+// Matched Connection::sendNetCommandMsg reaches this body through ILT0x24B6D;
+// the complete 124-byte body ends at RET0x6777EB. init is visible for inlining.
+void NetPacket::reset() {
+	if (m_lastCommand != 0) {
+		delete m_lastCommand;
+		m_lastCommand = 0;
+	}
+	init();
 }
