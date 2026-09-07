@@ -85464,3 +85464,8 @@ _bfmeXferTwoBG,0x00034815
 ?bfmeCleanBU@BfmeHostBU@@QAEXXZ,0x0002AE5F
 ?bfmeFinishBU@BfmeHostBU@@QAEXXZ,0x0001D2C8
 ?bfmeNotifyBU@BfmeHostBU@@QAEXH@Z,0x00031F7A
+?bfmeGrantBW@ExperienceLevelSystem@@QAEXPAVBfmeInfoBW@@PAVBfmeAgentBW@@PAX@Z,0x000240D7
+?bfmeTakeBW@BfmeThingBW@@QAEXPAX@Z,0x00026DF0
+?bfmeSetBW@BfmeSubBW@@QAEXM@Z,0x00034D29
+?bfmeAddBW@BfmeSubBW@@QAEXPAX@Z,0x00003913
+?bfmeBonusBW@BfmeSubBW@@QAEXPAX@Z,0x0002431B
