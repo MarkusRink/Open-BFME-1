@@ -645,544 +645,73 @@ float Matrix4D::Determinant() const
 }
 
 // ?Multiply@Matrix4D@@QAEAAV1@ABV1@0@Z
-__declspec(naked) Matrix4D &Matrix4D::Multiply(const Matrix4D &left, const Matrix4D &right)
+Matrix4D &Matrix4D::Multiply(const Matrix4D &left, const Matrix4D &right)
 {
-    __asm {
-        __emit 0x8b
-        __emit 0x54
-        __emit 0x24
-        __emit 0x08
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0xd9
-        __emit 0x06
-        __emit 0x8b
-        __emit 0xc1
-        __emit 0xd8
-        __emit 0x0a
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x20
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x08
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x04
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x10
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x0c
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x30
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x18
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x24
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x08
-        __emit 0xd9
-        __emit 0x06
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x04
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x04
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x14
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x34
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x0c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x04
-        __emit 0xd9
-        __emit 0x06
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x08
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x28
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x08
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x04
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x18
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x38
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x0c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x08
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x04
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x1c
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x0c
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x3c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x0c
-        __emit 0xd8
-        __emit 0x0e
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x2c
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x08
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x0c
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x14
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x10
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x20
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x18
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x1c
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x30
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x10
-        __emit 0xd8
-        __emit 0x0a
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x10
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x10
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x04
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x14
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x14
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x24
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x18
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x34
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x1c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x14
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x14
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x18
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x28
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x18
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x38
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x1c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x10
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x08
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x18
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x10
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x0c
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x1c
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x3c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x18
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x2c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x14
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x1c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x1c
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x24
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x10
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x20
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x28
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x2c
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x30
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x20
-        __emit 0xd8
-        __emit 0x0a
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x20
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x20
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x04
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x14
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x24
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x34
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x2c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x24
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x28
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x24
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x24
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x18
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x38
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x2c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x28
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x28
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x20
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x08
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x28
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x20
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x0c
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x2c
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x3c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x28
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x2c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x24
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x1c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x2c
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x34
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x10
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x3c
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x30
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x38
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x20
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x30
-        __emit 0xd8
-        __emit 0x0a
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x30
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x38
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x24
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x30
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x04
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x14
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x34
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x34
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x3c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x34
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x34
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x18
-        __emit 0xd9
-        __emit 0x42
-        __emit 0x38
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x3c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x38
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x28
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x30
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x08
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x38
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x38
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x2c
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x30
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x0c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x3c
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x3c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x34
-        __emit 0x5e
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x1c
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x3c
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-    }
+    values[0] = left.values[0] * right.values[0] +
+        left.values[1] * right.values[4] +
+        left.values[2] * right.values[8] +
+        left.values[3] * right.values[12];
+    values[1] = left.values[0] * right.values[1] +
+        left.values[1] * right.values[5] +
+        left.values[2] * right.values[9] +
+        left.values[3] * right.values[13];
+    values[2] = left.values[0] * right.values[2] +
+        left.values[1] * right.values[6] +
+        left.values[2] * right.values[10] +
+        left.values[3] * right.values[14];
+    values[3] = left.values[0] * right.values[3] +
+        left.values[1] * right.values[7] +
+        left.values[2] * right.values[11] +
+        left.values[3] * right.values[15];
+    values[4] = left.values[4] * right.values[0] +
+        left.values[5] * right.values[4] +
+        left.values[6] * right.values[8] +
+        left.values[7] * right.values[12];
+    values[5] = left.values[4] * right.values[1] +
+        left.values[5] * right.values[5] +
+        left.values[6] * right.values[9] +
+        left.values[7] * right.values[13];
+    values[6] = left.values[4] * right.values[2] +
+        left.values[5] * right.values[6] +
+        left.values[6] * right.values[10] +
+        left.values[7] * right.values[14];
+    values[7] = left.values[4] * right.values[3] +
+        left.values[5] * right.values[7] +
+        left.values[6] * right.values[11] +
+        left.values[7] * right.values[15];
+    values[8] = left.values[8] * right.values[0] +
+        left.values[9] * right.values[4] +
+        left.values[10] * right.values[8] +
+        left.values[11] * right.values[12];
+    values[9] = left.values[8] * right.values[1] +
+        left.values[9] * right.values[5] +
+        left.values[10] * right.values[9] +
+        left.values[11] * right.values[13];
+    values[10] = left.values[8] * right.values[2] +
+        left.values[9] * right.values[6] +
+        left.values[10] * right.values[10] +
+        left.values[11] * right.values[14];
+    values[11] = left.values[8] * right.values[3] +
+        left.values[9] * right.values[7] +
+        left.values[10] * right.values[11] +
+        left.values[11] * right.values[15];
+    values[12] = left.values[12] * right.values[0] +
+        left.values[13] * right.values[4] +
+        left.values[14] * right.values[8] +
+        left.values[15] * right.values[12];
+    values[13] = left.values[12] * right.values[1] +
+        left.values[13] * right.values[5] +
+        left.values[14] * right.values[9] +
+        left.values[15] * right.values[13];
+    values[14] = left.values[12] * right.values[2] +
+        left.values[13] * right.values[6] +
+        left.values[14] * right.values[10] +
+        left.values[15] * right.values[14];
+    values[15] = left.values[12] * right.values[3] +
+        left.values[13] * right.values[7] +
+        left.values[14] * right.values[11] +
+        left.values[15] * right.values[15];
+    return *this;
 }
 
 // ?Inverse@Matrix4D@@QAEMXZ
