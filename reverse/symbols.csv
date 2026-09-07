@@ -84731,3 +84731,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?size@?$list@HV?$allocator@H@_STL@@@_STL@@QBEIXZ,0x0000C176,STLport list<int>::size thunk used by HordeTransportContain validity check
 ?find2@Rva002493A0@@QAEPAVBfmeRva493A0Result@@PAVBfmeRva493A0Object@@@Z,0x000037C4,HordeTransportContain validity fallback calls the Rva002493A0 search thunk
 ?bfmeDoZD@BfmeCZD@@QAEXHHH@Z,0x0004A12E,pin
+?bfmeQueryJC@BfmeUnitJC@@QAEHPAUBfmePairJC@@PAM@Z,0x0000E359,pin
