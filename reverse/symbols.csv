@@ -85703,3 +85703,5 @@ _skipWhitespace,0x008872B0,COFF-local symbol of the actual included SkipWhitespa
 ?bfmeCheckERW@BfmeBaseERW@@QAEDH@Z,0x0003251F,pin
 ?bfmeAERW@BfmeSubERW@@QAEDXZ,0x000212D8,pin
 ?bfmeBERW@BfmeSubERW@@QAEDXZ,0x00016D0B,pin
+?bfmeAllowERX@BfmeBaseERX@@QAEDPAVBfmeThingERX@@H@Z,0x0002C836,pin
+?bfmeCheckERX@BfmeThingERX@@QAEDH@Z,0x0003251F,pin
