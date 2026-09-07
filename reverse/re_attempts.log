@@ -11445,3 +11445,4 @@ Rva008B9080	0x008B9080	107	blocked	AptValue-family array pop-front: tag&0x3f==0x
 ??0Rva008995E0Value@@QAE@_N@Z	0x008995E0	101	landed	EXACT via pool addPooled lever
 ??0Rva008A1110Value@@QAE@H@Z	0x008A1110	101	landed	EXACT via pool addPooled lever
 ??0Rva008A4C00Value@@QAE@M@Z	0x008A4C00	101	landed	EXACT via pool addPooled lever
+?d_001f6960@@YAXXZ	0x001f6960	178	blocked	t=42min model=gpt-5; BuildingBehavior::update at 0x001f6a40 calls this body through ILT 0x0002e64a, and the surrounding vtables identify the BuildingBehavior owner; the target loops module-data strings and dispatches them, but no tracked declaration, named method, vtable slot, or direct named caller identifies its method name, so a clean conversion would invent identity
