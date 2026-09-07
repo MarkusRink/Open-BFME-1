@@ -14003,6 +14003,7 @@ name,address,notes
 ?b_000458a4@@YAXXZ,0x000458A4,gen-thunk body
 ?b_000458bd@@YAXXZ,0x000458BD,gen-thunk body
 ?b_0004598f@@YAXXZ,0x0004598F,gen-thunk body
+??1Gen_uwm_0004598f@@QAE@XZ,0x0004598F,member cleanup thunk called for BfmeAptScreenSkirmish plus 0x424 in destructor 0x00579480
 ?b_00045ae8@@YAXXZ,0x00045AE8,gen-thunk body
 ?b_00045dc7@@YAXXZ,0x00045DC7,gen-thunk body
 ?b_00045f57@@YAXXZ,0x00045F57,gen-thunk body
