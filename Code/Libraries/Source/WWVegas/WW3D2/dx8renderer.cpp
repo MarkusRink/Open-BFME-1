@@ -1020,13 +1020,13 @@ public:
 	ShaderClass Peek_Shader(unsigned idx,unsigned pass)
 	{
 		if (mmc->Has_Shader_Array(pass)) {
-			ShaderClass shader;
-			
-			if (idx>=unsigned(mmc->Get_Polygon_Count())) {
-				WWASSERT(mmc->Get_Gap_Filler());
-				shader=mmc->Get_Gap_Filler()->Get_Shader_Array(pass)[idx-mmc->Get_Polygon_Count()];
+			// BFME's MeshGeometry stores PolyCount at this+0x24.  The shared
+			// header carries the later Zero Hour member order, so this TU-local
+			// read keeps the renderer's retail ABI without changing that header.
+			ShaderClass shader(0x0010441b);
+			if (idx < *reinterpret_cast<const unsigned int *>(reinterpret_cast<const char *>(mmc)+0x24)) {
+				shader=mmc->Get_Shader(idx,pass);
 			}
-			else shader=mmc->Get_Shader(idx,pass);
 
 			if (npatch_enable) {
 				shader.Set_NPatch_Enable(ShaderClass::NPATCH_ENABLE);
