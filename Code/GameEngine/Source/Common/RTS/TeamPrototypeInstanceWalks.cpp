@@ -60,7 +60,7 @@ public:
 };
 
 typedef BitFlags<192> KindOfMaskType;
-typedef BitFlags<116> KindOfMask64Type;
+typedef BitFlags<116> UnresolvedBuildingQueryArguments;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Team.h
 class Team
@@ -68,7 +68,7 @@ class Team
 public:
 	Bool hasAnyBuildings(Bool bfmeFlag) const;			// ILT thunk at 0x00017652
 	Bool hasAnyBuildings(KindOfMaskType kindOf, Bool bfmeFlag);	// ILT thunk at 0x0003B5B6
-	Bool hasAnyBuildings(KindOfMask64Type kindOf) const;		// ILT thunk at 0x0003CCD1
+	Bool hasAnyBuildings(UnresolvedBuildingQueryArguments kindOf) const;		// ILT thunk at 0x0003CCD1
 	Bool hasAnyObjects(Bool bfmeFlag) const;			// ILT thunk at 0x0001478B
 	Bool damageTeamMembers(Real amount);				// ILT 0x0000D148 -> 0x000F33F0
 
@@ -209,26 +209,13 @@ public:
 extern PlayerList *ThePlayerList;
 extern TeamFactory *TheTeamFactory;
 
-// The view xfer walks the instance list through. Kept as its own cast target
-// rather than folded into the member below, so that body is unchanged.
-struct BfmeTeamPrototypeInstances
-{
-	unsigned char m_unmodelled_000[0x274];
-	Team *m_teamInstanceList;
-
-	BfmeTeamInstanceIterator iterate() const
-	{
-		return BfmeTeamInstanceIterator(m_teamInstanceList);
-	}
-};
-
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Team.h
 class TeamPrototype
 {
 public:
 	Bool hasAnyBuildings( Bool bfmeFlag );
 	Bool hasAnyBuildings( KindOfMaskType kindOf, Bool bfmeFlag );
-	Bool hasAnyBuildings( KindOfMask64Type kindOf ) const;
+	Bool hasAnyBuildings( UnresolvedBuildingQueryArguments kindOf ) const;
 	Bool hasAnyObjects( Bool bfmeFlag );
 	Team *findTeamByID( UnsignedInt teamID );
 	void damageTeamMembers( Real amount );
@@ -279,13 +266,13 @@ Bool TeamPrototype::hasAnyBuildings( KindOfMaskType kindOf, Bool bfmeFlag )
 }
 
 // ?hasAnyBuildings@TeamPrototype@@QBE_NV?$BitFlags@$0HE@@@@Z
-Bool TeamPrototype::hasAnyBuildings( KindOfMask64Type kindOf ) const
+Bool TeamPrototype::hasAnyBuildings( UnresolvedBuildingQueryArguments kindOf ) const
 {
 	for( BfmeTeamInstanceIterator iter = iterate_TeamInstanceList(); !iter.done(); iter.advance() )
 	{
 		const UnsignedInt first = kindOf.m_bits[ 0 ];
 		const UnsignedInt second = kindOf.m_bits[ 1 ];
-		KindOfMask64Type forwarded;
+		UnresolvedBuildingQueryArguments forwarded;
 		forwarded.m_bits[ 0 ] = first;
 		forwarded.m_bits[ 1 ] = second;
 		if( iter.cur()->hasAnyBuildings( forwarded ) )
@@ -361,7 +348,7 @@ void TeamPrototype::xfer(Xfer *xfer)
 	xfer->xferSnapshot((Snapshot *)&m_teamTemplate);
 
 	teamInstanceCount = 0;
-	for (BfmeTeamInstanceIterator iter = ((const BfmeTeamPrototypeInstances *)this)->iterate();
+	for (BfmeTeamInstanceIterator iter = iterate_TeamInstanceList();
 		 !iter.done();
 		 iter.advance())
 		teamInstanceCount++;
@@ -369,7 +356,7 @@ void TeamPrototype::xfer(Xfer *xfer)
 
 	if (xfer->isSaving())
 	{
-		for (BfmeTeamInstanceIterator iter = ((const BfmeTeamPrototypeInstances *)this)->iterate();
+		for (BfmeTeamInstanceIterator iter = iterate_TeamInstanceList();
 			 !iter.done();
 			 iter.advance())
 		{
