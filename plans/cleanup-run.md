@@ -44,9 +44,33 @@ continues while the publication checkout remains unchanged.
 | 5f2e2d38b6 | postTimedOp filename | 1/1 match; source hash unchanged |
 | 5e62348ced | TimedOperations filename for node update and queue pump | 2/2 matches; source hash unchanged |
 | 64bbeae6a3 | Nine FESL address buffer/octet/packed-value identifiers | 2/2 matches and four literals before/after |
+| 3ba9404332 | 33 more WeaponTemplate scalar property names/99 uses; preserve the +0x509 width discrepancy | 1/1 match; all 33 retail records and eight parsers independently reviewed |
+| fa4df1cbc4 | Four minimum/maximum timing-bound names/12 uses | Matched getters and retail low/high argument order independently reviewed; 1/1 copy assignment |
+| 3d7c1ee1d0 | Two Bezier implementations placed beside their family; repair include/navigation and stale status | 75/75 matches across three sources; eight source-field ledger changes |
+| 507f767acf | SignedScalarHeapSort filename | 5/5 matches; source unchanged |
+| 38c1a042ce | PSRequest deque destroy helper moved to its persistent-storage-thread family | 1/1 match; source unchanged |
+| f16f0f3e22 | PSResponse deque destroy helper placed beside PSRequest | 1/1 match; source unchanged |
 
 These are worker SHAs, not published SHAs. Superseded unpublished WeaponTemplate
 commits 9aaadda33a and its earlier form must not be integrated.
+
+The initial source-preparation queue is now paused before further expansion.
+Naming worker is investigating ClearNuggets callback/WeaponTemplate ownership
+without edits; placement worker has a proven six-use W4Vec helper rename ready;
+evidence worker is diagnosing the long initial full gate from live process/cache
+evidence. Baseline PID is 1524113. Do not restart while it is live.
+
+At roughly 24 minutes the baseline diagnostic counted 13,816 matched TUs,
+9,697 dependency sidecars refreshed since startup, 3,736 older sidecars and 383
+absent objects. Compiler children continue advancing; no stuck TU was observed.
+This is a broad cache refresh under host contention, not a blocked build lock.
+The initial half-hour setup estimate may extend until this required verdict.
+
+Ready next, after publication clears: rename the six source-local W4Vec uses to
+BezierDifferenceVector (algorithm and unclaimed-symbol scope proven), and review
+WeaponTemplate::parseClearNuggets as a descriptive callback identity. The latter
+has direct table/ILT/owner evidence but requires exact ledger replacement and
+retired-name handling; original nugget helper class names remain unproven.
 
 ## Startup observations and next experiment
 
