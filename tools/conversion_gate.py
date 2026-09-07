@@ -43,6 +43,23 @@ from list_naked_candidates import NAKED_RE
 from progress import CPP_SUFFIXES, naked_cpp_rows
 
 LIFT_RE = re.compile(r"\b__?emit\b")
+# A comment is prose, not a lift. The gate fired on a merge whose only `__emit`
+# was in a line explaining why a dump was being LEFT ALONE, which reads as
+# "you added a naked body" and sends the author hunting one that is not there.
+# Only whole `//` tails and complete `/* */` pairs are removed: a line inside an
+# unterminated block comment keeps its text and is still scanned, so the scan
+# fails closed rather than being talked out of a real lift by an open comment.
+COMMENT_RE = re.compile(r"/\*.*?\*/|//.*$")
+
+
+def is_lift_line(line):
+    """True when `line` ADDS a naked body or an __emit, ignoring its comments.
+
+    The scanner must go through here rather than matching the raw line, or a
+    comment mentioning __emit is reported as a lift.
+    """
+    scanned = COMMENT_RE.sub(" ", line)
+    return bool(NAKED_RE.search(scanned) or LIFT_RE.search(scanned))
 LEDGER = "reverse/functions.csv"
 
 
@@ -68,7 +85,7 @@ def added_lift_lines(old, new):
         if line.startswith("+++ b/"):
             path = line[6:]
         elif line.startswith("+") and not line.startswith("+++"):
-            if NAKED_RE.search(line) or LIFT_RE.search(line):
+            if is_lift_line(line):
                 first, count = bad.get(path, (line[1:].strip()[:80], 0))
                 bad[path] = (first, count + 1)
     return [(p, "%s  (%d such lines)" % (first, count)) for p, (first, count) in bad.items()]
