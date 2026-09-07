@@ -1,15 +1,8 @@
 // cl: /DNDEBUG /MD /EHsc
 // readable body of ??0ExperienceTracker@@: Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
 // readable body of ?isTrainable@ExperienceTracker@@: Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
-//
-// The tracker's constructor and its one query that reaches back through the
-// parent it stores: isTrainable (retail 0x001B2380) asks the parent object's
-// template. Both need the same first two words of ExperienceTracker, and the
-// two files disagreed about what they were -- the constructor derived the
-// class from Snapshot, so the vtable pointer came from the base and m_parent
-// followed at +0x04; the query declared a bare `void *m_vtable` ahead of
-// m_parent to reach the same offset. One layout says it once, and the derived
-// form is the one the constructor proves.
+// readable body of ?gainExpForLevel@ExperienceTracker@@: Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+// Snapshot supplies the vtable pointer; all three bodies use the same parent at +0x04.
 
 typedef int Int;
 typedef float Real;
@@ -99,6 +92,15 @@ class Object : public Thing
 
 class ExperienceTracker;
 
+class ExperienceLevelSystem
+{
+public:
+	Int bfmeExperienceForNextLevel(Object *object, Int *outLevel);
+};
+
+extern ExperienceLevelSystem *TheExperienceLevelSystem;
+
+
 class BfmeThingEFE
 {
 public:
@@ -118,7 +120,7 @@ public:
 	virtual void loadPostProcess() = 0;
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ExperienceTracker.h
+// Reference interface: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ExperienceTracker.h; BFME field widths and offsets follow retail constructor stores.
 class ExperienceTracker : public Snapshot
 {
 public:
@@ -129,6 +131,18 @@ public:
 	virtual void loadPostProcess();
 
 	Bool isTrainable() const;
+	Bool gainExpForLevel(
+		Int levelsToGain,
+		Bool canScaleForBonus,
+		Bool provideFeedback);
+
+	void addExperiencePoints(
+		Real experienceGain,
+		Bool canScaleForBonus,
+		Bool isShared,
+		Bool allowLevelGain,
+		Bool provideFeedback);
+
 
 private:
 	Object *m_parent;
@@ -166,4 +180,34 @@ ExperienceTracker::ExperienceTracker(Object *parent) :
 Bool ExperienceTracker::isTrainable() const
 {
 	return m_parent->getTemplate()->isTrainable();
+}
+
+Bool ExperienceTracker::gainExpForLevel(
+	Int levelsToGain,
+	Bool canScaleForBonus,
+	Bool provideFeedback)
+{
+	const Int levelCount = levelsToGain;
+	if (levelCount <= 0)
+		return false;
+
+	Bool gainedLevel = false;
+	Int i = 0;
+	while (i < levelCount)
+	{
+		Int experience = TheExperienceLevelSystem->
+			bfmeExperienceForNextLevel(m_parent, 0);
+		if (experience <= 0)
+			break;
+		addExperiencePoints(
+			experience,
+			false,
+			false,
+			canScaleForBonus,
+			provideFeedback);
+		++i;
+		gainedLevel = true;
+	}
+
+	return gainedLevel;
 }

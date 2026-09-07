@@ -56,7 +56,7 @@
 #endif
 
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerBFMECtor.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerProgression.cpp
 // ??0ExperienceTracker@@ present-unmatched
 ExperienceTracker::ExperienceTracker(Object *parent) :
 	m_parent(parent),
@@ -84,7 +84,7 @@ Int ExperienceTracker::getExperienceValue( const Object* killer ) const
 }
 
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerBFMEIsTrainable.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerProgression.cpp
 // ?isTrainable@ExperienceTracker@@ present-unmatched
 Bool ExperienceTracker::isTrainable() const
 {
@@ -142,7 +142,7 @@ void ExperienceTracker::setVeterancyLevel( VeterancyLevel newLevel, Bool provide
 }
 
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerBFMEGainExperience.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerProgression.cpp
 // ?gainExpForLevel@ExperienceTracker@@ present-unmatched
 Bool ExperienceTracker::gainExpForLevel(Int levelsToGain, Bool canScaleForBonus)
 {
