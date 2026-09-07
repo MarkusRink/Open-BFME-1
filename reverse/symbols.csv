@@ -85794,3 +85794,6 @@ __imp__bfmeSprintfESP,0x00F5948C,pin
 ?bfmeFinishETB@BfmeHostETB@@QAEXH@Z,0x00007513,pin
 ?bfmeAETC@BfmeBaseETC@@QAEXPAX00@Z,0x00015BC2,pin
 ?bfmeCETC@BfmeBaseETC@@QAEXPAX000@Z,0x00043545,pin
+?bfmeToCellETD@BfmeGridETD@@QAEXPAVBfmePosETD@@PAUBfmePairETD@@@Z,0x000171E8,pin
+?bfmeSetOwnerETD@BfmeCellETD@@QAEXPAVBfmeOwnerETD@@@Z,0x00040D7C,pin
+?bfmeNotifyETD@BfmeSinkETD@@QAEXHHHPAVBfmeOwnerETD@@@Z,0x0004399B,pin
