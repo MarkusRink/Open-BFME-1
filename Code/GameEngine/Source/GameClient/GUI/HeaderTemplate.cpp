@@ -219,20 +219,6 @@ void HeaderTemplateManager::init( void )
 	populateGameFonts();
 }
 
-// ?findHeaderTemplate@HeaderTemplateManager@@QAEPAVHeaderTemplate@@VAsciiString@@@Z present-unmatched
-HeaderTemplate *HeaderTemplateManager::findHeaderTemplate( AsciiString name )
-{
-	HeaderTemplateListIt it = m_headerTemplateList.begin();
-	while(it != m_headerTemplateList.end())
-	{
-		HeaderTemplate *hTemplate = *it;
-		if(hTemplate->m_name.compare(name) == 0)
-			return hTemplate;
-		++it;
-	}
-	return NULL;
-}
-
 // ?newHeaderTemplate@HeaderTemplateManager@@QAEPAVHeaderTemplate@@VAsciiString@@@Z body in
 // Code/masm_dumps/HeaderTemplateManager_newHeaderTemplate_48CAD0.asm (0x0048CAD0/204).
 // Queue 0x00B026CE was INSIDE scalar-deleting dtor @ 0xB026C0; true body via
