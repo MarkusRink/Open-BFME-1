@@ -34,7 +34,10 @@ extern "C" LookupFn g_lookup;
 // BFME's retail logic rate is the global float at VA 0x01075344.
 #define BFME_LOGIC_FRAMES_PER_SECOND (*(const Real *)0x01075344)
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/INIException.h
+// BFME layout: INIExceptionCtor.cpp at retail 0x00850600 stores the message
+// pointer at +0 and argument count at +4. The direct noreturn throw helper
+// below supplies retail ThrowInfo 0x011DFC30, whose copy/unwind entries own
+// the exception lifetime; this view does not generate replacement metadata.
 class INIException
 {
 public:
@@ -42,8 +45,8 @@ public:
 	INIException(const INIException &other);
 
 private:
-	int m_code;
-	const char *m_format;
+	char *mFailureMessage;
+	int m_argCount;
 };
 
 extern void __declspec(noreturn) __stdcall _CxxThrowException(void *object, void *throwInfo);

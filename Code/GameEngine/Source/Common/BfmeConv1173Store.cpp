@@ -67,6 +67,8 @@ public:
 class Rva00800290Buffer
 {
 public:
+	void addPadded( int size );
+	void addString( const char *text );
 	void allocate();
 
 	char *m_ptr;
@@ -100,6 +102,27 @@ public:
 	char *m_name;
 	char **m_keys;
 };
+
+void BfmeSlot1173::measure( Rva007F5010Player *record )
+{
+	char buf[ 0x40 ];
+	BfmeVecCZ *vector;
+	int count;
+	int i;
+	int *slot;
+
+	( (Rva00800290Buffer *)&m_arena )->addString( record->m_name );
+	vector = &m_host->m_bfmeVector;
+	count = vector->m_bfmeCount;
+	( (Rva00800290Buffer *)&m_arena )->addPadded( count * 4 );
+	for( i = 0; i < count; i++ )
+	{
+		slot = m_host->rva007F76D0( vector, i );
+		buf[ 0 ] = 0;
+		if( record->rva007FBFB0( (const char *)slot, buf, 0x40 ) )
+			( (Rva00800290Buffer *)&m_arena )->addString( buf );
+	}
+}
 
 void BfmeSlot1173::bfmeStore1173( void *recordValue, int hostValue )
 {

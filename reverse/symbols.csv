@@ -2309,7 +2309,7 @@ name,address,notes
 ??0BridgeScaffoldBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x01002D,module ctor (friend_newModuleInstance retail call target)
 ??0BridgeTowerBehaviorBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,BridgeTowerBehavior ctor base call
 ??0BroadcastStealthUpdateModuleData@@QAE@XZ,0x1e907,BroadcastStealth friend_newModuleData ctor
-??0BuddyInfo@@QAE@ABV0@@Z,0x00035F03,map operator body at 0x006357D0 calls the shared GameSpyGroupRoom copy thunk at 0x00035F03. The 0x20-byte record copy at 0x004F97B0 confirms the target
+??0BuddyInfo@@QAE@ABV0@@Z,0x004E9FD0,"HandleBuddyResponses BuddyInfoMap operator[] at 0x004EE3D0 calls the 0x1C-byte BuddyInfo copy through ILT 0x000497B5; old 0x00035F03 belongs to the distinct 0x20-byte GameSpyGroupRoom copy 0x004F97B0, whose separate pin is retained; campaign=luna36h-20260907;lane=finish"
 ??0BuffNuggetFXNugget@@QAE@XZ,0x0042D2B0,constructor run on the 0xF4-byte allocation in BuffNuggetFXNugget::parse at 0x0042D680; the INI keyword table at 0x00CF2130 names that parse callback BuffNugget
 ??0Buffer@@QAE@J@Z,0x009E1DA0
 ??0Buffer@@QAE@PAXJ@Z,0x009E1CE0,Buffer::Buffer(void*, long)
