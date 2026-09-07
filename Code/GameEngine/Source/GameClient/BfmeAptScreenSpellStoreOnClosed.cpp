@@ -58,6 +58,7 @@ extern GameWindowManager *TheWindowManager;
 class BfmeAptScreenSpellStore
 {
 public:
+	void _bfme_onInitialized( const char *name );
 	void _bfme_onBttnClose( const char *name );
 	void _bfme_onClosed( const char *name );
 
@@ -79,6 +80,18 @@ private:
 	char m_field2D0;
 	char m_field2D1;
 };
+
+// @?_bfme_onInitialized@BfmeAptScreenSpellStore@@QAEXPBD@Z 0x005991E0
+// AptScreenFactories.cpp registers this body for AptSpellStore::OnInitialized.
+void BfmeAptScreenSpellStore::_bfme_onInitialized( const char *name )
+{
+	if( strncmp( name, "Spell", 5 ) == 0 )
+	{
+		int spell = atoi( name + 5 ) - 1;
+		if( spell >= 0 && spell < 12 )
+			m_spell = -1;
+	}
+}
 
 // @?_bfme_onBttnClose@BfmeAptScreenSpellStore@@QAEXPBD@Z 0x005990E0
 void BfmeAptScreenSpellStore::_bfme_onBttnClose( const char *name )
