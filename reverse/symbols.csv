@@ -169955,3 +169955,4 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?_M_insert_overflow@?$vector@UWeaponRecoilInfo@W3DModelDraw@@V?$allocator@UWeaponRecoilInfo@W3DModelDraw@@@_STL@@@_STL@@IAEXPAUWeaponRecoilInfo@W3DModelDraw@@ABU34@ABU__false_type@2@I_N@Z,0x00017FB2,ILT the push_back site encodes
 ?_M_insert_overflow@?$vector@V?$BitFlags@$0HF@@@V?$allocator@V?$BitFlags@$0HF@@@@_STL@@@_STL@@IAEXPAV?$BitFlags@$0HF@@@ABV3@ABU__false_type@2@I_N@Z,0x0000FCAE,ILT the push_back site encodes
 ??$__copy@PAUParticleSysBoneInfo@@PAU1@H@_STL@@YAPAUParticleSysBoneInfo@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00021DEB,ILT the vector erase site encodes
+?classifyObjectFootprint@Pathfinder@@IAEXPAVObject@@_N@Z,0x0051F1C0,the body retail Pathfinder::add/removeObjectToPathfindMap actually call (thunk 0x00047D2A); replaces the 0x00004EE9 pin whose nine call sites are all SimpleDynVecClass::Add callers
