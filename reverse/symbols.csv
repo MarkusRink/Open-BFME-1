@@ -418,6 +418,7 @@ name,address,notes
 ??$_Construct@URva00244A80Element@@U1@@_STL@@YAXPAURva00244A80Element@@ABU1@@Z,0x000128DC,ILT reached by the 0x00240230 vector overflow body
 ??$_Construct@URva0025CB00Element@_STL@@@_STL@@YAXPAURva0025CB00Element@0@ABU10@@Z,0x0001B99B,Open-BFME5 the element _Construct the vector insert at 0x0025CB00 calls
 ??$_Construct@URva002949D0Element@_STL@@@_STL@@YAXPAURva002949D0Element@0@ABU10@@Z,0x0002C03E,Open-BFME5 the element _Construct the vector insert at 0x002949D0 calls
+??$_Construct@URva002949D0Element@_STL@@U12@@_STL@@YAXPAURva002949D0Element@0@ABU10@@Z,0x0002C03E,FlammableUpdate FireFXList vector copy helper shares the retail ILT at 0x002C03E
 ??$_Construct@URva0029FA20Element@_STL@@@_STL@@YAXPAURva0029FA20Element@0@ABU10@@Z,0x0003A3EB,Open-BFME5 the element _Construct the vector insert at 0x0029FA20 calls
 ??$_Construct@URva0033F410Element@@U1@@_STL@@YAXPAURva0033F410Element@@ABU1@@Z,0x00033FF5,Open-BFME5 the element _Construct the list insert at 0x0033F410 calls
 ??$_Construct@URva0033F460Element@@U1@@_STL@@YAXPAURva0033F460Element@@ABU1@@Z,0x00030EF4,Open-BFME5 the element _Construct the list insert at 0x0033F460 calls
