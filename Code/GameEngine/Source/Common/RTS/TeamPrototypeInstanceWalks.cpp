@@ -74,11 +74,26 @@
 // right for a reason that has nothing to do with BitFlags. The Bool is the same
 // trailing bfmeFlag the rest of this family carries.
 //
-// 116 is Zero Hour's KINDOF_COUNT, inherited with the name. BFME's own KindOf
-// table is a NUL-terminated pointer array at file offset 0x00EAA068 holding 181
-// names, OBSTACLE and SELECTABLE and IMMOBILE through to MOVE_FOR_NOONE, and
-// 181 bits round to exactly the 192 the sibling overload already uses. So the
-// KindOf mask in this binary is six dwords, and no BitFlags here is four.
+// Where 116 comes from was got wrong here at first, and the corrected answer
+// makes the case stronger rather than weaker. It is NOT Zero Hour's
+// KINDOF_COUNT inherited with the name: Zero Hour's KindOf.h enumerates about
+// 122, not 116. 116 is an exact enum count in THIS image -- the special-power
+// name table at file offset 0x00EA8D40 holds exactly 116 entries,
+// SPECIAL_INVALID through SPECIAL_HARVEST -- so V?$BitFlags@$0HE@@ is a real
+// four-dword type that fourteen ledger rows use. The decoration is not
+// nonsense, then; it is simply not this function's, because this body takes two
+// dwords and that type is four. A wrong name borrowed from a real neighbour is
+// harder to notice than an impossible one.
+//
+// BFME's own KindOf table is a NUL-terminated pointer array at file offset
+// 0x00EAA068 holding 181 names, OBSTACLE and SELECTABLE and IMMOBILE through to
+// MOVE_FOR_NOONE, and 181 bits round to exactly the 192 the sibling overload
+// already uses. So the KindOf mask in this binary is six dwords, and nothing
+// here is four dwords for KindOf reasons.
+//
+// Both tables are in reverse/name_tables.tsv. tools/name_tables.py sweeps them
+// out of the image, and its --bitflags mode checks every decoration in the
+// ledger against them, which is what caught the KINDOF_COUNT claim above.
 //
 // What is still open is only the replacement name: the pointer's class would be
 // named by the member function it is `this` for, and that callee is the
