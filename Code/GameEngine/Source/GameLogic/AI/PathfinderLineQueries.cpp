@@ -6,10 +6,11 @@
 //   ?snapLine@              0x003E6AF0, 110 bytes
 //   ?isGroundPathPassable@  0x003EAC00,  91 bytes
 //   ?isLinePassable@        0x003EE7A0, 131 bytes  (eight arguments)
+//   ?lineBlocked@           0x003EE850, 100 bytes
 //   ?isLinePassable@        0x003EE8D0, 119 bytes  (six arguments)
 //   ?lineClear@             0x003EE970, 102 bytes
 //
-// One body five times: build a payload object on the stack, convert both world
+// One body six times: build a payload object on the stack, convert both world
 // endpoints to cell coordinates with worldToCell, walk the cells between them,
 // and turn the walk's verdict into the answer. snapLine is the only one that
 // does anything else -- when the walk reports a hit it copies the payload's
@@ -24,6 +25,7 @@
 //   Rva003DE480Struct      ILT 0x00005713 -> 0x003DE480   snapLine
 //   GroundPathPassableInfo ILT 0x00013DC2 -> 0x003E33F0   isGroundPathPassable
 //   BfmeCheckMovementInfo  ILT 0x00029DF7 -> 0x003E7F80   both isLinePassable
+//   Rva003DB640Info        ILT 0x00023DDF -> 0x003E81E0   lineBlocked
 //   Rva003E5A50Info        ILT 0x0001DAA2 -> 0x003E8440   lineClear
 //
 // isGroundPathPassable reaches its walker through a PRIVATE overload, which is
@@ -38,20 +40,21 @@
 // other four: the layer sits between the two endpoints rather than before them,
 // and it names the layer of the START point specifically.
 //
-// One more query belongs in this file and is not in it: lineBlocked (0x003EE850,
-// ILT 0x00023DDF -> 0x003E81E0, payload Rva003DB640Info) is the same body
-// answering the opposite question -- true when the walk DID hit something. It
-// stays in Pathfinder_lineBlocked.cpp because that file also DEFINES
-// Rva003DB640Info's constructor, for which the ledger declares no row, and the
-// commit hook refuses any newly staged source that defines a function it does
-// not know. Give that constructor a row and it belongs here.
+// lineBlocked's file used to reconstruct Rva003DB640Info's CONSTRUCTOR as well
+// as the query, a 60-line body the ledger declares no row for. It did not need
+// to: symbols.csv already pins ??0Rva003DB640Info@@QAE@PAVPathfinder@@
+// PAVObject@@H@Z to ILT 0x00042262 -> 0x003DB640, and that body is already
+// carried as a matched gen-dump row. Declared and not defined, the call leaves
+// the TU and reaches the same address, lineBlocked still matches to the byte,
+// and the source no longer holds a second copy of a function it does not own.
 //
-// The overload set below is the point of the file. It also lines the two
-// isLinePassable overloads up: they differ only in what they put in the payload
-// -- the eight-argument one takes the caller's crusher and restrict-surfaces
-// flags and forces allowPinched off, the six-argument one hard-codes crusher
-// off with restrict-surfaces and allowPinched on -- and lineClear answers the
-// same "did the walk stay clear" question with a different walker.
+// The overload set below is the point of the file. It also lines the four
+// predicates up against each other: lineBlocked answers true when the walk DID
+// hit something and the other three answer true when it did not, and the two
+// isLinePassable overloads differ only in what they put in the payload -- the
+// eight-argument one takes the caller's crusher and restrict-surfaces flags and
+// forces allowPinched off, the six-argument one hard-codes crusher off with
+// restrict-surfaces and allowPinched on.
 //
 // The Bool spellings differed across the four files and two of them mattered:
 // the predicates return H (int), and worldToCell returns _N (bool). They are
@@ -118,6 +121,16 @@ public:
 	unsigned char m_body[0x58];
 };
 
+// ------------------------------------------------------------- lineBlocked
+// Declared, never defined: the body is pinned at ILT 0x00042262 -> 0x003DB640.
+class Rva003DB640Info
+{
+public:
+	Rva003DB640Info(Pathfinder *pathfinder, Object *obj, Int value);
+
+	unsigned char m_body[0x50];
+};
+
 // ------------------------------------------------------ isGroundPathPassable
 struct GroundPathPassableInfo
 {
@@ -146,6 +159,8 @@ public:
 	Int iterateCellsAlongLine(const ICoord2D &start, const ICoord2D &end,
 		PathfindLayerEnum layer, BfmeCheckMovementInfo *info);		///< ILT 0x00029DF7 -> 0x003E7F80
 	Int iterateCellsAlongLine(const ICoord2D &start, const ICoord2D &end,
+		PathfindLayerEnum layer, Rva003DB640Info *info);			///< ILT 0x00023DDF -> 0x003E81E0
+	Int iterateCellsAlongLine(const ICoord2D &start, const ICoord2D &end,
 		PathfindLayerEnum layer, Rva003E5A50Info *info);			///< ILT 0x0001DAA2 -> 0x003E8440
 
 	void snapLine(const Coord3D *from, Coord3D *to);
@@ -155,6 +170,8 @@ public:
 	Bool isLinePassable(Object *obj, Int zone, PathfindLayerEnum layer,
 		const Coord3D *start, const Coord3D *end, Bool considerTransient,
 		Bool isCrusher, Bool restrictSurfaces);
+	Bool lineBlocked(Object *obj, Int value, PathfindLayerEnum layer,
+		const Coord3D *start, const Coord3D *end);
 	Bool isLinePassable(Object *obj, Int zone, PathfindLayerEnum layer,
 		const Coord3D *start, const Coord3D *end, Bool considerTransient);
 	Bool lineClear(Object *obj, Int value, PathfindLayerEnum layer,
@@ -218,6 +235,20 @@ Bool Pathfinder::isLinePassable(Object *obj, Int zone, PathfindLayerEnum layer,
 	worldToCell(startWorld, &start);
 	worldToCell(endWorld, &end);
 	return iterateCellsAlongLine(start, end, layer, payload) == 0;
+}
+
+// ?lineBlocked@Pathfinder@@QAEHPAVObject@@HW4PathfindLayerEnum@@PBUCoord3D@@2@Z
+// The only one of the six that answers true when the walk DID hit something.
+Bool Pathfinder::lineBlocked(Object *obj, Int value, PathfindLayerEnum layer,
+	const Coord3D *startWorld, const Coord3D *endWorld)
+{
+	ICoord2D end;
+	ICoord2D start;
+	unsigned char storage[0x50];
+	Rva003DB640Info *payload = new (storage) Rva003DB640Info(this, obj, value);
+	worldToCell(startWorld, &start);
+	worldToCell(endWorld, &end);
+	return iterateCellsAlongLine(start, end, layer, payload) != 0;
 }
 
 // ?isLinePassable@Pathfinder@@QAEHPAVObject@@HW4PathfindLayerEnum@@PBUCoord3D@@2H@Z
