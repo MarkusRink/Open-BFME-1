@@ -121,13 +121,18 @@ public:
 // 116 bits -- and models the mask as SIX dwords, byte-matching. That body really
 // does take two masks by value, and six dwords is what it takes. So the two
 // sizes under one decoration are not a contradiction between the files: they are
-// two bodies, one of which is not passing a mask. Which is a fourth independent
-// route to the same conclusion the header reaches -- 181 KindOf names rounding
-// to 192 bits, six dwords, and the 116 in the decoration simply wrong.
+// two bodies, and neither is passing the four-dword special-power type the
+// decoration actually names. A fourth independent route to the header's
+// conclusion, arrived at from a third size.
 //
-// If a later body needs BitFlags<116> to mean a real mask, this specialization
-// is what will be in its way, and the answer is to fix the decoration rather
-// than the size.
+// Note what this specialization is therefore NOT saying. Per the header,
+// V?$BitFlags@$0HE@@ is a real four-dword type -- the special-power mask, used
+// by fourteen ledger rows -- so two dwords is not what BitFlags<116> means
+// anywhere but here, and here only because this one body's decoration is
+// borrowed from a neighbour. If a later body in this TU needs BitFlags<116> to
+// mean the special-power mask it will want four dwords and this specialization
+// will be in its way; the fix then is to correct THIS row's decoration, not to
+// resize the type.
 template <> class BitFlags<116>
 {
 public:
