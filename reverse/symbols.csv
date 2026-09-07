@@ -85829,3 +85829,4 @@ _ImmReleaseContext@8,0x009F88A8,FF25 thunk verified from PE IMM32.dll import Imm
 ?g_bfmeQueueEUG@@3PAVBfmeQueueEUG@@A,0x012F76F0,pin request queue global for BfmeConv1990
 ??0BfmeThingEUH@@QAE@XZ,0x0002B369,pin ctor thunk for BfmeConv1991
 ?g_bfmeLevelEUH@@3EA,0x012ED249,pin byte global for BfmeConv1991
+?bfmeSubmitEVA@Rva00893030Manager@@QAEXPAVBfmeStrVKI@@@Z,0x00895D30,pin manager submit for BfmeConv1992
