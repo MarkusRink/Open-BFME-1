@@ -85805,3 +85805,5 @@ __imp__bfmeSprintfESP,0x00F5948C,pin
 ?erase@?$list@UZ1Elem0013BF00@@V?$allocator@UZ1Elem0013BF00@@@_STL@@@_STL@@QAE?AU?$_List_iterator@UZ1Elem0013BF00@@U?$_Nonconst_traits@UZ1Elem0013BF00@@@_STL@@@2@U32@0@Z,0x0076D720,callee of Z1Elem0013BF00 list assignment
 ?rva009D86E0@Rva009D8630BlockWriter@@QAEXPBD@Z,0x009D86E0,Descriptive address-derived block-writer member; retail call 0x009D894A passes the same ECX and one name stack argument to this 518-byte body; original class and member spellings unresolved
 _g_xferExceptionThrowInfo,0x00DDFE5C,Opaque exception ThrowInfo; retail catchable array 0x00DDFE54 names one 8-byte value through TypeDescriptor 0x00EA704C .?AVXferException@@; direct DIR32 operand in block writer 0x009D88F0
+?bfmeMatchETF@BfmeMatcherETF@@QAEDPAVBfmeAETF@@H@Z,0x0001DA34,pin
+?bfmeTestETF@BfmeTesterETF@@QAEDPAUBfmeRangeETF@@0@Z,0x0003C2E5,pin
