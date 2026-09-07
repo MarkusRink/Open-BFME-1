@@ -84773,3 +84773,4 @@ __imp__bfmeMathVE,0x00F59394,pin
 ?bfmeCallBPT@BfmeOwnerPT@@QAEXXZ,0x00002941,pin
 ?bfmeNotifyZY@BfmeOwnerZY@@QAEXXZ,0x00022999,pin
 ?updateLadderDetails@@YAXPAVGameWindow@@0H@Z,0x004D7E60,structural callee pin: retail call target decoded from e8 at 0x004D8796 inside populateLadderListBox body; TU-local fastcall static
+__imp__bfmeApiLK@8,0x00F595DC,pin
