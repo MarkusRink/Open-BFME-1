@@ -84,13 +84,20 @@ private:
 
 class MeshLoadContextClass {
     friend class MeshModelClass;
+    struct LegacyMaterialClass {
+        unsigned char nameAndMaterialIndices[0x0c];
+        int TextureIdx;
+    };
     unsigned char beforeInfo[0x78];
     W3dMaterialInfoStruct MatInfo;
-    unsigned char beforeShaders[0xac-0x88];
+    unsigned char passAndStage[0x94-0x88];
+    DynamicVectorClass<LegacyMaterialClass *> LegacyMaterials;
     DynamicVectorClass<ShaderClass> Shaders;
     DynamicVectorClass<VertexMaterialClass *> VertexMaterials;
     unsigned char beforeTextures[0xf4-0xc4-sizeof(DynamicVectorClass<VertexMaterialClass *> )];
     DynamicVectorClass<BfmeHandleCX> Textures;
+    BfmeHandleCX Peek_Texture(int index);
+    BfmeHandleCX Peek_Legacy_Texture(int legacy_material_index);
     int Add_Texture(const BfmeHandleCX &tex) { int index=Textures.Count(); Textures.Add(tex); return index; }
     int Add_Vertex_Material(VertexMaterialClass *vmat) { vmat->Add_Ref(); int index=VertexMaterials.Count(); VertexMaterials.Add(vmat); return index; }
     int Add_Shader(ShaderClass shader) {
@@ -152,4 +159,18 @@ bool MeshModelClass::read_textures(ChunkLoadClass &cload, MeshLoadContextClass *
         newtex = ::Load_Texture(cload);
     }
     return true;
+}
+
+// BFME legacy-material texture lookup: 0x0096DF10, complete 62 bytes.
+// The material paths call this at 0x0096E483 and 0x0096E565 with a hidden
+// owning-handle result. LegacyMaterials data is at +0x98 and TextureIdx at
+// entry+0x0C. GeneralsMD lookup semantics survive with BFME's handle return.
+// The last RET 8 ends at 0x0096DF4D, before two INT3 padding bytes.
+BfmeHandleCX MeshLoadContextClass::Peek_Legacy_Texture(int legacy_material_index)
+{
+    int ti = LegacyMaterials[legacy_material_index]->TextureIdx;
+    if (ti != -1) {
+        return Peek_Texture(ti);
+    }
+    return BfmeHandleCX();
 }
