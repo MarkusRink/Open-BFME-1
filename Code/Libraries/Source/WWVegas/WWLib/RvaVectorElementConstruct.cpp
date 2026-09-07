@@ -17,6 +17,14 @@ public:
 	char m_body[20];
 };
 
+class Gen_003A8A70
+{
+public:
+	Gen_003A8A70(const Gen_003A8A70 &value);
+	virtual ~Gen_003A8A70();
+	char m_body[16];
+};
+
 inline void *operator new(unsigned int, void *place) { return place; }
 inline void operator delete(void *, void *) {}
 
@@ -28,6 +36,11 @@ struct Rva00143CE0Element
 };
 
 struct Rva003A5500Element
+{
+	char m_body[20];
+};
+
+struct Rva003B0760Element
 {
 	char m_body[20];
 };
@@ -47,5 +60,12 @@ template <>
 void _Construct(Rva003A5500Element *destination, const Rva003A5500Element &value)
 {
 	new (destination) Open2Rec3A4420(reinterpret_cast<const Open2Rec3A4420 &>(value));
+}
+
+// Retail 0x003A9310 calls the copy constructor at 0x003A8A70 through 0x00022AF2.
+template <>
+void _Construct(Rva003B0760Element *destination, const Rva003B0760Element &value)
+{
+	new (destination) Gen_003A8A70(reinterpret_cast<const Gen_003A8A70 &>(value));
 }
 }
