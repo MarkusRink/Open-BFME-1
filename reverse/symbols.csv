@@ -85617,3 +85617,7 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeFindERD@BfmeMgrERD@@QAEPAVBfmeTmplERD@@ABVBfmeStrERD@@@Z,0x00015267,pin
 ?g_bfmeMgrERD@@3PAVBfmeMgrERD@@A,0x00EF64BC,pin
 ??0BfmeSysERD@@QAE@PAVBfmeTmplERD@@@Z,0x00024E01,pin
+?releaseBuffer@BfmeStrERE@@AAEXXZ,0x00887940,pin
+??1BfmeSubERE@@QAE@XZ,0x00026AB2,pin
+?bfmeEraseERE@BfmeVecERE@@QAEXPAUBfmeItemERE@@0@Z,0x0002F86F,pin
+?bfmeInsertERE@BfmeVecERE@@QAEXPAUBfmeItemERE@@I0@Z,0x00039234,pin
