@@ -1,0 +1,377 @@
+class	verdict	registration_name	image_occurrences	nul_terminated_runs	zh_registers_it	ledger_rows	claimed_rvas
+AIUpdateInterface	REGISTERED	AIUpdateInterface	4	1	yes	2	0x001167E0 0x0011CB70
+AODCrushCollide	REGISTERED	AODCrushCollide	1	1	no	2	0x0011EC20 0x0011ECA0
+AODHordeContain	REGISTERED	AODHordeContain	2	1	no	2	0x001161D0 0x00122FD0
+ActiveBody	REGISTERED	ActiveBody	2	1	yes	2	0x0011F3A0 0x0011F420
+ActiveShroudUpgrade	ABSENT	ActiveShroudUpgrade	0	0	yes	2	0x001153E0 0x0011D950
+AimWeaponBehavior	REGISTERED	AimWeaponBehavior	2	1	no	2	0x00115130 0x001151B0
+AnimalAIUpdate	REGISTERED	AnimalAIUpdate	3	1	no	2	0x00116990 0x00116A10
+AnimatedParticleSysBoneClientUpdate	REGISTERED	AnimatedParticleSysBoneClientUpdate	1	1	yes	1	0x00121A70
+AnimationSoundClientBehavior	REGISTERED	AnimationSoundClientBehavior	3	1	no	2	0x00121D20 0x00121DA0
+AnimationSteeringUpdate	ABSENT	AnimationSteeringUpdate	0	0	yes	1	0x00114B50
+ArmorUpgrade	REGISTERED	ArmorUpgrade	3	3	yes	2	0x0011D090 0x0012AF20
+ArrowStormUpdate	REGISTERED	ArrowStormUpdate	2	1	no	2	0x00118EB0 0x00118F30
+AssaultTransportAIUpdate	REGISTERED	AssaultTransportAIUpdate	1	1	yes	2	0x001187F0 0x00118870
+AssistedTargetingUpdate	REGISTERED	AssistedTargetingUpdate	1	1	yes	2	0x00117C40 0x001237B0
+AttributeModifierAuraUpdate	REGISTERED	AttributeModifierAuraUpdate	2	1	no	2	0x0011A8D0 0x0011A950
+AttributeModifierUpgrade	REGISTERED	AttributeModifierUpgrade	1	1	no	2	0x0011DE20 0x0012B950
+AudioLoopUpgrade	REGISTERED	AudioLoopUpgrade	1	1	no	1	0x0011E0B0
+AutoAbilityBehavior	REGISTERED	AutoAbilityBehavior	1	1	no	2	0x00114F10 0x00114F90
+AutoDepositUpdate	REGISTERED	AutoDepositUpdate	1	1	yes	2	0x0011A600 0x00123F20
+AutoFindHealingUpdate	REGISTERED	AutoFindHealingUpdate	1	1	yes	2	0x00119780 0x00119800
+AutoHealBehavior	REGISTERED	AutoHealBehavior	2	1	yes	2	0x00114200 0x00129E40
+AutoHealBehaviorModuleData	REGISTERED	AutoHealBehavior	2	1	yes	1	0x00204F30
+AutoPickUpUpdate	REGISTERED	AutoPickUpUpdate	8	1	no	2	0x00119AB0 0x00119B30
+BaikonurLaunchPower	ABSENT	BaikonurLaunchPower	0	0	yes	1	0x0011F8B0
+BannerCarrierUpdate	REGISTERED	BannerCarrierUpdate	1	1	no	2	0x00119BC0 0x00119C40
+BaseRegenerateUpdate	ABSENT	BaseRegenerateUpdate	0	0	yes	1	0x00117E40
+BaseUpgrade	REGISTERED	BaseUpgrade	1	1	no	2	0x0011D110 0x0011D190
+BattleBusSlowDeathBehavior	ABSENT	BattleBusSlowDeathBehavior	0	0	yes	0	
+BattlePlanUpdate	REGISTERED	BattlePlanUpdate	1	1	yes	2	0x00119CD0 0x00119D50
+BeaconClientUpdate	REGISTERED	BeaconClientUpdate	1	1	yes	2	0x00121B70 0x00121BF0
+BehaviorModule	UNREGISTERED_NAMED	BehaviorModule	1	1	no	2	0x006CF680
+BezierProjectileBehavior	REGISTERED	BezierProjectileBehavior	1	1	no	2	0x00115240 0x001152C0
+BloodthirstyUpdate	REGISTERED	BloodthirstyUpdate	1	1	no	1	0x00114030
+BoneFXDamage	REGISTERED	BoneFXDamage	3	2	yes	2	0x0011E800 0x00122D80
+BoneFXUpdate	REGISTERED	BoneFXUpdate	3	2	yes	2	0x00117CC0 0x00123830
+BridgeBehavior	REGISTERED	BridgeBehavior	2	1	yes	2	0x00114790 0x00114810
+BridgeScaffoldBehavior	REGISTERED	BridgeScaffoldBehavior	1	1	yes	1	0x001148B0
+BridgeTowerBehavior	REGISTERED	BridgeTowerBehavior	1	1	yes	2	0x00114930 0x00125220
+BroadcastStealthUpdate	REGISTERED	BroadcastStealthUpdate	1	1	no	2	0x0011B370 0x0012A350
+BuildingBehavior	REGISTERED	BuildingBehavior	1	1	no	1	0x00114670
+BunkerBusterBehavior	ABSENT	BunkerBusterBehavior	0	0	yes	2	0x00117170 0x0011CB70
+CashBountyPower	ABSENT	CashBountyPower	0	0	yes	1	0x0011D7C0
+CashHackSpecialPower	REGISTERED	CashHackSpecialPower	1	1	yes	2	0x0011FD70 0x0011FDF0
+CastleBehavior	REGISTERED	CastleBehavior	3	1	no	1	0x00114440
+CastleMemberBehavior	REGISTERED	CastleMemberBehavior	1	1	no	1	0x00114550
+CastleUpgrade	REGISTERED	CastleUpgrade	1	1	no	2	0x0011DEA0 0x0012BA80
+CaveContain	REGISTERED	CaveContain	1	1	yes	2	0x00115AB0 0x0012ABC0
+CheckpointUpdate	ABSENT	CheckpointUpdate	0	0	yes	1	0x00117170
+ChinookAIUpdate	ABSENT	ChinookAIUpdate	0	0	yes	1	0x006BFEB0
+CivilianSpawnCollide	REGISTERED	CivilianSpawnCollide	1	1	no	2	0x0011F210 0x0011F290
+CivilianSpawnUpdate	REGISTERED	CivilianSpawnUpdate	2	1	no	2	0x00116AE0 0x00116B60
+CleanupAreaPower	ABSENT	CleanupAreaPower	0	0	yes	1	0x0011D7C0
+CleanupHazardUpdate	ABSENT	CleanupHazardUpdate	0	0	yes	2	0x001171F0 0x0011AE40
+ClearanceTestingSlowDeathBehavior	REGISTERED	ClearanceTestingSlowDeathBehavior	1	1	no	2	0x00117290 0x00117310
+ClickReactionBehavior	REGISTERED	ClickReactionBehavior	2	1	no	2	0x00114C60 0x00114CF0
+CloudBreakSpecialPower	REGISTERED	CloudBreakSpecialPower	1	1	no	2	0x001205F0 0x00120670
+CollideModule	UNREGISTERED_NAMED	CollideModule	1	1	no	1	0x00124080
+CombineHordeSpecialPower	REGISTERED	CombineHordeSpecialPower	1	1	no	2	0x00121840 0x001218C0
+CommandButtonHuntUpdate	REGISTERED	CommandButtonHuntUpdate	2	1	yes	2	0x00119890 0x00119910
+CommandSetUpgrade	REGISTERED	CommandSetUpgrade	1	1	yes	2	0x0011D220 0x0012B0B0
+ContestableContain	REGISTERED	ContestableContain	2	1	no	2	0x00116140 0x001165C0
+ConvertToCarBombCrateCollide	ABSENT	ConvertToCarBombCrateCollide	0	0	yes	2	0x0011E2D0 0x00125FD0
+ConvertToHijackedVehicleCrateCollide	ABSENT	ConvertToHijackedVehicleCrateCollide	0	0	yes	1	0x0011E2D0
+CostModifierUpgrade	REGISTERED	CostModifierUpgrade	4	2	yes	2	0x0011D9D0 0x0011DB70
+CountermeasuresBehavior	ABSENT	CountermeasuresBehavior	0	0	yes	2	0x00117290 0x00117420
+CountermeasuresBehaviorModuleData	ABSENT	CountermeasuresBehavior	0	0	yes	1	0x00123180
+CreateCrateDie	REGISTERED	CreateCrateDie	2	1	yes	2	0x00117760 0x00129A30
+CreateCrateDieModuleData	REGISTERED	CreateCrateDie	2	1	yes	1	0x00123290
+CreateObjectDie	REGISTERED	CreateObjectDie	1	1	yes	2	0x001177E0 0x00117860
+CritterEmitterUpdate	REGISTERED	CritterEmitterUpdate	1	1	no	2	0x00115730 0x00121950
+CrushDie	REGISTERED	CrushDie	2	1	yes	2	0x00117900 0x00123460
+CrushDieModuleData	REGISTERED	CrushDie	2	1	yes	1	0x00123350
+DamDie	ABSENT	DamDie	0	0	yes	2	0x00114D70 0x0011E2D0
+DamageModule	UNREGISTERED_NAMED	DamageModule	1	1	no	1	0x00124080
+DamageModuleData	UNREGISTERED_NAMED	Damage	192	13	no	1	0x00122D60
+DarknessSpecialPower	REGISTERED	DarknessSpecialPower	1	1	no	2	0x00120920 0x001209A0
+DefaultProductionExitUpdate	REGISTERED	DefaultProductionExitUpdate	1	1	yes	2	0x00117D40 0x00123910
+DefectorSpecialPower	REGISTERED	DefectorSpecialPower	1	1	yes	2	0x0011FE80 0x0011FF00
+DeflectSpecialPower	REGISTERED	DeflectSpecialPower	1	1	no	2	0x00120B40 0x00120BC0
+DelayedDeathBody	REGISTERED	DelayedDeathBody	1	1	no	1	0x0011F830
+DelayedLuaEventUpdate	REGISTERED	DelayedLuaEventUpdate	1	1	no	2	0x0011BC70 0x0011BCF0
+DelayedUpgrade	REGISTERED	DelayedUpgrade	1	1	no	2	0x0011D2A0 0x0012B200
+DeletionUpdate	REGISTERED	DeletionUpdate	2	1	yes	2	0x00117EF0 0x001239B0
+DeliverPayloadAIUpdate	ABSENT	DeliverPayloadAIUpdate	0	0	yes	1	0x0011DB70
+DemoTrapUpdate	REGISTERED	DemoTrapUpdate	1	1	yes	2	0x001199A0 0x00119A20
+DemoralizeSpecialPower	ABSENT	DemoralizeSpecialPower	0	0	yes	0	
+DeployStyleAIUpdate	REGISTERED	DeployStyleAIUpdate	1	1	yes	2	0x00118670 0x001186F0
+DestroyDie	REGISTERED	DestroyDie	2	2	yes	1	0x00117990
+DestroyEnvironmentUpdate	REGISTERED	DestroyEnvironmentUpdate	1	1	no	2	0x0011C420 0x0011C4A0
+DetachableRiderBody	REGISTERED	DetachableRiderBody	2	1	no	1	0x0011FA50
+DetachableRiderUpdate	REGISTERED	DetachableRiderUpdate	2	1	no	1	0x0011CAF0
+DevastateSpecialPower	REGISTERED	DevastateSpecialPower	1	1	no	2	0x00121510 0x00121590
+DieModule	UNREGISTERED_NAMED	DieModule	1	1	no	1	0x00114D70
+DieModuleData	UNREGISTERED_NAMED	Die	31	12	no	1	0x00122EB0
+DominateEnemySpecialPower	REGISTERED	DominateEnemySpecialPower	1	1	no	2	0x00122140 0x001221C0
+DozerAIUpdate	REGISTERED	DozerAIUpdate	1	1	yes	2	0x00117FA0 0x00118020
+DualWeaponBehavior	REGISTERED	DualWeaponBehavior	1	1	no	2	0x00115020 0x001150A0
+DumbProjectileBehavior	ABSENT	DumbProjectileBehavior	0	0	yes	0	
+DynamicGeometryInfoUpdate	ABSENT	DynamicGeometryInfoUpdate	0	0	yes	2	0x001145D0 0x00120D70
+DynamicPortalBehaviour	REGISTERED	DynamicPortalBehaviour	1	1	no	1	0x001156B0
+DynamicShroudClearingRangeUpdate	REGISTERED	DynamicShroudClearingRangeUpdate	1	1	yes	2	0x001180B0 0x00118130
+EMPUpdate	ABSENT	EMPUpdate	0	0	yes	1	0x00114200
+EjectPilotDie	ABSENT	EjectPilotDie	0	0	yes	2	0x001145D0 0x0011E2D0
+ElvenWoodSpecialPower	REGISTERED	ElvenWoodSpecialPower	2	1	no	2	0x001202C0 0x00120340
+EmotionTrackerUpdate	REGISTERED	EmotionTrackerUpdate	2	1	no	2	0x0011CE60 0x0011CEE0
+EnemyNearUpdate	ABSENT	EnemyNearUpdate	0	0	yes	0	
+EnragedBehavior	REGISTERED	EnragedBehavior	1	1	no	2	0x00114A40 0x00114AD0
+EntEnragedUpdate	REGISTERED	EntEnragedUpdate	1	1	no	1	0x0011CF80
+EvacuateDamage	REGISTERED	EvacuateDamage	1	1	no	2	0x0011EA10 0x0011EA90
+ExperienceLevelCreate	REGISTERED	ExperienceLevelCreate	1	1	no	2	0x0011E5F0 0x0011E670
+ExperienceScalarUpgrade	REGISTERED	ExperienceScalarUpgrade	1	1	yes	2	0x0011DAF0 0x0011DB70
+FXListDie	REGISTERED	FXListDie	1	1	yes	2	0x00117A20 0x00123590
+FadeAndDieOrnamentUpdate	REGISTERED	FadeAndDieOrnamentUpdate	1	1	no	2	0x0011B5B0 0x00125BD0
+FellBeastSwoopPower	REGISTERED	FellBeastSwoopPower	1	1	no	2	0x001210D0 0x00121150
+FireOCLAfterWeaponCooldownUpdate	ABSENT	FireOCLAfterWeaponCooldownUpdate	0	0	yes	2	0x00114200 0x0011DB70
+FireSpreadUpdate	REGISTERED	FireSpreadUpdate	2	1	yes	2	0x001181C0 0x00118240
+FireWeaponCollide	REGISTERED	FireWeaponCollide	1	1	yes	2	0x0011EB20 0x00127D00
+FireWeaponPower	ABSENT	FireWeaponPower	0	0	yes	1	0x0011D7C0
+FireWeaponUpdate	REGISTERED	FireWeaponUpdate	1	1	yes	2	0x001182D0 0x00118350
+FireWeaponWhenDamagedBehavior	REGISTERED	FireWeaponWhenDamagedBehavior	1	1	yes	2	0x00116F30 0x00117420
+FireWeaponWhenDamagedBehaviorModuleData	REGISTERED	FireWeaponWhenDamagedBehavior	1	1	yes	1	0x001298A0
+FireWeaponWhenDeadBehavior	REGISTERED	FireWeaponWhenDeadBehavior	1	1	yes	2	0x00116FC0 0x0012A250
+FirestormDynamicGeometryInfoUpdate	ABSENT	FirestormDynamicGeometryInfoUpdate	0	0	yes	1	0x00118990
+FlammableUpdate	REGISTERED	FlammableUpdate	1	1	yes	2	0x001183E0 0x00118460
+FlightDeckBehavior	ABSENT	FlightDeckBehavior	0	0	yes	1	0x0011FAD0
+FloatUpdate	REGISTERED	FloatUpdate	1	1	yes	2	0x00118500 0x00118580
+FoundationAIUpdate	REGISTERED	FoundationAIUpdate	2	1	no	2	0x001143B0 0x00122E30
+FreeLifeBody	REGISTERED	FreeLifeBody	1	1	no	1	0x0011F940
+FreezingRainSpecialPower	REGISTERED	FreezingRainSpecialPower	1	1	no	2	0x00120810 0x00120890
+GarrisonContain	REGISTERED	GarrisonContain	3	2	yes	2	0x00116040 0x00116250
+GateOpenAndCloseBehavior	REGISTERED	GateOpenAndCloseBehavior	1	1	no	2	0x00119DE0 0x00123AB0
+GateProxyBehavior	REGISTERED	GateProxyBehavior	1	1	no	1	0x00123BF0
+GenerateMinefieldBehavior	ABSENT	GenerateMinefieldBehavior	0	0	yes	1	0x0011DA50
+GeometryUpgrade	REGISTERED	GeometryUpgrade	1	1	no	2	0x0011DF20 0x0011DFA0
+GettingBuiltBehavior	REGISTERED	GettingBuiltBehavior	1	1	no	1	0x00114320
+GiantBirdAIUpdate	REGISTERED	GiantBirdAIUpdate	2	1	no	2	0x00118910 0x00118990
+GiantBirdSlowDeathBehavior	REGISTERED	GiantBirdSlowDeathBehavior	1	1	no	2	0x001157D0 0x00115850
+GiveUpgradeUpdate	REGISTERED	GiveUpgradeUpdate	1	1	no	2	0x0011AB00 0x0011AB80
+GloriousChargeUpdate	REGISTERED	GloriousChargeUpdate	1	1	no	2	0x0011C750 0x0011C7D0
+GrabPassengerSpecialPower	REGISTERED	GrabPassengerSpecialPower	1	1	no	2	0x00120A30 0x00120AB0
+GrantScienceUpgrade	ABSENT	GrantScienceUpgrade	0	0	yes	1	0x001153E0
+GrantStealthBehavior	ABSENT	GrantStealthBehavior	0	0	yes	1	0x00118BB0
+GrantUpgradeCreate	REGISTERED	GrantUpgradeCreate	1	1	yes	2	0x0011E4E0 0x0011E560
+HackInternetAIUpdate	ABSENT	HackInternetAIUpdate	0	0	yes	0	
+HealContain	REGISTERED	HealContain	1	1	yes	2	0x00115B40 0x001219D0
+HealCrateCollide	REGISTERED	HealCrateCollide	1	1	yes	2	0x0011EDC0 0x0011EE50
+HeightDieUpdate	REGISTERED	HeightDieUpdate	1	1	yes	2	0x00118A20 0x00118AA0
+HelicopterSlowDeathBehavior	ABSENT	HelicopterSlowDeathBehavior	0	0	yes	0	
+HelixContain	ABSENT	HelixContain	0	0	yes	0	
+HeroDie	REGISTERED	HeroDie	1	1	no	2	0x0011FCF0 0x00124950
+HeroModeSpecialAbilityUpdate	REGISTERED	HeroModeSpecialAbilityUpdate	1	1	no	2	0x00119130 0x001191B0
+HighlanderBody	REGISTERED	HighlanderBody	1	1	yes	1	0x0011F4B0
+HijackerUpdate	REGISTERED	HijackerUpdate	1	1	yes	2	0x0011B4F0 0x00126D50
+HitReactionBehavior	REGISTERED	HitReactionBehavior	1	1	no	2	0x00114BE0 0x0011D000
+HiveStructureBody	ABSENT	HiveStructureBody	0	0	yes	1	0x001145D0
+HiveStructureBodyModuleData	ABSENT	HiveStructureBody	0	0	yes	1	0x00248F00
+HordeAIUpdate	REGISTERED	HordeAIUpdate	1	1	no	1	0x00123FB0
+HordeContain	REGISTERED	HordeContain	17	4	no	2	0x00115BC0 0x00115D60
+HordeGarrisonContain	REGISTERED	HordeGarrisonContain	1	1	no	2	0x00115FB0 0x001160C0
+HordeMemberCollide	REGISTERED	HordeMemberCollide	1	1	no	2	0x0011ED40 0x00124890
+HordeSiegeEngineContain	REGISTERED	HordeSiegeEngineContain	2	1	no	2	0x00116360 0x001163F0
+HordeTransportContain	REGISTERED	HordeTransportContain	2	1	no	1	0x00115F30
+HordeUpdate	ABSENT	HordeUpdate	0	0	yes	2	0x00114320 0x00117170
+HorseHordeContain	REGISTERED	HorseHordeContain	2	1	no	2	0x00115DE0 0x00115E70
+ImmortalBody	REGISTERED	ImmortalBody	1	1	yes	1	0x0011F530
+InactiveBody	REGISTERED	InactiveBody	2	2	yes	2	0x00113BE0 0x0011F320
+InstantDeathBehavior	REGISTERED	InstantDeathBehavior	2	1	yes	2	0x00115360 0x001153E0
+InternetHackContain	ABSENT	InternetHackContain	0	0	yes	1	0x006BFEB0
+JetAIUpdate	ABSENT	JetAIUpdate	0	0	yes	1	0x00118020
+JetSlowDeathBehavior	ABSENT	JetSlowDeathBehavior	0	0	yes	0	
+KeepObjectDie	REGISTERED	KeepObjectDie	1	1	yes	2	0x00117BC0 0x00125340
+LargeGroupAudioUpdate	REGISTERED	LargeGroupAudioUpdate	2	1	no	2	0x0011C200 0x0011C280
+LargeGroupBonusUpdate	REGISTERED	LargeGroupBonusUpdate	2	1	no	2	0x00118B30 0x00118BB0
+LaserUpdate	REGISTERED	LaserUpdate	1	1	yes	2	0x00118D70 0x00118DF0
+LeafletDropBehavior	ABSENT	LeafletDropBehavior	0	0	yes	1	0x00117170
+LevelGrantSpecialPower	REGISTERED	LevelGrantSpecialPower	1	1	no	2	0x0011FF90 0x00120010
+LevelUpUpgrade	REGISTERED	LevelUpUpgrade	1	1	no	2	0x0011D320 0x0012B320
+LifetimeUpdate	REGISTERED	LifetimeUpdate	2	1	yes	2	0x0011A2D0 0x0011A350
+LockWeaponCreate	REGISTERED	LockWeaponCreate	1	1	yes	2	0x0011E2D0 0x0011E350
+LocomotorSetUpgrade	REGISTERED	LocomotorSetUpgrade	1	1	yes	2	0x0011D3A0 0x0012B430
+ManTheWallsSpecialPower	REGISTERED	ManTheWallsSpecialPower	1	1	no	2	0x001211E0 0x00121260
+MaxHealthUpgrade	REGISTERED	MaxHealthUpgrade	1	1	yes	2	0x0011DC00 0x0011DC80
+MinefieldBehavior	ABSENT	MinefieldBehavior	0	0	yes	1	0x001145D0
+MissileAIUpdate	ABSENT	MissileAIUpdate	0	0	yes	1	0x0011F9C0
+MissileLauncherBuildingUpdate	ABSENT	MissileLauncherBuildingUpdate	0	0	yes	1	0x00117420
+MobMemberSlavedUpdate	ABSENT	MobMemberSlavedUpdate	0	0	yes	1	0x00116F30
+MobNexusContain	ABSENT	MobNexusContain	0	0	yes	0	
+ModelConditionSoundSelectorClientBehavior	REGISTERED	ModelConditionSoundSelectorClientBehavior	1	1	no	2	0x00121E30 0x00126190
+ModelConditionSpecialAbilityUpdate	REGISTERED	ModelConditionSpecialAbilityUpdate	1	1	no	2	0x00118FF0 0x00119070
+ModelConditionUpgrade	REGISTERED	ModelConditionUpgrade	1	1	yes	2	0x0011DD10 0x0011DD90
+ModuleFactory	UNREGISTERED_NAMED	ModuleFactory	2	2	no	6	0x0005C5D0 0x00126260 0x00127DA0 0x00127E00 0x00129100 0x001295F0
+MoneyCrateCollide	REGISTERED	MoneyCrateCollide	1	1	yes	2	0x0011EF00 0x00127020
+MonsterDockUpdate	REGISTERED	MonsterDockUpdate	1	1	no	2	0x0011B160 0x0011B1E0
+NeutronBlastBehavior	ABSENT	NeutronBlastBehavior	0	0	yes	0	
+NeutronMissileSlowDeathBehavior	ABSENT	NeutronMissileSlowDeathBehavior	0	0	yes	1	0x00117290
+NeutronMissileUpdate	ABSENT	NeutronMissileUpdate	0	0	yes	1	0x00118460
+OCLSpecialPower	REGISTERED	OCLSpecialPower	1	1	yes	2	0x001201B0 0x00120230
+OCLUpdate	REGISTERED	OCLUpdate	2	1	yes	2	0x0011A7C0 0x0011A840
+OathbreakerBody	REGISTERED	OathbreakerBody	1	1	no	1	0x0011FB60
+OathbreakersFadeAwayBehavior	REGISTERED	OathbreakersFadeAwayBehavior	1	1	no	2	0x0011E250 0x00125D70
+ObjectCreationUpgrade	REGISTERED	ObjectCreationUpgrade	1	1	yes	2	0x0011D420 0x0011D4A0
+OneRingPenaltyUpdate	REGISTERED	OneRingPenaltyUpdate	2	1	no	2	0x0011A3E0 0x0011A460
+OpenContain	REGISTERED	OpenContain	2	1	yes	2	0x00115960 0x001159E0
+OverchargeBehavior	ABSENT	OverchargeBehavior	0	0	yes	2	0x001170D0 0x00117170
+OverlordContain	ABSENT	OverlordContain	0	0	yes	0	
+POWTruckAIUpdate	ABSENT	POWTruckAIUpdate	0	0	yes	0	
+POWTruckBehavior	ABSENT	POWTruckBehavior	0	0	yes	0	
+ParachuteContain	ABSENT	ParachuteContain	0	0	yes	0	
+ParkingPlaceBehavior	ABSENT	ParkingPlaceBehavior	0	0	yes	1	0x001148B0
+PartTheHeavensUpdate	REGISTERED	PartTheHeavensUpdate	1	1	no	2	0x0011C530 0x0011C5B0
+ParticleUplinkCannonUpdate	ABSENT	ParticleUplinkCannonUpdate	0	0	yes	1	0x0011CC80
+PassengersFireUpgrade	ABSENT	PassengersFireUpgrade	0	0	yes	0	
+PassiveAreaEffectBehavior	REGISTERED	PassiveAreaEffectBehavior	1	1	no	2	0x001175D0 0x00117650
+PhysicsBehavior	REGISTERED	PhysicsBehavior	1	1	yes	2	0x0011A9F0 0x0011AA70
+PilotFindVehicleUpdate	ABSENT	PilotFindVehicleUpdate	0	0	yes	1	0x001171F0
+PlayerHealSpecialPower	REGISTERED	PlayerHealSpecialPower	1	1	no	2	0x00121400 0x00121480
+PlayerUpgradeSpecialPower	REGISTERED	PlayerUpgradeSpecialPower	1	1	no	2	0x001212F0 0x00121370
+PointDefenseLaserUpdate	ABSENT	PointDefenseLaserUpdate	0	0	yes	2	0x00113FB0 0x001236C0
+PoisonedBehavior	REGISTERED	PoisonedBehavior	1	1	yes	2	0x00117050 0x001170D0
+PorcupineFormationBodyModule	REGISTERED	PorcupineFormationBodyModule	1	1	no	2	0x0011FBE0 0x0011FC60
+PowerPlantUpdate	ABSENT	PowerPlantUpdate	0	0	yes	1	0x00114B50
+PowerPlantUpgrade	ABSENT	PowerPlantUpgrade	0	0	yes	0	
+PreorderCreate	REGISTERED	PreorderCreate	1	1	yes	1	0x0011E700
+PrisonBehavior	ABSENT	PrisonBehavior	0	0	yes	0	
+PrisonDockUpdate	ABSENT	PrisonDockUpdate	0	0	yes	0	
+ProductionSpeedBonus	REGISTERED	ProductionSpeedBonus	2	1	no	2	0x001200A0 0x00120120
+ProductionUpdate	REGISTERED	ProductionUpdate	1	1	yes	2	0x0011AC10 0x0011AC90
+ProjectileStreamUpdate	ABSENT	ProjectileStreamUpdate	0	0	yes	0	
+ProneUpdate	REGISTERED	ProneUpdate	1	1	yes	2	0x0011AD30 0x0011ADB0
+PropagandaCenterBehavior	ABSENT	PropagandaCenterBehavior	0	0	yes	0	
+PropagandaTowerBehavior	REGISTERED	PropagandaTowerBehavior	1	1	yes	2	0x00116E10 0x0011CB70
+QueueProductionExitUpdate	REGISTERED	QueueProductionExitUpdate	1	1	yes	2	0x001156B0 0x001241B0
+RadarUpdate	REGISTERED	RadarUpdate	1	1	yes	2	0x0011AEC0 0x00124240
+RadarUpgrade	REGISTERED	RadarUpgrade	1	1	yes	2	0x0011D540 0x0012B530
+RadiusDecalUpdate	REGISTERED	RadiusDecalUpdate	1	1	yes	2	0x0011A580 0x00123E50
+RailedTransportAIUpdate	ABSENT	RailedTransportAIUpdate	0	0	yes	1	0x001145D0
+RailedTransportContain	ABSENT	RailedTransportContain	0	0	yes	0	
+RailedTransportDockUpdate	UNREGISTERED_NAMED	RailedTransportDockUpdate	1	1	yes	1	0x00118AA0
+RailroadBehavior	ABSENT	RailroadBehavior	0	0	yes	0	
+RainOfFireUpdate	REGISTERED	RainOfFireUpdate	2	1	no	2	0x0011C310 0x0011C390
+RampageBehavior	REGISTERED	RampageBehavior	1	1	no	1	0x001149C0
+RandomSoundSelectorClientBehavior	REGISTERED	RandomSoundSelectorClientBehavior	2	1	no	2	0x00122040 0x0012BE60
+RebuildHoleBehavior	ABSENT	RebuildHoleBehavior	0	0	yes	2	0x001156B0 0x001171F0
+RebuildHoleExposeDie	ABSENT	RebuildHoleExposeDie	0	0	yes	2	0x001145D0 0x0011E2D0
+ReflectDamage	REGISTERED	ReflectDamage	2	1	no	2	0x0011E900 0x0011E980
+RefundDie	REGISTERED	RefundDie	1	1	no	2	0x001176E0 0x001232C0
+RepairDockUpdate	REGISTERED	RepairDockUpdate	1	1	yes	2	0x0011B050 0x0011B0D0
+RepairSpecialPower	REGISTERED	RepairSpecialPower	1	1	no	2	0x00121730 0x001217B0
+ReplaceObjectUpgrade	ABSENT	ReplaceObjectUpgrade	0	0	yes	1	0x001153E0
+ReplenishUnitsBehavior	REGISTERED	ReplenishUnitsBehavior	2	1	no	1	0x001173A0
+RespawnBody	REGISTERED	RespawnBody	1	1	no	2	0x0011F720 0x0011F7A0
+RespawnUpdate	REGISTERED	RespawnUpdate	21	1	no	1	0x0011CC00
+RiderChangeContain	REGISTERED	RiderChangeContain	1	1	yes	2	0x001166D0 0x001195C0
+RousingSpeechUpdate	REGISTERED	RousingSpeechUpdate	1	1	no	2	0x0011C640 0x0011C6C0
+RubbleRiseUpdate	REGISTERED	RubbleRiseUpdate	2	1	no	2	0x0011B6C0 0x00127BD0
+RunOffMapBehavior	REGISTERED	RunOffMapBehavior	1	1	no	2	0x001158E0 0x001267E0
+SabotageCommandCenterCrateCollide	ABSENT	SabotageCommandCenterCrateCollide	0	0	yes	0	
+SabotageFakeBuildingCrateCollide	ABSENT	SabotageFakeBuildingCrateCollide	0	0	yes	1	0x0011E2D0
+SabotageInternetCenterCrateCollide	ABSENT	SabotageInternetCenterCrateCollide	0	0	yes	1	0x0011E2D0
+SabotageMilitaryFactoryCrateCollide	ABSENT	SabotageMilitaryFactoryCrateCollide	0	0	yes	2	0x0011E2D0 0x0012B650
+SabotagePowerPlantCrateCollide	ABSENT	SabotagePowerPlantCrateCollide	0	0	yes	1	0x0011E2D0
+SabotageSuperweaponCrateCollide	ABSENT	SabotageSuperweaponCrateCollide	0	0	yes	1	0x0011E2D0
+SabotageSupplyCenterCrateCollide	ABSENT	SabotageSupplyCenterCrateCollide	0	0	yes	1	0x0011E2D0
+SabotageSupplyDropzoneCrateCollide	ABSENT	SabotageSupplyDropzoneCrateCollide	0	0	yes	1	0x0011E2D0
+SalvageCrateCollide	REGISTERED	SalvageCrateCollide	2	1	yes	1	0x0011F190
+ScavengerSpecialPower	REGISTERED	ScavengerSpecialPower	1	1	no	2	0x001204E0 0x00120560
+ShareExperienceBehavior	REGISTERED	ShareExperienceBehavior	2	1	no	2	0x00116BF0 0x00116C70
+ShroudCrateCollide	REGISTERED	ShroudCrateCollide	1	1	yes	2	0x0011EDC0 0x0011EF80
+SiegeAIUpdate	REGISTERED	SiegeAIUpdate	1	1	no	2	0x00118C40 0x00118CC0
+SiegeDeployHordeSpecialPower	REGISTERED	SiegeDeployHordeSpecialPower	1	1	no	2	0x00120D70 0x00120DF0
+SiegeDeploySpecialPower	REGISTERED	SiegeDeploySpecialPower	1	1	no	2	0x00120C60 0x00120CE0
+SiegeDockingBehavior	REGISTERED	SiegeDockingBehavior	1	1	no	2	0x00114E00 0x00114E80
+SiegeEngineContain	REGISTERED	SiegeEngineContain	4	2	no	2	0x00115CD0 0x001162E0
+SlaughterHordeContain	REGISTERED	SlaughterHordeContain	2	1	no	2	0x00116750 0x00116D00
+SlaveWatcherBehavior	REGISTERED	SlaveWatcherBehavior	1	1	no	2	0x001174C0 0x00117540
+SlavedUpdate	REGISTERED	SlavedUpdate	2	1	yes	2	0x0011B270 0x00125A60
+SlowDeathBehavior	REGISTERED	SlowDeathBehavior	4	3	yes	2	0x00115470 0x001154F0
+SmartBombTargetHomingUpdate	ABSENT	SmartBombTargetHomingUpdate	0	0	yes	1	0x00113FB0
+SpawnBehavior	REGISTERED	SpawnBehavior	1	1	yes	2	0x00115590 0x0012AAC0
+SpawnPointProductionExitUpdate	REGISTERED	SpawnPointProductionExitUpdate	1	1	yes	2	0x0011B470 0x00126C70
+SpawnUnitBehavior	REGISTERED	SpawnUnitBehavior	1	1	no	2	0x0011E1D0 0x00125D70
+SpecialAbility	SUBSTRING	SpecialAbility	13	0	yes	0	
+SpecialAbilityUpdate	REGISTERED	SpecialAbilityUpdate	10	7	yes	2	0x001140C0 0x00114140
+SpecialDisguiseUpdate	REGISTERED	SpecialDisguiseUpdate	1	1	no	2	0x0011CD40 0x0011CDC0
+SpecialEnemySenseUpdate	REGISTERED	SpecialEnemySenseUpdate	1	1	no	2	0x0011A500 0x00123D90
+SpecialPowerCompletionDie	REGISTERED	SpecialPowerCompletionDie	1	1	yes	2	0x00117AA0 0x001236C0
+SpecialPowerCompletionDieModuleData	REGISTERED	SpecialPowerCompletionDie	1	1	yes	1	0x00123430
+SpecialPowerCreate	REGISTERED	SpecialPowerCreate	1	1	yes	1	0x0011E780
+SpecialPowerModule	REGISTERED	SpecialPowerModule	2	2	no	2	0x00119540 0x00119650
+SpectreGunshipDeploymentUpdate	ABSENT	SpectreGunshipDeploymentUpdate	0	0	yes	0	
+SpectreGunshipUpdate	ABSENT	SpectreGunshipUpdate	0	0	yes	1	0x006BF1D0
+SplitHordeSpecialPower	REGISTERED	SplitHordeSpecialPower	1	1	no	2	0x00121620 0x001216A0
+SpyVisionSpecialPower	ABSENT	SpyVisionSpecialPower	0	0	yes	1	0x0011F9C0
+SpyVisionUpdate	ABSENT	SpyVisionUpdate	0	0	yes	2	0x00114200 0x001144C0
+SpyVisionUpdateModuleData	ABSENT	SpyVisionUpdate	0	0	yes	1	0x00123180
+SquishCollide	REGISTERED	SquishCollide	1	1	yes	2	0x0011EBA0 0x00124800
+StatusBitsUpgrade	REGISTERED	StatusBitsUpgrade	1	1	yes	2	0x00118020 0x0011D5C0
+StealthDetectorUpdate	REGISTERED	StealthDetectorUpdate	2	1	yes	2	0x0011B2F0 0x00126BE0
+StealthUpdate	REGISTERED	StealthUpdate	2	2	yes	2	0x0011B3F0 0x0012A680
+StealthUpgrade	REGISTERED	StealthUpgrade	1	1	yes	2	0x0011D6C0 0x0012BF00
+StickyBombUpdate	ABSENT	StickyBombUpdate	0	0	yes	1	0x00117170
+StopSpecialPower	REGISTERED	StopSpecialPower	1	1	no	2	0x00120E80 0x00120F00
+StructureBody	REGISTERED	StructureBody	1	1	yes	2	0x0011F5E0 0x001294A0
+StructureCollapseUpdate	REGISTERED	StructureCollapseUpdate	2	1	yes	2	0x0011B630 0x00128B10
+StructureToppleUpdate	REGISTERED	StructureToppleUpdate	2	1	yes	2	0x0011B750 0x0012C250
+SubObjectsUpgrade	REGISTERED	SubObjectsUpgrade	1	1	yes	2	0x0011D640 0x0012B7F0
+SupplyCenterCreate	REGISTERED	SupplyCenterCreate	1	1	yes	1	0x0011E3E0
+SupplyCenterDockUpdate	REGISTERED	SupplyCenterDockUpdate	1	1	yes	2	0x0011AF40 0x0011AFC0
+SupplyCenterProductionExitUpdate	REGISTERED	SupplyCenterProductionExitUpdate	1	1	yes	2	0x0011B7E0 0x001243A0
+SupplyTruckAIUpdate	REGISTERED	SupplyTruckAIUpdate	2	1	yes	2	0x0011B930 0x0011B9B0
+SupplyWarehouseCreate	REGISTERED	SupplyWarehouseCreate	1	1	yes	1	0x0011E460
+SupplyWarehouseCripplingBehavior	REGISTERED	SupplyWarehouseCripplingBehavior	1	1	yes	2	0x00117170 0x001171F0
+SupplyWarehouseDockUpdate	REGISTERED	SupplyWarehouseDockUpdate	2	1	yes	2	0x0011BA40 0x0011BAC0
+SwayClientUpdate	REGISTERED	SwayClientUpdate	2	1	yes	1	0x00121AF0
+TaintSpecialPower	REGISTERED	TaintSpecialPower	1	1	no	2	0x00120700 0x00120780
+TechBuildingBehavior	ABSENT	TechBuildingBehavior	0	0	yes	1	0x001170D0
+TemporarilyDefectUpdate	REGISTERED	TemporarilyDefectUpdate	1	1	no	2	0x001220C0 0x00124C20
+TensileFormationUpdate	ABSENT	TensileFormationUpdate	0	0	yes	2	0x00118020 0x0011E880
+ToggleHiddenSpecialAbilityUpdate	REGISTERED	ToggleHiddenSpecialAbilityUpdate	1	1	no	2	0x0011C9E0 0x0011CA60
+ToggleMountedSpecialAbilityUpdate	REGISTERED	ToggleMountedSpecialAbilityUpdate	1	1	no	2	0x0011C890 0x0011C910
+TooltipUpgrade	REGISTERED	TooltipUpgrade	1	1	no	2	0x0011E030 0x0012BC30
+ToppleUpdate	REGISTERED	ToppleUpdate	3	2	yes	2	0x0011BB50 0x0011BBD0
+TransitionDamageFX	REGISTERED	TransitionDamageFX	3	1	yes	1	0x00124770
+TransitionDamageFXModuleData	REGISTERED	TransitionDamageFX	3	1	yes	1	0x00124740
+TransportAIUpdate	REGISTERED	TransportAIUpdate	3	2	yes	2	0x00116860 0x0011BD80
+TransportContain	REGISTERED	TransportContain	4	2	yes	2	0x00115C50 0x00125470
+TunnelContain	REGISTERED	TunnelContain	2	1	yes	2	0x00116470 0x00116530
+UndeadBody	ABSENT	UndeadBody	0	0	yes	1	0x00114D70
+UnitCrateCollide	REGISTERED	UnitCrateCollide	1	1	yes	2	0x0011F030 0x00125F10
+UnpauseSpecialPowerUpgrade	REGISTERED	UnpauseSpecialPowerUpgrade	1	1	yes	2	0x0011D740 0x0011D7C0
+UpdateModule	UNREGISTERED_NAMED	UpdateModule	135	5	no	1	0x00124080
+UpgradeDie	REGISTERED	UpgradeDie	1	1	yes	2	0x00117B40 0x00125710
+UpgradeDieModuleData	REGISTERED	UpgradeDie	1	1	yes	1	0x00123560
+UpgradeModule	UNREGISTERED_NAMED	UpgradeModule	1	1	no	1	0x00128DA0
+UpgradeSoundSelectorClientBehavior	REGISTERED	UpgradeSoundSelectorClientBehavior	1	1	no	2	0x00121ED0 0x00124B30
+VeterancyCrateCollide	REGISTERED	VeterancyCrateCollide	1	1	yes	2	0x0011F0E0 0x00125FD0
+VeterancyGainCreate	ABSENT	VeterancyGainCreate	0	0	yes	1	0x001170D0
+W3DBuffDraw	REGISTERED	W3DBuffDraw	2	1	no	2	0x006BF7A0 0x006BF820
+W3DDebrisDraw	REGISTERED	W3DDebrisDraw	1	1	yes	2	0x00113BE0 0x006BEF40
+W3DDefaultDraw	REGISTERED	W3DDefaultDraw	2	2	yes	1	0x006BEFC0
+W3DDependencyModelDraw	ABSENT	W3DDependencyModelDraw	0	0	yes	1	0x00118990
+W3DFloorDraw	REGISTERED	W3DFloorDraw	2	1	no	2	0x006BF9C0 0x006BFA40
+W3DHordeModelDraw	REGISTERED	W3DHordeModelDraw	2	1	no	2	0x006BFBE0 0x006BFC60
+W3DLaserDraw	REGISTERED	W3DLaserDraw	1	1	yes	2	0x00114320 0x006BF150
+W3DLightDraw	REGISTERED	W3DLightDraw	1	1	no	1	0x006BFB50
+W3DModelDraw	ABSENT	W3DModelDraw	0	0	yes	1	0x0011F9C0
+W3DOverlordAircraftDraw	ABSENT	W3DOverlordAircraftDraw	0	0	yes	1	0x0011F9C0
+W3DOverlordTankDraw	ABSENT	W3DOverlordTankDraw	0	0	yes	1	0x0011E130
+W3DOverlordTruckDraw	ABSENT	W3DOverlordTruckDraw	0	0	yes	0	
+W3DPoliceCarDraw	UNREGISTERED_NAMED	W3DPoliceCarDraw	2	1	yes	0	
+W3DProjectileStreamDraw	ABSENT	W3DProjectileStreamDraw	0	0	yes	2	0x00118AA0 0x001194C0
+W3DPropDraw	REGISTERED	W3DPropDraw	1	1	yes	2	0x00114B50 0x006BF8B0
+W3DQuadrupedDraw	REGISTERED	W3DQuadrupedDraw	1	1	no	2	0x006BF260 0x006BFEB0
+W3DRopeDraw	REGISTERED	W3DRopeDraw	2	1	yes	2	0x00113BE0 0x006BF2E0
+W3DScienceModelDraw	ABSENT	W3DScienceModelDraw	0	0	yes	1	0x00118990
+W3DScriptedModelDraw	REGISTERED	W3DScriptedModelDraw	2	1	no	2	0x006BF040 0x006BF0C0
+W3DStreakDraw	REGISTERED	W3DStreakDraw	1	1	no	2	0x006BFCF0 0x006BFD70
+W3DSupplyDraw	REGISTERED	W3DSupplyDraw	1	1	yes	2	0x006BF360 0x006BF3E0
+W3DTankDraw	REGISTERED	W3DTankDraw	1	1	yes	2	0x006BF580 0x006BF600
+W3DTankTruckDraw	ABSENT	W3DTankTruckDraw	0	0	yes	0	
+W3DTracerDraw	ABSENT	W3DTracerDraw	0	0	yes	1	0x00114200
+W3DTreeDraw	REGISTERED	W3DTreeDraw	2	1	yes	2	0x006BF690 0x006BF710
+W3DTruckDraw	REGISTERED	W3DTruckDraw	1	1	yes	2	0x006BF470 0x006BF4F0
+WallUpgradeUpdate	REGISTERED	WallUpgradeUpdate	1	1	no	1	0x0011C170
+WanderAIUpdate	REGISTERED	WanderAIUpdate	3	1	yes	2	0x0011BE60 0x0011BEE0
+WargBehavior	REGISTERED	WargBehavior	1	1	no	1	0x00115620
+WaveGuideUpdate	ABSENT	WaveGuideUpdate	0	0	yes	1	0x006BFEB0
+WeaponBonusUpdate	ABSENT	WeaponBonusUpdate	0	0	yes	2	0x001236C0 0x006BFAD0
+WeaponBonusUpgrade	REGISTERED	WeaponBonusUpgrade	1	1	yes	1	0x0011D850
+WeaponChangeSpecialPowerModule	REGISTERED	WeaponChangeSpecialPowerModule	1	1	no	2	0x001203D0 0x00120450
+WeaponFireSpecialAbilityUpdate	REGISTERED	WeaponFireSpecialAbilityUpdate	1	1	no	2	0x001193B0 0x00119430
+WeaponModeSpecialPowerUpdate	REGISTERED	WeaponModeSpecialPowerUpdate	1	1	no	2	0x00119670 0x001196F0
+WeaponSetSpecialAbilityUpdate	REGISTERED	WeaponSetSpecialAbilityUpdate	1	1	no	2	0x00119270 0x001192F0
+WeaponSetUpgrade	REGISTERED	WeaponSetUpgrade	2	1	yes	1	0x0011D8D0
+WorkerAIUpdate	REGISTERED	WorkerAIUpdate	4	2	yes	2	0x0011C060 0x0011C0E0
+WoundArrowUpdate	REGISTERED	WoundArrowUpdate	1	1	no	2	0x00120F90 0x00121010
