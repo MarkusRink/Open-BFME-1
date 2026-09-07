@@ -85501,3 +85501,4 @@ _bfmeExitBZ,0x008830B0
 ?releaseBufferCS@BFMERetailAsciiString@@QAEXXZ,0x00887940
 ?bfmeWriteCS@BfmeSinkCS@@QAEXPAXABVBFMERetailAsciiString@@0@Z,0x00019EB1
 ??0BfmeItemCU@@QAE@PAX@Z,0x0003910D
+??0BfmeItemCV@@QAE@PAX@Z,0x0003CFDD
