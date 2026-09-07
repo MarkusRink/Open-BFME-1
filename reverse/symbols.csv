@@ -85596,3 +85596,8 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeFindEQW@BfmeThingEQW@@QAEPAVBfmeModuleEQW@@H@Z,0x0002AE23,pin
 ?bfmeDoEQW@BfmeModuleEQW@@QAEXXZ,0x0000E8DB,pin
 ?g_bfmeKeyGenEQW@@3PAVBfmeKeyGenEQW@@A,0x00EED600,pin
+?bfmeNameToKeyERA@BfmeKeyGenERA@@QAEHPBD@Z,0x0003ADD7,pin
+?g_bfmeKeyGenERA@@3PAVBfmeKeyGenERA@@A,0x00EED600,pin
+?g_bfmeEmptyERA@@3PADA,0x00C7388B,pin
+?g_bfmeOwnerERA@@3PAVBfmeOwnerERA@@A,0x00EEF504,pin
+?bfmeFindERA@BfmeMapERA@@QAEXPAPAVBfmeNodeERA@@PAH@Z,0x0003DB09,pin
