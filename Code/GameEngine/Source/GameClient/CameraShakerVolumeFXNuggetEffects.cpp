@@ -1,5 +1,6 @@
 // cl: /O2 /Ob0 /DNDEBUG /MD /EHsc
-// Open-BFME5: clean C++ conversion of CameraShakerVolume's positional dispatch.
+// Retail INI table 0x00CF2B28 supplies the descriptive field names and units.
+// Integer slots retain the parsed float bit patterns for the existing dispatch ABI.
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
 struct Coord3D
@@ -45,23 +46,23 @@ public:
 
 private:
 	unsigned char m_unmodelled[0xBC];
-	int m_fieldC0;
-	int m_fieldC4;
-	int m_fieldC8;
+	int m_radius;
+	int m_durationSeconds;
+	int m_amplitudeDegrees;
 };
 
 // ?doFXPos@CameraShakerVolumeFXNugget@@UBEXPBUCoord3D@@PBVMatrix3D@@M0@Z
-void CameraShakerVolumeFXNugget::doFXPos(const Coord3D *primary,
+void CameraShakerVolumeFXNugget::doFXPos(const Coord3D *position,
 	const Matrix3D *, float, const Coord3D *) const
 {
-	if (primary)
-		TheTacticalView->addCameraShakerVolume(primary, m_fieldC0, m_fieldC4, m_fieldC8);
+	if (position)
+		TheTacticalView->addCameraShakerVolume(position, m_radius, m_durationSeconds, m_amplitudeDegrees);
 }
 
 // ?doFXObj@CameraShakerVolumeFXNugget@@UBEXPBVObject@@0@Z
-void CameraShakerVolumeFXNugget::doFXObj(const Object *primary, const Object *) const
+void CameraShakerVolumeFXNugget::doFXObj(const Object *object, const Object *) const
 {
-	if (primary)
-		TheTacticalView->addCameraShakerVolume(&primary->m_position,
-			m_fieldC0, m_fieldC4, m_fieldC8);
+	if (object)
+		TheTacticalView->addCameraShakerVolume(&object->m_position,
+			m_radius, m_durationSeconds, m_amplitudeDegrees);
 }
