@@ -583,12 +583,10 @@ struct Rva00805960Probe
 	char m_tag[ 0x40 ];          // +0x18
 };
 
-// Three neighbours 0x00805960 drives, all still dumps and all pinned by
-// address.  0x00805A70 CANNOT BE WHAT THE LEDGER CALLS IT: that row names it
-// NAT::doThisConnectionRound, a zero-argument __thiscall method, and this call
-// site passes three arguments __cdecl and cleans them with `add esp,0Ch`.  The
-// contradiction is recorded in reverse/re_attempts.log; the pin here is
-// additive and address-derived and claims nothing about that row.
+// Three neighbours 0x00805960 drives, pinned by address. The first is now
+// recovered in Y2ProtoMangleNextProbe.cpp. This call site proves its cdecl
+// three-argument interface and the former NAT::doThisConnectionRound ledger
+// identity has been corrected. The actual NAT method is at 0x006726B0.
 int  Rva00805A70NextProbe( Rva00805960Probe *probe,
 		Rva00804150ProtoMangleRef *ref, const char *text );  // 0x00805A70
 int  Rva00805C70( Rva00804150ProtoMangleRef *ref, Rva00805960Probe *probe );
