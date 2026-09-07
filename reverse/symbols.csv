@@ -9736,9 +9736,11 @@ name,address,notes
 ??_C@_00CNPNBAHC@?$AA@,0x00C7388B,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00532DF0 calls; autopin
 ??_C@_01EEMJAFIK@?6?$AA@,0x01080294,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00209130 calls; autopin
 ??_C@_01KICIPPFI@?2?$AA@,0x01075318,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009C8600 calls; autopin
+??_C@_02GMLFBBN@wb?$AA@,0x0107FF60,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009AA970 calls; autopin
 ??_C@_02KEGNLNML@?0?5?$AA@,0x0109DF5C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00209130 calls; autopin
 ??_C@_06CHOPLBCB@WHO?5?$CFs?$AA@,0x00D311D8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00861470 calls; autopin
 ??_C@_08MBMCFODG@CrushDie?$AA@,0x00C908A8,pool-glue cascade static (back-solved)
+??_C@_09CGHNGBD@y?$CF04d?4raw?$AA@,0x01142680,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009AA970 calls; autopin
 ??_C@_09OMFJEEND@FXListDie?$AA@,0x00C908B4,pool-glue cascade static (back-solved)
 ??_C@_09PFCHIMEP@127?40?40?41?$AA@,0x010FFC88,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00860280 calls; autopin
 ??_C@_0BA@CLLFEOBD@CreateObjectDie?$AA@,0x00C90868,pool-glue cascade static (back-solved)
@@ -10997,6 +10999,7 @@ name,address,notes
 ?Rva01340510Device@@3PAXA,0x01340510,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0090ADC0 calls; autopin
 ?Rva01340534Device@@3PAURva006C9270Device@@A,0x01340534,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006C9270 calls; autopin
 ?Rva01340534Device@@3PAURva006D4FF0Device@@A,0x01340534,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006D4FF0 calls; autopin
+?Rva01340534DeviceB@@3PAURva007D9940Device@@A,0x01340534,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x007D9940 calls; autopin
 ?Rva01340560TextureChanges@@3IA,0x01340560,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006C9270 calls; autopin
 ?Rva01340568StageChanges@@3IA,0x01340568,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006D4FF0 calls; autopin
 ?Rva01340594DX8Calls@@3IA,0x01340594,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006D4FF0 calls; autopin
@@ -13012,6 +13015,7 @@ name,address,notes
 ?_bfme_setEngineInputEnabled@InGameUI@@QAEX_N@Z,0x0043B260,twin of the ledgered setInputEnabled 0x0043B280: same vcall +0x120(enable &flag) but with the +0x0D flag instead of +0x0E; used by the engine (GameEngine +0x80 body 0x0006BA06/0x0006BA11 GameLogic 0x00383490 and the MSG_CLEAR_GAME_DATA poster 0x003839E0) while scripts use +0x0E
 ?_bfme_setEngineVisibility@Mouse@@QAEX_N@Z,0x005A4B50,twin of the ledgered setVisibility 0x005A4BA0: same vcall +0x5C(visible &flag) but with the +0x4DA1 flag instead of +0x4DA2; 24 engine/screen callers (GameEngine +0x80 body 0x0006BA23 startNewGame 0x003943F8 deleteLoadScreen 0x0038D688) while doDisableInput uses +0x4DA2
 ?_bfme_setFileTransferMode@Network@@UAEXXZ,0x00681A20,vtable 0x0111A968 slot 26 (+0x68) via ILT 0x0003B656; if (m_conMgr) conMgr+0x12114=1; called at the top of _doFileTransfer 0x0066CE94; the byte is the Bool update@BFMEConnectionManager passes to Connection::doSend 0x00661F10 at 0x0066ADAA; paired with slot 27
+?_bfme_setTexture@Image@@QAEXABVRva0044F4D0@@@Z,0x0002C9C1,Image texture assignment; ILT resolves to verified 0x005D2330; allocates the Image+0x2C holder then retains and replaces its texture
 ?_bfme_shouldSkipClientFrame@GameEngine@@AAE_NXZ,0x0006B830,GameEngine member called only by the +0x80 body 0x0006B96D: with TheNetwork and logic time scale 0x012A72A4 >= 1 and this+0x30 != 1 compares the frame counter +0x34 against +0x30 using TheNetwork->getFramePacingStatus (vcall +0x40 > 1 / > 3) and the float +0x40; true makes the caller skip the client update and bump the counter 0x012ED504
 ?_bfme_shouldSkipClientFrameCall@GameEngine@@AAE_NXZ,0x000358EB,ILT entry used by GameEngine::_bfme_updateClientSubsystems for _bfme_shouldSkipClientFrame body 0x0006B830
 ?_bfme_showAptScreen@WindowManager@@QAEXABVAsciiString@@PAVRefCountClass@@@Z,0x00464ED0,mechanics-derived name: if g_theWindowManager 0x012F19E8 push_back(name) on the vector at this+8/+0xc (grow via ILT 0x0003827B) then 0x0046DA70(name) with the refcounted listener addref/release; ILT 0x000338ED
@@ -73576,6 +73580,7 @@ name,address,notes
 ?bfmeCanAttackTarget@BfmeAttackQuery@@QBE_NPBVObject@@PBUCoord3D@@0PBX@Z,0x0002DB1E,Object BFME attack query calls this protected ILT for source-target permission
 ?bfmeCanAutoFire@AutoAbilityBehavior@@QBE_NXZ,0x00008ECC,Open-BFME5 ILT thunk to body 0x001EDC00; AutoAbilityBehavior Object+8 AsciiString+0x20 command-ready predicate; bfme prefix records unrecovered retail spelling
 ?bfmeCanHF@BfmeActorHF@@QAEDH@Z,0x0003251F,pin
+?bfmeCanTM@BfmeActorTM@@QAEDH@Z,0x0003251F,pin
 ?bfmeCanZK@BfmeActorZK@@QAEDH@Z,0x0003251F,pin
 ?bfmeCanZK@BfmeActorZK@@QAE_NH@Z,0x0003251F,pin
 ?bfmeCast2EVB@@YAPAUBfmeObjEVB@@PAX@Z,0x00010424,pin
@@ -74228,6 +74233,7 @@ name,address,notes
 ?bfmeFindSC@BfmeMapSC@@QAEPAUBfmeSlotSC@@PAUBfmeKeySC@@@Z,0x00040430,pin
 ?bfmeFindSD@BfmeMapSD@@QAEPAUBfmeSlotSD@@PAUBfmeKeySD@@@Z,0x00020E7D,pin
 ?bfmeFindTJA@BfmeMgrTJA@@QAEPADH@Z,0x0002F52C,pin
+?bfmeFindTM@Rva00367E30Logic@@QAEPAVBfmeActorTM@@PAX@Z,0x0001F253,pin
 ?bfmeFindTargetGate@@YAPAVBfmeTargetGateModule@@PBVObject@@@Z,0x00003A49,Object BFME attack query calls this protected ILT to locate the target gate module
 ?bfmeFindUDD@BfmeSubUDD@@QAEPAXH@Z,0x00026C47,pin
 ?bfmeFindUDE@BfmeMgrUDE@@QAEPAVBfmeRecUDE@@H@Z,0x0001F253,pin
@@ -75424,6 +75430,7 @@ name,address,notes
 ?bfmeReady986C@BfmeC986@@QAEDXZ,0x000104B0,pin
 ?bfmeReady@BfmeReadyGate@@QAE_NXZ,0x0002E8ED,Open-BFME5 readiness predicate ILT used by 0x003D55C0
 ?bfmeReadyFX@BfmeInnerFX@@QAEDXZ,0x00028F74,pin
+?bfmeReadyLW@BfmeOwnerLW@@QAEDXZ,0x00029CDF,pin
 ?bfmeRebuild@BFMERopeDrawableGetPositionShim@@AAEXH@Z,0x00034C3E,Open-BFME5 ILT the rope getPosition at 0x0041D090 rebuilds through
 ?bfmeRebuildZones@BfmePathfindZoneManager@@QAEXPAXPAUBfmePathfindLayer44@@PAUBfmePathfindExtent@@@Z,0x00020A13,Open-BFME5 zone rebuild ILT thunk used by 0x003D5790
 ?bfmeRecordTransform@Object@@QAEXI@Z,0x0002BB43,ILT 0x0002BB43 -> 0x001C0BE0 Drawable::bfmeRecordTransform ICF; fire-at Object this
@@ -75537,13 +75544,16 @@ name,address,notes
 ?bfmeResolveKZ@BfmeInnerKZ@@QAEPAVBfmeThingKZ@@XZ,0x000022BB,pin
 ?bfmeResolveLP@BfmeInnerLP@@QAEPAVBfmeThingLP@@XZ,0x000022BB,pin
 ?bfmeResolveLU@BfmeInnerLU@@QAEPAVBfmeThingLU@@XZ,0x000022BB,pin
+?bfmeResolveLW@BfmeInnerLW@@QAEPAVBfmeThingLW@@XZ,0x000022BB,pin
 ?bfmeResolveMD@BfmeInnerMD@@QAEPAVBfmeThingMD@@XZ,0x000022BB,pin
 ?bfmeResolveMR@BfmeInnerMR@@QAEPAVBfmeKeyMR@@XZ,0x000022BB,pin
 ?bfmeResolveMeleeTarget@Object@@QAEPAV1@H@Z,0x0000FAA6,TU-specific name for the melee target resolution helper used by AIAttackMeleeHordeWaitState
 ?bfmeResolveNS@BfmeInnerNS@@QAEPAVBfmeThingNS@@XZ,0x000022BB,pin
 ?bfmeResolveNW@BfmeInnerNW@@QAEPAVBfmeThingNW@@XZ,0x000022BB,pin
 ?bfmeResolvePD@BfmeInnerPD@@QAEPAVBfmeThingPD@@XZ,0x000022BB,pin
+?bfmeResolvePE@BfmeInnerPE@@QAEPAVBfmeThingPE@@XZ,0x000022BB,pin
 ?bfmeResolveQD@BfmeInnerQD@@QAEPAVBfmeThingQD@@XZ,0x000022BB,pin
+?bfmeResolveTM@BfmeInnerTM@@QAEPAVBfmeThingTM@@XZ,0x000022BB,pin
 ?bfmeResolveVQ@BfmeInnerVQ@@QAEPAVBfmeThingVQ@@XZ,0x000022BB,pin
 ?bfmeResolveWQ@BfmeInnerWQ@@QAEPAVBfmeThingWQ@@XZ,0x000022BB,pin
 ?bfmeResolveXK@BfmeInnerXK@@QAEPAVBfmeThingXK@@XZ,0x000022BB,pin
@@ -75670,6 +75680,7 @@ name,address,notes
 ?bfmeSendJP@@YAXPAXPAHH@Z,0x00048D38,pin
 ?bfmeSendRM@BfmeSinkRM@@QAEXPAXH@Z,0x00006613,pin
 ?bfmeSendSKA@BfmeSinkSKA@@QAEXHHH@Z,0x00804010,pin
+?bfmeSendTM@BfmeOwnerTM@@QAEXPAVBfmeMsgTM@@@Z,0x0003B372,pin
 ?bfmeSendVFA@@YAHPAXHHHH@Z,0x00807370,pin
 ?bfmeSendVIR@BfmeThingVIR@@QAEXPAVBfmeMsgVIR@@PBUBfmeOwnerVIR@@PBQBDHHH@Z,0x007F2A50,pin
 ?bfmeSendVIS@BfmeThingVIS@@QAEXPAVBfmeMsgVIR@@PBUBfmeOwnerVIR@@PBQBDHHH@Z,0x007F2A50,pin
@@ -76337,6 +76348,8 @@ name,address,notes
 ?bfmeZDeltaToCenter@BfmeBoundaryGeometry3D@@QBEMXZ,0x0087DBF0,GeometryInfo-compatible vertical center offset
 ?bfme_appendGameOverDetails@GameLogic@@QAEXXZ,0x00387A50,once-only (+0x68 flag): formats Game Over Details and per slot Victory/Defeat frame Quit frame (graceful|voted out|n/a) from the PlayerLeaveStatus[8] records at +0x1b0 copying status into Player+0x484 and appending to the last AsciiString of the vector at +0x54..+0x58; ecx = this = GameLogic at the call 0x00397789; the ledger name ?endMenu@EstablishConnectionsMenu@@ for this 657 B body is wrong; reached via ILT 0x0004A10B
 ?bfme_bindAptText@WindowManager@@QAEXABVAsciiString@@ABVUnicodeString@@PAVAptTextListener@@@Z,0x00023362,Rva00788290Allocation destructor calls the existing APT listener bind ILT
+?bfme_getDescriptionFirstLine@MapMetaData@@QAE?AVUnicodeString@@XZ,0x000036BB,ILT to 0x00452000; obtains cached map.str text and returns its prefix before the first newline
+?bfme_getDisplayName@MapMetaData@@QAE?AVUnicodeString@@XZ,0x0000A6FA,map metadata display-name accessor; ILT resolves to verified 0x00451240; filename +0x50 and player count +0x20 confirmed by 0x005216B0 and MapMetaData layout
 ?bfme_hideBackground@WindowManager@@QAEX_N@Z,0x0000BD7F,DisconnectScreen destructor calls the established background helper through this ILT
 ?bfme_notificationModeFive@@YAXVAsciiString@@VUnicodeString@@@Z,0x004EA5F0,notification implementation selected by non-five game modes
 ?bfme_notificationOtherMode@@YAXVAsciiString@@VUnicodeString@@@Z,0x004EB2A0,notification implementation selected by game mode five
@@ -77498,8 +77511,6 @@ name,address,notes
 ?findLevel@ExperienceLevelSystem@@QAEPAVBfmeExperienceLevelDefinition@@ABVAsciiString@@@Z,0x000335D2,TEAM_GIVE_EXPERIENCE_LEVEL canonical lookup searches the experience-level definitions by name
 ?findLightPointLevel@@YGPAVLightPointLevel@@PAXPAVAsciiString@@@Z,0x00028AF6,Reviewed39C1A0 full153B pointer-range search and AsciiString comparison; ignoresECX andret8
 ?findMap@MapCache@@QAEPBVMapMetaData@@VAsciiString@@@Z,0x00019880
-?bfme_getDisplayName@MapMetaData@@QAE?AVUnicodeString@@XZ,0x0000A6FA,map metadata display-name accessor; ILT resolves to verified 0x00451240; filename +0x50 and player count +0x20 confirmed by 0x005216B0 and MapMetaData layout
-?bfme_getDescriptionFirstLine@MapMetaData@@QAE?AVUnicodeString@@XZ,0x000036BB,ILT to 0x00452000; obtains cached map.str text and returns its prefix before the first newline
 ?findMapping@DataChunkTableOfContents@@AAEPAVMapping@@ABVAsciiString@@@Z,0x0001587A
 ?findMemoryPool@MemoryPoolFactory@@QAEPAVMemoryPool@@PBD@Z,0x0003ADD7,pool-glue cascade callee (from retail call site)
 ?findModule@Object@@IBEPAVModule@@W4NameKeyType@@@Z,0x0002AE23
@@ -82393,6 +82404,7 @@ name,address,notes
 ?setEventName@AudioEventRTS@@QAEXVAsciiString@@@Z,0x00025266,harvested from parseAudioEventRTS (thunk)
 ?setFPMode@@YAXXZ,0x008FC4C0
 ?setFileID@NetFileProgressCommandMsg@@QAEXG@Z,0x000247EE,ILT thunk; real body 0xA74090
+?setFilename@Image@@QAEXVAsciiString@@@Z,0x00008C15,Image filename setter; ILT resolves to 0x00450270 and writes the string at Image+8
 ?setFlipRecursive@W3DTerrainBackground@@IAEXHHH@Z,0x0001B5F9
 ?setFlipRecursive@W3DTerrainBackground@@IAEXHHHH@Z,0x0002E735,link thunk; four-arg BFME setFlipRecursive from setFlip 0x00728BC0
 ?setFrameFade@W3DDynamicLightPulseShim@@QAEXII@Z,0x000049E9,ILT call target used by W3DDisplay light pulse
@@ -82453,8 +82465,6 @@ name,address,notes
 ?setMouseText@Mouse@@QAEXVUnicodeString@@PBURGBAColorInt@@1@Z,0x0002FBD0,ILT thunk to body 0x005A5950
 ?setName@BFMETransitionGroup@@QAEXVBFMETransitionAsciiString@@@Z,0x00489B60,retail TransitionGroup::setName
 ?setName@Image@@QAEXVAsciiString@@@Z,0x0003EDBA,thunk to 0x000C2420; the body is byte-identical to three other setName instantiations so the call site is what pins it - the MappedImage parser at 0x000C2480 calls this one
-?setFilename@Image@@QAEXVAsciiString@@@Z,0x00008C15,Image filename setter; ILT resolves to 0x00450270 and writes the string at Image+8
-?_bfme_setTexture@Image@@QAEXABVRva0044F4D0@@@Z,0x0002C9C1,Image texture assignment; ILT resolves to verified 0x005D2330; allocates the Image+0x2C holder then retains and replaces its texture
 ?setName@MapObject@@QAEXABVAsciiString@@@Z,0x0004340F,handleNameChange at 0x00388970 calls the MapObject name setter ILT; WorldHeightMap.cpp provides the matching setter body
 ?setName@Object@@QAEXVAsciiString@@@Z,0x00027BBA,Open-BFME5 Object by-value name setter called by replacement-state transfer at 0x001C5620
 ?setNameAndType@DictPair@Dict@@QAEXW4NameKeyType@@W4DataType@2@@Z,0x00038D02,retail DictPair::setNameAndType body (unclaimed, called by setPrep/remove)
@@ -84649,10 +84659,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolveTM@BfmeInnerTM@@QAEPAVBfmeThingTM@@XZ,0x000022BB,pin
-?bfmeFindTM@Rva00367E30Logic@@QAEPAVBfmeActorTM@@PAX@Z,0x0001F253,pin
-?bfmeCanTM@BfmeActorTM@@QAEDH@Z,0x0003251F,pin
-?bfmeSendTM@BfmeOwnerTM@@QAEXPAVBfmeMsgTM@@@Z,0x0003B372,pin
-?bfmeResolvePE@BfmeInnerPE@@QAEPAVBfmeThingPE@@XZ,0x000022BB,pin
-?bfmeResolveLW@BfmeInnerLW@@QAEPAVBfmeThingLW@@XZ,0x000022BB,pin
-?bfmeReadyLW@BfmeOwnerLW@@QAEDXZ,0x00029CDF,pin
