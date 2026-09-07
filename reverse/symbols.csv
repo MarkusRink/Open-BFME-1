@@ -84960,3 +84960,4 @@ _malloc,0x009F6C34,retail malloc import the pooled operator new glue calls (slot
 ?loadPostProcess@UpdateModule@@MAEXXZ,0x0002D600,"Rva0036BAE0 retail base-call thunk to the same no-op UpdateModule body at 0x001EF410; re-added after d27ae4b7b, one-name-one-body clean"
 _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF_size @0x822E70; re-added after d27ae4b7b, one-name-one-body clean"
 ?_M_reallocate_map@?$deque@HV?$allocator@H@_STL@@@_STL@@IAEXI_N@Z,0x009EE360,"gen-tgrid shared callee; re-added after d27ae4b7b, one-name-one-body clean"
+?bfmeCallXO@@YAXPAX0HUBfmeArgXO@@@Z,0x008F9BB0

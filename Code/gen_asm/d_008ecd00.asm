@@ -1437,16 +1437,5 @@ public ?d_008fa040@@YAXXZ
     db 25h, 0FFh, 0FFh, 00h, 00h, 50h, 8Bh, 44h, 24h, 0Ch, 51h, 8Bh, 4Ch, 24h, 0Ch, 52h
     db 50h, 51h, 0E8h, 0A9h, 0FAh, 0FFh, 0FFh, 83h, 0C4h, 14h, 0C2h, 10h, 00h
 ?d_008fa040@@YAXXZ ENDP
-
-; ghidra: FUN_00cfa070  retail @ 0x008FA070 size 86
-public ?d_008fa070@@YAXXZ
-?d_008fa070@@YAXXZ PROC
-    db 8Bh, 44h, 24h, 18h, 85h, 0C0h, 53h, 56h, 57h, 74h, 45h, 8Bh, 7Ch, 24h, 18h, 85h
-    db 0FFh, 7Ch, 3Dh, 8Bh, 74h, 24h, 1Ch, 85h, 0F6h, 7Ch, 35h, 83h, 0FEh, 02h, 7Dh, 30h
-    db 8Bh, 54h, 24h, 20h, 85h, 0D2h, 74h, 28h, 83h, 0ECh, 10h, 8Bh, 0DCh, 89h, 0Bh, 8Bh
-    db 4Ch, 24h, 20h, 25h, 0FFh, 0FFh, 00h, 00h, 89h, 43h, 04h, 8Bh, 44h, 24h, 24h, 57h
-    db 50h, 89h, 73h, 08h, 51h, 89h, 53h, 0Ch, 0E8h, 0F3h, 0FAh, 0FFh, 0FFh, 83h, 0C4h, 1Ch
-    db 5Fh, 5Eh, 5Bh, 0C2h, 18h, 00h
-?d_008fa070@@YAXXZ ENDP
 _TEXT ENDS
 END
