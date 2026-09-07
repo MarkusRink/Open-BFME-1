@@ -85651,3 +85651,7 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeNameToKeyERL@BfmeKeyGenERL@@QAEHPBD@Z,0x0003ADD7,pin
 ?g_bfmeKeyGenERL@@3PAVBfmeKeyGenERL@@A,0x00EED600,pin
 ?bfmeFindERL@BfmeThingERL@@QAEPAVBfmeModERL@@H@Z,0x0002AE23,pin
+?g_bfmeGlobalERM@@3PAVBfmeGlobalERM@@A,0x00EF076C,pin
+?bfmeNameToKeyERM@BfmeKeyGenERM@@QAEHPBD@Z,0x0003ADD7,pin
+?g_bfmeKeyGenERM@@3PAVBfmeKeyGenERM@@A,0x00EED600,pin
+?bfmeFindERM@BfmeThingERM@@QAEPAVBfmeModERM@@H@Z,0x0002AE23,pin
