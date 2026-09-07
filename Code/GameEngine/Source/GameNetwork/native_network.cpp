@@ -1,5 +1,4 @@
 // cl: /DNDEBUG /MD /GX
-// readable body of ?Is_Running@ThreadClass@@: Code/Libraries/Source/WWVegas/WWLib/thread.cpp
 
 #include <new>
 
@@ -79,29 +78,34 @@ struct BFMENetworkList
 	int allocatorStorage;
 };
 
-class BFMENetworkThreadBase
+class ThreadClass
 {
 public:
-	BFMENetworkThreadBase(const char *name);
-	virtual ~BFMENetworkThreadBase();
-	virtual void start();
+    ThreadClass(const char *name);
+    virtual ~ThreadClass();
+    virtual void Execute();
+    void Set_Priority(int priority);
+    __declspec(noinline) bool Is_Running();
+    __declspec(noinline) void Stop();
 
 protected:
-	char m_threadName[0x40];
-	void *m_auxHandle;
-	void *m_liveHandle;
-	int m_threadPriority;
+    virtual void Thread_Function() = 0;
+
+private:
+    char m_name[0x40];
+    unsigned int m_threadId;
+    void *m_handle;
+    int m_priority;
 };
 
-class BFMENetworkBackend : public BFMENetworkThreadBase
+
+class BFMENetworkBackend : public ThreadClass
 {
 public:
 	BFMENetworkBackend(BFMENetworkLock *ownerLock);
 	virtual ~BFMENetworkBackend();
 	void *destroyAndMaybeDelete(unsigned int flags);
-	void openLiveHandle();
-	__declspec(noinline) Bool hasLiveHandle();
-	__declspec(noinline) void closeLiveHandle();
+	virtual void Thread_Function();
 
 private:
 	Bool m_flag50;
@@ -396,10 +400,9 @@ public:
 	void destroy();
 };
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void *handle, unsigned long milliseconds);
 extern "C" __declspec(dllimport) int __stdcall ReleaseMutex(void *handle);
 
-extern "C" unsigned long __stdcall BFMENetworkBackendThreadStart(BFMENetworkBackend *backend)
+extern "C" unsigned int __stdcall BFMENetworkBackendThreadStart(void *backend)
 {
 	BFMENetworkThreadRunner *globalNetwork = *reinterpret_cast<BFMENetworkThreadRunner **>(0x01336e5c);
 	globalNetwork->threadTick();
@@ -408,7 +411,7 @@ extern "C" unsigned long __stdcall BFMENetworkBackendThreadStart(BFMENetworkBack
 }
 
 BFMENetworkBackend::BFMENetworkBackend(BFMENetworkLock *ownerLock) :
-	BFMENetworkThreadBase(0),
+	ThreadClass(0),
 	m_ownerLock(ownerLock)
 {
 	m_flag51 = false;
@@ -425,18 +428,6 @@ void *BFMENetworkBackend::destroyAndMaybeDelete(unsigned int flags)
 		::operator delete(self);
 	}
 	return self;
-}
-
-void BFMENetworkBackend::openLiveHandle()
-{
-	typedef void *(*CreateThreadProc)(void *, unsigned long, unsigned long (__stdcall *)(BFMENetworkBackend *), BFMENetworkBackend *, unsigned long, unsigned long *);
-	typedef int (__stdcall *SetThreadPriorityProc)(void *, int);
-	typedef int (__stdcall *CloseHandleProc)(void *);
-
-	m_liveHandle = (*reinterpret_cast<CreateThreadProc *>(0x01359298))(
-		0, 0, BFMENetworkBackendThreadStart, this, 4, reinterpret_cast<unsigned long *>(reinterpret_cast<char *>(this) + 0x44));
-	(*reinterpret_cast<SetThreadPriorityProc *>(0x01358f20))(m_liveHandle, *reinterpret_cast<int *>(reinterpret_cast<char *>(this) + 0x4c));
-	(*reinterpret_cast<CloseHandleProc *>(0x01358ed4))(m_liveHandle);
 }
 
 extern "C" __declspec(naked) void __stdcall BFMENetworkBackendEventCallback(void *a0, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, void *a7, void *a8, void *a9)
@@ -820,25 +811,10 @@ extern "C" __declspec(naked) void __stdcall BFMENetworkBackendEventCallback(void
 	}
 }
 
-__declspec(noinline) Bool BFMENetworkBackend::hasLiveHandle()
-{
-	void *liveHandle = m_liveHandle;
-	return liveHandle != 0;
-}
-
-__declspec(noinline) void BFMENetworkBackend::closeLiveHandle()
-{
-	if (m_liveHandle) {
-		WaitForSingleObject(m_liveHandle, 0xffffffff);
-		m_liveHandle = 0;
-		m_auxHandle = 0;
-	}
-}
-
 Bool BFMENetwork::backendHasLiveHandle()
 {
 	if (m_backend) {
-		return m_backend->hasLiveHandle();
+		return m_backend->Is_Running();
 	}
 	return false;
 }
@@ -851,7 +827,7 @@ void BFMENetwork::destroyBackend()
 		}
 		BFMENetworkBackend *volatile *backendSlot = &m_backend;
 		m_backendLockRef.m_ref = 0;
-		(*backendSlot)->closeLiveHandle();
+		(*backendSlot)->Stop();
 		if (m_backend) {
 			delete m_backend;
 		}
@@ -889,7 +865,7 @@ BFMENetwork::~BFMENetwork()
 		}
 		BFMENetworkBackend *volatile *backendSlot = &m_backend;
 		m_backendLockRef.m_ref = 0;
-		(*backendSlot)->closeLiveHandle();
+		(*backendSlot)->Stop();
 		if (m_backend) {
 			delete m_backend;
 		}
@@ -910,7 +886,7 @@ void BFMENetwork::init()
 	}
 
 	m_backend = new BFMENetworkBackend(&m_lock9c);
-	m_backend->start();
+	m_backend->Execute();
 }
 
 void BFMENetwork::pushQueue0(BFMENetworkQueueItem *item)

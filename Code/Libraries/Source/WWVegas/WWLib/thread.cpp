@@ -163,7 +163,7 @@ unsigned ThreadClass::_Get_Current_Thread_ID()
 	#endif
 }
 
-// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/native_network.cpp
+// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp
 // ?Is_Running@ThreadClass@@ present-unmatched
 bool ThreadClass::Is_Running()
 {

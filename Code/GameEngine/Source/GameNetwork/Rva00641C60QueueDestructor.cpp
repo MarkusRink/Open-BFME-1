@@ -58,11 +58,13 @@ struct Rva00641A30ResponseDeque
 	char m_body[ 0x28 ];
 };
 
-class BFMENetworkBackend
+class ThreadClass
 {
 public:
-	virtual ~BFMENetworkBackend();
-	void closeLiveHandle( void );
+    virtual ~ThreadClass();
+    void Stop();
+private:
+    unsigned char m_storage04[0x4c];
 };
 
 struct Rva00641C60LockHolder
@@ -94,7 +96,7 @@ private:
 	Rva006418E0RequestDeque m_requests;
 	Rva00641A30ResponseDeque m_responses;
 	char m_unreconstructed68[ 8 ];
-	BFMENetworkBackend *m_backend;
+	ThreadClass *m_backend;
 	GameResultsCounter m_counter74;
 	Rva00641C60LockHolder m_lockHolder;
 };
@@ -105,7 +107,7 @@ Rva00641C60Queue::~Rva00641C60Queue()
 	m_lockHolder.release();
 	if( m_backend )
 	{
-		m_backend->closeLiveHandle();
+		m_backend->Stop();
 		delete m_backend;
 		m_backend = 0;
 	}
