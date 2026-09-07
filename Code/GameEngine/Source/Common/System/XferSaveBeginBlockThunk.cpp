@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// readable body of ?beginBlock@XferSave@@: Code/GameEngine/Source/Common/System/XferSave.cpp
+// Zero Hour reference only: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source/Common/System/XferSave.cpp
 // Open-BFME5: lift MASM dump to standalone C++ thunk.
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/XferSave.h
