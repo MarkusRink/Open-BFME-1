@@ -27,9 +27,12 @@
 // 1 and 2 and byte-match with the array of pointers, which is what settles it.
 // The merged declaration is the proven one.
 //
-// Condition keeps its own pointer-to-array spelling: it is a different class,
-// evaluateTimer is its only user here, and index 0 does not constrain it either
-// way -- so there is nothing to merge it against and no warrant to change it.
+// Condition is the same story once more. evaluateTimer, its only user here,
+// reads index 0 only, where the two spellings coincide -- so this file cannot
+// settle it. ScriptEngineEvaluateFlag.cpp can: that matched body declares
+// Condition as an array of pointers and reaches index 1, which does constrain
+// it. So Condition is written the same way as ScriptAction, on that evidence
+// rather than on the symmetry.
 
 #include "StringInline.h"
 
@@ -100,14 +103,14 @@ public:
 	Parameter *getParameter(int index)
 	{
 		if (index >= 0 && index < m_parameterCount)
-			return m_parameters + index;
+			return m_parameters[index];
 		return 0;
 	}
 
 private:
 	char m_unknown[8];
 	int m_parameterCount;
-	Parameter *m_parameters;
+	Parameter *m_parameters[12];
 };
 
 struct ScriptCounter
