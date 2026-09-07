@@ -85899,3 +85899,7 @@ _bfmeVftCEVK,0x00D12DA4,pin vftable for BfmeConv2001
 ?_M_bkt_num_key@?$hashtable@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@@_STL@@ABEIABVAsciiString@@I@Z,0x00611CE0,LivingWorldManager +0x224 iterator bucket helper; 0x00615CB0 reaches the body through ILT 0x0001F843 and passes the node AsciiString at +4;campaign=luna36h-20260907;lane=expand08;model=gpt-5.6-sol-ultra
 ?rva0061c2a0@Rva0061C1D0Object@@QAEXXZ,0x0061C2A0,LivingWorldManager +0x194 mapped-object method; direct 0x006159C0 call reaches body through ILT 0x0000EA6B; address-derived method on the mapped type shared with 0x006157C0 and 0x00615C20;campaign=luna36h-20260907;lane=expand08;model=gpt-5.6-sol-ultra
 ?Rva007F6730Callback@@YAXPAVRva007E8810Message@@PAVRva007F6740Receiver@@@Z,0x007F6730,typed cdecl gamebrowser reply adapter called by the 0x007F6740 async request
+??0BfmeStrEAU@@QAE@PBD@Z,0x00888BC0,pin string ctor for BfmeConv2010
+??1BfmeStrEAU@@QAE@XZ,0x00887940,pin string dtor for BfmeConv2010
+??0BfmeThingEAU@@QAE@PAX@Z,0x00024E01,pin thing ctor for BfmeConv2010
+?bfmeRegisterEAU@ParticleSystemManager@@QAEXPAVBfmeStrEAU@@PAVBfmeThingEAU@@@Z,0x00043E19,pin register for BfmeConv2010
