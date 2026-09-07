@@ -2893,7 +2893,6 @@ name,address,notes
 ??0NetFileProgressCommandMsg@@QAE@XZ,0x000409DA,ILT thunk; real body 0xA74030
 ??0NetFrameResendRequestCommandMsg@@QAE@XZ,0x0000F8D0,pinharvest x1 (thunk)
 ??0NetGameCommandMsg@@QAE@XZ,0x00673640,identified from readGameMessage's allocation site
-??0NetKeepAliveCommandMsg@@QAE@XZ,0x000132B4,pinharvest x2 (thunk)
 ??0NetPacket@@QAE@PAUTransportMessage@@@Z,0x00679730,ZH twin: inlined init then m_packetLen+0x1E0=msg->length(+0x404) memcpy 0x77 dwords=476=MAX_PACKET_SIZE from msg->data(+4) m_numCommands+0x1EC=-1 m_addr+0x1E4=msg->addr(+0x408) m_port+0x1E8=msg->port(+0x40C); installs vtable 0x0111A84C like the pinned default ctor 0x00679650; sole caller runRelayPass 0x0066A8D1 via ILT 0x00029190
 ??0NetPacket@@QAE@XZ,0x00679650,the default constructor; body written in NetPacket_init.cpp but one ordering tie-break short of clean
 ??0NetPacketRouterAckCommandMsg@@QAE@XZ,0x000132B4,pinharvest x2 (thunk)
