@@ -1,6 +1,7 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 // stlport
 #include <list>
+#include <vector>
 
 // FILE: AptScreenFactories.cpp ///////////////////////////////////////////////
 //
@@ -761,10 +762,13 @@ public:
 	BfmeAptScreenScoreScreen( void *context );
 	void bfmeProvide( const char *selector, void *value, bool setting );
 	void bfmeProvideObjectiveChecked( const char *selector, void *value, bool setting );
+	void heroVetUpgrade( int index, char *output, bool setting );
 	void _bfme_setPlayerTable( int row, int field, const UnicodeString &text );
 
 private:
-	char m_unmodelled[ 0x334 ];
+	char m_unmodelled[ 0x2E8 ];
+	_STL::vector<bool> m_heroVetUpgrades;
+	char m_unmodelled_tail[ 0x38 ];
 };
 
 // ?bfmeProvide@BfmeAptScreenScoreScreen@@QAEXPBDPAX_N@Z
@@ -797,6 +801,21 @@ void BfmeAptScreenScoreScreen::bfmeProvideObjectiveChecked(
 			unsigned char checked = *(unsigned char *)( (char *)this + 0x308 + index );
 			sprintf( output, "%d", checked != 0 );
 		}
+	}
+}
+
+extern char g_aptPalantirNumberFormat[];
+
+// ?heroVetUpgrade@BfmeAptScreenScoreScreen@@QAEXHPAD_N@Z
+void BfmeAptScreenScoreScreen::heroVetUpgrade(
+	int index, char *output, bool setting )
+{
+	if( !setting )
+	{
+		*(unsigned short *)output = (unsigned short)'0';
+		if( index >= 0 && (unsigned int)index < m_heroVetUpgrades.size() && index < 12 )
+			sprintf( output, g_aptPalantirNumberFormat,
+				m_heroVetUpgrades[ index ] != false );
 	}
 }
 
