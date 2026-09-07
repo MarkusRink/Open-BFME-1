@@ -85378,3 +85378,5 @@ _g_bfmeDirtyZR,0x00EEF418
 ?TheBfmeGenAE@@3PAVBfmeGenAE@@A,0x00EED600
 ?bfmeCostAF@BfmeSlotAF@@QAEHXZ,0x00002342
 ?g_bfmeZeroAG@@3MB,0x00C75350
+?bfmeFinishAH@BfmeOwnerAH@@QAEXXZ,0x00048A6D
+?TheBfmeGhostAH@@3PAVBfmeGhostAH@@A,0x00EEF4FC
