@@ -1,3 +1,62 @@
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
+
+#include <hash_map>
+#include <vector>
+
+class BfmeBaseR_009D83D0
+{
+public:
+	virtual ~BfmeBaseR_009D83D0(void) {}
+};
+
+struct Gen_t_009d80b0_p12cd
+{
+	int words[3];
+	Gen_t_009d80b0_p12cd(void);
+	Gen_t_009d80b0_p12cd(const Gen_t_009d80b0_p12cd &);
+	~Gen_t_009d80b0_p12cd(void);
+	Gen_t_009d80b0_p12cd &operator=(const Gen_t_009d80b0_p12cd &);
+};
+
+struct Gen_t_009d8120_p12cd
+{
+	int words[3];
+	Gen_t_009d8120_p12cd(void);
+	Gen_t_009d8120_p12cd(const Gen_t_009d8120_p12cd &);
+	~Gen_t_009d8120_p12cd(void);
+	Gen_t_009d8120_p12cd &operator=(const Gen_t_009d8120_p12cd &);
+};
+
+typedef _STL::pair<const int, Gen_t_009d80b0_p12cd> BfmeHashPairA009D83D0;
+typedef _STL::hash_map<int, Gen_t_009d80b0_p12cd, _STL::hash<int>,
+	_STL::equal_to<int>, _STL::allocator<BfmeHashPairA009D83D0> >
+	BfmeHashMapA009D83D0;
+typedef _STL::pair<const int, Gen_t_009d8120_p12cd> BfmeHashPairB009D83D0;
+typedef _STL::hash_map<int, Gen_t_009d8120_p12cd, _STL::hash<int>,
+	_STL::equal_to<int>, _STL::allocator<BfmeHashPairB009D83D0> >
+	BfmeHashMapB009D83D0;
+
+class Gen_009D83D0 : public BfmeBaseR_009D83D0
+{
+public:
+	Gen_009D83D0(void);
+	virtual ~Gen_009D83D0(void) {}
+
+private:
+	int m_bfmePad;
+	unsigned char m_bfmeFlag;
+	unsigned char m_bfmePadTail[3];
+	_STL::vector<int> m_bfmeVector;
+	BfmeHashMapA009D83D0 m_bfmeB;
+	BfmeHashMapB009D83D0 m_bfmeC;
+};
+
+Gen_009D83D0::Gen_009D83D0(void)
+	: m_bfmePad(0), m_bfmeFlag(false), m_bfmeVector()
+{
+}
+
 extern "C" unsigned char bfmeVftEOA[];
 
 struct BfmeThingEOA
