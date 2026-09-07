@@ -162,6 +162,9 @@ public:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/Drawable.h
+// getIconInfo allocates 0x74 bytes including the vptr; emoticon fields are at +0x2C/+0x64.
+enum { ICON_EMOTICON = 10 };
+
 class DrawableIconInfo
 {
 public:
@@ -177,6 +180,9 @@ public:
 			m_keepTillFrame[t] = 0;
 		}
 	}
+
+protected:
+	virtual ~DrawableIconInfo();
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/Drawable.h
@@ -184,9 +190,7 @@ class Drawable
 {
 public:
 	DrawableIconInfo *getIconInfo();
-	// The whole of clearEmoticon: slot eleven, and only if there is an icon
-	// info to clear it out of.
-	void clearEmoticon() { if (m_iconInfo) killIcon(11); }
+	void clearEmoticon() { if (m_iconInfo) killIcon(ICON_EMOTICON); }
 	void killIcon(Int t) { if (m_iconInfo) m_iconInfo->killIcon(t); }
 
 	void applyTint(RGBColor color, UnsignedInt preColorTime,
@@ -278,19 +282,18 @@ void Drawable::setShadowsEnabled(Bool enable)
 }
 
 // ?setEmoticon@Drawable@@QAEXABVAsciiString@@H@Z
-// Retail 0x004149E0, 218 bytes. Slot eleven is the emoticon icon. A duration
-// below zero means it never expires -- the keep-till frame is pushed out to
-// 0x3FFFFFFF rather than a flag being set.
+// Retail 0x004149E0, 218 bytes. Negative durations use the distant frame
+// sentinel 0x3FFFFFFF rather than a flag.
 void Drawable::setEmoticon(const AsciiString &name, Int duration)
 {
 	clearEmoticon();
 	Anim2DTemplate *animTemplate = TheAnim2DCollection->findTemplate(name);
 	if (animTemplate)
 	{
-		if (getIconInfo()->m_icon[11] == 0)
+		if (getIconInfo()->m_icon[ICON_EMOTICON] == 0)
 		{
-			getIconInfo()->m_icon[11] = new Anim2D(animTemplate, TheAnim2DCollection);
-			getIconInfo()->m_keepTillFrame[11] = duration >= 0 ? TheGameLogic->m_frame + duration : 0x3FFFFFFF;
+			getIconInfo()->m_icon[ICON_EMOTICON] = new Anim2D(animTemplate, TheAnim2DCollection);
+			getIconInfo()->m_keepTillFrame[ICON_EMOTICON] = duration >= 0 ? TheGameLogic->m_frame + duration : 0x3FFFFFFF;
 		}
 	}
 }
