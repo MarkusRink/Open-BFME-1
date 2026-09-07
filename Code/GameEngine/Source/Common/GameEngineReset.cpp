@@ -96,10 +96,13 @@ public:
 	virtual ~NetworkInterface();
 };
 
-class Rva00065A40
+// Retail reset calls ILT2DF01 -> CRCParameterCheck::clear at65A40.
+// GameEngine::init constructs this diagnostic object at79316; its CRC
+// transfer names the block CRCParameterCheck. This is the same global.
+class CRCParameterCheck
 {
 public:
-	void forward(void);
+	void clear(void);
 };
 
 void InitGameLogicRandom(UnsignedInt seed);
@@ -108,7 +111,7 @@ void InitGameLogicRandom(UnsignedInt seed);
 #define TheGameLogic (*(GameLogic **)0x012F0898)
 #define TheSubsystemList (*(SubsystemInterfaceList **)0x0134C6C8)
 #define TheNetwork (*(NetworkInterface **)0x012F7714)
-#define ResetSink (*(Rva00065A40 **)0x012ED4FC)
+extern CRCParameterCheck *TheCRCParameterCheck;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/GameEngine.h
 class GameEngine
@@ -169,8 +172,8 @@ void GameEngine::reset(void)
 	m_clientFrameCounter = 6;
 	m_clientFrameLimit = 6.0f;
 	m_metric44 = 0;
-	if (ResetSink != 0)
-		ResetSink->forward();
+	if (TheCRCParameterCheck != 0)
+		TheCRCParameterCheck->clear();
 	m_metric48 = 0;
 	m_metric54 = 0;
 	m_metric4C = 0;
