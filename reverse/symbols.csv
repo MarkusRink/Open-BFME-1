@@ -85713,3 +85713,5 @@ _Rva008921B0Atof,0x008921B0,address-derived 14-byte cdecl atof wrapper at 0x0089
 ?rva007F76F0@Rva00802240Host@@QAEHPAURva007F76F0Vector@@PBD@Z,0x007F76F0,neutral host-member ABI pin; complete helper body compares const char key through argument2 over vector begin/count with 8-byte slots and returns -1 on miss; independent 0x00802240 0x00801940 0x008019A0 and 0x008024B0 callers load host into ECX and LEA vector at host+0x2B8; campaign=luna36h-20260907;lane=netpacket
 ?bfmeLookupERY@BfmeMapERY@@QAEIPAX@Z,0x000329FC,pin
 ?bfmeCheckERY@BfmeSubERY@@QAEHPAX@Z,0x000220C5,pin
+?Open2Construct355050@@YAXPAVOpen2Rec355050@@ABV1@@Z,0x00036C2D,route=0x00355050; retail 0x0035BA20 directly calls this thunk; target has this exact matched identity
+?_M_insert_overflow@?$vector@URva0035AFC0Element@_STL@@V?$allocator@URva0035AFC0Element@_STL@@@2@@_STL@@IAEXPAURva0035AFC0Element@2@ABU32@ABU__false_type@2@I_N@Z,0x000396AD,route=0x0035AFC0; retail 0x0035BA20 directly calls this thunk; target has this exact matched identity

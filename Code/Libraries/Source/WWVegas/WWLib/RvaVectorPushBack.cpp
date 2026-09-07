@@ -1,9 +1,8 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 
-// Open-BFME5: STLport vector<T>::push_back, 27 generic bodies of 62 bytes plus
-// one 72-byte polymorphic payload body.  Every one
-// carried only a machine byte-dump row; the same shape is already converted at
-// 0x000BD360 and appears many times over in the ZH reference translation units.
+// STLport vector<T>::push_back with address-specific payload types, plus one
+// inlined polymorphic payload body. Equal element widths do not prove equal
+// identities: each type keeps the copy and overflow callees its retail body uses.
 //
 // Two paths and nothing else.  With room left it constructs at the finish
 // pointer and steps that pointer by the element width; with none it hands the
@@ -13,12 +12,22 @@
 // plain `++_M_finish` on a member produces.
 //
 // The generic element width is the `add eax, N` that steps the finish pointer, and it
-// is the only thing that varies across the 27 generic bodies: 20, 28, 36, 44, 56, 88, 92, 96, 108, 120, 140, 180, 184, 188, 220, 296, 496, 528.  Nothing else about the
-// element is knowable -- the copy is a call -- so each is a byte array named
-// for the address of its body.
+// is all this TU needs to know about each element; copy semantics stay in the
+// out-of-line callee, so each payload remains an address-specific byte array.
 //
 // The empty dispatch tag is aliased onto the value parameter's own stack slot,
 // the same trick the _M_insert_overflow family uses on its trailing bool.
+
+class Open2Rec355050;
+void Open2Construct355050(Open2Rec355050 *destination, const Open2Rec355050 &value);
+
+namespace _STL
+{
+struct Rva0035AFC0Element
+{
+	char m_body[20];
+};
+}
 
 struct Rva000FB210Element
 {
@@ -180,6 +189,14 @@ class allocator
 template <class Type>
 void __cdecl BfmeElementConstruct( Type *destination, const Type &value );
 
+template <>
+__forceinline void BfmeElementConstruct(Rva0035AFC0Element *destination,
+	const Rva0035AFC0Element &value)
+{
+	Open2Construct355050(reinterpret_cast<Open2Rec355050 *>(destination),
+		reinterpret_cast<const Open2Rec355050 &>(value));
+}
+
 template <class Type, class Allocator>
 class vector
 {
@@ -232,6 +249,9 @@ void vector<Gen_t_003b4b60_p16cd, allocator<Gen_t_003b4b60_p16cd> >::push_back(
 			reinterpret_cast<const __false_type &>( value ), 1, true );
 	}
 }
+
+// retail 0x0035BA20, sharing its 20-byte element with overflow at 0x0035AFC0
+template class vector<Rva0035AFC0Element, allocator<Rva0035AFC0Element> >;
 
 // retail 0x000FB210, a 96-byte element
 template class vector<Rva000FB210Element, allocator<Rva000FB210Element> >;
