@@ -1,284 +1,116 @@
 // cl: /DNDEBUG /MD /EHsc
-// readable body of ?init@ScreenCrossFadeFilter@@UAEHXZ: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShaderManager.cpp
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// Retail 0x007D3760: ScreenCrossFadeFilter::init, vtable 0x01128A50 slot 0.
+// The constructor at 0x007D3740 installs that table; its slot 2 is the
+// matched CrossFade preRender at 0x007D36B0 and slot 0 reaches this body
+// through ILT 0x00044BCF.  BFME's texture loader returns a four-byte,
+// reference-counted handle rather than the Zero Hour TextureClass pointer.
 
-class __declspec(novtable) ScreenCrossFadeFilter
+class TextureClass
 {
 public:
-    virtual int init();
+	void Release_Ref(void);
 };
 
-// ?init@ScreenCrossFadeFilter@@UAEHXZ
-__declspec(naked) int ScreenCrossFadeFilter::init()
+class BFMEWaterTrackTexture
 {
-    __asm {
-        __emit 0x6a
-        __emit 0xff
-        __emit 0x68
-        __emit 0x78
-        __emit 0x3a
-        __emit 0x05
-        __emit 0x01
-        __emit 0x64
-        __emit 0xa1
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x50
-        __emit 0x64
-        __emit 0x89
-        __emit 0x25
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x51
-        __emit 0xa1
-        __emit 0x70
-        __emit 0x12
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x1c
-        __emit 0xa1
-        __emit 0x04
-        __emit 0x9d
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0xc7
-        __emit 0x05
-        __emit 0x0c
-        __emit 0x72
-        __emit 0x30
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x74
-        __emit 0x09
-        __emit 0xa1
-        __emit 0x0c
-        __emit 0x9d
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x75
-        __emit 0x11
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x04
-        __emit 0x64
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x10
-        __emit 0xc3
-        __emit 0x56
-        __emit 0x6a
-        __emit 0x00
-        __emit 0x6a
-        __emit 0x00
-        __emit 0x8d
-        __emit 0x44
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x68
-        __emit 0x74
-        __emit 0x8a
-        __emit 0x12
-        __emit 0x01
-        __emit 0x50
-        __emit 0xe8
-        __emit 0x50
-        __emit 0xb1
-        __emit 0x13
-        __emit 0x00
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x10
-        __emit 0x8b
-        __emit 0xf0
-        __emit 0x8b
-        __emit 0x06
-        __emit 0x85
-        __emit 0xc0
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x10
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x74
-        __emit 0x04
-        __emit 0x66
-        __emit 0xff
-        __emit 0x40
-        __emit 0x04
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x14
-        __emit 0x72
-        __emit 0x30
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x05
-        __emit 0xe8
-        __emit 0xba
-        __emit 0x7f
-        __emit 0x21
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x0e
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x14
-        __emit 0x72
-        __emit 0x30
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x04
-        __emit 0x85
-        __emit 0xc9
-        __emit 0xc7
-        __emit 0x44
-        __emit 0x24
-        __emit 0x10
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0xff
-        __emit 0x74
-        __emit 0x05
-        __emit 0xe8
-        __emit 0x9d
-        __emit 0x7f
-        __emit 0x21
-        __emit 0x00
-        __emit 0xa1
-        __emit 0x14
-        __emit 0x72
-        __emit 0x30
-        __emit 0x01
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x75
-        __emit 0x12
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x04
-        __emit 0x64
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x10
-        __emit 0xc3
-        __emit 0xb9
-        __emit 0x14
-        __emit 0x72
-        __emit 0x30
-        __emit 0x01
-        __emit 0xe8
-        __emit 0x28
-        __emit 0xa5
-        __emit 0x13
-        __emit 0x00
-        __emit 0xbe
-        __emit 0x01
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0xb9
-        __emit 0x14
-        __emit 0x72
-        __emit 0x30
-        __emit 0x01
-        __emit 0x89
-        __emit 0x70
-        __emit 0x0c
-        __emit 0xe8
-        __emit 0x16
-        __emit 0xa5
-        __emit 0x13
-        __emit 0x00
-        __emit 0x6a
-        __emit 0x00
-        __emit 0xb9
-        __emit 0x14
-        __emit 0x72
-        __emit 0x30
-        __emit 0x01
-        __emit 0x89
-        __emit 0x70
-        __emit 0x10
-        __emit 0xe8
-        __emit 0x07
-        __emit 0xa5
-        __emit 0x13
-        __emit 0x00
-        __emit 0x8b
-        __emit 0xc8
-        __emit 0xe8
-        __emit 0x10
-        __emit 0xd2
-        __emit 0x14
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x08
-        __emit 0x8b
-        __emit 0xc6
-        __emit 0xc7
-        __emit 0x05
-        __emit 0xd8
-        __emit 0x9c
-        __emit 0x2f
-        __emit 0x01
-        __emit 0x70
-        __emit 0xc1
-        __emit 0x2b
-        __emit 0x01
-        __emit 0x5e
-        __emit 0x64
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x10
-        __emit 0xc3
-    }
+public:
+	void Release_Ref(void);
+};
+
+class BFMEWaterTrackTextureHandle
+{
+public:
+	TextureClass *m_texture;
+
+	~BFMEWaterTrackTextureHandle(void)
+	{
+		if (m_texture)
+			((BFMEWaterTrackTexture *)m_texture)->Release_Ref();
+	}
+};
+
+extern BFMEWaterTrackTextureHandle BFMEGetWaterTrackTexture(
+	char *name, int mipCount, int format);
+
+class Gen_00920a60
+{
+public:
+	void m(int value);
+};
+
+class ShroudFilter : public Gen_00920a60
+{
+public:
+	char m_padding00[0x0c];
+	int m_uAddress;
+	int m_vAddress;
+};
+
+class ShroudTexture
+{
+public:
+	TextureClass *m_texture;
+	ShroudFilter *getFilter(void);
+	__forceinline void bind(const BFMEWaterTrackTextureHandle &texture)
+	{
+		if (texture.m_texture)
+			++*(unsigned short *)((char *)texture.m_texture + 4);
+		if (m_texture)
+			((BFMEWaterTrackTexture *)m_texture)->Release_Ref();
+		m_texture = texture.m_texture;
+	}
+};
+
+extern void *TheDisplay;
+extern int g_bfmeGateBT;
+extern volatile int g_bfmeProbeBT;
+extern ShroudTexture g_bfmeCurrentCZ;
+
+class ScreenCrossFadeFilterUpdateFadeLevelShim
+{
+public:
+	static int m_curFadeFrame;
+};
+
+class W3DFilterInterface
+{
+public:
+	virtual int init(void);
+};
+
+class ScreenCrossFadeFilter : public W3DFilterInterface
+{
+public:
+	int init(void);
+};
+
+extern W3DFilterInterface *W3DFilters[];
+extern ScreenCrossFadeFilter screenCrossFadeFilter;
+
+// ?init@ScreenCrossFadeFilter@@UAEHXZ
+int ScreenCrossFadeFilter::init(void)
+{
+	if (!TheDisplay)
+		return 0;
+
+	ScreenCrossFadeFilterUpdateFadeLevelShim::m_curFadeFrame = 0;
+
+	if (!g_bfmeGateBT)
+		return 0;
+	if (!g_bfmeProbeBT)
+		return 0;
+
+	g_bfmeCurrentCZ.bind(
+		BFMEGetWaterTrackTexture((char *)"exmask_g.tga", 0, 0));
+
+	if (!g_bfmeCurrentCZ.m_texture)
+		return 0;
+
+	int result = 1;
+	g_bfmeCurrentCZ.getFilter()->m_uAddress = result;
+	g_bfmeCurrentCZ.getFilter()->m_vAddress = result;
+	g_bfmeCurrentCZ.getFilter()->m(0);
+
+	W3DFilters[4] = &screenCrossFadeFilter;
+	return result;
 }
