@@ -1,6 +1,11 @@
 // cl: /DNDEBUG /MD /EHsc
-// readable body of ?doThisConnectionRound@NAT@@IAEXXZ: Code/GameEngine/Source/GameNetwork/nat.cpp
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// Legacy byte emitter for DirtySock's cdecl three-argument probe parser at
+// RVA 0x00805A70. Its historical C++ emitter name is deliberately unchanged;
+// the ledger uses an address-derived identity with object-symbol metadata.
+// This is NOT NAT::doThisConnectionRound. The matched Rva00805960 caller
+// passes Probe*, ProtoMangleRef*, text and cleans 12 argument bytes itself.
+// The actual BFME NAT method is typed C++ at 0x006726B0. This preserved dump
+// remains pending real C++ conversion and is not scored as new source work.
 
 class __declspec(novtable) NAT
 {
