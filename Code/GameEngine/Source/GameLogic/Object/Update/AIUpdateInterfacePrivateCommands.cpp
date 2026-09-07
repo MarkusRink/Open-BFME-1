@@ -28,10 +28,11 @@
 //   privateGetRepaired           0x00279360  state 0x18
 //   privateGuardObject           0x002793C0  state 0x10
 //   privateGuardPosition         0x00279450  state 0x10
+//   privateGuardAreaFromPosition 0x002794E0  state 0x10
 //   privateGuardRetaliate        0x002795D0  state 0x3E
 //
-// They sat in eighteen files, each re-declaring AIUpdateInterface out to
-// whatever field its own body reached, so the class existed in eighteen partial
+// They sat in nineteen files, each re-declaring AIUpdateInterface out to
+// whatever field its own body reached, so the class existed in nineteen partial
 // versions that had to agree and nothing checked that they did. Declared once
 // here, the fields line up with upstream's own order at +0x48 onward
 // (m_lastCommandSource, m_guardMode, m_guardTargetType[2], the guard location,
@@ -90,6 +91,7 @@ enum GuardTargetType
 {
 	GUARDTARGET_OBJECT = 1,
 	GUARDTARGET_LOCATION = 2,
+	GUARDTARGET_AREA = 3,
 	GUARDTARGET_NONE = 4
 };
 
@@ -171,6 +173,13 @@ public:
 };
 
 class Object;
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/PolygonTrigger.h
+class PolygonTrigger
+{
+public:
+	void getCenterPoint(Coord3D *position) const;
+};
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/OpenContain.h
 class HordeContainInterface
@@ -321,6 +330,8 @@ protected:
 	virtual void privateGetRepaired(Object *repairDepot, CommandSourceType cmdSource);
 	virtual void privateGuardObject(Object *objectToGuard, GuardMode guardMode, CommandSourceType cmdSource);
 	virtual void privateGuardPosition(const Coord3D *pos, GuardMode guardMode, CommandSourceType cmdSource);
+	virtual void privateGuardAreaFromPosition(const PolygonTrigger *area, GuardMode guardMode,
+		CommandSourceType cmdSource, const Coord3D *position);
 	virtual void privateGuardRetaliate(Object *victim, const Coord3D *pos, Int maxShotsToFire, CommandSourceType cmdSource);
 
 	void playMoveVoiceResponse(const Coord3D *position);
@@ -345,10 +356,26 @@ protected:
 		Object *m_repairDepot;					// +0x4C, privateGetRepaired
 	};
 	GuardTargetType m_guardTargetType[2];		// +0x50
-	unsigned char m_unmodelled_58[0x64 - 0x58];	// upstream's m_locationToGuard
+
+	// privateGuardAreaFromPosition writes three floats here, which is what
+	// turns the guess that +0x58 is upstream's m_locationToGuard into
+	// something byte-verified. Note that privateGuardPosition does NOT write
+	// it: that body stores only the z word, and it stores it at +0x68, past
+	// the end of this member.
+	Coord3D m_locationToGuard;					// +0x58
+
 	UnsignedInt m_objectToGuard;				// +0x64
 	UnsignedInt m_guardExtra;					// +0x68
-	Object *m_faceObject;						// +0x6C
+
+	// The second collision this TU exposes. privateFaceObject stores the
+	// object it is turning towards at +0x6C; privateGuardAreaFromPosition
+	// stores the polygon it is guarding at the same word. Both stores are
+	// byte-verified, so BFME reuses this slot the way it reuses +0x4C.
+	union
+	{
+		Object *m_faceObject;					// +0x6C, privateFaceObject
+		const PolygonTrigger *m_areaToGuard;	// +0x6C, the area guard
+	};
 	unsigned char m_unmodelled_70[0x16C - 0x70];
 	int m_blockedFrames;						// +0x16C
 	unsigned char m_unmodelled_170[0x1CC - 0x170];
@@ -742,6 +769,38 @@ void AIUpdateInterface::privateGuardPosition(const Coord3D *pos, GuardMode guard
 	m_guardMode = guardMode;
 	m_objectToGuard = 0;
 	m_guardExtra = *(UnsignedInt *)&pos->z;
+	m_stateMachine->clear();
+	m_lastCommandSource = cmdSource;
+	m_stateMachine->setState(BFME_AI_GUARD);
+}
+
+// Retail 0x002794E0, the BFME script variant of guard-area: it keeps the area
+// pointer but takes an optional waypoint position for the location the guard
+// state uses. A null position falls back to the area's own centre.
+void AIUpdateInterface::privateGuardAreaFromPosition(const PolygonTrigger *area,
+	GuardMode guardMode, CommandSourceType cmdSource, const Coord3D *position)
+{
+	if (m_object->m_flags & 0x20)
+		return;
+	if (!m_object->isMobile())
+		return;
+	if (m_object->isKindOf(KINDOF_PROJECTILE))
+		return;
+
+	if (m_guardTargetType[1] == GUARDTARGET_NONE)
+		m_guardTargetType[1] = GUARDTARGET_AREA;
+	else
+		m_guardTargetType[0] = GUARDTARGET_AREA;
+
+	m_guardMode = guardMode;
+	m_areaToGuard = area;
+	Coord3D localPosition;
+	if (!position)
+		area->getCenterPoint(&localPosition);
+	else
+		localPosition = *position;
+	m_locationToGuard = localPosition;
+	m_objectToGuard = 0;
 	m_stateMachine->clear();
 	m_lastCommandSource = cmdSource;
 	m_stateMachine->setState(BFME_AI_GUARD);
