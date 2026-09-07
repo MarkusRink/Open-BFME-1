@@ -107,7 +107,10 @@ private:
     unsigned char padding_cc[0x10c - 0xcc];
 public:
     MeshMatDescClass AlternateMatDesc;
+private:
+    friend class MeshModelClass;
     BfmeHandleCX Peek_Texture(int index);
+public:
     ShaderClass Peek_Shader(unsigned long index) { return Shaders[index]; }
     VertexMaterialClass *Peek_Vertex_Material(unsigned long index) { return VertexMaterials[index]; }
 };
