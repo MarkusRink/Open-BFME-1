@@ -85257,3 +85257,7 @@ _bfmeScanYA,0x009F6FA6
 ?bfmeRoomYC@BfmeSubYC@@QAE?AVBfmeRoomYC@@XZ,0x0000CA95
 ?g_bfmeDefaultYC@@3VBfmeRoomYC@@A,0x00F36E50
 ?bfmeCallYD@@YAXPAUBfmeVecYD@@HHU1@PAX@Z,0x0001D0B6
+?bfmeUpdateYE@BfmeCameraYE@@QAEXXZ,0x00931DF0
+?bfmeOverlapYE@@YAHPAXPAUBfmeSphereYE@@@Z,0x008DB060
+??0BfmeRoomYF@@QAE@ABV0@@Z,0x00887B60
+?g_bfmeDefaultYF@@3VBfmeRoomYF@@A,0x00F36E50
