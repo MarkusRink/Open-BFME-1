@@ -27,6 +27,13 @@
 // not happened to live apart. One layout states the member list head at +0x0C
 // and the guard at +0x30 together.
 //
+// One thing this file does NOT carry is a locoSetMatches helper. The
+// inside-queries donor defined one and nothing ever called it: all six bodies
+// inline the surface-flag expression against AI+0x1B8 the way retail does, so
+// the helper was a spare description of the expression rather than the
+// expression itself. Merged, six bodies sit beside it and none uses it, which
+// is how it became visible at all.
+//
 // The filter is NOT factored into a helper, because it is not one filter. The
 // four entirely-bodies apply both KindOf skips -- the dword at +0xD0 bit
 // 0x01000000 and then the byte at +0xD8 bit 0x20 -- while the two partial
@@ -151,12 +158,6 @@ static Overridable *bfmeFinalTemplate(Object *obj)
 	if (tmpl != 0 && tmpl->m_nextOverride != 0)
 		tmpl = (Overridable *)tmpl->m_nextOverride->getFinalOverride();
 	return tmpl;
-}
-
-static Bool locoSetMatches(UnsignedInt lstm, UnsignedInt surfaceBitFlags)
-{
-	surfaceBitFlags = surfaceBitFlags & 0x01 | ((surfaceBitFlags & 0x02) << 2);
-	return (surfaceBitFlags & lstm) != 0;
 }
 
 // ?didPartialEnter@Team@@QBE_NPAVPolygonTrigger@@I@Z
