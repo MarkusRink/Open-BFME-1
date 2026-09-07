@@ -12,9 +12,9 @@ separate branch, index and build output. Coordinator alone publishes master.
 
 | Worker | Root/branch suffix | Current exclusive responsibility |
 |---|---|---|
-| cleanup_metrics | metrics | Empty ledger record/checker discrepancy and related regression; metric baseline |
-| cleanup_placement | placement | Five malformed source ownership markers; source verification |
-| cleanup_evidence | evidence | Independent field/local-name evidence; scoped root verification |
+| cleanup_metrics | metrics | Measurement prerequisite ready; WeaponTemplate*.cpp field naming (exclude shared headers and Weapon.cpp) |
+| cleanup_placement | placement | Timed-operation filenames ready; two Bezier moves and their two active reference-link comments |
+| cleanup_evidence | evidence | FESL locals ready; three scalar-sort/deque filenames and independent reviews |
 
 ## Initial checks
 
@@ -31,9 +31,34 @@ separate branch, index and build output. Coordinator alone publishes master.
 
 ## Publications
 
-No source cleanup published yet. Planning/checkpoint commits are not counted as
-source progress. Each accepted unit will record its final SHA, concrete effect,
-identity evidence and verification here.
+No source cleanup published yet. Planning/checkpoint commit `8fdebe9dbe` is not
+counted as source progress. Full baseline is still live, so isolated preparation
+continues while the publication checkout remains unchanged.
+
+| Worker commit ready for integration | Effect and evidence | Verification/review |
+|---|---|---|
+| 4267db480a | Reject empty function records; remove exactly one stray LF | 91 targeted tests; independent 10-case recheck and byte-preservation audit |
+| 248a2b008f | Repair five ownership markers; preserve unknown tree-buffer owner | 5/5 matches; independent destination/source review |
+| 4bcdd08115 | 38 WeaponTemplate field names/114 uses; PreferredTargetBone corrects misleading projectile name | 1/1 match; direct retail field table and independent review; raw storage types preserved |
+| e913a5b2fa | TimedOperationNode constructor/destructor filenames | 2/2 matches; source hashes unchanged; retail caller/vtable chain |
+| 5f2e2d38b6 | postTimedOp filename | 1/1 match; source hash unchanged |
+| 5e62348ced | TimedOperations filename for node update and queue pump | 2/2 matches; source hash unchanged |
+| 64bbeae6a3 | Nine FESL address buffer/octet/packed-value identifiers | 2/2 matches and four literals before/after |
+
+These are worker SHAs, not published SHAs. Superseded unpublished WeaponTemplate
+commits 9aaadda33a and its earlier form must not be integrated.
+
+## Startup observations and next experiment
+
+Worker cold readability scans spent approximately two minutes before reaching the
+known empty-record failure; that failure prevents cache persistence. Centralize
+staged metrics in the repaired coordinator checkout and stop repeating scans in
+unrepaired workers. Check the saved worker time and coordinator overhead at hour
+one before retaining this process change. All byte/identity gates remain active.
+
+Redirected baseline Python output is buffered even while compiler children are
+active. Use `PYTHONUNBUFFERED=1` for later logged builds; never restart this live
+baseline merely to improve its output.
 
 ## Hourly reviews
 
