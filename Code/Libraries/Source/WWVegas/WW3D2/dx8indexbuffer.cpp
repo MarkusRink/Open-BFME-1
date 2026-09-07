@@ -47,6 +47,7 @@
 #include "dx8caps.h"
 
 extern void W3DRadarResetLock(void);
+extern void rva008fd2a0(void);
 #include "sphere.h"
 #include "thread.h"
 #include "wwmemlog.h"
@@ -361,57 +362,73 @@ IndexBufferClass::AppendLockClass::~AppendLockClass()
 //
 // ----------------------------------------------------------------------------
 
-// ??0DX8IndexBufferClass@@QAE@GW4UsageType@0@@Z present-unmatched
-DX8IndexBufferClass::DX8IndexBufferClass(unsigned short index_count_,UsageType usage)
+// BFME calls this constructor with the full 32-bit count slot used by
+// IndexBufferClass, even though the older public overload is 16-bit.
+class BFMEIndexBufferDevice
+{
+public:
+	virtual void Slot00(); virtual void Slot04(); virtual void Slot08(); virtual void Slot0C();
+	virtual void Slot10(); virtual void Slot14(); virtual void Slot18(); virtual void Slot1C();
+	virtual void Slot20(); virtual void Slot24(); virtual void Slot28(); virtual void Slot2C();
+	virtual void Slot30(); virtual void Slot34(); virtual void Slot38(); virtual void Slot3C();
+	virtual void Slot40(); virtual void Slot44(); virtual void Slot48(); virtual void Slot4C();
+	virtual void Slot50(); virtual void Slot54(); virtual void Slot58(); virtual void Slot5C();
+	virtual void Slot60(); virtual void Slot64(); virtual void Slot68();
+	virtual HRESULT __stdcall CreateIndexBuffer(UINT length, DWORD usage, D3DFORMAT format,
+		D3DPOOL pool, IDirect3DIndexBuffer8 **buffer, HANDLE *shared_handle);
+};
+
+struct BFMEIndexBufferCaps
+{
+	char pad[0x138];
+	bool supportTnL;
+};
+
+DX8IndexBufferClass::DX8IndexBufferClass(unsigned index_count_,UsageType usage)
 	:
 	IndexBufferClass(BUFFER_TYPE_DX8,index_count_)
 {
-	DX8_THREAD_ASSERT();
+	W3DRadarResetLock();
 	WWASSERT(index_count);
 	unsigned usage_flags=
 		D3DUSAGE_WRITEONLY|
 		((usage&USAGE_DYNAMIC) ? D3DUSAGE_DYNAMIC : 0)|
 		((usage&USAGE_NPATCHES) ? D3DUSAGE_NPATCHES : 0)|
 		((usage&USAGE_SOFTWAREPROCESSING) ? D3DUSAGE_SOFTWAREPROCESSING : 0);
-	if (!DX8Wrapper::Get_Current_Caps()->Support_TnL()) {
+	const BFMEIndexBufferCaps *caps = reinterpret_cast<const BFMEIndexBufferCaps *>(DX8Wrapper::Get_Current_Caps());
+	if (!caps->supportTnL) {
 		usage_flags|=D3DUSAGE_SOFTWAREPROCESSING;
 	}
 
-	HRESULT ret=DX8Wrapper::_Get_D3D_Device8()->CreateIndexBuffer(
+	HRESULT ret=reinterpret_cast<BFMEIndexBufferDevice *>(DX8Wrapper::_Get_D3D_Device8())->CreateIndexBuffer(
 		sizeof(WORD)*index_count,
 		usage_flags,
 		D3DFMT_INDEX16,
 		(usage&USAGE_DYNAMIC) ? D3DPOOL_DEFAULT : D3DPOOL_MANAGED,
-		&index_buffer);
+		&index_buffer,
+		NULL);
 
-	if (SUCCEEDED(ret)) {
-		return;
+	if (!SUCCEEDED(ret)) {
+		WWDEBUG_SAY(("Index buffer creation failed, trying to release assets...\n"));
+
+		// Try again after the renderer's resource invalidation pass.
+		rva008fd2a0();
+		ret=reinterpret_cast<BFMEIndexBufferDevice *>(DX8Wrapper::_Get_D3D_Device8())->CreateIndexBuffer(
+			sizeof(WORD)*index_count,
+			usage_flags,
+			D3DFMT_INDEX16,
+			(usage&USAGE_DYNAMIC) ? D3DPOOL_DEFAULT : D3DPOOL_MANAGED,
+			&index_buffer,
+			NULL);
+
+		if (SUCCEEDED(ret)) {
+			WWDEBUG_SAY(("...Index buffer creation succesful\n"));
+		}
+
+		// If it still fails it is fatal
+		BFME_DX8_ErrorCode(ret);
 	}
-
-	WWDEBUG_SAY(("Index buffer creation failed, trying to release assets...\n"));
-
-	// Vertex buffer creation failed, so try releasing least used textures and flushing the mesh cache.
-
-	// Free all textures that haven't been used in the last 5 seconds
-	TextureClass::Invalidate_Old_Unused_Textures(5000);
-
-	// Invalidate the mesh cache
-	WW3D::_Invalidate_Mesh_Cache();
-
-	// Try again...
-	ret=DX8Wrapper::_Get_D3D_Device8()->CreateIndexBuffer(
-		sizeof(WORD)*index_count,
-		usage_flags,
-		D3DFMT_INDEX16,
-		(usage&USAGE_DYNAMIC) ? D3DPOOL_DEFAULT : D3DPOOL_MANAGED,
-		&index_buffer);
-
-	if (SUCCEEDED(ret)) {
-		WWDEBUG_SAY(("...Index buffer creation succesful\n"));
-	}
-
-	// If it still fails it is fatal
-	DX8_ErrorCode(ret);
+	BFME_DX8_Thread_Assert();
 }
 
 // ----------------------------------------------------------------------------
