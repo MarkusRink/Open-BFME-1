@@ -1,7 +1,7 @@
+// initiateUnpack
+// partial score=0.96 date=2026-09-07
 // ?initiateUnpack@CastleBehavior@@QAEX_NPBVThingTemplate@@@Z
-// partial score=0.95 date=2026-09-06
-// ?initiateUnpack@CastleBehavior@@QAEX_NPBVThingTemplate@@@Z
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
+// The retail body is a CastleBehavior unpack state update and CRC log.
 #pragma optimize("a", on)
 
 typedef bool Bool;
@@ -85,15 +85,12 @@ public:
 };
 
 extern void j_00047c58(void);
-struct OwnedObjectNode;
-struct OwnedObjectTree;
-typedef void (OwnedObjectTree::*EraseCall)(OwnedObjectNode *);
 
 struct OwnedObjectNode
 {
 	void *m_pad00;
 	OwnedObjectNode *m_field04;
-	OwnedObjectNode *m_field08;
+	OwnedObjectNode * volatile m_field08;
 	OwnedObjectNode *m_field0c;
 };
 
@@ -106,13 +103,15 @@ struct OwnedObjectTree
 	{
 		if (m_size != 0)
 		{
-			EraseCall eraseCall;
+			typedef void (OwnedObjectTree::*EraseCall)(OwnedObjectNode *);
 			union { void *asVoid; EraseCall asMember; } eraseCast;
 			eraseCast.asVoid = (void *)j_00047c58;
-			(this->*eraseCast.asMember)(m_header->m_field04);
+			OwnedObjectNode *header = m_header;
+			(this->*eraseCast.asMember)(header->m_field04);
 			m_header->m_field08 = m_header;
-			m_header->m_field04 = 0;
-			m_header->m_field0c = m_header;
+			*(volatile Int *)((char *)*(OwnedObjectNode * volatile *)((char *)this) + 4) = 0;
+			OwnedObjectNode *tail = *(OwnedObjectNode * volatile *)((char *)this);
+			tail->m_field0c = tail;
 			m_size = 0;
 		}
 	}
@@ -187,43 +186,39 @@ void CastleBehavior::initiateUnpack(Bool unpack,
 
 	m_ownedObjects.clear();
 
-	GameLogic *logic = TheBfmeGameLogic;
-	if (logic->m_packUnpackGate > 0)
+	if (TheBfmeGameLogic->m_packUnpackGate > 0)
 	{
 		void *crcParameterCheck = g_012ED4FC;
 		if (!crcParameterCheck)
 			return;
 
-			ControllingPlayerCall controllingPlayerCall;
-			union { void *asVoid; ControllingPlayerCall asMember; } controllingPlayerCast;
-			controllingPlayerCast.asVoid = (void *)j_00020824;
-			const char *callerName = (object->*controllingPlayerCast.asMember)()->m_playerName.str();
-			const Int castleID = object->getID();
-			const ThingTemplate *castleTemplate = object->m_template;
-			const ThingTemplate *finalTemplate = castleTemplate;
-			if (castleTemplate == 0)
-			{
-				finalTemplate = (const ThingTemplate *)0;
-			}
-			else
-			{
-				if (castleTemplate->m_nextOverride)
-				{
-					FinalOverrideCall finalOverrideCall;
-					union { void *asVoid; FinalOverrideCall asMember; } finalOverrideCast;
-					finalOverrideCast.asVoid = (void *)j_000022bb;
-					finalTemplate = (const ThingTemplate *)
-						(castleTemplate->m_nextOverride->*finalOverrideCast.asMember)();
-				}
-				else
-					finalTemplate = castleTemplate;
-			}
-			const char *castleName = (const char *)0x0107388B;
-			if (finalTemplate)
-				castleName = finalTemplate->m_name.str();
+		ControllingPlayerCall controllingPlayerCall;
+		union { void *asVoid; ControllingPlayerCall asMember; } controllingPlayerCast;
+		controllingPlayerCast.asVoid = (void *)j_00020824;
+		const char *callerName = (object->*controllingPlayerCast.asMember)()->m_playerName.str();
+		const Int castleID = object->getID();
+		const ThingTemplate *finalTemplate;
+		if (object->m_template == 0)
+		{
+			finalTemplate = (const ThingTemplate *)0;
+		}
+		else if (object->m_template->m_nextOverride)
+		{
+			FinalOverrideCall finalOverrideCall;
+			union { void *asVoid; FinalOverrideCall asMember; } finalOverrideCast;
+			finalOverrideCast.asVoid = (void *)j_000022bb;
+			finalTemplate = (const ThingTemplate *)
+				(object->m_template->m_nextOverride->*finalOverrideCast.asMember)();
+		}
+		else
+			finalTemplate = object->m_template;
 
-			((DebugLogFunction)j_0003a17a)(g_012ED4FC,
-				(const char *)0x010E9D90, logic->m_frame,
-				castleName, castleID, callerName);
+		const char *castleName = (const char *)0x0107388B;
+		if (finalTemplate)
+			castleName = finalTemplate->m_name.str();
+
+		((DebugLogFunction)j_0003a17a)(g_012ED4FC,
+			(const char *)0x010E9D90, TheBfmeGameLogic->m_frame,
+			castleName, castleID, callerName);
 	}
 }
