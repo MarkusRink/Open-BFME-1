@@ -85693,3 +85693,9 @@ _skipWhitespace,0x008872B0,COFF-local symbol of the actual included SkipWhitespa
 ??0BfmeAttrERT@@QAE@ABV0@@Z,0x00024631,pin
 ??1BfmeAttrERT@@QAE@XZ,0x00043699,pin
 ?g_bfmeAttrPoolERT@@3UBfmeAttrPoolERT@@A,0x00EF1000,pin
+?bfmeStartERU@BfmeThingERU@@QAEXXZ,0x00013075,pin
+?bfmeStopERU@BfmeThingERU@@QAEXXZ,0x0000E525,pin
+?bfmeDefaultERU@@YAPAVBfmeThingERU@@XZ,0x00001B18,pin
+??1BfmeHandleERU@@QAE@XZ,0x00013994,pin
+?bfmeGetERU@BfmeMgrERU@@QAE?AVBfmeHandleERU@@H@Z,0x0002A216,pin
+?g_bfmeMgrERU@@3PAVBfmeMgrERU@@A,0x00EF64BC,pin
