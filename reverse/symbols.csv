@@ -74262,6 +74262,7 @@ name,address,notes
 ?bfmeFindUPB@@YAPAXPAX0@Z,0x007EBCA0,pin
 ?bfmeFindVMQ@@YAPADPBD0@Z,0x007EBCA0,pin
 ?bfmeFindVNC@BfmeKeyVNC@@QAEPAXPBDH@Z,0x007E8900,pin
+?matchesObject@Rva006083A0SoundUpgrade@@QAE_NPAX@Z,0x000420B9,ILT target for UpgradeSoundSelectorClientBehavior::findMappedSound
 ?bfmeFindYI@BfmeRegistryYI@@QAEPAXABVAsciiStringYI@@@Z,0x0003B59D,Open-BFME5 the lookup the command select at 0x0058D990 calls on the registry 0x012F33F8
 ?bfmeFindYQ@BfmeThingYQ@@QAEPAVBfmeEntryYQ@@HH@Z,0x0004AF84,Open-BFME5 the entry lookup the anchor selector at 0x00423300 calls
 ?bfmeFindYT@BfmeRegistryYT@@QAEPAXABVAsciiStringYT@@@Z,0x0003B59D,Open-BFME5 registry lookup used by the side dispatch at 0x0058ECA0
