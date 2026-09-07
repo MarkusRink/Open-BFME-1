@@ -84769,3 +84769,5 @@ __imp__bfmeMathVE,0x00F59394,pin
 ?Load_Texture@@YA?AVBfmeHandleCX@@AAVChunkLoadClass@@@Z,0x0090EB00,BFME free texture helper tests chunk0x31 and reads name0x32/info0x33; hidden result and caller reference operations prove owning-handle return
 ?bfmeConstructQV@@YAXPAUBfmeElemQV@@0@Z,0x00007554,pin
 ?bfmeGrowQV@BfmeVecQV@@QAEXPAUBfmeElemQV@@0PAPAXHH@Z,0x0003827B,pin
+?bfmeCallAPT@BfmeOwnerPT@@QAEXXZ,0x004445DA,pin
+?bfmeCallBPT@BfmeOwnerPT@@QAEXXZ,0x00002941,pin
