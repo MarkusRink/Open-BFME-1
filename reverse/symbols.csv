@@ -84718,3 +84718,5 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeSnapshot@Rva0016AD50@@QAEXXZ,0x0002D308,privateMoveToPosition snapshots the active BFME move goal through its retail thunk
 ?setTemporaryState@Rva0016AD90@@QAEXW4StateID@@H@Z,0x00044319,privateMoveToPosition enters BFME move state 1 for 100 frames through its retail thunk
 ?bfmeLookupPV@BfmeTablePV@@QAEXPAPAVBfmeNodePV@@PAPAX@Z,0x0002DF6F,pin
+?g_bfmeHoldCW@@3PAVBfmeHoldCW@@A,0x00EF706C,pin
+?g_bfmeDefaultCW@@3UBfmeTextCW@@A,0x00F36E50,pin
