@@ -156,3 +156,15 @@ EMIT_POOL_GLUE_DELETE( ProductionEntry )
 // Bridge's was not emitted there at all (nothing in that TU takes its address).
 EMIT_POOL_GLUE_DELETE( Waypoint )
 EMIT_POOL_GLUE_DELETE( Bridge )
+
+// Nine more rows off the same folded body, every class already open in the
+// include set above: their own TUs each still carry unrelated red rows, so the
+// glue delete is verified here instead of waiting on them.
+EMIT_POOL_GLUE_DELETE( EvaCheckInfo )
+EMIT_POOL_GLUE_DELETE( RadarObject )
+EMIT_POOL_GLUE_DELETE( UpgradeTemplate )
+EMIT_POOL_GLUE_DELETE( Object )
+EMIT_POOL_GLUE_DELETE( Path )
+EMIT_POOL_GLUE_DELETE( PathNode )
+EMIT_POOL_GLUE_DELETE( TeamInQueue )
+EMIT_POOL_GLUE_DELETE( WorkOrder )
