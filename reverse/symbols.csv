@@ -81843,7 +81843,6 @@ name,address,notes
 ?readUnicodeString@@YA?AVUnicodeString@@PAU_iobuf@@@Z,0x000322F4,shared replay Unicode string reader thunk
 ?readUntilSemicolon@@YAXPAVFile@@PADH@Z,0x004843E0,decoded from parseDefaultColor call site
 ?read_chunks@MeshGeometryClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@@Z,0x00927950,Load_W3D call-site and chunk-loop body identify the BFME reader
-?read_chunks@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096FF70,BFME mesh chunk dispatcher called by Load_W3D
 ?read_data_file@@YAHXZ,0x008760A0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00878530 calls; autopin
 ?read_material_pass@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096FB60,BFME bool-returning material pass loader called by read_prelit_material
 ?read_shaders@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096EA60,BFME prelit chunk0x29 table96FD00 -> arm96FCAE; W3dShaderStruct array and Convert_Shader prove identity
@@ -84755,3 +84754,13 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeInsertRQ@BfmeVecRQ@@QAEXPAPAX0@Z,0x00034D7E,pin
 ??1BfmeThingHT@@QAE@XZ,0x0003A48B,pin
 __imp__bfmeMathVE,0x00F59394,pin
+?read_vertices@MeshGeometryClass@@IAE_NAAVChunkLoadClass@@_N@Z,0x00927360,BFME read_chunks geometry chunks0x02/0xC00; two stack arguments select format and callee returns AL status
+?read_texcoords@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096E330,BFME read_chunks mesh chunk0x05 arm96FFD8; existing exact170B object-symbol proves name
+?read_v3_materials@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096F5B0,BFME read_chunks mesh chunk0x15 arm96FFE6 calls96F5B0; original legacy material algorithm and AL status
+?read_triangles@MeshGeometryClass@@IAE_NAAVChunkLoadClass@@@Z,0x00925200,BFME read_chunks geometry chunk0x20 arm96FFF4 calls925200; original triangle loader and AL status
+?read_per_tri_materials@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096E3E0,BFME read_chunks mesh chunk0x21 arm970001 calls96E3E0; original per-triangle material algorithm and AL status
+?read_vertex_influences@MeshGeometryClass@@IAE_NAAVChunkLoadClass@@@Z,0x00925380,BFME read_chunks geometry chunk0x0E arm97002A calls925380; original influence loader and AL status
+?read_vertex_shade_indices@MeshGeometryClass@@IAE_NAAVChunkLoadClass@@@Z,0x009255B0,BFME read_chunks geometry chunk0x22 direct arm970037; existing exact86B object-symbol proves name
+?read_material_info@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D2C0,BFME read_chunks mesh chunk0x28 arm97005E calls96D2C0; existing52B block reader reads16B and updates pass count
+?read_aabtree@MeshGeometryClass@@IAE_NAAVChunkLoadClass@@@Z,0x00923930,BFME read_chunks geometry chunk0x90 arm9700A8 calls923930; callee149B tail sets AL=1 before RET4
+?read_vertex_normals@MeshGeometryClass@@IAE_NAAVChunkLoadClass@@_N@Z,0x009274C0,BFME read_chunks geometry chunks0x03/0xC01; two stack arguments select format and callee returns AL status

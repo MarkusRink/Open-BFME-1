@@ -80,7 +80,7 @@ public:
 	void Reset(int polycount, int vertcount, int passcount, bool skin);
 
 	protected:
-	WW3DErrorType read_chunks(ChunkLoadClass & cload, MeshLoadContextClass * context);
+	bool read_chunks(ChunkLoadClass & cload, MeshLoadContextClass * context);
 	void install_materials(MeshLoadContextClass * context);
 	void post_process(void);
 
