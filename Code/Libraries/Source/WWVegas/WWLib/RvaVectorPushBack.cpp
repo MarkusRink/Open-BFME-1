@@ -20,10 +20,16 @@
 
 class Open2Rec355050;
 void Open2Construct355050(Open2Rec355050 *destination, const Open2Rec355050 &value);
+class Open2Rec3550F0;
+void Open2Construct3550F0(Open2Rec3550F0 *destination, const Open2Rec3550F0 &value);
 
 namespace _STL
 {
 struct Rva0035AFC0Element
+{
+	char m_body[20];
+};
+struct Rva0035B130Element
 {
 	char m_body[20];
 };
@@ -197,6 +203,14 @@ __forceinline void BfmeElementConstruct(Rva0035AFC0Element *destination,
 		reinterpret_cast<const Open2Rec355050 &>(value));
 }
 
+template <>
+__forceinline void BfmeElementConstruct(Rva0035B130Element *destination,
+	const Rva0035B130Element &value)
+{
+	Open2Construct3550F0(reinterpret_cast<Open2Rec3550F0 *>(destination),
+		reinterpret_cast<const Open2Rec3550F0 &>(value));
+}
+
 template <class Type, class Allocator>
 class vector
 {
@@ -252,6 +266,9 @@ void vector<Gen_t_003b4b60_p16cd, allocator<Gen_t_003b4b60_p16cd> >::push_back(
 
 // retail 0x0035BA20, sharing its 20-byte element with overflow at 0x0035AFC0
 template class vector<Rva0035AFC0Element, allocator<Rva0035AFC0Element> >;
+
+// retail 0x0035BA70, sharing its 20-byte element with overflow at 0x0035B130
+template class vector<Rva0035B130Element, allocator<Rva0035B130Element> >;
 
 // retail 0x000FB210, a 96-byte element
 template class vector<Rva000FB210Element, allocator<Rva000FB210Element> >;

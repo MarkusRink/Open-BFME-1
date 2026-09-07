@@ -85715,3 +85715,5 @@ _Rva008921B0Atof,0x008921B0,address-derived 14-byte cdecl atof wrapper at 0x0089
 ?bfmeCheckERY@BfmeSubERY@@QAEHPAX@Z,0x000220C5,pin
 ?Open2Construct355050@@YAXPAVOpen2Rec355050@@ABV1@@Z,0x00036C2D,route=0x00355050; retail 0x0035BA20 directly calls this thunk; target has this exact matched identity
 ?_M_insert_overflow@?$vector@URva0035AFC0Element@_STL@@V?$allocator@URva0035AFC0Element@_STL@@@2@@_STL@@IAEXPAURva0035AFC0Element@2@ABU32@ABU__false_type@2@I_N@Z,0x000396AD,route=0x0035AFC0; retail 0x0035BA20 directly calls this thunk; target has this exact matched identity
+?Open2Construct3550F0@@YAXPAVOpen2Rec3550F0@@ABV1@@Z,0x0002DE52,route=0x003550F0; retail 0x0035BA70 directly calls this thunk; target has this exact matched identity
+?_M_insert_overflow@?$vector@URva0035B130Element@_STL@@V?$allocator@URva0035B130Element@_STL@@@2@@_STL@@IAEXPAURva0035B130Element@2@ABU32@ABU__false_type@2@I_N@Z,0x0000CDEC,route=0x0035B130; retail 0x0035BA70 directly calls this thunk; target has this exact matched identity
