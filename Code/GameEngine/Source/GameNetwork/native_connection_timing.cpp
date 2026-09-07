@@ -1,5 +1,7 @@
 // cl: /DNDEBUG /MD /GX
 
+#include "../../../../reference/shims/stringinline/StringInline.h"
+
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 
 typedef bool Bool;
@@ -386,6 +388,17 @@ class Connection
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/ConnectionManager.h
 class DisconnectManager;
 class NetDisconnectChatCommandMsg;
+class NetChatCommandMsg : public NetCommandMsg
+{
+public:
+	NetChatCommandMsg();
+	void setText(UnicodeString text);
+	void setPlayerMask(int playerMask);
+private:
+	UnicodeString m_text;
+	int m_playerMask;
+};
+
 class NetDisconnectFrameCommandMsg : public NetCommandMsg
 {
 public:
@@ -414,6 +427,7 @@ public:
 	void sendLocalCommandDirect(NetCommandMsg *msg, unsigned char relay);
 	int getNumPlayers();
 	void flushConnections();
+	void processChat(NetChatCommandMsg *msg);
 	friend class BFMEConnectionManager;
 	unsigned int getPacketRouterSlot();
 
@@ -498,7 +512,7 @@ public:
 	void sendPlayerLeaveCommands();
 	void sendFrameInfoToPlayer(int slot);
 	void sendDisconnectChatCommand(void *text);
-	void sendDisconnectVoteCommand(int slot, unsigned int frame);
+	void sendChat(UnicodeString text, int playerMask);
 	void sendGameSpyStatsAuthKey(void *key);
 	void sendKeepAliveCommand();
 	void sendProgressCommand(int percent);
@@ -6170,126 +6184,20 @@ L02_66696D:
 	}
 }
 
-// Sends command type 26 (DISCONNECTVOTE), and 14 (CHAT) on the other arm. Named from the type its message carries.
-__declspec(naked) void BFMEConnectionManager::sendDisconnectVoteCommand(int slot, unsigned int frame)
+// Network::sendChat at 0x00682440 proves the by-value text and recipient-mask ABI.
+// This was formerly misidentified as a disconnect vote despite constructing CHAT.
+void BFMEConnectionManager::sendChat(UnicodeString text, int playerMask)
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 1044473h
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		push esi
-		push edi
-		mov edi, ecx
-		push 24h
-		mov dword ptr [esp+18h], 0h
-		__emit 0E8h
-		__emit 027h
-		__emit 0A9h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+8h], eax
-		test eax, eax
-		mov byte ptr [esp+14h], 1h
-		je L00_667624
-		mov ecx, eax
-		__emit 0E8h
-		__emit 0DFh
-		__emit 06Eh
-		__emit 09Dh
-		__emit 0FFh   // call 0x3E4FF
-		mov esi, eax
-		jmp L01_667626
-L00_667624:
-		xor esi, esi
-L01_667626:
-		push ecx
-		lea eax,  [esp+20h]
-		mov dword ptr [esp+0Ch], esp
-		mov ecx, esp
-		push eax
-		mov byte ptr [esp+1Ch], 0h
-		__emit 0E8h
-		__emit 0C4h
-		__emit 00Dh
-		__emit 022h
-		__emit 000h   // call 0x888400
-		mov ecx, esi
-		__emit 0E8h
-		__emit 00Eh
-		__emit 09Bh
-		__emit 09Ch
-		__emit 0FFh   // call 0x31151
-		mov ecx, dword ptr [esp+20h]
-		push ecx
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0EFh
-		__emit 0C2h
-		__emit 09Bh
-		__emit 0FFh   // call 0x2393E
-		mov eax, dword ptr [edi+12028h]
-		mov dword ptr [esi+0Ch], eax
-		mov eax, dword ptr [esi+14h]
-		push eax
-		__emit 0E8h
-		__emit 011h
-		__emit 0E5h
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L02_667671
-		__emit 0E8h
-		__emit 0EBh
-		__emit 08Eh
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L02_667671:
-		mov ecx, dword ptr [edi+12028h]
-		xor edx, edx
-		mov dl, 1h
-		shl dl, cl
-		mov ecx, edi
-		not dl
-		push edx
-		push esi
-		__emit 0E8h
-		__emit 04Fh
-		__emit 09Bh
-		__emit 09Dh
-		__emit 0FFh   // call 0x411D7
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 077h
-		__emit 0D3h
-		__emit 099h
-		__emit 0FFh   // call 0x4A07
-		mov ecx, esi
-		__emit 0E8h
-		__emit 00Dh
-		__emit 08Ah
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		lea ecx,  [esp+1Ch]
-		mov dword ptr [esp+14h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 028h
-		__emit 00Bh
-		__emit 022h
-		__emit 000h   // call 0x8881D0
-		mov ecx, dword ptr [esp+0Ch]
-		pop edi
-		mov dword ptr fs:[0h], ecx
-		pop esi
-		add esp, 10h
-		ret 8h
-	}
+	NetChatCommandMsg *msg = new NetChatCommandMsg;
+	msg->setText(text);
+	msg->setPlayerMask(playerMask);
+	msg->setPlayerID(m_localSlot);
+	if (DoesCommandRequireACommandID(msg->getNetCommandType()))
+		msg->setID(GenerateNextCommandID());
+	reinterpret_cast<ConnectionManager *>(this)->sendLocalCommandDirect(msg,
+		(unsigned char)~(unsigned char)(1 << m_localSlot));
+	reinterpret_cast<ConnectionManager *>(this)->processChat(msg);
+	msg->detach();
 }
 
 // Sends command type 6 (GAMESPY_STATS_AUTHKEY), built by 0x00675BE0. Named from the type its message carries.
