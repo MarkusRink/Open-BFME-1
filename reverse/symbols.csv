@@ -85776,3 +85776,7 @@ __imp__bfmeSprintfESP,0x00F5948C,pin
 ?g_bfmeEmptyESP@@3QBDB,0x00C7301C,pin
 ?bfmeApplyESP@@YAXPBD0@Z,0x00891E70,pin
 ?bfmeRemoveESP@@YAXI@Z,0x00029AA0,pin
+??0BfmeBstrESQ@@QAE@PBD@Z,0x00958990,pin
+?bfmeThrowESQ@@YGXJ@Z,0x00AFD540,pin
+?bfmeInvokeESQ@BfmeTargetESQ@@QAEJVBfmeBstrESQ@@@Z,0x00958D30,pin
+?g_bfmeDispatchESQ@@3UBfmePtrESQ@@A,0x00F4B280,pin
