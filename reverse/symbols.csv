@@ -9668,6 +9668,7 @@ name,address,notes
 ??_7Rva00886F60Class@@6B@,0x01132FFC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00886F30 calls; autopin
 ??_7Rva0090E470Thing@@6B@,0x0113A668,address-derived vftable written by the 0x0090E470 constructor; class identity not recovered
 ??_7Rva0090E570Thing@@6B@,0x0113A6B0,address-derived vftable written by the 0x0090E570 constructor (byte-twin of 0x0090E470); class identity not recovered
+??_7Rva00947170SkinContainer@@6B@,0x0113D05C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00947170 calls; autopin
 ??_7Rva0097BB40HLod@@6BMultiListObjectClass@@@,0x00D3EBE4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0097BB40 calls; autopin
 ??_7Rva0097BB40HLod@@6BRefCountClass@@@,0x00D3EBE8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0097BB40 calls; autopin
 ??_7Rva1FC330DeepBase@@6BRva00047C53MultiBase@@@,0x00C9CB5C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x001FC330 calls; autopin
@@ -9733,11 +9734,13 @@ name,address,notes
 ??_C@_0BA@DPBBOKKE@FlammableUpdate?$AA@,0x00C905D0,pool-glue cascade static (back-solved)
 ??_C@_0BA@FHHLAKGO@GarrisonContain?$AA@,0x00C90AC0,pool-glue cascade static (back-solved)
 ??_C@_0BA@FLGINOGA@AODHordeContain?$AA@,0x01090AD4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002308E0 calls; autopin
+??_C@_0BA@GHFPIJMM@EnableAddButton?$AA@,0x01105210,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00511260 calls; autopin
 ??_C@_0BA@JKMFNOEK@OCLSpecialPower?$AA@,0x00C8FA28,pool-glue cascade static (back-solved)
 ??_C@_0BB@COJJGIFG@WeaponSetUpgrade?$AA@,0x00C8FED0,pool-glue cascade static (back-solved)
 ??_C@_0BB@EILKNGJ@MaxHealthUpgrade?$AA@,0x00C8FEA0,pool-glue cascade static (back-solved)
 ??_C@_0BB@EOFKMFCB@FireSpreadUpdate?$AA@,0x00C905F8,pool-glue cascade static (back-solved)
 ??_C@_0BB@FCBJDMF@PoisonedBehavior?$AA@,0x00C90970,pool-glue cascade static (back-solved)
+??_C@_0BB@GEDEDEOJ@DisableAddButton?$AA@,0x011051FC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00511260 calls; autopin
 ??_C@_0BB@GPPINPJO@AutoHealBehavior?$AA@,0x00C90DC4,pool-glue cascade static (back-solved)
 ??_C@_0BB@IPEDMECH@TransportContain?$AA@,0x00C90AAC,pool-glue cascade static (back-solved)
 ??_C@_0BB@JAJBNHKL@BattlePlanUpdate?$AA@,0x00C90490,pool-glue cascade static (back-solved)
@@ -12600,6 +12603,7 @@ name,address,notes
 ?_M_insert_overflow@?$vector@URva0077C670Element@@V?$allocator@URva0077C670Element@@@_STL@@@_STL@@IAEXPAURva0077C670Element@@ABU3@ABU__false_type@2@I_N@Z,0x00015F41,Open-BFME5 a callee of a vector push_back
 ?_M_insert_overflow@?$vector@URva0077CC10Element@@V?$allocator@URva0077CC10Element@@@_STL@@@_STL@@IAEXPAURva0077CC10Element@@ABU3@ABU__false_type@2@I_N@Z,0x00043270,Open-BFME5 a callee of a vector push_back
 ?_M_insert_overflow@?$vector@URva0081D280Element@@V?$allocator@URva0081D280Element@@@_STL@@@_STL@@IAEXPAURva0081D280Element@@ABU3@ABU__false_type@2@I_N@Z,0x0081D160,Open-BFME5 a callee of a vector push_back
+?_M_insert_overflow@?$vector@URva009F5B10Elem@@V?$allocator@URva009F5B10Elem@@@_STL@@@_STL@@IAEXPAURva009F5B10Elem@@ABU3@ABU__false_type@2@I_N@Z,0x009F56C0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009F5B10 calls; autopin
 ?_M_insert_overflow@?$vector@USegInfo@W3DRopeDraw@@V?$allocator@USegInfo@W3DRopeDraw@@@_STL@@@_STL@@IAEXPAUSegInfo@W3DRopeDraw@@ABU34@ABU__false_type@2@I_N@Z,0x0000AE93,pinharvest x1 (thunk)
 ?_M_insert_overflow@?$vector@UStationPointData@GarrisonContain@@V?$allocator@UStationPointData@GarrisonContain@@@_STL@@@_STL@@IAEXPAUStationPointData@GarrisonContain@@ABU34@ABU__false_type@2@I_N@Z,0x0000AE93,pinharvest x1 (thunk)
 ?_M_insert_overflow@?$vector@UTransitionInfo@State@@V?$allocator@UTransitionInfo@State@@@_STL@@@_STL@@IAEXPAUTransitionInfo@State@@ABU34@ABU__false_type@2@I_N@Z,0x0000E868,pinharvest x1 (thunk)
@@ -74184,6 +74188,7 @@ name,address,notes
 ?bfmeFindInRange@@YAPAXPAX0HPBH@Z,0x000434E6,pin 0x00582540 find_if helper ILT target
 ?bfmeFindItemE63@@YAPAUBfmeItemE63@@H@Z,0x0000E6E7,pin
 ?bfmeFindLC@BfmeKeyLC@@QAEPAUBfmeNodeLC@@XZ,0x00046538,pin
+?bfmeFindMD@BfmeHolderMD@@QAEPAVBfmeItemMD@@H@Z,0x00031A7F,pin
 ?bfmeFindModule@@YAPAVBfmeDestroyable@@XZ,0x0028CCD0,Open-BFME5 object module scan called by 0x0028CF50
 ?bfmeFindNC@@YGHPAX@Z,0x0003954A,pin
 ?bfmeFindPE@BfmeSubPE@@QAEPAHH@Z,0x00025CCA,pin
@@ -75493,6 +75498,7 @@ name,address,notes
 ?bfmeResolveGA@BfmeItemGA@@QAEPAVBfmeThingGA@@XZ,0x00003B52,pin
 ?bfmeResolveKZ@BfmeInnerKZ@@QAEPAVBfmeThingKZ@@XZ,0x000022BB,pin
 ?bfmeResolveLU@BfmeInnerLU@@QAEPAVBfmeThingLU@@XZ,0x000022BB,pin
+?bfmeResolveMD@BfmeInnerMD@@QAEPAVBfmeThingMD@@XZ,0x000022BB,pin
 ?bfmeResolveMR@BfmeInnerMR@@QAEPAVBfmeKeyMR@@XZ,0x000022BB,pin
 ?bfmeResolveMeleeTarget@Object@@QAEPAV1@H@Z,0x0000FAA6,TU-specific name for the melee target resolution helper used by AIAttackMeleeHordeWaitState
 ?bfmeResolveNW@BfmeInnerNW@@QAEPAVBfmeThingNW@@XZ,0x000022BB,pin
@@ -76031,6 +76037,7 @@ name,address,notes
 ?bfmeTest932E@BfmeThing932E@@QAEHXZ,0x00037E34,pin
 ?bfmeTest@Rva2225E0Filter@@AAE_NPAVBfmeOverridable@@_N@Z,0x0001B437,Open-BFME5 ILT the filter test whose result Rva2225E0Filter::accepts at 0x003A04A0 returns
 ?bfmeTestLB@BfmeOwnerLB@@QAE_NPAUBfmeThingLB@@@Z,0x0004250A,pin
+?bfmeTestMD@BfmeSubMD@@QAEDXZ,0x00028F74,pin
 ?bfmeTestME@BfmeThingME@@QAEHXZ,0x00003EA4,pin
 ?bfmeTestSB@@YAHXZ,0x0085B420,pin
 ?bfmeTestSKA@BfmeSubSKA@@QAEDH@Z,0x00809690,pin
@@ -76680,6 +76687,7 @@ name,address,notes
 ?computeQuickPath@AIUpdateInterface@@QAE_NPBUCoord3D@@@Z,0x00029375,requestPath retail call target thunk
 ?computeRelativeCost@@YAMPAVObject@@0PAM@Z,0x000E5AD0,ResourceGatheringManager helper matched at the recovered warehouse-scan call target
 ?computeSecond@Rva000E92B0Owner@@AAEHXZ,0x0001FD02,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x000E92B0 calls; autopin
+?compute_static_sort_levels@MeshModelClass@@QAEXXZ,0x0096DD80,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0094E060 calls; autopin
 ?concat@AsciiString@@QAEXPBD@Z,0x00006DB6,hit-decoded x2 (thunk)
 ?concat@AsciiString@@QAEXPBDH@Z,0x00887D60,TeamInQueue disband call pin
 ?concat@BfmeSmallScaleDownString@@QAEXPBDH@Z,0x00887D60,Open-BFME5 view-class spelling of the two-argument concat already pinned as ?concat@AsciiString@@QAEXPBDH@Z; BFME passes an explicit length where the vendored declaration takes only the pointer
@@ -77545,6 +77553,7 @@ name,address,notes
 ?finishTail@Rva56E070StateOwner@@QAEXXZ,0x0004895F,address-scoped state-owner tail ILT observed in both exits of retail 0x0056FD30
 ?finishTransition@Rva00493F30TransitionState@@QAEXXZ,0x00005925,Rva00493F30 transition completion thunk to assigned 0x00493EA0 body
 ?fire@BezierLaunchHelper@@QAE_NPAVObject@@00PAX@Z,0x00048D06,ILT 0x00048D06 -> 0x001E63A0; last thiscall from BezierProjectileBehavior::handle 0x001F08B0
+?fire@Rva00579160Manager@@QAEXPAXPBDHHHHHH@Z,0x00015235,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00511260 calls; autopin
 ?first@BfmeRvaCD10Base@@QAEXXZ,0x0000F510,assigned-body helper for Rva0024CD10
 ?first@Gen_00943CF0@@AAEXPAXPAPAX11@Z,0x009432B0,address-derived helper call recovered from 0x00943CF0
 ?first@Glo012F1028Sub@@QAEXXZ,0x00028051,Reviewed3C735059B marks each holder+30 pointer item+A8 true
@@ -84577,6 +84586,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolveMD@BfmeInnerMD@@QAEPAVBfmeThingMD@@XZ,0x000022BB,pin
-?bfmeFindMD@BfmeHolderMD@@QAEPAVBfmeItemMD@@H@Z,0x00031A7F,pin
-?bfmeTestMD@BfmeSubMD@@QAEDXZ,0x00028F74,pin
