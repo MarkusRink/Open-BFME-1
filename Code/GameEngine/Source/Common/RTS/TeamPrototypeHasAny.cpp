@@ -21,17 +21,40 @@
 // feeds goes straight to the exit because an iterator that is done stays done.
 // That iterator was written out four times, once per file.
 //
-// The one real disagreement between the four is worth stating rather than
-// smoothing over. Three of them declare BitFlags as a template whose array
-// size is computed, (NUMBITS + 31) / 32, which gives BitFlags<192> its six
-// dwords. The fourth declares the same template with the array hardcoded to
-// two dwords and NUMBITS ignored -- and it has to, because its row's
-// decoration is V?$BitFlags@$0HE@@, which is 116 bits, while its body copies
-// exactly two dwords. 116 bits would be four dwords under the formula. The
-// decoration and the size are both observations and they contradict each
-// other, so this file states them as a template plus an explicit
-// specialization instead of letting one silently override the other, which is
-// what a template ignoring its own parameter was doing.
+// The one real disagreement between the four used to be left open here: three
+// of them declare BitFlags as a template whose array size is computed,
+// (NUMBITS + 31) / 32, which gives BitFlags<192> its six dwords, while the
+// fourth hardcodes two dwords and ignores NUMBITS, because its row's
+// decoration V?$BitFlags@$0HE@@ says 116 bits -- four dwords -- and its body
+// copies exactly two. Retail settles it, and the answer is that the DECORATION
+// is wrong, in width and in shape both. The formula is not the problem.
+//
+// A __thiscall member pops its own stack arguments, so the terminal `ret N` is
+// the parameter block measured rather than inferred. 0x000F70C0 ends `ret 8`.
+// Two controls say the formula reproduces retail wherever the decoration is
+// sound: ?clearStatus@Object@@QAEXV?$BitFlags@$0CN@@@@Z is 45 bits, two dwords
+// predicted and `ret 8` measured; the sibling at 0x000F7020 is 192 bits, six
+// dwords plus a Bool predicted and `ret 0x1c` measured. Only $0HE@ misses, and
+// it misses by half.
+//
+// It is not one 8-byte argument either. 0x000F70C0 forwards through ILT
+// 0x0003CCD1 to 0x000F4B60, and that body loads [esp+0x14] into ecx as a THIS
+// pointer for a member call and reads [esp+0x18] as a BYTE. So the eight bytes
+// are two parameters -- a pointer and a Bool -- not a struct of any width, and
+// the hardcoded array is right for a reason that has nothing to do with
+// BitFlags. The Bool is the same trailing bfmeFlag the rest of this family
+// carries.
+//
+// 116 is Zero Hour's KINDOF_COUNT, inherited with the name. BFME's own KindOf
+// table is a NUL-terminated pointer array at file offset 0x00EAA068 holding 181
+// names, OBSTACLE and SELECTABLE and IMMOBILE through to MOVE_FOR_NOONE, and
+// 181 bits round to exactly the 192 the sibling overload already uses. So the
+// KindOf mask in this binary is six dwords, and no BitFlags here is four.
+//
+// What is still open is only the replacement name: the pointer's class would be
+// named by the member function it is `this` for, and that callee is the
+// unidentified dump at 0x003A04A0. Until that has a name this row keeps its
+// wrong one rather than trading it for a guess.
 
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
