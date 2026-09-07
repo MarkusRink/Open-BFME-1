@@ -21,7 +21,10 @@ git diff --quiet || { echo "hub working tree is dirty; commit or clean it first"
 git fetch -q "$CLONE" HEAD || { echo "cannot fetch $CLONE"; exit 3; }
 
 picked=0
-for c in $(git rev-list --reverse HEAD..FETCH_HEAD); do
+# git cherry compares patch ids, so a commit already collected under a
+# different hash is correctly excluded; git rev-list would re-offer it and
+# every re-pick would come back empty and be reported as a conflict.
+for c in $(git cherry HEAD FETCH_HEAD | sed -n 's/^+ //p'); do
     if git cherry-pick -x "$c" >/dev/null 2>&1; then
         picked=$((picked+1))
     elif git checkout --theirs -- reverse/functions.csv reverse/symbols.csv 2>/dev/null \
