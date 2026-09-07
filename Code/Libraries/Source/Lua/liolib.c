@@ -1,4 +1,4 @@
-// cl: /MD
+// cl: /MD /O2
 /* Lua 4.0.1 (TeCGraf, PUC-Rio), lua.org lua-4.0.1.tar.gz, flattened from
    src/, src/lib/, src/luac/ and include/.  Statically linked into
    lotrbfme.exe behind GameLogic/ScriptEngine/LuaScriptEngine.cpp.
@@ -75,7 +75,7 @@ typedef struct IOCtrl {
 static const char *const filenames[] = {"_INPUT", "_OUTPUT"};
 
 
-static int pushresult (lua_State *L, int i) {
+static __forceinline int pushresult (lua_State *L, int i) {
   if (i) {
     lua_pushuserdata(L, NULL);
     return 1;
@@ -85,6 +85,19 @@ static int pushresult (lua_State *L, int i) {
     lua_pushstring(L, strerror(errno));
     lua_pushnumber(L, errno);
     return 3;;
+  }
+}
+
+static __forceinline int pushresult_close (lua_State *L, int i) {
+  if (i) {
+    lua_pushuserdata(L, NULL);
+    return 1;
+  }
+  else {
+    lua_pushnil(L);
+    lua_pushstring(L, "generic I/O error");
+    lua_pushnumber(L, -1.0);
+    return 3;
   }
 }
 
@@ -165,7 +178,7 @@ static int closefile (lua_State *L, IOCtrl *ctrl, FILE *f) {
 static int io_close (lua_State *L) {
   IOCtrl *ctrl = (IOCtrl *)lua_touserdata(L, -1);
   lua_pop(L, 1);  /* remove upvalue */
-  return pushresult(L, closefile(L, ctrl, getnonullfile(L, ctrl, 1)));
+  return pushresult_close(L, closefile(L, ctrl, getnonullfile(L, ctrl, 1)));
 }
 
 
@@ -727,4 +740,3 @@ LUALIB_API void lua_iolibopen (lua_State *L) {
   luaL_openl(L, iolib);
   openwithcontrol(L);
 }
-
