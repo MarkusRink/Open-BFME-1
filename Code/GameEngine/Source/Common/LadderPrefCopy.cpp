@@ -1,6 +1,8 @@
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 
+// Give VC7.1 a declared pair destructor that explicit instantiation can emit.
+#define _STLP_TRIVIAL_DESTRUCTOR_BUG
 #include <utility>
 
 class AsciiString;
@@ -52,3 +54,4 @@ LadderPref::LadderPref(const LadderPref &source)
 
 typedef std::pair<const long, LadderPref> LadderPrefPair;
 template LadderPrefPair::pair(const long &, const LadderPref &);
+template LadderPrefPair::~pair();
