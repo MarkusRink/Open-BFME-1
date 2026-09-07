@@ -84752,6 +84752,7 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeNotifyVM@BfmeOwnerVM@@QAEXPAVBfmeItemVM@@@Z,0x0003B372,pin
 ?bfmeScaleXW@BfmeSubXW@@QAEMXZ,0x0000D7B5,pin
 ?bfmeFillXW@@YAXPAUBfmeVec3XW@@@Z,0x000107EE,pin
+?bfmeFillSmall@@YA_NHHHVBfmeSmallFillRange@@@Z,0x008F82A0,PartitionData small-fill range helper called by doSmallFill at 0x008F83F0
 ??0BfmeLocalZP@@QAE@XZ,0x0000A628,pin
 ?bfmeLowerRQ@@YAPAPAXPAPAX00UBfmeCmpRQ@@H@Z,0x00016B21,pin
 ?bfmeInsertRQ@BfmeVecRQ@@QAEXPAPAX0@Z,0x00034D7E,pin
