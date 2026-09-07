@@ -25,6 +25,12 @@
 #include "sphere.h"
 #include "multilist.h"
 #include "chunkio.h"
+#include "sharebuf.h"
+#include "vector4.h"
+#include "vector3i.h"
+#include "w3d_file.h"
+
+typedef Vector3i16 TriIndex;
 
 class MeshGeometryClass;
 
@@ -42,6 +48,17 @@ class MeshGeometryClass : public W3DMPO, public RefCountClass, public MultiListO
 {
 protected:
     bool read_aabtree(ChunkLoadClass &cload);
+    bool read_triangles(ChunkLoadClass &cload);
+    enum FlagsType { DIRTY_PLANES = 0x00000002 };
+    void Set_Flag(int flag, bool onoff)
+    {
+        if (onoff) Flags |= flag;
+        else Flags &= ~flag;
+    }
+    int Get_Polygon_Count(void) const { return PolyCount; }
+    TriIndex *get_polys(void) { return Poly->Get_Array(); }
+    Vector4 *get_planes(bool create = true);
+    uint8 *Get_Poly_Surface_Type_Array(void) { return PolySurfaceType->Get_Array(); }
 
 protected:
     void *UserText;               // BFME this+0x10
@@ -51,7 +68,7 @@ protected:
     uint32 W3dAttributes;         // BFME this+0x20
     int PolyCount;                // BFME this+0x24
     int VertexCount;              // BFME this+0x28
-    void *Poly;                   // BFME this+0x2c
+    ShareBufferClass<TriIndex> *Poly; // BFME this+0x2c
     void *Vertex;                 // BFME this+0x30
     void *Slot34;                 // BFME this+0x34
     void *Slot38;                 // BFME this+0x38
@@ -64,7 +81,7 @@ protected:
     void *Slot54;                 // BFME this+0x54
     void *Slot58;                 // BFME this+0x58
     void *Slot5c;                 // BFME this+0x5c
-    void *Slot60;                 // BFME this+0x60
+    ShareBufferClass<uint8> *PolySurfaceType; // BFME this+0x60
     void *Slot64;                 // BFME this+0x64
     Vector3 BoundBoxMin;          // BFME this+0x68
     Vector3 BoundBoxMax;          // BFME this+0x74
@@ -79,5 +96,39 @@ bool MeshGeometryClass::read_aabtree(ChunkLoadClass &cload)
     CullTree = NEW_REF(AABTreeClass,());
     CullTree->Load_W3D(cload);
     CullTree->Set_Mesh(this);
+    return true;
+}
+
+// BFME triangle reader at 0x00925200, complete 190 bytes. Mesh chunk
+// W3D_CHUNK_TRIANGLES calls this inherited geometry method. The GeneralsMD
+// body reads 32-byte W3dTriStruct records into 16-bit indices, plane equations
+// and surface types. The failure RET 4 ends at 0x009252BD; padding starts BE.
+// ?read_triangles@MeshGeometryClass@@IAE_NAAVChunkLoadClass@@@Z
+bool MeshGeometryClass::read_triangles(ChunkLoadClass &cload)
+{
+    W3dTriStruct tri;
+
+    TriIndex *vi = get_polys();
+    Set_Flag(DIRTY_PLANES, false);
+    Vector4 *peq = get_planes();
+    uint8 *surface_types = Get_Poly_Surface_Type_Array();
+
+    for (int i = 0; i < Get_Polygon_Count(); i++) {
+        if (cload.Read(&tri, sizeof(W3dTriStruct)) != sizeof(W3dTriStruct)) {
+            return false;
+        }
+
+        vi[i].I = tri.Vindex[0];
+        vi[i].J = tri.Vindex[1];
+        vi[i].K = tri.Vindex[2];
+
+        peq[i].X = tri.Normal.X;
+        peq[i].Y = tri.Normal.Y;
+        peq[i].Z = tri.Normal.Z;
+        peq[i].W = -tri.Dist;
+
+        surface_types[i] = (uint8)tri.Attributes;
+    }
+
     return true;
 }
