@@ -76445,6 +76445,7 @@ name,address,notes
 ?calculateZonesIncremental@PathfindZoneManager@@AAEXPAPAVPathfindCell@@QAVPathfindLayer@@ABUIRegion2D@@@Z,0x00033BEA,BFME incremental zone step ILT to 0x00408AD0
 ?call2@BfmeTargetF63@@QAEXPAX@Z,0x00002A59,pin
 ?call@ArmorMapHelperShim@@QBE_NABV?$BitFlags@$0L@@@0@Z,0x00140740,incremental-link thunk target through a TU-local forwarding shim
+?clearEmoticon@Drawable@@QAEXXZ,0x00017BED,BFME Drawable clearEmoticon ILT reached by the expired-emoticon branch at 0x00414AF0
 ?call@BfmeObj412@@QAEXPAX0@Z,0x00049A80,pin
 ?call@BfmeTargetF5F@@QAEXPAX@Z,0x000160D1,pin
 ?call@Gen0000C4F0@@QAEXPAVY1ForEachArg@@@Z,0x0000C4F0,element callee of the 0x003D0FE0 for-each loop reached via incremental-link thunk; address-derived name
