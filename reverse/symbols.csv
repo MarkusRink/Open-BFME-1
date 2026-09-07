@@ -23767,6 +23767,7 @@ name,address,notes
 ?b_00141320@@YAXXZ,0x00141320,gen-thunk body
 ?b_00141520@@YAXXZ,0x00141520,gen-thunk body
 ?b_001415d0@@YAXXZ,0x001415D0,gen-thunk body
+?clearModuleDataWithTag@ModuleInfo@@QAE_NABVAsciiString@@AAV2@@Z,0x001415D0,ModuleInfo clearModuleDataWithTag body identified by four calls in ThingTemplate removeModuleInfo
 ?b_001416f0@@YAXXZ,0x001416F0,gen-thunk body
 ?b_00141770@@YAXXZ,0x00141770,gen-thunk body
 ?b_001417f0@@YAXXZ,0x001417F0,gen-thunk body
