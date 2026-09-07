@@ -84856,3 +84856,5 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?read_texture_stage@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096ED60,rel32 pin for read_material_pass
 ?read_vertex_material_ids@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D300,rel32 pin for read_material_pass
 ?ReleaseResources@W3DSnowManager@@QAEXXZ,0x000491C5,ILT thunk for the ReleaseResources() call that opens W3DSnowManager::ReAcquireResources at 0x00723FB0 (upstream W3DSnow.cpp:79)
+_g_bfmeGuardXH,0x00F0B254
+_bfmeLockXH,0x0082C760
