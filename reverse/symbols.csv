@@ -84877,3 +84877,6 @@ _bfmeLockXH,0x0082C760
 ??0BfmeParticleSystemHandle@@QAE@PAVParticleSystem@@@Z,0x00042A87,temporary owner-linked handle constructor called by ParticleSystem::createParticle at 0x005D0040
 ??0Particle@@QAE@ABVBfmeParticleSystemHandle@@PBVParticleInfo@@@Z,0x0001485D,BFME particle constructor called by ParticleSystem::createParticle at 0x005D0040; the constructor stores the handle as its 0x4C member
 ?removeOldestParticles@ParticleSystemManager@@QAEHIW4ParticlePriorityType@@@Z,0x00008B0C,BFME particle-limit helper called by ParticleSystem::createParticle at 0x005D0040
+?getStaticDiffuse@BfmeA1087@@QAEHHH@Z,0x0002B04E,ILT thunk for the terrain getStaticDiffuse the RoadSegment lighting loop at 0x007040D0 calls (body 0x006CC7B0)
+__real@3FE0000000000000,0x00C9B3F0,MSVC double constant 0.5 read by the RoadSegment lighting loop at 0x007040D0
+?erase@W3DProjectileStreamResources@@QAEXPAX0@Z,0x00007A45,ILT thunk for the resources clear the W3DProjectileStreamDraw ctor at 0x00369FD0 performs (body 0x001D2940)
