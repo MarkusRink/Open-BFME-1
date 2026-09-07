@@ -105,6 +105,7 @@ public:
 #include "GameLogic/Scripts.h"
 #include "GameLogic/PartitionManager.h"
 #include "GameLogic/SidesList.h"
+#include "GameLogic/TerrainLogic.h"
 #include "GameLogic/Squad.h"
 #include "GameLogic/RankInfo.h"
 #include "GameLogic/ScriptEngine.h"
@@ -150,3 +151,8 @@ EMIT_POOL_GLUE_DELETE( WeaponBonusSet )
 EMIT_POOL_GLUE_DELETE( WeaponTemplate )
 EMIT_POOL_GLUE_DELETE( ThingTemplate )
 EMIT_POOL_GLUE_DELETE( ProductionEntry )
+
+// TerrainLogic.cpp's two: Waypoint's own copy was one displacement wrong and
+// Bridge's was not emitted there at all (nothing in that TU takes its address).
+EMIT_POOL_GLUE_DELETE( Waypoint )
+EMIT_POOL_GLUE_DELETE( Bridge )
