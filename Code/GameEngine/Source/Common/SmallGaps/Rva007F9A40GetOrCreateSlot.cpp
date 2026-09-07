@@ -2,11 +2,16 @@
 // Address-derived: find-or-allocate a BfmeSlotVPE (class/struct reused from
 // Code/GameEngine/Source/Common/BfmeConv1559.cpp), then fill it from a
 // 12-byte source key struct plus two extra int fields.
+#pragma intrinsic(strcmp)
+extern "C" int strcmp(const char *, const char *);
+
 struct Rva007F9A40Key
 {
-	int a;
-	int b;
+	const char *a;
+	const char *b;
 	int c;
+
+	bool matches(const Rva007F9A40Key *other) const;
 };
 
 struct BfmeSlotVPE
@@ -29,6 +34,15 @@ public:
 
 	BfmeSlotVPE* rva007F9A40GetOrCreateSlot(const Rva007F9A40Key* key, int a4, int a5);
 };
+
+bool Rva007F9A40Key::matches(const Rva007F9A40Key *other) const
+{
+	if (strcmp(a, other->a) != 0)
+		return false;
+	if (c != 0)
+		return c == other->c;
+	return strcmp(b, other->b) == 0;
+}
 
 extern void d_007f9530();
 
