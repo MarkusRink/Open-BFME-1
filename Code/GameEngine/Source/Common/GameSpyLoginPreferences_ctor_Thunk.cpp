@@ -6,8 +6,9 @@
 // UserPreferences occupies +0x00..+0x13, the three STLport maps occupy
 // +0x14, +0x20, and +0x2c, and the constructor finishes by loading the default
 // GameSpyLogin.ini through the derived virtual load slot.  This ABI slice is
-// deliberately local; the original naked recovery TU remains as evidence
-// until this name and body are byte-verified.
+// deliberately local; the original naked recovery TU was retired only after
+// this constructor name and body were byte-verified.  Its exact bytes remain
+// recoverable through the tombstone recorded for the former false getEmails row.
 
 #include <map>
 #include <list>
