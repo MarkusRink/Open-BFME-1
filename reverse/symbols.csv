@@ -85871,3 +85871,4 @@ _bfmeVftCEVK,0x00D12DA4,pin vftable for BfmeConv2001
 ?TheBfmeAwakenDebug@@3PAVBfmeAwakenDebug@@A,0x01336E5C,shared diagnostic manager global; awake scheduler38D97F and38D98D use proven debug callsite8896A0 then slots60/6C identical matched debug forwarding family
 ??0Gen_006BC530@@QAE@XZ,0x006BC530,Existing25B neutral constructor body; factory6BAE20 allocates12B then reaches it via ILT2BA49; own vtable111CF68 slot8 name getter6BC550 returns W3DBuffLogic
 ?bfmeRunEAH@Rva00579160Manager@@QAEXXZ,0x000290D2,pin run thunk for BfmeConv2007
+?processDestroyList@GameLogic@@AAEXXZ,0x0038AE90,Real438B body completes deferred destruction from matched destroyObject38B0C0 and prepareLogicForObjectLoad38B2C0; module vector removal then unlink/hash erase/delete and list clear; completeboundary38B046
