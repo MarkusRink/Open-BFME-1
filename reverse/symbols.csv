@@ -85850,3 +85850,7 @@ _bfmeVtblEVD,0x00CF3920,pin vftable data for BfmeConv1995
 ?push_back@BFMECRCStreamList@@QAEXABQAVBfmeByteStream@@@Z,0x00387F20,processLogicCRC 0x0038B4D7 passes address of CRCRecord+0x10 stream into GameLogic+0x4C list via 0x0001DEBC; 45B existing STLport pointer-list body has same 12B node and copied four-byte pointer
 ?size@BFMECRCStreamList@@QBEIXZ,0x00387F00,processLogicCRC 0x0038B4DE via 0x0002B571 counts nodes of same captured-stream list before comparing retained-frame count+3; existing 24B STLport list size body
 ?takeBuffer@BfmeByteStream@@QAEPAXPAH@Z,0x009CB1F0,processLogicCRC 0x0038B50C passes out-length pointer then frees returned buffer; exact BfmeThingEC::bfmeTakeEC body returns +0x14 buffer and outputs +0x18 count while clearing ownership fields then vslot8
+?bfmeResolveEVH@@YIPAVBfmeThingEVH@@PAVBfmeSubEVH@@@Z,0x000022BB,pin resolve thunk for BfmeConv1998
+?bfmeNotifyEVH@BfmeSinkEVH@@QAEX_N@Z,0x0004326B,pin notify thunk for BfmeConv1998
+?bfmeResolveEVI@@YIPAVBfmeThingEVI@@PAVBfmeSubEVI@@@Z,0x000022BB,pin resolve thunk for BfmeConv1999
+?bfmeNotifyEVI@BfmeSinkEVI@@QAEX_N@Z,0x0004326B,pin notify thunk for BfmeConv1999
