@@ -81,7 +81,7 @@ Bool LANGameSlot::isUser( LANPlayer *user )
 	return (user && m_state == SLOT_PLAYER && user->getIP() == getIP());
 }
 
-// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/LANGameSlotUserName.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameNetwork/LANGameInfoSlotLookup.cpp
 Bool LANGameSlot::isUser( UnicodeString userName )
 {
 	return (m_state == SLOT_PLAYER && !userName.compareNoCase(getName()));
