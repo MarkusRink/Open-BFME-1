@@ -60,7 +60,26 @@ public:
 	unsigned int m_frame;
 };
 
-extern void _bfme_updateDebugWindowInputs(void);
+void _bfme_updateDebugWindowInputs(void);
+
+// The subsystems the debug window is handed each frame. Only the two the pumps
+// also touch are reached through the macros below; the rest keep their pinned
+// extern spellings.
+class AudioManager;
+class GlobalData;
+class NameKeyGenerator;
+class View;
+class TerrainLogic;
+
+extern ScriptEngine *TheScriptEngine;
+extern AudioManager *TheAudio;
+extern GlobalData *TheWritableGlobalData;
+extern NameKeyGenerator *TheNameKeyGenerator;
+extern View *TheTacticalView;
+extern TerrainLogic *TheTerrainLogic;
+// 0x012EF1D8 has only address-derived pins so far (placeBuildAvailable casts
+// it to a thing factory); keep the untyped pin rather than invent a class.
+extern void *g_global12EF1D8;
 
 #define TheScriptDebugWindowDLL (*(void **)0x012F0758)
 #define ClientCanAppContinue (*(bool *)0x012F075C)
@@ -80,6 +99,33 @@ bool ScriptEngine::_bfme_isClientFrameFrozen(void)
 	if (!m_useLogicDebugFrame && TheScriptDebugWindowDLL)
 		return !ClientCanAppContinue;
 	return false;
+}
+
+void _bfme_updateDebugWindowInputs(void)
+{
+	if (!TheScriptDebugWindowDLL)
+		return;
+
+	typedef void (__cdecl *SetTheSidesListProc)(
+		void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+	FarProc proc = GetProcAddress(TheScriptDebugWindowDLL, "SetTheSidesList");
+	if (proc)
+	{
+		((SetTheSidesListProc)proc)(
+			// no symbols.csv pin names this global yet; the export name
+			// suggests TheSidesList but nothing in the ledger proves it
+			*(void **)0x012EF428,
+			TheScriptEngine,
+			TheAudio,
+			TheWritableGlobalData,
+			TheNameKeyGenerator,
+			0,
+			0,
+			TheTacticalView,
+			TheTerrainLogic,
+			g_global12EF1D8,
+			TheGameLogic);
+	}
 }
 
 void ScriptEngine::_bfme_updateLogicDebugFrame(void)
