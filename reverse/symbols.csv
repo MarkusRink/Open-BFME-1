@@ -84714,3 +84714,5 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?d_008930c0@@YAPAXH@Z,0x008930C0,typed one-argument call alias for the address-derived Apt lookup helper
 ?bfmeSendXY@@YGXPAXUBfmePairXY@@@Z,0x000299CE,pin
 ?bfmeNotifyVT@BfmeOwnerVT@@QAEXXZ,0x000030B2,pin
+?bfmeBaseInitZQ@BfmeOwnerZQ@@QAEXPAX000HH@Z,0x0090CF90,pin
+?BfmeVfZQ@@3HA,0x00D1DFB0,pin
