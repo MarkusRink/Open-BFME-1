@@ -169217,3 +169217,6 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
+??1CameraMarker@@QAE@XZ,0x00028984,BFME camera marker node destructor ILT called by CameraMarkerList::clear
+?fill@TaintBufferFillThunk@@QAEXE@Z,0x0002CFE3,callee pin used by TaintBuffer::init
+?reacquire@TaintBufferReAcquireThunk@@QAEXXZ,0x000357D3,callee pin used by TaintBuffer::init
