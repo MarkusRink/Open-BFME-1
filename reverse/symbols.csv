@@ -85557,3 +85557,4 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeShowDN@ControlBar@@QAEXPAUBfmeMsgDN@@@Z,0x00043702
 ?get_vert_normals@MeshGeometryClass@@IAEPAVVector3@@_N@Z,0x00927230,BFME normal reader9274C0 calls927230; helper selects normal buffers40/44 and named VertexNorm allocation anchor
 ?Get_Texture_Name@BfmeHandleCX@@QBE?AVStringClass@@XZ,0x008FF5B0,BFME legacy texture-name comparison96F45B/96F477; handle dereference and name slot then StringClass copy ctor8FF470
+??1BfmeHandleCX@@QAE@XZ,0x00030652,route=0x0005CC00; MaterialCollector texture array cleanup; body dereferences handle then tail-calls TextureClass Release_Ref9EB7A0
