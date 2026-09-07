@@ -9860,6 +9860,7 @@ name,address,notes
 ??_C@_0DK@MIJFPIGG@invalid?5GameLODLevel?5token?5?$CFs?5?9?9@,0x01076BCC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0007BCF0 calls; autopin
 ??_C@_0DO@NADNCPBE@Unknown?5command?5?8?$CFs?8?5found?5in?5co@,0x010FB7C4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0049C7C0 calls; autopin
 ??_C@_0GC@JMANMIHN@AttributeModifierAuraUpdate?4?4?4?5A@,0x010BAD58,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00280040 calls; autopin
+??_C@_0GH@DGLCHLCD@Watchdog?3?5Parent?5thread?5?$CIID?5?$CFd?$CJ?5@,0x01088DB8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0010B8A0 calls; autopin
 ??_C@_0L@BJCDJCGK@UpgradeDie?$AA@,0x00C90838,pool-glue cascade static (back-solved)
 ??_C@_0L@BJHONFCE@DestroyDie?$AA@,0x00C908C0,pool-glue cascade static (back-solved)
 ??_C@_0L@OBFJOAEI@MODE?5?$CFs?5?$CLb?$AA@,0x00D311D8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00861470 calls; autopin
@@ -10251,6 +10252,7 @@ name,address,notes
 ?Copy@DX8VertexBufferClass@@QAEXPBVVector3@@PBVVector2@@II@Z,0x0091E690,DX8VertexBufferClass ctor copy helper
 ?Copy@DX8VertexBufferClass@@QAEXPBVVector3@@PBVVector2@@PBVVector4@@II@Z,0x0091EDE0,DX8VertexBufferClass ctor copy helper
 ?Create@AptInteger@@SAPAV1@H@Z,0x008A11E0,EA Apt 2.00.00 integer factory called by the ActionScript BitAnd handler
+?Create@AptInteger@@SAPAVAptValue@@H@Z,0x008A11E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A5330 calls; autopin
 ?Create_Device@DX8Wrapper@@KA_NXZ,0x0090AE60,retail call target for Set_Render_Device
 ?Create_New_Particles@ParticleEmitterClass@@AAEXABVQuaternion@@ABVVector3@@@Z,0x0097F930,rel32 pin for exact-ambiguous landing
 ?Create_Vertex_Buffer@DX8VertexBufferClass@@IAEXW4UsageType@1@@Z,0x0091E0C0,DX8VertexBufferClass ctor helper
@@ -10959,6 +10961,8 @@ name,address,notes
 ?Rva008A4AC0First@@3PAURva008A4AC0Object@@A,0x01337AC0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4AC0 calls; autopin
 ?Rva008A4AC0Second@@3PAURva008A4AC0Object@@A,0x01337AC4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4AC0 calls; autopin
 ?Rva008A4EA0MakeFloat@@YAPAVAptValue@@M@Z,0x008A4CD0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4EA0 calls; autopin
+?Rva008A5250KeyTable@@3QBHB,0x011364B0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A5330 calls; autopin
+?Rva008A5250LastKey@@3IA,0x013387AC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A5330 calls; autopin
 ?Rva008A5380Holder@@3PADA,0x013377D8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A53D0 calls; autopin
 ?Rva008A53D0MakeBool@@YAPAVAptValue@@H@Z,0x008996B0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A53D0 calls; autopin
 ?Rva008AE770TheStack@@3URva008AE770Stack@@A,0x01338748,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AE770 calls; autopin
@@ -74648,6 +74652,7 @@ name,address,notes
 ?bfmeGet979B@BfmeKey979@@QAEPAUBfmeX979@@XZ,0x00020824,pin
 ?bfmeGet992C@BfmeAsk992@@QAEHXZ,0x007E88B0,pin
 ?bfmeGet@BfmeFourSlotTable@@QAEPAVBfmeFourSlotEntry@@H@Z,0x003C8E9,address-derived four-slot table lookup
+?bfmeGetARC@BfmeOwnerRC@@QAEPAXXZ,0x0004B12D,pin
 ?bfmeGetAUZA@BfmeSubAUZA@@QBE?AUBfmeHandleUZA@@HH@Z,0x009292E0,pin
 ?bfmeGetAllocator003D32D0@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBE?AV?$allocator@PAX@2@XZ,0x0002CE4E,Open-BFME5 address-scoped STLport get_allocator ILT to body 0x003D32D0 used by the key-map copy constructor
 ?bfmeGetAllocator@BfmeVector12DK@@QBEPAUBfmeAllocatorDK@@PAU2@@Z,0x00008580,vector allocator copy thunk
@@ -74656,6 +74661,7 @@ name,address,notes
 ?bfmeGetAllocator@Gen_0036e170@@ABE?AVBfmeAllocator@@XZ,0x000441BB,Open-BFME5 ILT the copy constructor at 0x0036E170 gets its allocator through
 ?bfmeGetAllocator@Gen_005862c0@@ABE?AVBfmeAllocator@@XZ,0x0003FFB7,Open-BFME5 ILT the copy constructor at 0x005862C0 gets its allocator through
 ?bfmeGetArrVGR@BfmeMeshVGR@@QAEPAUBfmeTexBufVGR@@HH_N@Z,0x0092BE50,pin
+?bfmeGetBRC@BfmeOwnerRC@@QAEPAXXZ,0x00040246,pin
 ?bfmeGetBS@BfmeInnerBS@@QAEPAVBfmeCtxBS@@XZ,0x000022BB,pin
 ?bfmeGetBUZA@BfmeSubBUZA@@QBE?AUBfmeHandleUZA@@HH@Z,0x0092C9D0,pin
 ?bfmeGetBonus@BfmeVisionBonusSource@@QAE_NHPAM@Z,0x000282D6,Open-BFME5 TU-local Object.cpp ABI view of the AttributeModifierPoolUpdate additive bonus method
@@ -75562,6 +75568,7 @@ name,address,notes
 ?bfmeResolvePE@BfmeInnerPE@@QAEPAVBfmeThingPE@@XZ,0x000022BB,pin
 ?bfmeResolvePX@BfmeInnerPX@@QAEPAVBfmeThingPX@@XZ,0x000022BB,pin
 ?bfmeResolveQD@BfmeInnerQD@@QAEPAVBfmeThingQD@@XZ,0x000022BB,pin
+?bfmeResolveRC@BfmeInnerRC@@QAEPAVBfmeThingRC@@XZ,0x000022BB,pin
 ?bfmeResolveTM@BfmeInnerTM@@QAEPAVBfmeThingTM@@XZ,0x000022BB,pin
 ?bfmeResolveVQ@BfmeInnerVQ@@QAEPAVBfmeThingVQ@@XZ,0x000022BB,pin
 ?bfmeResolveWQ@BfmeInnerWQ@@QAEPAVBfmeThingWQ@@XZ,0x000022BB,pin
@@ -75687,6 +75694,7 @@ name,address,notes
 ?bfmeSendEventA11@@YAXPAX00IH@Z,0x000023E2,pin
 ?bfmeSendEventA19@@YAXPAX00IH@Z,0x00049896,pin
 ?bfmeSendJP@@YAXPAXPAHH@Z,0x00048D38,pin
+?bfmeSendRC@BfmeOwnerRC@@QAEDPAVBfmeUnitRC@@PAVBfmeHolderRC@@PAX222@Z,0x00036EA3,pin
 ?bfmeSendRM@BfmeSinkRM@@QAEXPAXH@Z,0x00006613,pin
 ?bfmeSendSKA@BfmeSinkSKA@@QAEXHHH@Z,0x00804010,pin
 ?bfmeSendTM@BfmeOwnerTM@@QAEXPAVBfmeMsgTM@@@Z,0x0003B372,pin
@@ -78237,7 +78245,7 @@ name,address,notes
 ?g_bfmeK1058@@3PAVBfmeK1058@@A,0x00EF70E8,pin
 ?g_bfmeK1239@@3MB,0x00C75334,pin
 ?g_bfmeK1240@@3MB,0x00C75334,pin
-?g_bfmeK1253@@3MB,0x00C7533C,pin
+?g_bfmeK1253@@3MB,0x0107533C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4E40 calls; autopin
 ?g_bfmeK1254@@3MB,0x00C75C74,pin
 ?g_bfmeK1256@@3MB,0x00C75C74,pin
 ?g_bfmeK1257@@3MB,0x00C7533C,pin
@@ -78431,6 +78439,8 @@ name,address,notes
 ?g_bfmeOneATC@@3PAVBfmeOneATC@@A,0x00EF19E8,pin
 ?g_bfmeOneSJA@@3PADA,0x00EF19B8,pin
 ?g_bfmeOneTXB@@3PAVBfmeResTXB@@A,0x00F4D060,pin
+?g_bfmeOptionSlotsA@@3PAURva00920AE0Slot@@A,0x01346C50,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00920AE0 calls; autopin
+?g_bfmeOptionSlotsB@@3PAURva00920AE0Slot@@A,0x01346CF0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00920B50 calls; autopin
 ?g_bfmeOut982@@3PAVBfmeOut982@@A,0x00EED83C,pin
 ?g_bfmeOwnerVHM@@3HC,0x00F40584,pin
 ?g_bfmeP1024@@3PAVBfmeP1024@@A,0x00F4FAAC,pin
@@ -84672,7 +84682,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolveRC@BfmeInnerRC@@QAEPAVBfmeThingRC@@XZ,0x000022BB,pin
-?bfmeGetARC@BfmeOwnerRC@@QAEPAXXZ,0x0004B12D,pin
-?bfmeGetBRC@BfmeOwnerRC@@QAEPAXXZ,0x00040246,pin
-?bfmeSendRC@BfmeOwnerRC@@QAEDPAVBfmeUnitRC@@PAVBfmeHolderRC@@PAX222@Z,0x00036EA3,pin
