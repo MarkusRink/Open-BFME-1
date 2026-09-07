@@ -1,11 +1,5 @@
-// ?startSlavedEffects@SlavedUpdate@@QAEXPBVObject@@@Z
-// partial score=0.7 date=2026-09-02
 // cl: /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB
 // stlport
-//
-// SlavedUpdate::startSlavedEffects, retail 0x002A4660 (Ghidra-split 12+134).
-// Null slaver bails; else cache slaver id, random heading 0..6, offset =
-// (cos,sin)*guardMaxRange, setStatus(UNSELECTABLE, true).
 
 #define _STLP_NO_EXCEPTIONS 1
 #include <bitset>
@@ -42,8 +36,8 @@ typedef BitFlags<86> ObjectStatusMaskType;
 #define MAKE_OBJECT_STATUS_MASK(k) ObjectStatusMaskType(ObjectStatusMaskType::kInit, (k))
 
 int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
-float bfmeCosVNB(float a);
-float bfmeSinVNB(float a);
+float bfmeCosVNB(float value);
+float bfmeSinVNB(float value);
 
 class Object
 {
@@ -65,8 +59,18 @@ public:
 
 class SlavedUpdate
 {
-public:
+private:
 	void startSlavedEffects(const Object *slaver);
+
+public:
+	Object *getObject() const
+	{
+		return *(Object **)((unsigned char *)this + 8);
+	}
+	SlavedUpdateModuleData *getSlavedUpdateModuleData() const
+	{
+		return *(SlavedUpdateModuleData **)((unsigned char *)this + 4);
+	}
 
 private:
 	unsigned int m_unmodelled_00;
@@ -79,14 +83,14 @@ private:
 	Real m_offsetZ;
 };
 
-// ?startSlavedEffects@SlavedUpdate@@AAEXPBVObject@@@Z
 void SlavedUpdate::startSlavedEffects(const Object *slaver)
 {
 	if (slaver == 0)
 		return;
 
 	m_slaver = slaver->getID();
-	Real dir = (Real)GetGameLogicRandomValue(
+	const SlavedUpdateModuleData *data = getSlavedUpdateModuleData();
+	Real direction = (Real)GetGameLogicRandomValue(
 		0,
 		6,
 		"F:\\bfme\\Code\\gameengine\\Source\\GameLogic\\Object\\Update\\SlavedUpdate.cpp",
@@ -94,7 +98,7 @@ void SlavedUpdate::startSlavedEffects(const Object *slaver)
 	m_offsetX = 0;
 	m_offsetY = 0;
 	m_offsetZ = 0;
-	m_offsetX += bfmeCosVNB(dir) * m_moduleData->m_guardMaxRange;
-	m_offsetY += bfmeSinVNB(dir) * m_moduleData->m_guardMaxRange;
-	m_object->setStatus(MAKE_OBJECT_STATUS_MASK(OBJECT_STATUS_UNSELECTABLE), true);
+	m_offsetX += data->m_guardMaxRange * bfmeCosVNB(direction);
+	m_offsetY += data->m_guardMaxRange * bfmeSinVNB(direction);
+	getObject()->setStatus(MAKE_OBJECT_STATUS_MASK(OBJECT_STATUS_UNSELECTABLE), true);
 }
