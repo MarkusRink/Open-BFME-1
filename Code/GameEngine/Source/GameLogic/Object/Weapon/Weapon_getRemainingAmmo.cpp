@@ -1,13 +1,15 @@
-// ?getRemainingAmmo@Weapon@@QBEI_N@Z
-// partial score=0.98 date=2026-09-04
-// ?getRemainingAmmo@Weapon@@QBEI_N@Z
-// partial score=0.94 date=2026-08-31
 // cl: /DNDEBUG /MD /EHsc
+// Open-BFME: Weapon::getRemainingAmmo(Bool), retail 0x001E5660 (111 bytes).
+// The BFME overload consults the owner's ammo provider when the template's
+// ammo descriptor is valid, with a reload-status fallback for the caller's
+// countReloadingAsEmpty flag.  The ILT at 0x00046F10 and the
+// Object::getAmmoPipShowingInfo caller establish this method's identity.
+
 typedef unsigned int UnsignedInt;
 typedef int ObjectID;
 typedef bool Bool;
 
-class BfmeAmmoDescriptor
+class ObjectFilter
 {
 public:
 	Bool isValid() const;
@@ -32,7 +34,7 @@ public:
 	virtual void slot52(); virtual void slot53(); virtual void slot54(); virtual void slot55();
 	virtual void slot56(); virtual void slot57(); virtual void slot58(); virtual void slot59();
 	virtual void slot60(); virtual void slot61(); virtual void slot62(); virtual void slot63();
-	virtual UnsignedInt getRemainingAmmo(const BfmeAmmoDescriptor *descriptor);
+	virtual UnsignedInt getRemainingAmmo(const ObjectFilter *descriptor);
 };
 
 class Object
@@ -56,7 +58,7 @@ class WeaponTemplate
 {
 public:
 	char m_padding[0x4e8];
-	BfmeAmmoDescriptor m_ammoDescriptor;
+	ObjectFilter m_ammoDescriptor;
 };
 
 enum WeaponStatus
@@ -73,28 +75,33 @@ public:
 private:
 	WeaponStatus bfmeComputeStatus(Bool *changed) const;
 
-	const WeaponTemplate *m_template;
+	WeaponTemplate *m_template;
 	ObjectID m_ownerID;
 	UnsignedInt m_weaponSlot;
 	mutable WeaponStatus m_status;
 	UnsignedInt m_ammoInClip;
 };
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+
 UnsignedInt Weapon::getRemainingAmmo(Bool countReloadingAsEmpty) const
 {
 	const WeaponTemplate *weaponTemplate = m_template;
-	if(weaponTemplate->m_ammoDescriptor.isValid())
+	if (weaponTemplate->m_ammoDescriptor.isValid())
 	{
 		Object *owner = g_bfmeAmmoGameLogic->findObjectByID(m_ownerID);
 		BfmeAmmoProvider *provider = owner ? owner->getAmmoProvider() : 0;
-		if(provider)
+		if (provider)
 		{
-			UnsignedInt remaining = provider->getRemainingAmmo(&m_template->m_ammoDescriptor);
+			const WeaponTemplate *templateForAmmo = m_template;
+			UnsignedInt remaining = provider->getRemainingAmmo(&templateForAmmo->m_ammoDescriptor);
+			_ReadWriteBarrier();
 			return remaining;
 		}
 	}
 
-	if(countReloadingAsEmpty && bfmeComputeStatus(0) == RELOADING_CLIP)
+	if (countReloadingAsEmpty && bfmeComputeStatus(0) == RELOADING_CLIP)
 		return 0;
 
 	return m_ammoInClip;
