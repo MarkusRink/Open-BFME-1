@@ -9,6 +9,7 @@
 //   0x000F7170  hasAnyObjects(Bool)                       59 bytes
 //   0x000ED6C0  findTeamByID(UnsignedInt)                 38 bytes
 //   0x000F41A0  damageTeamMembers(Real)                   46 bytes
+//   0x000F7FA0  xfer(Xfer *)                             368 bytes
 //
 // The first four stop at the first yes; the last two look for one team by id
 // and forward to every team in turn. countTeamInstances and hasAnyUnits are the
@@ -25,7 +26,17 @@
 // member Zero Hour's macros expand to, so advance() carries its own null
 // check -- that is the second test on the same register, and the branch it
 // feeds goes straight to the exit because an iterator that is done stays done.
-// That iterator was written out six times, once per file.
+// That iterator was written out SEVEN times, once per file -- xfer included,
+// which is the last of them.
+//
+// xfer is what finally makes TeamPrototype itself say something. Every walk
+// body needs only the instance-list head, so all six spelled the object as
+// 0x274 opaque bytes and a pointer. xfer names four things inside that run: the
+// class is POLYMORPHIC, with the factory at +0x04 and the owning player at
+// +0x08, the production-condition flag at +0x1C, the team template at +0x12C,
+// and the attack-priority string at +0x270 immediately before the list head.
+// The vptr it implies is why the padding here is 0x274 counted FROM the vptr
+// rather than 0x274 of nothing -- same total, and now for a reason.
 //
 // The six files disagreed about two more things, both settled here.
 //
@@ -39,8 +50,9 @@
 // pins ?_bfme_nextInInstanceList@Team@@QAEPAV1@XZ and
 // ?_bfme_nextInInstanceList@BfmeTeamInstanceLink@@QAEPAV1@XZ to the same
 // 0x00022A70, and symbols.csv already calls the second the view-class spelling
-// of the first. So the walk is spelled once here. The view class keeps its pin,
-// which TeamPrototype_xfer.cpp and Team.cpp still use.
+// of the first. So the walk is spelled once here -- and once more since, because
+// xfer arrived carrying the view-class spelling too and now uses the Team one.
+// The view class keeps its pin, which Team.cpp still uses.
 //
 // The one real disagreement between the four used to be left open here: three
 // of them declare BitFlags as a template whose array size is computed,
@@ -101,7 +113,10 @@
 // wrong one rather than trading it for a guess.
 
 typedef unsigned int UnsignedInt;
+typedef unsigned short UnsignedShort;
+typedef unsigned char UnsignedByte;
 typedef bool Bool;
+typedef int Int;
 typedef float Real;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/BitFlags.h
@@ -157,10 +172,99 @@ public:
 	// Shape only: thiscall on the team, no arguments, the next team back.
 	Team *_bfme_nextInInstanceList();				// ILT thunk at 0x00022A70
 
-private:
+	// Public because xfer both reads the id when saving and writes it into a
+	// freshly created instance when loading.
 	void *m_vptr;							// +0x00
 	void *m_proto;							// +0x04
 	UnsignedInt m_id;						// +0x08, BFME dropped ZH's second base vptr
+};
+
+class Snapshot
+{
+public:
+	virtual void crc(void);
+	virtual void xfer(void);
+	virtual void loadPostProcess(void);
+};
+
+class AsciiString
+{
+	void *m_data;
+};
+
+struct XferVersion
+{
+	UnsignedByte m_version;
+	UnsignedByte m_currentVersion;
+};
+
+class Xfer
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual Bool isSaving();
+	virtual void slot03();
+	virtual Bool isDoingCRC();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual void xferVersion(XferVersion *);
+	virtual void slot11();
+	virtual void xferSnapshot(Snapshot *);
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
+	virtual void slot16();
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot20();
+	virtual void slot21();
+	virtual void slot22();
+	virtual void slot23();
+	virtual void slot24();
+	virtual void slot25();
+	virtual void xferAsciiString(AsciiString *);
+	virtual void slot27();
+	virtual void slot28();
+	virtual void xferTeamID(UnsignedInt *);
+	virtual void xferInt(Int *);
+	virtual void xferUnsignedShort(UnsignedShort *);
+	virtual void slot32();
+	virtual void slot33();
+	virtual void slot34();
+	virtual void xferBool(Bool *);
+};
+
+class Player
+{
+public:
+	Int m_pad[9];
+	Int m_playerIndex;					// +0x24
+};
+
+class PlayerList
+{
+public:
+	Player *getNthPlayer(Int i);
+};
+
+class TeamPrototype;
+
+// Pin ?find@Rva002BD630TeamFactory@@QAEPAXH@Z @ 0x00044C2E
+class Rva002BD630TeamFactory
+{
+public:
+	void *find(Int teamID);
+};
+
+class TeamFactory
+{
+public:
+	Team *createTeamOnPrototype(TeamPrototype *proto);
 };
 
 class BfmeTeamInstanceIterator
@@ -191,6 +295,28 @@ private:
 	Team *m_cur;
 };
 
+class TeamTemplateInfo
+{
+public:
+	unsigned char m_body[0x144];
+};
+
+extern PlayerList *ThePlayerList;
+extern TeamFactory *TheTeamFactory;
+
+// The view xfer walks the instance list through. Kept as its own cast target
+// rather than folded into the member below, so that body is unchanged.
+struct BfmeTeamPrototypeInstances
+{
+	unsigned char m_unmodelled_000[0x274];
+	Team *m_teamInstanceList;
+
+	BfmeTeamInstanceIterator iterate() const
+	{
+		return BfmeTeamInstanceIterator(m_teamInstanceList);
+	}
+};
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Team.h
 class TeamPrototype
 {
@@ -201,6 +327,7 @@ public:
 	Bool hasAnyObjects( Bool bfmeFlag );
 	Team *findTeamByID( UnsignedInt teamID );
 	void damageTeamMembers( Real amount );
+	virtual void xfer( Xfer *xfer );				// vptr at +0x00
 
 private:
 	BfmeTeamInstanceIterator iterate_TeamInstanceList() const
@@ -208,7 +335,13 @@ private:
 		return BfmeTeamInstanceIterator( m_teamInstanceList );
 	}
 
-	unsigned char m_unmodelled_000[ 0x274 ];
+	void *m_factory;							// +0x04
+	Player *m_owningPlayer;							// +0x08
+	unsigned char m_mid_00c[0x1c - 0x0c];
+	Bool m_productionConditionAlwaysFalse;					// +0x1C
+	unsigned char m_mid_01d[0x12c - 0x1d];
+	TeamTemplateInfo m_teamTemplate;					// +0x12C
+	AsciiString m_attackPriorityName;					// +0x270
 	Team *m_teamInstanceList;						// +0x274
 };
 
@@ -289,5 +422,70 @@ void TeamPrototype::damageTeamMembers( Real amount )
 	for( BfmeTeamInstanceIterator iter = iterate_TeamInstanceList(); !iter.done(); iter.advance() )
 	{
 		iter.cur()->damageTeamMembers( amount );
+	}
+}
+
+// ?xfer@TeamPrototype@@UAEXPAVXfer@@@Z
+void TeamPrototype::xfer(Xfer *xfer)
+{
+	if (xfer->isDoingCRC())
+		return;
+
+	// Retail frame is 0xC: teamID @ +0, version @ +4, owningPlayerIndex @ +8.
+	// Count lives in the dead xfer* argument slot.
+	struct Frame
+	{
+		UnsignedInt teamID;
+		XferVersion version;
+		Int owningPlayerIndex;
+	};
+	Frame frame;
+	UnsignedShort teamInstanceCount;
+
+	frame.version.m_version = 1;
+	frame.version.m_currentVersion = 1;
+	xfer->xferVersion(&frame.version);
+
+	if (xfer->isSaving())
+		frame.owningPlayerIndex = m_owningPlayer->m_playerIndex;
+	xfer->xferInt(&frame.owningPlayerIndex);
+	m_owningPlayer = ThePlayerList->getNthPlayer(frame.owningPlayerIndex);
+
+	xfer->xferAsciiString(&m_attackPriorityName);
+	xfer->xferBool(&m_productionConditionAlwaysFalse);
+	xfer->xferSnapshot((Snapshot *)&m_teamTemplate);
+
+	teamInstanceCount = 0;
+	for (BfmeTeamInstanceIterator iter = ((const BfmeTeamPrototypeInstances *)this)->iterate();
+		 !iter.done();
+		 iter.advance())
+		teamInstanceCount++;
+	xfer->xferUnsignedShort(&teamInstanceCount);
+
+	if (xfer->isSaving())
+	{
+		for (BfmeTeamInstanceIterator iter = ((const BfmeTeamPrototypeInstances *)this)->iterate();
+			 !iter.done();
+			 iter.advance())
+		{
+			frame.teamID = iter.cur()->m_id;
+			xfer->xferTeamID(&frame.teamID);
+			xfer->xferSnapshot((Snapshot *)iter.cur());
+		}
+	}
+	else
+	{
+		for (UnsignedShort i = 0; i < teamInstanceCount; ++i)
+		{
+			xfer->xferTeamID(&frame.teamID);
+			Team *teamInstance = (Team *)((Rva002BD630TeamFactory *)TheTeamFactory)->find((Int)frame.teamID);
+			if (teamInstance == 0)
+			{
+				teamInstance = TheTeamFactory->createTeamOnPrototype(this);
+				if (teamInstance)
+					teamInstance->m_id = frame.teamID;
+			}
+			xfer->xferSnapshot((Snapshot *)teamInstance);
+		}
 	}
 }
