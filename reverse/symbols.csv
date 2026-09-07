@@ -85807,3 +85807,7 @@ __imp__bfmeSprintfESP,0x00F5948C,pin
 _g_xferExceptionThrowInfo,0x00DDFE5C,Opaque exception ThrowInfo; retail catchable array 0x00DDFE54 names one 8-byte value through TypeDescriptor 0x00EA704C .?AVXferException@@; direct DIR32 operand in block writer 0x009D88F0
 ?bfmeMatchETF@BfmeMatcherETF@@QAEDPAVBfmeAETF@@H@Z,0x0001DA34,pin
 ?bfmeTestETF@BfmeTesterETF@@QAEDPAUBfmeRangeETF@@0@Z,0x0003C2E5,pin
+?bfmeNormAngleETH@@YIXAAM@Z,0x0073A900,pin normAngle for BfmeConv1985
+?bfmeStoreAngleETH@BfmeViewETH@@QAEXM@Z,0x00037E16,pin thunk for BfmeConv1985
+?bfmeSetCamETH@BfmeViewETH@@QAEXXZ,0x000312A0,pin thunk for BfmeConv1985
+?bfmeApplyETH@BfmeViewETH@@QAEXPAVBfmeSubETH@@@Z,0x00030846,pin thunk for BfmeConv1985
