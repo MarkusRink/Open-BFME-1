@@ -85274,3 +85274,7 @@ _bfmeVftYK,0x00CE7D00
 ?bfmeClearYK@BfmeStringYK@@QAEXXZ,0x00887940
 ?g_bfmeZeroYM@@3MB,0x00C75350
 ?g_bfmeUnitYM@@3MA,0x00C75334
+?bfmeMatchYN@BfmeMaskYN@@QAEDPAUBfmeSubYN@@@Z,0x000316FB
+?bfmeAnyYN@BfmeMaskYN@@QAEDPAU1@@Z,0x00022C5A
+?bfmeNotifyYO@BfmeThingYO@@QAEXXZ,0x0002191D
+?TheBfmeLogicYO@@3PAVBfmeLogicYO@@A,0x00EF0898
