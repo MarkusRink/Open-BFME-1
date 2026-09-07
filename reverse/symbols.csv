@@ -85788,3 +85788,7 @@ __imp__bfmeSprintfESP,0x00F5948C,pin
 ?releaseBuffer@BfmeStrETA@@AAEXXZ,0x00887940,pin
 ?g_bfmeEmptyETA@@3PADA,0x00C7388B,pin
 ?g_bfmeInfoETA@@3PAVBfmeInfoETA@@A,0x00EF7194,pin
+?bfmeBusyETB@BfmeItemETB@@QAEHXZ,0x0000978C,pin
+?bfmeRunETB@BfmeItemETB@@QAEDPAVBfmeHostETB@@PAVBfmeArgETB@@H@Z,0x00014899,pin
+?bfmeNotifyETB@BfmeSinkETB@@QAEXPAVBfmeItemETB@@HPAVBfmeArgETB@@H@Z,0x00035D0A,pin
+?bfmeFinishETB@BfmeHostETB@@QAEXH@Z,0x00007513,pin
