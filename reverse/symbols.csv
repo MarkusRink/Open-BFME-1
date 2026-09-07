@@ -84784,3 +84784,4 @@ __imp__bfmeApiLK@8,0x00F595DC,pin
 ?bfmeFindTF@Rva00367E30Logic@@QAEPAVBfmePlayerTF@@PAX@Z,0x0001F253,pin
 ?bfmeHasTF@Rva002EE330PlayerList@@QAEDPAVBfmePlayerTF@@@Z,0x00003A85,pin
 ?bfmeSelectTF@ControlBar@@QAEXPAXH@Z,0x0003BCCD,pin
+??0?$VectorClass@VBfmeHandleCX@@@@QAE@HPBVBfmeHandleCX@@@Z,0x0092FBA0,MeshLoadContext ctor970180 call970262; actual vector.h owning-handle specialization independently matches full191B and its vtable; four-byte texture cells
