@@ -2411,7 +2411,7 @@ name,address,notes
 ??0DieModuleData@@QAE@XZ,0x000015FA,pinharvest x1 (thunk)
 ??0DieMuxData@@QAE@XZ,0x000057B8,pinharvest x1 (thunk)
 ??0DirectInputKeyboard@@QAE@XZ,0x000120D0,DirectInputKeyboard ctor thunk; createKeyboard@W3DGameClient factory REL32
-??0Display@@QAE@XZ,0x000110FE,ILT to Display ctor body 0x005CBF60
+??0ParticleSystemManager@@QAE@XZ,0x000110FE,ILT to ParticleSystemManager ctor body 0x005CBF60; vtable group 0x0110FDCC and FXParticleSystemManager string 0x0110FE14 identify the class
 ??0DisplayString@@QAE@XZ,0x00020C25,W3DDisplayString constructor calls the DisplayString constructor through this retail ILT
 ??0DisplayStringManager@@QAE@XZ,0x0000F7A9
 ??0DistLODClass@@QAE@ABV0@@Z,0x00030EE0,DistLOD copy constructor
@@ -12141,6 +12141,7 @@ name,address,notes
 ?_M_initialize_buckets@?$hashtable@U?$pair@$$CBHUGen_t_009f20a0_p12cd@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHUGen_t_009f20a0_p12cd@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHUGen_t_009f20a0_p12cd@@@_STL@@@2@@_STL@@AAEXI@Z,0x009EF950,gen-tgrid payload member
 ?_M_initialize_buckets@?$hashtable@U?$pair@$$CBHUGen_t_009f20f0_p12cd@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHUGen_t_009f20f0_p12cd@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHUGen_t_009f20f0_p12cd@@@_STL@@@2@@_STL@@AAEXI@Z,0x009EF9C0,gen-tgrid payload member
 ?_M_initialize_buckets@?$hashtable@U?$pair@$$CBHURva001B0BC0Value@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva001B0BC0Value@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva001B0BC0Value@@@_STL@@@2@@_STL@@AAEXI@Z,0x000331EA,additive pin: 0x001B0BC0 near-twin ctor reuses DamageFXStoreCtorThunk shape callee
+?_M_initialize_buckets@?$hashtable@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@@_STL@@AAEXI@Z,0x005C9660,ParticleSystemManager template map bucket initialization body
 ?_M_initialize_buckets@?$hashtable@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@5@V?$allocator@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@@2@@_STL@@AAEXI@Z,0x001378D0,ThingFactory hash map bucket initialization body
 ?_M_initialize_buckets@?$hashtable@U?$pair@$$CBW4NameKeyType@@VDamageFX@@@_STL@@W4NameKeyType@@U?$hash@W4NameKeyType@@@rts@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@VDamageFX@@@_STL@@@2@U?$equal_to@W4NameKeyType@@@5@V?$allocator@U?$pair@$$CBW4NameKeyType@@VDamageFX@@@_STL@@@2@@_STL@@AAEXI@Z,0x0000E0FC,Open-BFME5 DamageFXStore ctor call target: retail uses the ILT for NameKeyType-to-DamageFX hashtable bucket initialization
 ?_M_initialize_buckets@?$hashtable@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@PBVGameWindow@@UhashConstGameWindowPtr@WindowVideoManager@@U?$_Select1st@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@U?$equal_to@PBVGameWindow@@@2@V?$allocator@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@@_STL@@AAEXI@Z,0x00498DE0,body byte-verified from WindowVideoManagerCtor.cpp; call sites reach it via ILT thunk 0x0002DF4C
