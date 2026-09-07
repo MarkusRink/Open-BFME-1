@@ -97,3 +97,22 @@ void BfmeListInsertRangeAnchor00681150( _STL::list<Rva00681150Target *> &dst,
 	dst.insert( where, src.begin(), src.end() );
 }
 
+struct Rva00381D80Element
+{
+	char m_body[ 216 ];
+};
+
+namespace _STL
+{
+template <>
+void _Construct(Rva00381D80Element *p, const Rva00381D80Element &value);
+}
+
+// retail 0x00381D10, an 88-byte helper for the 224-byte list node
+void BfmeListInsertRangeAnchor00381D10(
+	_STL::list<Rva00381D80Element> &dst,
+	_STL::list<Rva00381D80Element>::iterator where,
+	const _STL::list<Rva00381D80Element> &src )
+{
+	dst.insert( where, src.begin(), src.end() );
+}
