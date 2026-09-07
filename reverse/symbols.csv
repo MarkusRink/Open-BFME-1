@@ -85225,3 +85225,7 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?_M_insert_overflow@?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@IAEXPAVAsciiString@@ABV3@ABU__false_type@2@I_N@Z,0x0003827B,"jump stub to 0x00063700, the EH-frame copy of this vector's _M_insert_overflow: same 268 bytes as 0x00757C70 and the same call at every offset, differing only in which element _Construct it reaches -- 0x000620B0, which builds the 4-byte element through the out-of-line ??0?$StringBase@D@@AAE@ABV0@@Z under an SEH frame, where 0x00756D90 inlines the same refcount bump. AptScreenShow, Rva004650F0AptScreenShow and Rva00465200PalantirScreen encode it; replaces the redundant 0x000112C0 pin, whose resolution the ledger row already supplies"
 ??0?$_Vector_base@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@QAE@IABV?$allocator@PBVLocomotorTemplate@@@1@@Z,0x00020EA0,"the LocomotorTemplate vector-base ILT: BFME AIUpdate.cpp call sites encode it and it jumps to the 130-byte vec_p4cd copy at 0x00135270; 0x00001DA7 is Object*'s ILT"
 ?bfmeResolveXR@BfmeThingXR@@QAEPAV1@XZ,0x00048C61
+?bfmePushXS@BfmeThingXS@@QAEXXZ,0x008D2C80
+?bfmeGoXS@BfmeThingXS@@QAEXPAX@Z,0x008D2E00
+?bfmeApplyXS@BfmeThingXS@@QAEXPAX0@Z,0x008D2E20
+?bfmePopXS@BfmeThingXS@@QAEXXZ,0x008D2CC0
