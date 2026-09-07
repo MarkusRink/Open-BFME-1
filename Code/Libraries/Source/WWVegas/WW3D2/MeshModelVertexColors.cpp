@@ -28,9 +28,16 @@
 // arm 0x0096FBC0, whose call at 0x0096FBC4 reaches this body. It ends
 // with RET 8 at 0x0096DB36 and INT3 padding at 0x0096DB39.
 // LoadedDIG at context+0x20C selects the alternate descriptor on repeat chunks.
+// read_stage_texcoords: RVA 0x0096E690, complete 178-byte body. Texture-stage
+// chunks 0x05 and 0x4A select the arm at 0x0096EDCB; its call at 0x0096EDCF
+// reaches this loader. RET 8 at 0x0096E73F ends before INT3 at 0x0096E742.
+// The original SimpleVecClass<Vector2> at context+0x200 provides the temporary
+// array; its data pointer is at +0x204. The V conversion reads float 1.0f.
 // Original semantic bodies: meshmdlio.cpp; BFME field views are local here.
 #include "dx8wrapper.h"
 #include "w3d_file.h"
+#include "simplevec.h"
+#include "vector2.h"
 
 class MeshMatDescClass
 {
@@ -44,6 +51,8 @@ class MeshMatDescClass
 	VertexMaterialClass::ColorSourceType DIGSource[4];
 
 public:
+	bool Has_UV(int pass,int stage) { return UVSource[pass][stage] != -1; }
+	void Install_UV_Array(int pass,int stage,Vector2 *uvs,int count);
 	VertexMaterialClass::ColorSourceType Get_DCG_Source(int pass) { return DCGSource[pass]; }
 	bool Has_Color_Array(int array) { return ColorArray[array] != 0; }
 	unsigned *Get_Color_Array(int array,bool create = true);
@@ -59,10 +68,18 @@ class MeshLoadContextClass
 public:
 	unsigned long PrelitChunkID;
 	int CurPass;
-	unsigned char alternate_padding[0x10c - 0x90];
+	int CurTexStage;
+	unsigned char alternate_padding[0x10c - 0x94];
 	MeshMatDescClass AlternateMatDesc;
-	unsigned char loaded_dig_padding[0x20c - 0x10c - sizeof(MeshMatDescClass)];
+	unsigned char temporary_uv_padding[0x200 - 0x10c - sizeof(MeshMatDescClass)];
+	SimpleVecClass<Vector2> TempUVArray;
 	bool LoadedDIG;
+
+	Vector2 *Get_Temporary_UV_Array(int elementcount)
+	{
+		TempUVArray.Uninitialised_Grow(elementcount);
+		return &TempUVArray[0];
+	}
 
 	bool Already_Loaded_DIG() { return LoadedDIG; }
 	void Notify_Loaded_DIG_Chunk(bool loaded) { LoadedDIG = loaded; }
@@ -84,6 +101,7 @@ public:
 	}
 
 protected:
+	bool read_stage_texcoords(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_dig(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_dcg(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_vertex_colors(ChunkLoadClass &cload,MeshLoadContextClass *context);
@@ -174,4 +192,30 @@ bool MeshModelClass::read_dig(ChunkLoadClass &cload,MeshLoadContextClass *contex
 
 	matdesc->Set_DCG_Source(context->CurPass,VertexMaterialClass::COLOR1);
 	return true;
+}
+
+bool MeshModelClass::read_stage_texcoords(ChunkLoadClass &cload, MeshLoadContextClass *context)
+{
+    unsigned elementcount;
+    Vector2 *uvs;
+    W3dTexCoordStruct texcoord;
+    MeshMatDescClass *matdesc = DefMatDesc;
+
+    if (DefMatDesc->Has_UV(context->CurPass, context->CurTexStage)) {
+        matdesc = &(context->AlternateMatDesc);
+    }
+
+    elementcount = cload.Cur_Chunk_Length() / sizeof(W3dTexCoordStruct);
+    uvs = context->Get_Temporary_UV_Array(elementcount);
+
+    if (uvs != NULL) {
+        for (unsigned i = 0; i < elementcount; i++) {
+            cload.Read(&texcoord, sizeof(texcoord));
+            uvs[i].X = texcoord.U;
+            uvs[i].Y = 1.0f - texcoord.V;
+        }
+    }
+
+    matdesc->Install_UV_Array(context->CurPass, context->CurTexStage, uvs, elementcount);
+    return true;
 }

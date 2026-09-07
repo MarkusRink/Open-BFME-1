@@ -1455,6 +1455,7 @@ WW3DErrorType MeshModelClass::read_texture_ids(ChunkLoadClass & cload,MeshLoadCo
  *   7/14/99    IML : Lightmap support: calculate vertex count directly from chunk size.		  *
  *   9/1/2000   gth : Added alternate material desc support                                    *
  *=============================================================================================*/
+// Complete BFME Boolean reconstruction: MeshModelVertexColors.cpp (178 bytes).
 WW3DErrorType MeshModelClass::read_stage_texcoords(ChunkLoadClass & cload,MeshLoadContextClass * context)
 {
 	unsigned				elementcount;
