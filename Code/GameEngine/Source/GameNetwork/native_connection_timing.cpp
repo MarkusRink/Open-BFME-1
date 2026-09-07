@@ -224,6 +224,8 @@ class GlobalData
 public:
 	char unknown[0xCB4];
 	unsigned int networkRunAheadSlack;
+	char unknownCB8[0xF4];
+	Bool commandIDFiltering; // retail flag at +0xDAC; INI key not recovered here
 };
 
 extern GlobalData *TheWritableGlobalData;
@@ -294,6 +296,39 @@ private:
 	char m_unknown12030[0xB4];
 	FrameDataManager *m_frameData[8];
 };
+
+// Role-derived local identity: the native manager embeds nine 65536-bit
+// command-ID histories. The retail source class name remains unrecovered.
+class Gen_00667F30
+{
+public:
+	void bfmeClearRange(UnsignedShort commandID);
+};
+
+class BFMECommandIDHistory
+{
+public:
+	Bool accept(UnsignedShort commandID, unsigned int frame);
+private:
+	unsigned int word(unsigned int id) const { return m_bits[id >> 5]; }
+	unsigned int &word(unsigned int id) { return m_bits[id >> 5]; }
+	Bool isSet(unsigned int id) const { return (word(id) & (1u << (id & 31))) != 0; }
+	void set(unsigned int id) { word(id) |= 1u << (id & 31); }
+	unsigned int m_bits[0x800];
+};
+
+Bool BFMECommandIDHistory::accept(UnsignedShort commandID, unsigned int frame)
+{
+	if (TheWritableGlobalData->commandIDFiltering)
+	{
+		reinterpret_cast<Gen_00667F30 *>(this)->bfmeClearRange(commandID);
+		unsigned int id = commandID;
+		if (isSet(id))
+			return false;
+		set(commandID);
+	}
+	return true;
+}
 
 class BFMEConnectionManager
 {
