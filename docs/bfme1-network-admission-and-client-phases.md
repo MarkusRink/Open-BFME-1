@@ -85,6 +85,10 @@ The tool read `ini.big`, then `_patch222.big`. Every value below came from
 `ini.big`; the overlay did not replace these keys. This identifies this local
 installation's values, not every BFME installation or RotWK 2.02.
 
+The retail initialization link is explicit: `GameEngine::init` loads
+`TheGlobalData+24` at `0007A387` and passes it to its virtual FPS setter at
+slot `+2C` (`0007A38F`). The loop's pacing formula then reads `GameEngine+8`.
+
 | Key | Loaded value |
 |---|---:|
 | FramesPerSecondLimit | 30 |
