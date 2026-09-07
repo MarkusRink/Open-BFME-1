@@ -85766,3 +85766,8 @@ __imp__bfmeDecESG@4,0x00F58E54,pin
 ?bfmeAttachESN@BfmeHostESN@@QAEXPAVBfmeObjESN@@@Z,0x0003DE5B,pin
 ?bfmeNotifyESN@@YGXPAVBfmeSinkESN@@@Z,0x0000A3B2,pin
 ?bfmeSendESN@BfmeSinkESN@@QAEXPAUBfmeCmdESN@@H@Z,0x000307E7,pin
+?bfmeSwapESO@BfmeSubAESO@@QAEXAAV1@@Z,0x00040372,pin
+?bfmeSwapESO@BfmeSubBESO@@QAEXAAV1@@Z,0x0000EFE3,pin
+?bfmeFixupESO@BfmeHostESO@@QAEXXZ,0x00047393,pin
+?bfmeFinishESO@BfmeHostESO@@QAEXPAVBfmeHostESO@@PAH1@Z,0x0000D2BA,pin
+?bfmeAdjustESO@@YGXPAVBfmeHostESO@@PAVBfmeBaseESO@@1@Z,0x00028650,pin
