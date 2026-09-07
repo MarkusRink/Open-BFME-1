@@ -169527,11 +169527,14 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ??0?$_Vector_base@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@QAE@IABV?$allocator@PBVLocomotorTemplate@@@1@@Z,0x00020EA0,"the LocomotorTemplate vector-base ILT: BFME AIUpdate.cpp call sites encode it and it jumps to the 130-byte vec_p4cd copy at 0x00135270; 0x00001DA7 is Object*'s ILT"
 ?logGameEnd@RecorderClass@@IAEXXZ,0x00097280,RecorderClass::stopRecording caller reaches the exact clean C++ logGameEnd body
 ?b_008631f0@@YAXXZ,0x008631F0,gen-thunk target pin: Code/gen_small/gthunks_085.cpp resolves its E9 displacement from this pin (see the file header)
+??0?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@@Z,0x00048667,"the ILT the static-initialiser call sites encode; its body 0x0039D5B0 zeroes the three vector words and rets 4, while 0x00008DCD reaches a list constructor that allocates a 12-byte sentinel"
+??0Display@@QAE@XZ,0x000110FE,ILT to Display ctor body 0x005CBF60
 ??1CameraMarker@@QAE@XZ,0x00028984,BFME camera marker node destructor ILT called by CameraMarkerList::clear
 ?_M_lower_bound@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@ABEPAU?$_Rb_tree_node@VAsciiString@@@2@ABVAsciiString@@@Z,0x0002D029,retail ILT the set<AsciiString> equal_range at 0x0007D8C0 encodes
 ?_M_upper_bound@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@ABEPAU?$_Rb_tree_node@VAsciiString@@@2@ABVAsciiString@@@Z,0x0002C958,retail ILT the set<AsciiString> equal_range at 0x0007D8C0 encodes
 ?after@TaintSpecialPower@@QAEXPBVCoord3D@@@Z,0x00033C62,ILT of 0x0026B9D0; the class is proven by the vftable ??0TaintSpecialPower@@ stores, the method name is still a placeholder
 ?doSpecialPowerAtLocation@SpecialPowerModuleInterface@@QAEXPAVSpecialPowerLocation@@PAVSpecialPowerCommandOptions@@@Z,0x000170DA,ILT of 0x0026A620; the shared SpecialPowerModule location entry point the ElvenWood override chains to
+?b_0051e9b0@@YAXXZ,0x0051E9B0,gen-thunk body
 ?fill@TaintBufferFillThunk@@QAEXE@Z,0x0002CFE3,callee pin used by TaintBuffer::init
 ?finish@ElvenWoodSpecialPower@@QAEXPAVSpecialPowerLocation@@@Z,0x0003E757,ILT of 0x0025C220; the class is proven by the vftable ??0ElvenWoodSpecialPower@@ stores but the method name is still a placeholder
 ?first@HordeTransportContainBase@@QAEXXZ,0x0000F510,first unidentified call HordeTransportContain::update makes on the object start (0x0024CAE0)
@@ -169545,6 +169548,8 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?get_allocator@?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@QBE?AV?$allocator@PBVLocomotorTemplate@@@2@XZ,0x00039789,retail ILT the pair<const LocomotorSetType vector<const LocomotorTemplate*>> ctor at 0x00136930 encodes
 ?onExit@AIFollowPathState@@UAEXW4StateExitType@@@Z,0x00008990,AIFollowPathState base exit thunk; base vftable 0x00C9A9F0 slot 6 is ?update@AIFollowPathState@@
 ?reacquire@TaintBufferReAcquireThunk@@QAEXXZ,0x000357D3,callee pin used by TaintBuffer::init
+?read_dcg@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D500,rel32 pin for read_material_pass
+?read_dig@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,0x0096D810,rel32 pin for read_material_pass
 ?ReleaseResources@W3DSnowManager@@QAEXXZ,0x000491C5,ILT thunk for the ReleaseResources() call that opens W3DSnowManager::ReAcquireResources at 0x00723FB0 (upstream W3DSnow.cpp:79)
 ?second@HordeTransportContainBase@@QAEXXZ,0x0003CBD7,second unidentified call HordeTransportContain::update makes on the object start (0x0024C940)
 ?update@TransportContain@@QAEXXZ,0x000133EF,base-class update HordeTransportContain::update tail-calls; 0x0022D660 is slot 0 of TransportContain UpdateModule vftable 0x00CAD410
@@ -169947,13 +169952,5 @@ _ggetm,0x00822D90,"static ggetm copy emitted into huffdecode.cpp; pinned by HUFF
 ?b_008631f0@@YAXXZ,0x008631F0,gen-thunk target pin: Code/gen_small/gthunks_085.cpp resolves its E9 displacement from this pin (see the file header)
 ??0?$BFMEFactoryModuleData@VInstantDeathBehaviorModuleData@@$0GE@@@QAE@XZ,0x00023DCB,ModuleFactory retail data facade: TU-local 0x64 stand-in for BFME's InstantDeathBehaviorModuleData (ZH's is 0x44); this address is the ILT thunk onto ??0InstantDeathBehaviorModuleData@@QAE@XZ at 0x00201650
 ??0?$BFMEFactoryModuleData@VExperienceScalarUpgradeModuleData@@$0HE@@@QAE@XZ,0x00025D47,ModuleFactory retail data facade: TU-local 0x74 stand-in for BFME's ExperienceScalarUpgradeModuleData (ZH's is 0x64); this address is the ILT thunk onto ??0ExperienceScalarUpgradeModuleData@@QAE@XZ at 0x002D5180
-??0ModelConditionInfo@@QAE@ABU0@@Z,0x00887B60,ILT-less direct body retail encodes at the pair/_Construct copy sites
-??1W3DAnimationInfo@@QAE@XZ,0x00034AE0,ILT the _Destroy loop encodes
-??$__copy@PBUParticleSysBoneInfo@@PAU1@H@_STL@@YAPAUParticleSysBoneInfo@@PBU1@0PAU1@ABUrandom_access_iterator_tag@0@PAH@Z,0x0003DB1D,ILT the __copy_ptrs forwarder encodes
-?countIntersection@?$BitFlags@$0HF@@@QBEHABV1@@Z,0x000497D3,ILT the SparseMatchFinder count forwarder encodes
-?countInverseIntersection@?$BitFlags@$0HF@@@QBEHABV1@@Z,0x000497D3,ILT the SparseMatchFinder count forwarder encodes
-?_M_insert_overflow@?$vector@UWeaponRecoilInfo@W3DModelDraw@@V?$allocator@UWeaponRecoilInfo@W3DModelDraw@@@_STL@@@_STL@@IAEXPAUWeaponRecoilInfo@W3DModelDraw@@ABU34@ABU__false_type@2@I_N@Z,0x00017FB2,ILT the push_back site encodes
-?_M_insert_overflow@?$vector@V?$BitFlags@$0HF@@@V?$allocator@V?$BitFlags@$0HF@@@@_STL@@@_STL@@IAEXPAV?$BitFlags@$0HF@@@ABV3@ABU__false_type@2@I_N@Z,0x0000FCAE,ILT the push_back site encodes
-??$__copy@PAUParticleSysBoneInfo@@PAU1@H@_STL@@YAPAUParticleSysBoneInfo@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00021DEB,ILT the vector erase site encodes
 ?classifyObjectFootprint@Pathfinder@@IAEXPAVObject@@_N@Z,0x0051F1C0,the body retail Pathfinder::add/removeObjectToPathfindMap actually call (thunk 0x00047D2A); replaces the 0x00004EE9 pin whose nine call sites are all SimpleDynVecClass::Add callers
 ??0?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@@Z,0x0039D5B0,ICF fold of the fifteen-byte zero-three-pointers body; the address ObjectCreationList.cpp static initializer at 0x00C6B2C0 encodes via thunk 0x00048667
