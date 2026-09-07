@@ -9366,6 +9366,7 @@ name,address,notes
 ??AEmotionShortMap@@QAEAAHABG@Z,0x00028D0D,Emotion::xfer second map operator[] ILT
 ??ALANPreferences@@QAEAAVAsciiString@@ABV1@@Z,0x0003E6DA,LANPreferences map[] used as prefs[UserName] in NetworkDirectConnectSystem
 ??AModuleTemplateMap@ModuleFactory@@QAEAAVModuleTemplate@1@ABH@Z,0x0002047D,ModuleFactory::ModuleTemplateMap::operator[] thunk (body 0x001296E0)
+??ANickMap@@QAEAAV?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@ABVAsciiString@@@Z,0x0002D74A,GameSpyLoginPreferences::load named nick_ branch calls the NickMap operator[] ILT; canonical std::map<AsciiString,AsciiStringList> body is 0x00082050; route=0x00082050; campaign=luna36h-20260907;lane=anim
 ??APassMap@@QAEAAVAsciiString@@ABV1@@Z,0x0003E6DA,GameSpyLoginPreferences password map operator[] ILT
 ??APreferenceMap@@QAEAAVAsciiString@@ABV1@@Z,0x0003E6DA,UserPreferences map[] this+4 spelling used by NetworkDirectConnectSystem prefs[UserName]
 ??ARva00137E80Map@@QAEAAPAVThingTemplate@@ABVAsciiString@@@Z,0x27147,Retail ThingFactory lookup helper at proven call site
