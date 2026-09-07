@@ -84887,3 +84887,6 @@ _g_bfmeFormatXK,0x00C7C7B4
 ?update@SpecialAbilityUpdate@@QAE?AW4UpdateSleepTime@@XZ,0x00044B0C,GiveUpgradeUpdate update calls the inherited special-ability update through this ILT
 ?update@UpdateModuleInterface@@QAE?AW4UpdateSleepTime@@XZ,0x00044B0C,GiveUpgradeUpdate update calls the inherited update body through this ILT
 ?bfmeTestXM@BfmeProbeXM@@QAE_NPAUBfmeStateXM@@PAX@Z,0x0003DCCB
+??1Rva00900FF0VecOfVec@@QAE@XZ,0x0000B109,vector shell destructor called five times by 0x00900FF0
+?erase@Rva00900FF0VecOfVec@@QAEXPAVRva00900FF0InnerVector@@0@Z,0x00006730,vector range erase called five times by 0x00900FF0
+?Free_String@StringClass@@QAEXXZ,0x009DB7A0,public StringClass cleanup aliases the matched Free_String body
