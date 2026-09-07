@@ -85801,3 +85801,5 @@ __imp__bfmeSprintfESP,0x00F5948C,pin
 ?g_bfmeClientETE@@3PAVBfmeClientETE@@A,0x00EF1464,pin
 ?g_bfmeEngineETE@@3PAVBfmeEngineETE@@A,0x00EED524,pin
 ?bfmeBlendETE@@YAXPAUBfmeMatETE@@0PAX0@Z,0x008D8480,pin
+??$_M_insert_dispatch@U?$_List_iterator@UZ1Elem0013BF00@@U?$_Const_traits@UZ1Elem0013BF00@@@_STL@@@_STL@@@?$list@UZ1Elem0013BF00@@V?$allocator@UZ1Elem0013BF00@@@_STL@@@_STL@@QAEXU?$_List_iterator@UZ1Elem0013BF00@@U?$_Nonconst_traits@UZ1Elem0013BF00@@@_STL@@@1@U?$_List_iterator@UZ1Elem0013BF00@@U?$_Const_traits@UZ1Elem0013BF00@@@_STL@@@1@1ABU__false_type@1@@Z,0x0076B430,callee of Z1Elem0013BF00 list assignment
+?erase@?$list@UZ1Elem0013BF00@@V?$allocator@UZ1Elem0013BF00@@@_STL@@@_STL@@QAE?AU?$_List_iterator@UZ1Elem0013BF00@@U?$_Nonconst_traits@UZ1Elem0013BF00@@@_STL@@@2@U32@0@Z,0x0076D720,callee of Z1Elem0013BF00 list assignment
