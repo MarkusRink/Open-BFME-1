@@ -25,9 +25,26 @@
 // definition serves both instantiations.
 //
 // So the test for this shape is not "are these two files alike" but "do they
-// give the shared template the same body". The other pair also spelled
+// give the shared template the same body". The Construct pair also spelled
 // ProductionPrerequisite as a NAMESPACE where this one spells it a class, which
-// is the second, independent reason that pair stays apart.
+// is a second, independent reason that pair stays apart.
+//
+// The family has a third pair of the same appearance and the test settles it
+// too. ProductionPrerequisiteAllocateAndCopyBody.cpp and
+// PrereqUnitRecAllocateAndCopyBody.cpp share
+// vector<T, allocator<T> >::_M_allocate_and_copy, and their two copies of it are
+// identical except for the name of the per-element construct helper it calls --
+// BfmeProductionPrerequisiteConstruct against BfmeElementConstruct. Those two
+// names are separately PINNED, to different ILTs: 0x000027A2 and 0x0003C1A0.
+// So the shared template cannot be written once, because its body has to name
+// one helper or the other, and renaming either to unify them moves that call off
+// its pin. Not mergeable, and for a subtler reason than the Construct pair --
+// there the two bodies forward to differently-named shims, here they call
+// differently-named pinned helpers, but the consequence is the same.
+//
+// Three visually identical pairs, then, and only this one merges. The
+// difference is never how alike the files look; it is whether the template they
+// share can have one body.
 //
 // One consequence of merging: ProductionPrerequisite is 24 bytes here and
 // PrereqUnitRec is 12, stated together for the first time. The 24 is a third
