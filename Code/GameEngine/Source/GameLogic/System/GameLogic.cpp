@@ -94,7 +94,7 @@
 // Retail evidence (GameLogic vtable @0xD1CA5C, stored by GameLogic ctor @0x6BAD0D):
 //   slot 9  = createTerrainLogic factory @0x6BAD40 -> pushes sizeof 0x1904, stores TheTerrainLogic
 //             global 0x012EF4CC at GameLogic::init +0x215, followed by init/setName("TheTerrainLogic")
-//   slot 11 = createGhostObjectManager @0x6BAE20 (matched)
+//   The old slot-11 Ghost factory claim at0x6BAE20 was false; it constructs W3DBuffLogic.
 // The shared shim header models ZH sizeof 0x540; retail BFME TerrainLogic is 0x1904. Its vtable
 // order below is the shim's (already retail-tuned against matched call sites); the member tail
 // beyond the ZH prefix is opaque in this TU and padded to the retail size. Guard-blocked so the
@@ -6937,201 +6937,7 @@ Object *GameLogic::friend_createObject( const ThingTemplate *thing, const Object
 /** Mark the object as destroyed, and place on list for deletion at the end of the next update.
  * This is the only interface to destroy objects - objects cannot be directly deleted. */
 // ------------------------------------------------------------------------------------------------
-__declspec(naked) void GameLogic::destroyObject( Object * )
-{
-	__asm {
-		_emit 083h
-		_emit 0ECh
-		_emit 00Ch
-		_emit 053h
-		_emit 056h
-		_emit 057h
-		_emit 08Bh
-		_emit 07Ch
-		_emit 024h
-		_emit 01Ch
-		_emit 085h
-		_emit 0FFh
-		_emit 08Bh
-		_emit 0D9h
-		_emit 00Fh
-		_emit 084h
-		_emit 0A1h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 0F6h
-		_emit 087h
-		_emit 090h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 001h
-		_emit 00Fh
-		_emit 085h
-		_emit 094h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 08Bh
-		_emit 0B7h
-		_emit 0F0h
-		_emit 001h
-		_emit 000h
-		_emit 000h
-		_emit 008Bh
-		_emit 006h
-		_emit 085h
-		_emit 0C0h
-		_emit 074h
-		_emit 01Fh
-		_emit 08Dh
-		_emit 049h
-		_emit 000h
-		_emit 08Dh
-		_emit 048h
-		_emit 00Ch
-		_emit 08Bh
-		_emit 001h
-		_emit 0FFh
-		_emit 050h
-		_emit 014h
-		_emit 085h
-		_emit 0C0h
-		_emit 074h
-		_emit 006h
-		_emit 08Bh
-		_emit 010h
-		_emit 08Bh
-		_emit 0C8h
-		_emit 0FFh
-		_emit 012h
-		_emit 08Bh
-		_emit 046h
-		_emit 004h
-		_emit 083h
-		_emit 0C6h
-		_emit 004h
-		_emit 085h
-		_emit 0C0h
-		_emit 075h
-		_emit 0E4h
-		_emit 033h
-		_emit 0C9h
-		_emit 08Bh
-		_emit 0C1h
-		_emit 089h
-		_emit 04Ch
-		_emit 024h
-		_emit 010h
-		_emit 06Ah
-		_emit 001h
-		_emit 08Dh
-		_emit 054h
-		_emit 024h
-		_emit 010h
-		_emit 089h
-		_emit 04Ch
-		_emit 024h
-		_emit 018h
-		_emit 083h
-		_emit 0C8h
-		_emit 001h
-		_emit 052h
-		_emit 08Bh
-		_emit 0CFh
-		_emit 089h
-		_emit 044h
-		_emit 024h
-		_emit 014h
-		_emit 0E8h
-		_emit 0BAh
-		_emit 056h
-		_emit 0CAh
-		_emit 0FFh
-		_emit 08Bh
-		_emit 0B7h
-		_emit 004h
-		_emit 002h
-		_emit 000h
-		_emit 000h
-		_emit 085h
-		_emit 0F6h
-		_emit 074h
-		_emit 011h
-		_emit 08Bh
-		_emit 006h
-		_emit 08Bh
-		_emit 0CEh
-		_emit 0FFh
-		_emit 090h
-		_emit 0E8h
-		_emit 001h
-		_emit 000h
-		_emit 000h
-		_emit 08Bh
-		_emit 0CEh
-		_emit 0E8h
-		_emit 099h
-		_emit 0B4h
-		_emit 0C7h
-		_emit 0FFh
-		_emit 08Bh
-		_emit 0B3h
-		_emit 004h
-		_emit 001h
-		_emit 000h
-		_emit 000h
-		_emit 06Ah
-		_emit 00Ch
-		_emit 0E8h
-		_emit 0EBh
-		_emit 033h
-		_emit 04Ah
-		_emit 000h
-		_emit 08Dh
-		_emit 048h
-		_emit 008h
-		_emit 083h
-		_emit 0C4h
-		_emit 004h
-		_emit 085h
-		_emit 0C9h
-		_emit 074h
-		_emit 002h
-		_emit 089h
-		_emit 039h
-		_emit 08Bh
-		_emit 04Eh
-		_emit 004h
-		_emit 089h
-		_emit 048h
-		_emit 004h
-		_emit 089h
-		_emit 030h
-		_emit 089h
-		_emit 001h
-		_emit 089h
-		_emit 046h
-		_emit 004h
-		_emit 08Bh
-		_emit 017h
-		_emit 08Bh
-		_emit 0CFh
-		_emit 0FFh
-		_emit 052h
-		_emit 024h
-		_emit 05Fh
-		_emit 05Eh
-		_emit 05Bh
-		_emit 083h
-		_emit 0C4h
-		_emit 00Ch
-		_emit 0C2h
-		_emit 004h
-		_emit 000h
-	}
-}
+// Byte-exact BFME implementation: GameLogicDestroyObject.cpp
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -7538,6 +7344,7 @@ UnsignedInt GameLogic::getObjectCount( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// ?createGhostObjectManager@GameLogic@@EAEPAVGhostObjectManager@@XZ present-unmatched
 GhostObjectManager *GameLogic::createGhostObjectManager(void)
 { 
 	return NEW GhostObjectManager;
