@@ -21579,7 +21579,7 @@ name,address,notes
 ?b_0010f120@@YAXXZ,0x0010F120,gen-thunk body
 ?b_0010f1e0@@YAXXZ,0x0010F1E0,gen-thunk body
 ?b_0010f280@@YAXXZ,0x0010F280,gen-thunk body
-?b_0010f550@@YAXXZ,0x0010F550,gen-thunk body
+?b_0010f550@@YAXXZ,0x0010F550,legacy generated-thunk ABI alias retained for dependent thunk row; verified route to named GameState AsciiString body; campaign=luna36h-20260907;lane=xfer
 ?b_0010f820@@YAXXZ,0x0010F820,gen-thunk body
 ?b_0010fb20@@YAXXZ,0x0010FB20,gen-thunk body
 ?b_0010fbd0@@YAXXZ,0x0010FBD0,gen-thunk body
@@ -81689,7 +81689,7 @@ name,address,notes
 ?populateSaveGameListbox@BfmeGameStateSaveList@@QAEXPAVGameWindow@@W4SaveLoadLayoutType@@@Z,0x0004209B,ILT thunk to the body at 0x00111DB0 which ends ret 8
 ?populateSideInfo@@YAXVUnicodeString@@PAUScoreGather@@HI@Z,0x004E3D40,ZH populateSideInfo(UnicodeString side ScoreGather* sg Int pos Color color): pos<0||pos>8 returns; StaticTextPlayer%d = side; Observer hidden; 8 stats formatted L%d from sg (+0 moneyEarned +4 moneySpent +8 unitsDestroyed +0xc unitsBuilt +0x10 unitsLost +0x14 buildingsDestroyed +0x18 buildingsBuilt +0x1c buildingsLost) BuildingsDestroyed written twice as in ZH; GameWindowWinner%d image = sg+0x20 m_sideImage; ILT 0x000113AB; sole caller grabSinglePlayerInfo 0x004E86B6
 ?populateSpecialPowerShortcut@ControlBar@@AAEXPAVPlayer@@@Z,0x00024695,ILT thunk to the shortcut population helper
-?portableMapPathToRealMapPath@GameState@@QBE?AV?$StringBase@D@@ABV2@@Z,0x0010F550,same body as the AsciiString-typed ledger row; BFME AsciiString is StringBase<char> so the callee mangles with the instantiation
+?portableMapPathToRealMapPath@GameState@@QBE?AV?$StringBase@D@@ABV2@@Z,0x0010F550,legacy StringBase<char>-spelled ABI alias used by existing caller TUs; verified same sret/thiscall body as the named AsciiString ledger row; compatibility route not function identity; campaign=luna36h-20260907;lane=xfer
 ?postLoad@ExperienceLevelSystem@@QAEXPAVObject@@@Z,0x00008DFA,ExperienceTracker transfer calls the retail ExperienceLevelSystem post-load helper through its ILT
 ?postTimedOp@@YAXVLoadGameFadeHolder@@PAX@Z,0x0000FC72,ILT -> 0x0007BA90; cdecl (Holder key) poster used by postLoadGameFadeSteps
 ?postTimedOp@@YA_NVLoadGameFadeHolder@@PAI@Z,0xfc72,"Independent wrapper/table/callback ABI review; timed-operation pump passes elapsed float and firstCall bool, returns unsigned flags; post writes serial key and owns by-value release"
@@ -85448,3 +85448,4 @@ _bfmeXferTwoBG,0x00034815
 ?bfmeUseBO@BfmeResBO@@QAEXPAX@Z,0x0002D439
 ?bfmeSetBP@BfmeBBP@@QAEXH@Z,0x0000C87E
 ?bfmeListBP@BfmeBBP@@QAEPAPAVBfmeItemBP@@XZ,0x00021472
+?getMapLeafAndDirName@@YA?AVAsciiString@@ABV1@@Z,0x0010E4F0,donor static helper direct-called by GameState portable/real map path bodies; exact 115B helper and caller ABI; campaign=luna36h-20260907;lane=xfer

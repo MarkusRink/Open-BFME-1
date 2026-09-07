@@ -1,581 +1,190 @@
 // cl: /DNDEBUG /MD /EHsc
-// readable body of ?portableMapPathToRealMapPath@GameState@@QBE?AVAsciiString@@ABV2@@Z: Code/GameEngine/Source/Common/System/SaveGame/GameState.cpp
-// Open-BFME5: lift the retail GameState::portableMapPathToRealMapPath MASM body into a C++ thunk.
+// Real-C++ reconstruction of GameState::portableMapPathToRealMapPath from
+// the donor in GameState.cpp.  This TU carries only the ABI-facing BFME
+// StringBase/AsciiString view needed by the method; the shared GameState TU
+// and headers remain untouched.
 
-extern "C" __declspec(naked) void bfme_GameStatePortableMapPathToRealMapPath_10F550()
+#include <string.h>
+
+static int stringLength(const char *text)
 {
-    __asm {
-        __emit 0x6a;
-        __emit 0xff;
-        __emit 0x68;
-        __emit 0x61;
-        __emit 0xda;
-        __emit 0xff;
-        __emit 0x0;
-        __emit 0x64;
-        __emit 0xa1;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x50;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0x25;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x83;
-        __emit 0xec;
-        __emit 0x8;
-        __emit 0x56;
-        __emit 0xc7;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x8;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x57;
-        __emit 0x8b;
-        __emit 0xf1;
-        __emit 0xc7;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x8;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x8b;
-        __emit 0x15;
-        __emit 0xbc;
-        __emit 0xbf;
-        __emit 0x2a;
-        __emit 0x1;
-        __emit 0x85;
-        __emit 0xd2;
-        __emit 0xc7;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x1;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x74;
-        __emit 0x10;
-        __emit 0x8b;
-        __emit 0xc2;
-        __emit 0x8d;
-        __emit 0x78;
-        __emit 0x1;
-        __emit 0x8a;
-        __emit 0x8;
-        __emit 0x40;
-        __emit 0x84;
-        __emit 0xc9;
-        __emit 0x75;
-        __emit 0xf9;
-        __emit 0x2b;
-        __emit 0xc7;
-        __emit 0xeb;
-        __emit 0x2;
-        __emit 0x33;
-        __emit 0xc0;
-        __emit 0x8b;
-        __emit 0x7c;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0x50;
-        __emit 0x52;
-        __emit 0x8b;
-        __emit 0xcf;
-        __emit 0xe8;
-        __emit 0x33;
-        __emit 0x80;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x84;
-        __emit 0xc0;
-        __emit 0x74;
-        __emit 0x71;
-        __emit 0x8d;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0x50;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0xe8;
-        __emit 0x46;
-        __emit 0xfc;
-        __emit 0xf0;
-        __emit 0xff;
-        __emit 0x50;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0xc;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0x2;
-        __emit 0xe8;
-        __emit 0xc4;
-        __emit 0x86;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x1;
-        __emit 0xe8;
-        __emit 0x66;
-        __emit 0x83;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x57;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x28;
-        __emit 0x51;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0xe8;
-        __emit 0x91;
-        __emit 0x7f;
-        __emit 0xf3;
-        __emit 0xff;
-        __emit 0x8b;
-        __emit 0x0;
-        __emit 0x85;
-        __emit 0xc0;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x3;
-        __emit 0xf;
-        __emit 0x84;
-        __emit 0xac;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0xf;
-        __emit 0xb7;
-        __emit 0x48;
-        __emit 0x4;
-        __emit 0xe9;
-        __emit 0xa5;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0xb8;
-        __emit 0x8b;
-        __emit 0x38;
-        __emit 0x7;
-        __emit 0x1;
-        __emit 0x51;
-        __emit 0x50;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0xe8;
-        __emit 0x51;
-        __emit 0x87;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x1;
-        __emit 0xe8;
-        __emit 0x23;
-        __emit 0x83;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0xe9;
-        __emit 0x26;
-        __emit 0x1;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x8b;
-        __emit 0x35;
-        __emit 0xc0;
-        __emit 0xbf;
-        __emit 0x2a;
-        __emit 0x1;
-        __emit 0x85;
-        __emit 0xf6;
-        __emit 0x74;
-        __emit 0x10;
-        __emit 0x8b;
-        __emit 0xc6;
-        __emit 0x8d;
-        __emit 0x50;
-        __emit 0x1;
-        __emit 0x8a;
-        __emit 0x8;
-        __emit 0x40;
-        __emit 0x84;
-        __emit 0xc9;
-        __emit 0x75;
-        __emit 0xf9;
-        __emit 0x2b;
-        __emit 0xc2;
-        __emit 0xeb;
-        __emit 0x2;
-        __emit 0x33;
-        __emit 0xc0;
-        __emit 0x50;
-        __emit 0x56;
-        __emit 0x8b;
-        __emit 0xcf;
-        __emit 0xe8;
-        __emit 0x99;
-        __emit 0x7f;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x84;
-        __emit 0xc0;
-        __emit 0x74;
-        __emit 0x69;
-        __emit 0x8b;
-        __emit 0xd;
-        __emit 0x94;
-        __emit 0x15;
-        __emit 0x2f;
-        __emit 0x1;
-        __emit 0x8d;
-        __emit 0x54;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0x52;
-        __emit 0xe8;
-        __emit 0x9a;
-        __emit 0x83;
-        __emit 0xef;
-        __emit 0xff;
-        __emit 0x50;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0xc;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0x4;
-        __emit 0xe8;
-        __emit 0x26;
-        __emit 0x86;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x1;
-        __emit 0xe8;
-        __emit 0xc8;
-        __emit 0x82;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x6a;
-        __emit 0x1;
-        __emit 0x68;
-        __emit 0x18;
-        __emit 0x53;
-        __emit 0x7;
-        __emit 0x1;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0xe8;
-        __emit 0xd8;
-        __emit 0x86;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x74;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0xe8;
-        __emit 0x5f;
-        __emit 0xee;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0x8b;
-        __emit 0x0;
-        __emit 0x85;
-        __emit 0xc0;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x5;
-        __emit 0x74;
-        __emit 0x6;
-        __emit 0xf;
-        __emit 0xb7;
-        __emit 0x48;
-        __emit 0x4;
-        __emit 0xeb;
-        __emit 0x2;
-        __emit 0x33;
-        __emit 0xc9;
-        __emit 0x85;
-        __emit 0xc0;
-        __emit 0xf;
-        __emit 0x84;
-        __emit 0x53;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0x83;
-        __emit 0xc0;
-        __emit 0x8;
-        __emit 0xe9;
-        __emit 0x50;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0x8b;
-        __emit 0x35;
-        __emit 0xc4;
-        __emit 0xbf;
-        __emit 0x2a;
-        __emit 0x1;
-        __emit 0x85;
-        __emit 0xf6;
-        __emit 0x74;
-        __emit 0x10;
-        __emit 0x8b;
-        __emit 0xc6;
-        __emit 0x8d;
-        __emit 0x50;
-        __emit 0x1;
-        __emit 0x8a;
-        __emit 0x8;
-        __emit 0x40;
-        __emit 0x84;
-        __emit 0xc9;
-        __emit 0x75;
-        __emit 0xf9;
-        __emit 0x2b;
-        __emit 0xc2;
-        __emit 0xeb;
-        __emit 0x2;
-        __emit 0x33;
-        __emit 0xc0;
-        __emit 0x50;
-        __emit 0x56;
-        __emit 0x8b;
-        __emit 0xcf;
-        __emit 0xe8;
-        __emit 0x7;
-        __emit 0x7f;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x84;
-        __emit 0xc0;
-        __emit 0x74;
-        __emit 0x61;
-        __emit 0x8b;
-        __emit 0xd;
-        __emit 0x94;
-        __emit 0x15;
-        __emit 0x2f;
-        __emit 0x1;
-        __emit 0x8d;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0x50;
-        __emit 0xe8;
-        __emit 0xfc;
-        __emit 0x42;
-        __emit 0xf0;
-        __emit 0xff;
-        __emit 0x50;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0xc;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0x6;
-        __emit 0xe8;
-        __emit 0x94;
-        __emit 0x85;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x1;
-        __emit 0xe8;
-        __emit 0x36;
-        __emit 0x82;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x68;
-        __emit 0x18;
-        __emit 0x53;
-        __emit 0x7;
-        __emit 0x1;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0xc;
-        __emit 0xe8;
-        __emit 0x3f;
-        __emit 0x29;
-        __emit 0xf1;
-        __emit 0xff;
-        __emit 0x8d;
-        __emit 0x74;
-        __emit 0x24;
-        __emit 0x24;
-        __emit 0xe8;
-        __emit 0xcf;
-        __emit 0xed;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0x50;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0xc;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0x7;
-        __emit 0xe8;
-        __emit 0x25;
-        __emit 0xc1;
-        __emit 0xf1;
-        __emit 0xff;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x1;
-        __emit 0xe8;
-        __emit 0x4;
-        __emit 0x82;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0xeb;
-        __emit 0xa;
-        __emit 0x57;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0xc;
-        __emit 0xe8;
-        __emit 0x48;
-        __emit 0x85;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x8;
-        __emit 0xe8;
-        __emit 0x4f;
-        __emit 0x86;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x8b;
-        __emit 0x74;
-        __emit 0x24;
-        __emit 0x20;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x8;
-        __emit 0x51;
-        __emit 0x8b;
-        __emit 0xce;
-        __emit 0xe8;
-        __emit 0xff;
-        __emit 0x83;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x8;
-        __emit 0xc7;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0xc;
-        __emit 0x1;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x0;
-        __emit 0xe8;
-        __emit 0xc9;
-        __emit 0x81;
-        __emit 0x77;
-        __emit 0x0;
-        __emit 0x8b;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x5f;
-        __emit 0x8b;
-        __emit 0xc6;
-        __emit 0x5e;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0xd;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x14;
-        __emit 0xc2;
-        __emit 0x8;
-        __emit 0x0;
+    return text ? (int)strlen(text) : 0;
+}
+
+class AsciiString;
+
+template <typename T>
+class StringBase
+{
+    friend class AsciiString;
+
+public:
+    bool startsWithNoCase(const T *text, int length) const;
+    void set(const StringBase<T> &source);
+    void concat(const T *text, int length);
+    void concat(const StringBase<T> &source);
+    void toLower();
+
+    void concat(const T *text)
+    {
+        concat(text, text ? stringLength(text) : 0);
     }
+
+    bool startsWithNoCase(const T *text) const
+    {
+        return startsWithNoCase(text, text ? stringLength(text) : 0);
+    }
+
+private:
+    StringBase(const StringBase<T> &source);
+    StringBase(const T *text);
+
+    struct Header
+    {
+        int ref_count;
+        unsigned short length;
+        unsigned short capacity;
+        T data[1];
+    };
+
+    Header *m_data;
+};
+
+class AsciiString
+{
+public:
+    AsciiString() : m_text(0) {}
+
+    AsciiString(const AsciiString &source)
+    {
+        ((StringBase<char> *)this)->StringBase<char>::StringBase(
+            *(const StringBase<char> *)&source);
+    }
+
+    AsciiString(const char *text)
+    {
+        ((StringBase<char> *)this)->StringBase<char>::StringBase(text);
+    }
+
+    ~AsciiString();
+
+    AsciiString &operator=(const AsciiString &source)
+    {
+        ((StringBase<char> *)this)->set(*(const StringBase<char> *)&source);
+        return *this;
+    }
+
+    const char *str() const
+    {
+        return m_text ? m_text + 8 : "";
+    }
+
+    int getLength() const
+    {
+        return m_text ? *(const unsigned short *)(m_text + 4) : 0;
+    }
+
+    bool startsWithNoCase(const char *text) const
+    {
+        return ((const StringBase<char> *)this)->startsWithNoCase(text);
+    }
+
+    void concat(const char *text)
+    {
+        ((StringBase<char> *)this)->concat(text);
+    }
+
+    void concat(const AsciiString &source)
+    {
+        const int length = source.m_text
+            ? *(const unsigned short *)(source.m_text + 4) : 0;
+        const char *text = source.m_text ? source.m_text + 8 : "";
+        ((StringBase<char> *)this)->concat(text, length);
+    }
+
+    void toLower()
+    {
+        ((StringBase<char> *)this)->toLower();
+    }
+
+private:
+    char *m_text;
+};
+
+class MapCache
+{
+public:
+    AsciiString getMapDir() const;
+    AsciiString getUserMapDir() const;
+};
+
+extern MapCache *TheMapCache;
+
+class GameState
+{
+public:
+    AsciiString getSaveDirectory() const;
+    AsciiString getMapLeafName(const AsciiString &path) const;
+    AsciiString portableMapPathToRealMapPath(const AsciiString &in) const;
+};
+
+const char *PORTABLE_SAVE = "Save\\";
+const char *PORTABLE_MAPS = "Maps\\";
+const char *PORTABLE_USER_MAPS = "UserData\\Maps\\";
+
+static const char *findLastBackslashInRangeInclusive(const char *start,
+                                                       const char *end)
+{
+    while (end >= start)
+    {
+        if (*end == '\\')
+            return end;
+        --end;
+    }
+    return 0;
+}
+
+__declspec(noinline) static AsciiString getMapLeafAndDirName(const AsciiString &in)
+{
+    const char *start = in.str();
+    const char *end = in.str() + in.getLength() - 1;
+    const char *p = findLastBackslashInRangeInclusive(start, end);
+    if (p)
+    {
+        const char *p2 = findLastBackslashInRangeInclusive(start, p - 1);
+        if (p2)
+            return p2 + 1;
+        return in;
+    }
+    return in;
+}
+
+AsciiString GameState::portableMapPathToRealMapPath(const AsciiString &in) const
+{
+    AsciiString prefix;
+    const StringBase<char> *input = (const StringBase<char> *)&in;
+    if (input->startsWithNoCase(PORTABLE_SAVE, stringLength(PORTABLE_SAVE)))
+    {
+        prefix = getSaveDirectory();
+        prefix.concat(getMapLeafName(in));
+    }
+    else if (input->startsWithNoCase(PORTABLE_MAPS, stringLength(PORTABLE_MAPS)))
+    {
+        prefix = TheMapCache->getMapDir();
+        ((StringBase<char> *)&prefix)->concat("\\");
+        prefix.concat(getMapLeafAndDirName(in));
+    }
+    else if (input->startsWithNoCase(PORTABLE_USER_MAPS, stringLength(PORTABLE_USER_MAPS)))
+    {
+        prefix = TheMapCache->getUserMapDir();
+        ((StringBase<char> *)&prefix)->concat("\\");
+        ((StringBase<char> *)&prefix)->concat(
+            *(const StringBase<char> *)&getMapLeafAndDirName(in));
+    }
+    else
+    {
+        prefix = in;
+    }
+    prefix.toLower();
+    return prefix;
 }
