@@ -829,6 +829,7 @@ FXList::FXList()
 }
 
 //-------------------------------------------------------------------------------------------------
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/FXListLifecycle.cpp
 // ??1FXList@@UAE@XZ present-unmatched
 FXList::~FXList()
 {
@@ -836,6 +837,7 @@ FXList::~FXList()
 }
 
 //-------------------------------------------------------------------------------------------------
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/FXListLifecycle.cpp
 // ?clear@FXList@@QAEXXZ present-unmatched
 void FXList::clear()
 {
