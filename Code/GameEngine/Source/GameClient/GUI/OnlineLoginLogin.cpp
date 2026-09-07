@@ -18,8 +18,20 @@ public:
 		int unused0, int unused1, int unused2, int unused3 );
 };
 
+// Matched Rva00548D30WindowGroup::winEnable uses the retail data view: the
+// four child GameWindow pointers begin at this+0x74 and occupy +0x74..+0x80.
+class GameWindow
+{
+public:
+	int winEnable( bool enabled );
+};
+
 class Rva00548D30WindowGroup
 {
+private:
+	unsigned char m_pad[ 0x74 ];
+	GameWindow *m_windows[ 4 ];
+
 public:
 	void winEnable( bool enabled );
 };
