@@ -1,15 +1,23 @@
 // ?setEventName@AudioEventRTS@@QAEXVAsciiString@@@Z
-// partial score=0.97 date=2026-09-04
-// ?setEventName@AudioEventRTS@@QAEXVAsciiString@@@Z
-// partial score=0.97 date=2026-09-04
+// partial score=0.96 date=2026-09-07
+// Retail 0x000B38C0, 140B size-exact. Named by the byte-true call in
+// Code/GameEngine/Source/Common/INI/ini.cpp.
+// 135/140 bytes match; all 8 reloc sites align. Structure proven: compare
+// (AsciiString::compare via thunk 0x000220C5) gates an inlined
+// InterlockedDecrement + scalar-deleting-dtor release with null, then
+// UnicodeString::set (0x00C87C90) INSIDE the if (je skips it when equal),
+// then releaseBuffer dtor (0x00C87940) for the by-value arg. m_eventName is
+// at +0x14 (class must NOT redeclare the compiler vptr: no explicit m_vtable
+// member). Landed as dedicated TU Code/GameEngine/Source/Common/Audio/
+// AudioEventRTSSetEventName.cpp (home TU AudioEventRTS.cpp keeps its
+// present-unmatched body; its inline string ops cannot emit the out-of-line
+// compare/set calls).
+// Blocker: &m_eventName lands in EBX, retail EBP (push/lea/push-arg/mov-ecx/
+// pop = 5 bytes). Stable across member-access, pointer-local,
+// reference-local formulations. Pins needed once it flips: compare ->
+// 0x000220C5 thunk, StringBase::set -> 0x00C87C90, ~StringBase ->
+// 0x00C87940 (run decode_calls on the TU).
 // cl: /DNDEBUG /MD /EHsc
-
-// Open-BFME5: AudioEventRTS::setEventName, retail 0x000B38C0, 140 bytes.
-// Named by the byte-true call in Code/GameEngine/Source/Common/INI/ini.cpp
-// (?setEventName@AudioEventRTS@@QAEXVAsciiString@@@Z).
-// Best probe: 140B size-exact; only the EBP versus EBX name-pointer mirror
-// remains after the layout and local-definition-order probes.
-
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile *lpAddend);
 
 template <typename T> struct StringInlineData
@@ -28,6 +36,9 @@ private:
 	StringBase(const StringBase<T> &other);
 	~StringBase();
 
+public:
+	void set(const StringBase<T> &other);
+
 	StringInlineData<T> *m_data;
 };
 
@@ -39,7 +50,6 @@ public:
 	~AsciiString() {}
 
 	int compare(const AsciiString &other) const;
-	AsciiString &operator=(const AsciiString &other);
 };
 
 class AudioEventInfo
@@ -79,7 +89,7 @@ public:
 	void setEventName(AsciiString name);
 
 private:
-	AsciiString m_filenameToLoad;
+	AsciiString m_filenameToLoad;	// +0x04
 	CountedPtr m_eventInfo;		// +0x08
 	unsigned int m_playingHandle;
 	unsigned int m_killThisHandle;
@@ -89,9 +99,10 @@ private:
 // ?setEventName@AudioEventRTS@@QAEXVAsciiString@@@Z
 void AudioEventRTS::setEventName(AsciiString name)
 {
-	if (name.compare(m_eventName) != 0)
+	AsciiString *eventName = &m_eventName;
+	if (name.compare(*eventName) != 0)
 	{
 		m_eventInfo = 0;
-		m_eventName = name;
+		eventName->set(name);
 	}
 }
