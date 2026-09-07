@@ -1,11 +1,19 @@
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/stringinline
-// Open-BFME: TEAM_ENABLE_HOUSE_COLOR at retail RVA 0x002F7530.
+// The two house-colour indicator actions:
+//
+//   0x002F74E0  doUnitEnableHouseColor  UNIT_ENABLE_HOUSE_COLOR
+//   0x002F7530  doTeamEnableHouseColor  TEAM_ENABLE_HOUSE_COLOR
+//
+// Both reach a Drawable through Object vtable slot 10 and flip its house-colour
+// indicator. One does it to a single named unit, the other to every member of a
+// team.
 
 #include "StringInline.h"
 
 typedef bool Bool;
 
 class ScriptActions;
+class Object;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/Drawable.h
 class Drawable
@@ -14,8 +22,6 @@ private:
 	friend class ScriptActions;
 	void bfmeSetIndicatorOn(Bool enabled);
 };
-
-class Object;
 
 class BfmeObjectVirtualTail
 {
@@ -64,8 +70,6 @@ class Object : public BfmeObjectVtbl, public BfmeObjectDlinkBase,
 public:
 	unsigned char m_tail[0x40];
 };
-
-typedef Object *(Object::*BfmeGetNextTeamMemberFunc)(void) const;
 
 template<class OBJCLASS>
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/GameCommon.h
@@ -131,6 +135,18 @@ public:
 	virtual void _slot15() = 0;
 	virtual void _slot16() = 0;
 	virtual Team *getTeamNamed(AsciiString name, Bool unused) = 0;
+	virtual void _slot18() = 0;
+	virtual void _slot19() = 0;
+	virtual void _slot20() = 0;
+	virtual void _slot21() = 0;
+	virtual void _slot22() = 0;
+	virtual void _slot23() = 0;
+	virtual void _slot24() = 0;
+	virtual void _slot25() = 0;
+	virtual void _slot26() = 0;
+	// The by-value unit lookup at +0x6C, which other translation units in this
+	// tree spell getUnitNamedByValue. Both bodies here take the name by value.
+	virtual Object *getUnitNamed(AsciiString name) = 0;
 };
 
 extern ScriptEngine *TheScriptEngine;
@@ -147,8 +163,20 @@ public:
 class ScriptActions
 {
 protected:
+	void doUnitEnableHouseColor(Parameter *unit, Bool enabled);
 	void doTeamEnableHouseColor(Parameter *team, Bool enabled);
 };
+
+void ScriptActions::doUnitEnableHouseColor(Parameter *unit, Bool enabled)
+{
+	Object *object = TheScriptEngine->getUnitNamed(unit->m_string);
+	if (object) {
+		Drawable *drawable = object->getDrawable();
+		if (drawable) {
+			drawable->bfmeSetIndicatorOn(enabled);
+		}
+	}
+}
 
 void ScriptActions::doTeamEnableHouseColor(Parameter *team, Bool enabled)
 {
