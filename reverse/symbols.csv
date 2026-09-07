@@ -85252,3 +85252,4 @@ _bfmeScanYA,0x009F6FA6
 ?bfmeSubYC@BfmeElemYC@@QAEPAVBfmeSubYC@@XZ,0x00027CCD
 ?bfmeRoomYC@BfmeSubYC@@QAE?AVBfmeRoomYC@@XZ,0x0000CA95
 ?g_bfmeDefaultYC@@3VBfmeRoomYC@@A,0x00F36E50
+?bfmeCallYD@@YAXPAUBfmeVecYD@@HHU1@PAX@Z,0x0001D0B6
