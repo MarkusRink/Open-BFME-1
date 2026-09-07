@@ -304,7 +304,7 @@ name,address,notes
 ??$_Construct@UAnimSet@GenericObjectCreationNugget@@U12@@_STL@@YAXPAUAnimSet@GenericObjectCreationNugget@@ABU12@@Z,0x0000DDAF,resweep callee back-solved
 ??$_Construct@UBfmeRva44E60Record@@U1@@_STL@@YAXPAUBfmeRva44E60Record@@ABU1@@Z,0x0001476D,assigned body helper for Rva00244E60
 ??$_Construct@UCoord3D@@U1@@_STL@@YAXPAUCoord3D@@ABU1@@Z,0x0003FDA5,retail REL32 pin for DockUpdate reserveApproachPosition
-??$_Construct@UEvaSideSounds@@U1@@_STL@@YAXPAUEvaSideSounds@@ABU1@@Z,0x0000E3BD,pinharvest x1 (thunk)
+??$_Construct@UEvaSideSounds@@U1@@_STL@@YAXPAUEvaSideSounds@@ABU1@@Z,0x0001B275,repointed from the 0x0000E3BD pinharvest guess: retail vector<EvaSideSounds>::push_back at 0x000DED70 calls 0x0001B275 at +0x14 which jumps to 0x000DE4F0 in the EvaSideSounds COMDAT cluster; 0x0000E3BD jumps to _Construct<PSResponse> at 0x003685C0 which copies a GameSpyGroupRoom
 ??$_Construct@UFactionVictoryParameters@@U1@@_STL@@YAXPAUFactionVictoryParameters@@ABU1@@Z,0x0000CED2,ILT target 0x001DE970 copies the AsciiString and five scalar fields of the 0x18-byte FactionVictoryParameters used by VictorySystem::init
 ??$_Construct@UGen_p16pod@@U1@@_STL@@YAXPAUGen_p16pod@@ABU1@@Z,0x009267A0,Open-BFME near-twin Construct pin for _M_insert at 0x00927C30 reusing the Gen_p16pod tag from tgrid_000.cpp
 ??$_Construct@UGen_t_000638c0_p4cd@@U1@@_STL@@YAXPAUGen_t_000638c0_p4cd@@ABU1@@Z,0x000620B0,gen-tgrid payload member
@@ -1969,7 +1969,7 @@ name,address,notes
 ??0?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QAE@IABQAXABV?$allocator@PAX@1@@Z,0x0002039C,ILT the same resize calls at 0x00786930 to build the new bucket vector
 ??0?$vector@UGeometryRecord@@V?$allocator@UGeometryRecord@@@_STL@@@_STL@@QAE@ABV01@@Z,0x000149DE,GeometryInfo copy constructor vector<GeometryRecord> member at retail 0x000FFD10
 ??0?$vector@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@QAE@ABV01@@Z,0x00027570,GeometryInfo copy constructor vector<GeometryShape> member at retail 0x000FFD10
-??0?$vector@UICoord2D@@V?$allocator@UICoord2D@@@_STL@@@_STL@@QAE@ABV?$allocator@UICoord2D@@@1@@Z,0x00008DCD,pinharvest x1 (thunk)
+??0?$vector@UICoord2D@@V?$allocator@UICoord2D@@@_STL@@@_STL@@QAE@ABV?$allocator@UICoord2D@@@1@@Z,0x00048667,repointed from the 0x00008DCD pinharvest guess: MapUtil.cpp _$E30 encodes 0x00048667 which jumps to the 15-byte zero-three-slots body at 0x0039D5B0 byte-equal to the ledgered vector<ICoord2D> ctor at 0x001A93A0; 0x00008DCD jumps to the 32-byte list sentinel allocation at 0x004C4500
 ??0?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV01@@Z,0x000D2E70,SubsystemLegend.cpp TU copy of vector<AsciiString> copy ctor
 ??0?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@ABV?$allocator@VAsciiString@@@1@@Z,0x00008DCD,pinharvest x1 (thunk)
 ??0?$vector@VLivingWorldArmy@@V?$allocator@VLivingWorldArmy@@@_STL@@@_STL@@QAE@ABV01@@Z,0x0000DC0B,LivingWorldPlayerArmy copy constructor retail call at 0x0036527A invokes the vector<LivingWorldArmy> copy-constructor ILT thunk
@@ -12421,8 +12421,8 @@ name,address,notes
 ?_M_insert_overflow@?$vector@UCoord2D@@V?$allocator@UCoord2D@@@_STL@@@_STL@@QAEXPAUCoord2D@@ABU3@ABU__false_type@2@I_N@Z,0x0001CB9D,ILT to vector 8-byte _M_insert_overflow 0x001E9020; WeaponTemplate::parseScatterTarget
 ?_M_insert_overflow@?$vector@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@IAEXPAUCoord3D@@ABU3@ABU__false_type@2@I_N@Z,0x000070CC,retail REL32 pin for DockUpdate reserveApproachPosition
 ?_M_insert_overflow@?$vector@UDetonatorInfo@MinefieldBehavior@@V?$allocator@UDetonatorInfo@MinefieldBehavior@@@_STL@@@_STL@@IAEXPAUDetonatorInfo@MinefieldBehavior@@ABU34@ABU__false_type@2@I_N@Z,0x0000AE93,pinharvest x1 (thunk)
-?_M_insert_overflow@?$vector@UEvaCheck@@V?$allocator@UEvaCheck@@@_STL@@@_STL@@IAEXPAUEvaCheck@@ABU3@ABU__false_type@2@I_N@Z,0x0000AE93,pinharvest x1 (thunk)
-?_M_insert_overflow@?$vector@UEvaSideSounds@@V?$allocator@UEvaSideSounds@@@_STL@@@_STL@@IAEXPAUEvaSideSounds@@ABU3@ABU__false_type@2@I_N@Z,0x0000C4A0,pinharvest x1 (thunk)
+?_M_insert_overflow@?$vector@UEvaCheck@@V?$allocator@UEvaCheck@@@_STL@@@_STL@@IAEXPAUEvaCheck@@ABU3@ABU__false_type@2@I_N@Z,0x0000FCAE,repointed from the 0x0000AE93 pinharvest guess: retail vector<EvaCheck>::push_back at 0x00574CD0 calls 0x0000FCAE at +0x3f and that ILT jumps to the 16-byte-element insert_overflow body at 0x00573F40; 0x0000AE93 jumps to the different body at 0x0075A330
+?_M_insert_overflow@?$vector@UEvaSideSounds@@V?$allocator@UEvaSideSounds@@@_STL@@@_STL@@IAEXPAUEvaSideSounds@@ABU3@ABU__false_type@2@I_N@Z,0x00020C98,repointed from the 0x0000C4A0 pinharvest guess: the same push_back at 0x000DED70 calls 0x00020C98 at +0x36 which jumps to 0x000DEA80 beside _M_clear<vector<EvaSideSounds>> at 0x000DE970
 ?_M_insert_overflow@?$vector@UFactionVictoryParameters@@V?$allocator@UFactionVictoryParameters@@@_STL@@@_STL@@IAEXPAUFactionVictoryParameters@@ABU3@ABU__false_type@2@I_N@Z,0x0000303A,ILT target 0x001DFFF0 is the 0x18-byte nontrivial STLport vector grow path called by VictorySystem::init
 ?_M_insert_overflow@?$vector@UFlightDeckInfo@FlightDeckBehavior@@V?$allocator@UFlightDeckInfo@FlightDeckBehavior@@@_STL@@@_STL@@IAEXPAUFlightDeckInfo@FlightDeckBehavior@@ABU34@ABU__false_type@2@I_N@Z,0x0000A47A,pinharvest x1 (thunk)
 ?_M_insert_overflow@?$vector@UGen_t_000638c0_p4cd@@V?$allocator@UGen_t_000638c0_p4cd@@@_STL@@@_STL@@IAEXPAUGen_t_000638c0_p4cd@@ABU3@ABU__false_type@2@I_N@Z,0x00063700,gen-tgrid payload member
