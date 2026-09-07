@@ -4,8 +4,34 @@
 #include <stl/_config.h>
 #undef _STLP_DEFAULT_CONSTRUCTOR_BUG
 #include <map>
+#include <string.h>
 
 #include "../../../../reference/shims/stringinline/StringInline.h"
+
+// Retail string headers store ushort length/capacity before the text at +8.
+// StringInline supplies the owning ABI; this local view supplies comparison.
+struct BFMEAsciiStringHeader
+{
+	int references;
+	unsigned short length;
+	unsigned short capacity;
+	char text[1];
+};
+static inline int filePathLength(const AsciiString &text)
+{
+	BFMEAsciiStringHeader *data = *reinterpret_cast<BFMEAsciiStringHeader * const *>(&text);
+	return data ? data->length : 0;
+}
+static inline int compareFilePaths(const AsciiString &left, const AsciiString &right)
+{
+	int rightLength = filePathLength(right);
+	const char *rightText = right.str();
+	int leftLength = filePathLength(left);
+	const char *leftText = left.str();
+	int length = leftLength < rightLength ? leftLength : rightLength;
+	int result = memcmp(leftText, rightText, length);
+	return result ? result : leftLength - rightLength;
+}
 
 typedef std::map<unsigned short, AsciiString> FileCommandMap;
 typedef std::map<unsigned short, unsigned char> FileMaskMap;
@@ -499,6 +525,7 @@ public:
 	void processChat(NetChatCommandMsg *msg);
 	void sendDisconnectChat(UnicodeString text);
 	UnicodeString getPlayerName(int slot);
+	int getFileTransferProgress(int playerID, AsciiString path);
 	friend class BFMEConnectionManager;
 	unsigned int getPacketRouterSlot();
 
@@ -516,6 +543,10 @@ private:
 	UnicodeString m_localPlayerName;
 	char m_unknown1205C[0x88];
 	FrameDataManager *m_frameData[8];
+	char m_unknown12104[0x14];
+	FileCommandMap m_fileCommandMap;
+	FileMaskMap m_fileRecipientMaskMap;
+	FileProgressMap m_fileProgressMap[8];
 };
 
 // Role-derived local identity: the native manager embeds nine 65536-bit
@@ -575,7 +606,6 @@ public:
 	void destroy();
 	void processWrappedCommand(NetCommandRef *ref);
 	void sendFileChunk(const char *path, int playerMask, int chunk);
-	void updateFileProgress();
 	void buildPlayerStatusText(void *out);
 	void queueLocalCommand(void *msg); // legacy assembly identity; actual ABI is ackCommand below
 	void ackCommand(NetCommandRef *ref, NetPacketAddress *source);
@@ -3856,130 +3886,18 @@ L05_666B9D:
 	}
 }
 
-// Walks the per-transfer map at this+0x12130 with the STL red-black tree
-// iterator and refreshes the progress bookkeeping at this+0x12118, releasing
-// the AsciiString buffers it built along the way.
-__declspec(naked) void BFMEConnectionManager::updateFileProgress()
+// Network::getFileTransferProgress proves the player and by-value filename ABI.
+// Search announced filenames and return the corresponding player's percentage.
+int ConnectionManager::getFileTransferProgress(int playerID, AsciiString path)
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 1044608h
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		push ebx
-		push ebp
-		push esi
-		push edi
-		mov dword ptr [esp+10h], ecx
-		mov ecx, dword ptr [ecx+12118h]
-		mov eax, dword ptr [ecx+8h]
-		cmp eax, ecx
-		mov dword ptr [esp+1Ch], 0h
-		je L00_669A9C
-L10_669A33:
-		mov ecx, dword ptr [esp+28h]
-		test ecx, ecx
-		je L01_669A44
-		movzx ebp, word ptr [ecx+4h]
-		lea edi,  [ecx+8h]
-		jmp L02_669A4B
-L01_669A44:
-		xor ebp, ebp
-		mov edi, 107388Bh
-L02_669A4B:
-		mov ecx, dword ptr [eax+14h]
-		test ecx, ecx
-		je L03_669A58
-		movzx ebx, word ptr [ecx+4h]
-		jmp L04_669A5A
-L03_669A58:
-		xor ebx, ebx
-L04_669A5A:
-		test ecx, ecx
-		lea esi,  [ecx+8h]
-		jne L05_669A66
-		mov esi, 107388Bh
-L05_669A66:
-		cmp ebx, ebp
-		mov ecx, ebx
-		jl L06_669A6E
-		mov ecx, ebp
-L06_669A6E:
-		xor edx, edx
-		repe cmpsb
-		je L07_669A79
-		sbb edx, edx
-		sbb edx, 0FFFFFFFFh
-L07_669A79:
-		test edx, edx
-		jne L08_669A85
-		sub ebx, ebp
-		mov edx, ebx
-		test edx, edx
-		je L09_669AC4
-L08_669A85:
-		push eax
-		__emit 0E8h
-		__emit 0E5h
-		__emit 01Dh
-		__emit 01Ch
-		__emit 000h   // call 0x82B870
-		mov ecx, dword ptr [esp+14h]
-		mov edx, dword ptr [ecx+12118h]
-		add esp, 4h
-		cmp eax, edx
-		jne L10_669A33
-L00_669A9C:
-		lea ecx,  [esp+28h]
-		mov dword ptr [esp+1Ch], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 093h
-		__emit 0DEh
-		__emit 021h
-		__emit 000h   // call 0x887940
-		pop edi
-		pop esi
-		pop ebp
-		xor eax, eax
-		pop ebx
-		mov ecx, dword ptr [esp+4h]
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret 8h
-L09_669AC4:
-		add eax, 10h
-		push eax
-		mov eax, dword ptr [esp+28h]
-		__emit 08Dh
-		__emit 014h
-		__emit 040h   // lea edx, [eax + eax*2]
-		mov eax, dword ptr [esp+14h]
-		lea ecx,  [eax+edx*4+12130h]
-		__emit 0E8h
-		__emit 012h
-		__emit 068h
-		__emit 09Ch
-		__emit 0FFh   // call 0x302F1
-		mov esi, dword ptr [eax]
-		lea ecx,  [esp+28h]
-		mov dword ptr [esp+1Ch], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 04Eh
-		__emit 0DEh
-		__emit 021h
-		__emit 000h   // call 0x887940
-		mov ecx, dword ptr [esp+14h]
-		pop edi
-		mov eax, esi
-		pop esi
-		pop ebp
-		pop ebx
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret 8h
+	FileCommandMap::iterator command = m_fileCommandMap.begin();
+	while (command != m_fileCommandMap.end())
+	{
+		if (compareFilePaths(command->second, path) == 0)
+			return m_fileProgressMap[playerID][command->first];
+		++command;
 	}
+	return 0;
 }
 
 // Composes the per-player status line the disconnect and load screens show. It
