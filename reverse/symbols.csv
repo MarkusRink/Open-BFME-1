@@ -82565,6 +82565,7 @@ name,address,notes
 ?setText1C@BFMENetGameSpyStatsAuthKeyCommandMsg@@QAEXVAsciiString@@@Z,0x00675C50,ABI alias of the matched StringBase setter reached by retail ILT 0x0002F423
 ?setText20@BFMENetGameSpyStatsAuthKeyCommandMsg@@QAEXVAsciiString@@@Z,0x00675CE0,ABI alias of the matched StringBase setter reached by retail ILT 0x0001711B
 ?setText@NetChatCommandMsg@@QAEXVUnicodeString@@@Z,0x006752B0,"NetChatCommandMsg::setText; ILT 0x31151; this+0x1c StringBase assignment, by-value UnicodeString destruction, ret 4 independently reviewed"
+?setText@NetDisconnectChatCommandMsg@@QAEXVUnicodeString@@@Z,0x00675180,"ABI alias for the wrapper UnicodeString by-value setter; retail ILT 0x0001C59E routes to the matched StringBase setter body, and type-13 reader/constructor identify the owning class"
 ?setText@WinInstanceDataShim@@QAEXVUnicodeString@@@Z,0x00004205,WinInstanceData::setText via ILT thunk
 ?setTexture@BfmeStreakObject@@QAEXABQAVTextureClass@@@Z,0x00955880,retail callee pin for W3DStreakDraw constructor
 ?setThingTemplate@MapObject@@QAEXPBVThingTemplate@@@Z,0x000420FF,WorldHeightMap.cpp declares the MapObject template setter; handleNameChange at 0x00388970 calls this retail ILT
