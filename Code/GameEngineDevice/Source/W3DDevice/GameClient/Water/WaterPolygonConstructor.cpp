@@ -26,11 +26,11 @@ private:
 	T *m_referent;
 };
 
-class Rva007A4FD0ArrayOwner
+class Rva007A1230ArrayOwner
 {
 public:
-	Rva007A4FD0ArrayOwner(void *source);
-	virtual ~Rva007A4FD0ArrayOwner(void);
+	Rva007A1230ArrayOwner(void *source);
+	virtual ~Rva007A1230ArrayOwner(void);
 	void initialize(void *source);
 
 private:
@@ -58,10 +58,10 @@ extern void d_007a4d40(void);
 // VC7.1 reserves __thiscall in a free-function-pointer typedef.  A fastcall
 // cast with the source duplicated gives the same ECX object and stack argument
 // while leaving the otherwise-unused EDX copy harmless at the target.
-typedef void (__fastcall *Rva007A4FD0InitializeCall)(
-	Rva007A4FD0ArrayOwner *, void *, void *);
+typedef void (__fastcall *WaterPolygonInitializeCall)(
+	Rva007A1230ArrayOwner *, void *, void *);
 
-Rva007A4FD0ArrayOwner::Rva007A4FD0ArrayOwner(void *source)
+Rva007A1230ArrayOwner::Rva007A1230ArrayOwner(void *source)
 	: m_firstFlag(0), m_firstValue(0)
 {
 	m_secondFlag = 0;
@@ -72,5 +72,5 @@ Rva007A4FD0ArrayOwner::Rva007A4FD0ArrayOwner(void *source)
 	m_value5c = 0;
 	m_value60 = 0;
 	m_cached = 0;
-	((Rva007A4FD0InitializeCall)d_007a4d40)(this, source, source);
+	((WaterPolygonInitializeCall)d_007a4d40)(this, source, source);
 }
