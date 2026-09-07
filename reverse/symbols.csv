@@ -10843,7 +10843,6 @@ name,address,notes
 ?Rva006A16B0Table@@3PAURva006A16B0Entry@@A,0x0111BAC8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006A16B0 calls; autopin
 ?Rva006D4690Apply@@YAXPAX@Z,0x00038389,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x006D4FF0 calls; autopin
 ?Rva00739900Forward@@YAXPAXM@Z,0x000246A4,Open-BFME5 ILT thunk used by the 0x006FCBD0 clamped float forwarder
-?Rva00739B30@@YAXPAVRva00609560Item@@H@Z,0x00739B30
 ?Rva007705D0Copy@@YAPAURva007705D0Element@@PAU1@00ABURva007705D0RandomAccessTag@@PAH@Z,0x0000DB89,STL copy helper called by the resize wrapper at 0x007705D0
 ?Rva007E8640Copy@@YAXPADIPBD@Z,0x007E8640,U2 lane: bounded string copy called by the setters at 0x00801470 and 0x008014A0
 ?Rva007E9B70Get@@YAPAURva007E9B70Obj@@XZ,0x007E9B70,FESL getter used by 0x007FA6C0 vslot2
@@ -85859,3 +85858,12 @@ _bfmeVftAEVK,0x00D12DBC,pin vftable for BfmeConv2001
 _bfmeVftBEVK,0x00D12DB8,pin vftable for BfmeConv2001
 _bfmeVftCEVK,0x00D12DA4,pin vftable for BfmeConv2001
 ?bfmeApplyEVM@BfmeSubEVM@@QAEXH@Z,0x00024D70,pin sub apply for BfmeConv2002
+?upgradeMuxXfer@UpgradeMux@@MAEXPAVXfer@@@Z,0x002D9B90,FireWeaponWhenDamagedBehavior::xfer at RVA 0x001FB270 calls this on its proven UpgradeMux secondary base at +0x20; the callee transfers Xfer::Version then m_upgradeExecuted at +0x04; corroborated by upstream UpgradeMux and the paired upgradeMuxLoadPostProcess body; campaign=luna36h-20260907;lane=finish;model=gpt-5.6-sol-ultra
+?rva003C8160@LivingWorldRegionManager@@QAEPAVLivingWorldRegion@@PAUCoord3D@@@Z,0x003C8160,address-derived typed LivingWorldRegionManager member body proven by 0x003C8B90 this-preserving call and returned region pointer; campaign=luna36h-20260907;lane=expand02;model=gpt-5.6-sol-ultra
+?rva003C8340@LivingWorldRegionManager@@QAEXPAVLivingWorldRegion@@@Z,0x003C8340,address-derived typed LivingWorldRegionManager member body whose matched layout consumes the selected-region pointer at this+0x08; campaign=luna36h-20260907;lane=expand02;model=gpt-5.6-sol-ultra
+?bfmeGet@Gen_006C5690@@QBE?AVBfmeHandleCX@@XZ,0x0001DF34,retail BaseHeightMap call uses this incremental-link thunk to the matched getter body; route=0x006C5690; campaign=luna36h-20260907;lane=shaders;model=gpt-5.6-sol-ultra
+?g_pfnGetThreadACP@ATL@@3P6GIXZA,0x012A64C0,VS2003 ATL conversion ACP slot; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+?_AtlVerifyStackAvailable@_ATL_SAFE_ALLOCA_IMPL@ATL@@YA_NI@Z,0x0005B6E0,direct body pin: VS2003 atlalloc.h stack probe reached through retail ILT 0x0002F6F8; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+?AtlW2AHelper@ATL@@YGPADPADPBGHI@Z,0x0005B8E0,direct body pin: VS2003 atlconv.h wide-to-ANSI helper reached through retail ILT 0x0001B3F6; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+?AtlThrow@ATL@@YGXJ@Z,0x0005BA40,direct body pin: VS2003 atlexcept.h exception helper reached through retail ILT 0x00019ACE; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+?Rva007EFFC0Get@@YAPAVRva007EFFC0Allocator@@XZ,0x007EFFC0,typed allocator singleton getter; complete body returns global allocator and the 0x00808ED0 caller uses proven allocate slot +8 and release slot +0xC; direct body; campaign=luna36h-20260907;lane=netpacket_next;model=gpt-5.6-sol-ultra

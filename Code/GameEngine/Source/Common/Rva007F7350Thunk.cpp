@@ -1,22 +1,22 @@
-// ?Rva007F7350Thunk@@YAXPAHPAX@Z
-void d_007f72d0();
+// Retail RVA 0x007F7350 is the cdecl callback adapter for the game-browser
+// message handler at 0x007F72D0. Both arguments are pointers; the adapter
+// passes the message on the stack and loads the browser receiver into ECX.
+// Keep the existing address-derived export's opaque 32-bit argument ABI,
+// but decode its message address and call the recovered member normally.
 
-struct Rva007F72D0Obj
+class Rva007E8810Message;
+struct Rva007F72D0Obj;
+
+class BfmeThingZI
 {
-	void dump( int value );
+public:
+	void Rva007F72D0(Rva007E8810Message *message);
 };
 
-typedef void( Rva007F72D0Obj::*Rva007F72D0MemFn )( int );
-
-union Rva007F72D0Cast
+void Rva007F7350Thunk(int messageAddress, Rva007F72D0Obj *opaqueObject)
 {
-	void *raw;
-	Rva007F72D0MemFn fn;
-};
-
-void Rva007F7350Thunk( int value, Rva007F72D0Obj *obj )
-{
-	Rva007F72D0Cast u;
-	u.raw = (void *)d_007f72d0;
-	(obj->*u.fn)( value );
+	Rva007E8810Message *message =
+		reinterpret_cast<Rva007E8810Message *>(messageAddress);
+	BfmeThingZI *object = reinterpret_cast<BfmeThingZI *>(opaqueObject);
+	object->Rva007F72D0(message);
 }

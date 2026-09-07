@@ -1,11 +1,14 @@
 // cl: /O2 /Ob0
 // Converted from Code/gen_asm/d_005e97b0.asm (?d_00609560@@YAXXZ).
 // stdcall walk: recount via vslot 0x6C, get via 0x74, cdecl release then dec +4.
+// The walked objects are RenderObjClass instances. Keep this prefix view local:
+// the caller only reaches Delete_This at slot 0 and its proven counter at +4,
+// while Rva00739B30's full render-object view owns the other WW3D slots.
 
-class Rva00609560Item
+class RenderObjClass
 {
 public:
-	virtual void destroy();
+	virtual void Delete_This();
 	int m_refs;
 };
 
@@ -41,10 +44,10 @@ public:
 	virtual void v26();
 	virtual int count();
 	virtual void v28();
-	virtual Rva00609560Item *get(int i);
+	virtual RenderObjClass *get(int i);
 };
 
-void __cdecl Rva00739B30(Rva00609560Item *item, int flag);
+void __cdecl Rva00739B30(RenderObjClass *item, bool flag);
 
 void __stdcall Rva00609560(Rva00609560Bag *bag)
 {
@@ -53,12 +56,12 @@ void __stdcall Rva00609560(Rva00609560Bag *bag)
 		return;
 	do
 	{
-		Rva00609560Item *item = bag->get(i);
+		RenderObjClass *item = bag->get(i);
 		if (item)
 		{
 			Rva00739B30(item, 0);
 			if (--item->m_refs == 0)
-				item->destroy();
+				item->Delete_This();
 		}
 		++i;
 	} while (i < bag->count());

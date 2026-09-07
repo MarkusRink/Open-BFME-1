@@ -42,17 +42,80 @@ struct Rva00809500Entry
 {
 	char m_pad00[ 0x10 ];
 	const char *m_text;
-	char m_pad14[ 8 ];
+	int m_gdatBufferSize;
+	int m_pad18;
 	int m_length;
 };
 
 struct Rva00809500Sink
 {
+	void accept( Rva00809500Entry *entry );
+
 	int m_pad00;
 	int m_value04;
 	int m_value08;
 	int m_value0c;
+	int m_pad10;
+	char *m_gdatBuffer;
+	int m_gdatBufferSize;
+	unsigned int m_gdatTimestamp;
 };
+
+class Rva007EFFC0Allocator
+{
+public:
+	virtual void v0();
+	virtual void v1();
+	virtual void *allocate( int size, int flags );
+	virtual void release( void *block, int flags );
+};
+
+struct Rva007EB810Diag
+{
+	virtual void v0();
+	virtual void v1();
+	virtual void v2();
+	virtual void fail( const char *expr, const char *file, int line );
+};
+
+struct Rva007E9B70Obj
+{
+	virtual void v0();
+	virtual void v1();
+	virtual unsigned int now();
+};
+
+Rva007EFFC0Allocator *Rva007EFFC0Get();
+Rva007EB810Diag *Rva007EB810Get();
+Rva007E9B70Obj *Rva007E9B70Get();
+
+void Rva00809500Sink::accept( Rva00809500Entry *entry )
+{
+	if( m_gdatBuffer != 0 )
+		Rva007EFFC0Get()->release( m_gdatBuffer, 0 );
+
+	m_gdatBufferSize = entry->m_gdatBufferSize;
+	m_gdatBuffer = (char *)Rva007EFFC0Get()->allocate( m_gdatBufferSize, 0 );
+	if( m_gdatBuffer == 0 )
+	{
+		Rva007EB810Get()->fail(
+			"mGdatBuffer",
+			"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\lantheateremulator.cpp",
+			0x4EA );
+	}
+
+	const char *source = entry->m_text;
+	char *dest = m_gdatBuffer;
+	char value;
+	do
+	{
+		value = *source++;
+		*dest++ = value;
+	}
+	while( value != 0 );
+
+	m_gdatTimestamp = Rva007E9B70Get()->now();
+}
 
 class Rva00809010Finder
 {
