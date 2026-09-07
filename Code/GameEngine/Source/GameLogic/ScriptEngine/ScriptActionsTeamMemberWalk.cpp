@@ -1,10 +1,16 @@
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/objectdlink
+// readable body of ?doAffectObjectPanelFlagsTeam@ScriptActions@@IAEXABVAsciiString@@0_N@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
 // readable body of ?doTeamStop@ScriptActions@@IAEXABVAsciiString@@_N@Z: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions.cpp
-// Open-BFME: ScriptActions::doTeamStop, retail 0x002FDDB0, 244 bytes.
 //
-// Team-member walk via Object's virtually-inherited DLINK PMF
-// {pfn=0x00401140, delta=-100, vbindex=0}. Layout from ObjectDlinkPmf.h.
-
+// The two actions that walk a team's members through Object's
+// virtually-inherited DLINK pointer-to-member {pfn=0x00401140, delta=-100,
+// vbindex=0}:
+//
+//   0x002FC4C0  doAffectObjectPanelFlagsTeam  a command-panel flag per member
+//   0x002FDDB0  doTeamStop                    idle the group, optionally disband
+//
+// doTeamStop's disband arm is the walk: it makes every member recruitable again
+// and then merges the team into its player's default team.
 #include "ObjectDlinkPmf.h"
 
 typedef bool Bool;
@@ -167,6 +173,7 @@ extern ScriptEngine *TheScriptEngine;
 extern AI *TheAI;
 extern AsciiString TheEmptyString;
 
+// ?getName@Team@@QBEABVAsciiString@@XZ present-unmatched
 const AsciiString& Team::getName() const
 {
 	if (!m_proto)
@@ -178,14 +185,29 @@ enum CommandSourceType
 {
 	CMD_FROM_SCRIPT = 1
 };
-
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/ScriptActions.h
 class ScriptActions
 {
 protected:
+	void changeObjectPanelFlagForSingleObject(Object *obj, const AsciiString& flagToChange, Bool newVal);
 	void doMergeTeamIntoTeam(const AsciiString& teamSrcName, const AsciiString& teamDestName);
+	void doAffectObjectPanelFlagsTeam(const AsciiString& teamName, const AsciiString& flagName, Bool enable);
 	void doTeamStop(const AsciiString& teamName, Bool shouldDisband);
 };
+
+void ScriptActions::doAffectObjectPanelFlagsTeam(const AsciiString& teamName, const AsciiString& flagName, Bool enable)
+{
+	Team *team = TheScriptEngine->getTeamNamed(teamName, false);
+	if (!team) {
+		return;
+	}
+
+	DLINK_ITERATOR<Object> iter = team->iterate_TeamMemberList();
+	for (iter = team->iterate_TeamMemberList(); !iter.done(); iter.advance()) {
+		Object *obj = iter.cur();
+		changeObjectPanelFlagForSingleObject(obj, flagName, enable);
+	}
+}
 
 void ScriptActions::doTeamStop(const AsciiString& teamName, Bool shouldDisband)
 {
