@@ -19,8 +19,6 @@
 // The old MatrixMapper coordinate label on this byte dump was incorrect:
 // there are no coordinate calculations; this body walks mesh material and
 // renderer state. RET 8 at 0x0094F44B ends before two INT3 padding bytes.
-#include "w3d_file.h"
-#include "shader.h"
 #include "multilist.h"
 
 class VertexMaterialClass;
@@ -47,15 +45,6 @@ public:
             p->Release_Ref();
         }
     }
-};
-
-class ChunkLoadClass {
-public:
-    unsigned long Cur_Chunk_Length();
-    unsigned long Cur_Chunk_ID();
-    bool Open_Chunk();
-    bool Close_Chunk();
-    unsigned long Read(void *buffer, unsigned long bytes);
 };
 
 class MeshMatDescClass {
@@ -189,3 +178,18 @@ void MeshModelClass::Replace_VertexMaterial(VertexMaterialClass* vmat,VertexMate
 	}	
 }
 
+
+// MeshClass wrapper at 0x0092C3F0, full 11 bytes. The six-byte Model load
+// and five-byte tail jump form one function. The prior placement at
+// 0x0092C310 was the unrelated Get_User_Text forwarding body.
+// The MeshClass entry forwards both material pointers to Model at +0xC8.
+class MeshClass {
+    unsigned char beforeModel[0xc8];
+    MeshModelClass *Model;
+public:
+    void Replace_VertexMaterial(VertexMaterialClass *vmat,VertexMaterialClass *new_vmat);
+};
+void MeshClass::Replace_VertexMaterial(VertexMaterialClass *vmat,VertexMaterialClass *new_vmat)
+{
+    Model->Replace_VertexMaterial(vmat,new_vmat);
+}
