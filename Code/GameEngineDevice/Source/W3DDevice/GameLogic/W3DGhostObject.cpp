@@ -86,38 +86,169 @@ protected:
 //texture animation.
 static RenderObjClass::Material_Override animationDisableOverride;
 
-//Helper function used to disable all UV mapper animations on a given model.
-//Also use this pass to disable muzzle effects.
+class BfmeDisableUVRenderObject
+{
+public:
+	virtual void slot00() = 0;
+	virtual void slot01() = 0;
+	virtual void slot02() = 0;
+	virtual Int Class_ID() const = 0;
+	virtual void slot04() = 0;
+	virtual void slot05() = 0;
+	virtual void slot06() = 0;
+	virtual void slot07() = 0;
+	virtual void slot08() = 0;
+	virtual void slot09() = 0;
+	virtual void slot10() = 0;
+	virtual void slot11() = 0;
+	virtual void slot12() = 0;
+	virtual void slot13() = 0;
+	virtual void slot14() = 0;
+	virtual void slot15() = 0;
+	virtual void slot16() = 0;
+	virtual void slot17() = 0;
+	virtual void slot18() = 0;
+	virtual void slot19() = 0;
+	virtual void slot20() = 0;
+	virtual void slot21() = 0;
+	virtual void slot22() = 0;
+	virtual void slot23() = 0;
+	virtual void slot24() = 0;
+	virtual void slot25() = 0;
+	virtual void slot26() = 0;
+	virtual Int Get_Num_Sub_Objects() const = 0;
+	virtual void slot28() = 0;
+	virtual BfmeDisableUVRenderObject *Get_Sub_Object(Int index) = 0;
+	virtual void slot30() = 0;
+	virtual void slot31() = 0;
+	virtual void slot32() = 0;
+	virtual void slot33() = 0;
+	virtual void slot34() = 0;
+	virtual void slot35() = 0;
+	virtual void slot36() = 0;
+	virtual void slot37() = 0;
+	virtual void slot38() = 0;
+	virtual void slot39() = 0;
+	virtual void slot40() = 0;
+	virtual void slot41() = 0;
+	virtual void slot42() = 0;
+	virtual void slot43() = 0;
+	virtual void slot44() = 0;
+	virtual void slot45() = 0;
+	virtual void slot46() = 0;
+	virtual void slot47() = 0;
+	virtual void slot48() = 0;
+	virtual void slot49() = 0;
+	virtual void slot50() = 0;
+	virtual void slot51() = 0;
+	virtual void slot52() = 0;
+	virtual void slot53() = 0;
+	virtual void slot54() = 0;
+	virtual void slot55() = 0;
+	virtual void slot56() = 0;
+	virtual void slot57() = 0;
+	virtual void slot58() = 0;
+	virtual void slot59() = 0;
+	virtual void slot60() = 0;
+	virtual void slot61() = 0;
+	virtual void slot62() = 0;
+	virtual void slot63() = 0;
+	virtual void slot64() = 0;
+	virtual void slot65() = 0;
+	virtual void slot66() = 0;
+	virtual void slot67() = 0;
+	virtual void slot68() = 0;
+	virtual void slot69() = 0;
+	virtual void slot70() = 0;
+	virtual void slot71() = 0;
+	virtual void slot72() = 0;
+	virtual void slot73() = 0;
+	virtual void slot74() = 0;
+	virtual void slot75() = 0;
+	virtual void slot76() = 0;
+	virtual void slot77() = 0;
+	virtual void slot78() = 0;
+	virtual void slot79() = 0;
+	virtual void slot80() = 0;
+	virtual void slot81() = 0;
+	virtual void slot82() = 0;
+	virtual void slot83() = 0;
+	virtual BfmeDisableUVRenderObject *Get_Material_Info() = 0;
+	virtual void Set_User_Data(void *data, Bool recursive) = 0;
+	UnsignedInt m_refCount;
+};
+
+class BfmeDisableUVMaterialInfo
+{
+public:
+	virtual void Release() = 0;
+	UnsignedInt m_refCount;
+	UnsignedByte m_pad08[4];
+	BfmeDisableUVRenderObject **m_vertexMaterials;
+	UnsignedByte m_pad10[8];
+	Int m_vertexMaterialCount;
+};
+
+class BfmeDisableUVVertexMaterial
+{
+public:
+	virtual void slot00() = 0;
+	UnsignedByte m_pad04[0x1c];
+	BfmeDisableUVRenderObject *m_mapper;
+};
+
+class BfmeDisableUVMapper
+{
+public:
+	virtual void slot00() = 0;
+	virtual void slot01() = 0;
+	virtual Int Mapper_ID() const = 0;
+};
+
+// Helper function used to disable all UV mapper animations on a given model.
 void disableUVAnimations(RenderObjClass *robj)
 {
-	if (robj && robj->Class_ID() == RenderObjClass::CLASSID_HLOD)
+	BfmeDisableUVRenderObject *object =
+		reinterpret_cast<BfmeDisableUVRenderObject *>(robj);
+	if (object && object->Class_ID() == RenderObjClass::CLASSID_HLOD)
 	{
-		//Also disable any animations that may be playing using mappers (texture scrolling)
-		for (Int i=0; i < robj->Get_Num_Sub_Objects(); i++)
+		for (Int i = 0; i < object->Get_Num_Sub_Objects(); ++i)
 		{
-			RenderObjClass *subObj=robj->Get_Sub_Object(i);
-			if (subObj && subObj->Class_ID() == RenderObjClass::CLASSID_MESH)
-			{	//check if sub-object has the correct material to do texture scrolling.
-				MaterialInfoClass *mat=subObj->Get_Material_Info();
-				if (mat)
-				{	for (Int j=0; j<mat->Vertex_Material_Count(); j++)
+			BfmeDisableUVRenderObject *subObject = object->Get_Sub_Object(i);
+			if (subObject && subObject->Class_ID() == 0)
+			{
+				BfmeDisableUVMaterialInfo *material =
+					reinterpret_cast<BfmeDisableUVMaterialInfo *>(
+						subObject->Get_Material_Info());
+				if (material)
+				{
+					for (Int j = 0; j < material->m_vertexMaterialCount; ++j)
 					{
-						VertexMaterialClass *vmaterial=mat->Peek_Vertex_Material(j);
-						LinearOffsetTextureMapperClass *mapper=(LinearOffsetTextureMapperClass *)vmaterial->Peek_Mapper();
-						if (mapper && mapper->Mapper_ID() == TextureMapperClass::MAPPER_ID_LINEAR_OFFSET)
-						{	
-							subObj->Set_User_Data(&animationDisableOverride);	//tell W3D about custom material settings
+						BfmeDisableUVVertexMaterial *vertexMaterial =
+							reinterpret_cast<BfmeDisableUVVertexMaterial *>(
+								material->m_vertexMaterials[j]);
+						BfmeDisableUVMapper *mapper =
+							reinterpret_cast<BfmeDisableUVMapper *>(
+								vertexMaterial->m_mapper);
+						if (mapper && mapper->Mapper_ID() == 1)
+						{
+							subObject->Set_User_Data(&animationDisableOverride, FALSE);
 						}
 					}
-					REF_PTR_RELEASE(mat);
+					if (--material->m_refCount == 0)
+						material->Release();
 				}
-				//We don't want muzzle flashes visible inside fog, so turn them off.
-				if (subObj->Get_Name() && strstr(subObj->Get_Name(),"MUZZLEFX"))
-					subObj->Set_Hidden(true);
 			}
-			REF_PTR_RELEASE(subObj);
+			if (subObject && --subObject->m_refCount == 0)
+				subObject->slot00();
 		}
 	}
+}
+
+__declspec(noinline) TextureMapperClass *bfmeKeepVertexMaterialMapper(
+	VertexMaterialClass *material)
+{
+	return material->Peek_Mapper(0);
 }
 
 // ------------------------------------------------------------------------------------------------
