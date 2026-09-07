@@ -721,6 +721,8 @@ name,address,notes
 ??$__adjust_heap@PAPAVBfmeRecAU@@HPAV1@VBfmeCompAV@@@_STL@@YAXPAPAVBfmeRecAU@@HHPAV1@VBfmeCompAV@@@Z,0x000113F1,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00532890 calls; autopin
 ??$__adjust_heap@PAPAVRva00532DF0Rec@@HPAV1@VRva00532DF0Comp@@@_STL@@YAXPAPAVRva00532DF0Rec@@HHPAV1@VRva00532DF0Comp@@@Z,0x000113F1,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00532DF0 calls; autopin
 ??$__adjust_heap@PAUS4SortElem12@@HU1@US4Cmp00573A30@@@_STL@@YAXPAUS4SortElem12@@HHU1@US4Cmp00573A30@@@Z,0x0003DF00,"Full166B571B70 twelve-byte adjust_heap: signed first-word compare and full three-word moves,7dword cdecl arguments"
+??$__adjust_heap@PAUS4SortElem8@@HU1@URva004382D0Cmp@@@_STL@@YAXPAUS4SortElem8@@HHU1@URva004382D0Cmp@@@Z,0x00028501,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x004382D0 calls; autopin
+??$__adjust_heap@PAUS4SortElem8@@HU1@URva00577460Cmp@@@_STL@@YAXPAUS4SortElem8@@HHU1@URva00577460Cmp@@@Z,0x00027138,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00577460 calls; autopin
 ??$__adjust_heap@PAUS4SortElem8@@HU1@US4Cmp00261140@@@_STL@@YAXPAUS4SortElem8@@HHU1@US4Cmp00261140@@@Z,0x00260D80,S4 STLport sort-layer callee (address-derived name; target read from the REL32 at its call site and followed through its ILT thunk)
 ??$__adjust_heap@PAUS4SortElem8@@HU1@US4Cmp00437D80@@@_STL@@YAXPAUS4SortElem8@@HHU1@US4Cmp00437D80@@@Z,0x004379B0,S4 STLport sort-layer callee (address-derived name; target read from the REL32 at its call site and followed through its ILT thunk)
 ??$__adjust_heap@PAUS4SortElem8@@HU1@US4Cmp00575AA0@@@_STL@@YAXPAUS4SortElem8@@HHU1@US4Cmp00575AA0@@@Z,0x005757E0,S4 STLport sort-layer callee (address-derived name; target read from the REL32 at its call site and followed through its ILT thunk)
@@ -10943,6 +10945,7 @@ name,address,notes
 ?Rva00897330NotifyFree@@YAXPAX@Z,0x00897330,address decoded from the retail REL32 call site; name is address-derived
 ?Rva008A4AC0First@@3PAURva008A4AC0Object@@A,0x01337AC0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4AC0 calls; autopin
 ?Rva008A4AC0Second@@3PAURva008A4AC0Object@@A,0x01337AC4,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4AC0 calls; autopin
+?Rva008A4EA0MakeFloat@@YAPAVAptValue@@M@Z,0x008A4CD0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4EA0 calls; autopin
 ?Rva008AE770TheStack@@3URva008AE770Stack@@A,0x01338748,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008AE770 calls; autopin
 ?Rva008B6D70MakeValue@@YAPAVAptValue@@H@Z,0x008A11E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B6D70 calls; autopin
 ?Rva008B6D70Refresh@@YAXPAX00@Z,0x008B65E0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008B6D70 calls; autopin
@@ -74122,6 +74125,7 @@ name,address,notes
 ?bfmeFillURC@BfmeSrcURC@@QAEDPAXPAD0@Z,0x007E8A80,pin
 ?bfmeFillV14@@YAPADPADID@Z,0x0082ADE0,Open-BFME5 char_traits assign fill for 0x00830030
 ?bfmeFillV16@@YAPADPADID@Z,0x0082ADE0,Open-BFME5 char_traits assign fill for 0x0082FB10
+?bfmeFilterYT@@YADPAX@Z,0x0024F280,pin
 ?bfmeFinal4D0@BfmeMid4D0@@QAEPAXXZ,0x000022BB,Open-BFME6 override walk for the 0x0022F4D0 dispatch; body at 0x00087A80
 ?bfmeFind1002@BfmeA1002@@QAEPAUBfmeX1002@@PAUBfmeArg1002@@@Z,0x0003F5DA,pin
 ?bfmeFind1004@BfmeHold1004@@QAEPAVBfmeX1004@@XZ,0x0000D3B9,pin
@@ -75521,6 +75525,7 @@ name,address,notes
 ?bfmeResolveVQ@BfmeInnerVQ@@QAEPAVBfmeThingVQ@@XZ,0x000022BB,pin
 ?bfmeResolveWQ@BfmeInnerWQ@@QAEPAVBfmeThingWQ@@XZ,0x000022BB,pin
 ?bfmeResolveXK@BfmeInnerXK@@QAEPAVBfmeThingXK@@XZ,0x000022BB,pin
+?bfmeResolveYT@BfmeInnerYT@@QAEPAVBfmeThingYT@@XZ,0x000022BB,pin
 ?bfmeResolveZones@@YAXHHPAG00@Z,0x0002B648,Open-BFME5 ILT thunk to exact body 0x00403C90; BFME zone-equivalence list merger
 ?bfmeRestart@Gen_0018BC70@@AAEXXZ,0x0003F1FC,Open-BFME5 the ICF thunk (to 0x0043F1FC) the compaction at 0x0018BC70 calls when its flag is set
 ?bfmeResume@Gen_0018BC70@@AAEXXZ,0x0000764E,Open-BFME5 the ICF thunk (to 0x0040764E) the compaction at 0x0018BC70 calls when its flag is clear
@@ -82670,6 +82675,7 @@ name,address,notes
 ?toInteger@Rva8CD3F0Value@@QBEHXZ,0x00898300,address-derived alias of AptValue integer coercion called by 0x008CD3F0
 ?toInteger@Rva8D0D80Value@@QAEHXZ,0x00898300,address-derived Apt integer conversion helper called by 0x008D0D80
 ?toLower@AsciiString@@QAEXXZ,0x00887DA0,same body the ledger claims as ?toLower@?$StringBase@D@@QAEXXZ
+?toNumber@AptValue@@QAEMXZ,0x008983D0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x008A4EA0 calls; autopin
 ?tossEmitters@W3DTankTruckDraw@@IAEXXZ,0x00034A59,ILT; from W3DTankTruckDraw::setFullyObscuredByShroud
 ?tossSegments@W3DRopeDraw@@AAEXXZ,0x0002C020,W3DRopeDraw destructor member call through retail ILT
 ?touch@Rva00265A00Result@@QAEXXZ,0x00034383,address-derived result method target read from retail RVA 0x00265A00
@@ -84609,5 +84615,3 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeResolveYT@BfmeInnerYT@@QAEPAVBfmeThingYT@@XZ,0x000022BB,pin
-?bfmeFilterYT@@YADPAX@Z,0x0024F280,pin
