@@ -1,17 +1,22 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// GATE_CLOSE (script action 464) dispatches through 0x00041B73 to the retail
-// body at 0x002F0A20.  The body resolves the named unit, looks up the
-// GateOpenAndCloseBehavior module, and performs the state-2 transition only
-// when the proven state-one predicate and ready flag are both set.
-
+// The two gate actions:
+//
+//   0x002F0B00  doGateOpen   script action 463, dispatched via 0x000123A5
+//   0x002F0A20  doGateClose  script action 464, dispatched via 0x00041B73
+//
+// Identical bodies: resolve the named unit, find its GateOpenAndCloseBehavior
+// module by name key, step back 4 bytes to the behaviour's own vtable, and make
+// a state transition guarded by the state-one predicate and the ready flag.
+// Open transitions when the gate is NOT in state one; close transitions when it
+// is, and they call different slots of the same table to do it.
 class AsciiString;
 enum NameKeyType { };
 
 class Object;
-// ScriptEngine's BFME vtable has getUnitNamed at slot 26 (+0x68).  Keep the
-// complete preceding slot run so this is the proven interface, not a
-// shortened helper vtable.
+// ScriptEngine's BFME vtable has getUnitNamed at slot 26 (+0x68).  The full
+// preceding slot run is retained so the call is to the proven BFME interface,
+// not to a shortened helper vtable.
 class ScriptEngine
 {
 public:
@@ -64,10 +69,9 @@ public:
 	Module *findModule(NameKeyType key) const;
 };
 
-// The primary GateOpenAndCloseBehavior vtable at 0x010A41CC is a complete
-// 13-slot table.  The called slots here are +0x18 (state-one predicate),
-// +0x20 (state-2 transition), and +0x28 (ready), with retail bodies at
-// 0x001FC390, 0x001FD5A0, and 0x001FC3C0 respectively.
+// The primary GateOpenAndCloseBehavior vtable is a complete 13-slot table at
+// 0x010A41CC.  All slots are represented; the three slots used here are tied
+// to the proven bodies at 0x001FC390, 0x001FD550, and 0x001FC3C0.
 class GateOpenAndCloseBehaviorView
 {
 public:
@@ -78,7 +82,7 @@ public:
 	virtual void _bfme_gate_slot_04() = 0;
 	virtual void _bfme_gate_slot_05() = 0;
 	virtual bool stateIsOne() = 0; // +0x18, 0x001FC390: (+0x28 == 1)
-	virtual void _bfme_gate_slot_07() = 0; // +0x1c, 0x001FD550
+	virtual void transitionStateZero() = 0; // +0x1c, 0x001FD550
 	virtual void transitionStateTwo() = 0; // +0x20, 0x001FD5A0
 	virtual void _bfme_gate_slot_09() = 0;
 	virtual bool isReady() = 0; // +0x28, 0x001FC3C0
@@ -91,6 +95,7 @@ class ScriptActions
 {
 protected:
 	void doGateClose(const AsciiString& gateName);
+	void doGateOpen(const AsciiString& gateName);
 };
 
 // ?doGateClose@ScriptActions@@IAEXABVAsciiString@@@Z
@@ -114,4 +119,27 @@ void ScriptActions::doGateClose(const AsciiString& gateName)
 
 	if (gate->stateIsOne() && gate->isReady())
 		gate->transitionStateTwo();
+}
+
+// ?doGateOpen@ScriptActions@@IAEXABVAsciiString@@@Z
+void ScriptActions::doGateOpen(const AsciiString& gateName)
+{
+	Object *object = TheScriptEngine->getUnitNamed(gateName);
+	if (object == 0)
+		return;
+
+	static NameKeyType gateKey =
+		TheNameKeyGenerator->nameToKey("GateOpenAndCloseBehavior");
+	Module *module = object->findModule(gateKey);
+	if (module == 0)
+		return;
+
+	GateOpenAndCloseBehaviorView *gate =
+		reinterpret_cast<GateOpenAndCloseBehaviorView *>(
+			reinterpret_cast<unsigned char *>(module) - 4);
+	if (gate == 0)
+		return;
+
+	if (!gate->stateIsOne() && gate->isReady())
+		gate->transitionStateZero();
 }
