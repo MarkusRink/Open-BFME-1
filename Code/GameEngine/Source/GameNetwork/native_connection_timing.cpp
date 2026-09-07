@@ -151,14 +151,100 @@ class NetCommandRef
 class NetCommandList
 {
 public:
+	virtual ~NetCommandList();
 	NetCommandRef *getFirstMessage() { return m_first; }
 	NetCommandRef *findMessage(UnsignedShort id, unsigned char player);
 	NetCommandRef *findMessage(UnsignedShort id, unsigned char player, unsigned int frame);
 	void removeMessage(NetCommandRef *ref);
 private:
-	void *m_vtable;
 	NetCommandRef *m_first;
 };
+
+
+class NetPlayerLeaveCommandMsg : public NetCommandMsg
+{
+public:
+	NetPlayerLeaveCommandMsg();
+	void setLeavingPlayerID(unsigned char playerID);
+private:
+	unsigned char m_leavingPlayerID;
+};
+class NetDestroyPlayerCommandMsg : public NetCommandMsg
+{
+public:
+	NetDestroyPlayerCommandMsg();
+	void setPlayerIndex(unsigned int playerID);
+private:
+	unsigned int m_playerIndex;
+};
+// Retail copies this address as two dwords and aligns its local copy to eight
+// bytes. The storage view expresses that alignment without changing ip/port.
+struct NetPacketAddress
+{
+	union
+	{
+		struct { unsigned int ip; unsigned short port; };
+		unsigned __int64 storage;
+	};
+};
+#pragma pack(push, 1)
+struct TransportMessage
+{
+	unsigned int crc;
+	unsigned char data[0x400];
+	int length;
+	unsigned int addr;
+	unsigned short port;
+};
+#pragma pack(pop)
+class BFMETransport
+{
+public:
+	char unknown[0x20700];
+	TransportMessage received[128];
+};
+// Packet fields remain four-packed: address is at +0x1E4 and sizeof is 0x200.
+#pragma pack(push, 4)
+class NetPacket
+{
+public:
+	NetPacket(TransportMessage *msg);
+	virtual ~NetPacket();
+	NetCommandList *getCommandList();
+	NetPacketAddress getAddress() { return m_address; }
+private:
+	unsigned char m_packet[0x1DC];
+	int m_packetLength;
+	NetPacketAddress m_address;
+	int m_numCommands;
+	NetCommandRef *m_lastCommand;
+	unsigned int m_lastFrame;
+	unsigned short m_lastCommandID;
+	unsigned char m_lastPlayerID;
+	unsigned char m_lastCommandType;
+	unsigned char m_lastRelay;
+};
+#pragma pack(pop)
+class NetCommandWrapperList
+{
+public:
+	NetCommandList *getReadyCommands();
+};
+class Network;
+struct BFMEReceiveNetworkVTable
+{
+	void *unknown[55];
+	Bool (__fastcall *isRouterLeavePending)(Network *network);
+};
+class Network
+{
+public:
+	Bool isRouterLeavePending() { return m_vtable->isRouterLeavePending(this); }
+private:
+	BFMEReceiveNetworkVTable *m_vtable;
+};
+extern Network *TheNetwork;
+Bool CommandRequiresAck(NetCommandMsg *msg);
 
 class BFMENetInformPlayerLeaveFrameCommandMsg : public NetCommandMsg
 {
@@ -357,7 +443,8 @@ public:
 	void sendFileChunk(const char *path, int playerMask, int chunk);
 	void updateFileProgress();
 	void buildPlayerStatusText(void *out);
-	void queueLocalCommand(void *msg);
+	void queueLocalCommand(void *msg); // legacy assembly identity; actual ABI is ackCommand below
+	void ackCommand(NetCommandRef *ref, NetPacketAddress *source);
 	void sendGameCommand(void *msg);
 	Bool isDuplicateCommand(NetCommandMsg *msg);
 	void getPlayerNameForSlot(void *out, int slot);
@@ -386,7 +473,7 @@ private:
 	char m_unknown00[4];
 	Connection *m_connections[8];
 	BFMECommandIDHistory m_commandHistory[9];
-	void *m_transport;
+	BFMETransport *m_transport;
 	int m_localSlot;
 	int m_packetRouterSlot;
 	unsigned int m_playerFrameRatios[8];
@@ -400,6 +487,7 @@ private:
 	FrameDataManager *m_frameData[8];
 	NetCommandList *m_pendingCommands;
 	NetCommandList *m_pendingRelays;
+	NetCommandWrapperList *m_wrapperList;
 };
 
 
@@ -2263,389 +2351,72 @@ L01_66AE49:
 	}
 }
 
-// The relay pass update() drives. Off the packet router it does nothing; as
-// router it walks the eight per-player states at this+0x12080 with a 0x20C-byte
-// packet buffer on an eight-aligned stack frame, feeding what it reads to
-// processIncomingCommand and relayCommand and fanning the results back out with
-// sendLocalCommand.
-__declspec(naked) void BFMEConnectionManager::runRelayPass()
+// update() drives this on every peer. The router additionally broadcasts
+// confirmed departures before draining received packets and ready wrappers.
+void BFMEConnectionManager::runRelayPass()
 {
-	__asm {
-		push ebp
-		mov ebp, esp
-		and esp, 0FFFFFFF8h
-		push 0FFFFFFFFh
-		push 1044717h
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		sub esp, 20Ch
-		push ebx
-		push ebp
-		push esi
-		push edi
-		mov edi, ecx
-		mov eax, dword ptr [edi+12028h]
-		cmp eax, dword ptr [edi+1202Ch]
-		jne L00_66A8AE
-		xor ebx, ebx
-		lea ebp,  [edi+12080h]
-		cmp ebx, 8h
-L08_66A784:
-		jae L01_66A8A1
-		cmp dword ptr [ebp], 1h
-		jne L01_66A8A1
-		cmp ebx, dword ptr [edi+12028h]
-		je L02_66A7B3
-		mov eax, dword ptr [ebp-1207Ch]
-		test eax, eax
-		je L01_66A8A1
-		cmp dword ptr [eax], 0FFFFFFFFh
-		jne L01_66A8A1
-L02_66A7B3:
-		push 20h
-		__emit 0E8h
-		__emit 076h
-		__emit 077h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+10h], eax
-		xor esi, esi
-		cmp eax, esi
-		mov dword ptr [esp+224h], esi
-		je L03_66A7D7
-		mov ecx, eax
-		__emit 0E8h
-		__emit 0B8h
-		__emit 0A4h
-		__emit 09Dh
-		__emit 0FFh   // call 0x44C8D
-		mov esi, eax
-L03_66A7D7:
-		push ebx
-		mov ecx, esi
-		mov dword ptr [esp+228h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 063h
-		__emit 01Ch
-		__emit 09Dh
-		__emit 0FFh   // call 0x3C44D
-		mov eax, dword ptr [esi+14h]
-		push eax
-		mov dword ptr [esi+8h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 078h
-		__emit 0B3h
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L04_66A80A
-		__emit 0E8h
-		__emit 052h
-		__emit 05Dh
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L04_66A80A:
-		mov eax, dword ptr [edi+12028h]
-		push 0FFh
-		push esi
-		mov ecx, edi
-		mov dword ptr [esi+0Ch], eax
-		__emit 0E8h
-		__emit 05Ah
-		__emit 049h
-		__emit 09Dh
-		__emit 0FFh   // call 0x3F17A
-		mov ecx, esi
-		__emit 0E8h
-		__emit 07Dh
-		__emit 058h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		push 20h
-		__emit 0E8h
-		__emit 002h
-		__emit 077h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+10h], eax
-		test eax, eax
-		mov dword ptr [esp+224h], 1h
-		je L05_66A84F
-		mov ecx, eax
-		__emit 0E8h
-		__emit 0B9h
-		__emit 010h
-		__emit 09Ch
-		__emit 0FFh   // call 0x2B904
-		mov esi, eax
-		jmp L06_66A851
-L05_66A84F:
-		xor esi, esi
-L06_66A851:
-		mov eax, dword ptr [esi+14h]
-		push eax
-		mov dword ptr [esp+228h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 00Dh
-		__emit 0B3h
-		__emit 09Ah
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		test al, al
-		je L07_66A875
-		__emit 0E8h
-		__emit 0E7h
-		__emit 05Ch
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L07_66A875:
-		mov eax, dword ptr [edi+12028h]
-		push ebx
-		mov ecx, esi
-		mov dword ptr [esi+0Ch], eax
-		__emit 0E8h
-		__emit 0ADh
-		__emit 0C3h
-		__emit 09Bh
-		__emit 0FFh   // call 0x26C33
-		push 0FFh
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 0E7h
-		__emit 048h
-		__emit 09Dh
-		__emit 0FFh   // call 0x3F17A
-		mov ecx, esi
-		__emit 0E8h
-		__emit 00Ah
-		__emit 058h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		mov dword ptr [ebp], 2h
-L01_66A8A1:
-		inc ebx
-		add ebp, 4h
-		cmp ebx, 8h
-		jl L08_66A784
-L00_66A8AE:
-		xor ebx, ebx
-L15_66A8B0:
-		mov eax, dword ptr [edi+12024h]
-		mov ecx, dword ptr [ebx+eax+20B04h]
-		test ecx, ecx
-		je L09_66A9AE
-		lea ecx,  [ebx+eax+20700h]
-		push ecx
-		lea ecx,  [esp+1Ch]
-		__emit 0E8h
-		__emit 0BAh
-		__emit 0E8h
-		__emit 09Bh
-		__emit 0FFh   // call 0x29190
-		mov edx, dword ptr [edi+12024h]
-		lea ecx,  [esp+18h]
-		mov dword ptr [esp+224h], 2h
-		mov dword ptr [ebx+edx+20B04h], 0h
-		__emit 0E8h
-		__emit 040h
-		__emit 002h
-		__emit 09Bh
-		__emit 0FFh   // call 0x1AB3B
-		mov ecx, dword ptr [esp+200h]
-		mov ebp, eax
-		mov esi, dword ptr [ebp+4h]
-		test esi, esi
-		mov eax, dword ptr [esp+1FCh]
-		mov dword ptr [esp+10h], eax
-		mov dword ptr [esp+14h], ecx
-		je L10_66A991
-		__emit 08Dh
-		__emit 09Bh
-		__emit 000h
-		__emit 000h
-		__emit 000h
-		__emit 000h   // lea ebx, [ebx]
-L14_66A920:
-		__emit 08Bh
-		__emit 00Dh
-		__emit 014h
-		__emit 077h
-		__emit 02Fh
-		__emit 001h   // mov ecx, dword ptr [0x12f7714]
-		test ecx, ecx
-		je L11_66A94C
-		mov edx, dword ptr [ecx]
-		call dword ptr [edx+0DCh]
-		test al, al
-		je L11_66A94C
-		mov eax, dword ptr [edi+12028h]
-		cmp eax, dword ptr [edi+1202Ch]
-		jne L11_66A94C
-		mov eax, dword ptr [esi]
-		cmp dword ptr [eax+14h], 3h
-		jne L12_66A98A
-L11_66A94C:
-		mov eax, dword ptr [esi]
-		push eax
-		__emit 0E8h
-		__emit 029h
-		__emit 077h
-		__emit 09Dh
-		__emit 0FFh   // call 0x4207D
-		add esp, 4h
-		test al, al
-		je L13_66A968
-		lea ecx,  [esp+10h]
-		push ecx
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 0DBh
-		__emit 0E3h
-		__emit 09Ch
-		__emit 0FFh   // call 0x38D43
-L13_66A968:
-		mov eax, dword ptr [esi]
-		push eax
-		mov ecx, edi
-		__emit 0E8h
-		__emit 001h
-		__emit 0EEh
-		__emit 099h
-		__emit 0FFh   // call 0x9773
-		test al, al
-		jne L12_66A98A
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 0F9h
-		__emit 0C6h
-		__emit 099h
-		__emit 0FFh   // call 0x7077
-		test al, al
-		je L12_66A98A
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 050h
-		__emit 0D6h
-		__emit 09Ah
-		__emit 0FFh   // call 0x17FDA
-L12_66A98A:
-		mov esi, dword ptr [esi+4h]
-		test esi, esi
-		jne L14_66A920
-L10_66A991:
-		mov edx, dword ptr [ebp]
-		push 1h
-		mov ecx, ebp
-		call dword ptr [edx]
-		lea ecx,  [esp+18h]
-		mov dword ptr [esp+224h], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 0A9h
-		__emit 026h
-		__emit 09Bh
-		__emit 0FFh   // call 0x1D057
-L09_66A9AE:
-		add ebx, 40Eh
-		cmp ebx, 20700h
-		jl L15_66A8B0
-		mov ecx, dword ptr [edi+1210Ch]
-		test ecx, ecx
-		je L16_66AA48
-		__emit 0E8h
-		__emit 070h
-		__emit 03Ah
-		__emit 09Ah
-		__emit 0FFh   // call 0xE43F
-		mov ebx, eax
-		mov esi, dword ptr [ebx+4h]
-		test esi, esi
-		je L17_66AA40
-		jmp L18_66A9E0
-		__emit 08Dh
-		__emit 09Bh
-		__emit 000h
-		__emit 000h
-		__emit 000h
-		__emit 000h   // lea ebx, [ebx]
-L18_66A9E0:
-		__emit 08Bh
-		__emit 00Dh
-		__emit 014h
-		__emit 077h
-		__emit 02Fh
-		__emit 001h   // mov ecx, dword ptr [0x12f7714]
-		test ecx, ecx
-		je L19_66AA0C
-		mov eax, dword ptr [ecx]
-		call dword ptr [eax+0DCh]
-		test al, al
-		je L19_66AA0C
-		mov ecx, dword ptr [edi+12028h]
-		cmp ecx, dword ptr [edi+1202Ch]
-		jne L19_66AA0C
-		mov edx, dword ptr [esi]
-		cmp dword ptr [edx+14h], 3h
-		jne L20_66AA39
-L19_66AA0C:
-		mov eax, dword ptr [esi]
-		push eax
-		__emit 0E8h
-		__emit 069h
-		__emit 076h
-		__emit 09Dh
-		__emit 0FFh   // call 0x4207D
-		add esp, 4h
-		test al, al
-		je L21_66AA25
-		push 0h
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 01Eh
-		__emit 0E3h
-		__emit 09Ch
-		__emit 0FFh   // call 0x38D43
-L21_66AA25:
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 04Ah
-		__emit 0C6h
-		__emit 099h
-		__emit 0FFh   // call 0x7077
-		test al, al
-		je L20_66AA39
-		push esi
-		mov ecx, edi
-		__emit 0E8h
-		__emit 0A1h
-		__emit 0D5h
-		__emit 09Ah
-		__emit 0FFh   // call 0x17FDA
-L20_66AA39:
-		mov esi, dword ptr [esi+4h]
-		test esi, esi
-		jne L18_66A9E0
-L17_66AA40:
-		mov eax, dword ptr [ebx]
-		push 1h
-		mov ecx, ebx
-		call dword ptr [eax]
-L16_66AA48:
-		mov ecx, dword ptr [esp+21Ch]
-		pop edi
-		mov dword ptr fs:[0h], ecx
-		pop esi
+	if (m_localSlot == m_packetRouterSlot)
+	{
+		for (int player = 0; player < 8; ++player)
+		{
+			if ((unsigned int)player < 8 && m_playerState[player] == 1 &&
+				(player == m_localSlot || (m_connections[player] && m_connections[player]->m_openState == -1)))
+			{
+				NetPlayerLeaveCommandMsg *leave = new NetPlayerLeaveCommandMsg;
+				leave->setLeavingPlayerID(player);
+				leave->setExecutionFrame(-1);
+				if (DoesCommandRequireACommandID(leave->getNetCommandType()))
+					leave->setID(GenerateNextCommandID());
+				leave->setPlayerID(m_localSlot);
+				reinterpret_cast<ConnectionManager *>(this)->sendLocalCommand(leave, 0xFF);
+				leave->detach();
+				NetDestroyPlayerCommandMsg *destroy = new NetDestroyPlayerCommandMsg;
+				if (DoesCommandRequireACommandID(destroy->getNetCommandType()))
+					destroy->setID(GenerateNextCommandID());
+				destroy->setPlayerID(m_localSlot);
+				destroy->setPlayerIndex(player);
+				reinterpret_cast<ConnectionManager *>(this)->sendLocalCommand(destroy, 0xFF);
+				destroy->detach();
+				m_playerState[player] = 2;
+			}
+		}
+	}
+	for (int packetIndex = 0; packetIndex < 128; ++packetIndex)
+	{
+		if (m_transport->received[packetIndex].length)
+		{
+			NetPacket packet(&m_transport->received[packetIndex]);
+			m_transport->received[packetIndex].length = 0;
+			NetCommandList *commands = packet.getCommandList();
+			NetCommandRef *ref = commands->getFirstMessage();
+			NetPacketAddress source = packet.getAddress();
+			for (; ref; ref = ref->getNext())
+			{
+				if (TheNetwork && TheNetwork->isRouterLeavePending() &&
+					m_localSlot == m_packetRouterSlot && ref->getCommand()->getNetCommandType() != NETCOMMANDTYPE_FRAMEINFO)
+					continue;
+				if (CommandRequiresAck(ref->getCommand()))
+					ackCommand(ref, &source);
+				if (!isDuplicateCommand(ref->getCommand()) && processIncomingCommand(ref))
+					relayCommand(ref);
+			}
+			delete commands;
+		}
+	}
+	if (m_wrapperList)
+	{
+		NetCommandList *commands = m_wrapperList->getReadyCommands();
+		for (NetCommandRef *ref = commands->getFirstMessage(); ref; ref = ref->getNext())
+		{
+			if (TheNetwork && TheNetwork->isRouterLeavePending() &&
+				m_localSlot == m_packetRouterSlot && ref->getCommand()->getNetCommandType() != NETCOMMANDTYPE_FRAMEINFO)
+				continue;
+			if (CommandRequiresAck(ref->getCommand()))
+				ackCommand(ref, 0);
+			if (processIncomingCommand(ref))
+				relayCommand(ref);
+		}
+		delete commands;
 	}
 }
 
@@ -4658,10 +4429,10 @@ L00_666528:
 	}
 }
 
-// Builds a command message and puts it on the outgoing path. It runs the same
-// filter at 0x00682E80 that sendLocalCommand uses, branches on whether
-// m_localSlot equals m_packetRouterSlot, and hands the result to the packet
-// assembler at 0x006624A0.
+// Emits ACKBOTH or ACKSTAGE1 for a received command reference, selecting the
+// original player, source address, or packet router as the return route. The
+// runRelayPass caller and ret 8 prove the two-argument ABI. A clean C++ attempt
+// is banked at reverse/attempts/0x00662e80.cpp; this original body remains.
 __declspec(naked) void BFMEConnectionManager::queueLocalCommand(void *msg)
 {
 	__asm {
