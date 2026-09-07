@@ -44,6 +44,7 @@ class StringBase
 {
 public:
 	StringBase() : m_data(0) {}
+	StringBase(const StringBase<T> &src);		// ??0?$StringBase@D@@QAE@ABV0@@Z
 	T *getBufferForRead(Int len);				// ?getBufferForRead@?$StringBase@D@@QAEPADH@Z
 
 protected:
@@ -57,7 +58,10 @@ public:
 	static AsciiString TheEmptyString;
 
 	AsciiString() {}
-	AsciiString(const AsciiString &that);
+	// Retail's AsciiString adds no members to StringBase<char>: a copy of one
+	// encodes the base copy ctor at 0x00887B60 directly, so the delegation has
+	// to be visible here.
+	AsciiString(const AsciiString &that) : StringBase<char>(that) {}
 	~AsciiString();
 
 	Int getLength(void) const { return m_data ? m_data->m_len : 0; }
