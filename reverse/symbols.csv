@@ -85632,3 +85632,8 @@ g_bfmeMsgVftDN,0x010F5738
 ?bfmeStateERH@BfmeModuleERH@@QAEHXZ,0x0002C39A,pin
 ?g_bfmePlayersERH@@3PAVBfmePlayersERH@@A,0x00EED748,pin
 ?g_bfmeKeyGenERH@@3PAVBfmeKeyGenERH@@A,0x00EED600,pin
+?bfmeStateERI@BfmeBERI@@QAEPAVBfmeStateERI@@XZ,0x000022BB,pin
+?bfmeNameToKeyERI@BfmeKeyGenERI@@QAEHPBD@Z,0x0003ADD7,pin
+?bfmeFindERI@BfmeThingERI@@QAEPAVBfmeModuleERI@@H@Z,0x0002AE23,pin
+?bfmeSetERI@BfmeModuleERI@@QAEXHH@Z,0x00040DC2,pin
+?g_bfmeKeyGenERI@@3PAVBfmeKeyGenERI@@A,0x00EED600,pin
