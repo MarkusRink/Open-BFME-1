@@ -85329,3 +85329,8 @@ _bfmeCbBZC,0x007F4740
 ?bfmeTopZJ@BfmeHostZJ@@QAEPAVBfmeTargetZJ@@XZ,0x0000DE9F
 ?forceFireWeapon@Weapon@@QAEPAVObject@@PBV2@PBUCoord3D@@@Z,0x00040746,retail callee of ScriptActions::doNamedFireWeaponFollowingWaypointPath; Weapon body at 0x001EA700
 ?bfmeFindZK@BfmeFinderZK@@QAEHPAXH@Z,0x000010F5
+_bfmeVft0ZL,0x00D12AE8
+_bfmeVft1ZL,0x00D12AE4
+_bfmeVft2ZL,0x00D12AD0
+??0BfmeBase0ZL@@QAE@PAV0@@Z,0x0001BF31
+??0BfmeMidZL@@QAE@PAV0@@Z,0x00036246
