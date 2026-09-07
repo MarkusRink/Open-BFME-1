@@ -7,6 +7,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import re_log
 import list_naked_candidates as queue
+import next_work
 
 SYM = "?updateAnimateWindow@ProcessAnimateWindowSlideFromTopFast@@UAE_NPAVAnimateWindow@@@Z"
 RVA = 0x00497140
@@ -118,3 +119,31 @@ def test_only_the_specific_path_only_pass_is_reclassified(log, evidence):
     log.write_text(row("no-match") + row("converted", evidence))
     assert re_log.standing_status(SYM, RVA) == "converted"
     assert re_log.latest_records()[RVA][3] == "converted"
+
+
+@pytest.mark.parametrize("legacy", [False, True])
+def test_both_queues_preserve_boundary_findings(log, legacy):
+    prior = f"{SYM}\tno-match\tmeasured extent\n" if legacy else row("no-match")
+    log.write_text(prior + row("converted", PRUNING))
+    assert queue.drop_logged([{"symbol": SYM, "rva": hex(RVA)}]) == ([], 1)
+    assert next_work.drop_logged([{"function": SYM, "target_rva": hex(RVA)}]) == ([], 1)
+    records = re_log.latest_records()
+    if legacy:
+        assert not records
+    else:
+        assert records[RVA][3] == "no-match"
+        moved = [{"function": SYM, "target_rva": hex(RVA + 16),
+                  "hint": "drift-corrected"}]
+        assert next_work.drop_logged(moved) == (moved, 0)
+
+
+@pytest.mark.parametrize("status", ["converted", "partial", "blocked"])
+def test_both_queues_keep_later_genuine_verdicts(log, status):
+    log.write_text(row("no-match") + row("converted", PRUNING) + row(status))
+    naked = [{"symbol": SYM, "rva": hex(RVA)}]
+    structural = [{"function": SYM, "target_rva": hex(RVA)}]
+    assert queue.drop_logged(naked) == (naked, 0)
+    assert next_work.drop_logged(structural) == (structural, 0)
+    assert re_log.latest_records()[RVA][3] == status
+    if status in re_log.DEFERRED_STATUSES:
+        assert structural[0]["deferred_attempts"] == 1
