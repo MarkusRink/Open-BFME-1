@@ -85537,3 +85537,5 @@ g_Rva012C3A18,0x00EC3A18,FESL client hello global pointer loaded by 0x007F4440
 ?bfmeStopCW@ParticleSystemManager@@QAEXABVBFMERetailAsciiString@@@Z,0x000234F2
 ?releaseBufferDF@UnicodeString@@QAEXXZ,0x00887940
 ?getLocalPlayer@Rva002EE330PlayerList@@QAEPAVRva00589320Player@@XZ,0x0000762B,PlayerList local-player accessor reads this plus 0x0C
+?bfmeKeyDJ@NameKeyGenerator@@QAEHPBD@Z,0x0003ADD7
+?bfmeFindDJ@BfmeThingDJ@@QAEPAVBfmeItemDJ@@H@Z,0x0002AE23
