@@ -18,16 +18,15 @@
 // its call at 0x00970020 reaches this body. The dispatcher consumes AL
 // and tests it against 1, matching the Boolean ABI of the sibling loaders.
 // The final RET 8 at 0x0096D2B2 ends immediately before INT3 padding.
-// Original semantic body: meshmdlio.cpp; BFME field views are local here.
+// read_dcg: RVA 0x0096D500, complete 773-byte body. Chunk 0x3B selects
+// arm 0x0096FBB5; the call at 0x0096FBB9 reaches this body. It returns
+// a Boolean in AL and ends with RET 8 at 0x0096D802, then INT3 padding.
+// The matched MeshModel constructor establishes DefMatDesc at +0x94,
+// AlternateMatDesc at +0x98, and CurMatDesc at +0x9C. Legacy vertex colors
+// use CurMatDesc; the DCG reader starts with DefMatDesc.
+// Original semantic bodies: meshmdlio.cpp; BFME field views are local here.
 #include "dx8wrapper.h"
 #include "w3d_file.h"
-
-class MeshLoadContextClass
-{
-	unsigned char padding[0x8c];
-public:
-	int CurPass;
-};
 
 class MeshMatDescClass
 {
@@ -41,6 +40,7 @@ class MeshMatDescClass
 	VertexMaterialClass::ColorSourceType DIGSource[4];
 
 public:
+	VertexMaterialClass::ColorSourceType Get_DCG_Source(int pass) { return DCGSource[pass]; }
 	bool Has_Color_Array(int array) { return ColorArray[array] != 0; }
 	unsigned *Get_Color_Array(int array,bool create = true);
 	void Set_DCG_Source(int pass,VertexMaterialClass::ColorSourceType source)
@@ -49,12 +49,24 @@ public:
 	}
 };
 
+class MeshLoadContextClass
+{
+	unsigned char prelit_padding[0x88];
+public:
+	unsigned long PrelitChunkID;
+	int CurPass;
+	unsigned char alternate_padding[0x10c - 0x90];
+	MeshMatDescClass AlternateMatDesc;
+};
+
 class MeshModelClass
 {
 	unsigned char geometry_padding[0x28];
 	int VertexCount;
-	unsigned char material_padding[0x9c - 0x2c];
+	unsigned char material_padding[0x94 - 0x2c];
 public:
+	MeshMatDescClass *DefMatDesc;
+	MeshMatDescClass *AlternateMatDesc;
 	MeshMatDescClass *CurMatDesc;
 
 	unsigned *Get_Color_Array(int array,bool create = true)
@@ -63,6 +75,7 @@ public:
 	}
 
 protected:
+	bool read_dcg(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_vertex_colors(ChunkLoadClass &cload,MeshLoadContextClass *context);
 };
 
@@ -82,5 +95,37 @@ bool MeshModelClass::read_vertex_colors(ChunkLoadClass &cload,MeshLoadContextCla
 		}
 	}
 	CurMatDesc->Set_DCG_Source(context->CurPass,VertexMaterialClass::COLOR1);
+	return true;
+}
+
+bool MeshModelClass::read_dcg(ChunkLoadClass &cload,MeshLoadContextClass *context)
+{
+	MeshMatDescClass *matdesc = DefMatDesc;
+	if (DefMatDesc->Get_DCG_Source(context->CurPass) != VertexMaterialClass::MATERIAL) {
+		matdesc = &context->AlternateMatDesc;
+	}
+
+	if (matdesc->Has_Color_Array(0) == 0) {
+		W3dRGBAStruct color;
+		unsigned *dcg = matdesc->Get_Color_Array(0);
+		for (int i=0; i<VertexCount; i++) {
+			cload.Read(&color,sizeof(color));
+			Vector4 col;
+			col.Set((float)color.R / 255.0f,(float)color.G / 255.0f,
+				(float)color.B / 255.0f,(float)color.A / 255.0f);
+			dcg[i] = DX8Wrapper::Convert_Color(col);
+		}
+	} else if (context->PrelitChunkID == W3D_CHUNK_PRELIT_VERTEX) {
+		W3dRGBAStruct color;
+		unsigned *dcg = matdesc->Get_Color_Array(0);
+		for (int i=0; i<VertexCount; i++) {
+			cload.Read(&color,sizeof(color));
+			Vector4 col = DX8Wrapper::Convert_Color(dcg[i]);
+			col.W = (float)color.A / 255.0f;
+			dcg[i] = DX8Wrapper::Convert_Color(col);
+		}
+	}
+
+	matdesc->Set_DCG_Source(context->CurPass,VertexMaterialClass::COLOR1);
 	return true;
 }
