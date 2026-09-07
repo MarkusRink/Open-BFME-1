@@ -85319,3 +85319,4 @@ _bfmeCbBZC,0x007F4740
 ?bfmeGoZG@BfmeSmallZG@@QAEHPAX0H@Z,0x000480F4
 ?bfmeTakeZH@BfmeSubZH@@QAEXPAX@Z,0x00029519
 ?bfmeStepZH@BfmeSubZH@@QAEXXZ,0x000107C6
+?doPush@Shell@@IAEXVAsciiString@@@Z,0x00026792,Shell doPush ILT reached by Shell::shutdownComplete
