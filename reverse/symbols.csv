@@ -50239,6 +50239,7 @@ name,address,notes
 ?b_0048b410@@YAXXZ,0x0048B410,gen-thunk body
 ?b_0048b550@@YAXXZ,0x0048B550,gen-thunk body
 ?b_0048b690@@YAXXZ,0x0048B690,gen-thunk body
+?rva0048B390@TransitionGroup@@QAEXPAX@Z,0x0048B390,address-derived TransitionGroup list-copy helper body; the verified existing ILT 0x0000BE97 is the compiler resolver candidate for the 0x0048B690 calls; campaign=luna36h-20260907;lane=files
 ?b_0048b740@@YAXXZ,0x0048B740,gen-thunk body
 ?b_0048b7c0@@YAXXZ,0x0048B7C0,gen-thunk body
 ?b_0048b8a0@@YAXXZ,0x0048B8A0,gen-thunk body
