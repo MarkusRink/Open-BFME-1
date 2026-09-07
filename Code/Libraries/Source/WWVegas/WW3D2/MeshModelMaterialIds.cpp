@@ -21,6 +21,7 @@
 // a four-byte handle, and increments its 16-bit reference count at +4.
 // The local field views retain BFME layouts without changing shared headers.
 #include "w3d_file.h"
+#include "shader.h"
 
 class VertexMaterialClass;
 
@@ -64,12 +65,16 @@ protected:
     int DCGSource[4];
     int DIGSource[4];
     BfmeHandleCX Texture[4][2];
-    void *Shader[4];
+    ShaderClass Shader[4];
     VertexMaterialClass *Material[4];
     void *TextureArray[4][2];
     void *MaterialArray[4];
     void *ShaderArray[4];
 public:
+    static ShaderClass NullShader;
+    bool Has_Shader_Data(int pass) { return Shader[pass] != NullShader || ShaderArray[pass] != 0; }
+    void Set_Single_Shader(ShaderClass shader, int pass);
+    void Set_Shader(int index, ShaderClass shader, int pass);
     bool Has_Material_Data(int pass) { return Material[pass] != 0 || MaterialArray[pass] != 0; }
     void Set_Single_Material(VertexMaterialClass *material, int pass);
     void Set_Material(int index, VertexMaterialClass *material, int pass);
@@ -88,7 +93,11 @@ public:
     int CurPass;
     int CurTexStage;
 private:
-    unsigned char padding_94[0xc8 - 0x94];
+    unsigned char padding_94[0xb0 - 0x94];
+public:
+    ShaderClass *Shaders;
+private:
+    unsigned char padding_b4[0xc8 - 0xb4];
 public:
     VertexMaterialClass **VertexMaterials;
 private:
@@ -96,18 +105,24 @@ private:
 public:
     MeshMatDescClass AlternateMatDesc;
     BfmeHandleCX Peek_Texture(int index);
+    ShaderClass Peek_Shader(unsigned long index) { return Shaders[index]; }
     VertexMaterialClass *Peek_Vertex_Material(unsigned long index) { return VertexMaterials[index]; }
 };
 
 class MeshModelClass {
-    unsigned char padding_00[0x24];
+    unsigned char padding_00[0x18];
 public:
+    unsigned long Flags;
+    char SortLevel;
+    unsigned char beforePolyCount[7];
     int PolyCount;
     int VertexCount;
 private:
     unsigned char padding_2c[0x94 - 0x2c];
 public:
     MeshMatDescClass *DefMatDesc;
+    enum FlagsType { SORT = 0x10 };
+    void Set_Flag(FlagsType flag, bool onoff) { if (onoff) Flags |= flag; else Flags &= ~flag; }
     int Get_Vertex_Count() const { return VertexCount; }
     int Get_Polygon_Count() const {
         return PolyCount;
@@ -115,6 +130,7 @@ public:
 protected:
     bool read_texture_ids(ChunkLoadClass &cload, MeshLoadContextClass *context);
     bool read_vertex_material_ids(ChunkLoadClass &cload, MeshLoadContextClass *context);
+    bool read_shader_ids(ChunkLoadClass &cload, MeshLoadContextClass *context);
 };
 
 bool MeshModelClass::read_texture_ids(ChunkLoadClass &cload, MeshLoadContextClass *context)
@@ -164,6 +180,48 @@ bool MeshModelClass::read_vertex_material_ids(ChunkLoadClass &cload, MeshLoadCon
             cload.Read(&vmat, sizeof(unsigned long));
             matdesc->Set_Material(i, context->Peek_Vertex_Material(vmat),
                                   context->CurPass);
+        }
+    }
+
+    return true;
+}
+
+// read_shader_ids: RVA 0x0096D3C0, complete 320 bytes. Material-pass chunk
+// 0x3A selects arm 0x0096FBAA; its call at 0x0096FBAE reaches this loader.
+// RET 8 occupies +0x13D..+0x13F; read_dcg starts immediately at 0x0096D500.
+// ShaderClass comes from the existing BFME header; only the enclosing field
+// views differ from the reference. NullShader marks an unused pass.
+bool MeshModelClass::read_shader_ids(ChunkLoadClass &cload, MeshLoadContextClass *context)
+{
+    MeshMatDescClass *matdesc = DefMatDesc;
+    if (DefMatDesc->Has_Shader_Data(context->CurPass)) {
+        matdesc = &(context->AlternateMatDesc);
+    }
+
+    unsigned long shaderid;
+    if (cload.Cur_Chunk_Length() == 1 * sizeof(unsigned long)) {
+        cload.Read(&shaderid, sizeof(shaderid));
+        ShaderClass shader = context->Peek_Shader(shaderid);
+        matdesc->Set_Single_Shader(shader, context->CurPass);
+
+        if ((context->CurPass == 0) &&
+            (shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO) &&
+            (shader.Get_Alpha_Test() == ShaderClass::ALPHATEST_DISABLE) &&
+            (SortLevel == 0)) {
+            Set_Flag(SORT, true);
+        }
+    } else {
+        for (int i = 0; i < Get_Polygon_Count(); i++) {
+            cload.Read(&shaderid, sizeof(unsigned long));
+            ShaderClass shader = context->Peek_Shader(shaderid);
+            matdesc->Set_Shader(i, shader, context->CurPass);
+
+            if ((context->CurPass == 0) &&
+                (shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO) &&
+                (shader.Get_Alpha_Test() == ShaderClass::ALPHATEST_DISABLE) &&
+                (SortLevel == 0)) {
+                Set_Flag(SORT, true);
+            }
         }
     }
 
