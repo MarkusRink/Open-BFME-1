@@ -594,11 +594,50 @@ def drop_logged(candidates):
     return kept, dropped
 
 
-def structural_validator():
-    """Boundary validator over the retail image and the Ghidra inventory."""
+def proven_dump_extents(rvas):
+    """Read current byte-true dump extents only for the requested addresses.
+
+    Drift `size` is the compiled source size, not a retail boundary. The live
+    high-confidence dump ledger can supply boundaries absent from Ghidra's
+    inventory; a generic alias, funclet or unverified row cannot.
+    """
+    wanted = set(rvas)
+    extents = {}
+    if not wanted:
+        return extents
+    with (ROOT / "reverse" / "functions.csv").open(newline="") as stream:
+        for row in csv.DictReader(stream):
+            address = row.get("target_rva")
+            if not address or int(address, 16) not in wanted:
+                continue
+            notes = set(row.get("notes", "").split(";"))
+            if (row.get("status") != "matched"
+                    or not row.get("source", "").startswith("Code/gen_asm/")
+                    or not {"gen-dump", "bounds=high"} <= notes):
+                continue
+            rva, size = int(address, 16), int(row["target_size"])
+            if size <= 0 or (rva in extents and extents[rva] != size):
+                raise SystemExit(f"conflicting/invalid dump extent at {address}: "
+                                 "repair reverse/functions.csv")
+            extents[rva] = size
+    return extents
+
+
+def structural_validator(rvas=()):
+    """Validate against inventory boundaries and current high-confidence dumps."""
     import build
-    return boundary_validator.BoundaryValidator(build.read_target_bytes,
-                                                _ghidra_sizes())
+    sizes = dict(_ghidra_sizes())
+    dumps = proven_dump_extents(rvas)
+    inventory = boundary_validator.BoundaryValidator(build.read_target_bytes, dict(sizes))
+    # An existing inventory disagreement is evidence to inspect, not permission
+    # to silently replace one boundary with the other. Fill only missing RVAs,
+    # without turning a known interior or padding address into an accepted start.
+    for rva, size in dumps.items():
+        if inventory.check_start(rva)[0] is not False:
+            sizes.setdefault(rva, size)
+    validator = boundary_validator.BoundaryValidator(build.read_target_bytes, sizes)
+    validator.dump_extents = dumps
+    return validator
 
 
 def collapse_and_validate(candidates, validator=None):
@@ -630,7 +669,7 @@ def collapse_and_validate(candidates, validator=None):
                              f"regenerate drift_report.csv")
         groups.setdefault(rva, []).append(candidate)
     if groups and validator is None:
-        validator = structural_validator()
+        validator = structural_validator(groups)
 
     kept, refuted, reasons = [], 0, {}
     for rva, group in groups.items():
@@ -644,11 +683,19 @@ def collapse_and_validate(candidates, validator=None):
         group = [c for c in group if c["function"] in surviving]
         best = group[0]
         served = verdict["extent"] or best["size"]
+        warnings = list(verdict["warnings"])
+        dump_size = getattr(validator, "dump_extents", {}).get(rva)
+        if dump_size is not None:
+            if dump_size == verdict["extent"]:
+                warnings.append(f"current byte-true gen_asm dump confirms {dump_size}B extent")
+            else:
+                warnings.append(f"boundary disagreement: inventory {verdict['extent']}B "
+                                f"vs current dump {dump_size}B; recheck retail before porting")
         kept.append(dict(
             best,
             functions=[c["function"] for c in group],
             extent=verdict["extent"],
-            warnings=verdict["warnings"],
+            warnings=warnings,
             command=(f"python3 tools/explain_mismatch.py '{best['function']}' "
                      f"--rva {best['candidate_rva']} --size {served} "
                      f"--source {best['source']}")))
@@ -964,6 +1011,13 @@ def print_cluster(candidate, candidates):
           "pay the full gate once (docs/lessons.md).")
 
 
+def structural_size_label(candidate):
+    """Do not present the drifted compiler size as the retail body's size."""
+    extent = candidate.get("extent")
+    retail = f"{extent}B retail" if extent is not None else "retail size unknown"
+    return f"{candidate['size']:>5}B source / {retail}"
+
+
 def print_candidate(label, candidate, meta, candidates=()):
     print(f"== selected work: {label} (drawn from {meta['pool']}) ==")
     if label == "Zero Hour work packet":
@@ -997,7 +1051,7 @@ def print_candidate(label, candidate, meta, candidates=()):
         _print_stash(candidate)
         print(f"       fix the literal in source, then byte-verify: {candidate['command']}")
     elif label == "structural reconciliation":
-        print(f"  {candidate['aligned_pct']:>3}% {candidate['size']:>5}B "
+        print(f"  {candidate['aligned_pct']:>3}% {structural_size_label(candidate)} "
               f"{candidate['function']}")
         print(f"       {candidate['source']} @ {candidate['candidate_rva']}  "
               f"hint: {candidate['hint']}")
@@ -1067,11 +1121,13 @@ def print_ranked(args, ledger, drifts, structural, ghidra_meta, ghidra_absent,
               f"address(es); workflow: docs/structural.md) ==")
         for candidate in shown:
             shared = len(candidate.get("functions", ())) - 1
-            print(f"  {candidate['aligned_pct']:>3}% {candidate['size']:>5}B "
+            print(f"  {candidate['aligned_pct']:>3}% {structural_size_label(candidate)} "
                   f"{candidate['function']}"
                   + (f"  (+{shared} name(s) at this address)" if shared > 0 else ""))
             print(f"       {candidate['source']} @ {candidate['candidate_rva']}  "
                   f"hint: {candidate['hint']}")
+            for warning in candidate.get("warnings", ()):
+                print(f"       warning: {warning}")
             _print_stash(candidate)
             print(f"       start: {candidate['command']}")
 
