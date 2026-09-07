@@ -835,21 +835,6 @@ void ScaleUpTransition::reverse( void )
 
 }
 
-// ?draw@ScaleUpTransition@@UAEXXZ present-unmatched
-void ScaleUpTransition::draw( void )
-{
-	if(!m_win)
-		return;
-	const Image *image = m_win->winGetEnabledImage(0);
-	if(m_drawState <= SCALEUPTRANSITION_START || m_drawState >= SCALEUPTRANSITION_END)
-		return;
-	Int x = m_centerPos.x - ((m_incrementSize.x * m_drawState) / 2);
-	Int y = m_centerPos.y - ((m_incrementSize.y * m_drawState) / 2);
-	Int x1 = x + m_incrementSize.x * m_drawState;
-	Int y1 = y + m_incrementSize.y * m_drawState;
-	TheDisplay->drawImage(image, x,y, x1, y1);
-}
-	
 void ScaleUpTransition::skip( void )
 {
 	update(SCALEUPTRANSITION_END);
@@ -964,21 +949,6 @@ void ScoreScaleUpTransition::reverse( void )
 
 }
 
-// ?draw@ScoreScaleUpTransition@@UAEXXZ present-unmatched
-void ScoreScaleUpTransition::draw( void )
-{
-	if(!m_win)
-		return;
-	const Image *image = m_win->winGetEnabledImage(0);
-	if(m_drawState <= SCORESCALEUPTRANSITION_START || m_drawState >= SCORESCALEUPTRANSITION_END)
-		return;
-	Int x = m_centerPos.x - ((m_incrementSize.x * m_drawState) / 2);
-	Int y = m_centerPos.y - ((m_incrementSize.y * m_drawState) / 2);
-	Int x1 = x + m_incrementSize.x * m_drawState;
-	Int y1 = y + m_incrementSize.y * m_drawState;
-	TheDisplay->drawImage(image, x,y, x1, y1);
-}
-	
 void ScoreScaleUpTransition::skip( void )
 {
 	update(SCORESCALEUPTRANSITION_END);
@@ -1488,21 +1458,6 @@ void MainMenuSmallScaleDownTransition::reverse( void )
 
 }
 
-// ?draw@MainMenuSmallScaleDownTransition@@UAEXXZ present-unmatched
-void MainMenuSmallScaleDownTransition::draw( void )
-{
-	if(!m_win)
-		return;
-	const Image *image = m_win->winGetEnabledImage(0);
-	if(m_drawState <= MAINMENUSMALLSCALEDOWNTRANSITION_START || m_drawState >= MAINMENUSMALLSCALEDOWNTRANSITION_END)
-		return;
-	Int x = m_pos.x - ((m_incrementSize.x * m_drawState) /2);
-	Int y = m_pos.y - ((m_incrementSize.y * m_drawState) / 2);
-	Int x1 = m_pos.x + m_size.x + ((m_incrementSize.x * m_drawState) / 2);
-	Int y1 = m_pos.y + m_size.y + ((m_incrementSize.y * m_drawState) / 2);
-	TheDisplay->drawImage(image, x,y, x1, y1);
-}
-	
 void MainMenuSmallScaleDownTransition::skip( void )
 {
 	update(MAINMENUSMALLSCALEDOWNTRANSITION_END);
