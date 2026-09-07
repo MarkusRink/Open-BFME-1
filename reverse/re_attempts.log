@@ -11353,3 +11353,4 @@ d_00483c20	0x00483C20	80	blocked	t=5min model=sonnet STL-shaped rotate/insert he
 d_007547e0	0x007547E0	80	blocked	t=2min model=sonnet byte-identical twin of 0x00483C20 same wall different callee thunk
 d_002c4662	0x002C4662	81	blocked	t=1min model=sonnet garbage decode mid-instruction odd start address SIZE/START wrong
 d_007b7753	0x007B7753	81	blocked	t=1min model=sonnet garbage decode mid-instruction odd start address SIZE/START wrong
+?d_003806d0@@YAXXZ	0x003806d0	148	blocked	t=18min model=gpt-5 The body sits beside ExperienceLevelSystem methods and calls the named findLevel import at ILT 0x000335D2. Its list traversal and template fields show experience-level selection, but the available callers and vtable data do not prove the owning method name, so I left Code/gen_asm/d_00377550.asm unchanged.
