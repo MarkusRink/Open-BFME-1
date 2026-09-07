@@ -8430,6 +8430,9 @@ name,address,notes
 ??1HordeUpdateModuleDataBase@@UAE@XZ,0x00887940,Open-BFME5 base dtor pin
 ??1INIMemberA@@QAE@XZ,0x009CBFE0,Open-BFME5 pin
 ??1IPEnumeration@@QAE@XZ,0x00625040,ZH IPEnumeration dtor: WSACleanup when +0x04 then walks the EnumeratedIP list at +0x00 releasing each AsciiString and deleting the node; called by writeReportIfMismatched 0x00065631 and 10 other sites plus unwind funclets
+??0IPEnumeration@@QAE@XZ,0x0002649F,retail constructor ILT reached by OptionPreferences::getLANIPAddress; thunk jumps to body 0x00624B90
+?getAddresses@IPEnumeration@@QAEPAVEnumeratedIP@@XZ,0x00624C80,retail body reached through the ILT at 0x00001E1A from OptionPreferences::getLANIPAddress
+?getIPstring@EnumeratedIP@@QAE?AVAsciiString@@XZ,0x000904B0,retail by-value string accessor body reached through the ILT at 0x00016A7C from OptionPreferences::getLANIPAddress
 ??1IgnorePreferences@@UAE@XZ,0x00033A23,REL32 pin from GameSpyInfo::addToSavedIgnoreList @0x635670
 ??1ImmortalBody@@UAE@XZ,0x0004B15F,destructor ILT to 0x002139E0
 ??1InGameChatSlot@@QAE@XZ,0x0004598F,ILT of the 0x10-byte InGameChat slot destructor used at this+0x270 and +0x280

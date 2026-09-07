@@ -1,505 +1,138 @@
 // cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// stlport
+// Clean implementation of OptionPreferences::getLANIPAddress.
 
-class OptionPreferences;
+#include <map>
 
-class __declspec(novtable) OptionPreferences
+extern "C" __declspec(dllimport) int __cdecl _memicmp(const void *, const void *, unsigned int);
+
+template <class T> class StringBase
 {
-public:
-unsigned getLANIPAddress();
+	friend class AsciiString;
+
+private:
+	StringBase(const StringBase<T> &source);
 };
 
-// ?getLANIPAddress@OptionPreferences@@QAEIXZ
-__declspec(naked) unsigned OptionPreferences::getLANIPAddress()
+struct AsciiStringData
 {
-__asm {
-	__emit 0x68
-	__emit 0xe4
-	__emit 0xfb
-	__emit 0x07
-	__emit 0x01
-	__emit 0xc7
-	__emit 0x44
-	__emit 0x24
-	__emit 0x28
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0xe8
-	__emit 0x78
-	__emit 0x67
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x8d
-	__emit 0x54
-	__emit 0x24
-	__emit 0x18
-	__emit 0x52
-	__emit 0xe8
-	__emit 0x9e
-	__emit 0x6b
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x83
-	__emit 0xc4
-	__emit 0x18
-	__emit 0x68
-	__emit 0xd8
-	__emit 0xfb
-	__emit 0x07
-	__emit 0x01
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x1c
-	__emit 0xe8
-	__emit 0x5d
-	__emit 0x67
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x8d
-	__emit 0x44
-	__emit 0x24
-	__emit 0x18
-	__emit 0x50
-	__emit 0x8d
-	__emit 0x4e
-	__emit 0x04
-	__emit 0xc6
-	__emit 0x44
-	__emit 0x24
-	__emit 0x14
-	__emit 0x01
-	__emit 0xe8
-	__emit 0x65
-	__emit 0xc2
-	__emit 0xfa
-	__emit 0xff
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x04
-	__emit 0x51
-	__emit 0x8b
-	__emit 0xc8
-	__emit 0xe8
-	__emit 0x0f
-	__emit 0x58
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x18
-	__emit 0xc6
-	__emit 0x44
-	__emit 0x24
-	__emit 0x10
-	__emit 0x00
-	__emit 0xe8
-	__emit 0xb1
-	__emit 0x54
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x04
-	__emit 0xc7
-	__emit 0x44
-	__emit 0x24
-	__emit 0x10
-	__emit 0xff
-	__emit 0xff
-	__emit 0xff
-	__emit 0xff
-	__emit 0xe8
-	__emit 0xa0
-	__emit 0x54
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x8b
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x08
-	__emit 0x64
-	__emit 0x89
-	__emit 0x0d
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0x5e
-	__emit 0x83
-	__emit 0xc4
-	__emit 0x10
-	__emit 0xc2
-	__emit 0x04
-	__emit 0x00
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0xcc
-	__emit 0x6a
-	__emit 0xff
-	__emit 0x68
-	__emit 0x38
-	__emit 0x5b
-	__emit 0xff
-	__emit 0x00
-	__emit 0x64
-	__emit 0xa1
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0x50
-	__emit 0x64
-	__emit 0x89
-	__emit 0x25
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0x83
-	__emit 0xec
-	__emit 0x14
-	__emit 0x53
-	__emit 0x55
-	__emit 0x56
-	__emit 0x57
-	__emit 0x8b
-	__emit 0xf1
-	__emit 0x68
-	__emit 0xf4
-	__emit 0xfb
-	__emit 0x07
-	__emit 0x01
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x18
-	__emit 0xe8
-	__emit 0xa4
-	__emit 0x66
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x8d
-	__emit 0x44
-	__emit 0x24
-	__emit 0x14
-	__emit 0x50
-	__emit 0x8d
-	__emit 0x4e
-	__emit 0x04
-	__emit 0xc7
-	__emit 0x44
-	__emit 0x24
-	__emit 0x30
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0xe8
-	__emit 0xa9
-	__emit 0xc1
-	__emit 0xfa
-	__emit 0xff
-	__emit 0x50
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x14
-	__emit 0xe8
-	__emit 0x25
-	__emit 0x56
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x14
-	__emit 0xc6
-	__emit 0x44
-	__emit 0x24
-	__emit 0x2c
-	__emit 0x02
-	__emit 0xe8
-	__emit 0xf7
-	__emit 0x53
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x1c
-	__emit 0xe8
-	__emit 0x4d
-	__emit 0x3f
-	__emit 0xf9
-	__emit 0xff
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x1c
-	__emit 0xc6
-	__emit 0x44
-	__emit 0x24
-	__emit 0x2c
-	__emit 0x03
-	__emit 0xe8
-	__emit 0xba
-	__emit 0xf8
-	__emit 0xf6
-	__emit 0xff
-	__emit 0x8b
-	__emit 0xe8
-	__emit 0x85
-	__emit 0xed
-	__emit 0x74
-	__emit 0x73
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x18
-	__emit 0x51
-	__emit 0x8b
-	__emit 0xcd
-	__emit 0xe8
-	__emit 0x0a
-	__emit 0x45
-	__emit 0xf8
-	__emit 0xff
-	__emit 0x8b
-	__emit 0x00
-	__emit 0x85
-	__emit 0xc0
-	__emit 0x74
-	__emit 0x06
-	__emit 0x0f
-	__emit 0xb7
-	__emit 0x78
-	__emit 0x04
-	__emit 0xeb
-	__emit 0x02
-	__emit 0x33
-	__emit 0xff
-	__emit 0x85
-	__emit 0xc0
-	__emit 0x8d
-	__emit 0x50
-	__emit 0x08
-	__emit 0x75
-	__emit 0x05
-	__emit 0xba
-	__emit 0x8b
-	__emit 0x38
-	__emit 0x07
-	__emit 0x01
-	__emit 0x8b
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x10
-	__emit 0x85
-	__emit 0xc9
-	__emit 0x74
-	__emit 0x09
-	__emit 0x0f
-	__emit 0xb7
-	__emit 0x71
-	__emit 0x04
-	__emit 0x83
-	__emit 0xc1
-	__emit 0x08
-	__emit 0xeb
-	__emit 0x07
-	__emit 0x33
-	__emit 0xf6
-	__emit 0xb9
-	__emit 0x8b
-	__emit 0x38
-	__emit 0x07
-	__emit 0x01
-	__emit 0x3b
-	__emit 0xf7
-	__emit 0x8b
-	__emit 0xc6
-	__emit 0x7c
-	__emit 0x02
-	__emit 0x8b
-	__emit 0xc7
-	__emit 0x50
-	__emit 0x52
-	__emit 0x51
-	__emit 0xff
-	__emit 0x15
-	__emit 0x10
-	__emit 0x93
-	__emit 0x35
-	__emit 0x01
-	__emit 0x83
-	__emit 0xc4
-	__emit 0x0c
-	__emit 0x85
-	__emit 0xc0
-	__emit 0x75
-	__emit 0x06
-	__emit 0x2b
-	__emit 0xf7
-	__emit 0x8b
-	__emit 0xc6
-	__emit 0x85
-	__emit 0xc0
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x18
-	__emit 0x0f
-	__emit 0x94
-	__emit 0xc3
-	__emit 0xe8
-	__emit 0x72
-	__emit 0x53
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x84
-	__emit 0xdb
-	__emit 0x75
-	__emit 0x47
-	__emit 0x8b
-	__emit 0x6d
-	__emit 0x08
-	__emit 0x85
-	__emit 0xed
-	__emit 0x75
-	__emit 0x8d
-	__emit 0x8b
-	__emit 0x15
-	__emit 0xc8
-	__emit 0xd5
-	__emit 0x2e
-	__emit 0x01
-	__emit 0x8b
-	__emit 0xb2
-	__emit 0x10
-	__emit 0x0b
-	__emit 0x00
-	__emit 0x00
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x1c
-	__emit 0xc6
-	__emit 0x44
-	__emit 0x24
-	__emit 0x2c
-	__emit 0x02
-	__emit 0xe8
-	__emit 0x98
-	__emit 0xa8
-	__emit 0xf8
-	__emit 0xff
-	__emit 0x8d
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x10
-	__emit 0xc7
-	__emit 0x44
-	__emit 0x24
-	__emit 0x2c
-	__emit 0xff
-	__emit 0xff
-	__emit 0xff
-	__emit 0xff
-	__emit 0xe8
-	__emit 0x3c
-	__emit 0x53
-	__emit 0x7f
-	__emit 0x00
-	__emit 0x8b
-	__emit 0x4c
-	__emit 0x24
-	__emit 0x24
-	__emit 0x5f
-	__emit 0x8b
-	__emit 0xc6
-	__emit 0x5e
-	__emit 0x5d
-	__emit 0x5b
-	__emit 0x64
-	__emit 0x89
-	__emit 0x0d
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0x00
-	__emit 0x83
-	__emit 0xc4
-	__emit 0x20
-	__emit 0xc3
-	__emit 0x8b
-	__emit 0x75
-	__emit 0x04
-	__emit 0xeb
-	__emit 0xc7
+	unsigned char m_header[4];
+	unsigned short m_length;
+	unsigned short m_capacity;
+	char m_text[1];
+};
+
+class AsciiString
+{
+public:
+	AsciiString();
+	AsciiString(const char *text);
+	AsciiString(const AsciiString &source)
+	{
+		((StringBase<char> *)this)->StringBase<char>::StringBase(
+			*(const StringBase<char> *)&source);
+	}
+	~AsciiString();
+
+	int compareNoCase(const AsciiString &source) const
+	{
+		int sourceLength = source.m_data
+			? ((const AsciiStringData *)source.m_data)->m_length : 0;
+		const char *sourceText = source.m_data
+			? ((const AsciiStringData *)source.m_data)->m_text : "";
+
+		int thisLength = m_data
+			? ((const AsciiStringData *)m_data)->m_length : 0;
+		const char *thisText = m_data
+			? ((const AsciiStringData *)m_data)->m_text : "";
+
+		int length = thisLength;
+		if (length >= sourceLength)
+			length = sourceLength;
+
+		int result = _memicmp(thisText, sourceText, length);
+		if (result == 0)
+			result = thisLength - sourceLength;
+		return result;
+	}
+
+private:
+	void *m_data;
+};
+
+namespace _STL
+{
+template <> struct less<AsciiString>
+{
+	bool operator()(const AsciiString &left, const AsciiString &right) const;
+};
 }
+
+typedef _STL::map<AsciiString, AsciiString, _STL::less<AsciiString>,
+	_STL::allocator<_STL::pair<const AsciiString, AsciiString> > > PreferenceMap;
+
+template AsciiString &PreferenceMap::operator[](const AsciiString &);
+
+class UserPreferences : public PreferenceMap
+{
+public:
+	virtual ~UserPreferences();
+	virtual bool load(AsciiString filename);
+	virtual bool write(void);
+};
+
+class OptionPreferences : public UserPreferences
+{
+public:
+	unsigned getLANIPAddress(void);
+};
+
+class EnumeratedIP
+{
+public:
+	AsciiString getIPstring(void);
+	unsigned getIP(void) const { return m_IP; }
+	EnumeratedIP *getNext(void) const { return m_next; }
+
+private:
+	AsciiString m_IPstring;
+	unsigned m_IP;
+	EnumeratedIP *m_next;
+};
+
+class IPEnumeration
+{
+public:
+	IPEnumeration();
+	~IPEnumeration();
+	EnumeratedIP *getAddresses(void);
+
+private:
+	EnumeratedIP *m_IPlist;
+	bool m_isWinsockInitialized;
+};
+
+class GlobalData
+{
+public:
+	unsigned char m_unreconstructed_00[0xB10];
+	unsigned m_defaultIP;
+};
+
+extern GlobalData *TheWritableGlobalData;
+
+unsigned OptionPreferences::getLANIPAddress(void)
+{
+	AsciiString selectedIP = (*this)["IPAddress"];
+	IPEnumeration IPs;
+	EnumeratedIP *IPlist = IPs.getAddresses();
+	while (IPlist)
+	{
+		if (selectedIP.compareNoCase(IPlist->getIPstring()) == 0)
+		{
+			return IPlist->getIP();
+		}
+		IPlist = IPlist->getNext();
+	}
+	return TheWritableGlobalData->m_defaultIP;
 }
