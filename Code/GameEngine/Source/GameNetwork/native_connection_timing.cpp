@@ -2,6 +2,8 @@
 
 #include "../../../../reference/shims/stringinline/StringInline.h"
 
+extern const UnicodeString BFMEEmptyPlayerName;
+
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 
 typedef bool Bool;
@@ -375,7 +377,9 @@ class Connection
 	void sendNetCommandMsg(NetCommandMsg *msg, unsigned char relay);
 	long getLastTimeSent() { return m_lastTimeSent; }
 	int m_openState;
-	char m_unknown04[0x1C];
+	char m_unknown04[0x10];
+	UnicodeString m_playerName;
+	char m_unknown18[8];
 	float m_averageLatency;
 	char m_unknown24[0x324];
 	long m_lastTimeSent;
@@ -436,6 +440,7 @@ public:
 	void flushConnections();
 	void processChat(NetChatCommandMsg *msg);
 	void sendDisconnectChat(UnicodeString text);
+	UnicodeString getPlayerName(int slot);
 	friend class BFMEConnectionManager;
 	unsigned int getPacketRouterSlot();
 
@@ -449,7 +454,9 @@ private:
 	char m_unknown24[0x12004];
 	unsigned int m_localSlot;
 	unsigned int m_packetRouterSlot;
-	char m_unknown12030[0xB4];
+	char m_unknown12030[0x28];
+	UnicodeString m_localPlayerName;
+	char m_unknown1205C[0x88];
 	FrameDataManager *m_frameData[8];
 };
 
@@ -516,7 +523,6 @@ public:
 	void ackCommand(NetCommandRef *ref, NetPacketAddress *source);
 	void sendGameCommand(void *msg);
 	Bool isDuplicateCommand(NetCommandMsg *msg);
-	void getPlayerNameForSlot(void *out, int slot);
 	void sendPlayerLeaveCommands();
 	void sendFrameInfoToPlayer(int slot);
 	void sendChat(UnicodeString text, int playerMask);
@@ -6339,60 +6345,13 @@ Bool BFMEConnectionManager::isDuplicateCommand(NetCommandMsg *msg)
 	return false;
 }
 
-// Copies a player's display name out. For our own slot it reads the string at
-// this+0x12058 directly; otherwise it takes the copy path through
-// StringBase<UnsignedShort>.
-__declspec(naked) void BFMEConnectionManager::getPlayerNameForSlot(void *out, int slot)
+// Returns an owning string copy from the local name or a peer connection.
+// ILT 0x00012A62 and the named DisconnectManager callers prove the return ABI.
+UnicodeString ConnectionManager::getPlayerName(int slot)
 {
-	__asm {
-		push ecx
-		mov eax, dword ptr [esp+0Ch]
-		cmp eax, dword ptr [ecx+12028h]
-		push esi
-		mov dword ptr [esp+4h], 0h
-		jne L00_664A0F
-		mov esi, dword ptr [esp+0Ch]
-		add ecx, 12058h
-		push ecx
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0F8h
-		__emit 039h
-		__emit 022h
-		__emit 000h   // call 0x888400
-		mov eax, esi
-		pop esi
-		pop ecx
-		ret 8h
-L00_664A0F:
-		mov ecx, dword ptr [ecx+eax*4+4h]
-		test ecx, ecx
-		je L01_664A2D
-		mov esi, dword ptr [esp+0Ch]
-		add ecx, 14h
-		push ecx
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0DAh
-		__emit 039h
-		__emit 022h
-		__emit 000h   // call 0x888400
-		mov eax, esi
-		pop esi
-		pop ecx
-		ret 8h
-L01_664A2D:
-		mov esi, dword ptr [esp+0Ch]
-		push 1336E54h
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0C3h
-		__emit 039h
-		__emit 022h
-		__emit 000h   // call 0x888400
-		mov eax, esi
-		pop esi
-		pop ecx
-		ret 8h
-	}
+	if (slot == m_localSlot)
+		return m_localPlayerName;
+	if (m_connections[slot])
+		return m_connections[slot]->m_playerName;
+	return BFMEEmptyPlayerName;
 }
