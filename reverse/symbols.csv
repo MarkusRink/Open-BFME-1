@@ -81496,6 +81496,7 @@ name,address,notes
 ?notifyOther@BfmeLinkedObjBE@@QAEXPAV1@PAX@Z,0x000389D3,pin
 ?notifyReady@BfmeRvaB7E0Manager@@QAEXPAX@Z,0x009F2660,assigned-body helper for Rva00247E80
 ?notifyRva001C8830@Object@@QAEXPAVPlayer@@@Z,0x0001FE3D,Independently reviewed full retail callee for selectObject382E30; typed receiver and arguments; address names for unresolved identities
+?notifyRva001C89E0@BFMEGameLogicObjectSelectionDeselectShim@@QAEXPAVPlayer@@@Z,0x000380CD,GameLogic::deselectObject tail call at 0x00382FEC passes Object as this and Player as its only argument; retail body 0x001C89E0 clears the Object selection bit and updates drawable, AI, and contain interfaces
 ?notifyScriptEngine@SpecialPowerCompletionDie@@QAEXXZ,0x00017981,Open-BFME5 ILT from zh_sweep packet 00256070
 ?notifyShroudChanged006e@BaseHeightMapRenderObjClass@@QAEXXZ,0x00036F43,W3DDisplay terrain shroud-notification target read from retail REL32
 ?notifyShroudChanged30B8@BaseHeightMapResetShroud@@QAEXXZ,0x00005371,retail thunk called for the +0x3098 shroud child by notifyShroudChanged006e
@@ -82417,6 +82418,7 @@ name,address,notes
 ?setControlBarSchemeByPlayerTemplate@ControlBarSchemeManager@@QAEXPBVPlayerTemplate@@_N@Z,0x000378EE,REL32 pin: retail calls this through the incremental-link thunk at 0x378EE which jumps to 0x4ADE40
 ?setControlCommand@ControlBar@@AAEXPAVGameWindow@@PBVCommandButton@@@Z,0x00015DA7,incremental-link thunk read out of the call displacement in populateOCLTimer
 ?setCopiedFromDefault@ThingTemplate@@QAEXXZ,0x0004609C,ThingFactory::newOverride calls the copied-from-default helper through retail ILT
+?getCurrentSelectionAsAIGroup@Player@@QAEXPAVAIGroup@@@Z,0x00019222,GameLogic::deselectObject call-site target at 0x00382F96 and Player.cpp declaration prove this receiver and argument
 ?setCurrentlySelectedAIGroup@Player@@QAEXPAVAIGroup@@@Z,0x00005DD0,Independently reviewed full retail callee for selectObject382E30; typed receiver and arguments; address names for unresolved identities
 ?setCursor@Mouse@@UAEXH@Z,0x0004A1EC,W3DMouse destructor integer view of the cursor-enum virtual base call
 ?setCursor@Mouse@@UAEXW4MouseCursor@1@@Z,0x0000E520
