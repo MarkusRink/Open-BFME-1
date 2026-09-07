@@ -85662,3 +85662,8 @@ g_bfmeMsgVftDN,0x010F5738
 ??0BfmeHandleERN@@QAE@XZ,0x0003E306,pin
 ?bfmeSendERN@@YAXPAXPAVBfmeObjERN@@@Z,0x0003DF4B,pin
 ?bfmeTestERN@BfmeModERN@@QAEDPAVBfmeObjERN@@@Z,0x0000659B,pin
+?_S_free_list@__new_alloc@_STL@@0PAPAU_Obj@12@A,0x0130B1C0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0082E540 calls; autopin
+?_S_lock@?$_Node_Alloc_Lock@$00$0A@@_STL@@2VNodeAllocMutex@2@A,0x0130B254,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0082E540 calls; autopin
+?_S_refill@__new_alloc@_STL@@CAPAU_Obj@12@I@Z,0x0082C920,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0082E540 calls; autopin
+?_S_free_list@?$__node_alloc@$00$0A@@_STL@@0PAPAU_Obj@12@A,0x0130B1C0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0082E540 calls; autopin
+?_S_refill@?$__node_alloc@$00$0A@@_STL@@CAPAXI@Z,0x0082C920,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0082E540 calls; autopin

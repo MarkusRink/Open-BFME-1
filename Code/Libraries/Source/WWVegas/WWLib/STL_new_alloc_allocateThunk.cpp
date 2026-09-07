@@ -1,181 +1,112 @@
-// cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift MASM dump _STL::__new_alloc::allocate to C++ thunk.
+// cl: /DNDEBUG /MD /EHsc /Og-
+// Open-BFME7: STLport 4.5.3 __node_alloc<true,0>::_M_allocate, retail
+// 0x0082E540, 162 bytes (also ledgered under its ICF twin
+// ?allocate@__new_alloc@_STL@@SAPAXI@Z). The body follows vendor/stlport/
+// stl/_alloc.c: the result pointer is the first local, the lock guard has no
+// data members, and the node mutex acquire/release are the out-of-line
+// thiscall members retail keeps. The one frame slot the earlier
+// reconstructions could not place is an unreferenced local inside the
+// inlined guard destructor: under /Og- it still gets a home, and because the
+// destructor is inlined after the return value has been copied to its
+// temporary, that home lands below the temporary.
 
 namespace _STL
 {
-class __new_alloc
+
+class NodeAllocMutex
 {
 public:
-	static void *allocate(unsigned int n);
+    void _M_acquire_lock();
+    void _M_release_lock();
 };
-}
 
-// ?allocate@__new_alloc@_STL@@SAPAXI@Z
-__declspec(naked) void *_STL::__new_alloc::allocate(unsigned int)
+template <bool __threads, int __inst>
+class _Node_Alloc_Lock
 {
-	__asm {
-		__emit 0x55
-		__emit 0x8b
-		__emit 0xec
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x68
-		__emit 0x78
-		__emit 0x49
-		__emit 0x05
-		__emit 0x01
-		__emit 0x64
-		__emit 0xa1
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x50
-		__emit 0x64
-		__emit 0x89
-		__emit 0x25
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x83
-		__emit 0xec
-		__emit 0x14
-		__emit 0x8b
-		__emit 0x45
-		__emit 0x08
-		__emit 0x83
-		__emit 0xe8
-		__emit 0x01
-		__emit 0xc1
-		__emit 0xe8
-		__emit 0x03
-		__emit 0x8d
-		__emit 0x0c
-		__emit 0x85
-		__emit 0xc0
-		__emit 0xb1
-		__emit 0x30
-		__emit 0x01
-		__emit 0x89
-		__emit 0x4d
-		__emit 0xf0
-		__emit 0xba
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x85
-		__emit 0xd2
-		__emit 0x74
-		__emit 0x0a
-		__emit 0xb9
-		__emit 0x54
-		__emit 0xb2
-		__emit 0x30
-		__emit 0x01
-		__emit 0xe8
-		__emit 0x8f
-		__emit 0xf4
-		__emit 0xff
-		__emit 0xff
-		__emit 0xc7
-		__emit 0x45
-		__emit 0xfc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x45
-		__emit 0xf0
-		__emit 0x8b
-		__emit 0x08
-		__emit 0x89
-		__emit 0x4d
-		__emit 0xec
-		__emit 0x83
-		__emit 0x7d
-		__emit 0xec
-		__emit 0x00
-		__emit 0x74
-		__emit 0x0c
-		__emit 0x8b
-		__emit 0x55
-		__emit 0xf0
-		__emit 0x8b
-		__emit 0x45
-		__emit 0xec
-		__emit 0x8b
-		__emit 0x08
-		__emit 0x89
-		__emit 0x0a
-		__emit 0xeb
-		__emit 0x0f
-		__emit 0x8b
-		__emit 0x55
-		__emit 0x08
-		__emit 0x52
-		__emit 0xe8
-		__emit 0x75
-		__emit 0xe3
-		__emit 0xff
-		__emit 0xff
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x04
-		__emit 0x89
-		__emit 0x45
-		__emit 0xec
-		__emit 0x8b
-		__emit 0x45
-		__emit 0xec
-		__emit 0x89
-		__emit 0x45
-		__emit 0xe4
-		__emit 0xc7
-		__emit 0x45
-		__emit 0xfc
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xb9
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x85
-		__emit 0xc9
-		__emit 0x74
-		__emit 0x0a
-		__emit 0xb9
-		__emit 0x54
-		__emit 0xb2
-		__emit 0x30
-		__emit 0x01
-		__emit 0xe8
-		__emit 0x7f
-		__emit 0xc7
-		__emit 0xff
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x45
-		__emit 0xe4
-		__emit 0x8b
-		__emit 0x4d
-		__emit 0xf4
-		__emit 0x64
-		__emit 0x89
-		__emit 0x0d
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0xe5
-		__emit 0x5d
-		__emit 0xc3
-	}
+public:
+    _Node_Alloc_Lock()
+    {
+        if (__threads) {
+            _S_lock._M_acquire_lock();
+        }
+    }
+    ~_Node_Alloc_Lock()
+    {
+        if (__threads) {
+            _S_lock._M_release_lock();
+        }
+        int unused;
+    }
+
+    static NodeAllocMutex _S_lock;
+};
+
+template <bool __threads, int __inst>
+NodeAllocMutex _Node_Alloc_Lock<__threads, __inst>::_S_lock;
+
+class __new_alloc
+{
+    struct _Obj
+    {
+        _Obj *_M_free_list_link;
+    };
+
+    static _Obj *_S_free_list[0x10];
+
+    static _Obj *_S_refill(unsigned int n);
+
+public:
+    static void *allocate(unsigned int n);
+};
+
+void *__new_alloc::allocate(unsigned int n)
+{
+    void *result;
+    _Obj * volatile *my_free_list = _S_free_list + ((n - 1) >> 3);
+
+    _Node_Alloc_Lock<true, 0> lock_instance;
+    if ((result = *my_free_list) != 0) {
+        *my_free_list = ((_Obj *)result)->_M_free_list_link;
+    } else {
+        result = _S_refill(n);
+    }
+
+    return result;
 }
 
+// Retail folded ?_M_allocate@?$__node_alloc@$00$0A@@_STL@@CAPAXI@Z onto the
+// same body (ICF); both names are ledgered at 0x0082E540.
+template <bool __threads, int __inst>
+class __node_alloc
+{
+    struct _Obj
+    {
+        _Obj *_M_free_list_link;
+    };
+
+    static _Obj *_S_free_list[0x10];
+
+    static void *_S_refill(unsigned int n);
+
+    static void *_M_allocate(unsigned int n);
+};
+
+template <bool __threads, int __inst>
+void *__node_alloc<__threads, __inst>::_M_allocate(unsigned int n)
+{
+    void *result;
+    _Obj * volatile *my_free_list = _S_free_list + ((n - 1) >> 3);
+
+    _Node_Alloc_Lock<__threads, __inst> lock_instance;
+    if ((result = *my_free_list) != 0) {
+        *my_free_list = ((_Obj *)result)->_M_free_list_link;
+    } else {
+        result = _S_refill(n);
+    }
+
+    return result;
+}
+
+template class __node_alloc<true, 0>;
+
+}
