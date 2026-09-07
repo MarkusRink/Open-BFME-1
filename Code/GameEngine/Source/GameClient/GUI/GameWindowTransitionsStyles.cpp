@@ -1226,21 +1226,6 @@ void MainMenuMediumScaleUpTransition::reverse( void )
 
 }
 
-// ?draw@MainMenuMediumScaleUpTransition@@UAEXXZ present-unmatched
-void MainMenuMediumScaleUpTransition::draw( void )
-{
-	if(!m_win)
-		return;
-	const Image *image = m_win->winGetEnabledImage(0);
-	if(m_drawState <= MAINMENUMEDIUMSCALEUPTRANSITION_START || m_drawState >= MAINMENUMEDIUMSCALEUPTRANSITION_END)
-		return;
-	Int x = m_pos.x - ((m_incrementSize.x * m_drawState) /2);
-	Int y = m_pos.y - ((m_incrementSize.y * m_drawState) / 2);
-	Int x1 = m_pos.x + m_size.x + ((m_incrementSize.x * m_drawState) / 2);
-	Int y1 = m_pos.y + m_size.y + ((m_incrementSize.y * m_drawState) / 2);
-	TheDisplay->drawImage(image, x,y, x1, y1);
-}
-	
 // ?skip@MainMenuMediumScaleUpTransition@@UAEXXZ present-unmatched
 void MainMenuMediumScaleUpTransition::skip( void )
 {
