@@ -1,17 +1,7 @@
 // ?doFXObj@AttachedModelFXNugget@@UBEXPBVObject@@0@Z
-// partial score=0.82 date=2026-08-28
-// cl: /O2 /Ob0 /DNDEBUG /MD /EHsc
 // Open-BFME5: clean C++ conversion of the AttachedModel object dispatch.
 
-class AsciiString
-{
-public:
-	AsciiString(const AsciiString &);
-	~AsciiString();
-
-private:
-	char *m_text;
-};
+#include "../../../../reference/shims/stringinline/StringInline.h"
 
 class Drawable
 {
