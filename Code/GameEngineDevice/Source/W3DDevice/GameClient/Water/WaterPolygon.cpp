@@ -41,21 +41,6 @@ public:
 	void bind(const BFMEWaterTrackTextureHandle &texture);
 };
 
-class InlineTextureHolder
-{
-public:
-	TextureClass *m_texture;
-
-	__forceinline void bind(const BFMEWaterTrackTextureHandle &texture)
-	{
-		if (texture.m_texture)
-			++*(unsigned short *)((char *)texture.m_texture + 4);
-		if (m_texture)
-			((BFMEWaterTrackTexture *)m_texture)->Release_Ref();
-		m_texture = texture.m_texture;
-	}
-};
-
 static inline void BFMEAssignWaterTrackTexture(
 	TextureClass *&destination,
 	const BFMEWaterTrackTextureHandle &texture)
@@ -96,6 +81,9 @@ class AsciiString
 public:
 	Char *m_data;
 
+	AsciiString();
+	~AsciiString();
+
 	AsciiString &operator=(const AsciiString &other);
 
 	Char *str(void) const
@@ -111,18 +99,78 @@ public:
 	}
 };
 
+template <class T>
+class RefCountPtr
+{
+	friend class Rva007A1230ArrayOwner;
+public:
+	RefCountPtr(void);
+	~RefCountPtr(void);
+
+private:
+	T *m_referent;
+};
+
 class Rva007A1230ArrayOwner
 {
 public:
-	virtual ~Rva007A1230ArrayOwner();
+	Rva007A1230ArrayOwner(void *source);
+	virtual ~Rva007A1230ArrayOwner(void);
 	void setTexture(const AsciiString &name, WaterTextureIndex index);
 
 private:
-	Bool m_flag04;
-	Char m_beforeNames[7];
+	void releaseOwnedState(void);
+	unsigned char m_flag04;
+	unsigned char m_padding05[3];
+	void *m_field08;
 	AsciiString m_textureNames[6];
-	TextureClass *m_textureReferences[6];
+	RefCountPtr<TextureClass> m_textureReferences[6];
+	unsigned char m_flag3c;
+	unsigned char m_padding3d[0x0f];
+	unsigned int m_value4c;
+	unsigned int m_value50;
+	// The initializer passes these raw values to AABoxClass(Vector3 *, int).
+	unsigned int m_pointStorage;
+	unsigned int m_pointCount;
+	unsigned int m_value5c;
+	unsigned int m_value60;
+	unsigned char m_boundsValid;
+	unsigned char m_padding65[3];
+	// Initializer 0x007A4D40 copies the AABoxClass result to +0x68..+0x7F.
+	unsigned char m_bounds[0x18];
 };
+
+typedef char WaterPolygonSize[(sizeof(Rva007A1230ArrayOwner) == 0x80) ? 1 : -1];
+
+// The initializer is still a generic dump row.  Keep its call target named by
+// that existing row until the adjacent body is converted; the cast supplies
+// the recovered thiscall/one-argument ABI without inventing a second address.
+extern void d_007a4d40(void);
+
+// VC7.1 reserves __thiscall in a free-function-pointer typedef.  A fastcall
+// cast with the source duplicated gives the same ECX object and stack argument
+// while leaving the otherwise-unused EDX copy harmless at the target.
+typedef void (__fastcall *WaterPolygonInitializeCall)(
+	Rva007A1230ArrayOwner *, void *, void *);
+
+Rva007A1230ArrayOwner::Rva007A1230ArrayOwner(void *source)
+	: m_flag04(0), m_field08(0)
+{
+	m_flag3c = 0;
+	m_value4c = 0;
+	m_value50 = 0;
+	m_pointStorage = 0;
+	m_pointCount = 0;
+	m_value5c = 0;
+	m_value60 = 0;
+	m_boundsValid = 0;
+	((WaterPolygonInitializeCall)d_007a4d40)(this, source, source);
+}
+
+Rva007A1230ArrayOwner::~Rva007A1230ArrayOwner()
+{
+	releaseOwnedState();
+}
 
 void Rva007A1230ArrayOwner::setTexture(
 	const AsciiString &name, WaterTextureIndex index)
@@ -156,7 +204,7 @@ void Rva007A1230ArrayOwner::setTexture(
 	else
 	{
 		BFMEAssignWaterTrackTexture(
-			self->m_textureReferences[indexValue],
+			self->m_textureReferences[indexValue].m_referent,
 			BFMEGetWaterTrackTexture(
 				self->m_textureNames[indexValue].str(), 0, 0));
 	}
