@@ -1724,7 +1724,7 @@ void TerrainLogic::addLandmarkBridgeToLogic(Object *bridgeObj)
 //-------------------------------------------------------------------------------------------------
 /** Given a name, return the associated waypoint. */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicGetWaypointByName.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicNameLookups.cpp
 // ?getWaypointByName@TerrainLogic@@UAEPAVWaypoint@@VAsciiString@@@Z present-unmatched
 Waypoint *TerrainLogic::getWaypointByName( AsciiString name )
 {
@@ -1751,7 +1751,7 @@ Waypoint *TerrainLogic::getWaypointByID( UnsignedInt id )
 //-------------------------------------------------------------------------------------------------
 /** Return the closest waypoint on the labeled path. */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicGetClosestWaypointOnPath.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicNameLookups.cpp
 // ?getClosestWaypointOnPath@TerrainLogic@@UAEPAVWaypoint@@PBUCoord3D@@VAsciiString@@@Z present-unmatched
 Waypoint *TerrainLogic::getClosestWaypointOnPath( const Coord3D *pos, AsciiString label )
 {
@@ -1786,7 +1786,7 @@ Waypoint *TerrainLogic::getClosestWaypointOnPath( const Coord3D *pos, AsciiStrin
 //-------------------------------------------------------------------------------------------------
 /** Return true if the waypoint path containing pWay is labeled with the label. */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicIsPurposeOfPath.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicNameLookups.cpp
 // ?isPurposeOfPath@TerrainLogic@@UAE_NPAVWaypoint@@VAsciiString@@@Z present-unmatched
 Bool TerrainLogic::isPurposeOfPath( Waypoint *pWay, AsciiString label )
 {
@@ -2433,6 +2433,7 @@ const WaterHandle* TerrainLogic::getWaterHandle( Real x, Real y )
 // ------------------------------------------------------------------------------------------------
 /** Get water handle by name assigned from the editor */
 // ------------------------------------------------------------------------------------------------
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Map/TerrainLogicNameLookups.cpp
 // ?getWaterHandleByName@TerrainLogic@@UAEPBVWaterHandle@@VAsciiString@@@Z present-unmatched
 const WaterHandle* TerrainLogic::getWaterHandleByName( AsciiString name )
 {

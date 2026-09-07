@@ -2,7 +2,7 @@
 // Fuzzy twin: 0x000A7AF0 TerrainTypeCollection::findTerrain (r0.925), but the
 // actual matching shape and classes come from the already-landed sibling
 // ?getWaypointByName@TerrainLogic@@UAEPAVWaypoint@@VAsciiString@@@Z at
-// 0x001AA900 (Code/GameEngine/Source/GameLogic/Map/TerrainLogicGetWaypointByName.cpp):
+// 0x001AA900 (Code/GameEngine/Source/GameLogic/Map/TerrainLogicNameLookups.cpp):
 // same AsciiString/BfmeWaypointNameString/Waypoint layout and the same inlined
 // compareWaypointName body (memcmp shorter-length compare, releaseBuffer via
 // 0x00887940). This caller differs from that one by fetching the list head
