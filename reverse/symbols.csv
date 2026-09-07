@@ -85283,3 +85283,5 @@ _bfmeVftYK,0x00CE7D00
 ?g_bfmeZeroYP@@3MB,0x00C75350
 ?bfmeReadyYP@BfmeThingYP@@QAEDXZ,0x00011F77
 ?bfmeApplyYP@BfmeThingYP@@QAEXPAX0@Z,0x00022BBA
+?bfmeEraseYQ@BfmeMapYQ@@QAEXPAUBfmeKeyYQ@@@Z,0x0001460A
+?bfmeSlotYQ@BfmeMapYQ@@QAEPAPAVBfmeItemYQ@@PAUBfmeKeyYQ@@@Z,0x00027147
