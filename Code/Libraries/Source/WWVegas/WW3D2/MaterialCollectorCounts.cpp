@@ -24,3 +24,9 @@ int MaterialCollectorClass::Get_Shader_Count(void)
 {
     return Shaders.ActiveCount;
 }
+
+// 0x0092F510, full 4-byte body; active count at this+0x28.
+int MaterialCollectorClass::Get_Vertex_Material_Count(void)
+{
+    return VertexMaterials.ActiveCount;
+}
