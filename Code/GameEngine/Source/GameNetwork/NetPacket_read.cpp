@@ -43,7 +43,7 @@ typedef unsigned int UnsignedInt;
 typedef unsigned short UnsignedShort;
 typedef unsigned char UnsignedByte;
 
-enum { NETCOMMANDTYPE_FRAMEINFO = 3, NETCOMMANDTYPE_PLAYERFRAMERATIOS = 22 };
+enum { NETCOMMANDTYPE_FRAMEINFO = 3, NETCOMMANDTYPE_ROUTERFALLBACK = 22 };
 
 enum { MAX_SLOTS = 8 };
 
@@ -247,20 +247,20 @@ public:
 	UnsignedInt m_commandCount;						// this+0x24
 };
 
-// BFME-only type 22: the eight per-slot frame ratios computePlayerFrameRatios
-// publishes. Retail inlines the constructor into the reader, so it is inline
-// here, the same as NetFrameCommandMsg's.
-class BFMENetPlayerFrameRatiosCommandMsg : public NetCommandMsg
+// BFME-only type 22: the router fallback list published by 0x00666000.
+// Entries are ordered player IDs; the reader widens wire bytes, including
+// the unused-entry marker 255. Retail inlines this constructor into the reader.
+class BFMENetRouterFallbackCommandMsg : public NetCommandMsg
 {
 public:
-	BFMENetPlayerFrameRatiosCommandMsg()
+	BFMENetRouterFallbackCommandMsg()
 	{
-		m_commandType = NETCOMMANDTYPE_PLAYERFRAMERATIOS;
+		m_commandType = NETCOMMANDTYPE_ROUTERFALLBACK;
 	}
 
-	void setPlayerFrameRatios(const Int *ratios);
+	void setPlayerOrder(const Int *players);
 
-	Int m_ratios[MAX_SLOTS];						// this+0x1C .. +0x38
+	Int m_playerOrder[MAX_SLOTS];						// this+0x1C .. +0x38
 };
 
 class BFMENetRequestPlayerLeaveCommandMsg : public NetCommandMsg
@@ -349,7 +349,7 @@ class NetPacket
 {
 protected:
 	static NetCommandMsg *readFrameMessage(UnsignedByte *data, Int &i);
-	static NetCommandMsg *readPlayerFrameRatiosMessage(UnsignedByte *data, Int &i);
+	static NetCommandMsg *readRouterFallbackMessage(UnsignedByte *data, Int &i);
 	static NetCommandMsg *readFileMessage(UnsignedByte *data, Int &i);
 	static NetCommandMsg *readFileAnnounceMessage(UnsignedByte *data, Int &i);
 	static NetCommandMsg *readRequestPlayerLeaveMessage(UnsignedByte *data, Int &i);
@@ -389,16 +389,16 @@ NetCommandMsg *NetPacket::readFrameMessage(UnsignedByte *data, Int &i)
 	return msg;
 }
 
-NetCommandMsg *NetPacket::readPlayerFrameRatiosMessage(UnsignedByte *data, Int &i)
+NetCommandMsg *NetPacket::readRouterFallbackMessage(UnsignedByte *data, Int &i)
 {
-	BFMENetPlayerFrameRatiosCommandMsg *msg = new BFMENetPlayerFrameRatiosCommandMsg;
-	Int ratios[MAX_SLOTS];
+	BFMENetRouterFallbackCommandMsg *msg = new BFMENetRouterFallbackCommandMsg;
+	Int players[MAX_SLOTS];
 
 	for (Int slot = 0; slot < MAX_SLOTS; ++slot) {
-		ratios[slot] = data[i];
+		players[slot] = data[i];
 		++i;
 	}
-	msg->setPlayerFrameRatios(ratios);
+	msg->setPlayerOrder(players);
 
 	return msg;
 }

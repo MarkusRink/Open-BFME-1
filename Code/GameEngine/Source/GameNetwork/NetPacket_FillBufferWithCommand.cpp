@@ -26,7 +26,7 @@ enum NetCommandType
 	NETCOMMANDTYPE_FILE = 19,
 	NETCOMMANDTYPE_FILEANNOUNCE = 20,
 	NETCOMMANDTYPE_FILEPROGRESS = 21,
-	NETCOMMANDTYPE_PLAYERFRAMERATIOS = 22,
+	NETCOMMANDTYPE_ROUTERFALLBACK = 22,
 	NETCOMMANDTYPE_DISCONNECTSTART = 23,
 	NETCOMMANDTYPE_DISCONNECTKEEPALIVE = 24,
 	NETCOMMANDTYPE_DISCONNECTPLAYER = 25,
@@ -58,15 +58,12 @@ class Rva00677280Ref;
 class Rva006772F0Ref;
 class Rva00677450Ref;
 class Rva006774C0Ref;
-struct Rva00677530Ref;
 class Rva00677590Ref;
 
 void Rva00677280(UnsignedByte *buffer, Rva00677280Ref *ref);
 void Rva006772F0(UnsignedByte *buffer, Rva006772F0Ref *ref);
 void Rva00677450(UnsignedByte *buffer, Rva00677450Ref *ref);
 void Rva006774C0(UnsignedByte *buffer, Rva006774C0Ref *ref);
-void FillBufferWithRva00677530Message(UnsignedByte *buffer,
-	Rva00677530Ref *ref);
 void Rva00677590(UnsignedByte *buffer, Rva00677590Ref *ref);
 
 class NetPacket
@@ -91,7 +88,8 @@ protected:
 	static void FillBufferWithDisconnectScreenOffMessage(UnsignedByte *buffer, NetCommandRef *ref);
 	static void FillBufferWithGameSpyStatsAuthKeyCommand(UnsignedByte *buffer, NetCommandRef *ref);
 	static void FillBufferWithRequestGameSpyStatsAuthKeyCommand(UnsignedByte *buffer, NetCommandRef *ref);
-	static void FillBufferWithPlayerFrameRatiosCommand(UnsignedByte *buffer, NetCommandRef *ref);
+	static void FillBufferWithRequestPlayerLeaveCommand(UnsignedByte *buffer, NetCommandRef *ref);
+	static void FillBufferWithRouterFallbackCommand(UnsignedByte *buffer, NetCommandRef *ref);
 };
 
 // ?FillBufferWithCommand@NetPacket@@KAXPAEPAVNetCommandRef@@@Z
@@ -115,8 +113,8 @@ void NetPacket::FillBufferWithCommand(UnsignedByte *buffer, NetCommandRef *ref)
 			FillBufferWithFrameCommand(buffer, ref);
 			break;
 
-		case NETCOMMANDTYPE_PLAYERFRAMERATIOS:
-			FillBufferWithPlayerFrameRatiosCommand(buffer, ref);
+		case NETCOMMANDTYPE_ROUTERFALLBACK:
+			FillBufferWithRouterFallbackCommand(buffer, ref);
 			break;
 
 		case NETCOMMANDTYPE_PLAYERLEAVE:
@@ -184,7 +182,7 @@ void NetPacket::FillBufferWithCommand(UnsignedByte *buffer, NetCommandRef *ref)
 			break;
 
 		case NETCOMMANDTYPE_REQUESTPLAYERLEAVE:
-			FillBufferWithRva00677530Message(buffer, (Rva00677530Ref *)ref);
+			FillBufferWithRequestPlayerLeaveCommand(buffer, ref);
 			break;
 
 		case NETCOMMANDTYPE_REQUESTFRAMEDATA:

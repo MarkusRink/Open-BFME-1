@@ -633,23 +633,21 @@ void BFMENetRequestFrameDataCommandMsg::setLastFrame(UnsignedInt frame) { m_last
 void NetChatCommandMsg::setPlayerMask(Int playerMask) { m_playerMask = playerMask; }
 
 
-// BFME-only command type 22 -- one of the two the shim's enum leaves unnamed.
-// It is not a disconnect-menu command despite sitting in that numeric range: it
-// carries the eight per-slot frame ratios BFMEConnectionManager::
-// computePlayerFrameRatios (0x00666000) computes, and NetPacket's dispatcher
-// tests for it immediately after FRAMEINFO rather than down with the disconnect
-// types, which is where per-frame traffic sits.
-class BFMENetPlayerFrameRatiosCommandMsg : public NetCommandMsg
+// BFME-only type 22: eight ranked player IDs, local player first. Producer
+// 0x00666000 sorts peers by a latency/frame-ratio score; disconnectPlayer at
+// 0x00666466 selects the next ID in this array when the router departs.
+// The packet representation narrows each entry to one byte (-1 becomes 255).
+class BFMENetRouterFallbackCommandMsg : public NetCommandMsg
 {
 public:
-	void setPlayerFrameRatios(const Int *ratios);
+	void setPlayerOrder(const Int *players);
 
-	Int m_ratios[MAX_SLOTS];						// this+0x1C .. +0x38
+	Int m_playerOrder[MAX_SLOTS];						// this+0x1C .. +0x38
 };
 
-void BFMENetPlayerFrameRatiosCommandMsg::setPlayerFrameRatios(const Int *ratios)
+void BFMENetRouterFallbackCommandMsg::setPlayerOrder(const Int *players)
 {
 	for (Int i = 0; i < MAX_SLOTS; ++i) {
-		m_ratios[i] = ratios[i];
+		m_playerOrder[i] = players[i];
 	}
 }

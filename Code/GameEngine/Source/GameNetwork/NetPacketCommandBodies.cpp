@@ -3,7 +3,7 @@
 // Eight NetPacket members that work on one command at a time: the four add*
 // builders that write a command into the packet, the three isRoomFor* guards
 // that decide beforehand whether it will fit, and the static wire-fill helper
-// for the frame-ratio command.
+// for the router-fallback command.
 //
 //   addFileCommand                          0x0067F600  668 B  IAE
 //   addFileAnnounceCommand                  0x0067F950  651 B  IAE
@@ -11,8 +11,8 @@
 //   addGameSpyStatsAuthKeyCommand           0x00680620  680 B  IAE
 //   isRoomForRequestGameSpyStatsAuthKeyMessage 0x0067E1F0 152 B IAE
 //   isRoomForWrapperMessage                 0x00677BC0  123 B  IAE
-//   isRoomForPlayerFrameRatiosMessage       0x00678050  114 B  IAE
-//   FillBufferWithPlayerFrameRatiosCommand  0x006770B0  106 B  KAX (static)
+//   isRoomForRouterFallbackMessage       0x00678050  114 B  IAE
+//   FillBufferWithRouterFallbackCommand  0x006770B0  106 B  KAX (static)
 //
 // Every add* opens with its own isRoomFor guard and then writes the same
 // 'T'/'R'/'P'/'C' header run before its 'D' payload, and every guard counts
@@ -130,10 +130,10 @@ public:
 	StringBase<char> getText20(void);				// ILT thunk 0x00019EC5
 };
 
-class BFMENetPlayerFrameRatiosCommandMsg : public NetCommandMsg
+class BFMENetRouterFallbackCommandMsg : public NetCommandMsg
 {
 public:
-	Int m_ratios[8];								// this+0x1C
+	Int m_playerOrder[8];								// this+0x1C
 };
 
 class NetWrapperCommandMsg : public NetCommandMsg
@@ -190,14 +190,14 @@ protected:
 	Bool isRoomForGameSpyStatsAuthKeyMessage(NetCommandRef *msg);		// ILT thunk 0x00011A68
 	Bool isRoomForRequestGameSpyStatsAuthKeyMessage(NetCommandRef *msg);
 	Bool isRoomForWrapperMessage(NetCommandRef *msg);
-	Bool isRoomForPlayerFrameRatiosMessage(NetCommandRef *msg);
+	Bool isRoomForRouterFallbackMessage(NetCommandRef *msg);
 
 	Bool addFileCommand(NetCommandRef *msg);
 	Bool addFileAnnounceCommand(NetCommandRef *msg);
 	Bool addGameSpyStatsAuthKeyCommand(NetCommandRef *msg);
 	Bool addRequestGameSpyStatsAuthKeyCommand(NetCommandRef *msg);
 
-	static void FillBufferWithPlayerFrameRatiosCommand(UnsignedByte *buffer,
+	static void FillBufferWithRouterFallbackCommand(UnsignedByte *buffer,
 		NetCommandRef *msg);
 
 public:
@@ -676,18 +676,18 @@ Bool NetPacket::isRoomForWrapperMessage(NetCommandRef *msg) {
 	return true;
 }
 
-// NetPacket::isRoomForPlayerFrameRatiosMessage, retail 0x00678050, 114 bytes.
+// NetPacket::isRoomForRouterFallbackMessage, retail 0x00678050, 114 bytes.
 //
 // Identified from its one caller, retail 0x0067C150 (NetPacket's
-// add-PlayerFrameRatios path, still an unnamed dump): that body calls this
+// add-RouterFallback path, still an unnamed dump): that body calls this
 // function, then writes the T/R/P/C header and a 'D' followed by a loop of
 // eight bytes read from the Int array at cmdMsg+0x1C -- the same eight ratio
-// slots that the matched FillBufferWithPlayerFrameRatiosCommand (0x006770B0)
-// and BFMENetPlayerFrameRatiosCommandMsg::setPlayerFrameRatios (0x00673A50)
+// slots that the matched FillBufferWithRouterFallbackCommand (0x006770B0)
+// and BFMENetRouterFallbackCommandMsg::setPlayerOrder (0x00673A50)
 // write.  The wire format carries no frame field, which is why this sibling
 // omits the m_lastFrame test the 128-byte members have, and its unconditional
 // tail of 9 is the 'D' plus those eight payload bytes.
-Bool NetPacket::isRoomForPlayerFrameRatiosMessage(NetCommandRef *msg) {
+Bool NetPacket::isRoomForRouterFallbackMessage(NetCommandRef *msg) {
 	Int len = 0;
 	Bool needNewCommandID = false;
 	NetCommandMsg *cmdMsg = (NetCommandMsg *)(msg->getCommand());
@@ -708,7 +708,7 @@ Bool NetPacket::isRoomForPlayerFrameRatiosMessage(NetCommandRef *msg) {
 	}
 
 	++len; // the 'D'
-	// The payload is the eight one-byte ratios; the retail body folded them
+	// The payload is the eight one-byte player IDs; the retail body folded them
 	// into two dword adds, so that shape is kept to reproduce the constant.
 	len += sizeof(UnsignedInt);
 	len += sizeof(UnsignedInt);
@@ -719,15 +719,15 @@ Bool NetPacket::isRoomForPlayerFrameRatiosMessage(NetCommandRef *msg) {
 }
 
 
-// NetPacket::FillBufferWithPlayerFrameRatiosCommand, retail 0x006770B0,
+// NetPacket::FillBufferWithRouterFallbackCommand, retail 0x006770B0,
 // 106 bytes.  The eight ratio slots are the BFME command's proven Int array;
-// the wire format carries one byte from each slot, as readPlayerFrameRatios
+// the wire format carries one byte from each slot, as readRouterFallback
 // does in NetPacket_read.cpp.
-void NetPacket::FillBufferWithPlayerFrameRatiosCommand(UnsignedByte *buffer,
+void NetPacket::FillBufferWithRouterFallbackCommand(UnsignedByte *buffer,
 	NetCommandRef *msg)
 {
-	BFMENetPlayerFrameRatiosCommandMsg *cmdMsg =
-		(BFMENetPlayerFrameRatiosCommandMsg *)msg->getCommand();
+	BFMENetRouterFallbackCommandMsg *cmdMsg =
+		(BFMENetRouterFallbackCommandMsg *)msg->getCommand();
 	UnsignedShort offset = 0;
 
 	buffer[offset] = 'T';
@@ -749,12 +749,12 @@ void NetPacket::FillBufferWithPlayerFrameRatiosCommand(UnsignedByte *buffer,
 	offset += sizeof(UnsignedShort);
 	buffer[offset] = 'D';
 	++offset;
-	buffer[offset++] = (UnsignedByte)cmdMsg->m_ratios[0];
-	buffer[offset++] = (UnsignedByte)cmdMsg->m_ratios[1];
-	buffer[offset++] = (UnsignedByte)cmdMsg->m_ratios[2];
-	buffer[offset++] = (UnsignedByte)cmdMsg->m_ratios[3];
-	buffer[offset++] = (UnsignedByte)cmdMsg->m_ratios[4];
-	buffer[offset++] = (UnsignedByte)cmdMsg->m_ratios[5];
-	buffer[offset++] = (UnsignedByte)cmdMsg->m_ratios[6];
-	buffer[offset++] = (UnsignedByte)cmdMsg->m_ratios[7];
+	buffer[offset++] = (UnsignedByte)cmdMsg->m_playerOrder[0];
+	buffer[offset++] = (UnsignedByte)cmdMsg->m_playerOrder[1];
+	buffer[offset++] = (UnsignedByte)cmdMsg->m_playerOrder[2];
+	buffer[offset++] = (UnsignedByte)cmdMsg->m_playerOrder[3];
+	buffer[offset++] = (UnsignedByte)cmdMsg->m_playerOrder[4];
+	buffer[offset++] = (UnsignedByte)cmdMsg->m_playerOrder[5];
+	buffer[offset++] = (UnsignedByte)cmdMsg->m_playerOrder[6];
+	buffer[offset++] = (UnsignedByte)cmdMsg->m_playerOrder[7];
 }

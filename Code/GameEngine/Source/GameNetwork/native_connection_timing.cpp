@@ -29,7 +29,7 @@ enum NetCommandType
 	NETCOMMANDTYPE_FILE = 19,
 	NETCOMMANDTYPE_FILEANNOUNCE = 20,
 	NETCOMMANDTYPE_FILEPROGRESS = 21,
-	NETCOMMANDTYPE_PLAYERFRAMERATIOS = 22
+	NETCOMMANDTYPE_ROUTERFALLBACK = 22
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/NetCommandMsg.h
@@ -161,13 +161,13 @@ private:
 };
 
 
-// Historical type name retained pending a coordinated family rename. The
-// payload is a router succession order, not eight numeric frame ratios.
-class BFMENetPlayerFrameRatiosCommandMsg : public NetCommandMsg
+// BFME-only type 22 broadcasts router succession order. The role-derived
+// name follows producer 0x00666000 and disconnectPlayer consumer 0x00666300.
+class BFMENetRouterFallbackCommandMsg : public NetCommandMsg
 {
 public:
-	BFMENetPlayerFrameRatiosCommandMsg() { m_commandType = NETCOMMANDTYPE_PLAYERFRAMERATIOS; }
-	void setPlayerFrameRatios(const int *players);
+	BFMENetRouterFallbackCommandMsg() { m_commandType = NETCOMMANDTYPE_ROUTERFALLBACK; }
+	void setPlayerOrder(const int *players);
 private:
 	int m_players[8];
 };
@@ -444,7 +444,7 @@ public:
 	Bool processIncomingCommand(void *ref);
 	void *construct();
 	void init();
-	void computePlayerFrameRatios();
+	void broadcastRouterFallbackPlan();
 	int isPlayerInGame(int slot);
 	int isPlayerSlotActive(int slot);
 	void processRequestPlayerLeaveCommand(void *msg);
@@ -489,7 +489,7 @@ private:
 	BFMETransport *m_transport;
 	int m_localSlot;
 	int m_packetRouterSlot;
-	unsigned int m_playerFrameRatios[8];
+	unsigned int m_packetRouterFallback[8];
 	char m_unknown12050[0xC];
 	unsigned int m_frameCeiling;
 	unsigned int m_playerLatestFrame[8];
@@ -926,11 +926,11 @@ Bool BFMEConnectionManager::processIncomingCommand(void *ref)
 	case NETCOMMANDTYPE_REQUESTPLAYERLEAVE:
 		processRequestPlayerLeaveCommand(msg);
 		return false;
-	case NETCOMMANDTYPE_PLAYERFRAMERATIOS:
-		// The payload consists of one dword for each of the eight player slots.
-		struct FrameRatios { unsigned int player[8]; };
-		*reinterpret_cast<FrameRatios *>(m_playerFrameRatios) =
-			*reinterpret_cast<FrameRatios *>(reinterpret_cast<char *>(msg) + 0x1C);
+	case NETCOMMANDTYPE_ROUTERFALLBACK:
+		// Payload entries are player IDs in router fallback order, not per-player metrics.
+		struct RouterFallbackOrder { unsigned int player[8]; };
+		*reinterpret_cast<RouterFallbackOrder *>(m_packetRouterFallback) =
+			*reinterpret_cast<RouterFallbackOrder *>(reinterpret_cast<char *>(msg) + 0x1C);
 		return true;
 	case NETCOMMANDTYPE_PROGRESS:
 		reinterpret_cast<ConnectionManager *>(this)->processProgress(
@@ -1489,7 +1489,7 @@ struct BFMEPlayerRouterScore
 
 // Builds the router succession list: local player first, then remote players
 // ordered by latency with a penalty for the client/logic frame ratio.
-void BFMEConnectionManager::computePlayerFrameRatios()
+void BFMEConnectionManager::broadcastRouterFallbackPlan()
 {
 	BFMEPlayerRouterScore *head = 0;
 	for (int player = 0; player < 8; ++player)
@@ -1535,8 +1535,8 @@ void BFMEConnectionManager::computePlayerFrameRatios()
 		{
 			for (unsigned int i = count; i < 8; ++i)
 				players[i] = -1;
-			BFMENetPlayerFrameRatiosCommandMsg *msg = new BFMENetPlayerFrameRatiosCommandMsg;
-			msg->setPlayerFrameRatios(players);
+			BFMENetRouterFallbackCommandMsg *msg = new BFMENetRouterFallbackCommandMsg;
+			msg->setPlayerOrder(players);
 			msg->setPlayerID(m_localSlot);
 			if (DoesCommandRequireACommandID(msg->getNetCommandType()))
 				msg->setID(GenerateNextCommandID());

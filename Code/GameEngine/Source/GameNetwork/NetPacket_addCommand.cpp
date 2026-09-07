@@ -10,7 +10,7 @@
 //
 // The case order below is not cosmetic. MSVC lays the arms out in source order,
 // so the order is read back out of the image: game command first, then the ack
-// stages, the frame command, the per-slot frame ratios, and only then the rest.
+// stages, the frame command, the router fallback order, and only then the rest.
 // It is very nearly the order ConstructNetCommandMsgFromRawData tests in.
 //
 // The table is also what names the twenty-eight handlers -- their addresses come
@@ -55,7 +55,7 @@ enum NetCommandType
 	NETCOMMANDTYPE_FILE = 19,
 	NETCOMMANDTYPE_FILEANNOUNCE = 20,
 	NETCOMMANDTYPE_FILEPROGRESS = 21,
-	NETCOMMANDTYPE_PLAYERFRAMERATIOS = 22,
+	NETCOMMANDTYPE_ROUTERFALLBACK = 22,
 	NETCOMMANDTYPE_DISCONNECTKEEPALIVE = 24,
 	NETCOMMANDTYPE_DISCONNECTPLAYER = 25,
 	NETCOMMANDTYPE_DISCONNECTVOTE = 26,
@@ -98,7 +98,7 @@ protected:
 	Bool addAckStage2Command(NetCommandRef *msg);
 	Bool addAckBothCommand(NetCommandRef *msg);
 	Bool addFrameCommand(NetCommandRef *msg);
-	Bool addPlayerFrameRatiosCommand(NetCommandRef *msg);
+	Bool addRouterFallbackCommand(NetCommandRef *msg);
 	Bool addPlayerLeaveCommand(NetCommandRef *msg);
 	Bool addDestroyPlayerCommand(NetCommandRef *msg);
 	Bool addKeepAliveCommand(NetCommandRef *msg);
@@ -140,8 +140,8 @@ Bool NetPacket::addCommand(NetCommandRef *msg)
 		return addAckBothCommand(msg);
 	case NETCOMMANDTYPE_FRAMEINFO:
 		return addFrameCommand(msg);
-	case NETCOMMANDTYPE_PLAYERFRAMERATIOS:
-		return addPlayerFrameRatiosCommand(msg);
+	case NETCOMMANDTYPE_ROUTERFALLBACK:
+		return addRouterFallbackCommand(msg);
 	case NETCOMMANDTYPE_PLAYERLEAVE:
 		return addPlayerLeaveCommand(msg);
 	case NETCOMMANDTYPE_DESTROYPLAYER:

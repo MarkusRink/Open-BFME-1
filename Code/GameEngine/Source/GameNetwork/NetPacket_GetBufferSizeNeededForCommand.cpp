@@ -79,7 +79,7 @@ enum NetCommandType
 	NETCOMMANDTYPE_FILE = 19,
 	NETCOMMANDTYPE_FILEANNOUNCE = 20,
 	NETCOMMANDTYPE_FILEPROGRESS = 21,
-	NETCOMMANDTYPE_PLAYERFRAMERATIOS = 22,
+	NETCOMMANDTYPE_ROUTERFALLBACK = 22,
 	NETCOMMANDTYPE_DISCONNECTSTART = 23,
 	NETCOMMANDTYPE_DISCONNECTKEEPALIVE = 24,
 	NETCOMMANDTYPE_DISCONNECTPLAYER = 25,
@@ -183,7 +183,7 @@ protected:
 	static UnsignedInt GetInformPlayerLeaveFrameCommandSize(NetCommandMsg *msg) { return 0x10; }
 	static UnsignedInt GetFileProgressCommandSize(NetCommandMsg *msg) { return 0x10; }
 	static UnsignedInt GetRequestFrameDataCommandSize(NetCommandMsg *msg) { return 0x12; }
-	static UnsignedInt GetPlayerFrameRatiosCommandSize(NetCommandMsg *msg) { return 0x12; }
+	static UnsignedInt GetRouterFallbackCommandSize(NetCommandMsg *msg) { return 0x12; }
 	static UnsignedInt GetRequestPlayerLeaveCommandSize(NetCommandMsg *msg) { return 0xE; }
 	static UnsignedInt GetDisconnectFrameCommandSize(NetCommandMsg *msg) { return 0xE; }
 	static UnsignedInt GetDisconnectScreenOffCommandSize(NetCommandMsg *msg) { return 0xE; }
@@ -296,8 +296,8 @@ UnsignedInt NetPacket::GetBufferSizeNeededForCommand(NetCommandMsg *msg) {
 			return GetFileProgressCommandSize(msg);
 		case NETCOMMANDTYPE_REQUESTFRAMEDATA:
 			return GetRequestFrameDataCommandSize(msg);
-		case NETCOMMANDTYPE_PLAYERFRAMERATIOS:
-			return GetPlayerFrameRatiosCommandSize(msg);
+		case NETCOMMANDTYPE_ROUTERFALLBACK:
+			return GetRouterFallbackCommandSize(msg);
 		case NETCOMMANDTYPE_REQUESTPLAYERLEAVE:
 			return GetRequestPlayerLeaveCommandSize(msg);
 		case NETCOMMANDTYPE_DISCONNECTFRAME:
