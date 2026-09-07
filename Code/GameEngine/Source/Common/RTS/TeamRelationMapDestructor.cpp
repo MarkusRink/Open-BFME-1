@@ -6,6 +6,11 @@
 // BFME uses one polymorphic base (Snapshot / pool object) rather than ZH's
 // MemoryPoolObject + Snapshot pair. Constructor twin:
 // Code/GameEngine/Source/Common/RTS/TeamRelationMapConstructor.cpp
+//
+// The twin models this same member as a hand-written TeamRelationHashTable
+// rather than the hash_map below, and the two CANNOT be merged into one TU
+// however alike their flag lines look -- the constructor's header records the
+// measurement that proves it. Do not "unify" the two models.
 
 #include <hash_map>
 
