@@ -526,7 +526,7 @@ Mission::Mission( void )
 }
 
 //-----------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/Common/MissionDestructorThunk.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/Mission_ctor_Thunk.cpp
 // ??1Mission@@MAE@XZ present-unmatched
 Mission::~Mission( void )
 {
