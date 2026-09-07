@@ -85792,3 +85792,5 @@ __imp__bfmeSprintfESP,0x00F5948C,pin
 ?bfmeRunETB@BfmeItemETB@@QAEDPAVBfmeHostETB@@PAVBfmeArgETB@@H@Z,0x00014899,pin
 ?bfmeNotifyETB@BfmeSinkETB@@QAEXPAVBfmeItemETB@@HPAVBfmeArgETB@@H@Z,0x00035D0A,pin
 ?bfmeFinishETB@BfmeHostETB@@QAEXH@Z,0x00007513,pin
+?bfmeAETC@BfmeBaseETC@@QAEXPAX00@Z,0x00015BC2,pin
+?bfmeCETC@BfmeBaseETC@@QAEXPAX000@Z,0x00043545,pin
