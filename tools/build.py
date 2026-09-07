@@ -710,11 +710,22 @@ def compiler_command(source, output):
 
 
 def _host_path(text):
-    # cl.exe under wine prints /showIncludes paths as Z:\home\... — map to host.
+    # /showIncludes uses Wine's configured drives, not necessarily Z:\. Resolve
+    # the actual mapping: winepath may choose X: when it maps a nearer ancestor.
     path = text.strip().replace("\\", "/")
-    if len(path) >= 2 and path[0] in "zZ" and path[1] == ":":
-        path = path[2:] or "/"
-    if not path.startswith("/"):
+    if os.name != "nt" and re.match(r"^[A-Za-z]:", path):
+        if not path[2:].startswith("/"):
+            return None  # Drive-relative paths depend on an unknown Wine cwd.
+        prefix = Path(os.environ.get("WINEPREFIX") or Path.home() / ".wine")
+        drive = prefix / "dosdevices" / (path[0].lower() + ":")
+        try:
+            base = drive.resolve(strict=True)
+        except (OSError, RuntimeError):
+            return None
+        if not base.is_dir():
+            return None
+        path = str(base / path[3:])
+    if not os.path.isabs(path):
         path = str(ROOT / path)
     return os.path.normpath(path)
 
@@ -783,6 +794,18 @@ def _portable(text):
 
 def _cmd_fingerprint(command, env):
     payload = [[_portable(part) for part in command], _portable(env.get("INCLUDE", ""))]
+    if os.name != "nt":
+        # A drive can be remapped while the command's X:\... spelling stays
+        # unchanged. The old host headers then cannot prove the new compile.
+        prefix = Path(env.get("WINEPREFIX") or os.environ.get("WINEPREFIX") or Path.home() / ".wine")
+        mappings = []
+        for drive in sorted((prefix / "dosdevices").glob("[a-z]:")):
+            try:
+                target = str(drive.resolve(strict=True))
+            except (OSError, RuntimeError):
+                target = None
+            mappings.append((drive.name, target))
+        payload.append(mappings)
     return hashlib.md5(json.dumps(payload).encode()).hexdigest()
 
 
@@ -797,7 +820,8 @@ def _write_deps_sidecar(source, output, fingerprint, stdout_text, is_cl):
         for line in stdout_text.splitlines():
             if not line.startswith("Note: including file:"):
                 continue
-            host = _case_resolve(_host_path(line[len("Note: including file:"):]))
+            reported = _host_path(line[len("Note: including file:"):])
+            host = _case_resolve(reported) if reported is not None else None
             if host is None:
                 problems.append(line.strip()[:120])
                 continue

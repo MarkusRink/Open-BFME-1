@@ -31,16 +31,21 @@ def compiler_identity(source):
 def search_inventory(source, command, env):
     """Directory changes invalidate additions/removals that could shadow a header."""
     roots = {source.parent}
-    roots.update(Path(p) for p in env.get("INCLUDE", "").split(";") if p)
+    reported = {p for p in env.get("INCLUDE", "").split(";") if p}
     for arg in command:
         if arg.startswith(("-I", "/I")) and len(arg) > 2:
-            raw = arg[2:]
-            roots.add(Path(raw) if os.path.isabs(raw) else build.ROOT / raw)
+            reported.add(arg[2:])
+    for raw in reported:
+        host = build._host_path(raw)
+        host = build._case_resolve(host) if host is not None else None
+        if host is None:
+            return None
+        roots.add(Path(host))
     directories = []
     for root in sorted(roots, key=str):
         # INCLUDE is in host spelling on Windows. Wine command flags may use
         # drive spelling; unresolvable roots make reuse conservative.
-        if not root.exists():
+        if not root.is_dir():
             # An unknown search root is not evidence that its contents agree.
             return None
         for directory, subdirs, _ in os.walk(root):
