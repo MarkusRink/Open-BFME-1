@@ -117,3 +117,8 @@ void chatGetChannelBasicUserInfoA(CHAT chat, const char *channel,
 		while (ciCheckForID(chat, ID));
 	}
 }
+
+void chatThink(CHAT chat)
+{
+	ciThink(chat, 0);
+}
