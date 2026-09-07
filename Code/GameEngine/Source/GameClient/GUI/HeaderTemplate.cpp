@@ -158,8 +158,9 @@ HeaderTemplateManager *TheHeaderTemplateManager = NULL;
 // PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
 // ?parseHeaderTemplateDefinition@INI@@SAXPAV1@@Z body in
-// Code/masm_dumps/INI_parseHeaderTemplateDefinition_48CBD0.asm (0x0048CBD0/195).
-// Queue 0x009A15AF was prior-fn epilogue+pad; C++ blocked by ZH vs BFME AsciiString.
+// Code/GameEngine/Source/Common/INI_parseHeaderTemplateDefinitionMethodThunk.cpp
+// (0x0048CBD0/195). The parser uses the BFME StringBase ABI and the
+// HeaderTemplate Font/Point/Bold FieldParse table below.
 
 // ??0HeaderTemplate@@QAE@XZ present-unmatched
 HeaderTemplate::HeaderTemplate( void ) :
@@ -220,9 +221,9 @@ void HeaderTemplateManager::init( void )
 }
 
 // ?newHeaderTemplate@HeaderTemplateManager@@QAEPAVHeaderTemplate@@VAsciiString@@@Z body in
-// Code/masm_dumps/HeaderTemplateManager_newHeaderTemplate_48CAD0.asm (0x0048CAD0/204).
-// Queue 0x00B026CE was INSIDE scalar-deleting dtor @ 0xB026C0; true body via
-// parseHeaderTemplateDefinition call ILT 0x470E6. C++ blocked by STL push_front shape.
+// Code/GameEngine/Source/Common/HeaderTemplateManager_newHeaderTemplate_Thunk.cpp
+// (0x0048CAD0/204). The parser reaches this real factory through ILT
+// 0x000470E6; its STLport list and BFME StringBase ABI are defined in that TU.
 
 HeaderTemplate *HeaderTemplateManager::getFirstHeader( void )
 {

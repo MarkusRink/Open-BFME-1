@@ -1,225 +1,91 @@
 // cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// stlport
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString
+// Retail newHeaderTemplate is the named factory reached by
+// INI::parseHeaderTemplateDefinition through ILT 0x000470E6.  The manager's
+// STLport list is a circular sentinel at this+0; a node is { next, prev,
+// HeaderTemplate* } and the node allocation is 0x0c bytes.  The compact BFME
+// AsciiString is a one-pointer StringBase<char> value; keep its real header
+// layout here so the by-value parameter and assignment use the shared engine
+// bodies rather than an empty ABI surrogate.
+
+#define _STLP_NO_EXCEPTIONS 1
+#define _STLP_USE_STATIC_LIB 1
+#include <list>
+
+template <typename T> class StringBase
 {
+friend class AsciiString;
+
+private:
+	StringBase( void );
+	StringBase( const StringBase<T> &other );
+	void set( const StringBase<T> &other );
+	void releaseBuffer( void );
+
+protected:
+	struct Header
+	{
+		int refCount;
+		unsigned short length;
+		unsigned short capacity;
+		T data[1];
+	};
+
+	Header *m_data;
 };
-class HeaderTemplate;
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/HeaderTemplate.h
+
+class AsciiString : private StringBase<char>
+{
+public:
+	AsciiString( const AsciiString &other ) : StringBase<char>( other ) {}
+	~AsciiString( void )
+	{
+		((StringBase<char> *)this)->StringBase<char>::releaseBuffer();
+	}
+	AsciiString &operator=( const AsciiString &other )
+	{
+		((StringBase<char> *)this)->StringBase<char>::set(
+			*(const StringBase<char> *)&other);
+		return *this;
+	}
+};
+
+typedef char BfmeAsciiStringSizeCheck[(sizeof(AsciiString) == 4) ? 1 : -1];
+
+class GameFont;
+
+class HeaderTemplate
+{
+public:
+	HeaderTemplate( void );
+
+	GameFont *m_font;
+	AsciiString m_name;
+	AsciiString m_fontName;
+	int m_point;
+	unsigned char m_bold;
+};
+
+typedef char HeaderTemplateSizeCheck[(sizeof(HeaderTemplate) == 20) ? 1 : -1];
+
 class HeaderTemplateManager
 {
 public:
-	HeaderTemplate *newHeaderTemplate(AsciiString);
+	HeaderTemplate *newHeaderTemplate( AsciiString name );
+
+private:
+	typedef std::list<HeaderTemplate *> HeaderTemplateList;
+	HeaderTemplateList m_headerTemplateList;
 };
 
-// ?newHeaderTemplate@HeaderTemplateManager@@QAEPAVHeaderTemplate@@VAsciiString@@@Z
-__declspec(naked) HeaderTemplate *HeaderTemplateManager::newHeaderTemplate(AsciiString)
+HeaderTemplate *HeaderTemplateManager::newHeaderTemplate( AsciiString name )
 {
-	__asm {
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x68
-		__emit 0x03
-		__emit 0x70
-		__emit 0x02
-		__emit 0x01
-		__emit 0x64
-		__emit 0xa1
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x50
-		__emit 0x64
-		__emit 0x89
-		__emit 0x25
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x51
-		__emit 0x56
-		__emit 0x57
-		__emit 0x8b
-		__emit 0xf9
-		__emit 0x6a
-		__emit 0x14
-		__emit 0xc7
-		__emit 0x44
-		__emit 0x24
-		__emit 0x18
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xe8
-		__emit 0x37
-		__emit 0x54
-		__emit 0x3f
-		__emit 0x00
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x04
-		__emit 0x89
-		__emit 0x44
-		__emit 0x24
-		__emit 0x08
-		__emit 0x85
-		__emit 0xc0
-		__emit 0xc6
-		__emit 0x44
-		__emit 0x24
-		__emit 0x14
-		__emit 0x01
-		__emit 0x74
-		__emit 0x0b
-		__emit 0x8b
-		__emit 0xc8
-		__emit 0xe8
-		__emit 0x39
-		__emit 0x26
-		__emit 0xba
-		__emit 0xff
-		__emit 0x8b
-		__emit 0xf0
-		__emit 0xeb
-		__emit 0x02
-		__emit 0x33
-		__emit 0xf6
-		__emit 0x85
-		__emit 0xf6
-		__emit 0xc6
-		__emit 0x44
-		__emit 0x24
-		__emit 0x14
-		__emit 0x00
-		__emit 0x75
-		__emit 0x26
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x1c
-		__emit 0xc7
-		__emit 0x44
-		__emit 0x24
-		__emit 0x14
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xe8
-		__emit 0x10
-		__emit 0xae
-		__emit 0x3f
-		__emit 0x00
-		__emit 0x33
-		__emit 0xc0
-		__emit 0x8b
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x64
-		__emit 0x89
-		__emit 0x0d
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x5f
-		__emit 0x5e
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x10
-		__emit 0xc2
-		__emit 0x04
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x44
-		__emit 0x24
-		__emit 0x1c
-		__emit 0x8d
-		__emit 0x4e
-		__emit 0x04
-		__emit 0x50
-		__emit 0xe8
-		__emit 0x3e
-		__emit 0xb1
-		__emit 0x3f
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x0f
-		__emit 0x8b
-		__emit 0x39
-		__emit 0x6a
-		__emit 0x0c
-		__emit 0xe8
-		__emit 0xe3
-		__emit 0x19
-		__emit 0x3a
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x48
-		__emit 0x08
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x04
-		__emit 0x85
-		__emit 0xc9
-		__emit 0x74
-		__emit 0x02
-		__emit 0x89
-		__emit 0x31
-		__emit 0x8b
-		__emit 0x4f
-		__emit 0x04
-		__emit 0x89
-		__emit 0x48
-		__emit 0x04
-		__emit 0x89
-		__emit 0x38
-		__emit 0x89
-		__emit 0x01
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x1c
-		__emit 0x89
-		__emit 0x47
-		__emit 0x04
-		__emit 0xc7
-		__emit 0x44
-		__emit 0x24
-		__emit 0x14
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xe8
-		__emit 0xb9
-		__emit 0xad
-		__emit 0x3f
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x5f
-		__emit 0x8b
-		__emit 0xc6
-		__emit 0x64
-		__emit 0x89
-		__emit 0x0d
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x5e
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x10
-		__emit 0xc2
-		__emit 0x04
-		__emit 0x00
-	}
+	HeaderTemplate *newHTemplate = new HeaderTemplate;
+	if( !newHTemplate )
+		return 0;
+
+	newHTemplate->m_name = name;
+	m_headerTemplateList.push_front( newHTemplate );
+	return newHTemplate;
 }
