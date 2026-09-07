@@ -1,5 +1,3 @@
-// ?createPayload@HordeContain@@MAEXXZ
-// partial score=0.95 date=2026-09-06
 // cl: /DNDEBUG /MD /EHsc
 // stlport
 // Open-BFME: HordeContain initial payload cleanup, retail 0x0023C000.
@@ -9,74 +7,10 @@
 typedef bool Bool;
 typedef unsigned int UnsignedInt;
 
-namespace _STL
-{
-template <class T>
-class list
-{
-public:
-	class iterator
-	{
-	public:
-		T &operator*() const
-		{
-			return *reinterpret_cast<T *>((char *)m_node + 8);
-		}
-
-		iterator &operator++()
-		{
-			m_node = *(void **)m_node;
-			return *this;
-		}
-
-		bool operator!=(const iterator &other) const
-		{
-			return m_node != other.m_node;
-		}
-
-		void *m_node;
-	};
-
-	list(const list &other);
-	~list();
-
-	iterator begin()
-	{
-		iterator it;
-		it.m_node = *(void **)m_node;
-		return it;
-	}
-
-	iterator end()
-	{
-		iterator it;
-		it.m_node = m_node;
-		return it;
-	}
-
-	UnsignedInt size() const
-	{
-		iterator it;
-		it.m_node = *(void **)m_node;
-		UnsignedInt count = 0;
-		for (; it.m_node != m_node; ++it)
-			++count;
-		return count;
-	}
-
-	public:
-	void *m_node;
-};
-}
+#include <list>
 
 class Object;
-class BfmeHordeObject;
 class ContainModuleInterface;
-
-struct BfmeHordeObjectPointer
-{
-	int a[1];
-};
 
 class HordeContainInterface
 {
@@ -237,6 +171,7 @@ public:
 	char m_pad7c[0x1fc - 0x7c];
 	ContainModuleInterface *m_contain;
 	void *m_body;
+	void *getBodyModule() const { return m_body; }
 };
 
 class GameLogic
@@ -283,7 +218,7 @@ class TransportContainIface6 { public: virtual void slot00(); };
 class TransportContainIface7 { public: virtual void slot00(); };
 class TransportContainIface8 { public: virtual void slot00(); };
 
-class OpenContain : public OpenContainPrimaryBase,
+class __declspec(novtable) OpenContain : public OpenContainPrimaryBase,
 	public OpenContainBehaviorInterface,
 	public TransportContainIface2,
 	public TransportContainIface3,
@@ -310,17 +245,22 @@ class TransportContainFields
 	bool m_e0;
 };
 
-class TransportContain : public OpenContain,
+class __declspec(novtable) SiegeEngineContainBase : public OpenContain,
 	public TransportContainIface9,
 	public TransportContainFields
 {
-	protected:
-	virtual void createPayload();
+	public:
+	virtual ~SiegeEngineContainBase();
+};
+
+class HordeContainEleventhBase
+	: public HordeContainInterface
+{
 };
 
 extern void j_0003a355();
 
-class __declspec(novtable) HordeContain : public TransportContain, public HordeContainInterface
+class __declspec(novtable) HordeContain : public SiegeEngineContainBase, public HordeContainEleventhBase
 {
 	protected:
 	virtual void createPayload();
@@ -330,7 +270,6 @@ private:
 	int m_damagePercent;
 };
 
-// ?createPayload@HordeContain@@UAEXXZ
 void HordeContain::createPayload()
 {
 	if (!getObject()->getProducerID())
@@ -349,16 +288,18 @@ void HordeContain::createPayload()
 			int toDestroy = (int)(((double)(100 - m_damagePercent) * 0.01) * count);
 			if (toDestroy < members.size() && toDestroy > 0)
 			{
+				Object *member;
 				_STL::list<Object *>::iterator it = members.begin();
-				for (; it != members.end(); ++it)
+				while (it != members.end())
 				{
-					Object *member = *it;
-					if (member->m_body && toDestroy)
+					member = *it;
+					if (member->getBodyModule() && toDestroy)
 					{
 						horde->destroyMember(member);
 						TheGameLogic->destroyObject(member);
 						--toDestroy;
 					}
+					++it;
 				}
 			}
 		}

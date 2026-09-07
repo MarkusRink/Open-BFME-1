@@ -85565,3 +85565,5 @@ g_bfmeMsgVftDN,0x010F5738
 ?Reset@MaterialCollectorClass@@QAEXXZ,0x0092F4B0,MaterialCollector destructor 931120 calls Reset; vectors 0/18/30 and material release loop agree with named constructor 931070
 ?bfmeFindDO@BfmeMapDO@@QAEPAVBfmeEntryDO@@ABVBFMERetailAsciiString@@@Z,0x000356F7
 ?bfmeSetDO@BfmeSubDO@@QAEXHHHH@Z,0x0003FFBC
+?j_0003a355@@YAXXZ,0x0003A355,HordeContain::createPayload calls the matched thunk at 0x0003A355
+??0?$list@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@ABV01@@Z,0x000385F5,HordeContain::createPayload list copy constructor call at 0x0023C078
