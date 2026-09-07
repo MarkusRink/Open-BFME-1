@@ -43,20 +43,7 @@ void NetGameCommandMsg::addArgument(
 	m_argTail = newArg;
 }
 
-__declspec(naked) void NetCommandMsg::detach()
-{
-	__asm {
-		mov eax, [ecx + 18h]
-		dec eax
-		mov [ecx + 18h], eax
-		_emit 075h
-		_emit 007h
-		mov eax, [ecx]
-		push 1
-		call dword ptr [eax]
-		ret
-	}
-}
+// Full retail detach body (including negative counts) is in NetCommandMsg_detach.cpp.
 
 NetWrapperCommandMsg::~NetWrapperCommandMsg()
 {
