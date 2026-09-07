@@ -10801,6 +10801,8 @@ name,address,notes
 ?Rva002B7240Lookup@@YAPAURva002B7240Source@@H@Z,0x00042424,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002B7240 calls; autopin
 ?Rva002EBEF0Intro@@YAXPAUS4SortElem20@@00HUS4Cmp002EB8E0@@@Z,0x00047343,address-derived STLport introsort callee for 0x002EBEF0
 ?Rva002EE330ThePlayers@@3PAURva002EE330PlayerList@@A,0x012ED748,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EE330 calls; autopin
+?Rva002EEDA0TheShroudManager@@3PAURva002EEDA0ShroudManager@@A,0x012ED5BC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EEDA0 calls; autopin
+?Rva002EF110GetPlayer@@YGPAURva002EE330Player@@H@Z,0x00044F30,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EF110 calls; autopin
 ?Rva00365B40RecordFieldParseTable@@3QBUFieldParse@@B,0x010E8FE8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00365B40 calls; autopin
 ?Rva0037AD00LookupEmotionType@@YAHPBD@Z,0x000448AF,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0037AD00 calls; autopin
 ?Rva0037AD60LookupEmotionAIType@@YAHPBD@Z,0x000070A9,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0037AD60 calls; autopin
@@ -81467,6 +81469,7 @@ name,address,notes
 ?onScript002EE2D0@Rva002EE330Player@@QAEXHH@Z,0x0003B345,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EE2D0 calls; autopin
 ?onScript002EE330@Rva002EE330Player@@QAEXXZ,0x0001DEFD,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EE330 calls; autopin
 ?onScript002EEB60@Rva002EE330Player@@QAEXH@Z,0x0002B094,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EEB60 calls; autopin
+?onScript002EF110@Rva002EE330Player@@QAEXH@Z,0x0003C470,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EF110 calls; autopin
 ?onScript002EF410@Rva002EE330Player@@QAEXH@Z,0x00041A15,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EF410 calls; autopin
 ?onScript002EF470@Rva002EE330Player@@QAEXH@Z,0x00046A29,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EF470 calls; autopin
 ?onScript002F0020A@Rva002EE330Player@@QAEXH@Z,0x0000E881,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002F0020 calls; autopin
@@ -82074,6 +82077,7 @@ name,address,notes
 ?restoreParentObject@W3DGhostObject@@IAEXXZ,0x006BC7B0,BFME W3DGhostObject helper called by setLocalPlayerIndex
 ?revalidateOccupiers@SpawnPointProductionExitUpdate@@AAEXXZ,0x0002374A
 ?revealMapForPlayer@PartitionManagerImpl008F8D60@@QAEXH@Z,0x008F8D60,BFME PartitionManager implementation delegate target from the public wrapper at 0x008F73D0
+?revealMapForPlayer@Rva002EEDA0ShroudManager@@QAEXH@Z,0x008F73D0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EEDA0 calls; autopin
 ?revealMapForPlayerPermanently@PartitionManager@@QAEXH@Z,0x008F73E0,REL32 pin from ScriptActions::doBorderSwitch @0x2EFC50
 ?revealVariant@Rva008F77E0ShroudImpl@@QAEXHHHHHI@Z,0x008FA070,still-unmatched dump sibling of processShroudRevealCircle008F9A70/008F9B10; called with 6 args (cellX cellY cellRadius extra1 extra2 playerMask) from 0x008F77E0
 ?reverse@GameWindowTransitionsHandler@@QAEXVAsciiString@@@Z,0x0048AEC0,WOLLoginMenuShutdown transition helper
