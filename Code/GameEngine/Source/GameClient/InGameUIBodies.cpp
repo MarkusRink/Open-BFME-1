@@ -10,6 +10,8 @@
 //   getIdleWorkerCount     0x004422C0   41 B  EAE (private virtual)
 //   recreateControlBar     0x00442300  279 B  UAE (public virtual)
 //   setInputEnabled           retail    -- B  UAE (public virtual)
+//   setMouseCursor            retail    -- B  QAE (public)
+//   selectMatchingAcrossScreen 0x0043EF70 -- B UAE (public virtual)
 //
 // Four files, four InGameUIs, each measured from its own field: 0x53c to the
 // placement icons, 0x824 to the mouse mode, 0x131c to the idle-worker lists,
@@ -118,6 +120,7 @@ public:
 	enum MouseCursor
 	{
 		ARROW = 2,
+		SCROLL = 3,
 		CROSS = 4
 	};
 
@@ -165,6 +168,7 @@ private:
 	StringBase( const StringBase<T> &that );
 	void releaseBuffer();
 	friend class AsciiString;
+	friend class UnicodeString;
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
@@ -195,6 +199,58 @@ public:
 private:
 	char *m_text;
 };
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/UnicodeString.h
+class UnicodeString
+{
+public:
+	UnicodeString( const UnicodeString &that )
+	{
+		((StringBase<unsigned short> *)this)->StringBase<unsigned short>::StringBase(
+			*(const StringBase<unsigned short> *)&that );
+	}
+
+	~UnicodeString()
+	{
+		((StringBase<unsigned short> *)this)->releaseBuffer();
+	}
+
+private:
+	void *m_data;
+};
+
+struct IRegion2D
+{
+	ICoord2D lo;
+	ICoord2D hi;
+};
+
+class GameTextInterface
+{
+public:
+	virtual void vfn00( void ); virtual void vfn01( void ); virtual void vfn02( void );
+	virtual void vfn03( void ); virtual void vfn04( void ); virtual void vfn05( void );
+	virtual void vfn06( void ); virtual void vfn07( void ); virtual void vfn08( void );
+	virtual void vfn09( void );
+	virtual UnicodeString fetch( const char *label, Bool *exists = 0 );	// slot 10, vtable+0x28
+};
+
+// The BFME selection state the across-screen pass refuses to run inside: two
+// flag BYTES at +0x2c and +0x2d, which is what the `mov cl,[eax+0x2c]` pair in
+// the body reads -- pointers there compile to dword loads and miss.
+class BfmeStateDO
+{
+private:
+	char m_padding[0x2C];
+
+public:
+	unsigned char m_bfmeFirst;				// +0x2c
+	unsigned char m_bfmeSecond;				// +0x2d
+};
+
+extern GameTextInterface *TheGameText;
+extern class InGameUI *TheInGameUI;
+extern BfmeStateDO *g_bfmeStateDO;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/GameWindow.h
 class GameWindow
@@ -343,8 +399,13 @@ public:
 	BFME_VIEW_SLOT(00) BFME_VIEW_SLOT(01) BFME_VIEW_SLOT(02) BFME_VIEW_SLOT(03)
 	BFME_VIEW_SLOT(04) BFME_VIEW_SLOT(05) BFME_VIEW_SLOT(06) BFME_VIEW_SLOT(07)
 	BFME_VIEW_SLOT(08) BFME_VIEW_SLOT(09) BFME_VIEW_SLOT(10) BFME_VIEW_SLOT(11)
-	BFME_VIEW_SLOT(12) BFME_VIEW_SLOT(13) BFME_VIEW_SLOT(14) BFME_VIEW_SLOT(15)
-	BFME_VIEW_SLOT(16) BFME_VIEW_SLOT(17) BFME_VIEW_SLOT(18) BFME_VIEW_SLOT(19)
+	BFME_VIEW_SLOT(12) BFME_VIEW_SLOT(13)
+	virtual void setWidth( Int width );			// slot 14, vtable+0x38
+	virtual Int getWidth( void );				// slot 15, vtable+0x3c
+	virtual void setHeight( Int height );			// slot 16, vtable+0x40
+	virtual Int getHeight( void );				// slot 17, vtable+0x44
+	virtual void setOrigin( Int x, Int y );			// slot 18, vtable+0x48
+	virtual void getOrigin( Int *x, Int *y );		// slot 19, vtable+0x4c
 	BFME_VIEW_SLOT(20) BFME_VIEW_SLOT(21) BFME_VIEW_SLOT(22) BFME_VIEW_SLOT(23)
 	BFME_VIEW_SLOT(24) BFME_VIEW_SLOT(25) BFME_VIEW_SLOT(26) BFME_VIEW_SLOT(27)
 	BFME_VIEW_SLOT(28) BFME_VIEW_SLOT(29) BFME_VIEW_SLOT(30) BFME_VIEW_SLOT(31)
@@ -408,7 +469,7 @@ public:
 	virtual void slot0A(void);
 	virtual void slot0B(void);
 	virtual void slot0C(void);
-	virtual void slot0D(void);
+	virtual void message( UnicodeString format, ... );	// slot 13, vtable+0x34
 	virtual void slot0E(void);
 	virtual void slot0F(void);
 	virtual void slot10(void);
@@ -469,6 +530,16 @@ public:
 	virtual void slot46(void);
 	virtual void setRadiusCursorNone(void);			// slot 71, vtable+0x11c
 	virtual void setInputEnabled(Bool enable);		// slot 72, vtable+0x120
+	virtual void slot49(void); virtual void slot4A(void); virtual void slot4B(void);
+	virtual void slot4C(void); virtual void slot4D(void); virtual void slot4E(void);
+	virtual void slot4F(void); virtual void slot50(void); virtual void slot51(void);
+	virtual void slot52(void); virtual void slot53(void); virtual void slot54(void);
+	virtual void slot55(void); virtual void slot56(void); virtual void slot57(void);
+	virtual void slot58(void);
+	virtual int selectMatchingAcrossScreen( void );		// slot 89, vtable+0x164
+	virtual int selectMatchingAcrossRegion( IRegion2D *region );	// slot 90
+	virtual void buildRegion( const ICoord2D *anchor, const ICoord2D *dest,
+		IRegion2D *region );					// slot 91
 
 	// Virtual by their mangled names -- recreateControlBar is UAE and
 	// getIdleWorkerCount EAE -- but no body here calls either through the
@@ -483,6 +554,8 @@ public:
 		HideControlBar( true );
 	}
 
+	void setMouseCursor(Mouse::MouseCursor cursor);
+
 protected:
 	void destroyPlacementIcons(void);
 	void handleRadiusCursor(void);
@@ -494,7 +567,10 @@ private:
 	const ThingTemplate *m_pendingPlaceType;		// +0x534
 	UnsignedInt m_pendingPlaceSourceObjectID;		// +0x538
 	Drawable **m_placeIcon;					// +0x53c
-	unsigned char m_unreconstructed_540[0x2E4];
+	unsigned char m_unreconstructed_540[0x820 - 0x540];
+	Bool m_isScrolling;					// +0x820
+	Bool m_isSelecting;					// +0x821
+	unsigned char m_alignMouseMode[2];
 	Int m_mouseMode;					// +0x824
 	Int m_mouseModeCursor;					// +0x828
 	unsigned char m_unreconstructed_82c[0x838 - 0x82C];
@@ -684,4 +760,50 @@ void InGameUI::setInputEnabled(Bool enable)
 		m_modes[10] = false;
 		m_modes[11] = false;
 	}
+}
+
+// ?setMouseCursor@InGameUI@@QAEXW4MouseCursor@Mouse@@@Z
+// BFME suppresses cursor changes while selection or RMB scrolling is active.
+void InGameUI::setMouseCursor(Mouse::MouseCursor cursor)
+{
+	if (m_isSelecting || m_isScrolling)
+		return;
+
+	if (TheMouse == 0)
+		return;
+
+	TheMouse->setCursor(cursor);
+
+	if (m_mouseMode == 2 && cursor != Mouse::ARROW && cursor != Mouse::SCROLL)
+		m_mouseModeCursor = cursor;
+}
+
+// ?selectMatchingAcrossScreen@InGameUI@@UAEHXZ
+// Retail 0x0043EF70. The whole screen becomes a region and the region pass
+// does the work; the two message texts are the only thing this body adds.
+int InGameUI::selectMatchingAcrossScreen( void )
+{
+	BfmeStateDO *state = g_bfmeStateDO;
+	if (state != 0 && state->m_bfmeFirst != 0 && state->m_bfmeSecond != 0)
+		return 0;
+
+	ICoord2D origin;
+	ICoord2D size;
+	IRegion2D region;
+	TheTacticalViewFadeShim->getOrigin(&origin.x, &origin.y);
+	size.x = TheTacticalViewFadeShim->getWidth();
+	size.y = TheTacticalViewFadeShim->getHeight();
+	buildRegion(&origin, &size, &region);
+	Int numSelected = selectMatchingAcrossRegion(&region);
+	if (numSelected == -1)
+	{
+		UnicodeString message = TheGameText->fetch("GUI:NothingSelected");
+		TheInGameUI->message(message);
+	}
+	else if (numSelected != 0)
+	{
+		UnicodeString message = TheGameText->fetch("GUI:SelectedAcrossScreen");
+		TheInGameUI->message(message);
+	}
+	return numSelected;
 }
