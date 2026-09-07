@@ -85272,3 +85272,5 @@ _bfmeScanYA,0x009F6FA6
 ??0Rva0014F280StateBase@@QAE@PAXVAsciiString@@@Z,0x00032182,the same base ctor thunk as ??0AIInternalMoveToState@@QAE@PAXVAsciiString@@@Z; three TUs still spell the shim class after its address and need this spelling until they can be renamed too
 _bfmeVftYK,0x00CE7D00
 ?bfmeClearYK@BfmeStringYK@@QAEXXZ,0x00887940
+?g_bfmeZeroYM@@3MB,0x00C75350
+?g_bfmeUnitYM@@3MA,0x00C75334
