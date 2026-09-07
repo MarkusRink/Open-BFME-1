@@ -77764,6 +77764,12 @@ name,address,notes
 ?g_Rva00462DE0_table@@3VRva00462DE0Table@@A,0x00EF19B8,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00462DE0 calls; autopin
 ?g_Rva005127A0InGameChat@@3PAVRva005127A0InGameChat@@A,0x012F4988,address-derived InGameChat global used by the guarded 0x005127A0 forwarder
 ?g_Rva00740BC0BaseVft@@3PAPAXA,0x010C7450,base vftable the 0x00740BC0 destructor restores after its arrays
+?g_Rva009B3E40Arr0@@3PAHA,0x012D8358,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009B3E40 calls; autopin
+?g_Rva009B3E40Arr1@@3PAHA,0x012D835C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009B3E40 calls; autopin
+?g_Rva009B3E40Arr2@@3PAHA,0x012D8360,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009B3E40 calls; autopin
+?g_Rva009B3E40Arr3@@3PAHA,0x012D8364,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009B3E40 calls; autopin
+?g_Rva009B3E40Blocks@@3PAPAXA,0x012D8458,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009B3E40 calls; autopin
+?g_Rva009B3EC0Blocks@@3PAPAXA,0x012D8558,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009B3EC0 calls; autopin
 ?g_Rva0107301CEmptyString@@3QBDB,0x0107301C,empty AsciiString literal passed by the constructor at 0x00770E70
 ?g_Va0112E8B0@@3MA,0x0112E8B0,float global loaded by 0x006AE250
 ?g_Va012F8064@@3HA,0x012F8064,pin stale-stamp dispatcher global
@@ -84065,11 +84071,14 @@ _g_bfmeDualDispatchSource,0x010BD158,Open-BFME5 source path passed by 0x0028B910
 _g_bfmeEmpty1191,0x00C7388B,pin
 _g_bfmeEmptyAscii,0x0107388B,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002E5FF0 calls; autopin
 _g_bfmeEv1179,0x00F3F540,pin
+_g_bfmeFifthEB,0x012D7194,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009336E0 calls; autopin
+_g_bfmeFirstEB,0x01346DDC,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009336E0 calls; autopin
 _g_bfmeFmt1191,0x00F593C0,pin
 _g_bfmeFmtA1191,0x00C91074,pin
 _g_bfmeFmtB1191,0x00C91070,pin
 _g_bfmeFmtC1191,0x00C9106C,pin
 _g_bfmeFn1182,0x00F59420,pin
+_g_bfmeFourthEB,0x012D7190,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009336E0 calls; autopin
 _g_bfmeFreeList1149,0x00F0B210,pin
 _g_bfmeFreeList1150,0x00F0B1C0,pin
 _g_bfmeG1144,0x00EED5C8,pin
@@ -84090,9 +84099,11 @@ _g_bfmeO1146,0x00EF1600,pin
 _g_bfmeOwner1179,0x00F40584,pin
 _g_bfmeS1177,0x00CCED70,pin
 _g_bfmeSITable,0x00EF77A8,global 0x190-dword table cleared by BfmeThingSI ctor
+_g_bfmeSecondEB,0x01346DE0,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009336E0 calls; autopin
 _g_bfmeState56AD10A,0x012F1028,Rva0056AD10 first state source
 _g_bfmeState56AD10B,0x012F0898,Rva0056AD10 second state source
 _g_bfmeTab1182,0x00F4CC58,pin
+_g_bfmeThirdEB,0x012D718C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x009336E0 calls; autopin
 _g_bfmeV1134,0x00CF0AE0,pin
 _g_bfmeV1137A,0x00D20FD4,pin
 _g_bfmeV1137B,0x00D1E23C,pin
@@ -84240,6 +84251,7 @@ _io_fromto,0x009933C0,pristine Lua 4.0.1 io_fromto target reached by io_readfrom
 _ioctlsocket@12,0x0081BE4A,vendored=gamespy-2004
 _isShuttingDown,0x00EF4844,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0050CA80 calls; autopin
 _isdigit,0x009F7024,address-derived CRT import thunk called by the 0x008BA8B0 retail parser
+_j_00007a63,0x00007A63,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B22E0 calls; autopin
 _jpeg_add_quant_table@20,0x00A61E30,vendored=jpeg-6b
 _jpeg_free_small@12,0x00AC7FB0,vendored=jpeg-6b
 _jpeg_mem_term@4,0x00AC8180,vendored=jpeg-6b
