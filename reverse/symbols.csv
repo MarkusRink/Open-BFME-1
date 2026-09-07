@@ -85261,3 +85261,5 @@ _bfmeScanYA,0x009F6FA6
 ?bfmeOverlapYE@@YAHPAXPAUBfmeSphereYE@@@Z,0x008DB060
 ??0BfmeRoomYF@@QAE@ABV0@@Z,0x00887B60
 ?g_bfmeDefaultYF@@3VBfmeRoomYF@@A,0x00F36E50
+?bfmeLevelYG@BfmeThingYG@@QAEDXZ,0x00019B23
+?bfmeBusyYG@BfmeThingYG@@QAEDXZ,0x0000A001
