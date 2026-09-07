@@ -31,6 +31,16 @@
 // BehaviorModule one level up, which adds no data and no vptr and exists only to
 // carry that symbol where retail calls it from.
 //
+// GET THAT BACKWARDS AND NOTHING TELLS YOU SO DIRECTLY. Putting both names on one
+// level, or swapping which level carries which, leaves the body byte-comparing
+// against a DIFFERENT function: the build reports an unresolved callee, or worse,
+// silently resolves to another address in the candidate list. On the way to this
+// file it happened twice, once in each direction -- ??0 resolving through a name
+// only the destructor's spelling owned, then ??1 resolving through a name only
+// the constructor's spelling owned. The symptom is a call operand that will not
+// settle while the surrounding bytes all match; the cause is the level, not the
+// body. Check both spellings in reverse/symbols.csv before moving either.
+//
 // WHAT IS DELIBERATELY NOT HERE, and why. ToppleUpdate's destructor and its
 // module data's destructor cannot join these two, because retail's bodies need
 // class declarations that contradict the ones these need:
