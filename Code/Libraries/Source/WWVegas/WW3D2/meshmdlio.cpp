@@ -884,7 +884,7 @@ WW3DErrorType MeshModelClass::read_per_tri_materials(ChunkLoadClass & cload,Mesh
  *   10/28/1997 GH  : Created.                                                                 * 
  *   2/16/99    GTH : Moved into MeshModelClass                                                *
  *=============================================================================================*/
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/MeshModelClass_read_vertex_colors_Thunk.cpp
+// BFME Boolean implementation: Code/Libraries/Source/WWVegas/WW3D2/MeshModelVertexColors.cpp
 // ?read_vertex_colors@MeshModelClass@@IAE?AW4WW3DErrorType@@AAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z present-unmatched
 WW3DErrorType MeshModelClass::read_vertex_colors(ChunkLoadClass & cload,MeshLoadContextClass * context)
 {
@@ -1266,6 +1266,8 @@ WW3DErrorType MeshModelClass::read_shader_ids(ChunkLoadClass & cload,MeshLoadCon
  *   2/9/2001   gth : converted to handle dx8 limitations                                      *
  *=============================================================================================*/
 // ?MeshModelClass::read_dig present-unmatched
+// BFME Boolean implementation: Code/Libraries/Source/WWVegas/WW3D2/MeshModelVertexColors.cpp
+// This reference body is unclaimed; the complete BFME body is 809 bytes.
 WW3DErrorType MeshModelClass::read_dig(ChunkLoadClass & cload,MeshLoadContextClass * context)
 {
 	/*

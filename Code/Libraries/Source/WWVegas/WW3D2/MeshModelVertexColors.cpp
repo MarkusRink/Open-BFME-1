@@ -24,6 +24,10 @@
 // The matched MeshModel constructor establishes DefMatDesc at +0x94,
 // AlternateMatDesc at +0x98, and CurMatDesc at +0x9C. Legacy vertex colors
 // use CurMatDesc; the DCG reader starts with DefMatDesc.
+// read_dig: RVA 0x0096D810, complete 809-byte body. Chunk 0x3C selects
+// arm 0x0096FBC0, whose call at 0x0096FBC4 reaches this body. It ends
+// with RET 8 at 0x0096DB36 and INT3 padding at 0x0096DB39.
+// LoadedDIG at context+0x20C selects the alternate descriptor on repeat chunks.
 // Original semantic bodies: meshmdlio.cpp; BFME field views are local here.
 #include "dx8wrapper.h"
 #include "w3d_file.h"
@@ -57,6 +61,11 @@ public:
 	int CurPass;
 	unsigned char alternate_padding[0x10c - 0x90];
 	MeshMatDescClass AlternateMatDesc;
+	unsigned char loaded_dig_padding[0x20c - 0x10c - sizeof(MeshMatDescClass)];
+	bool LoadedDIG;
+
+	bool Already_Loaded_DIG() { return LoadedDIG; }
+	void Notify_Loaded_DIG_Chunk(bool loaded) { LoadedDIG = loaded; }
 };
 
 class MeshModelClass
@@ -75,6 +84,7 @@ public:
 	}
 
 protected:
+	bool read_dig(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_dcg(ChunkLoadClass &cload,MeshLoadContextClass *context);
 	bool read_vertex_colors(ChunkLoadClass &cload,MeshLoadContextClass *context);
 };
@@ -122,6 +132,42 @@ bool MeshModelClass::read_dcg(ChunkLoadClass &cload,MeshLoadContextClass *contex
 			cload.Read(&color,sizeof(color));
 			Vector4 col = DX8Wrapper::Convert_Color(dcg[i]);
 			col.W = (float)color.A / 255.0f;
+			dcg[i] = DX8Wrapper::Convert_Color(col);
+		}
+	}
+
+	matdesc->Set_DCG_Source(context->CurPass,VertexMaterialClass::COLOR1);
+	return true;
+}
+
+bool MeshModelClass::read_dig(ChunkLoadClass &cload,MeshLoadContextClass *context)
+{
+	MeshMatDescClass *matdesc = DefMatDesc;
+	if (context->Already_Loaded_DIG()) {
+		matdesc = &context->AlternateMatDesc;
+	}
+	context->Notify_Loaded_DIG_Chunk(true);
+
+	W3dRGBAStruct color;
+	if (matdesc->Has_Color_Array(0) == false) {
+		unsigned *dcg = matdesc->Get_Color_Array(0);
+		for (int i=0; i<VertexCount; i++) {
+			cload.Read(&color,sizeof(color));
+			Vector4 col;
+			col.X = (float)color.R / 255.0f;
+			col.Y = (float)color.G / 255.0f;
+			col.Z = (float)color.B / 255.0f;
+			col.W = 1.0f;
+			dcg[i] = DX8Wrapper::Convert_Color(col);
+		}
+	} else {
+		unsigned *dcg = matdesc->Get_Color_Array(0);
+		for (int i=0; i<VertexCount; i++) {
+			cload.Read(&color,sizeof(color));
+			Vector4 col = DX8Wrapper::Convert_Color(dcg[i]);
+			col.X *= (float)color.R / 255.0f;
+			col.Y *= (float)color.G / 255.0f;
+			col.Z *= (float)color.B / 255.0f;
 			dcg[i] = DX8Wrapper::Convert_Color(col);
 		}
 	}
