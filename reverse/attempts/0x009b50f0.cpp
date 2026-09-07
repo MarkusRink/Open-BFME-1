@@ -20,13 +20,10 @@ int Rva009B50F0DecodeToken(unsigned char *ctx, int prev, int plane)
 				return Rva009B4600DecodeBool(state, node[8]) + 8;
 			return Rva009B4600DecodeBool(state, node[7]) + 5;
 		}
-		flag = 1;
-		switch (Rva009B4600DecodeBool(state, node[5])) {
-		case 0:
-			return flag;
-		default:
+		if (Rva009B4600DecodeBool(state, node[5]))
 			return 7;
-		}
+		flag = 1;
+		return flag;
 	} else {
 		if (Rva009B4600DecodeBool(state, node[1]))
 			return Rva009B4600DecodeBool(state, node[4]) + 3;

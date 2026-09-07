@@ -10,6 +10,8 @@ enum SpecialPowerType
 	SPECIAL_REMOTE_CHARGES = 0x16
 };
 
+class SpecialPowerTemplate;
+
 class Overridable
 {
 public:
@@ -17,16 +19,16 @@ public:
 	const Overridable *friend_getFinalOverride( void ) const;
 	const Overridable *m_nextOverride;
 
-	const Overridable *getFinalOverrideForReload( void ) const
+	const SpecialPowerTemplate *getFinalOverrideForReload( void ) const
 	{
 		const Overridable *next = m_nextOverride;
 		if ( next )
 		{
 			if ( next->m_nextOverride )
-				return next->m_nextOverride->friend_getFinalOverride();
-			return next;
+				return (const SpecialPowerTemplate *)next->m_nextOverride->friend_getFinalOverride();
+			return (const SpecialPowerTemplate *)next;
 		}
-		return this;
+		return (const SpecialPowerTemplate *)this;
 	}
 };
 
@@ -53,10 +55,10 @@ public:
 
 	UnsignedInt getReloadTime( void ) const
 	{
-		return ((const SpecialPowerTemplate *)getFinalOverrideForReload())->m_reloadTime;
+		return getFinalOverrideForReload()->m_reloadTime;
 	}
 
-	__declspec(noinline) const SpecialPowerTemplate *getFO( void ) const
+	const SpecialPowerTemplate *getFO( void ) const
 	{
 		const Overridable *next = m_nextOverride;
 
@@ -128,9 +130,15 @@ Bool SpecialAbilityUpdate::isPowerCurrentlyInUse( const CommandButton *command )
 
 	if ( m_packingState != 0 )
 	{
-		if ( (m_packingState == 1 || m_packingState == 3) &&
-			command && command->getSpecialPowerTemplate()->getReloadTime() == 0 )
-			return false;
+		if ( m_packingState == 1 || m_packingState == 3 )
+		{
+			if ( command )
+			{
+				const UnsignedInt reloadTime = command->getSpecialPowerTemplate()->getReloadTime();
+				if ( reloadTime == 0 )
+					return false;
+			}
+		}
 
 		if ( m_withinStartAbilityRange )
 			return true;
