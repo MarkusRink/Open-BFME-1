@@ -51,6 +51,7 @@ MODULE_FACTORY_INIT = '?init@ModuleFactory@@UAEXXZ'
 DRAW_REGISTRAR_ANCHOR = 'W3DDefaultDraw'   # first literal the W3D registrar pushes
 ADD_MODULE_INTERNAL = 0x00129AC0           # ?addModuleInternal@ModuleFactory@@IAEXPBX00HABVAsciiString@@H@Z
 MODULE_TEMPLATE_MAP_AT = 0x001296E0        # ??A?$map@HVModuleTemplate@ModuleFactory@@...
+OPERATOR_NEW = 0x00881F30                  # ??2@YAPAXI@Z
 
 DATA = build.EXE.read_bytes()
 SECS = build.pe_sections(DATA)
@@ -199,11 +200,39 @@ def scan(fn_rva, fn_size, origin):
     return out
 
 
+def instance_body(rva, size):
+    """A newModuleInstance body is `new(sizeof(X)); X::X(thing, data)`, so it
+    yields the class's object size and its constructor -- the pair the ledger's
+    ??0X@@QAE@PAVThing@@PBVModuleData@@@Z rows claim. Reading it here is what
+    makes those rows checkable: 262 registered modules resolve to 260 distinct
+    constructors, so the map is near-bijective and a constructor row on an
+    address it assigns elsewhere is misnamed."""
+    off = build.rva_to_file_offset(SECS, rva)
+    alloc = ctor = None
+    for x in MD.disasm(DATA[off:off + size], 0x400000 + rva):
+        if x.mnemonic == 'push' and x.op_str.startswith('0x') and int(x.op_str, 16) < 0x2000 and alloc is None:
+            alloc = int(x.op_str, 16)
+        elif x.mnemonic == 'call' and x.op_str.startswith('0x') and alloc is not None:
+            target = follow(int(x.op_str, 16) - 0x400000)
+            if target != OPERATOR_NEW:
+                ctor = target
+                break
+    return alloc, ctor
+
+
 def build_table():
     rows = ledger_rows()
     recs = []
     for rva, size, origin in find_registrars(rows):
         recs += scan(rva, size, origin)
+    sizes = {}
+    for r in rows:
+        try:
+            sizes.setdefault(int(r['target_rva'], 16), int(r['target_size'] or 0))
+        except ValueError:
+            pass
+    for r in recs:
+        r['object_size'], r['ctor'] = instance_body(r['inst'], sizes.get(r['inst']) or 96)
     seen = collections.Counter(r['inst'] for r in recs)
     folded = [a for a, n in seen.items() if n > 1]
     if folded:
@@ -215,16 +244,20 @@ def write_table(recs):
     with open(OUT, 'w', newline='', encoding='utf-8') as f:
         w = csv.writer(f, delimiter='\t', lineterminator='\r\n')
         w.writerow(['module', 'origin', 'shape', 'reg_site_rva', 'name_literal_rva',
-                    'new_module_instance_rva', 'new_module_data_rva', 'interface_mask'])
+                    'new_module_instance_rva', 'new_module_data_rva', 'interface_mask',
+                    'object_size', 'constructor_rva'])
         for r in sorted(recs, key=lambda x: x['name']):
             w.writerow([r['name'], r['origin'], r['shape'], f"0x{r['site']:08X}",
                         f"0x{r['literal']:08X}", f"0x{r['inst']:08X}", f"0x{r['data']:08X}",
-                        '' if r['mask'] is None else f"0x{r['mask']:X}"])
+                        '' if r['mask'] is None else f"0x{r['mask']:X}",
+                        '' if r['object_size'] is None else f"0x{r['object_size']:X}",
+                        '' if r['ctor'] is None else f"0x{r['ctor']:08X}"])
     print(f"{OUT.relative_to(build.ROOT)}: {len(recs)} registrations, "
           f"{len({r['name'] for r in recs})} distinct module names")
 
 
 KIND = re.compile(r'^\?(friend_newModuleInstance|friend_newModuleData)@([A-Za-z0-9_]+)@@')
+CTOR = re.compile(r'^\?\?0([A-Za-z0-9_]+)@@QAE@PAVThing@@PBVModuleData@@@Z$')
 
 
 def check(recs):
@@ -252,7 +285,31 @@ def check(recs):
     print(f"friend_new* rows on a registry address: {agree} agree, {len(disagree)} disagree")
     for rva, claimed, real, src in sorted(disagree):
         print(f"  {rva}  ledger says {claimed:38s} registry says {'|'.join(real):38s} {src}")
-    return len(disagree)
+
+    by_ctor = collections.defaultdict(set)
+    for r in recs:
+        if r['ctor']:
+            by_ctor[r['ctor']].add(r['name'])
+    cagree, cbad = 0, []
+    for r in ledger_rows():
+        m = CTOR.match(r['name'])
+        if not m:
+            continue
+        try:
+            addr = int(r['target_rva'], 16)
+        except ValueError:
+            continue
+        who = by_ctor.get(addr)
+        if not who:
+            continue
+        if m.group(1) in who:
+            cagree += 1
+        else:
+            cbad.append((r['target_rva'], m.group(1), sorted(who), r['source']))
+    print(f"module constructor rows on a mapped constructor: {cagree} agree, {len(cbad)} disagree")
+    for rva, claimed, real, src in sorted(cbad):
+        print(f"  {rva}  ledger says {claimed:38s} registry says {'|'.join(real):38s} {src}")
+    return len(disagree) + len(cbad)
 
 
 if __name__ == '__main__':
