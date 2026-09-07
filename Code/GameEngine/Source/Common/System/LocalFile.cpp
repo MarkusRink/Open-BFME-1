@@ -51,6 +51,51 @@
 // direct call, which is exactly what an import stub gives.
 #define NULL 0
 
+// The scanner owns a real AsciiString temporary.  Keep this ABI shim local to
+// the TU: its one data pointer is the retail object layout, while concat and
+// releaseBuffer remain the shared out-of-line StringBase bodies.
+template <typename T> class StringBase
+{
+    friend class AsciiString;
+
+private:
+    struct Header
+    {
+        int refCount;
+        unsigned short length;
+        unsigned short capacity;
+        T data[1];
+    };
+
+    Header *m_data;
+
+    StringBase() : m_data(0) {}
+    void releaseBuffer();
+
+public:
+    void concat(const T *text, int length);
+};
+
+class AsciiString : private StringBase<char>
+{
+public:
+    AsciiString() : StringBase<char>() {}
+    ~AsciiString() { releaseBuffer(); }
+
+    void concat(const char *text, int length)
+    {
+        StringBase<char>::concat(text, length);
+    }
+
+    const char *str() const
+    {
+        return m_data ? m_data->data : "";
+    }
+};
+
+extern "C" __declspec(dllimport) int __cdecl atoi(const char *text);
+extern "C" __declspec(dllimport) double __cdecl atof(const char *text);
+
 extern "C" __declspec(dllimport) int __cdecl _write(int fd, const void *buffer, unsigned int count);
 extern "C" __declspec(dllimport) long __cdecl _lseek(int fd, long offset, int origin);
 extern "C" __declspec(dllimport) int __cdecl _read(int fd, void *buffer, unsigned int count);
@@ -108,7 +153,7 @@ public:
 	virtual void nextLine( char *buf, int bufSize );		// slot 6
 	virtual bool scanInt( int &newInt );					// slot 7
 	virtual bool scanReal( float &newReal );				// slot 8
-	virtual bool scanString( void *newString );				// slot 9
+	virtual bool scanString( AsciiString &newString );				// slot 9
 	virtual bool print( const char *format, ... );			// slot 10
 	virtual int size( void );								// slot 11
 	virtual int position( void );							// slot 12
@@ -146,6 +191,9 @@ public:
 	virtual int write( const void *buffer, int bytes );
 	virtual int seek( int pos, seekMode mode );
 	virtual void nextLine( char *buf, int bufSize );
+	virtual bool scanInt( int &newInt );
+	virtual bool scanReal( float &newReal );
+	virtual bool scanString( AsciiString &newString );
 	virtual char *readEntireAndClose( void );
 	virtual File *convertToRAMFile( void );
 
@@ -403,4 +451,35 @@ void LocalFile::nextLine( char *buf, int bufSize )
 			buf[bufSize] = 0;
 		}
 	}
+}
+
+// ?scanInt@LocalFile@@UAE_NAAH@Z
+bool LocalFile::scanInt( int &newInt )
+{
+	newInt = 0;
+	AsciiString tempstr;
+	char c;
+	int val;
+
+	do {
+		val = _read( m_handle, &c, 1 );
+	} while ((val != 0) && (((c < '0') || (c > '9')) && (c != '-')));
+
+	if (val == 0) {
+		return false;
+	}
+
+	do {
+		char value[2];
+		value[0] = c;
+		tempstr.concat( value, 1 );
+		val = _read( m_handle, &c, 1 );
+	} while ((val != 0) && (c >= '0') && (c <= '9'));
+
+	if (val != 0) {
+		_lseek( m_handle, -1, 1 /* SEEK_CUR */ );
+	}
+
+	newInt = atoi( tempstr.str() );
+	return true;
 }
