@@ -12,15 +12,15 @@ public:
 
 class StateMachine;
 
-class Rva0014F280StateBase
+class AIInternalMoveToState
 {
 public:
-	Rva0014F280StateBase( void *machine, AsciiString name );
+	AIInternalMoveToState( void *machine, AsciiString name );
 };
 
 extern int g_AIAttackMeleeEngageStateVTable;
 
-class AIAttackMeleeEngageState : public Rva0014F280StateBase
+class AIAttackMeleeEngageState : public AIInternalMoveToState
 {
 public:
 	AIAttackMeleeEngageState( StateMachine *machine, int targetId );
@@ -44,7 +44,7 @@ private:
 };
 
 AIAttackMeleeEngageState::AIAttackMeleeEngageState( StateMachine *machine, int targetId )
-	: Rva0014F280StateBase( machine, AsciiString( "AIAttackMeleeEngageState" ) )
+	: AIInternalMoveToState( machine, AsciiString( "AIAttackMeleeEngageState" ) )
 {
 	int savedTargetId = targetId;
 	m_field50 = 0;

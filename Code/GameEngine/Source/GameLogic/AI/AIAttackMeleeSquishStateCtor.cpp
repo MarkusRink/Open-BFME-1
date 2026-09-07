@@ -13,15 +13,15 @@ public:
 
 class StateMachine;
 
-class Rva0014F280StateBase
+class AIInternalMoveToState
 {
 public:
-	Rva0014F280StateBase( void *machine, AsciiString name );
+	AIInternalMoveToState( void *machine, AsciiString name );
 };
 
 extern int g_AIAttackMeleeSquishStateVTable;
 
-class AIAttackMeleeSquishState : public Rva0014F280StateBase
+class AIAttackMeleeSquishState : public AIInternalMoveToState
 {
 public:
 	AIAttackMeleeSquishState( StateMachine *machine );
@@ -39,7 +39,7 @@ private:
 };
 
 AIAttackMeleeSquishState::AIAttackMeleeSquishState( StateMachine *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIAttackMeleeSquishState" ) )
+	: AIInternalMoveToState( machine, AsciiString( "AIAttackMeleeSquishState" ) )
 {
 	m_targetId = 0;
 	m_vftable = &g_AIAttackMeleeSquishStateVTable;

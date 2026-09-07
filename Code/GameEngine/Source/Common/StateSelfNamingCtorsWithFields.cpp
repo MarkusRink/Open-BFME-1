@@ -62,10 +62,10 @@ public:
 	virtual void stateBaseAnchor();
 };
 
-class Rva0014F280StateBase
+class AIInternalMoveToState
 {
 public:
-	Rva0014F280StateBase( void *machine, AsciiString name );
+	AIInternalMoveToState( void *machine, AsciiString name );
 
 	virtual void stateBaseAnchor();
 };
@@ -102,7 +102,7 @@ Rva0014F710State::Rva0014F710State( void *machine )
 {
 }
 
-class Rva0015CD70State : public Rva0014F280StateBase
+class Rva0015CD70State : public AIInternalMoveToState
 {
 public:
 	Rva0015CD70State( void *machine );
@@ -112,12 +112,12 @@ public:
 };
 
 Rva0015CD70State::Rva0015CD70State( void *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIAttackPickUpCrateState" ) ),
+	: AIInternalMoveToState( machine, AsciiString( "AIAttackPickUpCrateState" ) ),
 	  m_field0( 0x0 )
 {
 }
 
-class Rva0015CF50State : public Rva0014F280StateBase
+class Rva0015CF50State : public AIInternalMoveToState
 {
 public:
 	Rva0015CF50State( void *machine );
@@ -127,12 +127,12 @@ public:
 };
 
 Rva0015CF50State::Rva0015CF50State( void *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIGuardReturn" ) ),
+	: AIInternalMoveToState( machine, AsciiString( "AIGuardReturn" ) ),
 	  m_field0( 0x0 )
 {
 }
 
-class Rva0015EC40State : public Rva0014F280StateBase
+class Rva0015EC40State : public AIInternalMoveToState
 {
 public:
 	Rva0015EC40State( void *machine );
@@ -142,7 +142,7 @@ public:
 };
 
 Rva0015EC40State::Rva0015EC40State( void *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIGuardRetaliateReturn" ) ),
+	: AIInternalMoveToState( machine, AsciiString( "AIGuardRetaliateReturn" ) ),
 	  m_field0( 0x0 )
 {
 }
@@ -338,7 +338,7 @@ Rva00171D50State::Rva00171D50State( void *machine )
 {
 }
 
-class Rva00173620State : public Rva0014F280StateBase
+class Rva00173620State : public AIInternalMoveToState
 {
 public:
 	Rva00173620State( void *machine );
@@ -349,7 +349,7 @@ public:
 };
 
 Rva00173620State::Rva00173620State( void *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIMoveToStateSA" ) ),
+	: AIInternalMoveToState( machine, AsciiString( "AIMoveToStateSA" ) ),
 	  m_field0( 0x0 ),
 	  m_field1( 0 )
 {
@@ -370,7 +370,7 @@ Rva001744C0State::Rva001744C0State( void *machine )
 {
 }
 
-class Rva0017FDC0State : public Rva0014F280StateBase
+class Rva0017FDC0State : public AIInternalMoveToState
 {
 public:
 	Rva0017FDC0State( void *machine );
@@ -380,12 +380,12 @@ public:
 };
 
 Rva0017FDC0State::Rva0017FDC0State( void *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIMoveToPositionAndDieState" ) ),
+	: AIInternalMoveToState( machine, AsciiString( "AIMoveToPositionAndDieState" ) ),
 	  m_field0( 0 )
 {
 }
 
-class Rva001800A0State : public Rva0014F280StateBase
+class Rva001800A0State : public AIInternalMoveToState
 {
 public:
 	Rva001800A0State( void *machine );
@@ -396,13 +396,13 @@ public:
 };
 
 Rva001800A0State::Rva001800A0State( void *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIEnterAndAttackState" ) ),
+	: AIInternalMoveToState( machine, AsciiString( "AIEnterAndAttackState" ) ),
 	  m_field0( 0x0 ),
 	  m_field1( 0x0 )
 {
 }
 
-class Rva00180550State : public Rva0014F280StateBase
+class Rva00180550State : public AIInternalMoveToState
 {
 public:
 	Rva00180550State( void *machine );
@@ -416,7 +416,7 @@ public:
 };
 
 Rva00180550State::Rva00180550State( void *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIChargeTargetState" ) ),
+	: AIInternalMoveToState( machine, AsciiString( "AIChargeTargetState" ) ),
 	  m_field0( 0 ),
 	  m_field1( 0x1 ),
 	  m_field2( 0 ),
@@ -441,7 +441,7 @@ Rva0018AC40State::Rva0018AC40State( void *machine )
 {
 }
 
-class Rva0018AD60State : public Rva0014F280StateBase
+class Rva0018AD60State : public AIInternalMoveToState
 {
 public:
 	Rva0018AD60State( void *machine );
@@ -452,7 +452,7 @@ public:
 };
 
 Rva0018AD60State::Rva0018AD60State( void *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIEnterState" ) ),
+	: AIInternalMoveToState( machine, AsciiString( "AIEnterState" ) ),
 	  m_field0( 0x0 ),
 	  m_field1( 0x0 )
 {

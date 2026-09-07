@@ -12,16 +12,16 @@ public:
 
 class StateMachine;
 
-class Rva0014F280StateBase
+class AIInternalMoveToState
 {
 public:
-	Rva0014F280StateBase( void *machine, AsciiString name );
+	AIInternalMoveToState( void *machine, AsciiString name );
 };
 
 extern int g_AIFollowWaypointPathStateVTable;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AIStateMachine.h
-class AIFollowWaypointPathState : public Rva0014F280StateBase
+class AIFollowWaypointPathState : public AIInternalMoveToState
 {
 public:
 	AIFollowWaypointPathState( StateMachine *machine, bool asGroup );
@@ -41,7 +41,7 @@ private:
 };
 
 AIFollowWaypointPathState::AIFollowWaypointPathState( StateMachine *machine, bool asGroup )
-	: Rva0014F280StateBase( machine, AsciiString( "AIFollowWaypointPathState" ) )
+	: AIInternalMoveToState( machine, AsciiString( "AIFollowWaypointPathState" ) )
 {
 	bool savedAsGroup = asGroup;
 	m_vftable = &g_AIFollowWaypointPathStateVTable;

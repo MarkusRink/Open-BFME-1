@@ -64,10 +64,10 @@ public:
 	virtual void stateBaseAnchor();
 };
 
-class Rva0014F280StateBase
+class AIInternalMoveToState
 {
 public:
-	Rva0014F280StateBase( void *machine, AsciiString name );
+	AIInternalMoveToState( void *machine, AsciiString name );
 
 	virtual void stateBaseAnchor();
 };
@@ -80,14 +80,14 @@ public:
 	};                                                                        \
 	NAME::NAME( void *machine ) : BASE( machine, AsciiString( TEXT ) ) {}
 
-BFME_STATE_SELF_NAMING_CTOR( Rva0014F380State, Rva0014F280StateBase, "AIDockApproachState" )
-BFME_STATE_SELF_NAMING_CTOR( Rva0014F490State, Rva0014F280StateBase, "AIDockApproachState" )
-BFME_STATE_SELF_NAMING_CTOR( Rva0014F510State, Rva0014F280StateBase, "AIDockMoveToEntryState" )
-BFME_STATE_SELF_NAMING_CTOR( Rva0014F590State, Rva0014F280StateBase, "AIDockMoveToDockState" )
-BFME_STATE_SELF_NAMING_CTOR( Rva0014F610State, Rva0014F280StateBase, "AIDockMoveToRallyState" )
-BFME_STATE_SELF_NAMING_CTOR( Rva0014F690State, Rva0014F280StateBase, "AIDockMoveToExitState" )
+BFME_STATE_SELF_NAMING_CTOR( Rva0014F380State, AIInternalMoveToState, "AIDockApproachState" )
+BFME_STATE_SELF_NAMING_CTOR( Rva0014F490State, AIInternalMoveToState, "AIDockApproachState" )
+BFME_STATE_SELF_NAMING_CTOR( Rva0014F510State, AIInternalMoveToState, "AIDockMoveToEntryState" )
+BFME_STATE_SELF_NAMING_CTOR( Rva0014F590State, AIInternalMoveToState, "AIDockMoveToDockState" )
+BFME_STATE_SELF_NAMING_CTOR( Rva0014F610State, AIInternalMoveToState, "AIDockMoveToRallyState" )
+BFME_STATE_SELF_NAMING_CTOR( Rva0014F690State, AIInternalMoveToState, "AIDockMoveToExitState" )
 BFME_STATE_SELF_NAMING_CTOR( Rva0015CE80State, Rva000A19E0StateBase, "AIGuardIdleState" )
-BFME_STATE_SELF_NAMING_CTOR( Rva0015FD00State, Rva0014F280StateBase, "AIHarvestApproachSiteState" )
+BFME_STATE_SELF_NAMING_CTOR( Rva0015FD00State, AIInternalMoveToState, "AIHarvestApproachSiteState" )
 BFME_STATE_SELF_NAMING_CTOR( Rva00170F30State, Rva000A19E0StateBase, "AIStartAttackObjState" )
 BFME_STATE_SELF_NAMING_CTOR( Rva00171250State, Rva000A19E0StateBase, "AIWaitUntilFinishedFiringState" )
 BFME_STATE_SELF_NAMING_CTOR( Rva001714E0State, Rva000A19E0StateBase, "AIHordeEnterState" )

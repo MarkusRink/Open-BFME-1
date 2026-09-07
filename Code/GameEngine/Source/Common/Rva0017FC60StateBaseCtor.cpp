@@ -11,15 +11,15 @@ public:
 	StringBase<char> m_string;
 };
 
-class Rva0014F280StateBase
+class AIInternalMoveToState
 {
 public:
-	Rva0014F280StateBase( void *machine, AsciiString name );
+	AIInternalMoveToState( void *machine, AsciiString name );
 
 	virtual void stateBaseAnchor();
 };
 
-class Rva000250BDStateBase : public Rva0014F280StateBase
+class Rva000250BDStateBase : public AIInternalMoveToState
 {
 public:
 	Rva000250BDStateBase( void *machine, AsciiString name );
@@ -34,7 +34,7 @@ private:
 };
 
 Rva000250BDStateBase::Rva000250BDStateBase( void *machine, AsciiString name )
-	: Rva0014F280StateBase( machine, name ),
+	: AIInternalMoveToState( machine, name ),
 	  m_field50( 0x0 ),
 	  m_field54( 0x1 ),
 	  m_field55( 0x0 ),

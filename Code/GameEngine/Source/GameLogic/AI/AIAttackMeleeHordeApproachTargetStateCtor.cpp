@@ -12,15 +12,15 @@ public:
 
 class StateMachine;
 
-class Rva0014F280StateBase
+class AIInternalMoveToState
 {
 public:
-	Rva0014F280StateBase( void *machine, AsciiString name );
+	AIInternalMoveToState( void *machine, AsciiString name );
 };
 
 extern int g_AIAttackMeleeHordeApproachTargetStateVTable;
 
-class AIAttackMeleeHordeApproachTargetState : public Rva0014F280StateBase
+class AIAttackMeleeHordeApproachTargetState : public AIInternalMoveToState
 {
 public:
 	AIAttackMeleeHordeApproachTargetState( StateMachine *machine );
@@ -37,7 +37,7 @@ private:
 };
 
 AIAttackMeleeHordeApproachTargetState::AIAttackMeleeHordeApproachTargetState( StateMachine *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIAttackMeleeHordeApproachTargetState" ) )
+	: AIInternalMoveToState( machine, AsciiString( "AIAttackMeleeHordeApproachTargetState" ) )
 {
 	m_vftable = &g_AIAttackMeleeHordeApproachTargetStateVTable;
 	m_field50 = 0;

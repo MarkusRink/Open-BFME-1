@@ -12,15 +12,15 @@ public:
 
 class StateMachine;
 
-class Rva0014F280StateBase
+class AIInternalMoveToState
 {
 public:
-	Rva0014F280StateBase( void *machine, AsciiString name );
+	AIInternalMoveToState( void *machine, AsciiString name );
 };
 
 extern int g_AIAttackFireDuringApproachStateVTable;
 
-class AIAttackFireDuringApproachState : public Rva0014F280StateBase
+class AIAttackFireDuringApproachState : public AIInternalMoveToState
 {
 public:
 	AIAttackFireDuringApproachState( StateMachine *machine );
@@ -39,7 +39,7 @@ private:
 };
 
 AIAttackFireDuringApproachState::AIAttackFireDuringApproachState( StateMachine *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIAttackFireDuringApproachState" ) )
+	: AIInternalMoveToState( machine, AsciiString( "AIAttackFireDuringApproachState" ) )
 {
 	m_field50 = 0;
 	m_vftable = &g_AIAttackFireDuringApproachStateVTable;

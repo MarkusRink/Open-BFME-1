@@ -1,6 +1,6 @@
 // Near-twin of the state-constructor family in StateSelfNamingCtorsWithFields.cpp
 // (see that file's header for the shared shape and why identity is not
-// recovered for this family). This one shares the Rva0014F280StateBase base
+// recovered for this family). This one shares the AIInternalMoveToState base
 // (same base constructor call, 0x00032182) with several entries there, and
 // installs the same vtable style, but the member layout differs: retail
 // leaves a 4-byte gap right after the base subobject (uninitialised member,
@@ -20,15 +20,15 @@ public:
 	StringBase<char> m_string;
 };
 
-class Rva0014F280StateBase
+class AIInternalMoveToState
 {
 public:
-	Rva0014F280StateBase( void *machine, AsciiString name );
+	AIInternalMoveToState( void *machine, AsciiString name );
 
 	virtual void stateBaseAnchor();
 };
 
-class Rva0017F4F0State : public Rva0014F280StateBase
+class Rva0017F4F0State : public AIInternalMoveToState
 {
 public:
 	Rva0017F4F0State( void *machine );
@@ -43,7 +43,7 @@ public:
 };
 
 Rva0017F4F0State::Rva0017F4F0State( void *machine )
-	: Rva0014F280StateBase( machine, AsciiString( "AIFearState" ) )
+	: AIInternalMoveToState( machine, AsciiString( "AIFearState" ) )
 {
 	// retail stores these out of declaration/address order (+0x54, then
 	// +0x50, +0x58, +0x5c) -- writing them as body assignments instead of

@@ -3057,7 +3057,7 @@ name,address,notes
 ??0Rva00094470Definition@@QAE@ABVAsciiString@@M@Z,0x0004848C,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00094470 calls; autopin
 ??0Rva0009F820String@@QAE@ABV0@@Z,0x00006320,Open-BFME5 the string copy constructor a by-value accessor calls
 ??0Rva000A19E0StateBase@@QAE@PAXVAsciiString@@@Z,0x000035B2,base constructor thunk address decoded from the retail REL32 call site; name is address-derived
-??0Rva0014F280StateBase@@QAE@PAXVAsciiString@@@Z,0x00032182,base constructor thunk address decoded from the retail REL32 call site; name is address-derived
+??0AIInternalMoveToState@@QAE@PAXVAsciiString@@@Z,0x00032182,base constructor thunk address decoded from the retail REL32 call site; name is address-derived
 ??0Rva0016CF40Machine@@QAE@PAVObject@@@Z,0x0003FE4F,ILT thunk: machine ctor called by the xfer twin 0x0016CF40 (sibling of AIDockMachine); real ctor at 0x0015FE90 still an unconverted dump
 ??0Rva0016D9C0Machine@@QAE@PAVObject@@@Z,0x0000715D,ILT thunk: machine ctor called by the xfer twin 0x0016D9C0 (sibling of AIGuardRetaliateMachine)
 ??0Rva0019A1D0Member@@QAE@H@Z,0x00018129,ILT thunk to 0x00196D90 member ctor
@@ -85269,3 +85269,4 @@ _bfmeScanYA,0x009F6FA6
 ?bfmeNotifyYH@BfmeItemYH@@QAEXXZ,0x0002191D
 ?bfmeCleanYJ@BfmeChildYJ@@QAEXXZ,0x0002756B
 ?bfmeReleaseYJ@BfmeStringYJ@@QAEXXZ,0x00887940
+??0Rva0014F280StateBase@@QAE@PAXVAsciiString@@@Z,0x00032182,the same base ctor thunk as ??0AIInternalMoveToState@@QAE@PAXVAsciiString@@@Z; three TUs still spell the shim class after its address and need this spelling until they can be renamed too
