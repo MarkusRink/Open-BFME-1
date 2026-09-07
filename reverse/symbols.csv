@@ -84649,3 +84649,6 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeFindTM@Rva00367E30Logic@@QAEPAVBfmeActorTM@@PAX@Z,0x0001F253,pin
 ?bfmeCanTM@BfmeActorTM@@QAEDH@Z,0x0003251F,pin
 ?bfmeSendTM@BfmeOwnerTM@@QAEXPAVBfmeMsgTM@@@Z,0x0003B372,pin
+?bfmeResolvePE@BfmeInnerPE@@QAEPAVBfmeThingPE@@XZ,0x000022BB,pin
+?bfmeResolveLW@BfmeInnerLW@@QAEPAVBfmeThingLW@@XZ,0x000022BB,pin
+?bfmeReadyLW@BfmeOwnerLW@@QAEDXZ,0x00029CDF,pin
