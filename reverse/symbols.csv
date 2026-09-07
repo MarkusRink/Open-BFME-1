@@ -82998,6 +82998,7 @@ name,address,notes
 ?xfer@DrawableModule@@MAEXPAVXfer@@@Z,0x00113E70,LaserUpdate::xfer base call resolves through the shared two-version transfer helper
 ?xfer@RailedTransportDockUpdate@@MAEXPAVXfer@@@Z,0x0003AF53,primary vftable ILT to 0x002CE3A0
 ?xfer@Script@@UAEXPAVXfer@@@Z,0x0001044C,"Script vtable10E858C: slots1/2/3 target352C00 no-arg return,352C10 const Script name,350EF0 Xfer pointer; independently decoded full bodies"
+?xfer@SpecialAbilityUpdate@@QAEXPAVXfer@@@Z,0x000289F7,SpecialAbilityUpdate base xfer ILT called by WeaponFireSpecialAbilityUpdate::xfer
 ?xfer@UpdateModule@@MAEXPAVXfer@@@Z,0x000044C1,UpdateModule xfer ILT called by BridgeBehavior::xfer
 ?xfer@W3DRopeDrawDrawModule@@MAEXPAVXfer@@@Z,0x0002FD88,
 ?xferBase2298B0@BfmeBase002298B0@@AAEXPAVXfer@@@Z,0x000489DC,"Decoded489DC JMP2298B0 and reviewed complete snapshot routine through ret at229E22; typed Xfer receiver argument, not old22CD40 label"
