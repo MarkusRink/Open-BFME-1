@@ -1,11 +1,7 @@
 // ?bfmeMapChanged@BfmeAptScreenSkirmish@@QAE_NPBVAsciiString@@@Z
-// partial score=0.98 date=2026-09-05
-// Near match. MSVC assigns the incoming AsciiString pointer to EDI and the
-// MapMetaData pointer to ESI. Retail assigns those registers in the opposite
-// order.
-// cl: /O2 /DNDEBUG /MD /EHsc /G5 /Ireference/shims/stringinline
+// cl: /O2 /DNDEBUG /MD /EHsc /G5 /Ireference/shims/stringbaseascii /Ireference/shims/asciistring_downloadmanager
 
-#include "StringInline.h"
+#include "Common/AsciiString.h"
 
 class GameInfo
 {
@@ -71,8 +67,8 @@ private:
 
 bool BfmeAptScreenSkirmish::bfmeMapChanged( const AsciiString *mapName ) throw()
 {
+	register const AsciiString *name = mapName;
 	const MapMetaData *map;
-	const AsciiString *name = mapName;
 	g_bfmeCurrentCB->setMap( *name );
 	map = TheMapCache->findMap( *name );
 	if( map )
