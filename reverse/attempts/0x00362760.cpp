@@ -1,36 +1,28 @@
-// ?handle@Gen00362760@@QAEXHPAX@Z
-// partial score=0.95 date=2026-09-02
-// cl: /DNDEBUG /MD /EHsc
-
-class Gen00362760Elem
+// ?d_00362760@@YAXXZ
+// partial score=0.9 date=2026-09-08
+class BfmeElemEAP
 {
 public:
-	void handle(void *arg);
+	void bfmeDoEAP(void *arg);
 
-private:
-	unsigned char m_data[0x58];
+	unsigned char m_bfmeBodyEAP[0x58];
 };
 
-class Gen00362760
+class BfmeVecEAP
 {
 public:
-	void handle(int index, void *arg);
+	void bfmeApplyEAP(int index, void *arg);
 
-private:
-	unsigned char m_pad[0x18];
-	Gen00362760Elem *m_begin;
-	Gen00362760Elem *m_end;
+	unsigned char m_bfmeHeadEAP[0x18];
+	BfmeElemEAP *m_bfmeBeginEAP;
+	BfmeElemEAP *m_bfmeEndEAP;
 };
 
-// @?handle@Gen00362760@@QAEXHPAX@Z 0x00362760
-void Gen00362760::handle(int index, void *arg)
+void BfmeVecEAP::bfmeApplyEAP(int index, void *arg)
 {
-	unsigned char *self = (unsigned char *)this;
-	if (index < 0)
+	if (index < 0 ||
+		(unsigned int)index >= (unsigned int)(m_bfmeEndEAP - m_bfmeBeginEAP))
 		return;
-	Gen00362760Elem *begin = *(Gen00362760Elem **)(self + 0x18);
-	Gen00362760Elem *end = *(Gen00362760Elem **)(self + 0x1c);
-	if ((unsigned int)index >= (unsigned int)(end - begin))
-		return;
-	(*(Gen00362760Elem **)(self + 0x18))[index].handle(arg);
+
+	m_bfmeBeginEAP[index].bfmeDoEAP(arg);
 }
