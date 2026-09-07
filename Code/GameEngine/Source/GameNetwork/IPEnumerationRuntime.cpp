@@ -29,13 +29,7 @@ class StringBase
 private:
 	StringBase(const StringBase<T> &src);
 
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
+	struct Header;
 
 	Header *m_data;
 };
@@ -43,8 +37,6 @@ private:
 class AsciiString : private StringBase<char>
 {
 public:
-	// Retail inlines this forwarder, so the call site encodes
-	// StringBase<char>'s copy ctor at 0x00887B60 directly.
 	AsciiString(const AsciiString &that) : StringBase<char>(that) {}
 	AsciiString(const char *text);
 	~AsciiString();
