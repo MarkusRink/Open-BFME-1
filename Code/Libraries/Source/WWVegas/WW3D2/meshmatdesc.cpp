@@ -399,8 +399,7 @@ void MeshMatDescClass::Reset(int polycount,int vertcount,int passcount)
 	}
 }
 
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescInitAlternateThunk.cpp
-// ?Init_Alternate@MeshMatDescClass@@QAEXAAV1@0@Z present-unmatched
+// byte-exact reconstruction: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.cpp
 void MeshMatDescClass::Init_Alternate(MeshMatDescClass & default_materials,MeshMatDescClass & alternate_materials)
 {
 	// just copy the counts
@@ -426,16 +425,20 @@ void MeshMatDescClass::Init_Alternate(MeshMatDescClass & default_materials,MeshM
 	// add-ref the arrays in default_materials except when the same array is present in alternate_materials
 	for (int pass = 0; pass < MAX_PASSES; pass++) {
 		for (int stage = 0; stage < MAX_TEX_STAGES; stage++) {
+			const char *alternate_uv_source =
+				(const char *)&alternate_materials.UVSource[pass][stage];
+			const char *default_uv_source =
+				(const char *)&default_materials.UVSource[pass][stage];
 
 			// UV Coorindate arrays, Each UVSource[pass][stage] which is -1 in the alternate_materials
 			// but not -1 in the default_materials causes us to copy over a uv array from the default_materials
 			// and set its index into our UVSource array.
-			if (alternate_materials.UVSource[pass][stage] == -1) {
-				if (default_materials.UVSource[pass][stage] != -1) {
+			if (*(int *)alternate_uv_source == -1) {
+				if (*(const int *)default_uv_source != -1) {
 
 					// Look up the uv array in default_materials that we need to bring over.
-					int default_uv_source = default_materials.UVSource[pass][stage];
-					UVBufferClass * uvarray = default_materials.UV[default_uv_source];
+					int default_uv_source_index = *(const int *)default_uv_source;
+					UVBufferClass * uvarray = default_materials.UV[default_uv_source_index];
 					int found_index = -1;
 
 					// Check if we already have it.
@@ -449,10 +452,11 @@ void MeshMatDescClass::Init_Alternate(MeshMatDescClass & default_materials,MeshM
 					// If we already have it, just set the source index.  Otherwise add-ref it
 					// into a new slot in our uv array and set that index.
 					if (found_index != -1) {
-						UVSource[pass][stage] = found_index;
+						*(int *)((unsigned int)(stage * sizeof(int)) +
+							(unsigned int)&UVSource[pass][0]) = found_index;
 					} else {
 						int new_index = Get_UV_Array_Count();
-						REF_PTR_SET(UV[new_index],default_materials.UV[default_uv_source]);
+						REF_PTR_SET(UV[new_index],default_materials.UV[default_uv_source_index]);
 						UVSource[pass][stage] = new_index;
 					}
 				}
