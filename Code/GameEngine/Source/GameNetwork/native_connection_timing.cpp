@@ -294,6 +294,7 @@ class GameLogic
 {
 	public:
 	void processProgressComplete(int playerID);
+	void processProgress(int playerID, int percentage);
 	void timeOutGameStart();
 	unsigned int getFrame() { return frame; }
 	char unknown[0x3C];
@@ -378,7 +379,15 @@ class Connection
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/ConnectionManager.h
 class DisconnectManager;
 class NetDisconnectChatCommandMsg;
-class NetProgressCommandMsg;
+class NetProgressCommandMsg : public NetCommandMsg
+{
+public:
+	NetProgressCommandMsg();
+	void setPercentage(unsigned char percent);
+	unsigned char getPercentage();
+private:
+	unsigned char m_percent;
+};
 class NetFileAnnounceCommandMsg;
 class NetFileProgressCommandMsg;
 
@@ -5677,118 +5686,18 @@ void BFMEConnectionManager::sendKeepAliveCommand()
 	}
 }
 
-// Sends command type 15 (PROGRESS), built by 0x00673D60 -- it is the only caller of
-// NetProgressCommandMsg::setPercentage here. Named from the type its message carries, which is
-// evidence rather than inference now that the enum at 0x00683020 is recovered.
-__declspec(naked) void BFMEConnectionManager::sendProgressCommand(int percent)
+// Updates local loading progress immediately and sends it directly to every peer.
+void BFMEConnectionManager::sendProgressCommand(int percent)
 {
-	__asm {
-		push 0FFFFFFFFh
-		push 104402Bh
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		push ebx
-		push esi
-		push edi
-		push 20h
-		mov edi, ecx
-		__emit 0E8h
-		__emit 00Eh
-		__emit 0E7h
-		__emit 021h
-		__emit 000h   // call 0x881F30
-		add esp, 4h
-		mov dword ptr [esp+0Ch], eax
-		xor esi, esi
-		cmp eax, esi
-		mov dword ptr [esp+18h], esi
-		je L00_66383C
-		mov ecx, eax
-		__emit 0E8h
-		__emit 072h
-		__emit 02Eh
-		__emit 09Ch
-		__emit 0FFh   // call 0x266AC
-		mov esi, eax
-L00_66383C:
-		mov eax, dword ptr [esp+20h]
-		push eax
-		mov ecx, esi
-		mov dword ptr [esp+1Ch], 0FFFFFFFFh
-		__emit 0E8h
-		__emit 006h
-		__emit 0D4h
-		__emit 09Ch
-		__emit 0FFh   // call 0x30C56
-		mov eax, dword ptr [esi+14h]
-		mov ecx, dword ptr [edi+12028h]
-		push eax
-		mov dword ptr [esi+0Ch], ecx
-		__emit 0E8h
-		__emit 010h
-		__emit 023h
-		__emit 09Bh
-		__emit 0FFh   // call 0x15B72
-		add esp, 4h
-		cmp al, 1h
-		jne L01_663872
-		__emit 0E8h
-		__emit 0EAh
-		__emit 0CCh
-		__emit 09Ch
-		__emit 0FFh   // call 0x30558
-		mov word ptr [esi+10h], ax
-L01_663872:
-		mov ebx, dword ptr [esi+0Ch]
-		mov ecx, esi
-		__emit 0E8h
-		__emit 027h
-		__emit 01Fh
-		__emit 09Bh
-		__emit 0FFh   // call 0x157A3
-		__emit 08Bh
-		__emit 00Dh
-		__emit 098h
-		__emit 008h
-		__emit 02Fh
-		__emit 001h   // mov ecx, dword ptr [0x12f0898]
-		movzx edx, al
-		push edx
-		push ebx
-		__emit 0E8h
-		__emit 0E1h
-		__emit 0ADh
-		__emit 09Ch
-		__emit 0FFh   // call 0x2E66D
-		mov ecx, dword ptr [edi+12028h]
-		xor eax, eax
-		mov al, 1h
-		shl al, cl
-		mov ecx, edi
-		not al
-		push eax
-		push esi
-		__emit 0E8h
-		__emit 034h
-		__emit 0D9h
-		__emit 09Dh
-		__emit 0FFh   // call 0x411D7
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0FAh
-		__emit 0C7h
-		__emit 09Bh
-		__emit 0FFh   // call 0x200A4
-		mov ecx, dword ptr [esp+10h]
-		pop edi
-		pop esi
-		pop ebx
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret 4h
-	}
+	NetProgressCommandMsg *msg = new NetProgressCommandMsg;
+	msg->setPercentage((unsigned char)percent);
+	msg->setPlayerID(m_localSlot);
+	if (DoesCommandRequireACommandID(msg->getNetCommandType()) == true)
+		msg->setID(GenerateNextCommandID());
+	TheGameLogic->processProgress(msg->getPlayerID(), msg->getPercentage());
+	reinterpret_cast<ConnectionManager *>(this)->sendLocalCommandDirect(msg,
+		(unsigned char)~(unsigned char)(1 << m_localSlot));
+	msg->detach();
 }
 
 // Sends command type 27 (DISCONNECTFRAME), built by 0x006740C0. Named from the type its message carries, which is
