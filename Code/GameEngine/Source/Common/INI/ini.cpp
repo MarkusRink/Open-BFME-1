@@ -61,6 +61,68 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
+// BFME's pooled allocator glue for DynamicAudioEventRTS is not ZH's: the
+// MagicEnum operator new is one `push s; call malloc` body reaching the CRT
+// import thunk at 0x009F6FAC, and the matching operator delete calls the free
+// thunk at 0x009F6C3A -- neither goes through ::operator new / ::operator
+// delete, which are different functions. Declaring malloc and free here (not
+// via <stdlib.h>, which marks them __declspec(dllimport) under /MD) is what
+// emits `e8` into the linker thunk instead of `ff 15` through the IAT.
+//
+// The override has to be in force before PreRTS.h pulls AudioEventRTS.h in, so
+// open GameMemory.h (which defines the macro) by hand first, the way
+// Common/RTS/RtsPoolGlueDeletes.cpp does; PreRTS.h re-includes these as no-ops.
+#include <windows.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <new>
+#include "Lib/Basetype.h"
+#include "Common/STLTypedefs.h"
+#include "Common/Errors.h"
+#include "Common/Debug.h"
+#include "Common/AsciiString.h"
+#include "Common/SubsystemInterface.h"
+#include "Common/GameCommon.h"
+#include "Common/GameMemory.h"
+#pragma push_macro("MEMORY_POOL_GLUE_WITHOUT_GCMP")
+#undef MEMORY_POOL_GLUE_WITHOUT_GCMP
+extern "C" void *malloc(size_t s);
+extern "C" void free(void *p);
+#define MEMORY_POOL_GLUE_WITHOUT_GCMP(ARGCLASS) \
+protected: \
+	virtual ~ARGCLASS(); \
+public: \
+	enum ARGCLASS##MagicEnum { ARGCLASS##_GLUE_NOT_IMPLEMENTED = 0 }; \
+public: \
+	inline void *operator new(size_t s, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ \
+		return malloc(s); \
+	} \
+public: \
+	inline void operator delete(void *p, ARGCLASS##MagicEnum e DECLARE_LITERALSTRING_ARG2) \
+	{ \
+		free(p); \
+	} \
+protected: \
+	inline void *operator new(size_t s) \
+	{ \
+		DEBUG_ASSERTCRASH(s == sizeof(ARGCLASS), ("The wrong operator new is being called; ensure all objects in the hierarchy have MemoryPoolGlue set up correctly")); \
+		return ::operator new(s); \
+	} \
+	inline void operator delete(void *p) \
+	{ \
+		::operator delete(p); \
+	} \
+private: \
+	virtual MemoryPool *getObjectMemoryPool() \
+	{ \
+		return ARGCLASS::getClassMemoryPool(); \
+	} \
+public:
+#include "Common/AudioEventRTS.h"
+#pragma pop_macro("MEMORY_POOL_GLUE_WITHOUT_GCMP")
+
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 #define DEFINE_DEATH_NAMES
 
