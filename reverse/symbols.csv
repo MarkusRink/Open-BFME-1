@@ -85338,3 +85338,4 @@ _g_bfmeSingleZM,0x00C80FC0
 _g_bfmeExtendedZM,0x00C81238
 _g_bfmeFlagZM,0x00EF1B23
 ?updateWaypointGoal@GiantBirdFollowWaypointPathState@@QAE_NXZ,0x00031B47,GiantBirdFollowWaypointPathState goal helper alias to thunk 0x00031B47
+?addWorldAnimation@InGameUI@@QAEXPAVAnim2DTemplate@@PBUCoord3D@@W4WorldAnimationOptions@@MM@Z,0x00443720,official InGameUI declaration and retail animation thunk target called by CrateCollide::onCollide at 0x00217730
