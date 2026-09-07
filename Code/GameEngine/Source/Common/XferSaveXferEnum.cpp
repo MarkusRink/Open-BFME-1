@@ -1,7 +1,5 @@
-// ?bfmeBaseUpdate@Gen009D6330@@QAEXPAXPBXI@Z
-// partial score=0.89 date=2026-09-02
 // cl: /DNDEBUG /MD /O2
-// Clean C++ conversion of the byte-block stream writer at retail RVA 0x009D6E50.
+// Clean C++ conversion of the save-side XferEnum body at retail RVA 0x009D6E50.
 
 struct XferException
 {
@@ -24,30 +22,29 @@ public:
 	virtual int write(const void *buffer, int size);
 };
 
-class Gen009D6330
+class XferSave
 {
 public:
-	void bfmeBaseUpdate(void *context, const void *bytes, unsigned int count);
+	virtual void XferEnum(void *context, const void *bytes, unsigned int count);
 
 private:
-	unsigned char m_pad[4];
 	BfmeByteStream *m_stream;
 	bool m_flag;
 };
 
-void Gen009D6330::bfmeBaseUpdate(void *context, const void *bytes, unsigned int count)
+void XferSave::XferEnum(void *context, const void *bytes, unsigned int count)
 {
 	if (m_stream == 0)
 		return;
 
-	const void *block = bytes;
-	unsigned int n = count;
+	register const void *block = bytes;
+	register unsigned int n = count;
 	if (n != 0 && block == 0)
 		return;
 
 	if (m_flag && context != 0)
 	{
-		if (m_stream->write(&bytes, 4) != 4)
+		if (m_stream->write(&context, 4) != 4)
 		{
 			XferException error;
 			bfmeFormatText(&error, 1, 0);
