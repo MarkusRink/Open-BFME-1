@@ -1,5 +1,5 @@
 // ?isPlayingLowerPriority@Rva006B2110Owner@@QAE_NPAURva006B2110AudioEvent@@@Z
-// partial score=0.84 date=2026-09-03
+// partial score=0.86 date=2026-09-06
 // cl: /O2 /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /MD /D_STLP_USE_STATIC_LIB
 // stlport
 // Audio preemption tests from the BFME Miles audio manager.
@@ -40,7 +40,7 @@ struct Rva006B2110ListNode
 
 struct Rva006B2110ListView
 {
-	Rva006B2110ListNode *m_node;
+	Rva006B2110ListNode *m_sentinel;
 };
 
 struct Rva006B2110VolumeConfig
@@ -103,10 +103,12 @@ Rva006B2110AudioEvent *Rva006B2110Owner::findLowestPrioritySound(
 	else
 		playing = &m_playingSounds;
 
-	_STL::list<Rva006B2110PlayingAudio *>::const_iterator it;
-	for (it = playing->begin(); it != playing->end(); ++it)
+	register Rva006B2110ListNode *node;
+	Rva006B2110ListNode *sentinel = *(Rva006B2110ListNode **)playing;
+	node = sentinel->m_next;
+	while (node != sentinel)
 	{
-		const Rva006B2110PlayingAudio *playingAudio = *it;
+		const Rva006B2110PlayingAudio *playingAudio = node->m_value;
 		Rva006B2110AudioEvent *candidate = playingAudio->m_event;
 		candidateVolume = getEffectiveVolume(playingAudio->m_event, 1);
 		float attenuation = 1.0f -
@@ -125,6 +127,7 @@ Rva006B2110AudioEvent *Rva006B2110Owner::findLowestPrioritySound(
 			lowestPriority = candidatePriority;
 			lowestVolume = candidateVolume;
 		}
+		node = node->m_next;
 	}
 	return lowest;
 }
@@ -134,6 +137,7 @@ bool Rva006B2110Owner::isPlayingLowerPriority(
 {
 	register Rva006B2110Owner *self = this;
 	register int priority = event->m_info->m_priority;
+	_STL::list<Rva006B2110PlayingAudio *> * volatile playing;
 	typedef float (Rva006B2110Owner::*Effective)(Rva006B2110AudioEvent *, int);
 	union
 	{
@@ -141,9 +145,9 @@ bool Rva006B2110Owner::isPlayingLowerPriority(
 		Effective memberFunction;
 	} initialEffective;
 	initialEffective.freeFunction = ::j_0002918b;
-	float volume = (self->*initialEffective.memberFunction)(event, 1);
+	float volume[1];
+	volume[0] = (self->*initialEffective.memberFunction)(event, 1);
 
-	_STL::list<Rva006B2110PlayingAudio *> *playing;
 	typedef bool (Rva006B2110AudioEvent::*IsPositional)(void) const;
 	union
 	{
@@ -156,10 +160,11 @@ bool Rva006B2110Owner::isPlayingLowerPriority(
 	else
 		playing = &self->m_playingSounds;
 
-	_STL::list<Rva006B2110PlayingAudio *>::iterator it;
-	for (it = playing->begin(); it != playing->end(); ++it)
+	Rva006B2110ListNode *sentinel = *(Rva006B2110ListNode **)playing;
+	Rva006B2110ListNode *node = sentinel->m_next;
+	while (node != sentinel)
 	{
-		Rva006B2110PlayingAudio *playingAudio = *it;
+		Rva006B2110PlayingAudio *playingAudio = node->m_value;
 		Rva006B2110AudioEvent *candidate = playingAudio->m_event;
 		union
 		{
@@ -177,8 +182,9 @@ bool Rva006B2110Owner::isPlayingLowerPriority(
 			return true;
 		if (candidatePriority > priority)
 			continue;
-		if (candidateVolume >= volume)
+		if (candidateVolume >= volume[0])
 			return true;
+		node = node->m_next;
 	}
 	return false;
 }
