@@ -22,6 +22,7 @@ class AsciiString
 public:
 	AsciiString(const AsciiString &that);
 	~AsciiString();
+	void set(const AsciiString &that);
 
 	Int getLength(void) const
 	{
@@ -72,6 +73,7 @@ class AttackPriorityInfo
 public:
 	void setPriority(const ThingTemplate *thing, Int priority);
 	AsciiString getName(void) const { return m_name; }
+	void friend_setName(const AsciiString &n) { m_name.set(n); }
 
 	void *m_unreconstructed_00;
 	AsciiString m_name;
@@ -83,10 +85,11 @@ class ScriptEngine
 {
 public:
 	const AttackPriorityInfo *getAttackInfo(const AsciiString &name);
-
-private:
+	// Public because that is what its own ledger row says: the definition is
+	// ?findAttackInfo@ScriptEngine@@QAE..., and access is part of the name.
 	AttackPriorityInfo *findAttackInfo(const AsciiString &name, Bool addIfNotFound);
 
+private:
 	unsigned char m_unreconstructed_00000[0x1607C];
 	AttackPriorityInfo m_attackPriorityInfo[256];
 	Int m_numAttackInfo;
@@ -186,6 +189,24 @@ public:
 extern BfmeDebugManager *TheGen001336E5C;
 bool _bfme_debugReportingEnabled(void);
 void _bfme_debugRecordCallsite(int kind);
+
+// ?findAttackInfo@ScriptEngine@@QAEPAVAttackPriorityInfo@@ABVAsciiString@@_N@Z
+AttackPriorityInfo *ScriptEngine::findAttackInfo(const AsciiString &name, Bool addIfNotFound)
+{
+	Int i;
+	for (i = 1; i < m_numAttackInfo; i++)
+	{
+		if (m_attackPriorityInfo[i].getName() == name)
+			return &m_attackPriorityInfo[i];
+	}
+	if (addIfNotFound && m_numAttackInfo < 256)
+	{
+		m_attackPriorityInfo[m_numAttackInfo].friend_setName(name);
+		m_numAttackInfo++;
+		return &m_attackPriorityInfo[m_numAttackInfo - 1];
+	}
+	return 0;
+}
 
 const AttackPriorityInfo *ScriptEngine::getAttackInfo(const AsciiString &name)
 {
