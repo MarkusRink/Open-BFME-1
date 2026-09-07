@@ -41,7 +41,6 @@ def announcement(current, previous):
         "allowed_mentions": {"parse": []},
         "embeds": [{
             "title": "BFME 1 · Rebuild progress",
-            "url": "https://github.com/Open-BFME/Open-BFME-1",
             "color": 0x3FB950,
             "description": f"**{percentage:.2f}%**\n\n"
                            + "🟩" * filled + "⬛" * (10 - filled)
@@ -52,17 +51,18 @@ def announcement(current, previous):
 
 
 def notify(current):
-    state_path = progress.ROOT / "docs" / "discord-progress.json"
+    state_path = progress.ROOT / "docs" / "discord-main-progress.json"
     previous = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else None
-    today = datetime.now(timezone.utc).date().isoformat()
-    if previous and (previous["date"] == today or all(previous[k] == current[k] for k in ("rebuilt", "total"))):
-        print("Discord: no new daily update needed")
+    if previous and all(previous[k] == current[k] for k in ("rebuilt", "total")):
+        print("Discord: progress unchanged")
         return
     webhook = os.environ.get("DISCORD_PROGRESS_WEBHOOK", "").strip()
     if not webhook.startswith("https://discord.com/api/webhooks/"):
         raise SystemExit("DISCORD_PROGRESS_WEBHOOK is missing or invalid")
-    request = Request(webhook + "?wait=true", data=json.dumps(announcement(current, previous)).encode("utf-8"),
-                      headers={"Content-Type": "application/json", "User-Agent": "OpenBFME-Progress/1.0"}, method="POST")
+    url = webhook + ("/messages/" + previous["message_id"] if previous else "?wait=true")
+    request = Request(url, data=json.dumps(announcement(current, None)).encode("utf-8"),
+                      headers={"Content-Type": "application/json", "User-Agent": "OpenBFME-Progress/1.0"},
+                      method="PATCH" if previous else "POST")
     try:
         with urlopen(request, timeout=30) as response:
             message = json.load(response)
@@ -70,33 +70,15 @@ def notify(current):
         raise SystemExit(f"Discord update failed: HTTP {exc.code}") from None
     except URLError:
         raise SystemExit("Discord update failed: connection error") from None
-    state_path.write_text(json.dumps({**current, "date": today, "message_id": message["id"]}, indent=2) + "\n", encoding="utf-8")
-    print("Discord: daily progress posted")
+    state_path.write_text(json.dumps({**current, "updated_at": datetime.now(timezone.utc).isoformat(),
+                                     "message_id": message["id"]}, indent=2) + "\n", encoding="utf-8")
+    print("Discord: progress message " + ("updated" if previous else "created"))
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--discord", action="store_true", help="post changed progress at most once per UTC day")
-    parser.add_argument("--refresh-discord", action="store_true", help="refresh the existing message layout without posting again")
+    parser.add_argument("--discord", action="store_true", help="update the main Discord progress message")
     args = parser.parse_args()
-    if args.refresh_discord:
-        state = json.loads((progress.ROOT / "docs/discord-progress.json").read_text(encoding="utf-8"))
-        webhook = os.environ["DISCORD_PROGRESS_WEBHOOK"].strip()
-        if not webhook.startswith("https://discord.com/api/webhooks/"):
-            raise SystemExit("Invalid webhook URL")
-        for url, payload in (
-            (webhook, {"name": "BFME 1 Progress"}),
-            (webhook + "/messages/" + state["message_id"], announcement(state, None)),
-        ):
-            request = Request(url, data=json.dumps(payload).encode("utf-8"),
-                              headers={"Content-Type": "application/json", "User-Agent": "OpenBFME-Progress/1.0"}, method="PATCH")
-            try:
-                with urlopen(request, timeout=30) as response:
-                    response.read()
-            except (HTTPError, URLError):
-                raise SystemExit("Discord layout refresh failed") from None
-        print("Discord: existing message layout refreshed")
-        return
     matched = progress.matched_at(None)
     start, size = progress.retail_text()
     naked = progress.naked_cpp_rows_at(matched, None)
