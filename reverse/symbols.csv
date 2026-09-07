@@ -84710,3 +84710,8 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeLookupQZ@@YAPAVBfmeThingQZ@@PAX@Z,0x0002FC7A,pin
 ?bfmeGoQZ@BfmeThingQZ@@QAEXXZ,0x0003C740,pin
 ?bfmeBeginRT@@YGXPAUBfmeDataRT@@H@Z,0x0003FE09,pin
+?bfmeResolveLP@BfmeInnerLP@@QAEPAVBfmeThingLP@@XZ,0x000022BB,pin
+?bfmeTestLP@BfmeThingLP@@QAEPAXPAI@Z,0x00021044,pin
+?bfmeHitLP@BfmeHolderLP@@QAEXI@Z,0x000348EC,pin
+?createString@Rva008AE770Stack@@QAEPAVRva00899770@@PAXHPAVBfmeStrVKI@@HHH@Z,0x008CC940,typed call alias for the Rva008AE770Stack string-value method used by aptExportString
+?d_008930c0@@YAPAXH@Z,0x008930C0,typed one-argument call alias for the address-derived Apt lookup helper
