@@ -86045,3 +86045,6 @@ _gsiSocketInterface,0x0130E628,GameSpy common socket interface global; exact ciS
 ?bfmeRefreshEY@BfmeHostEY@@QAEXXZ,0x0094D450,pin refresh for BfmeConv2045
 _j_0003b75a,0x0003B75A,COFF C-linkage alias for the existing incremental-link thunk
 _j_0003b971,0x0003B971,COFF C-linkage alias for the existing incremental-link thunk
+?gadgetComboBoxReset@@YAXPAVGameWindow@@@Z,0x00007004,OnlineQuickMatch InitGadgets reset call uses the existing incremental-link thunk
+?setup@OnlineQuickMatchColorSetup@@QAEXXZ,0x00005F3D,OnlineQuickMatch InitGadgets color setup call uses the existing incremental-link thunk
+?refreshLayout@GameWindowManager@@QAEXPAX@Z,0x000412C2,OnlineQuickMatch InitGadgets layout refresh call uses the existing incremental-link thunk
