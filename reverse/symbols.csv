@@ -85534,3 +85534,4 @@ g_Rva012C3A18,0x00EC3A18,FESL client hello global pointer loaded by 0x007F4440
 ?bfmeFindDE@MappedImageCollection@@QAEPAVBfmeImageDE@@ABVBFMERetailAsciiString@@@Z,0x0001D606
 ?bfmeStartCW@BfmeHostCW@@QAEXXZ,0x00020BA3
 ?bfmeStopCW@ParticleSystemManager@@QAEXABVBFMERetailAsciiString@@@Z,0x000234F2
+?releaseBufferDF@UnicodeString@@QAEXXZ,0x00887940
