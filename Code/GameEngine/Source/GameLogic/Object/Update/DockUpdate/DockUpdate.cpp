@@ -122,10 +122,6 @@ DockUpdate::DockUpdate( Thing *thing, const ModuleData* moduleData ) : UpdateMod
 	}
 }
 
-// ??1DockUpdate@@MAE@XZ present-unmatched
-DockUpdate::~DockUpdate()
-{
-}
 
 Bool DockUpdate::isClearToApproach( Object const* docker ) const
 {

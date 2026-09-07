@@ -24922,3 +24922,4 @@ tg_00662430,0x00662430,gen-tgrid placeholder retracted for the independently pro
 ?d_00972060@@YAXXZ,0x00972060,gen-dump placeholder retracted: range owned by real C++ ?Load_Aggregate@Rva00971CE0AggregatePrototype@@UAEXXZ landed by lane 8
 ??0?$_Rb_tree@HU?$pair@$$CBHUGen_t_000ab260_p4pod@@@_STL@@U?$_Select1st@U?$pair@$$CBHUGen_t_000ab260_p4pod@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHUGen_t_000ab260_p4pod@@@_STL@@@2@@_STL@@QAE@ABV01@@Z,0x000AB260,gen-tgrid placeholder retracted because the real IgnorePreferences map copy constructor owns this verified range
 ?d_009d8630@@YAXXZ,0x009D8630,"gen-dump placeholder retracted: range owned by byte-verified real C++ ??0Gen_009D83D0@@QAE@XZ"
+?d_002ccd10@@YAXXZ,0x002CCD10,gen-dump placeholder retracted because ??1DockUpdate@@MAE@XZ owns the byte-verified destructor range in DockUpdateDestructor.cpp
