@@ -15577,3 +15577,8 @@ _Rva0088E000DialogProc@16	0x0088E000	143	partial	clean C++ dialog procedure matc
 ?d_0015f9780@@YAXXZ	0x0015F9780	125	blocked	BFME helper body has unresolved record identity and call ownership; clean C++ reconstruction not verified t=12min model=gpt-5.6
 ?d_0015f99c0@@YAXXZ	0x0015F99C0	151	blocked	Team/AI helper has unresolved container identity and callback ownership; clean C++ reconstruction not verified t=12min model=gpt-5.6
 ?d_0015fa1b0@@YAXXZ	0x0015FA1B0	350	blocked	Object exit/interface body has unresolved owner identity and helper call ownership; clean C++ reconstruction not verified t=15min model=gpt-5.6
+?d_005b4d40@@YAXXZ	0x005B4D40	902	blocked	large InGameUI/TacticalView body has unresolved helper and field ownership with no clean source identity; reconstruction not verified t=25min model=gpt-5.6
+?d_005b5590@@YAXXZ	0x005B5590	1791	blocked	large InGameUI body has deep control flow and unresolved callback/helper ownership; no clean C++ identity verified t=30min model=gpt-5.6
+?d_005ba810@@YAXXZ	0x005BA810	199	blocked	InGameUI body has unresolved source identity and helper ownership; no clean C++ reconstruction verified t=15min model=gpt-5.6
+?d_005ba910@@YAXXZ	0x005BA910	167	blocked	InGameUI body has unresolved source identity and helper ownership; no clean C++ reconstruction verified t=15min model=gpt-5.6
+?d_005c37e0@@YAXXZ	0x005C37E0	467	blocked	InGameUI/particle-system body has unresolved source identity and helper ownership; no clean C++ reconstruction verified t=20min model=gpt-5.6
