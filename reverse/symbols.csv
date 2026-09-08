@@ -86151,3 +86151,4 @@ _bfmeVftGS,0x00C968B0,pin vftable for BfmeConv2070
 ??0?$StringBase@G@@IAE@PBG@Z,0x00888DE0,BFME display-name getter UnicodeString forwarding-base wide-text constructor
 ??1?$StringBase@G@@IAE@XZ,0x008881D0,BFME display-name getter UnicodeString forwarding-base destructor
 _bfmeWeaponVftIA,0x010A13F4,pin weapon vftable for BfmeConv2074
+?bfmeAdjustHeap00474330@@YAXPAURva004748F0Element@@HHU1@URva004748F0Compare@@@Z,0x00474330,STLport adjust_heap callee for the 16-byte pop_heap at 0x004748F0
