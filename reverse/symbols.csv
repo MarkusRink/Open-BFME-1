@@ -3227,7 +3227,6 @@ name,address,notes
 ??0S4Parsed0059E860@@QAE@XZ,0x0059E7C0,S4 parsed-object constructor of the INI parse-then-register family (address-derived name; target read from the REL32 at its call site and followed through its ILT thunk)
 ??0S4Parsed0059F980@@QAE@XZ,0x0059F8F0,S4 parsed-object constructor of the INI parse-then-register family (address-derived name; target read from the REL32 at its call site and followed through its ILT thunk)
 ??0S4SortElem20@@QAE@ABU0@@Z,0x00036B10,Lead disassembled and independently reproduced87B copy ctor2E8FC0; string+flag+12B tail
-??0SCU_DeepBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,StructureCollapseUpdate ModuleFactory body calls the shared ObjectModule constructor ILT
 ??0SESU_DeepBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,SpecialEnemySenseUpdate constructor calls the shared ObjectModule constructor ILT
 ??0SPEU_DeepBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,SpawnPointProductionExitUpdate ModuleFactory body calls the shared ObjectModule constructor ILT
 ??0SabotageCommandCenterCrateCollide@@QAE@PAVThing@@PBVModuleData@@@Z,0x0001D3AE,pinharvest x1 (thunk)
