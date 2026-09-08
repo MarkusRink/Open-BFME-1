@@ -7,6 +7,32 @@
 
 #include "region.h"
 
+void bfmeEnsure005E83F0(void);
+void bfmeEnsure005E8420(void);
+void bfmeEnsure_005D9AE0(void);
+void bfmeEnsure005E8450(void);
+void bfmeEnsure005E8480(void);
+void bfmeEnsure005E84B0(void);
+void bfmeEnsure005E84E0(void);
+void bfmeEnsure_005D9B50(void);
+void bfmeEnsure_005D9BC0(void);
+void bfmeEnsure_005D9C30(void);
+void bfmeEnsure_005D9CA0(void);
+void bfmeEnsure_005D9D10(void);
+void bfmeEnsure005E8510(void);
+void bfmeEnsure005E8540(void);
+void bfmeEnsure005E8570(void);
+void bfmeEnsure005E85A0(void);
+void bfmeEnsure005E85D0(void);
+void bfmeEnsure005E8600(void);
+void bfmeEnsure005E8630(void);
+void bfmeEnsure005E8660(void);
+void bfmeEnsure005E8690(void);
+void bfmeEnsure005E86C0(void);
+void bfmeEnsure005E86F0(void);
+void bfmeEnsure005E8720(void);
+void bfmeEnsure005E8750(void);
+
 namespace FXParticleSystem {
 
 struct ModuleCategoryEntry {
@@ -24,135 +50,35 @@ const char *GetName(ModuleCategory category)
     return reinterpret_cast<const ModuleCategoryEntry *>(0x01110500)[category].name;
 }
 
-__declspec(naked) void staticInitModules()
+// The retail body is this exact initialization order. The final call is
+// deliberately returned so MSVC emits the same tail jump as retail.
+void staticInitModules()
 {
-    __asm {
-        __emit 0xe8
-        __emit 0xeb
-        __emit 0xcf
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x16
-        __emit 0xd0
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xd1
-        __emit 0xe6
-        __emit 0xfe
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x3c
-        __emit 0xd0
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x67
-        __emit 0xd0
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x92
-        __emit 0xd0
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xbd
-        __emit 0xd0
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x28
-        __emit 0xe7
-        __emit 0xfe
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x93
-        __emit 0xe7
-        __emit 0xfe
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xfe
-        __emit 0xe7
-        __emit 0xfe
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x69
-        __emit 0xe8
-        __emit 0xfe
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xd4
-        __emit 0xe8
-        __emit 0xfe
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xcf
-        __emit 0xd0
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xfa
-        __emit 0xd0
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x25
-        __emit 0xd1
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x50
-        __emit 0xd1
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x7b
-        __emit 0xd1
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xa6
-        __emit 0xd1
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xd1
-        __emit 0xd1
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xfc
-        __emit 0xd1
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x27
-        __emit 0xd2
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x52
-        __emit 0xd2
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0x7d
-        __emit 0xd2
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe8
-        __emit 0xa8
-        __emit 0xd2
-        __emit 0xff
-        __emit 0xff
-        __emit 0xe9
-        __emit 0xd3
-        __emit 0xd2
-        __emit 0xff
-        __emit 0xff
-    }
+    ::bfmeEnsure005E83F0();
+    ::bfmeEnsure005E8420();
+    ::bfmeEnsure_005D9AE0();
+    ::bfmeEnsure005E8450();
+    ::bfmeEnsure005E8480();
+    ::bfmeEnsure005E84B0();
+    ::bfmeEnsure005E84E0();
+    ::bfmeEnsure_005D9B50();
+    ::bfmeEnsure_005D9BC0();
+    ::bfmeEnsure_005D9C30();
+    ::bfmeEnsure_005D9CA0();
+    ::bfmeEnsure_005D9D10();
+    ::bfmeEnsure005E8510();
+    ::bfmeEnsure005E8540();
+    ::bfmeEnsure005E8570();
+    ::bfmeEnsure005E85A0();
+    ::bfmeEnsure005E85D0();
+    ::bfmeEnsure005E8600();
+    ::bfmeEnsure005E8630();
+    ::bfmeEnsure005E8660();
+    ::bfmeEnsure005E8690();
+    ::bfmeEnsure005E86C0();
+    ::bfmeEnsure005E86F0();
+    ::bfmeEnsure005E8720();
+    return ::bfmeEnsure005E8750();
 }
 
 ButterflyDrawModuleInfo::ButterflyDrawModuleInfo()

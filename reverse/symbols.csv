@@ -86091,3 +86091,12 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeUnlinkCK@@YGXPAVBfmeEntryCK@@@Z,0x00035553,pin unlink for BfmeConv2060
 ?bfmeFirstGE@BfmeSrcGE@@QAE?AVBfmePairGE@@XZ,0x0001BDC9,pin first for BfmeConv2061
 ?bfmeIndexGE@BfmeVecGE@@QAEHPAHH@Z,0x0003068E,pin index for BfmeConv2061
+?bfmeEnsure005E8420@@YAXXZ,0x005E8420,direct body call from FXParticleSystem::staticInitModules at 0x005EB405
+?bfmeEnsure005E8450@@YAXXZ,0x005E8450,direct body call from FXParticleSystem::staticInitModules at 0x005EB40F
+?bfmeEnsure005E84E0@@YAXXZ,0x005E84E0,direct body call from FXParticleSystem::staticInitModules at 0x005EB41E
+?bfmeEnsure005E8630@@YAXXZ,0x005E8630,direct body call from FXParticleSystem::staticInitModules at 0x005EB45A
+?bfmeEnsure005E8660@@YAXXZ,0x005E8660,direct body call from FXParticleSystem::staticInitModules at 0x005EB45F
+?bfmeEnsure005E86F0@@YAXXZ,0x005E86F0,direct body call from FXParticleSystem::staticInitModules at 0x005EB46E
+?bfmeEnsure_005D9B50@@YAXXZ,0x005D9B50,direct body call from FXParticleSystem::staticInitModules at 0x005EB423
+?bfmeEnsure_005D9BC0@@YAXXZ,0x005D9BC0,direct body call from FXParticleSystem::staticInitModules at 0x005EB428
+?bfmeEnsure_005D9D10@@YAXXZ,0x005D9D10,direct body call from FXParticleSystem::staticInitModules at 0x005EB437
