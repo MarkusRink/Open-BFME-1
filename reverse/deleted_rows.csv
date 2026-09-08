@@ -25076,3 +25076,5 @@ dup_af1f0,0x000AF1F0,Rehomed to neutral address owner; does not belong to LANAPI
 ??_GGen_dtor_003ab740@@UAEPAXI@Z,0x003AB740,generated scalar helper retired: real30B Rva003BABE0Record helper with exact118B constructor; existing complete destructor via ILT0003210A; generated source unchanged; campaign=36h-20260908-1018
 ?d_005d02f0@@YAXXZ,0x005D02F0,"gen-dump placeholder superseded by the byte-verified ParticleSystemManager::bfmeRegisterEAU identity over the same 328-byte range"
 ?d_0052f8e0@@YAXXZ,0x0052F8E0,gen-dump placeholder retracted: range owned by real C++ ?bfmeMedianXE@@YAABUS4SortElem12@@ABU1@00@Z landed by the fleet
+?d_005c5030@@YAXXZ,0x005C5030,gen-dump placeholder retracted: range owned by real C++ ?loadPostProcess@Particle@@MAEXXZ landed by the fleet
+?d_005c3c80@@YAXXZ,0x005C3C80,gen-dump placeholder retracted: range owned by real C++ ?destroyAttachedSystems@ParticleSystemManager@@QAEXPAVObject@@@Z landed by the fleet
