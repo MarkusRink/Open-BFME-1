@@ -36,6 +36,8 @@
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 
+extern "C" __declspec(dllimport) char *getenv( const char *name );
+
 #include "Lib/BaseType.h"
 #include "string_base.h"
 #include "Common/CRC.h"
@@ -67,6 +69,8 @@
 #include "GameNetwork/LANAPICallbacks.h"
 #include "GameNetwork/LANGameInfo.h"
 
+extern void j_00001a19();
+
 Bool LANisShuttingDown = false;
 Bool LANbuttonPushed = false;
 Bool LANSocketErrorDetected = FALSE;
@@ -79,11 +83,6 @@ static Bool justEntered = FALSE;
 
 // ??0LANPreferences@@ is implemented by the exact retail thunk in
 // LANPreferencesCtorThunk.cpp.
-
-// ??1LANPreferences@@ present-unmatched
-LANPreferences::~LANPreferences()
-{
-}
 
 // ?getUserName@LANPreferences@@ present-unmatched
 UnicodeString LANPreferences::getUserName(void)
@@ -356,6 +355,19 @@ GameWindow *listboxGames = NULL;
 static Bool useFpsLimit;
 static UnicodeString defaultName;
 
+class BfmeLanLobbyAPI
+{
+public:
+#define LAN_SLOT(n) virtual void lanSlot##n();
+	LAN_SLOT(00) LAN_SLOT(01) LAN_SLOT(02) LAN_SLOT(03) LAN_SLOT(04)
+	LAN_SLOT(05) LAN_SLOT(06) LAN_SLOT(07) LAN_SLOT(08) LAN_SLOT(09)
+	LAN_SLOT(10) LAN_SLOT(11) LAN_SLOT(12) LAN_SLOT(13) LAN_SLOT(14)
+	LAN_SLOT(15) LAN_SLOT(16) LAN_SLOT(17) LAN_SLOT(18) LAN_SLOT(19)
+	LAN_SLOT(20) LAN_SLOT(21) LAN_SLOT(22) LAN_SLOT(23) LAN_SLOT(24)
+	virtual void requestLobbyLeave( Bool forced ) = 0;
+#undef LAN_SLOT
+};
+
 static void playerTooltip(GameWindow *window,
 													WinInstanceData *instData,
 													UnsignedInt mouse)
@@ -556,7 +568,7 @@ void LanLobbyMenuInit( WindowLayout *layout, void *userData )
 //-------------------------------------------------------------------------------------------------
 /** This is called when a shutdown is complete for this menu */
 //-------------------------------------------------------------------------------------------------
-static void shutdownComplete( WindowLayout *layout )
+static void shutdownCompleteLanLobbyMenu( WindowLayout *layout )
 {
 
 	LANisShuttingDown = false;
@@ -581,23 +593,24 @@ static void shutdownComplete( WindowLayout *layout )
 //-------------------------------------------------------------------------------------------------
 void LanLobbyMenuShutdown( WindowLayout *layout, void *userData )
 {
-	LANPreferences prefs;
-	prefs["UserName"] = UnicodeStringToQuotedPrintable(GadgetTextEntryGetText( textEntryPlayerName ));
-	prefs.write();
+	if (getenv( "_EA_RTS_HEADLESS" ) == NULL)
+	{
+		LANPreferences prefs;
+		prefs["UserName"] = UnicodeStringToQuotedPrintable(GadgetTextEntryGetText( textEntryPlayerName ));
+		prefs.write();
+	}
 
-	DestroyGameInfoWindow();
+	j_00001a19();
 	// hide menu
 	//layout->hide( TRUE );
 
-	TheLAN->RequestLobbyLeave( true );
+	((BfmeLanLobbyAPI *)TheLAN)->requestLobbyLeave( true );
 
 	// Reset the LAN singleton
 	//TheLAN->reset();
 
 	// our shutdown is complete
 	//TheShell->shutdownComplete( layout );
-	TheWritableGlobalData->m_useFpsLimit = useFpsLimit;
-
 	LANisShuttingDown = true;
 
 	// if we are shutting down for an immediate pop, skip the animations
@@ -608,7 +621,7 @@ void LanLobbyMenuShutdown( WindowLayout *layout, void *userData )
 	if( popImmediate )
 	{
 
-		shutdownComplete( layout );
+		shutdownCompleteLanLobbyMenu( layout );
 		return;
 
 	}  //end if
@@ -643,7 +656,7 @@ void LanLobbyMenuUpdate( WindowLayout * layout, void *userData)
 	}
 
 	if(LANisShuttingDown && TheShell->isAnimFinished() && TheTransitionHandler->isFinished())
-		shutdownComplete(layout);
+		shutdownCompleteLanLobbyMenu(layout);
 
 	if (TheShell->isAnimFinished() && !LANbuttonPushed && TheLAN)
 		TheLAN->update();
