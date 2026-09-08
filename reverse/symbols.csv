@@ -85987,3 +85987,7 @@ _bfmeVftEAZ,0x00CFA338,pin vftable for BfmeConv2016
 ?bfmeFlagTP@BfmeXTP@@QAEXH@Z,0x00034C3E,pin flag for BfmeConv2025
 ?bfmeApplyTP@BfmeInnerTP@@QAEXH@Z,0x00024D70,pin inner apply for BfmeConv2025
 ?bfmeFinishTP@BfmeSubTP@@QAEXXZ,0x000065E1,pin finish for BfmeConv2025
+?bfmeDiffersTQ@BfmeStrTQ@@QBEHABV1@@Z,0x000220C5,pin compare for BfmeConv2026
+?bfmeSetTQ@BfmeStrTQ@@QAEXABV1@@Z,0x00887C90,pin set for BfmeConv2026
+??1BfmeStrTQ@@QAE@XZ,0x00887940,pin string dtor for BfmeConv2026
+__imp__BfmeDecTQ@4,0x00F58E54,pin decrement import for BfmeConv2026
