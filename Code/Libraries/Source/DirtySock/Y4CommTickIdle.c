@@ -160,6 +160,54 @@ int Rva0081B830( struct Rva0081B830Transport *comm )
 	return 0;
 }
 
+struct Rva0081ACD0Transport
+{
+	char m_head[ 0x7c ];
+	void *m_handle;                  /* +0x7c */
+	char m_gap80[ 0x10 ];
+	void *m_event0;                  /* +0x90 */
+	char m_gap94[ 0x10 ];
+	void *m_event1;                  /* +0xa4 */
+	char m_gapA8[ 0x10 ];
+	void *m_event2;                  /* +0xb8 */
+	char m_gapBC[ 0x10 ];
+	int m_state;                     /* +0xcc */
+	char m_gapD0[ 0x14 ];
+	void *m_allocA;                  /* +0xe4 */
+	char m_gapE8[ 0x18 ];
+	void *m_allocB;                  /* +0x100 */
+};
+
+void Rva007F0030( void *block );
+
+void Rva0081ACD0( struct Rva0081ACD0Transport *transport )
+{
+	if ( transport->m_state == 4 )
+	{
+		transport->m_state = 6;
+		while ( transport->m_state == 6 )
+			Rva01358F30WorkerYield( 0 );
+	}
+
+	transport->m_state = 9;
+	while ( transport->m_state != 1 )
+		Rva01358F30WorkerYield( 0 );
+
+	if ( transport->m_handle != (void *)-1 )
+	{
+		Rva01358EDC( transport->m_handle, 2 );
+		Rva01358EB0( transport->m_handle, 0x0f );
+		Rva01358CCC( transport->m_handle );
+	}
+
+	Rva01358CCC( transport->m_event0 );
+	Rva01358CCC( transport->m_event1 );
+	Rva01358CCC( transport->m_event2 );
+	Rva007F0030( transport->m_allocA );
+	Rva007F0030( transport->m_allocB );
+	Rva007F0030( transport );
+}
+
 void Rva00813E30( struct Rva00814700Comm *comm )
 {
 	Rva0081B830( comm->m_transport );
