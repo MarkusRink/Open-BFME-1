@@ -86285,3 +86285,6 @@ _bfmeCbXK,0x0065BD00,Open-BFME5 completion callback the 0x0065BF40 http start pa
 ?bfmeDetachXP@Rva00579160Manager@@QAEXH@Z,0x000144BB,Open-BFME5 ILT window detach the 0x00470570 close-all calls
 ?bfmeCloseXP@Rva00579160Manager@@QAEXH@Z,0x0002144A,Open-BFME5 ILT window close the 0x00470570 close-all calls
 ?bfmeDoneXP@Shell40D9@@QAEXPAVBfmeHostXP@@H@Z,0x00002F1D,Open-BFME5 ILT shell shutdown-complete the 0x00470570 close-all calls
+?bfmeFindXQ@Rva00367E30Logic@@QAEPAVBfmeObjXQ@@PAX@Z,0x0001F253,Open-BFME5 ILT logic find the 0x0015CCE0 step calls
+?bfmeFindXQ@TeamFactory@@QAEPAVBfmeTeamXQ@@PAX@Z,0x00044C2E,Open-BFME5 ILT team factory find the 0x0015CCE0 step calls
+?bfmeEstimateXQ@BfmeTeamXQ@@QAEXPAUCoord3D@@@Z,0x000241FE,Open-BFME5 ILT team position estimate the 0x0015CCE0 step calls
