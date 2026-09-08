@@ -317,6 +317,7 @@ extern GameWindowManager *TheWindowManager;
 extern GameText *TheGameText;
 
 void GadgetStaticTextSetText( GameWindow *window, UnicodeString text );
+void GadgetProgressBarSetProgress( GameWindow *window, Int percent );
 
 struct PopulateInvButtonData
 {
@@ -345,12 +346,12 @@ public:
 
 private:
 	void updateContextOCLTimer(void);
-	void updateOCLTimerTextDisplay(UnsignedInt secondsLeft, Real percentDone);	// ILT 0x00029839
 	CommandSet *findNonConstCommandSet(const AsciiString &name);
 	const CommandButton *findCommandButton(const AsciiString &name);
 	void setPortraitByObject(Object *obj);
 
 protected:
+	void updateOCLTimerTextDisplay(UnsignedInt secondsLeft, Real percentDone);
 	void updateContextUnderConstruction(void);
 	void evaluateContextUI(void);
 	void resetContainData(void);
@@ -407,6 +408,28 @@ void ControlBar::updateContextOCLTimer( void )
 	}
 
 }  // end updateContextOCLTimer
+
+// ?updateOCLTimerTextDisplay@ControlBar@@IAEXIM@Z
+void ControlBar::updateOCLTimerTextDisplay( UnsignedInt totalSeconds, Real percent )
+{
+	UnicodeString text;
+	static UnsignedInt descID = TheNameKeyGenerator->nameToKey( "ControlBar.wnd:OCLTimerStaticText" );
+	GameWindow *descWindow = TheWindowManager->winGetWindowFromId( 0, (NameKeyType)descID );
+
+	static UnsignedInt barID = TheNameKeyGenerator->nameToKey( "ControlBar.wnd:OCLTimerProgressBar" );
+	GameWindow *barWindow = TheWindowManager->winGetWindowFromId( 0, (NameKeyType)barID );
+
+	Int minutes = totalSeconds / 60;
+	Int seconds = totalSeconds - (minutes * 60);
+	if( seconds < 10 )
+		text.format( TheGameText->fetch( "CONTROLBAR:OCLTimerDescWithPadding" ), minutes, seconds );
+	else
+		text.format( TheGameText->fetch( "CONTROLBAR:OCLTimerDesc" ), minutes, seconds );
+
+	GadgetStaticTextSetText( descWindow, text );
+	GadgetProgressBarSetProgress( barWindow, (Int)(percent * 100) );
+	m_displayedOCLTimerSeconds = totalSeconds;
+}
 
 // ControlBar::updateContextUnderConstruction, retail 0x004AF660, 48 bytes.
 // Twin: ControlBarUnderConstruction.cpp. BFME inlines the under-construction
