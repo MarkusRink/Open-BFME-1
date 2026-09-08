@@ -86269,6 +86269,9 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
+?insert@PlayTimeList@@QAE?AU?$_List_iterator@IU?$_Nonconst_traits@I@_STL@@@_STL@@U23@ABI@Z,0x00004FC5,FXList::bfmeIsBlocked list insertion callee at retail ILT 0x00004FC5
+?putNode@PlayTimeList@@QAEXPAU_List_node_base@_STL@@I@Z,0x0000EBEC,FXList::bfmeIsBlocked list node release callee at retail ILT 0x0000EBEC
+?size@PlayTimeList@@QBEIXZ,0x0000E49E,FXList::bfmeIsBlocked list size callee at retail ILT 0x0000E49E
 ??_7LifeEventModuleInfo@FXParticleSystem@@6B@,0x01111278,LifeEventModuleInfo vtable
 ??$_M_get_base_or_zero@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@D@_STL@@YAHAAV?$istreambuf_iterator@DV?$char_traits@D@_STL@@@0@0AAVios_base@0@PAD@Z,0x00832970,STLport 4.5.3 narrow _M_get_base_or_zero; called by signed __int64 num_get body at 0x00832DB0; exact retail parser family
 ??$__get_integer@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@_J@_STL@@YA_NAAV?$istreambuf_iterator@DV?$char_traits@D@_STL@@@0@0HAA_JH_NDABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@0@ABU__true_type@0@@Z,0x00832EC0,STLport 4.5.3 narrow signed __int64 __get_integer; __alldiv and eight-byte value store match 0x00832DB0
