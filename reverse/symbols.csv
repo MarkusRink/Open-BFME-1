@@ -11076,6 +11076,7 @@ name,address,notes
 ?Release_Ref@SkyBoxRenderObject@@QAEXXZ,0x00048108,WaterRenderObjClass destructor skybox release ILT at 0x0079EFD0
 ?Release_Ref@TextureBaseClass@@QAEXXZ,0x009EB7A0,hider decl in texture.h; WORD refcount+flags release
 ?Release_Ref@TextureClass@@QAEXXZ,0x009EB7A0,BFME texture release: WORD refcount+flag bits at [this+4]; auto-delete via vtbl slot 8 when bit24 set ??? TextureClass does NOT derive RefCountClass
+?Release_Ref@W3DRoadBufferTextureBase@@QAEXXZ,0x009EB7A0,W3DRoadBuffer BFME-only counted texture member at +0x54; same TextureBaseClass release body
 ?Release_Ref@TextureClass_732960@@QAEXXZ,0x009EB7A0,pin (near-twin of 0x00732960 freeTreeBuffers(); same target as TextureClass::Release_Ref)
 ?Remap_Mesh@MaterialRemapperClass@@QAEXPBVMeshMatDescClass@@PAV2@@Z,0x0092F2C0,callee of the byte-proven clone_materials 0x96DDC0; same stack temp as ecx and args are the two CurMatDesc slots at +0x9c
 ?Remove@?$DLNodeClass@VThumbnailManagerClass@@@@QAEXXZ,0x00041763,pinharvest x4 (thunk)

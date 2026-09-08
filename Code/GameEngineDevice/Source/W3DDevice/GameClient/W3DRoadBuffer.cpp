@@ -3171,9 +3171,27 @@ W3DRoadBuffer::W3DRoadBuffer(void)	:
 /** Frees the index and vertex buffers. */
 //=============================================================================
 // byte-exact reconstruction: Code/GameEngine/Source/Common/W3DRoadBuffer_freeRoadBuffersMethodThunk.cpp
-// ?freeRoadBuffers@W3DRoadBuffer@@IAEXXZ present-unmatched
+extern void W3DRadarResetLock(void);
+extern void W3DRadarResetUnlock(void);
+
+class W3DRoadBufferResetGuard
+{
+public:
+	W3DRoadBufferResetGuard() { W3DRadarResetLock(); }
+	~W3DRoadBufferResetGuard() { W3DRadarResetUnlock(); }
+};
+
+// BFME stores this counted texture immediately after the ZH-visible road
+// fields.  Keep the call out of line, as it is in the retail executable.
+class W3DRoadBufferTextureBase
+{
+public:
+	void Release_Ref(void);
+};
+
 void W3DRoadBuffer::freeRoadBuffers(void)
 {
+	W3DRoadBufferResetGuard guard;
 	if (m_roads) {
 		delete[] m_roads;
 		m_roads = NULL;
@@ -3182,6 +3200,14 @@ void W3DRoadBuffer::freeRoadBuffers(void)
 		delete[] m_roadTypes;
 		m_roadTypes = NULL;
 	}
+
+	W3DRoadBufferTextureBase *&texture =
+		*(W3DRoadBufferTextureBase **)((char *)this + 0x54);
+	if (texture) {
+		texture->Release_Ref();
+		texture = NULL;
+	}
+	*((Bool *)this + 0x0c) = FALSE;
 }
 
 //=============================================================================
