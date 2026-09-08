@@ -4416,6 +4416,7 @@ name,address,notes
 ??1DevastateSpecialPower@@MAE@XZ,0x000313D6,destructor ILT to 0x0025A810
 ??1DieModuleDataBase@@UAE@XZ,0x00887940,Open-BFME5 base dtor pin
 ??1Display@@UAE@XZ,0x000314BC,ILT to Display dtor body 0x005CB360
+??1ParticleSystemManager@@UAE@XZ,0x000314BC,ILT to ParticleSystemManager dtor body 0x005CB360; vtables 0x0110FDCC and 0x0110FDB8 plus FXParticleSystemManager string 0x0110FE14 identify the class
 ??1DisplayString@@MAE@XZ,0x0000D823,W3DDisplayString dtor call target
 ??1DisplayString@@UAE@XZ,0x0000D823,W3DDisplayString dtor call target; same thunk as the MAE spelling (access level differs between our header and retail)
 ??1DisplayStringManager@@UAE@XZ,0x000472E9,BFME DisplayStringManager destructor ILT called by exact W3DDisplayStringManager destructor
@@ -9296,7 +9297,7 @@ name,address,notes
 ??1Sub005CDEF0@@QAE@XZ,0x005CDEF0,second-base destructor called by the 89-byte multiple-inheritance destructors in BigChainBaseDtors.cpp
 ??1Sub005CDF80@@QAE@XZ,0x005CDF80,second-base destructor called by the 89-byte multiple-inheritance destructors in BigChainBaseDtors.cpp
 ??1SubObjectArrayClass@HLodDefClass@@QAE@XZ,0x00978A10,HLodDefClass destructor calls the SubObjectArray destructor body folded with its matched Reset implementation
-??1SubsystemInterface@@UAE@XZ,0x00029555,pinharvest x2 (thunk)
+??1SubsystemInterface@@UAE@XZ,0x009A1A40,BFME base destructor stores the 0x01141640 vtable and releases its AsciiString name
 ??1SubtitleEntry@@MAE@XZ,0x0081D7B0,destructor body called by the retail scalar deleting wrapper
 ??1SubtitleEntryUnicodeBase@@QAE@XZ,0x008881D0,SubtitleEntry TU-local UnicodeString destructor alias
 ??1SupplyCenterCreate@@MAE@XZ,0x0000A7BD,destructor ILT to 0x002502B0
@@ -86198,3 +86199,6 @@ _bfmePathVftIC,0x010C7E28,pin path vftable for BfmeConv2075
 BoxEmissionVolumeConcrete_vtbl0,0x011111D4,ConcreteModuleTemplate BoxEmissionVolume primary vtable
 BoxEmissionVolumeConcrete_vtbl4,0x011111D0,ConcreteModuleTemplate BoxEmissionVolume secondary vtable
 BoxEmissionVolumeConcrete_vtbl8,0x011111BC,ConcreteModuleTemplate BoxEmissionVolume module-info vtable
+?reset@ParticleSystemManager@@UAEXXZ,0x00023D71,ParticleSystemManager destructor calls the retail reset thunk at 0x005C3740
+?begin@?$hashtable@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@5@V?$allocator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@6@V?$allocator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@@2@XZ,0x0001ABD1,ParticleSystemManager destructor calls the retail template map begin thunk
+??1?$hashtable@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@5@V?$allocator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@@_STL@@QAE@XZ,0x0003269B,ParticleSystemManager destructor calls the retail template map destructor thunk

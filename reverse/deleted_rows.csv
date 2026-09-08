@@ -28,6 +28,7 @@ name,target_rva,reason
 #
 # If you later PROVE one of these is real, delete its line here in the same
 # commit that re-adds the row, and say what the proof was.
+??1Display@@UAE@XZ,0x005CB360,wrong class identity superseded by ParticleSystemManager destructor evidence from both retail vtables and the FXParticleSystemManager string
 ?d_00681930@@YAXXZ,0x00681930,gen-dump placeholder superseded by the recovered Network::liteupdate identity and exact C++ body
 ?d_0067ec70@@YAXXZ,0x0067EC70,"gen-dump placeholder superseded by the byte-verified NetPacket::readGameSpyStatsAuthKeyMessage C++ body"
 ?d_0067e620@@YAXXZ,0x0067E620,"gen-dump placeholder superseded by the byte-verified NetPacket::readDisconnectChatMessage C++ body"

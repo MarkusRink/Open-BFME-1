@@ -152,7 +152,7 @@ Display::Display()
 /**
  * Destructor for the Display.  Destroy all views attached to it.
  */
-// byte-exact reconstruction: Code/GameEngine/Source/Common/DisplayDestructorThunk.cpp
+// byte-exact reconstruction: ParticleSystemManagerDestructor.cpp owns the retail container destructor.
 // ??1Display@@UAE@XZ present-unmatched
 Display::~Display()
 {
