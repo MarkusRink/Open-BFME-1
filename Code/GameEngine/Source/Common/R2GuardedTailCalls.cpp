@@ -176,14 +176,72 @@ R2_GUARDED_FIELD_FORWARD( Rva00730D10, Gen0001D697 )
 // ---------------------------------------------------------------------------
 // (D)
 
+class R2RelationResult
+{
+public:
+	#define R2_RELATION_SLOT(n) virtual void slot##n();
+	R2_RELATION_SLOT(00) R2_RELATION_SLOT(01) R2_RELATION_SLOT(02) R2_RELATION_SLOT(03)
+	R2_RELATION_SLOT(04) R2_RELATION_SLOT(05) R2_RELATION_SLOT(06) R2_RELATION_SLOT(07)
+	R2_RELATION_SLOT(08) R2_RELATION_SLOT(09) R2_RELATION_SLOT(10) R2_RELATION_SLOT(11)
+	R2_RELATION_SLOT(12) R2_RELATION_SLOT(13) R2_RELATION_SLOT(14) R2_RELATION_SLOT(15)
+	R2_RELATION_SLOT(16) R2_RELATION_SLOT(17) R2_RELATION_SLOT(18) R2_RELATION_SLOT(19)
+	R2_RELATION_SLOT(20) R2_RELATION_SLOT(21) R2_RELATION_SLOT(22) R2_RELATION_SLOT(23)
+	R2_RELATION_SLOT(24) R2_RELATION_SLOT(25) R2_RELATION_SLOT(26) R2_RELATION_SLOT(27)
+	R2_RELATION_SLOT(28) R2_RELATION_SLOT(29) R2_RELATION_SLOT(30) R2_RELATION_SLOT(31)
+	R2_RELATION_SLOT(32) R2_RELATION_SLOT(33) R2_RELATION_SLOT(34) R2_RELATION_SLOT(35)
+	R2_RELATION_SLOT(36) R2_RELATION_SLOT(37) R2_RELATION_SLOT(38) R2_RELATION_SLOT(39)
+	R2_RELATION_SLOT(40) R2_RELATION_SLOT(41) R2_RELATION_SLOT(42) R2_RELATION_SLOT(43)
+	R2_RELATION_SLOT(44) R2_RELATION_SLOT(45) R2_RELATION_SLOT(46) R2_RELATION_SLOT(47)
+	R2_RELATION_SLOT(48) R2_RELATION_SLOT(49) R2_RELATION_SLOT(50) R2_RELATION_SLOT(51)
+	#undef R2_RELATION_SLOT
+};
+
+class Object
+{
+public:
+	bool isLocallyControlled() const;
+	void *unidentified_001BFE20() const;
+};
+
+class Rva004141C0
+{
+public:
+	void broadcast();
+};
+
+class R2GameClient
+{
+public:
+	unsigned char m_padding[0xB4];
+	unsigned int m_r2B4;
+};
+
+#define R2TheGameClient (*(R2GameClient **)0x012F1464)
+
 class Rva00417240
 {
 public:
-	char m_leading[ 0x3AC ];
+	char m_leading[ 0xFC ];
+	Object *m_object;
+	char m_middle[ 0x3AC - 0x100 ];
 	bool m_flag;
 	void handle();
 	void run();
 };
+void Rva00417240::handle()
+{
+	Object *object = m_object;
+	if (object && object->isLocallyControlled())
+	{
+		R2TheGameClient->m_r2B4 = 0;
+		R2RelationResult *relation = (R2RelationResult *)object->unidentified_001BFE20();
+		if (relation)
+			relation->slot51();
+		else if (object->isLocallyControlled())
+			reinterpret_cast<Rva004141C0 *>(this)->broadcast();
+	}
+}
+
 void Rva00417240::run()
 {
 	if ( m_flag )
