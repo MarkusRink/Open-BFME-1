@@ -14,17 +14,16 @@ def render(rebuilt, total):
     if total <= 0 or not 0 <= rebuilt <= total:
         raise ValueError("Invalid rebuild coverage")
     percentage = progress.percent(rebuilt, total)
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="880" height="160" viewBox="0 0 880 160" role="img" aria-labelledby="title desc">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="880" height="132" viewBox="0 0 880 132" role="img" aria-labelledby="title desc">
   <title id="title">BFME 1 rebuild progress: {percentage:.2f}%</title>
   <desc id="desc">{rebuilt:,} of {total:,} code bytes rebuild from what we hold. Ledger-derived; not a fresh build verification.</desc>
-  <rect x="1" y="1" width="878" height="158" rx="16" fill="#0d1117" stroke="#30363d"/>
+  <rect x="1" y="1" width="878" height="130" rx="16" fill="#0d1117" stroke="#30363d"/>
   <g font-family="Segoe UI,Arial,sans-serif">
     <text x="28" y="37" fill="#c9d1d9" font-size="14" font-weight="600" letter-spacing="1.4">BFME 1 · REBUILD PROGRESS</text>
     <text x="852" y="43" fill="#f0f6fc" font-size="30" font-weight="700" text-anchor="end">{percentage:.2f}%</text>
     <rect x="28" y="62" width="824" height="20" rx="10" fill="#21262d"/>
     <rect x="28" y="62" width="{824 * percentage / 100:.4f}" height="20" rx="10" fill="#3fb950"/>
     <text x="28" y="111" fill="#c9d1d9" font-size="14">{rebuilt:,} / {total:,} code bytes rebuild from what we hold</text>
-    <text x="28" y="137" fill="#8b949e" font-size="12">Updated automatically · Includes source, generators and linked libraries · Excludes retail byte dumps</text>
   </g>
 </svg>
 '''

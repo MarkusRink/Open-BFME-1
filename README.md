@@ -12,15 +12,6 @@ Goal: Source code that rebuilds BFME 1's executable byte-for-byte, and game mode
 
 [![BFME 1 rebuild progress](docs/progress.svg)](tools/progress.py)
 
-## Status
-
-The bar above tracks how much of the game rebuilds from what we hold — C++ we wrote, library source, generators,
-libs we link. The rest is byte-true dumps of retail: a boundary, not source. Converting them
-is the work.
-
-Updated at 8 a.m. and 6 p.m. Eastern from `master`, using `tools/progress.py`.
-This is ledger-derived coverage; a clean `build.sh` run is the byte-match proof.
-
 ## Roadmap
 
 * [ ] BFME 1 Source Code (see the live progress bar above)
