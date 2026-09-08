@@ -263,49 +263,48 @@ void TextureBaseClass::Invalidate()
 //! Returns a pointer to the d3d texture
 /*! 
 */
-__declspec(naked) IDirect3DBaseTexture8 * TextureBaseClass::Peek_D3D_Base_Texture() const
+namespace
 {
-	__asm {
-		_emit 056h
-		_emit 08Bh
-		_emit 031h
-		_emit 085h
-		_emit 0F6h
-		_emit 075h
-		_emit 004h
-		_emit 033h
-		_emit 0C0h
-		_emit 05Eh
-		_emit 0C3h
-		_emit 08Bh
-		_emit 006h
-		_emit 08Bh
-		_emit 0CEh
-		_emit 0FFh
-		_emit 050h
-		_emit 028h
-		_emit 084h
-		_emit 0C0h
-		_emit 075h
-		_emit 007h
-		_emit 08Bh
-		_emit 016h
-		_emit 08Bh
-		_emit 0CEh
-		_emit 0FFh
-		_emit 052h
-		_emit 02Ch
-		_emit 08Bh
-		_emit 046h
-		_emit 014h
-		_emit 08Bh
-		_emit 040h
-		_emit 008h
-		_emit 05Eh
-		_emit 0C3h
-	}
+class BFMETextureBaseVirtuals
+{
+public:
+    virtual void Slot_0() = 0;
+    virtual void Slot_1() = 0;
+    virtual void Slot_2() = 0;
+    virtual void Slot_3() = 0;
+    virtual void Slot_4() = 0;
+    virtual void Slot_5() = 0;
+    virtual void Slot_6() = 0;
+    virtual void Slot_7() = 0;
+    virtual void Slot_8() = 0;
+    virtual void Slot_9() = 0;
+    virtual bool Is_Initialized() const = 0;
+    virtual void Init() = 0;
+};
+
+struct BFMED3DTextureHandle
+{
+    unsigned int Unknown[2];
+    IDirect3DBaseTexture8 *Texture;
+};
 }
 
+IDirect3DBaseTexture8 *TextureBaseClass::Peek_D3D_Base_Texture() const
+{
+    BFMETextureBaseVirtuals *texture =
+        *(BFMETextureBaseVirtuals *const *)this;
+    if (texture == 0) {
+        return 0;
+    }
+
+    if (!texture->Is_Initialized()) {
+        texture->Init();
+    }
+
+    BFMED3DTextureHandle *handle =
+        *(BFMED3DTextureHandle **)((char *)texture + 0x14);
+    return handle->Texture;
+}
 //**********************************************************************************************
 //! Set the d3d texture pointer.  Handles ref counts properly.
 /*! 
