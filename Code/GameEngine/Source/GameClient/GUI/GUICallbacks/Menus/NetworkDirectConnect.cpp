@@ -227,9 +227,17 @@ void HostDirectConnectGame()
 		TheLAN = NEW LANAPI();
 	}
 
+	#ifdef BFME_HOST_DIRECT_CONNECT
+	UnsignedInt localIP = *TheLAN->GetLocalIP();
+	#else
 	UnsignedInt localIP = TheLAN->GetLocalIP();
+	#endif
 	UnicodeString localIPString;
+	#ifdef BFME_HOST_DIRECT_CONNECT
+	localIPString.format(UnicodeString(L"%d.%d.%d.%d"), localIP >> 24, (localIP & 0xff0000) >> 16, (localIP & 0xff00) >> 8, localIP & 0xff);
+	#else
 	localIPString.format(L"%d.%d.%d.%d", localIP >> 24, (localIP & 0xff0000) >> 16, (localIP & 0xff00) >> 8, localIP & 0xff);
+	#endif
 
 	UnicodeString name;
 	name = GadgetTextEntryGetText(editPlayerName);
@@ -238,7 +246,11 @@ void HostDirectConnectGame()
 	prefs["UserName"] = UnicodeStringToQuotedPrintable(name);
 	prefs.write();
 
+	#ifdef BFME_HOST_DIRECT_CONNECT
+	while (bfmeUnicodeStringLength(name) > g_lanPlayerNameLength)
+	#else
 	while (name.getLength() > g_lanPlayerNameLength)
+	#endif
 		name.removeLastChar();
 	TheLAN->RequestSetName(name);
 	TheLAN->RequestGameCreate(localIPString, TRUE);
@@ -382,7 +394,11 @@ void NetworkDirectConnectInit( WindowLayout *layout, void *userData )
 		TheLAN->SetLocalIP(IP);
 	}
 
+	#ifdef BFME_HOST_DIRECT_CONNECT
+	UnsignedInt ip = *TheLAN->GetLocalIP();
+	#else
 	UnsignedInt ip = TheLAN->GetLocalIP();
+	#endif
 	ipstr.format(L"%d.%d.%d.%d", ip >> 24, (ip & 0xff0000) >> 16, (ip & 0xff00) >> 8, ip & 0xff);
 	GadgetStaticTextSetText(staticLocalIP, ipstr);
 
