@@ -1,9 +1,4 @@
-// ??0AptPalantirHeroSelector@@QAE@XZ
-// partial score=0.98 date=2026-09-08
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/stringinline /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /D_STLP_USE_STATIC_LIB
-//
-// AptPalantirHeroSelector constructs the seventeen hero-button bindings used by
-// Palantir/HeroSelectUI.  The strings at retail 0x00595AC0 identify this owner.
 // stlport
 
 #include <algorithm>
@@ -15,11 +10,22 @@ public:
 	void *m_data;
 };
 
+template <typename T> class BannerStringBase
+{
+	friend class BFMERetailAsciiString;
+
+private:
+	BannerStringBase( const T *text );
+};
+
 class BFMERetailAsciiString
 {
 public:
 	BFMERetailAsciiString() : m_data( 0 ) {}
-	BFMERetailAsciiString( const char *text );
+	BFMERetailAsciiString( const char *text )
+	{
+		((BannerStringBase<char> *)this)->BannerStringBase<char>::BannerStringBase( text );
+	}
 	~BFMERetailAsciiString() { releaseBuffer(); }
 
 	void __cdecl format( BFMERetailAsciiString format, ... );
@@ -37,15 +43,6 @@ typedef void (FunctorTargetSingle::*FunctorMethodSingle)( void );
 struct FunctorBindingSingle
 {
 	FunctorBindingSingle( FunctorMethodSingle method, FunctorTargetSingle *target )
-		: m_target( target ), m_method( method ) {}
-
-	FunctorTargetSingle *m_target;
-	FunctorMethodSingle m_method;
-};
-
-struct FunctorBindingIndex
-{
-	FunctorBindingIndex( FunctorMethodSingle method, FunctorTargetSingle *target )
 		: m_target( target ), m_method( method ) {}
 
 	FunctorTargetSingle *m_target;
@@ -80,10 +77,10 @@ public:
 class Rva0058D070FunctorSingleWrapper : public FunctorSingleWrapperHead
 {
 public:
-	Rva0058D070FunctorSingleWrapper( const FunctorBindingIndex &binding )
+	Rva0058D070FunctorSingleWrapper( const FunctorBindingSingle &binding )
 		: m_binding( binding ) {}
 
-	FunctorBindingIndex m_binding;
+	FunctorBindingSingle m_binding;
 };
 
 class Rva0050F8B0FunctorHolder
@@ -91,14 +88,14 @@ class Rva0050F8B0FunctorHolder
 public:
 	Rva0050F8B0FunctorHolder( FunctorBindingSingle binding )
 	{
-		m_ptr = new Rva0058D030FunctorSingleWrapper( binding );
+		m_ptr = new Rva0058D070FunctorSingleWrapper( binding );
 		if( m_ptr != 0 )
 			m_ptr->m_refCount++;
 	}
 
-	Rva0050F8B0FunctorHolder( FunctorBindingIndex binding )
+	Rva0050F8B0FunctorHolder( const Rva0050F8B0FunctorHolder &other )
+		: m_ptr( other.m_ptr )
 	{
-		m_ptr = new Rva0058D070FunctorSingleWrapper( binding );
 		if( m_ptr != 0 )
 			m_ptr->m_refCount++;
 	}
@@ -199,12 +196,10 @@ AptPalantirHeroSelector::AptPalantirHeroSelector()
 	for( int index = 0; index < 17; ++index )
 	{
 		BFMERetailAsciiString name;
-		int next = index + 1;
-		BFMERetailAsciiString format( "Palantir/HeroSelectUI/Hero%d/" );
-		name.format( format, next );
+		name.format( "Palantir/HeroSelectUI/Hero%d/", index + 1 );
 		g_theWindowManager->bfmeBindRva004650F0( *(const AsciiString *)&name,
 			Rva0050F8B0FunctorHolder(
-				FunctorBindingIndex( rawFunctorMethod( index ), self ) ) );
+				FunctorBindingSingle( rawFunctorMethod( index ), self ) ) );
 	}
 
 	{
