@@ -63,27 +63,3 @@ void BfmeThingEEB::bfmeGoEEBb(void *a)
 			fn(a, ctx, 0);
 	}
 }
-
-class BfmeThingEEC
-{
-public:
-	void bfmeOneEEC(const char *s, int n);
-	void bfmeTwoEEC(void *p);
-};
-
-extern "C" unsigned char bfmeStrEECb[];
-extern "C" unsigned char bfmeStrEECc[];
-void *__stdcall bfmeAllocEECa(unsigned int n);
-void *__stdcall bfmeAllocEECb(unsigned int n);
-
-void bfmeGoEECb(BfmeThingEEC *o)
-{
-	o->bfmeOneEEC((const char *)bfmeStrEECb, 0);
-	o->bfmeTwoEEC(bfmeAllocEECa(8));
-}
-
-void bfmeGoEECc(BfmeThingEEC *o)
-{
-	o->bfmeOneEEC((const char *)bfmeStrEECc, 0);
-	o->bfmeTwoEEC(bfmeAllocEECb(8));
-}
