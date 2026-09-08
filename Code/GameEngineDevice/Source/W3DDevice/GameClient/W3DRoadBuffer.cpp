@@ -3189,6 +3189,96 @@ public:
 	void Release_Ref(void);
 };
 
+// BFME's road renderer owns a small render-target texture immediately after
+// the fields retained by the Zero Hour header.  These local ABI views keep the
+// recovered BFME allocation tail in this translation unit without changing
+// shared headers.
+class Rva006D6050
+{
+public:
+	void init(int width, int height, int format, int mipLevels, int pool, int renderTarget);
+};
+
+class SurfaceResource
+{
+public:
+	virtual void slot0(void);
+	virtual void slot4(void);
+	virtual void __stdcall Release(void);
+};
+
+class BfmeD3DTexture
+{
+public:
+	virtual void slot00(void); virtual void slot04(void); virtual void slot08(void); virtual void slot0c(void);
+	virtual void slot10(void); virtual void slot14(void); virtual void slot18(void); virtual void slot1c(void);
+	virtual void slot20(void); virtual void slot24(void); virtual void slot28(void); virtual void slot2c(void);
+	virtual void slot30(void); virtual void slot34(void); virtual void slot38(void); virtual void slot3c(void);
+	virtual void slot40(void); virtual void slot44(void);
+	virtual int __stdcall GetSurfaceLevel(unsigned level, SurfaceResource **surface);
+};
+
+class W3DRadarResetSurface
+{
+public:
+	W3DRadarResetSurface(SurfaceResource *surface);
+	~W3DRadarResetSurface(void);
+	operator W3DRadarResetSurface *(void) { return this; }
+
+private:
+	SurfaceResource *m_surface;
+};
+
+class BFMEIndexBufferDebugStream
+{
+public:
+	virtual BFMEIndexBufferDebugStream *Put_Unsigned(unsigned value);
+	virtual void Slot04(void); virtual void Slot08(void); virtual void Slot0C(void);
+	virtual void Slot10(void); virtual void Slot14(void); virtual void Slot18(void); virtual void Slot1C(void);
+	virtual void Slot20(void); virtual void Slot24(void); virtual void Slot28(void); virtual void Slot2C(void);
+	virtual void Slot30(void); virtual void Slot34(void);
+	virtual BFMEIndexBufferDebugStream *Put_String(const char *text);
+	virtual void Slot3C(void); virtual void Slot40(void); virtual void Slot44(void); virtual void Slot48(void);
+	virtual BFMEIndexBufferDebugStream *Finish(int report);
+};
+
+class BFMEIndexBufferDebugClass
+{
+public:
+	virtual void Slot00(void); virtual void Slot04(void); virtual void Slot08(void); virtual void Slot0C(void);
+	virtual void Slot10(void); virtual void Slot14(void); virtual void Slot18(void); virtual void Slot1C(void);
+	virtual void Slot20(void); virtual void Slot24(void); virtual void Slot28(void); virtual void Slot2C(void);
+	virtual void Slot30(void); virtual void Slot34(void); virtual void Slot38(void); virtual void Slot3C(void);
+	virtual void Slot40(void); virtual void Slot44(void); virtual void Slot48(void); virtual void Slot4C(void);
+	virtual void Slot50(void); virtual void Slot54(void); virtual void Slot58(void); virtual void Slot5C(void);
+	virtual void Begin_Report(void);
+	virtual void Slot64(void); virtual void Slot68(void);
+	virtual BFMEIndexBufferDebugStream *Get_Stream(void *owner, void *context);
+};
+
+extern BFMEIndexBufferDebugClass *g_BFMEIndexBufferDebug;
+extern void _bfme_debugRecordCallsite(int kind);
+extern void Rva008FCE00SurfaceOperation(void);
+
+static __forceinline void W3DRoadBufferReportDX8Error(unsigned result)
+{
+	if (result != 0) {
+		_bfme_debugRecordCallsite(1);
+		g_BFMEIndexBufferDebug->Begin_Report();
+		BFMEIndexBufferDebugStream *stream = g_BFMEIndexBufferDebug->Get_Stream(0, 0);
+		stream->Put_String("DX8 error ")->Put_Unsigned(result)->Finish(1);
+	}
+}
+
+struct W3DRoadBufferBfmeGlobalData
+{
+	char m_pad[0xa5c];
+	Int m_maxRoadSegments;
+	Int m_maxRoadVertex;
+	Int m_maxRoadIndex;
+	Int m_maxRoadTypes;
+};
+
 void W3DRoadBuffer::freeRoadBuffers(void)
 {
 	W3DRoadBufferResetGuard guard;
@@ -3215,16 +3305,16 @@ void W3DRoadBuffer::freeRoadBuffers(void)
 //=============================================================================
 /** Allocates the index and vertex buffers. */
 //=============================================================================
-// ?allocateRoadBuffers@W3DRoadBuffer@@IAEXXZ present-unmatched
 void W3DRoadBuffer::allocateRoadBuffers(void)
 {
+	W3DRoadBufferResetGuard guard;
 	Int i = 0;
 
 	// save data for max limits
-	m_maxRoadSegments = TheGlobalData->m_maxRoadSegments;
-	m_maxRoadVertex = TheGlobalData->m_maxRoadVertex;
-	m_maxRoadIndex = TheGlobalData->m_maxRoadIndex;
-	m_maxRoadTypes = TheGlobalData->m_maxRoadTypes;
+	m_maxRoadSegments = reinterpret_cast<const W3DRoadBufferBfmeGlobalData *>(TheGlobalData)->m_maxRoadSegments;
+	m_maxRoadVertex = reinterpret_cast<const W3DRoadBufferBfmeGlobalData *>(TheGlobalData)->m_maxRoadVertex;
+	m_maxRoadIndex = reinterpret_cast<const W3DRoadBufferBfmeGlobalData *>(TheGlobalData)->m_maxRoadIndex;
+	m_maxRoadTypes = reinterpret_cast<const W3DRoadBufferBfmeGlobalData *>(TheGlobalData)->m_maxRoadTypes;
 
 #ifdef LOAD_TEST_ASSETS
 	m_maxRoadTypes+=4;
@@ -3261,6 +3351,25 @@ void W3DRoadBuffer::allocateRoadBuffers(void)
 	}
 	m_curOpenRoad = i;
 #endif
+
+	W3DRoadBufferTextureBase *&roadTexture =
+		*reinterpret_cast<W3DRoadBufferTextureBase **>((char *)this + 0x54);
+	reinterpret_cast<Rva006D6050 *>(&roadTexture)->init(1, 1, 0x15, 1, 1, 0);
+	TextureBaseClass *texture = reinterpret_cast<TextureBaseClass *>(&roadTexture);
+	if (texture->Peek_D3D_Base_Texture()) {
+		SurfaceResource *surface = 0;
+		BfmeD3DTexture *d3dTexture =
+			reinterpret_cast<BfmeD3DTexture *>(texture->Peek_D3D_Base_Texture());
+		unsigned result = d3dTexture->GetSurfaceLevel(0, &surface);
+		W3DRoadBufferReportDX8Error(result);
+		struct W3DRoadBufferSurfaceOperationThunk { void Call(int, int, int); };
+		typedef void (W3DRoadBufferSurfaceOperationThunk::*W3DRoadBufferSurfaceOperation)(int, int, int);
+		union { void *asVoid; W3DRoadBufferSurfaceOperation asMember; } operationCast;
+		operationCast.asVoid = reinterpret_cast<void *>(Rva008FCE00SurfaceOperation);
+		(reinterpret_cast<W3DRoadBufferSurfaceOperationThunk *>(
+			static_cast<W3DRadarResetSurface *>(W3DRadarResetSurface(surface)))->*operationCast.asMember)(0, 0, -1);
+		surface->Release();
+	}
 
 	m_initialized = true;
 
