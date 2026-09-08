@@ -1,7 +1,9 @@
-// ?d_005fcf70@@YAXXZ
-// partial score=0.95 date=2026-09-06
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 
+// The final TerrainCollisionModule family is installed by factory 0x005E8D30.
+// Its slot 1 is distinct from ParticleTerrainCollisionModule at 0x005FD380;
+// retain the address-qualified owner until the template class layers are known.
+// The one-pointer tracking view supplies a shared null singleton on dereference.
 typedef float Real;
 
 struct Coord3D
@@ -25,7 +27,7 @@ public:
 
 ParticleSystem *Make00001B18();
 
-class BfmeParticleSystemPtr
+class Rva005FCF70LazyParticleSystemPtr
 {
 public:
 	operator ParticleSystem *(void) const
@@ -33,6 +35,8 @@ public:
 		return m_target;
 	}
 
+	// Retail dereference supplies the shared null singleton but does not
+	// store it back into the wrapper field.
 	ParticleSystem *operator->(void) const
 	{
 		ParticleSystem *target = m_target;
@@ -45,11 +49,14 @@ private:
 	ParticleSystem *m_target;
 };
 
-class BfmeThingCOF
+class Matrix3D;
+
+class FXList
 {
 public:
-	bool bfmeAskCOF();
-	void bfmeRunCOF(void *a, void *b, void *c, void *d);
+	bool bfmeIsBlocked();
+	void doFXPos(const Coord3D *primary, const Matrix3D *primaryMtx,
+		Real primarySpeed, const Coord3D *secondary) const;
 };
 
 class TerrainLogic
@@ -61,29 +68,29 @@ public:
 	virtual void slot03();
 	virtual void slot04();
 	virtual void slot05();
-	virtual Real getGroundHeight(Real x, Real y, void *normal);
+	virtual Real getGroundHeight(Real x, Real y, Coord3D *normal) const;
 };
 
 extern TerrainLogic *TheTerrainLogic;
 
-class ParticleTerrainCollisionModule
+class Rva005FCF70TerrainCollisionFamily
 {
 public:
 	virtual void slot00();
-	virtual void update();
+	virtual void slot1();
 
 private:
-	BfmeParticleSystemPtr m_system;
+	Rva005FCF70LazyParticleSystemPtr m_system;
 	unsigned char m_pad08[0x15];
 	bool m_deactivate;
 	unsigned char m_pad1e[0x1a];
-	BfmeThingCOF * volatile m_eventFX;
+	FXList * m_eventFX;
 	unsigned char m_pad3c[4];
 	bool m_active;
 	unsigned char m_pad41[3];
 };
 
-void ParticleTerrainCollisionModule::update()
+void Rva005FCF70TerrainCollisionFamily::slot1()
 {
 	ParticleSystem *system = m_system.operator->();
 	Coord3D position;
@@ -95,24 +102,20 @@ void ParticleTerrainCollisionModule::update()
 		return;
 	if (position.z <= TheTerrainLogic->getGroundHeight(position.x, position.y, 0))
 	{
-		BfmeThingCOF *eventFX = m_eventFX;
-		if (eventFX != 0 && !eventFX->bfmeAskCOF())
-			eventFX->bfmeRunCOF(&position, 0, 0, 0);
+		FXList *eventFX = m_eventFX;
+		if (eventFX != 0 && !eventFX->bfmeIsBlocked())
+			eventFX->doFXPos(&position, 0, 0.0f, 0);
 
 		bool deactivate = m_deactivate;
 		m_active = false;
 		if (deactivate)
 		{
+			ParticleSystem *finished;
 			if (!m_system)
-			{
-				system = Make00001B18();
-				system->m_field12c = 1;
-			}
+				finished = Make00001B18();
 			else
-			{
-				system = m_system;
-				system->m_field12c = 1;
-			}
+				finished = m_system;
+			finished->m_field12c = 1;
 		}
 	}
 }
