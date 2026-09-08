@@ -86224,3 +86224,9 @@ LineEmissionVolumeConcrete_vtbl8,0x01111190,ConcreteModuleTemplate LineEmissionV
 LifeEventConcrete_vtbl0,0x01111424,ConcreteModuleTemplate LifeEvent primary vtable
 LifeEventConcrete_vtbl4,0x01111420,ConcreteModuleTemplate LifeEvent secondary vtable
 LifeEventConcrete_vtbl12,0x0111140C,ConcreteModuleTemplate LifeEvent module-info vtable
+?canAffordUpgrade@UpgradeCenter@@QBE_NPAVPlayer@@PBVUpgradeTemplate@@PBVThingTemplate@@_N@Z,0x0001CEA9,ProductionUpdate queueUpgrade affordability thunk
+?hasUpgradeInProduction@Player@@QAE_NPBVUpgradeTemplate@@@Z,0x00020C8E,ProductionUpdate queueUpgrade player upgrade check thunk
+??0ProductionEntry@@QAE@XZ,0x00047DFC,ProductionUpdate queueUpgrade entry constructor thunk
+?calcCostToBuild@UpgradeTemplate@@QBEHPAVPlayer@@PBVThingTemplate@@@Z,0x0003F8D7,ProductionUpdate queueUpgrade cost thunk
+?rva0036BB10FindCastleMemberBehavior@@YAPAVModule@@PBVObject@@@Z,0x0000E6E7,ProductionUpdate queueUpgrade behavior lookup thunk
+?addToProductionQueue@ProductionUpdate@@IAEXPAVProductionEntry@@@Z,0x000450F7,ProductionUpdate queueUpgrade append thunk
