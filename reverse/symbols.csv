@@ -83631,6 +83631,7 @@ name,address,notes
 ?saveReplay@@YAXVUnicodeString@@@Z,0x004DE8E0,PopupReplaySystem callee from decode_calls
 ?sbumpc@?$basic_streambuf@GV?$char_traits@G@_STL@@@_STL@@QAEHXZ,0x00833FF0,wide basic_streambuf::sbumpc as spelled (int return) by the hand-modelled STLport in TimeGetWideMatch00836F50.cpp; same body as the G-return pin
 ?scale@Rva006AE150Argument@@QAEMXZ,0x00038C21,address-derived scaled-value factor helper used by Rva006AE150Owner::compute
+?scanClosestTarget@CommandButtonHuntUpdate@@IAEPAVObject@@XZ,0x00047CBC,protected helper called by CommandButtonHuntUpdate::huntSpecialPower; retail ILT 0x00047CBC jumps to the scan body at 0x0028AE90
 ?scanClosestTarget@AutoFindHealingUpdate@@QAEPAVObject@@XZ,0x00036787,packet 002817b0 pin
 ?scanIndexList@INI@@SAHPBDPBQBD@Z,0x008509E0
 ?scanInt@INI@@SAHPBD@Z,0x00852620,INI parser
