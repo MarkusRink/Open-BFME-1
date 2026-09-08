@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
 // Open-BFME7: ParseRegionReinforcementBlock (retail 0x003BABE0 157 B; a gap claimed through its
 // own exception text).  With no INI or instance it throws INIException(3
 // "ParseRegionReinforcementBlock::Invalid data passed in."); otherwise a 0x24-byte record built by
@@ -6,6 +6,53 @@
 // INI::initFromINI with the table at VA 0x010ED6A0 handed to the
 // instance's append routine (0x003B25D0) and destroyed by the out-of-line
 // destructor at 0x003BA580.  Address-derived names.
+
+#define _STLP_NO_EXCEPTIONS 1
+#include <vector>
+
+template <class T>
+class StringBase
+{
+	friend class AsciiString;
+
+private:
+	StringBase( const StringBase<T> &other );
+	void *m_data;
+};
+
+class AsciiString
+{
+public:
+	AsciiString( const AsciiString &other )
+	{
+		((StringBase<char> *)this)->StringBase<char>::StringBase(
+			*(const StringBase<char> *)&other);
+	}
+	~AsciiString();
+
+private:
+	char *m_text;
+};
+
+namespace _STL
+{
+template <class T>
+class allocator
+{
+};
+
+template <class T, class A = allocator<T> >
+class vector
+{
+public:
+	vector( const vector &other );
+
+private:
+	T *m_start;
+	T *m_finish;
+	T *m_end;
+};
+}
 
 typedef int Int;
 
@@ -32,11 +79,34 @@ class Rva003BABE0Record
 {
 public:
 	Rva003BABE0Record();
-	~Rva003BABE0Record();
+	Rva003BABE0Record( const Rva003BABE0Record &other );
+	virtual ~Rva003BABE0Record();
 
 private:
-	char m_body[ 0x24 ];
+	AsciiString m_regionName;
+	_STL::vector<AsciiString> m_addReinforcementArmy;
+	Int m_closeDistanceTime;
+	Int m_mediumDistanceTime;
+	Int m_farDistanceTime;
+	bool m_pathFindRuleAllRegions;
+	bool m_pathFindRulePlayerOwned;
+	bool m_autoSummon;
 };
+
+typedef char Rva003BABE0RecordSizeMustBe24[
+	sizeof( Rva003BABE0Record ) == 0x24 ? 1 : -1];
+
+Rva003BABE0Record::Rva003BABE0Record( const Rva003BABE0Record &other )
+	: m_regionName( other.m_regionName ),
+	  m_addReinforcementArmy( other.m_addReinforcementArmy )
+{
+	m_closeDistanceTime = other.m_closeDistanceTime;
+	m_mediumDistanceTime = other.m_mediumDistanceTime;
+	m_farDistanceTime = other.m_farDistanceTime;
+	m_pathFindRuleAllRegions = other.m_pathFindRuleAllRegions;
+	m_pathFindRulePlayerOwned = other.m_pathFindRulePlayerOwned;
+	m_autoSummon = other.m_autoSummon;
+}
 
 extern const FieldParse Rva003BABE0RecordFieldParseTable[];
 

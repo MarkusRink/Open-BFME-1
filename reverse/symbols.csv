@@ -8703,6 +8703,7 @@ name,address,notes
 ??1Rva003B88F0Record@@QAE@XZ,0x0004AE49,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003B88F0 calls; autopin
 ??1Rva003BAA70Record@@QAE@XZ,0x00044BB1,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BAA70 calls; autopin
 ??1Rva003BABE0Record@@QAE@XZ,0x0003210A,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BABE0 calls; autopin
+??1Rva003BABE0Record@@UAE@XZ,0x0003210A,virtual spelling of the region reinforcement record destructor used by its copy constructor TU
 ??1Rva003BAE20Record@@QAE@XZ,0x000195FB,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x003BAE20 calls; autopin
 ??1Rva003BB590Tree@@QAE@XZ,0x32fd3,Reviewed ILT to2360C0 complete124B set tree cleanup; member at8
 ??1Rva004029F0@@QAE@XZ,0x00040138,Open-BFME5 ILT thunk to body 0x004029F0; ?freeBlocks@PathfindZoneManager@@AAEXXZ at 0x00403760 hands it to the eh vector destructor iterator as the element destructor of the 0x228-byte array at +0x23624; address-derived name
