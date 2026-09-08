@@ -78159,6 +78159,7 @@ name,address,notes
 ?doit@Rva00202DF0Doer@@QAEXH@Z,0x00043C8E,address-derived callee of Rva00202DF0Part::seed; ILT to 0x00410BD0
 ?downloadNextQueuedFile@DownloadManager@@QAEJXZ,0x00038F00,ILT thunk used by call site
 ?downloadNextQueuedFile@DownloadManagerDownloadNextQueuedFileShim@@QAEJXZ,0x00627370,DownloadManager::downloadNextQueuedFile incremental-link thunk target through a TU-local forwarding shim
+?draw@Rva005BA9E0Anim2D@@QAEXHHHH@Z,0x00030DB9,world-animation call thunk selects the retail mode-2 body at 0x005BAAB0
 ?draw@Drawable@@QAEXPAVView@@@Z,0x00003873,pinharvest x1 (thunk)
 ?draw@ShellMenuScheme@@QAEXXZ,0x00026D64,pinharvest x1 (thunk)
 ?drawAmmo@Drawable@@AAEXXZ,0x00022782,BFME drawIconUI member ILT
