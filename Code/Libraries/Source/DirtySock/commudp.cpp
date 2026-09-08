@@ -302,9 +302,13 @@ extern "C" {
 	int CommUdpProcess();
 	void CommUdpSetup(void *ref, void *packet, void *from);
 	int CommUdpPoke(void *ref);
-	int CommUdpListen();
+	int CommUdpListen(void *ref, const char *text);
 	int CommUDPSend();
 	void Rva00818500(void *ref, void *from);
+	int Rva007FFDD0(unsigned int *address, int *port, int *extra, const char *text);
+	void *Rva007FD2D0(int family, int type, int protocol);
+	int Rva00819090(void *ref, void *socket, const void *address);
+	void Rva00818FF0(void *ref, const char *text);
 }
 
 // The CommUDP tick. Logs "CommUdpProcess: got RAW_PACKET_INIT", closes the
@@ -1363,204 +1367,54 @@ int CommUdpPoke(void *ref)
 }
 
 // Puts the socket into listening mode for an incoming CommUDP connection.
-__declspec(naked) int CommUdpListen()
+int CommUdpListen(void *ref, const char *text)
 {
-	__asm {
-		push ebp
-		mov ebp, esp
-		sub esp, 4Ch
-		push edi
-		lea edi,  [ebp-4Ch]
-		mov ecx, 13h
-		mov eax, 0CCCCCCCCh
-		rep stosd
-		__emit 0A1h
-		__emit 0B0h
-		__emit 0BDh
-		__emit 02Dh
-		__emit 001h   // mov eax, dword ptr [0x12dbdb0]
-		mov dword ptr [ebp-4h], eax
-		mov word ptr [ebp-44h], 2h
-		mov word ptr [ebp-42h], 0h
-		mov dword ptr [ebp-40h], 0h
-		mov dword ptr [ebp-3Ch], 0h
-		mov dword ptr [ebp-38h], 0h
-		mov eax, dword ptr [ebp+0Ch]
-		push eax
-		lea ecx,  [ebp-1Ch]
-		push ecx
-		lea edx,  [ebp-10h]
-		push edx
-		lea eax,  [ebp-28h]
-		push eax
-		__emit 0E8h
-		__emit 0ECh
-		__emit 06Fh
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FFDD0
-		add esp, 10h
-		and eax, 2h
-		jne L00_818DF6
-		mov eax, 0FFFFFFFDh
-		jmp L01_818F5F
-L00_818DF6:
-		mov ecx, dword ptr [ebp-10h]
-		sar ecx, 8h
-		mov byte ptr [ebp-42h], cl
-		mov dl, byte ptr [ebp-10h]
-		mov byte ptr [ebp-41h], dl
-		push 0h
-		push 2h
-		push 2h
-		__emit 0E8h
-		__emit 0C0h
-		__emit 044h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FD2D0
-		add esp, 0Ch
-		mov dword ptr [ebp-30h], eax
-		cmp dword ptr [ebp-30h], 0h
-		jne L02_818E26
-		mov eax, 0FFFFFFFCh
-		jmp L01_818F5F
-L02_818E26:
-		lea eax,  [ebp-44h]
-		push eax
-		mov ecx, dword ptr [ebp-30h]
-		push ecx
-		mov edx, dword ptr [ebp+8h]
-		push edx
-		__emit 0E8h
-		__emit 059h
-		__emit 002h
-		__emit 000h
-		__emit 000h   // call 0x819090
-		add esp, 0Ch
-		mov dword ptr [ebp-8h], eax
-		mov eax, dword ptr [ebp+0Ch]
-		push eax
-		mov ecx, dword ptr [ebp+8h]
-		push ecx
-		__emit 0E8h
-		__emit 0A6h
-		__emit 001h
-		__emit 000h
-		__emit 000h   // call 0x818FF0
-		add esp, 8h
-		mov edx, dword ptr [ebp+8h]
-		mov eax, dword ptr [edx+94h]
-		push eax
-		mov ecx, dword ptr [ebp-10h]
-		push ecx
-		mov edx, dword ptr [ebp-8h]
-		push edx
-		push 12C4FFCh
-		__emit 0E8h
-		__emit 017h
-		__emit 059h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 10h
-		cmp dword ptr [ebp-8h], 0h
-		jne L03_818F4F
-		cmp dword ptr [ebp-28h], 0h
-		je L03_818F4F
-		cmp dword ptr [ebp-1Ch], 0h
-		jne L04_818E8F
-		mov eax, dword ptr [ebp-10h]
-		add eax, 1h
-		mov dword ptr [ebp-1Ch], eax
-L04_818E8F:
-		mov ecx, dword ptr [ebp-1Ch]
-		push ecx
-		mov edx, dword ptr [ebp-28h]
-		push edx
-		push 12C5030h
-		__emit 0E8h
-		__emit 0DFh
-		__emit 058h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 0Ch
-		mov eax, dword ptr [ebp+8h]
-		mov word ptr [eax+80h], 2h
-		mov ecx, dword ptr [ebp+8h]
-		mov word ptr [ecx+82h], 0h
-		mov edx, dword ptr [ebp+8h]
-		mov dword ptr [edx+84h], 0h
-		mov eax, dword ptr [ebp+8h]
-		mov dword ptr [eax+88h], 0h
-		mov ecx, dword ptr [ebp+8h]
-		mov dword ptr [ecx+8Ch], 0h
-		mov edx, dword ptr [ebp-28h]
-		mov dword ptr [ebp-4Ch], edx
-		mov eax, dword ptr [ebp+8h]
-		mov cl, byte ptr [ebp-4Ch]
-		mov byte ptr [eax+87h], cl
-		mov edx, dword ptr [ebp-4Ch]
-		shr edx, 8h
-		mov dword ptr [ebp-4Ch], edx
-		mov eax, dword ptr [ebp+8h]
-		mov cl, byte ptr [ebp-4Ch]
-		mov byte ptr [eax+86h], cl
-		mov edx, dword ptr [ebp-4Ch]
-		shr edx, 8h
-		mov dword ptr [ebp-4Ch], edx
-		mov eax, dword ptr [ebp+8h]
-		mov cl, byte ptr [ebp-4Ch]
-		mov byte ptr [eax+85h], cl
-		mov edx, dword ptr [ebp-4Ch]
-		shr edx, 8h
-		mov dword ptr [ebp-4Ch], edx
-		mov eax, dword ptr [ebp+8h]
-		mov cl, byte ptr [ebp-4Ch]
-		mov byte ptr [eax+84h], cl
-		mov edx, dword ptr [ebp-1Ch]
-		sar edx, 8h
-		mov eax, dword ptr [ebp+8h]
-		mov byte ptr [eax+82h], dl
-		mov ecx, dword ptr [ebp+8h]
-		mov dl, byte ptr [ebp-1Ch]
-		mov byte ptr [ecx+83h], dl
-L03_818F4F:
-		mov eax, dword ptr [ebp+8h]
-		mov dword ptr [eax+0D4h], 0h
-		mov eax, dword ptr [ebp-8h]
-L01_818F5F:
-		push edx
-		mov ecx, ebp
-		push eax
-		__emit 08Dh
-		__emit 015h
-		__emit 087h
-		__emit 08Fh
-		__emit 0C1h
-		__emit 000h   // lea edx, [0xc18f87]
-		__emit 0E8h
-		__emit 0B7h
-		__emit 0E5h
-		__emit 01Dh
-		__emit 000h   // call 0x9F7525
-		pop eax
-		pop edx
-		mov ecx, dword ptr [ebp-4h]
-		__emit 0E8h
-		__emit 07Ch
-		__emit 0E5h
-		__emit 01Dh
-		__emit 000h   // call 0x9F74F4
-		pop edi
-		add esp, 4Ch
-		cmp ebp, esp
-		__emit 0E8h
-		__emit 07Fh
-		__emit 0E5h
-		__emit 01Dh
-		__emit 000h   // call 0x9F7502
-		mov esp, ebp
-		pop ebp
-		ret
+	int result;
+	int port;
+	int extra;
+	unsigned int address;
+	void *socket;
+	unsigned char socketAddress[0x10];
+	unsigned int temp;
+
+	*(unsigned short *)&socketAddress[0] = 2;
+	*(unsigned short *)&socketAddress[2] = 0;
+	*(unsigned int *)&socketAddress[4] = 0;
+	*(unsigned int *)&socketAddress[8] = 0;
+	*(unsigned int *)&socketAddress[12] = 0;
+	if ((Rva007FFDD0(&address, &port, &extra, text) & 2) == 0) {
+		return -3;
 	}
+	socketAddress[2] = (unsigned char)(port >> 8);
+	socketAddress[3] = (unsigned char)port;
+	socket = Rva007FD2D0(2, 2, 0);
+	if (socket == 0) {
+		return -4;
+	}
+	result = Rva00819090(ref, socket, socketAddress);
+	Rva00818FF0(ref, text);
+	Rva007FE780Printf("CommUdpListen: err=%d, bind=%d, connident=0x%08x\n",
+	                   result, port, *(int *)((char *)ref + 0x94));
+	if (result == 0 && address != 0) {
+		if (extra == 0) {
+			extra = port + 1;
+		}
+		Rva007FE780Printf("CommUdpListen: poke=%08x:%d\n", address, extra);
+		*(unsigned short *)((char *)ref + 0x80) = 2;
+		*(unsigned short *)((char *)ref + 0x82) = 0;
+		*(unsigned int *)((char *)ref + 0x84) = 0;
+		*(unsigned int *)((char *)ref + 0x88) = 0;
+		*(unsigned int *)((char *)ref + 0x8C) = 0;
+		temp = address;
+		*((unsigned char *)ref + 0x87) = (unsigned char)temp; temp >>= 8;
+		*((unsigned char *)ref + 0x86) = (unsigned char)temp; temp >>= 8;
+		*((unsigned char *)ref + 0x85) = (unsigned char)temp; temp >>= 8;
+		*((unsigned char *)ref + 0x84) = (unsigned char)temp;
+		*((unsigned char *)ref + 0x82) = (unsigned char)(extra >> 8);
+		*((unsigned char *)ref + 0x83) = (unsigned char)extra;
+	}
+	*(int *)((char *)ref + 0xD4) = 0;
+	return result;
 }
 
 // Queues an outbound packet, rejecting anything past the limit with
