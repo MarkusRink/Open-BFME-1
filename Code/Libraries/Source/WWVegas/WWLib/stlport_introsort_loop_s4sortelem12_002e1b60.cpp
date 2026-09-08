@@ -37,8 +37,15 @@ struct S4Cmp002E1690
 	}
 };
 
+void Rva002E00E0Swap(S4SortElem12 &left, S4SortElem12 &right);
+
 namespace _STL
 {
+
+void iter_swap(S4SortElem12 *left, S4SortElem12 *right)
+{
+	Rva002E00E0Swap(*left, *right);
+}
 
 template void __introsort_loop<S4SortElem12 *, S4SortElem12, int,
 	S4Cmp002E1690>(S4SortElem12 *, S4SortElem12 *, S4SortElem12 *, int,
