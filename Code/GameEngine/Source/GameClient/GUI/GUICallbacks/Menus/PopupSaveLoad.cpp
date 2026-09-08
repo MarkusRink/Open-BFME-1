@@ -166,6 +166,29 @@ public:
 // PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////////////////////////
 extern Bool DontShowMainMenu; //KRIS
 extern Bool ReplayWasPressed;
+
+class Glo00EF3330
+{
+public:
+	void h004893E0();
+	void h00489410();
+};
+
+class TransitionHandlerGuard
+{
+public:
+	TransitionHandlerGuard()
+	{
+		if (TheTransitionHandler)
+			((Glo00EF3330 *)TheTransitionHandler)->h004893E0();
+	}
+
+	~TransitionHandlerGuard()
+	{
+		if (TheTransitionHandler)
+			((Glo00EF3330 *)TheTransitionHandler)->h00489410();
+	}
+};
 // ------------------------------------------------------------------------------------------------
 /** Given the current layout and selection in the game listbox, update the main save/load
 	* menu buttons to be enabled or disabled */
@@ -374,6 +397,7 @@ void SaveLoadMenuUpdate( WindowLayout *layout, void *userData )
 	{
 		if(initialGadgetDelay == 1)
 		{
+			TransitionHandlerGuard guard;
 			TheTransitionHandler->remove("MainMenuDefaultMenuLogoFade");
 			TheTransitionHandler->setGroup("SaveLoadMenuFade");
 			initialGadgetDelay = 2;
