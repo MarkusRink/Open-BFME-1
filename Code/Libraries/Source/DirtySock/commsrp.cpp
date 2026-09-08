@@ -1,5 +1,8 @@
 // cl: /DNDEBUG /MD /GX /Od /GZ
 
+#define _DLL
+#include <string.h>
+
 // EA's DirtySock middleware -- see commudp.cpp for why this directory name is an
 // inference. Every function name here is retail's own: each body logs it.
 // Parameter lists are not recovered yet; these are naked bodies and the
@@ -7,9 +10,11 @@
 
 extern "C" {
 	int CommSRPResolve();
-	int CommSRPSend();
+	int CommSRPSend(void *ref, const void *buffer, int length, int flags);
 	int CommSRPListen();
 	int CommSRPConnect();
+	int Rva00815680(void *ref, void *packet);
+	int Rva00815AB0(void *ref, void *packet);
 }
 
 int Rva007FE780Printf(const char *format, ...);
@@ -23,182 +28,49 @@ int CommSRPResolve()
 
 // Queues an outbound packet. Reports "CommSRPSend: input queue full" and
 // "CommSRP: Oversized packet send (%d bytes)".
-__declspec(naked) int CommSRPSend()
+int CommSRPSend(void *ref, const void *buffer, int length, int flags)
 {
-	__asm {
-		push ebp
-		mov ebp, esp
-		sub esp, 0Ch
-		mov dword ptr [ebp-0Ch], 0CCCCCCCCh
-		mov dword ptr [ebp-8h], 0CCCCCCCCh
-		mov dword ptr [ebp-4h], 0CCCCCCCCh
-		mov eax, dword ptr [ebp+8h]
-		cmp dword ptr [eax+90h], 3h
-		je L00_8158E1
-		mov eax, 0FFFFFFFEh
-		jmp L01_815A94
-L00_8158E1:
-		mov ecx, dword ptr [ebp+8h]
-		mov eax, dword ptr [ecx+0B8h]
-		mov edx, dword ptr [ebp+8h]
-		add eax, dword ptr [edx+0B0h]
-		mov ecx, dword ptr [ebp+8h]
-		cdq
-		idiv dword ptr [ecx+0B4h]
-		mov eax, dword ptr [ebp+8h]
-		cmp edx, dword ptr [eax+0BCh]
-		jne L02_81591C
-		push 12C4CA8h
-		__emit 0E8h
-		__emit 06Eh
-		__emit 08Eh
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 4h
-		xor eax, eax
-		jmp L01_815A94
-L02_81591C:
-		mov ecx, dword ptr [ebp+8h]
-		mov edx, dword ptr [ecx+0B0h]
-		sub edx, 0Bh
-		cmp dword ptr [ebp+10h], edx
-		jle L03_815948
-		mov eax, dword ptr [ebp+10h]
-		push eax
-		push 12C4CC8h
-		__emit 0E8h
-		__emit 045h
-		__emit 08Eh
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 8h
-		mov eax, 0FFFFFFFAh
-		jmp L01_815A94
-L03_815948:
-		cmp dword ptr [ebp+10h], 0h
-		jne L04_81598D
-		mov ecx, dword ptr [ebp+8h]
-		mov eax, dword ptr [ecx+0B8h]
-		mov edx, dword ptr [ebp+8h]
-		add eax, dword ptr [edx+0B4h]
-		mov ecx, dword ptr [ebp+8h]
-		sub eax, dword ptr [ecx+0BCh]
-		mov ecx, dword ptr [ebp+8h]
-		cdq
-		idiv dword ptr [ecx+0B4h]
-		mov ecx, dword ptr [ebp+8h]
-		mov eax, edx
-		cdq
-		idiv dword ptr [ecx+0B0h]
-		mov dword ptr [ebp-8h], eax
-		mov eax, dword ptr [ebp-8h]
-		add eax, 1h
-		jmp L01_815A94
-L04_81598D:
-		mov edx, dword ptr [ebp+8h]
-		mov eax, dword ptr [edx+0C0h]
-		mov ecx, dword ptr [ebp+8h]
-		add eax, dword ptr [ecx+0B8h]
-		mov dword ptr [ebp-4h], eax
-		mov edx, dword ptr [ebp-4h]
-		mov eax, dword ptr [ebp+10h]
-		mov dword ptr [edx+4h], eax
-		mov ecx, dword ptr [ebp+10h]
-		push ecx
-		mov edx, dword ptr [ebp+0Ch]
-		push edx
-		mov eax, dword ptr [ebp-4h]
-		add eax, 9h
-		push eax
-		__emit 0E8h
-		__emit 0F9h
-		__emit 01Bh
-		__emit 01Eh
-		__emit 000h   // call 0x9F75B8
-		add esp, 0Ch
-		mov ecx, dword ptr [ebp+14h]
-		and ecx, 1h
-		je L05_815A29
-		mov edx, dword ptr [ebp+8h]
-		movzx eax, byte ptr [edx+0CCh]
-		add eax, 40h
-		mov ecx, dword ptr [ebp-4h]
-		mov byte ptr [ecx+8h], al
-		mov edx, dword ptr [ebp+8h]
-		mov eax, dword ptr [edx+0CCh]
-		add eax, 1h
-		mov ecx, dword ptr [ebp+8h]
-		mov dword ptr [ecx+0CCh], eax
-		mov edx, dword ptr [ebp+8h]
-		mov eax, dword ptr [edx+0CCh]
-		and eax, 3Fh
-		mov ecx, dword ptr [ebp+8h]
-		mov dword ptr [ecx+0CCh], eax
-		mov edx, dword ptr [ebp-4h]
-		push edx
-		mov eax, dword ptr [ebp+8h]
-		push eax
-		__emit 0E8h
-		__emit 06Ch
-		__emit 0FCh
-		__emit 0FFh
-		__emit 0FFh   // call 0x815680
-		add esp, 8h
-		mov dword ptr [ebp-8h], eax
-		cmp dword ptr [ebp-8h], 0h
-		jle L06_815A27
-		mov dword ptr [ebp-8h], 1h
-L06_815A27:
-		jmp L07_815A7C
-L05_815A29:
-		mov ecx, dword ptr [ebp+8h]
-		movzx edx, byte ptr [ecx+0D4h]
-		add edx, 80h
-		mov eax, dword ptr [ebp-4h]
-		mov byte ptr [eax+8h], dl
-		mov ecx, dword ptr [ebp+8h]
-		mov edx, dword ptr [ecx+0D4h]
-		add edx, 1h
-		mov eax, dword ptr [ebp+8h]
-		mov dword ptr [eax+0D4h], edx
-		mov ecx, dword ptr [ebp+8h]
-		mov edx, dword ptr [ecx+0D4h]
-		and edx, 3Fh
-		mov eax, dword ptr [ebp+8h]
-		mov dword ptr [eax+0D4h], edx
-		mov ecx, dword ptr [ebp-4h]
-		push ecx
-		mov edx, dword ptr [ebp+8h]
-		push edx
-		__emit 0E8h
-		__emit 03Ah
-		__emit 000h
-		__emit 000h
-		__emit 000h   // call 0x815AB0
-		add esp, 8h
-		mov dword ptr [ebp-8h], eax
-L07_815A7C:
-		cmp dword ptr [ebp-8h], 0h
-		jle L08_815A8A
-		mov eax, dword ptr [ebp-8h]
-		mov dword ptr [ebp-0Ch], eax
-		jmp L09_815A91
-L08_815A8A:
-		mov dword ptr [ebp-0Ch], 1h
-L09_815A91:
-		mov eax, dword ptr [ebp-0Ch]
-L01_815A94:
-		add esp, 0Ch
-		cmp ebp, esp
-		__emit 0E8h
-		__emit 064h
-		__emit 01Ah
-		__emit 01Eh
-		__emit 000h   // call 0x9F7502
-		mov esp, ebp
-		pop ebp
-		ret
+	char *packet;
+	int queued;
+
+	if (*(int *)((char *)ref + 0x90) != 3) {
+		return -2;
 	}
+	if ((*(int *)((char *)ref + 0xB8) + *(int *)((char *)ref + 0xB0)) %
+	        *(int *)((char *)ref + 0xB4) == *(int *)((char *)ref + 0xBC)) {
+		Rva007FE780Printf("CommSRPSend: input queue full\n");
+		return 0;
+	}
+	if (length > *(int *)((char *)ref + 0xB0) - 0x0B) {
+		Rva007FE780Printf("CommSRP: Oversized packet send (%d bytes)\n", length);
+		return -6;
+	}
+	if (length == 0) {
+		queued = ((*(int *)((char *)ref + 0xB8) + *(int *)((char *)ref + 0xB4) -
+		           *(int *)((char *)ref + 0xBC)) % *(int *)((char *)ref + 0xB4)) /
+		         *(int *)((char *)ref + 0xB0);
+		return queued + 1;
+	}
+	packet = *(char **)((char *)ref + 0xC0) + *(int *)((char *)ref + 0xB8);
+	*(int *)(packet + 4) = length;
+	memcpy(packet + 9, buffer, length);
+	if ((flags & 1) != 0) {
+		*(unsigned char *)(packet + 8) =
+			(unsigned char)*(int *)((char *)ref + 0xCC) + 0x40;
+		++*(int *)((char *)ref + 0xCC);
+		*(int *)((char *)ref + 0xCC) &= 0x3F;
+		queued = Rva00815680(ref, packet);
+		if (queued > 0) {
+			queued = 1;
+		}
+	} else {
+		*(unsigned char *)(packet + 8) =
+			(unsigned char)*(int *)((char *)ref + 0xD4) + 0x80;
+		++*(int *)((char *)ref + 0xD4);
+		*(int *)((char *)ref + 0xD4) &= 0x3F;
+		queued = Rva00815AB0(ref, packet);
+	}
+	return queued > 0 ? queued : 1;
 }
 
 // Binds and listens, logging "CommSRPListen: Error %d binding socket".
