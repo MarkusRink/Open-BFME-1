@@ -25083,3 +25083,5 @@ dup_af1f0,0x000AF1F0,Rehomed to neutral address owner; does not belong to LANAPI
 ??_GGen_dtor_00355ce0@@UAEPAXI@Z,0x00355CE0,Generated scalar helper replaced by natural real C++ Condition helper; weak E resolves strong G; complete destructor lifetime proved; generated file preserved; campaign=36h-20260908-1018
 ??_GGen_dtor_000f7580@@UAEPAXI@Z,0x000F7580,Generated scalar wrapper replaced by natural real C++ protected TeamPrototype helper; actual E/G and complete destructor routes verified; generated source preserved; campaign=36h-20260908-1018
 ?call@Rva003D2E00@@QAEXXZ,0x003D2E00,Duplicate 175-byte claim introduced by b658d3c1 after verified refresh body landed in fd627a56; retain one existing real body at this address
+?crc@BaseHeightMapRenderObjClass@@MAEXPAVXfer@@@Z,0x006CFA10,Retracted false identity: complete BaseHeightMap primary-vtable sequence places Snapshot hooks at later slots; 0x006CFA10 is slot 141 rather than crc
+?loadPostProcess@BaseHeightMapRenderObjClass@@MAEXXZ,0x006CFA30,Retracted false identity: 0x006CFA30 is not routed by the BaseHeightMap primary vtable and adjacency alone did not prove the owner
