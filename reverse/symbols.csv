@@ -84307,6 +84307,7 @@ g_Rva012DAC04,0x012DAC04,targetIds.%d format string used by addTargetIds at 0x00
 ?unregister@AnimationSoundClientBehaviorGlobal@@QAEXPAVAnimationSoundClientBehavior@@@Z,0x0000D765,AnimationSoundClientBehavior dtor global unregister call; ILT thunk for body 0x00409140
 ?unregister@Manager012EF4F0@@QAEXPAVRva006DABB0@@@Z,0x00015046,ILT thunk of bfmeGo921E used by Rva006DABB0 dtor
 ?unregisterCave@CaveSystem@@QAEXH@Z,0x0001BC5C,Open-BFME5 retail cave unregister pin
+?unregisterWindowLayout@InGameUI@@QAEXPAVWindowLayout@@@Z,0x0001F9BF,ResetDiplomacy caller at 0x004C3350 passes the WindowLayout global to the InGameUI layout registry helper. The target body traverses the registry at InGameUI+0x10
 ?untranslatedSlotPosition@@YAHHH@Z,0x000156D6,DisconnectScreen Kick handler maps its displayed slot back around the local-player gap before voting; ILT to 0x0066B3E0
 ?update002AD250@StealthUpdate@@QAEXXZ,0x000272AF,"Reviewed full238B2AD250 updates frame timers20/24/28, active2D and object status; neutral RVA name avoids invented idle callback identity"
 ?update@AIInternalMoveToState@@UAE?AW4StateReturnType@@XZ,0x000488F6
