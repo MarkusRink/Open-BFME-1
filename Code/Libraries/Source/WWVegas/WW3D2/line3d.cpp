@@ -97,9 +97,9 @@ const unsigned short Indices[]=
  *   04/21/1998 NH  : Ported to SR 1.3.                                   * 
  *	  02/16/2001 HY  : Ported to DX8													  *
  *========================================================================*/
-// ?Line3DClass::Line3DClass present-unmatched
 Line3DClass::Line3DClass (const Vector3 & start, const Vector3 & end,
-	float width, float r, float g, float b, float opacity)
+	float width, float r, float g, float b, float opacity) :
+	Shader(0x0010441b)
 {
 	Length = (end - start).Length();
    Width = width;
