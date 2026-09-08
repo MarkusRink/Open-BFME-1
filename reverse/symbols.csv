@@ -85956,3 +85956,5 @@ _bfmeVftEAZ,0x00CFA338,pin vftable for BfmeConv2016
 ??0BfmeStrEBC@@QAE@PBD@Z,0x00888BC0,pin string ctor for BfmeConv2019
 ??1BfmeStrEBC@@QAE@XZ,0x00887940,pin string dtor for BfmeConv2019
 ?bfmeListEBC@ArchiveFileSystem@@QAEXABVBfmeStrEBC@@00PAXH@Z,0x009C9510,pin archive list for BfmeConv2019
+??1BfmeUStrTL@@QAE@XZ,0x008881D0,pin ustring dtor for BfmeConv2022
+?bfmeFallbackTL@@YGXXZ,0x00039202,pin fallback for BfmeConv2022
