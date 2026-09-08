@@ -1,5 +1,5 @@
-// ?bfmeNotifyYF@BfmeHostYF@@QAEXHH@Z
-// partial score=0.98 date=2026-09-08
+// ?d_00150ed0@@YAXXZ
+// partial score=0.99 date=2026-09-08
 struct RvaC4390Interface
 {
 	virtual void bfmeDoYF(int a, int b) = 0;
@@ -13,9 +13,18 @@ public:
 
 struct BfmeNodeYF
 {
-	BfmeNodeYF *m_bfmeNextYF;
+	BfmeNodeYF *volatile m_bfmeNextYF;
 	unsigned char m_bfmePadYF[4];
 	RvaC4390First *m_bfme08YF;
+};
+
+class BfmeListYF
+{
+public:
+	bool empty() const { return m_bfmeNodeYF->m_bfmeNextYF == m_bfmeNodeYF; }
+	RvaC4390First *front() const { return m_bfmeNodeYF->m_bfmeNextYF->m_bfme08YF; }
+
+	BfmeNodeYF *m_bfmeNodeYF;
 };
 
 class BfmeHostYF
@@ -24,15 +33,15 @@ public:
 	void bfmeNotifyYF(int a, int b);
 
 	unsigned char m_bfmeHeadYF[4];
-	BfmeNodeYF *m_bfme04YF;
+	BfmeListYF m_bfme04YF;
 };
 
 void BfmeHostYF::bfmeNotifyYF(int a, int b)
 {
-	if (m_bfme04YF->m_bfmeNextYF == m_bfme04YF)
+	if (m_bfme04YF.empty())
 		return;
 
-	RvaC4390Interface *iface = m_bfme04YF->m_bfmeNextYF->m_bfme08YF->getInterface();
+	RvaC4390Interface *iface = m_bfme04YF.front()->getInterface();
 
 	if (iface == 0)
 		return;
