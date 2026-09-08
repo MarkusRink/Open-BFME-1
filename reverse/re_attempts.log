@@ -13474,3 +13474,4 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_002c1480@@YAXXZ	0x002C1480	552	blocked	terrain/physics/link calls and opaque object layout have no named caller or source emitter proving identity; t=8 minutes model=gpt-5.6-sol
 ?d_002c2e30@@YAXXZ	0x002C2E30	291	blocked	AICommandParms constructor and thunk calls are visible, but the surrounding command/state owner is unproven and no exact source body is available; t=8 minutes model=gpt-5.6-sol
 ?d_002c3020@@YAXXZ	0x002C3020	1057	blocked	vtable 0x01073744 plus BFME geometry/holder/finder/state-dtor calls expose a complex object, but no named owner or clean source identity is proven; t=10 minutes model=gpt-5.6-sol
+?getCollapseHeight@StructureCollapseRetailLayout@@QAEMXZ	0x002AE680	110	converted	Exact clean C++ landed in StructureCollapseGetCollapseHeight.cpp; empty inline-asm compiler barrier prevents tail-call folding without emitting bytes.
