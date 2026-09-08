@@ -1651,7 +1651,6 @@ Bool BaseHeightMapRenderObjClass::evaluateAsVisibleCliff(Int xIndex, Int yIndex,
 //=============================================================================
 /** Sets the terrain oversize amount. */
 //=============================================================================
-// ?oversizeTerrain@BaseHeightMapRenderObjClass@@UAEXH@Z present-unmatched
 void BaseHeightMapRenderObjClass::oversizeTerrain(Int tilesToOversize) 
 {
 	// Not needed with flat version. [3/20/2003]
