@@ -1,202 +1,115 @@
 // cl: /DNDEBUG /MD /EHsc
+// Open-BFME5: AttributeModifierAuraUpdate module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x0011A950 allocates 0xA8
+// bytes and calls this constructor. The matched destructor at 0x00280C40
+// independently fixes the string at +0x08, vector at +0x0C, attribute handle
+// at +0x24, and UpgradeModuleData subobject at +0x28.
 
-class AttributeModifierAuraUpdateModuleData
+extern const char g_Rva0107301CEmptyString[];
+
+class RetailLayoutString
 {
 public:
-    AttributeModifierAuraUpdateModuleData();
+	RetailLayoutString() : m_data( 0 ) {}
+	~RetailLayoutString() { releaseBuffer(); }
+	void clear() { set( g_Rva0107301CEmptyString, 0 ); }
+	void set( const char *text, int length );
+
+private:
+	void releaseBuffer();
+	char *m_data;
 };
 
-__declspec(naked) AttributeModifierAuraUpdateModuleData::AttributeModifierAuraUpdateModuleData()
+class AttributeModifierAuraUpdateModuleDataMemberB
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 044h
-        _emit 009h
-        _emit 001h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 053h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 057h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 00Ch
-        _emit 033h
-        _emit 0DBh
-        _emit 08Dh
-        _emit 07Eh
-        _emit 008h
-        _emit 0C7h
-        _emit 006h
-        _emit 0A8h
-        _emit 0B0h
-        _emit 00Bh
-        _emit 001h
-        _emit 089h
-        _emit 05Ch
-        _emit 024h
-        _emit 018h
-        _emit 089h
-        _emit 01Fh
-        _emit 089h
-        _emit 05Eh
-        _emit 00Ch
-        _emit 089h
-        _emit 05Eh
-        _emit 010h
-        _emit 089h
-        _emit 05Eh
-        _emit 014h
-        _emit 08Dh
-        _emit 04Eh
-        _emit 024h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 002h
-        _emit 0E8h
-        _emit 014h
-        _emit 069h
-        _emit 0DBh
-        _emit 0FFh
-        _emit 08Dh
-        _emit 04Eh
-        _emit 028h
-        _emit 0E8h
-        _emit 038h
-        _emit 0E5h
-        _emit 0D8h
-        _emit 0FFh
-        _emit 053h
-        _emit 068h
-        _emit 01Ch
-        _emit 030h
-        _emit 007h
-        _emit 001h
-        _emit 08Bh
-        _emit 0CFh
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 020h
-        _emit 004h
-        _emit 089h
-        _emit 09Eh
-        _emit 098h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 09Ah
-        _emit 071h
-        _emit 060h
-        _emit 000h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 010h
-        _emit 089h
-        _emit 05Eh
-        _emit 018h
-        _emit 089h
-        _emit 05Eh
-        _emit 01Ch
-        _emit 088h
-        _emit 05Eh
-        _emit 021h
-        _emit 088h
-        _emit 09Eh
-        _emit 090h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 094h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 098h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 09Ch
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 09Eh
-        _emit 0A0h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 09Eh
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 09Eh
-        _emit 0A2h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 09Eh
-        _emit 0A3h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 0A4h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 05Fh
-        _emit 0C6h
-        _emit 046h
-        _emit 020h
-        _emit 001h
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 05Bh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C3h
-    }
+public:
+	AttributeModifierAuraUpdateModuleDataMemberB()
+		: m_begin( 0 ), m_end( 0 ), m_capacity( 0 )
+	{
+	}
+	~AttributeModifierAuraUpdateModuleDataMemberB();
+
+private:
+	void *m_begin;
+	void *m_end;
+	void *m_capacity;
+};
+
+class AttributeHandleStandIn
+{
+public:
+	AttributeHandleStandIn();
+	~AttributeHandleStandIn();
+
+private:
+	unsigned int m_value;
+};
+
+class UpgradeModuleDataSub
+{
+public:
+	UpgradeModuleDataSub() throw();
+	~UpgradeModuleDataSub();
+
+private:
+	unsigned char m_data[ 0x68 ];
+};
+
+class __declspec(novtable) AttributeModifierAuraUpdateModuleDataPrimaryBase
+{
+public:
+	virtual ~AttributeModifierAuraUpdateModuleDataPrimaryBase();
+
+private:
+	unsigned int m_moduleData;
+};
+
+class AttributeModifierAuraUpdateModuleData
+	: public AttributeModifierAuraUpdateModuleDataPrimaryBase
+{
+public:
+	AttributeModifierAuraUpdateModuleData();
+	virtual ~AttributeModifierAuraUpdateModuleData();
+
+private:
+	RetailLayoutString m_modifierName;
+	AttributeModifierAuraUpdateModuleDataMemberB m_modules;
+	unsigned int m_radius;
+	unsigned int m_refreshDelay;
+	unsigned char m_enabled;
+	unsigned char m_affectSelf;
+	unsigned char m_pad22[ 2 ];
+	AttributeHandleStandIn m_attributeHandle;
+	UpgradeModuleDataSub m_upgradeData;
+	unsigned char m_targetEnemies;
+	unsigned char m_pad91[ 3 ];
+	unsigned int m_requiredKindOf;
+	unsigned int m_forbiddenKindOf;
+	unsigned int m_extraKindOf;
+	unsigned char m_allowAllies;
+	unsigned char m_allowEnemies;
+	unsigned char m_allowNeutral;
+	unsigned char m_allowDead;
+	unsigned int m_maxCount;
+};
+
+// ??0AttributeModifierAuraUpdateModuleData@@QAE@XZ
+AttributeModifierAuraUpdateModuleData::AttributeModifierAuraUpdateModuleData()
+{
+	m_forbiddenKindOf = 0;
+	m_modifierName.clear();
+	m_radius = 0;
+	m_refreshDelay = 0;
+	m_affectSelf = 0;
+	m_targetEnemies = 0;
+	m_requiredKindOf = 0;
+	m_forbiddenKindOf = 0;
+	m_extraKindOf = 0;
+	m_allowAllies = 0;
+	m_allowEnemies = 0;
+	m_allowNeutral = 0;
+	m_allowDead = 0;
+	m_maxCount = 0;
+	m_enabled = 1;
 }
