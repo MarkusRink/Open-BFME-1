@@ -35,6 +35,16 @@ public:
 extern EstablishConnectionsMenu *TheEstablishConnectionsMenu;	///< retail 0x012F363C
 extern int buttonQuitID;										///< retail 0x012F39C0
 
+typedef unsigned int NameKeyType;
+
+class NameKeyGenerator
+{
+public:
+	NameKeyType nameToKey( const char *name );
+};
+
+extern NameKeyGenerator *TheNameKeyGenerator;
+
 class BFMERetailAsciiString;
 
 template <typename T> class StringBase
@@ -59,6 +69,10 @@ public:
 	BFMERetailAsciiString( const BFMERetailAsciiString &other )
 		: StringBase<char>( other ) {}
 	~BFMERetailAsciiString() {}
+	const char *str() const
+	{
+		return m_data ? (const char *)((const char *)m_data + 8) : (const char *)0x0107388b;
+	}
 };
 
 class BfmeEstablishWindowLayout
@@ -96,6 +110,11 @@ public:
 	virtual void slot40(); virtual void slot41(); virtual void slot42();
 	virtual void slot43();
 	virtual int winSetFocus( GameWindow *window );
+	virtual void slot45(); virtual void slot46(); virtual void slot47();
+	virtual void slot48(); virtual void slot49(); virtual void slot50();
+	virtual void slot51(); virtual void slot52(); virtual void slot53();
+	virtual void slot54();
+	virtual GameWindow *winGetWindowFromId( GameWindow *parent, NameKeyType id );
 };
 
 class BfmeEstablishGameSpyGame
@@ -110,7 +129,17 @@ extern BfmeEstablishGameSpyGame *TheGameSpyGame;
 extern void ShowUnderlyingGUIElements( bool show, const char *layoutFilename,
 	const char *parentName, const char **gadgetsToHide,
 	const char **perPlayerGadgetsToHide );
-extern void d_004c85b0( void );
+static GameWindow *buttonQuitWindow = 0;
+
+// ?InitEstablishConnectionsDialog@@YAXXZ 0x004C85B0
+static void InitEstablishConnectionsDialog( void )
+{
+	{
+		BFMERetailAsciiString button( "EstablishConnectionsScreen.wnd:ButtonQuit" );
+		buttonQuitID = TheNameKeyGenerator->nameToKey( button.str() );
+	}
+	buttonQuitWindow = TheWindowManager->winGetWindowFromId( 0, buttonQuitID );
+}
 
 static BfmeEstablishWindowLayout *establishConnectionsLayout;
 static const char *layoutFilename = "GameSpyGameOptionsMenu.wnd";
@@ -140,7 +169,7 @@ void ShowEstablishConnectionsWindow( void )
 	{
 		establishConnectionsLayout = TheWindowManager->winCreateLayout(
 			"Menus/EstablishConnectionsScreen.wnd" );
-		d_004c85b0();
+		InitEstablishConnectionsDialog();
 	}
 	establishConnectionsLayout->hide( 0 );
 	TheWindowManager->winSetFocus( establishConnectionsLayout->getFirstWindow() );
