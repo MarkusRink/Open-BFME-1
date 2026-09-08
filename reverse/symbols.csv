@@ -74834,7 +74834,6 @@ name,address,notes
 ?bfmeDtorDJD@BfmeBaseDJD@@QAEXXZ,0x00013994,pin
 ?bfmeDtorDJE@BfmeBaseDJE@@QAEXXZ,0x00013994,pin
 ?bfmeDtorDJF@BfmeBaseDJF@@QAEXXZ,0x00013994,pin
-?bfmeDtorDLA@BfmeThingDLA@@QAEXXZ,0x00002F5E,pin
 ?bfmeDtorDLB@BfmeThingDLB@@QAEXXZ,0x0002083D,pin
 ?bfmeDtorDLC@BfmeThingDLC@@QAEXXZ,0x0003F783,pin
 ?bfmeDtorDLD@BfmeThingDLD@@QAEXXZ,0x0004791F,pin
@@ -75377,7 +75376,6 @@ name,address,notes
 ?bfmeFree915A@@YAXPAXI@Z,0x0082E5F0,pin
 ?bfmeFree923F@@YGXPAXH@Z,0x0003F413,pin
 ?bfmeFreeAEC@@YAXPAX@Z,0x00881EB0,pin
-?bfmeFreeArrDLA@@YAXPAX@Z,0x00881EF0,pin
 ?bfmeFreeArrDLB@@YAXPAX@Z,0x00881EF0,pin
 ?bfmeFreeArrDLC@@YAXPAX@Z,0x00881EF0,pin
 ?bfmeFreeArrDLD@@YAXPAX@Z,0x00881EF0,pin
@@ -75416,7 +75414,6 @@ name,address,notes
 ?bfmeFreeCHC@@YAXPAX@Z,0x00881EB0,pin
 ?bfmeFreeCJD@BfmePoolCJD@@QAEXPAX@Z,0x00035EE5,pin
 ?bfmeFreeCJH@@YAXPAX@Z,0x00881EB0,pin
-?bfmeFreeDLA@@YAXPAX@Z,0x00881EB0,pin
 ?bfmeFreeDLB@@YAXPAX@Z,0x00881EB0,pin
 ?bfmeFreeDLC@@YAXPAX@Z,0x00881EB0,pin
 ?bfmeFreeDLD@@YAXPAX@Z,0x00881EB0,pin
@@ -77435,7 +77432,6 @@ name,address,notes
 ?bfmeVec3Hermite@@YGPAUBfmeVector3@@PAU1@PBUCoord3D@@111M@Z,0x009FA11F,Open-BFME5 import thunk (slot 0x012DBEC0) the rope getPosition at 0x0041D090 evaluates its spline through
 ?bfmeVecCtor1030@@YGXPAX0HHP6AXXZ1@Z,0x009F7036,pin
 ?bfmeVecDtor936B@@YGXPAXIHP6GX0@Z@Z,0x009F6D76,pin
-?bfmeVecDtorDLA@@YGXPAXIHP6AX0@Z@Z,0x009F6D76,pin
 ?bfmeVecDtorDLB@@YGXPAXIHP6AX0@Z@Z,0x009F6D76,pin
 ?bfmeVecDtorDLC@@YGXPAXIHP6AX0@Z@Z,0x009F6D76,pin
 ?bfmeVecDtorDLD@@YGXPAXIHP6AX0@Z@Z,0x009F6D76,pin
@@ -85201,7 +85197,6 @@ _bfmeCtor1030,0x0000E534,pin
 _bfmeDeleteBlock,0x00881EF0,address-derived release target from the direct REL32 call at retail 0x009D1A4C
 _bfmeDirectInput8Create@20,0x009F9AF0,undecorated alias for the DirectInput8Create import stub (see Win32DIKeyboardOpen.cpp)
 _bfmeDtor1030,0x0001F951,pin
-_bfmeDtorCbDLA,0x00002F5E,pin
 _bfmeDtorCbDLB,0x0002083D,pin
 _bfmeDtorCbDLC,0x0003F783,pin
 _bfmeDtorCbDLD,0x0004791F,pin
