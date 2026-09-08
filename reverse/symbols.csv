@@ -86404,3 +86404,11 @@ __imp__GetClientRect@8,0x0135901C,Open-BFME5 USER32 GetClientRect import the 0x0
 ?bfmeCheckAAX@Glo012F1028Type@@QAE_NH@Z,0x00001078,Open-BFME5 ILT eligibility check the 0x006140C0 dispatch calls
 ?bfmeApplyAAX@Glo012F1028Type@@QAEXH@Z,0x0003F7F1,Open-BFME5 ILT apply the 0x006140C0 dispatch calls after the cursor change
 ?bfmeTailAAX@Glo012F1028Type@@QAEXH@Z,0x000206A8,Open-BFME5 ILT index handler the 0x006140C0 dispatch calls
+?bfmeStep1AAY@BfmeHostAAY@@QAEXXZ,0x0001E312,Open-BFME5 ILT first teardown step of the 0x00617DB0 shutdown
+?bfmeStep2AAY@BfmeHostAAY@@QAEXXZ,0x0003D9AB,Open-BFME5 ILT second teardown step of the 0x00617DB0 shutdown
+?bfmeStep3AAY@BfmeHostAAY@@QAEXXZ,0x00030BF2,Open-BFME5 ILT third teardown step of the 0x00617DB0 shutdown
+?bfmeStep4AAY@BfmeHostAAY@@QAEXXZ,0x000105F5,Open-BFME5 ILT fourth teardown step of the 0x00617DB0 shutdown
+?bfmeCloseAAY@BfmeSubAAY@@QAEXXZ,0x0001D17E,Open-BFME5 ILT sub-object close the 0x00617DB0 shutdown calls when present
+?bfmeStep5AAY@BfmeHostAAY@@QAEXXZ,0x00010299,Open-BFME5 ILT fifth teardown step of the 0x00617DB0 shutdown
+?bfmeStep6AAY@BfmeHostAAY@@QAEXXZ,0x00010438,Open-BFME5 ILT sixth teardown step of the 0x00617DB0 shutdown
+?bfmeResetAAY@Rva00367E30Logic@@QAEXXZ,0x0003B417,Open-BFME5 ILT logic reset the 0x00617DB0 shutdown calls when present
