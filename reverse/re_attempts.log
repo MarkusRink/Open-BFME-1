@@ -16114,3 +16114,16 @@ d_0087ee60	0x0087EE60	301	partial	The retail caller at 0x0087F160 and the recove
 ?d_000c1e50@@YAXXZ	0x000C1E50	1154	blocked	served Code/gen_asm/d_000bb0e0.asm; no named caller reaches the body and find_emitter reports no built source emitter; the 1154-byte parser remains an anonymous raw dump
 ?canEnterObject@BFMEActionManager@@QAE_NPBVObject@@0W4CommandSourceType@@W4CanEnterType@@PA_N@Z	0x000C5440	849	blocked	callers_of identifies the five-argument BFMEActionManager canEnterObject ABI from AIEnterState and Gen_001DCF50, but find_emitter reports no built source emitter and the clean body is not reconstructed
 ?d_000c7ed0@@YAXXZ	0x000C7ED0	138	blocked	served Code/gen_asm/d_000bb0e0.asm; no-frame 138-byte anonymous body has no named caller or source emitter and remains a raw dump
+?d_009c5080@@YAXXZ	0x009C5080	733	blocked	served Code/gen_asm/d_009c5080.asm; 733-byte unrolled MMX codec transform has no named caller or source emitter and remains an anonymous raw dump
+?d_009c54a0@@YAXXZ	0x009C54A0	1006	blocked	served Code/gen_asm/d_009c5080.asm; 1006-byte MMX pixel kernel has no named caller or source emitter and no stable BFME owner
+?d_009c6470@@YAXXZ	0x009C6470	196	blocked	served Code/gen_asm/d_009c5080.asm; 196-byte MMX helper has no named caller or built source emitter and cannot be safely assigned a clean C++ owner
+?d_009c6540@@YAXXZ	0x009C6540	211	blocked	served Code/gen_asm/d_009c5080.asm; 211-byte MMX helper has no named caller or built source emitter and remains a proprietary codec dump
+?d_009c6cb0@@YAXXZ	0x009C6CB0	110	blocked	same proprietary Bink SSE2 filter family as banked 0x009C7320; VC7.1 intrinsics add an aligned frame and hoist the rounding vector, so the clean C++ shape is not byte exact
+?d_009c6d30@@YAXXZ	0x009C6D30	110	blocked	same proprietary Bink SSE2 filter family as banked 0x009C7320; VC7.1 intrinsics add an aligned frame and hoist the rounding vector, so the clean C++ shape is not byte exact
+?d_009c6fc0@@YAXXZ	0x009C6FC0	146	blocked	same proprietary Bink SSE2 filter family as banked 0x009C7320; VC7.1 intrinsics add an aligned frame and hoist the rounding vector, so the clean C++ shape is not byte exact
+?d_009c70d0@@YAXXZ	0x009C70D0	100	blocked	same proprietary Bink SSE2 filter family as banked 0x009C7320; VC7.1 intrinsics add an aligned frame and hoist the rounding vector, so the clean C++ shape is not byte exact
+?d_009c7490@@YAXXZ	0x009C7490	83	blocked	proprietary Bink CPU-dispatch wrapper has no named caller or source emitter; a clean owner would invent identity
+?d_009c74f0@@YAXXZ	0x009C74F0	465	blocked	proprietary Bink CPU-dispatch wrapper has no named caller or source emitter; a clean owner would invent identity
+?d_009c7760@@YAXXZ	0x009C7760	95	blocked	same proprietary Bink SSE2 filter family as banked 0x009C7320; VC7.1 intrinsics add an aligned frame and hoist the rounding vector, so the clean C++ shape is not byte exact
+?d_009c8240@@YAXXZ	0x009C8240	655	blocked	served Code/gen_asm/d_009c5080.asm; 655-byte VP6 image-filter kernel has no named caller or source emitter and no safe clean C++ owner
+?bfmeApplyVTU@BfmeOwnVTU@@QAEXH@Z	0x009CC020	450	blocked	vtable pin and callers identify BfmeOwnVTU::bfmeApplyVTU, but the 450-byte body has no clean source emitter or reconstructed C++ implementation
