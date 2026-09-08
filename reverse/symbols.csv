@@ -84380,6 +84380,7 @@ DefaultModuleTemplate01_vtbl0,0x01110C50,DMT01 vtbl0
 DefaultModuleTemplate01_vtbl4,0x01110C4C,DMT01 vtbl4
 DefaultModuleTemplate02FieldParse,0x011145B0,DefaultModuleTemplate parse FieldParse
 DefaultModuleTemplate05FieldParse,0x01113594,DefaultModuleTemplate parse FieldParse
+DefaultModuleTemplate06FieldParse,0x01114768,DefaultModuleTemplate<7> Wind FieldParse table
 DefaultModuleTemplate05_sub_vtbl,0x0111094C,DMT05 sub vtbl
 DefaultModuleTemplate05_vtbl0,0x01110938,DMT05 vtbl0
 DefaultModuleTemplate05_vtbl4,0x01110934,DMT05 vtbl4
@@ -84405,6 +84406,7 @@ DefaultModuleTemplate6Concrete_vtbl8,0x01110DF4,ConcreteModuleTemplate DefaultMo
 DefaultModuleTemplate7Concrete_vtbl0,0x01111048,ConcreteModuleTemplate DefaultModuleTag<7> primary vtable
 DefaultModuleTemplate7Concrete_vtbl4,0x01111044,ConcreteModuleTemplate DefaultModuleTag<7> secondary vtable
 DefaultModuleTemplate7Concrete_vtbl8,0x01111030,ConcreteModuleTemplate DefaultModuleTag<7> module-info vtable
+?parse@?$DefaultModuleTemplate@$06@FXParticleSystem@@QAEXPAVINI@@@Z,0x0002C0A7,route=0x005FE460; ConcreteModuleClass<DefaultModuleTag<7>>::createTemplate(INI*) calls the wind template parser through this retail ILT
 DefaultModuleTemplate6_vtbl0,0x0111101C,DefaultModuleTemplate6 ctor vtbl anchor
 DefaultModuleTemplate6_vtbl4,0x01111018,DefaultModuleTemplate6 ctor vtbl anchor
 DefaultModuleTemplate6_vtbl8,0x01111004,DefaultModuleTemplate6 ctor vtbl anchor
