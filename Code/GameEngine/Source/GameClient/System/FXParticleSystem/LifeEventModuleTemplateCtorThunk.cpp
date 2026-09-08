@@ -1,130 +1,103 @@
 // cl: /DNDEBUG /MD /EHsc
 
+// Open-BFME5: LifeEventModuleTemplate default constructor. The retail body
+// uses the same CategoryModuleTemplate<8> hierarchy as the independently
+// matched TerrainCollisionModuleTemplate constructor.
+
 namespace FXParticleSystem
 {
-class LifeEventModuleTemplate
+
+class __declspec(novtable) ModuleTemplate
 {
 public:
-    LifeEventModuleTemplate();
+	virtual ~ModuleTemplate();
 };
 
-__declspec(naked) LifeEventModuleTemplate::LifeEventModuleTemplate()
+template <int N>
+class CategoryModuleInfo;
+
+template <>
+class __declspec(novtable) CategoryModuleInfo<8>
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 0D8h
-        _emit 0ADh
-        _emit 003h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 0C7h
-        _emit 046h
-        _emit 004h
-        _emit 05Ch
-        _emit 037h
-        _emit 007h
-        _emit 001h
-        _emit 0B0h
-        _emit 001h
-        _emit 088h
-        _emit 046h
-        _emit 008h
-        _emit 088h
-        _emit 046h
-        _emit 009h
-        _emit 057h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 008h
-        _emit 0C7h
-        _emit 006h
-        _emit 048h
-        _emit 038h
-        _emit 007h
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 004h
-        _emit 044h
-        _emit 038h
-        _emit 007h
-        _emit 001h
-        _emit 08Dh
-        _emit 07Eh
-        _emit 00Ch
-        _emit 08Bh
-        _emit 0CFh
-        _emit 0C7h
-        _emit 044h
-        _emit 024h
-        _emit 014h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 0DDh
-        _emit 01Ah
-        _emit 0A3h
-        _emit 0FFh
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 00Ch
-        _emit 0C7h
-        _emit 007h
-        _emit 0A4h
-        _emit 012h
-        _emit 011h
-        _emit 001h
-        _emit 0C7h
-        _emit 006h
-        _emit 090h
-        _emit 012h
-        _emit 011h
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 004h
-        _emit 08Ch
-        _emit 012h
-        _emit 011h
-        _emit 001h
-        _emit 05Fh
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C3h
-    }
+public:
+	CategoryModuleInfo()
+	{
+		*(volatile unsigned int *)this = 0x0107375c;
+		m_a = true;
+		m_b = true;
+	}
+
+	virtual void unused();
+
+private:
+	volatile bool m_a;
+	volatile bool m_b;
+};
+
+template <int N>
+class __declspec(novtable) CategoryModuleTemplateBase
+{
+public:
+	CategoryModuleTemplateBase() {}
+	virtual ~CategoryModuleTemplateBase();
+};
+
+template <>
+class __declspec(novtable) CategoryModuleTemplateBase<8>
+	: public ModuleTemplate,
+	  public CategoryModuleInfo<8>
+{
+public:
+	CategoryModuleTemplateBase()
+		: ModuleTemplate(), CategoryModuleInfo<8>() {}
+	virtual ~CategoryModuleTemplateBase();
+};
+
+template <int N>
+class __declspec(novtable) CategoryModuleTemplate
+{
+public:
+	CategoryModuleTemplate();
+	virtual ~CategoryModuleTemplate();
+};
+
+template <>
+class __declspec(novtable) CategoryModuleTemplate<8>
+	: public CategoryModuleTemplateBase<8>
+{
+public:
+	CategoryModuleTemplate()
+		: CategoryModuleTemplateBase<8>()
+	{
+		*(unsigned int *)((unsigned char *)this + 0) = 0x01073848;
+		*(unsigned int *)((unsigned char *)this + 4) = 0x01073844;
+	}
+	virtual ~CategoryModuleTemplate();
+};
+
+class __declspec(novtable) LifeEventModuleInfo
+{
+public:
+	virtual ~LifeEventModuleInfo();
+	LifeEventModuleInfo();
+};
+
+class LifeEventModuleTemplate
+	: public CategoryModuleTemplate<8>,
+	  public LifeEventModuleInfo
+{
+public:
+	LifeEventModuleTemplate();
+};
+
+// ??0LifeEventModuleTemplate@FXParticleSystem@@QAE@XZ
+LifeEventModuleTemplate::LifeEventModuleTemplate()
+	: CategoryModuleTemplate<8>(),
+	  LifeEventModuleInfo()
+{
+	*(unsigned int *)((unsigned char *)this + 0xc) = 0x011112a4;
+	*(unsigned int *)((unsigned char *)this + 0) = 0x01111290;
+	*(unsigned int *)((unsigned char *)this + 4) = 0x0111128c;
 }
+
 }
