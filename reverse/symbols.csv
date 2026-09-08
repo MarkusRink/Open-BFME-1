@@ -86250,3 +86250,6 @@ TerrainCollisionConcrete_vtbl12,0x01111438,ConcreteModuleTemplate TerrainCollisi
 ??1AIInternalMoveToState@@UAE@XZ,0x0004AAF7,route=0x00172430; complete state destructor00183C10 calls canonical AIInternalMoveToState through actual retail ILT; decoded call at00183C59
 ?rva0089EEF0@Rva8CD130String@@QAEXII@Z,0x0089EEF0,neutral Apt string member; direct retail call008AE6D9; two32-bitargs ret8; boundary230B
 ?rva00896AF0@Rva00896AF0Tracker@@QAEXPAVRva8CD130String@@V2@@Z,0x00896AF0,neutral Apt tracker member; direct retail call008AE70E; pointer and by-value4Bstring ret8; boundary1272B
+??1BfmeE976@@QAE@XZ,0x0000B42E,BfmeAptScreenLanLobby embedded +0x25C cleanup call through the retail incremental-link thunk
+??1LanLobbyUserNamePrefs@@QAE@XZ,0x00040DB3,BfmeAptScreenLanLobby embedded +0x390 cleanup call through the retail incremental-link thunk
+??1LanLobbyTail@@QAE@XZ,0x0004598F,BfmeAptScreenLanLobby embedded +0x3C0 cleanup call through the retail incremental-link thunk
