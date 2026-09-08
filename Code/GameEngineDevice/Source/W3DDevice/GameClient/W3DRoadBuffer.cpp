@@ -3271,9 +3271,9 @@ void W3DRoadBuffer::allocateRoadBuffers(void)
 //=============================================================================
 /** Removes all roads. */
 //=============================================================================
-// ?clearAllRoads@W3DRoadBuffer@@QAEXXZ present-unmatched
 void W3DRoadBuffer::clearAllRoads(void)
 {
+	W3DRoadBufferResetGuard guard;
 	Int i;
 	if (m_roads)
 	for (i=0; i<m_numRoads; i++) {
@@ -3284,8 +3284,6 @@ void W3DRoadBuffer::clearAllRoads(void)
 	if (m_roadTypes)
 	for (i=0; i<m_maxRoadTypes; i++) {
 		m_roadTypes[i].setStacking(0); // Reset stacking orders
-		m_roadTypes[i].setNumVertices(0);
-		m_roadTypes[i].setNumIndices(0);
 	}
 }
 //=============================================================================
