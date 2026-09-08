@@ -1,62 +1,59 @@
-// ?d_00236930@@YAXXZ
-// partial score=0.71 date=2026-09-02
-// cl: /DNDEBUG /MD /EHsc
-// stlport
+// ?bfmeParseXU@@YAXPAVINI@@PAX1PBX@Z
+// partial score=0.96 date=2026-09-08
+namespace _STL
+{
 
-#include <new>
-#include <stdlib.h>
+class __new_alloc
+{
+public:
+	static void *allocate(unsigned int n);
+};
+
+}
+
+__declspec(dllimport) int __cdecl bfmeAtoiVHG(const char *s);
 
 class INI
 {
 public:
-	const char *getNextTokenOrNull(const char *text);
+	const char *getNextTokenOrNull(const char *seps);
 
-private:
-	unsigned char m_pad00[0x414];
-	const char *m_text;
-
-	friend void bfmeParseIntList(INI *ini, struct BfmeIntList *values);
+	unsigned char m_bfmeHeadXU[0x414];
+	const char *m_bfme414XU;
 };
 
-struct BfmeIntNode
+struct BfmeNodeXU
 {
-	BfmeIntNode *m_next;
-	BfmeIntNode *m_previous;
-	int m_value;
+	BfmeNodeXU *m_bfmeNextXU;
+	BfmeNodeXU *m_bfmePrevXU;
+	int m_bfmeValXU;
 };
 
-struct BfmeIntList
+void bfmeParseXU(INI *ini, void *instance, void *store, const void *userData)
 {
-	BfmeIntNode *m_header;
+	const char *tok = ini->getNextTokenOrNull(ini->m_bfme414XU);
 
-	void pushBack(int value);
-};
+	if (tok == 0)
+		return;
 
-void *bfmeAlloc1046(int size);
-
-inline void BfmeIntList::pushBack(int value)
-{
-	BfmeIntNode *header = m_header;
-	BfmeIntNode *node = static_cast<BfmeIntNode *>(bfmeAlloc1046(sizeof(BfmeIntNode)));
-	new (&node->m_value) int(value);
-	BfmeIntNode *previous = header->m_previous;
-	node->m_previous = previous;
-	node->m_next = header;
-	previous->m_next = node;
-	header->m_previous = node;
-}
-
-void bfmeParseIntList(INI *ini, BfmeIntList *values)
-{
-	INI *iniLocal = ini;
-	const char *token = iniLocal->getNextTokenOrNull(iniLocal->m_text);
-	if (token != 0)
+	do
 	{
-		BfmeIntList *valuesLocal = values;
-		do
-		{
-			valuesLocal->pushBack(atoi(token));
-			token = iniLocal->getNextTokenOrNull(iniLocal->m_text);
-		} while (token != 0);
+		int v = bfmeAtoiVHG(tok);
+		BfmeNodeXU *head = *(BfmeNodeXU **)store;
+		BfmeNodeXU *n = (BfmeNodeXU *)_STL::__new_alloc::allocate(12);
+		int *q = &n->m_bfmeValXU;
+
+		if (q != 0)
+			*q = v;
+
+		BfmeNodeXU *prev = head->m_bfmePrevXU;
+
+		n->m_bfmePrevXU = prev;
+		n->m_bfmeNextXU = head;
+		prev->m_bfmeNextXU = n;
+		head->m_bfmePrevXU = n;
+
+		tok = ini->getNextTokenOrNull(ini->m_bfme414XU);
 	}
+	while (tok);
 }
