@@ -1,6 +1,4 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
-// readable body of ?findTemplate@Anim2DCollection@@QAEPAVAnim2DTemplate@@ABVAsciiString@@@Z: Code/GameEngine/Source/GameClient/System/Anim2D.cpp
-// readable body of ?newTemplate@Anim2DCollection@@QAEPAVAnim2DTemplate@@ABVAsciiString@@@Z: Code/GameEngine/Source/GameClient/System/Anim2D.cpp
 // Collection head +8 and template nextTemplate +4 are shared by creation and lookup.
 // The returned name temporary must be released before the lookup branch.
 typedef int Int;
