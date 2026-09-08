@@ -7,9 +7,33 @@
 
 class Rva007903F0VptrCtor;
 class Rva00790480VptrCtor;
+class Rva00793150VptrCtor;
+class Rva007931B0VptrCtor;
+class Rva00798510VptrCtor;
+class Rva007985A0VptrCtor;
+class Rva00796A60VptrCtor;
+class Rva00796AF0VptrCtor;
+class Rva00793D30VptrCtor;
+class Rva00793E00VptrCtor;
+class Rva007961D0VptrCtor;
+class Rva00796260VptrCtor;
+class Rva0078FCA0VptrCtor;
+class Rva0078FD30VptrCtor;
 
 Rva007903F0VptrCtor *__stdcall Rva0078F100New(void *argument);
 Rva00790480VptrCtor *__stdcall Rva0078F180New(void *argument);
+Rva00793150VptrCtor *__stdcall Rva0078F200New(void *argument);
+Rva007931B0VptrCtor *__stdcall Rva0078F280New(void *argument);
+Rva00798510VptrCtor *__stdcall Rva0078EE00New(void *argument);
+Rva007985A0VptrCtor *__stdcall Rva0078EE80New(void *argument);
+Rva00796A60VptrCtor *__stdcall Rva0078E8F0New(void *argument);
+Rva00796AF0VptrCtor *__stdcall Rva0078E970New(void *argument);
+Rva00793D30VptrCtor *__stdcall Rva0078E9F0New(void *argument);
+Rva00793E00VptrCtor *__stdcall Rva0078EA70New(void *argument);
+Rva007961D0VptrCtor *__stdcall Rva0078EB00New(void *argument);
+Rva00796260VptrCtor *__stdcall Rva0078EB80New(void *argument);
+Rva0078FCA0VptrCtor *__stdcall Rva0078EC00New(void *argument);
+Rva0078FD30VptrCtor *__stdcall Rva0078EC80New(void *argument);
 
 typedef void *(__stdcall *Rva0078F950Factory)(void *argument);
 
@@ -28,6 +52,33 @@ public:
 	void dispatchFactory(Rva0078F950Record *record);
 };
 
+class Rva0078F8D0Owner
+{
+public:
+	void selectFactory(Rva0078F950Record *record);
+	void dispatchFactory(Rva0078F950Record *record);
+};
+
+class Rva0078F910Owner
+{
+public:
+	void selectFactory(Rva0078F950Record *record);
+	void dispatchFactory(Rva0078F950Record *record);
+};
+
+#define DECLARE_FACTORY_SELECTOR_OWNER(address) \
+	class Rva##address##Owner \
+	{ \
+	public: \
+		void selectFactory(Rva0078F950Record *record); \
+		void dispatchFactory(Rva0078F950Record *record); \
+	}
+
+DECLARE_FACTORY_SELECTOR_OWNER(0078F630);
+DECLARE_FACTORY_SELECTOR_OWNER(0078F670);
+DECLARE_FACTORY_SELECTOR_OWNER(0078F6B0);
+DECLARE_FACTORY_SELECTOR_OWNER(0078F6F0);
+
 void Rva0078F950Owner::selectFactory(Rva0078F950Record *record)
 {
 	signed char kind = record->m_kind;
@@ -39,3 +90,43 @@ void Rva0078F950Owner::selectFactory(Rva0078F950Record *record)
 
 	dispatchFactory(record);
 }
+
+void Rva0078F8D0Owner::selectFactory(Rva0078F950Record *record)
+{
+	signed char kind = record->m_kind;
+
+	if (kind & 0x80)
+		record->m_factory = (Rva0078F950Factory)Rva0078F280New;
+	else
+		record->m_factory = (Rva0078F950Factory)Rva0078F200New;
+
+	dispatchFactory(record);
+}
+
+void Rva0078F910Owner::selectFactory(Rva0078F950Record *record)
+{
+	signed char kind = record->m_kind;
+
+	if (kind & 0x80)
+		record->m_factory = (Rva0078F950Factory)Rva0078EE80New;
+	else
+		record->m_factory = (Rva0078F950Factory)Rva0078EE00New;
+
+	dispatchFactory(record);
+}
+
+#define DEFINE_FACTORY_SELECTOR(address, negativeFactory, nonnegativeFactory) \
+	void Rva##address##Owner::selectFactory(Rva0078F950Record *record) \
+	{ \
+		signed char kind = record->m_kind; \
+		if (kind & 0x80) \
+			record->m_factory = (Rva0078F950Factory)negativeFactory; \
+		else \
+			record->m_factory = (Rva0078F950Factory)nonnegativeFactory; \
+		dispatchFactory(record); \
+	}
+
+DEFINE_FACTORY_SELECTOR(0078F630, Rva0078EA70New, Rva0078E9F0New)
+DEFINE_FACTORY_SELECTOR(0078F670, Rva0078E970New, Rva0078E8F0New)
+DEFINE_FACTORY_SELECTOR(0078F6B0, Rva0078EC80New, Rva0078EC00New)
+DEFINE_FACTORY_SELECTOR(0078F6F0, Rva0078EB80New, Rva0078EB00New)
