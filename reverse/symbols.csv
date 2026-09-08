@@ -86335,3 +86335,5 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeFinalZB@BfmeOverride1137@@QAEPAV1@XZ,0x000022BB,Open-BFME5 ILT override walk the 0x0045B060 destructor calls
 ??_7BfmeHostZB@@6B@,0x00CF6898,Open-BFME5 vftable the 0x0045B060 destructor installs
 _Rva005FAD00FillUnitVector,0x005FAD00,Address-qualified cdecl output-pointer helper; retail ILT 0x000107EE
+?Rva00C75350Zero@@3MB,0x00C75350,Address-qualified readonly zero float; image VA0x01075350 bytes00000000
+?Rva00C75334One@@3MB,0x00C75334,Address-qualified readonly unit float; image VA0x01075334 bytes0000803F
