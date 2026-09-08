@@ -1,5 +1,7 @@
 // ?bfmeGetJD@BfmeArrJD@@QAEXPAVBfmeBlobJD@@H@Z
-// partial score=0.8 date=2026-09-08
+// partial score=0.85 date=2026-09-08
+extern "C" void *__cdecl memset(void *d, int c, unsigned int n);
+
 class BfmeBlobJD
 {
 public:
@@ -57,7 +59,7 @@ void BfmeArrJD::bfmeGetJD(BfmeBlobJD *dst, int index)
 {
 	BfmeBlobJD zero;
 
-	zero.bfmeClearJD();
+	memset(&zero, 0, sizeof(zero));
 
 	if (index >= 0)
 	{
