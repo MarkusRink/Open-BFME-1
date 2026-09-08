@@ -19,6 +19,10 @@ class Rva007961D0VptrCtor;
 class Rva00796260VptrCtor;
 class Rva0078FCA0VptrCtor;
 class Rva0078FD30VptrCtor;
+class Rva007996A0VptrCtor;
+class Rva00799730VptrCtor;
+class Rva00790C40VptrCtor;
+class Rva00790CD0VptrCtor;
 
 Rva007903F0VptrCtor *__stdcall Rva0078F100New(void *argument);
 Rva00790480VptrCtor *__stdcall Rva0078F180New(void *argument);
@@ -34,15 +38,33 @@ Rva007961D0VptrCtor *__stdcall Rva0078EB00New(void *argument);
 Rva00796260VptrCtor *__stdcall Rva0078EB80New(void *argument);
 Rva0078FCA0VptrCtor *__stdcall Rva0078EC00New(void *argument);
 Rva0078FD30VptrCtor *__stdcall Rva0078EC80New(void *argument);
+Rva007996A0VptrCtor *__stdcall Rva0078F300New(void *argument);
+Rva00799730VptrCtor *__stdcall Rva0078F380New(void *argument);
+Rva00790C40VptrCtor *__stdcall Rva0078F400New(void *argument);
+Rva00790CD0VptrCtor *__stdcall Rva0078F480New(void *argument);
 
 typedef void *(__stdcall *Rva0078F950Factory)(void *argument);
 
+class Rva0078F830Predicate
+{
+public:
+	unsigned char flags(void);
+};
+
+struct Rva0078F830Context
+{
+	char m_gap[12];
+	unsigned int m_flags;
+};
+
 struct Rva0078F950Record
 {
-	int m_head;
+	Rva0078F830Predicate *m_head;
 	signed char m_kind;
 	char m_gap[19];
 	Rva0078F950Factory m_factory;
+	char m_gap2[20];
+	Rva0078F830Context *m_context;
 };
 
 class Rva0078F950Owner
@@ -78,6 +100,15 @@ DECLARE_FACTORY_SELECTOR_OWNER(0078F630);
 DECLARE_FACTORY_SELECTOR_OWNER(0078F670);
 DECLARE_FACTORY_SELECTOR_OWNER(0078F6B0);
 DECLARE_FACTORY_SELECTOR_OWNER(0078F6F0);
+
+class Rva0078F830Owner
+{
+public:
+	int selectFactory(Rva0078F950Record *record, int first, int second,
+		int third);
+	int dispatchFactory(Rva0078F950Record *record, int first, int second,
+		int third);
+};
 
 void Rva0078F950Owner::selectFactory(Rva0078F950Record *record)
 {
@@ -130,3 +161,31 @@ DEFINE_FACTORY_SELECTOR(0078F630, Rva0078EA70New, Rva0078E9F0New)
 DEFINE_FACTORY_SELECTOR(0078F670, Rva0078E970New, Rva0078E8F0New)
 DEFINE_FACTORY_SELECTOR(0078F6B0, Rva0078EC80New, Rva0078EC00New)
 DEFINE_FACTORY_SELECTOR(0078F6F0, Rva0078EB80New, Rva0078EB00New)
+
+int Rva0078F830Owner::selectFactory(Rva0078F950Record *record, int first,
+	int second, int third)
+{
+	unsigned int flags = record->m_context->m_flags;
+
+	if (flags & 0x10)
+	{
+		if (record->m_kind & 0x80)
+			record->m_factory = (Rva0078F950Factory)Rva0078F480New;
+		else
+			record->m_factory = (Rva0078F950Factory)Rva0078F400New;
+	}
+	else if (flags & 8)
+	{
+		if ((record->m_kind & 0x80) && (record->m_head == 0 ||
+			!(record->m_head->flags() & 0x20)))
+			record->m_factory = (Rva0078F950Factory)Rva0078F380New;
+		else
+			record->m_factory = (Rva0078F950Factory)Rva0078F300New;
+	}
+	else
+	{
+		return 0;
+	}
+
+	return dispatchFactory(record, first, second, third);
+}

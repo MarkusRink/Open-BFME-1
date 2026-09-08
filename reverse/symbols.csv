@@ -78103,6 +78103,7 @@ name,address,notes
 ?dispatchFactory@Rva0078F670Owner@@QAEXPAURva0078F950Record@@@Z,0x0047E010,address-derived shared member handler tail-called by retail 0x0078F670
 ?dispatchFactory@Rva0078F6B0Owner@@QAEXPAURva0078F950Record@@@Z,0x0047DD90,address-derived shared member handler tail-called by retail 0x0078F6B0
 ?dispatchFactory@Rva0078F6F0Owner@@QAEXPAURva0078F950Record@@@Z,0x0047DEC0,address-derived shared member handler tail-called by retail 0x0078F6F0
+?dispatchFactory@Rva0078F830Owner@@QAEHPAURva0078F950Record@@HHH@Z,0x0047D2B0,address-derived four-argument member handler called by retail 0x0078F830
 ?dispatchFactory@Rva0078F8D0Owner@@QAEXPAURva0078F950Record@@@Z,0x0047D500,address-derived shared member handler tail-called by retail 0x0078F8D0
 ?dispatchFactory@Rva0078F910Owner@@QAEXPAURva0078F950Record@@@Z,0x0047FCF0,address-derived shared member handler tail-called by retail 0x0078F910
 ?dispatchFactory@Rva0078F950Owner@@QAEXPAURva0078F950Record@@@Z,0x0047F6E0,address-derived shared member handler tail-called by retail 0x0078F950
@@ -78415,6 +78416,7 @@ name,address,notes
 ?execute@Rva0058C100CommandManager@@QAEXHPAX@Z,0x0003BCCD,address-derived command execution thunk used by the observer command callbacks
 ?extraAfterFmod@W3DSnowManager@@QAEXXZ,0x00008F2B,Open-BFME5 ILT 0x00008F2B used by W3DSnowManager::update
 ?extraTail@W3DSnowManager@@QAEXXZ,0x000092AF,Open-BFME5 ILT 0x000092AF used by W3DSnowManager::update
+?flags@Rva0078F830Predicate@@QAEEXZ,0x00478490,address-derived byte flag query called by retail 0x0078F830
 ?f_00881eb0@@YAXPAX@Z,0x00881EB0,gen-shim call target
 ?f_00881ef0@@YAXPAX@Z,0x00881EF0,gen-shim call target
 ?fade00565170@@YAIM_N@Z,0x37498,"Independent wrapper/table/callback ABI review; timed-operation pump passes elapsed float and firstCall bool, returns unsigned flags; post writes serial key and owns by-value release"
