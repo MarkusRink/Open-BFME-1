@@ -86290,3 +86290,5 @@ _bfmeCbXK,0x0065BD00,Open-BFME5 completion callback the 0x0065BF40 http start pa
 ?bfmeEstimateXQ@BfmeTeamXQ@@QAEXPAUCoord3D@@@Z,0x000241FE,Open-BFME5 ILT team position estimate the 0x0015CCE0 step calls
 ?finishUpdate@OpenContain@@QAEXXZ,0x0000BA50,OpenContain update helper reached through the retail thunk at 0x00224340
 ?pruneDeadWanters@OpenContain@@QAEXXZ,0x00004953,OpenContain update helper reached through the retail thunk at 0x00224560
+?clearCondition@Object@@QAEXH@Z,0x000348EC,Open-BFME5 ILT condition clear the 0x001FAEE0 refresh calls
+?bfmeApplyXT@BfmeHostXT@@QAEXPAVObject@@H@Z,0x000157DA,Open-BFME5 ILT apply the 0x001FAEE0 refresh tail-calls
