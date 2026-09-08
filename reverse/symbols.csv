@@ -86360,3 +86360,5 @@ ___security_cookie,0x012DBDB0,MSVC 7.1 /GS cookie; absolute data VA read by exac
 ?g_bfmeLockZS@@3PAVBfmeLockVHX@@A,0x012F9858,Open-BFME5 global lock pointer the 0x00C709F0 teardown deletes
 ?bfmeNotifyZT@BfmeSinkZT@@QAEX_N@Z,0x0004326B,pin notify thunk for BfmeConv2112
 ?j_000030bc@?$vector@PAVSoundKeyPair@@V?$allocator@PAVSoundKeyPair@@@_STL@@@_STL@@IAEXPAPAVSoundKeyPair@@ABQAV3@ABU__true_type@2@I_N@Z,0x000030BC,LargeGroupAudioMap SoundKeyPair pointer vector overflow call uses retail ILT 0x000030BC
+?Rva0051A5D0Advance@Rva0051A5D0Receiver@@QAEXXZ,0x0051A5D0,OnGameCreate actual80-byte thiscall state-advance helper; ILT2A5B8
+?chatSystemColor@@3HB,0x00EBA0D4,Const LAN chat color; imageVA12BA0D4 rawFFFFFFFF; canonical LANAPICallbacks constColor
