@@ -275,30 +275,68 @@ void W3DBufferManager::ReleaseResources(void)
 	}
 }
 
-// ?ReAcquireResources@W3DBufferManager@@ present-unmatched
+class BfmeDX8VertexBuffer
+{
+public:
+	enum UsageType { USAGE_DEFAULT = 0 };
+
+	BfmeDX8VertexBuffer(unsigned fvf, unsigned short count,
+		UsageType usage, unsigned vertexSize);
+
+private:
+	unsigned char m_storage[0x20];
+};
+
+class BfmeDX8IndexBuffer
+{
+public:
+	enum UsageType { USAGE_DEFAULT = 0 };
+
+	BfmeDX8IndexBuffer(unsigned count, UsageType usage);
+
+private:
+	unsigned char m_storage[0x18];
+};
+
+struct BFMEReAcquireBufferManagerView
+{
+	unsigned char m_beforeVertexBuffers[0x9000];
+	W3DBufferManager::W3DVertexBuffer *m_vertexBuffers[W3DBufferManager::MAX_FVF];
+	unsigned char m_beforeIndexBuffers[0x1c384];
+	Int m_emptyVertexBufferCount;
+	unsigned char m_beforeIndexBufferList[0x1000];
+	W3DBufferManager::W3DIndexBuffer *m_indexBuffers;
+};
+
 Bool W3DBufferManager::ReAcquireResources(void)
 {
-	for (Int i=0; i<MAX_FVF; i++)
+	BFMEReAcquireBufferManagerView *self =
+		(BFMEReAcquireBufferManagerView *)this;
+
+	for (Int i = 0; i < MAX_FVF; ++i)
 	{
-		W3DVertexBuffer *vb = m_W3DVertexBuffers[i];
+		W3DVertexBuffer *vb = self->m_vertexBuffers[i];
 		while (vb)
-		{	DEBUG_ASSERTCRASH( vb->m_DX8VertexBuffer == NULL, ("ReAcquire of existing vertex buffer"));
-			vb->m_DX8VertexBuffer=NEW_REF(DX8VertexBufferClass,(FVFTypeIndexList[vb->m_format],vb->m_size,DX8VertexBufferClass::USAGE_DEFAULT));
-			DEBUG_ASSERTCRASH( vb->m_DX8VertexBuffer, ("Failed ReAcquire of vertex buffer"));
+		{
+			vb->m_DX8VertexBuffer = (DX8VertexBufferClass *)
+				::new BfmeDX8VertexBuffer(
+					FVFTypeIndexList[vb->m_format], vb->m_size,
+					BfmeDX8VertexBuffer::USAGE_DEFAULT, 0);
 			if (!vb->m_DX8VertexBuffer)
 				return FALSE;
-			vb=vb->m_nextVB;	//get next vertex buffer of this type
+			vb = vb->m_nextVB;
 		}
 	}
 
-	W3DIndexBuffer *ib = m_W3DIndexBuffers;
+	W3DIndexBuffer *ib = self->m_indexBuffers;
 	while (ib)
-	{	DEBUG_ASSERTCRASH( ib->m_DX8IndexBuffer == NULL, ("ReAcquire of existing index buffer"));
-		ib->m_DX8IndexBuffer=NEW_REF(DX8IndexBufferClass,(ib->m_size,DX8IndexBufferClass::USAGE_DEFAULT));
-		DEBUG_ASSERTCRASH( ib->m_DX8IndexBuffer, ("Failed ReAcquire of index buffer"));
+	{
+		ib->m_DX8IndexBuffer = (DX8IndexBufferClass *)
+			::new BfmeDX8IndexBuffer(
+				(unsigned)ib->m_size, BfmeDX8IndexBuffer::USAGE_DEFAULT);
 		if (!ib->m_DX8IndexBuffer)
 			return FALSE;
-		ib=ib->m_nextIB;	//get next vertex buffer of this type
+		ib = ib->m_nextIB;
 	}
 
 	return TRUE;
