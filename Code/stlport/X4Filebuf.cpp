@@ -1,3 +1,4 @@
+// cl: /MD
 // stlport
 // STLport 4.5.3 Win32 file-buffer implementation.
 
@@ -217,6 +218,75 @@ streamoff _Filebuf_base::_M_seek(streamoff offset, ios_base::seekdir dir)
   if (li.LowPart == (DWORD)-1 && GetLastError() != 0)
     return streamoff(-1);
   return li.QuadPart;
+}
+
+bool _Filebuf_base::_M_write(char *buf, ptrdiff_t n)
+{
+  for (;;) {
+    ptrdiff_t written;
+
+    if (_M_openmode & ios_base::app)
+      _M_seek(0, ios_base::end);
+
+    if (_M_openmode & ios_base::binary) {
+      DWORD NumberOfBytesWritten;
+      WriteFile(_M_file_id, buf, (DWORD)n, &NumberOfBytesWritten, 0);
+      written = (ptrdiff_t)NumberOfBytesWritten;
+    }
+    else {
+      char textbuf[4097];
+      char *nextblock = buf;
+      char *ptrtextbuf = textbuf;
+      char *endtextbuf = textbuf + 4096;
+      char *endblock = buf + n;
+      ptrdiff_t nextblocksize = (min)(n, (ptrdiff_t)4096);
+      char *nextlf;
+
+      while (nextblocksize > 0 &&
+             (nextlf = (char *)::memchr(nextblock, '\n', nextblocksize)) != 0) {
+        ptrdiff_t linelength = nextlf - nextblock;
+        memcpy(ptrtextbuf, nextblock, linelength);
+        ptrtextbuf += linelength;
+        nextblock += linelength + 1;
+        *ptrtextbuf++ = '\r';
+        *ptrtextbuf++ = '\n';
+        nextblocksize = (min)((ptrdiff_t)(endblock - nextblock),
+                              (max)((ptrdiff_t)0,
+                                    (ptrdiff_t)(endtextbuf - ptrtextbuf)));
+      }
+
+      if (nextblocksize > 0) {
+        memcpy(ptrtextbuf, nextblock, nextblocksize);
+        ptrtextbuf += nextblocksize;
+        nextblock += nextblocksize;
+      }
+
+      char *writetextbuf = textbuf;
+      for (DWORD NumberOfBytesToWrite = (DWORD)(ptrtextbuf - textbuf);
+           NumberOfBytesToWrite != 0;) {
+        DWORD NumberOfBytesWritten;
+        WriteFile(_M_file_id, writetextbuf, NumberOfBytesToWrite,
+                  &NumberOfBytesWritten, 0);
+        if (NumberOfBytesWritten == NumberOfBytesToWrite)
+          break;
+        if (NumberOfBytesWritten == 0)
+          return false;
+        writetextbuf += NumberOfBytesWritten;
+        NumberOfBytesToWrite -= NumberOfBytesWritten;
+      }
+
+      written = nextblock - buf;
+    }
+
+    if (n == written)
+      return true;
+    else if (written > 0 && written < n) {
+      n -= written;
+      buf += written;
+    }
+    else
+      return false;
+  }
 }
 
 _STLP_END_NAMESPACE
