@@ -86253,3 +86253,4 @@ TerrainCollisionConcrete_vtbl12,0x01111438,ConcreteModuleTemplate TerrainCollisi
 ??1BfmeE976@@QAE@XZ,0x0000B42E,BfmeAptScreenLanLobby embedded +0x25C cleanup call through the retail incremental-link thunk
 ??1LanLobbyUserNamePrefs@@QAE@XZ,0x00040DB3,BfmeAptScreenLanLobby embedded +0x390 cleanup call through the retail incremental-link thunk
 ??1LanLobbyTail@@QAE@XZ,0x0004598F,BfmeAptScreenLanLobby embedded +0x3C0 cleanup call through the retail incremental-link thunk
+?bfmeCmpXD@BfmeStrXD@@QBEHABV1@@Z,0x000220C5,Open-BFME5 AsciiString compare ILT the median of three at 0x002E7FF0 calls
