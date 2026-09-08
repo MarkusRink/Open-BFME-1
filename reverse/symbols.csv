@@ -3730,6 +3730,7 @@ name,address,notes
 ??0W3DInGameUI@@QAE@XZ,0x0003CDB2
 ??0W3DLaserDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x0000E61A,link thunk to the W3DLaserDraw constructor; named from the draw-module registration that pairs "W3DLaserDraw" with factory 0x006BF150
 ??0W3DLaserDrawModuleData@@QAE@XZ,0x0001BE41,pinharvest x1 (thunk)
+??0W3DLightDraw@@QAE@PAVThing@@PBVModuleData@@@Z,0x00034EDC,ILT thunk encoded by the W3DLightDraw factory at 0x006BFAD0; registration table pairs that factory with the W3DLightDraw name
 ??0W3DLightDrawModuleData@@QAE@XZ,0x00028D9E,module-data constructor called by W3DLightDraw::friend_newModuleData at 0x006BFB50
 ??0W3DModelDrawModuleData@@QAE@XZ,0x00025EBE,pinharvest x1 (thunk)
 ??0W3DMouse@@QAE@XZ,0x0002B7B0,ILT fronting the 233-byte body at 0x007003E0; from W3DGameClient::createMouse

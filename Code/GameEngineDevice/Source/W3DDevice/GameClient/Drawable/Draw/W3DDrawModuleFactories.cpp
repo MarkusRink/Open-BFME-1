@@ -18,11 +18,9 @@
 //   W3DBuffDraw            0x006BF7A0    0x10
 //   W3DPropDraw            0x006BF8B0    0x10
 //   W3DFloorDraw           0x006BF9C0    0x14
+//   W3DLightDraw           0x006BFAD0    0x20
 //   W3DHordeModelDraw      0x006BFBE0   0x288
 //   W3DStreakDraw          0x006BFCF0    0x14
-//
-// The run has one gap, 0x006BFAD0 between W3DFloorDraw and W3DHordeModelDraw:
-// a fourteenth factory that has not been converted yet.
 //
 // Thirteen files meant thirteen copies of the same four declarations, and the
 // only thing that differed between them was the allocation size -- which is the
@@ -161,6 +159,19 @@ private:
 	unsigned char m_pad[0x14];
 };
 
+// The module registration table pairs the factory at 0x006BFAD0 with the
+// "W3DLightDraw" name.  The 0x20-byte allocation in that factory independently
+// supplies the retail class size.
+class W3DLightDraw
+{
+public:
+	W3DLightDraw(Thing *, const ModuleData *);
+	static Module *friend_newModuleInstance(Thing *, const ModuleData *);
+
+private:
+	unsigned char m_pad[0x20];
+};
+
 class W3DHordeModelDraw
 {
 public:
@@ -245,6 +256,12 @@ Module *W3DPropDraw::friend_newModuleInstance(Thing *thing, const ModuleData *da
 Module *W3DFloorDraw::friend_newModuleInstance(Thing *thing, const ModuleData *data)
 {
 	return (Module *)new W3DFloorDraw(thing, data);
+}
+
+// ?friend_newModuleInstance@W3DLightDraw@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
+Module *W3DLightDraw::friend_newModuleInstance(Thing *thing, const ModuleData *data)
+{
+	return (Module *)new W3DLightDraw(thing, data);
 }
 
 // ?friend_newModuleInstance@W3DHordeModelDraw@@SAPAVModule@@PAVThing@@PBVModuleData@@@Z
