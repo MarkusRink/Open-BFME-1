@@ -1,308 +1,77 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
+
+// Open-BFME5: ContestableContain constructor.  The named module factory and
+// matched destructor fix the owner and the four STLport members at +0x9bc.
+
+#include <list>
+#include <map>
 
 class Thing;
 class ModuleData;
 
-class ContestableContain
+class OpenContainPrimaryBase { public: virtual ~OpenContainPrimaryBase() {} private: unsigned char m_pad[8]; };
+template <int Number> class OpenContainSecondaryBase { public: virtual ~OpenContainSecondaryBase() {} };
+class OpenContainWideSecondaryBase { public: virtual ~OpenContainWideSecondaryBase() {} private: unsigned char m_pad[12]; };
+
+class __declspec(novtable) OpenContain
+	: public OpenContainPrimaryBase,
+	  public OpenContainSecondaryBase<1>,
+	  public OpenContainWideSecondaryBase,
+	  public OpenContainSecondaryBase<2>,
+	  public OpenContainSecondaryBase<3>,
+	  public OpenContainSecondaryBase<4>,
+	  public OpenContainSecondaryBase<5>,
+	  public OpenContainSecondaryBase<6>,
+	  public OpenContainSecondaryBase<7>
 {
 public:
-    ContestableContain(Thing *, const ModuleData *);
+	virtual ~OpenContain() {}
+private:
+	unsigned char m_pad[0x384];
 };
 
-__declspec(naked) ContestableContain::ContestableContain(Thing *, const ModuleData *)
+class Coord3D { public: ~Coord3D() {} private: float m_value[3]; };
+
+class __declspec(novtable) HordeGarrisonContain : public OpenContain
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 012h
-        _emit 0CEh
-        _emit 000h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 08Bh
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 053h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 01Ch
-        _emit 050h
-        _emit 051h
-        _emit 08Bh
-        _emit 0CEh
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 010h
-        _emit 0E8h
-        _emit 09Ch
-        _emit 0C0h
-        _emit 0E1h
-        _emit 0FFh
-        _emit 033h
-        _emit 0DBh
-        _emit 0C7h
-        _emit 006h
-        _emit 0C0h
-        _emit 0B3h
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 00Ch
-        _emit 0F8h
-        _emit 0B2h
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 010h
-        _emit 0E8h
-        _emit 0B2h
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 020h
-        _emit 040h
-        _emit 0B1h
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 024h
-        _emit 024h
-        _emit 0B1h
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 028h
-        _emit 020h
-        _emit 0B1h
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 02Ch
-        _emit 010h
-        _emit 0B1h
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 030h
-        _emit 0D4h
-        _emit 0B0h
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 034h
-        _emit 0C4h
-        _emit 0B0h
-        _emit 00Ah
-        _emit 001h
-        _emit 06Ah
-        _emit 00Ch
-        _emit 089h
-        _emit 05Ch
-        _emit 024h
-        _emit 018h
-        _emit 089h
-        _emit 09Eh
-        _emit 0BCh
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 0E0h
-        _emit 025h
-        _emit 061h
-        _emit 000h
-        _emit 089h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 004h
-        _emit 089h
-        _emit 086h
-        _emit 0BCh
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 06Ah
-        _emit 00Ch
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 01Ch
-        _emit 001h
-        _emit 089h
-        _emit 09Eh
-        _emit 0C0h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 0C3h
-        _emit 025h
-        _emit 061h
-        _emit 000h
-        _emit 089h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 004h
-        _emit 089h
-        _emit 086h
-        _emit 0C0h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 06Ah
-        _emit 01Ch
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 020h
-        _emit 002h
-        _emit 089h
-        _emit 09Eh
-        _emit 0C4h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 0A6h
-        _emit 025h
-        _emit 061h
-        _emit 000h
-        _emit 089h
-        _emit 086h
-        _emit 0C4h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 0C8h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 018h
-        _emit 08Bh
-        _emit 096h
-        _emit 0C4h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 05Ah
-        _emit 004h
-        _emit 08Bh
-        _emit 086h
-        _emit 0C4h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 008h
-        _emit 08Bh
-        _emit 086h
-        _emit 0C4h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 00Ch
-        _emit 06Ah
-        _emit 010h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 024h
-        _emit 003h
-        _emit 089h
-        _emit 09Eh
-        _emit 0D0h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 06Bh
-        _emit 025h
-        _emit 061h
-        _emit 000h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 01Ch
-        _emit 089h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 004h
-        _emit 089h
-        _emit 086h
-        _emit 0D0h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 088h
-        _emit 09Eh
-        _emit 0D8h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 0D4h
-        _emit 009h
-        _emit 000h
-        _emit 000h
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 05Bh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C2h
-        _emit 008h
-        _emit 000h
-    }
+public:
+	HordeGarrisonContain(Thing *, const ModuleData *);
+	virtual ~HordeGarrisonContain();
+private:
+	Coord3D m_garrisonPoint[3][40];
+};
+
+struct Gen_t_0021b400_p8cd { int a[2]; Gen_t_0021b400_p8cd(); Gen_t_0021b400_p8cd(const Gen_t_0021b400_p8cd&); ~Gen_t_0021b400_p8cd(); Gen_t_0021b400_p8cd& operator=(const Gen_t_0021b400_p8cd&); };
+bool operator==(const Gen_t_0021b400_p8cd&, const Gen_t_0021b400_p8cd&);
+bool operator<(const Gen_t_0021b400_p8cd&, const Gen_t_0021b400_p8cd&);
+
+struct Gen_p8pod { int a[2]; };
+bool operator==(const Gen_p8pod&, const Gen_p8pod&);
+bool operator<(const Gen_p8pod&, const Gen_p8pod&);
+
+class ContestableContain : public HordeGarrisonContain
+{
+public:
+	ContestableContain(Thing *, const ModuleData *);
+	virtual ~ContestableContain();
+private:
+	unsigned char m_unreconstructed_99c[0x20];
+	bool m_flag47c;
+	bool m_flag47d;
+	unsigned char m_pad47e[0x3e];
+	_STL::list<int> m_listA;
+	_STL::list<int> m_listB;
+	_STL::map<int, Gen_t_0021b400_p8cd> m_map;
+	_STL::list<Gen_p8pod> m_listC;
+	unsigned int m_lastContestUpdateFrame;
+	bool m_flag9d8;
+};
+
+// ??0ContestableContain@@QAE@PAVThing@@PBVModuleData@@@Z
+ContestableContain::ContestableContain(Thing *thing, const ModuleData *data)
+	: HordeGarrisonContain(thing, data)
+{
+	m_flag9d8 = false;
+	m_lastContestUpdateFrame = 0;
 }
