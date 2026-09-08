@@ -364,10 +364,12 @@ L01_8194E8:
 
 extern "C" {
 	int CommUdpProcess();
-	int CommUdpSetup();
+	void CommUdpSetup(void *ref, void *packet, void *from);
 	int CommUdpPoke(void *ref);
 	int CommUdpListen();
 	int CommUDPSend();
+	unsigned int Rva007FEA00();
+	void Rva00818500(void *ref, void *from);
 }
 
 // The CommUDP tick. Logs "CommUdpProcess: got RAW_PACKET_INIT", closes the
@@ -1384,117 +1386,34 @@ L39_8183A3:
 
 // Answers an INIT with a CONN, and warns "commudp: warning - connident
 // mismatch" when the connection identifier does not line up.
-__declspec(naked) int CommUdpSetup()
+void CommUdpSetup(void *ref, void *packet, void *from)
 {
-	__asm {
-		push ebp
-		mov ebp, esp
-		mov eax, dword ptr [ebp+0Ch]
-		cmp dword ptr [eax], 0h
-		je L00_818410
-		jmp L01_8184F4
-L00_818410:
-		mov ecx, dword ptr [ebp+0Ch]
-		mov edx, dword ptr [ebp+8h]
-		mov eax, dword ptr [ecx+0Ch]
-		cmp eax, dword ptr [edx+94h]
-		je L02_818449
-		push 12C4D9Ch
-		__emit 0E8h
-		__emit 055h
-		__emit 063h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 4h
-		mov ecx, dword ptr [ebp+0Ch]
-		cmp dword ptr [ecx+8h], 1h
-		jne L03_818444
-		mov edx, dword ptr [ebp+8h]
-		mov dword ptr [edx+90h], 5h
-L03_818444:
-		jmp L01_8184F4
-L02_818449:
-		__emit 0E8h
-		__emit 0B2h
-		__emit 065h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FEA00
-		sub eax, 3E8h
-		mov ecx, dword ptr [ebp+8h]
-		mov dword ptr [ecx+0DCh], eax
-		mov edx, dword ptr [ebp+0Ch]
-		cmp dword ptr [edx+8h], 1h
-		jne L04_81849E
-		mov eax, dword ptr [ebp+10h]
-		push eax
-		mov ecx, dword ptr [ebp+8h]
-		push ecx
-		__emit 0E8h
-		__emit 08Eh
-		__emit 000h
-		__emit 000h
-		__emit 000h   // call 0x818500
-		add esp, 8h
-		push 12C4DC4h
-		__emit 0E8h
-		__emit 001h
-		__emit 063h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 4h
-		mov edx, dword ptr [ebp+0Ch]
-		mov dword ptr [edx+8h], 2h
-		mov eax, dword ptr [ebp+0Ch]
-		push eax
-		mov ecx, dword ptr [ebp+8h]
-		push ecx
-		__emit 0E8h
-		__emit 097h
-		__emit 0EBh
-		__emit 0FFh
-		__emit 0FFh   // call 0x817030
-		add esp, 8h
-		jmp L01_8184F4
-L04_81849E:
-		mov edx, dword ptr [ebp+0Ch]
-		cmp dword ptr [edx+8h], 2h
-		jne L05_8184D2
-		mov eax, dword ptr [ebp+8h]
-		cmp dword ptr [eax+90h], 2h
-		jne L06_8184D0
-		mov ecx, dword ptr [ebp+10h]
-		push ecx
-		mov edx, dword ptr [ebp+8h]
-		push edx
-		__emit 0E8h
-		__emit 040h
-		__emit 000h
-		__emit 000h
-		__emit 000h   // call 0x818500
-		add esp, 8h
-		mov eax, dword ptr [ebp+8h]
-		mov dword ptr [eax+90h], 4h
-L06_8184D0:
-		jmp L01_8184F4
-L05_8184D2:
-		mov ecx, dword ptr [ebp+0Ch]
-		cmp dword ptr [ecx+8h], 3h
-		jne L01_8184F4
-		mov edx, dword ptr [ebp+8h]
-		cmp dword ptr [edx+90h], 4h
-		jne L01_8184F4
-		mov eax, dword ptr [ebp+8h]
-		mov dword ptr [eax+90h], 5h
-L01_8184F4:
-		cmp ebp, esp
-		__emit 0E8h
-		__emit 007h
-		__emit 0F0h
-		__emit 01Dh
-		__emit 000h   // call 0x9F7502
-		pop ebp
-		ret
+	if (*(int *)packet != 0) {
+		return;
 	}
+
+		if (*(int *)((char *)packet + 0x0C) != *(int *)((char *)ref + 0x94)) {
+			Rva007FE780Printf("commudp: warning - connident mismatch\n");
+			if (*(int *)((char *)packet + 8) == 1) {
+				*(int *)((char *)ref + 0x90) = 5;
+			}
+		} else {
+			*(unsigned int *)((char *)ref + 0xDC) = Rva007FEA00() - 1000;
+			if (*(int *)((char *)packet + 8) == 1) {
+				Rva00818500(ref, from);
+				Rva007FE780Printf("CommUdpSetup: sending CONN in response to INIT\n");
+				*(int *)((char *)packet + 8) = 2;
+				((int (__cdecl *)(void *, void *))CommUDPWrite)(ref, packet);
+			} else if (*(int *)((char *)packet + 8) == 2) {
+				if (*(int *)((char *)ref + 0x90) == 2) {
+					Rva00818500(ref, from);
+					*(int *)((char *)ref + 0x90) = 4;
+				}
+			} else if (*(int *)((char *)packet + 8) == 3 &&
+			           *(int *)((char *)ref + 0x90) == 4) {
+				*(int *)((char *)ref + 0x90) = 5;
+			}
+		}
 }
 
 // Sends a poke packet to prod a peer whose address may have moved.
