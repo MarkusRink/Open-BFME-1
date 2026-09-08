@@ -14,9 +14,11 @@
 // The lockstep path does not run through here -- that is SAGE's own udp.cpp.
 
 extern "C" {
-	int CommUDPWrite(void *ref, void *buffer, int length);
+	int CommUDPWrite(void *ref, void *packet);
 	int CommUDPConnect(void *ref, const char *addr, int bind, int peer);
 	int CommUDPResolve(void *ref, const char *addr, char *buffer, int length, char divider);
+	int Rva007FD920(void *socket, const void *data, int length, int flags, void *address, int addressLength);
+	unsigned int Rva007FEA00();
 }
 
 int Rva007FE780Printf(const char *format, ...);
@@ -31,92 +33,26 @@ int CommUDPResolve(void *ref, const char *addr, char *buffer, int length, char d
 
 // Hands a datagram to the socket layer, logging "CommUDPWrite: SocketSendto
 // returned %d" on the way out.
-__declspec(naked) int CommUDPWrite(void *ref, void *buffer, int length)
+int CommUDPWrite(void *ref, void *packet)
 {
-	__asm {
-		push ebp
-		mov ebp, esp
-		sub esp, 8h
-		mov dword ptr [ebp-8h], 0CCCCCCCCh
-		mov dword ptr [ebp-4h], 0CCCCCCCCh
-		mov eax, dword ptr [ebp+0Ch]
-		mov ecx, dword ptr [eax]
-		add ecx, 8h
-		mov dword ptr [ebp-8h], ecx
-		push 10h
-		mov edx, dword ptr [ebp+8h]
-		add edx, 80h
-		push edx
-		push 0h
-		mov eax, dword ptr [ebp-8h]
-		push eax
-		mov ecx, dword ptr [ebp+0Ch]
-		add ecx, 8h
-		push ecx
-		mov edx, dword ptr [ebp+8h]
-		mov eax, dword ptr [edx+7Ch]
-		push eax
-		__emit 0E8h
-		__emit 0ACh
-		__emit 068h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FD920
-		add esp, 18h
-		mov dword ptr [ebp-4h], eax
-		mov ecx, dword ptr [ebp-4h]
-		cmp ecx, dword ptr [ebp-8h]
-		jne L00_8170C6
-		__emit 0E8h
-		__emit 079h
-		__emit 079h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FEA00
-		mov edx, dword ptr [ebp+8h]
-		mov dword ptr [edx+0D8h], eax
-		mov eax, dword ptr [ebp+8h]
-		mov ecx, dword ptr [eax+5Ch]
-		add ecx, dword ptr [ebp-8h]
-		mov edx, dword ptr [ebp+8h]
-		mov dword ptr [edx+5Ch], ecx
-		mov eax, dword ptr [ebp+8h]
-		mov ecx, dword ptr [eax+64h]
-		add ecx, 1h
-		mov edx, dword ptr [ebp+8h]
-		mov dword ptr [edx+64h], ecx
-		mov eax, dword ptr [ebp+0Ch]
-		cmp dword ptr [eax+8h], 6h
-		je L01_8170C4
-		mov ecx, dword ptr [ebp+8h]
-		mov dword ptr [ecx+0B4h], 0h
-L01_8170C4:
-		jmp L02_8170EA
-L00_8170C6:
-		mov edx, dword ptr [ebp-4h]
-		push edx
-		push 12C4D74h
-		__emit 0E8h
-		__emit 0ACh
-		__emit 076h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 8h
-		mov eax, dword ptr [ebp+8h]
-		mov ecx, dword ptr [ebp-4h]
-		mov dword ptr [eax+0D4h], ecx
-		mov dword ptr [ebp-4h], 0FFFFFFFFh
-L02_8170EA:
-		mov eax, dword ptr [ebp-4h]
-		add esp, 8h
-		cmp ebp, esp
-		__emit 0E8h
-		__emit 00Bh
-		__emit 004h
-		__emit 01Eh
-		__emit 000h   // call 0x9F7502
-		mov esp, ebp
-		pop ebp
-		ret
+	int result;
+	int packetLength = *(int *)packet + 8;
+	result = Rva007FD920(*(void **)((char *)ref + 0x7C),
+	                     (char *)packet + 8, packetLength, 0,
+	                     (char *)ref + 0x80, 0x10);
+	if (result == packetLength) {
+		*(unsigned int *)((char *)ref + 0xD8) = Rva007FEA00();
+		*(int *)((char *)ref + 0x5C) += packetLength;
+		++*(int *)((char *)ref + 0x64);
+		if (*(int *)((char *)packet + 8) != 6) {
+			*(int *)((char *)ref + 0xB4) = 0;
+		}
+	} else {
+		Rva007FE780Printf("CommUDPWrite: SocketSendto returned %d\n", result);
+		*(int *)((char *)ref + 0xD4) = result;
+		result = -1;
 	}
+	return result;
 }
 
 // Opens the port. Logs "CommUdpConnect: addr=%08x, bind=%d, peer=%d
@@ -368,7 +304,6 @@ extern "C" {
 	int CommUdpPoke(void *ref);
 	int CommUdpListen();
 	int CommUDPSend();
-	unsigned int Rva007FEA00();
 	void Rva00818500(void *ref, void *from);
 }
 
