@@ -86385,3 +86385,14 @@ __imp__GetClientRect@8,0x0135901C,Open-BFME5 USER32 GetClientRect import the 0x0
 ?bfmeWalkZC@BfmeOverZC@@QAEPAV1@XZ,0x000022BB,BfmeHostZC::bfmeHeightZC override walk callee from retail 0x0076CDD0
 ?bfmeGeomZC@BfmeObjZC@@QAEPAVGeometryInfo@@XZ,0x000293E8,BfmeHostZC::bfmeHeightZC GeometryInfo accessor from retail 0x0076CDD0
 ?bfmePosZC@BfmeObjZC@@QAEPAUCoord3D@@XZ,0x0003EE55,BfmeHostZC::bfmeHeightZC position accessor from retail 0x0076CDD0
+?g_bfmeArgAAV@@3HA,0x012B6BB4,Open-BFME5 value the 0x004D1B00 shutdown forwards
+?g_bfmeFlagAAV@@3EA,0x012B6BB0,Open-BFME5 flag the 0x004D1B00 shutdown tests first
+?g_bfmePtrAAV@@3PAXA,0x012F3E70,Open-BFME5 pointer the 0x004D1B00 shutdown tests second
+?g_bfmeDoneAAV@@3EA,0x012F3E6C,Open-BFME5 completion flag the 0x004D1B00 shutdown sets
+?bfmeStopAAV@Rva00367E30Logic@@QAEXHH@Z,0x0001C46D,Open-BFME5 ILT logic stop the 0x004D1B00 shutdown calls
+?bfmeResetAAV@ScriptEngine@@QAEXH@Z,0x000126BB,Open-BFME5 ILT script reset the 0x004D1B00 shutdown calls
+?bfmeClearAAV@@YAXH@Z,0x0002CFA7,Open-BFME5 ILT cdecl clear the 0x004D1B00 shutdown calls
+?bfmeAppendAAV@BfmeMsgAAV@@QAEXH@Z,0x00001370,Open-BFME5 ILT message append the 0x004D1B00 shutdown calls three times
+?bfmeShowAAV@Shell40D9@@QAEXXZ,0x00006AAA,Open-BFME5 ILT shell show the 0x004D1B00 shutdown calls
+?bfmeGoAAV@Shell40D9@@QAEX_N@Z,0x000428ED,Open-BFME5 ILT shell go the 0x004D1B00 shutdown calls
+?bfmeAltAAV@@YAXXZ,0x004D18B0,Open-BFME5 direct alternate path the 0x004D1B00 shutdown calls
