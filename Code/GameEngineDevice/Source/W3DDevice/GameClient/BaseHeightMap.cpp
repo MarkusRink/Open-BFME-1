@@ -1665,7 +1665,22 @@ void BaseHeightMapRenderObjClass::oversizeTerrain(Int tilesToOversize)
 /** WW3D method that returns object bounding sphere used in frustum culling*/
 //=============================================================================
 // ?Get_Obj_Space_Bounding_Sphere@BaseHeightMapRenderObjClass@@UBEXAAVSphereClass@@@Z
-// Body in BaseHeightMap_Get_Obj_Space_Bounding_Sphere.asm (exact 216B retail; field offsets).
+void BaseHeightMapRenderObjClass::Get_Obj_Space_Bounding_Sphere(SphereClass &sphere) const
+{
+	Int x = 0; Int y = 0;
+	if (m_map) {
+		x = m_map->getXExtent();
+		y = m_map->getYExtent();
+	}
+	Vector3 ObjSpaceCenter((float)x*0.5f*MAP_XY_FACTOR,(float)y*0.5f*MAP_XY_FACTOR,(float)m_minHeight+(m_maxHeight-m_minHeight)*0.5f);
+	float length = ObjSpaceCenter.Length();
+
+	if (m_map) {
+		ObjSpaceCenter.X += *(Int *)((char *)m_map + 0x120e0)*MAP_XY_FACTOR;
+		ObjSpaceCenter.Y += *(Int *)((char *)m_map + 0x120e4)*MAP_XY_FACTOR;
+	}
+	sphere.Init(ObjSpaceCenter, length);
+}
 
 //=============================================================================
 // BaseHeightMapRenderObjClass::Get_Obj_Space_Bounding_Box
