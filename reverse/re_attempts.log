@@ -15526,3 +15526,4 @@ _peerAuthenticateCDKeyA	0x008585F0	146	blocked	The GameSpy 2007 peer wrapper ide
 ?d_000b4b20@@YAXXZ	0x000B4B20	54	blocked	x87 arithmetic body has no recoverable identity and requires exact compiler stack/register choreography; clean C++ reconstruction not verified t=15min model=gpt-5.6
 ?d_000b4b70@@YAXXZ	0x000B4B70	519	blocked	x87-heavy scale/sine body with unresolved global and helper ownership; clean C++ reconstruction not verified t=20min model=gpt-5.6
 ?d_000c0e50@@YAXXZ	0x000C0E50	53	blocked	small aggregate/helper body has unresolved source identity and two unowned calls; clean C++ layout reconstruction not verified t=15min model=gpt-5.6
+?d_001cc920@@YAXXZ	0x001CC920	408	blocked	retail body uses template flags, containedBy, containment virtual traversal, and list cleanup, but no source caller or vtable evidence proves its identity; t=8 minutes model=Codex-gpt-5.6-luna
