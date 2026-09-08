@@ -78685,6 +78685,7 @@ name,address,notes
 ?first@Rva005187E0@@QAEXXZ,0x0003CD94,ILT for 8B one-call wrap at 0x005187E0
 ?first@Rva00519C90@@QAEXXZ,0x00048E8C,ILT for first call of 20B wrap at 0x00519C90
 ?first@Rva0051D990@@QAEXXZ,0x00005F88,ILT for first call of 22B wrap at 0x0051D990
+?recurse@Gen_009431F0@@QAEXPAX0HHHHHHHH@Z,0x009441D0,address-derived recursive quadtree helper called by 0x00944360
 ?first@Rva0051D9B0@@QAEXXZ,0x00005F88,ILT for first call of 20B wrap at 0x0051D9B0
 ?first@Rva0051DA10@@QAEXXZ,0x00005F88,ILT for first call of 22B wrap at 0x0051DA10
 ?first@Rva0051DB00@@QAEXXZ,0x00005F88,Open-BFME5 thiscall at ILT of two-call wrap 0x0051DB00
