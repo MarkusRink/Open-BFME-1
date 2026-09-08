@@ -57,15 +57,51 @@ struct Rva00809400Attributes
 	int m_count;
 };
 
+struct Rva00809330Attribute
+{
+	const char *m_key;
+	int m_tag;
+};
+
+struct Rva00809330Attributes
+{
+	__forceinline const Rva00809330Attribute *at( int index ) const
+	{
+		if( index >= m_count )
+			return 0;
+		return m_data + index;
+	}
+
+	Rva00809330Attribute *m_data;
+	int m_count;
+};
+
+class Rva00809330Sender
+{
+public:
+	virtual void slot00();
+	virtual const char *value( const char *key ) const;
+	virtual void slot08();
+	virtual void slot0C();
+	virtual void slot10();
+	virtual void slot14();
+	virtual void slot18();
+	virtual const char *uid() const;
+};
+
 struct BfmeOwnerUNC
 {
-	char m_opaque000[ 0x2B8 ];
+	char m_opaque000[ 0x2B0 ];
+	Rva00809330Attributes m_gameAttributes;
 	Rva00809400Attributes m_playerAttributes;
+	char m_opaque2C0[ 0x18 ];
+	Rva00809330Sender *m_sender;
 };
 
 class BfmeThingUNC
 {
 public:
+	void rva00809330( BfmeC994 *message, int gid );
 	void rva00809400( BfmeC994 *message, int gid,
 		Rva00802680Owner *player );
 
@@ -73,6 +109,26 @@ public:
 	int m_registrationValue;
 	BfmeOwnerUNC *m_owner;
 };
+
+void BfmeThingUNC::rva00809330( BfmeC994 *message, int gid )
+{
+	Rva00809330Sender const *sender = m_owner->m_sender;
+
+	message->addInt( "LID", -2 );
+	message->addInt( "GID", gid );
+
+	Rva00809330Attributes *attributes = &m_owner->m_gameAttributes;
+	int count = attributes->m_count;
+	for( int index = 0; index < count; ++index )
+	{
+		char key[ 0x40 ];
+		const char *attribute = attributes->at( index )->m_key;
+		sprintf( key, "D-%.60s", attribute );
+		message->addString( key, sender->value( attribute ) );
+	}
+
+	message->addString( "UGID", sender->uid() );
+}
 
 void BfmeThingUNC::rva00809400( BfmeC994 *message, int gid,
 	Rva00802680Owner *player )
