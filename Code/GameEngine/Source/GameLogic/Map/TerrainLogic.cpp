@@ -665,37 +665,65 @@ static Bool PointInRegion2D( const Coord3D *pt, const Region2D *clipRegion )
 //-------------------------------------------------------------------------------------------------
 /** isCellOnEnd - see if cell is on the end of the bridge. */
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/Common/RTS/BridgeIsCellOnEndThunk.cpp
-// ?isCellOnEnd@Bridge@@QAE_NPBURegion2D@@@Z present-unmatched
-// DECLINED under the anti-lift rule, not merely unattempted. The donor is a
-// 5-byte ILT whose whole content is a cast-and-call into an unnamed shim, and
-// its jump lands at 0x001a24b0 -- still an unconverted dump (Code/gen_asm/d_00198280.asm).
-// This body is therefore the only readable statement of what the function does,
-// and folding would replace it with a three-line stub forwarding into a dump.
+// Retail body 0x001A24B0; the public entry at 0x0000DAAD is an ILT jump.
 Bool Bridge::isCellOnEnd(const Region2D *cell)
 {
+	Coord3D fromLeft;
 	Coord3D endVector;
-	endVector.x = m_bridgeInfo.fromRight.x - m_bridgeInfo.fromLeft.x;
-	endVector.y = m_bridgeInfo.fromRight.y - m_bridgeInfo.fromLeft.y;
-	endVector.z = m_bridgeInfo.fromRight.z - m_bridgeInfo.fromLeft.z;
-	endVector.normalize();
-	// Offset by 1 pathfind cell.
-	endVector.x *= PATHFIND_CELL_SIZE;
-	endVector.y *= PATHFIND_CELL_SIZE;
+	Coord3D fromRight;
+	Coord3D toLeft;
+	Coord3D toRight;
 
-	Coord3D fromLeft = m_bridgeInfo.fromLeft;
+	endVector.y = m_bridgeInfo.fromRight.y;
+	endVector.z = m_bridgeInfo.fromRight.z;
+	Real dx = m_bridgeInfo.fromRight.x - m_bridgeInfo.fromLeft.x;
+	Real dy = endVector.y - m_bridgeInfo.fromLeft.y;
+	Real dz = endVector.z - m_bridgeInfo.fromLeft.z;
+	{
+		Real len = (Real)sqrt(dz * dz + dy * dy + dx * dx);
+		if (len != 0.0f)
+		{
+			Real scale = 1.0f / len;
+			dx *= scale;
+			dy *= scale;
+		}
+	}
+
+	// BFME tests an additional word at +0x8c before normalizing the far end.
+	const void *extra = *(const void * const *)((const char *)this + 0x8C);
+	dx *= 10.0f;
+	dy *= 10.0f;
+	endVector.x = dx;
+	endVector.y = dy;
+
+	fromLeft.x = m_bridgeInfo.fromLeft.x;
+	fromLeft.y = m_bridgeInfo.fromLeft.y;
 	fromLeft.x += endVector.x;
 	fromLeft.y += endVector.y;
 
-	Coord3D fromRight = m_bridgeInfo.fromRight;
+	fromRight.x = m_bridgeInfo.fromRight.x;
+	fromRight.y = m_bridgeInfo.fromRight.y;
 	fromRight.x -= endVector.x;
 	fromRight.y -= endVector.y;
 
-	Coord3D toLeft = m_bridgeInfo.toLeft;
+	if (extra)
+	{
+		endVector = m_bridgeInfo.toRight;
+		endVector.x -= m_bridgeInfo.toLeft.x;
+		endVector.y -= m_bridgeInfo.toLeft.y;
+		endVector.z -= m_bridgeInfo.toLeft.z;
+		endVector.normalize();
+		endVector.x *= 10.0f;
+		endVector.y *= 10.0f;
+	}
+
+	toLeft.x = m_bridgeInfo.toLeft.x;
+	toLeft.y = m_bridgeInfo.toLeft.y;
 	toLeft.x += endVector.x;
 	toLeft.y += endVector.y;
 
-	Coord3D toRight = m_bridgeInfo.toRight;
+	toRight.x = m_bridgeInfo.toRight.x;
+	toRight.y = m_bridgeInfo.toRight.y;
 	toRight.x -= endVector.x;
 	toRight.y -= endVector.y;
 
@@ -704,17 +732,17 @@ Bool Bridge::isCellOnEnd(const Region2D *cell)
 	if (PointInRegion2D(&toLeft, cell)) return false;
 	if (PointInRegion2D(&toRight, cell)) return false; */
 	Coord2D line1, line2;
-	line1.x = fromLeft.x; 
-	line1.y = fromLeft.y; 
-	line2.x = fromRight.x; 
-	line2.y = fromRight.y; 
+	line1.x = fromLeft.x;
+	line1.y = fromLeft.y;
+	line2.x = fromRight.x;
+	line2.y = fromRight.y;
 	if (LineInRegion(&line1, &line2, cell)) {
 		return true;
 	}
-	line1.x = toLeft.x; 
-	line1.y = toLeft.y; 
-	line2.x = toRight.x; 
-	line2.y = toRight.y; 
+	line1.x = toLeft.x;
+	line1.y = toLeft.y;
+	line2.x = toRight.x;
+	line2.y = toRight.y;
 	if (LineInRegion(&line1, &line2, cell)) {
 		return true;
 	}
