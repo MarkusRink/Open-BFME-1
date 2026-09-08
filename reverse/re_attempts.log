@@ -13710,3 +13710,5 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_008d1ca0@@YAXXZ	0x008D1CA0	419	blocked	served Code/gen_asm/d_008d1540.asm; large EH body has no named caller, vtable slot, source declaration, or built-object emitter; identity detectors found nothing; t=7m model=gpt-5.6-luna
 ?d_008d3860@@YAXXZ	0x008D3860	473	blocked	served Code/gen_asm/d_008d1540.asm; large EH body has no named caller, vtable slot, source declaration, or built-object emitter; identity detectors found nothing; t=7m model=gpt-5.6-luna
 ?d_00c591d8@@YAXXZ	0x00C591D8	15	not-convertible	t=0min model=gpt-5 ghidra=Unwind@010591d8; unwind funclet belongs to gen_uw and is not hand-writable
+?d_001dc890@@YAXXZ	0x001DC890	3	blocked	served Code/gen_asm/d_001db160.asm; 3-byte mov ecx,[ecx+8] fragment has no return or complete function boundary, no named caller, and no built-object emitter; t=2m model=gpt-5.6-luna
+?d_001eb3c0@@YAXXZ	0x001EB3C0	4	blocked	served Code/gen_asm/d_001db160.asm; 4-byte mov ecx,[esp+4] fragment has no return or complete function boundary, no named caller, and no built-object emitter; t=2m model=gpt-5.6-luna
