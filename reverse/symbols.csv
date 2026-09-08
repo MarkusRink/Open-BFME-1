@@ -77984,6 +77984,7 @@ name,address,notes
 ?createEx@Rva0005FA90Factory@@AAEPAXPAX00000@Z,0x0005ECD0,six-argument __thiscall callee of the 0x0005FA90 forwarder (U3_table_lookup_and_forwarder.cpp); identity not recovered
 ?createGroup@AI@@QAEPAVAIGroup@@XZ,0x0003B570,doTeamAttackNamed BFME createGroup thunk
 ?createInactiveTeam@TeamFactory@@QAEPAVTeam@@ABVAsciiString@@0@Z,0x000F7AB0,call displacement in initTeam @0x000F8232 (via thunk 0xD15C)
+?createMapPictureImage@@YAPAVImage@@ABVAsciiString@@@Z,0x0004032C,AptMapPreview picture loader ILT
 ?createInternal@ObjectCreationList@@ABEPAVObject@@PBV2@PBVCoord3D@@1MI@Z,0x0003E360,retail REL32 target decoded from assigned 0x00262DA0
 ?createLightsIterator@RTS3DScene@@QAEPAV?$RefMultiListIterator@VRenderObjClass@@@@XZ,0x007123F0,BFME identity bfmeGo1036B body 0x007123F0 via ILT 0x00042A0A
 ?createMemoryPool@MemoryPoolFactory@@QAEPAVMemoryPool@@PBDHHH@Z,0x0003ADD7,pool-glue cascade callee (ICF-folded with findMemoryPool)
