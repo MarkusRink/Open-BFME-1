@@ -85991,3 +85991,4 @@ _bfmeVftEAZ,0x00CFA338,pin vftable for BfmeConv2016
 ?bfmeSetTQ@BfmeStrTQ@@QAEXABV1@@Z,0x00887C90,pin set for BfmeConv2026
 ??1BfmeStrTQ@@QAE@XZ,0x00887940,pin string dtor for BfmeConv2026
 __imp__BfmeDecTQ@4,0x00F58E54,pin decrement import for BfmeConv2026
+?findSideInfo@SidesList@@QAEPAVSidesInfo@@VAsciiString@@PAH@Z,0x000074B9,route=0x001964D0; validateSides at 0x0019C920 reaches this method through thunk 0x00030797
