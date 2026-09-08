@@ -5891,7 +5891,7 @@ name,address,notes
 ??1Gen_dtor_005d5800@@UAE@XZ,0x00013101,gen-dtor class destructor
 ??1Gen_dtor_005d8110@@UAE@XZ,0x000271A6,gen-dtor class destructor
 ??1Gen_dtor_005d8490@@UAE@XZ,0x0001E952,gen-dtor class destructor
-??1Gen_dtor_005d8620@@UAE@XZ,0x00049CA1,gen-dtor class destructor
+??1StreakDrawModuleInfo@FXParticleSystem@@UAE@XZ,0x00049CA1,authentic virtual destructor callee; matched destructor 0x005D85F0 and constructor vtable 0x01110C78 prove identity
 ??1Gen_dtor_005d9e00@@UAE@XZ,0x00040FDE,gen-dtor class destructor
 ??1Gen_dtor_005d9f50@@UAE@XZ,0x0000CAB8,gen-dtor class destructor
 ??1Gen_dtor_005da0a0@@UAE@XZ,0x0000CD74,gen-dtor class destructor
