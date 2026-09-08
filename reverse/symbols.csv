@@ -86052,3 +86052,4 @@ _j_0003b971,0x0003B971,COFF C-linkage alias for the existing incremental-link th
 ?refreshLayout@GameWindowManager@@QAEXPAX@Z,0x000412C2,OnlineQuickMatch InitGadgets layout refresh call uses the existing incremental-link thunk
 ?bfmeTryZZ@BfmeOwnerZZ@@QAEDPAVBfmeItemZZ@@@Z,0x000441A2,Bfme owner scan remove callee uses the verified AIGroup remove ILT
 ?finish@Rva0006AB90FunctionCurve@@QAEXXZ,0x0006ACF0,typed thiscall curve accumulator finalization body; retail0006AF00 calls viaILT00024000; receiver layout proven by adjacent0006AB90 and0006ACF0; campaign=luna36h-20260907
+?_M_fill_insert@?$list@URva003C15C0Element@@V?$allocator@URva003C15C0Element@@@_STL@@@_STL@@QAEXU?$_List_iterator@URva003C15C0Element@@U?$_Nonconst_traits@URva003C15C0Element@@@_STL@@@2@IABURva003C15C0Element@@@Z,0x003C0000,retail call from 0x003C15C0 resolves to matched 12-byte list fill_insert body at 0x003C0000
