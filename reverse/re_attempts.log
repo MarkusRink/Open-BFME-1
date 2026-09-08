@@ -13298,3 +13298,12 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_0089f530@@YAXXZ	0x0089F530	270	blocked	t=4m model=gpt-5.6-sol; anonymous UTF-8/string helper has no named caller or built source emitter and cannot be converted without inventing its API identity
 ?d_0089fac0@@YAXXZ	0x0089FAC0	245	blocked	t=4m model=gpt-5.6-sol; UTF-8/string-family helper is adjacent to landed and banked methods but has no recovered signature or authoritative source owner
 ?d_0089fda0@@YAXXZ	0x0089FDA0	466	blocked	t=4m model=gpt-5.6-sol; two-argument UTF-8 string operation is semantically recognizable from the bytecode, but no decorated overload, named caller, or source emitter identifies the body; clean C++ would invent identity
+?d_0032b730@@YAXXZ	0x0032B730	211	blocked	t=5m model=gpt-5.6-sol; anonymous gameplay body has no named caller, vtable owner, relocation-derived identity, or source implementation
+?d_0032c090@@YAXXZ	0x0032C090	700	blocked	t=5m model=gpt-5.6-sol; large anonymous gameplay body is connected only through generated callsite families; no authoritative caller or source class proves its identity
+?d_0032c7f0@@YAXXZ	0x0032C7F0	324	blocked	t=5m model=gpt-5.6-sol; retail object/gameplay body has no named caller, vtable slot, or built source emitter establishing a legitimate C++ owner
+?d_0032ccc0@@YAXXZ	0x0032CCC0	186	blocked	t=5m model=gpt-5.6-sol; anonymous gameplay iterator body has generated helper evidence but no recovered method signature or source owner
+?d_00339120@@YAXXZ	0x00339120	146	blocked	t=5m model=gpt-5.6-sol; particle-system-adjacent body has only anonymous helper/global evidence and no named caller, vtable, or source emitter
+?d_0033b1d0@@YAXXZ	0x0033B1D0	127	blocked	t=5m model=gpt-5.6-sol; anonymous gameplay/object helper has no authoritative caller or real source identity
+?d_0033c690@@YAXXZ	0x0033C690	228	blocked	t=5m model=gpt-5.6-sol; ScriptEngine-adjacent body has only generated helper/callsite evidence; no named method owner or source emitter is proven
+?d_0033e040@@YAXXZ	0x0033E040	703	blocked	t=5m model=gpt-5.6-sol; large ScriptEngine/gameplay body has no recovered real symbol or complete source owner; a clean C++ claim would invent identity
+?d_0033e490@@YAXXZ	0x0033E490	783	blocked	t=5m model=gpt-5.6-sol; large gameplay/script body has anonymous helper and global references but no authoritative caller, vtable, or source class identity
