@@ -14801,3 +14801,12 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_00240b10@@YAXXZ	0x00240B10	247	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
 ?d_00237070@@YAXXZ	0x00237070	269	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
 ?d_00239950@@YAXXZ	0x00239950	324	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_0016fb20@@YAXXZ	0x0016FB20	218	blocked	served file Code/gen_asm/d_0016f340.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_0016fd30@@YAXXZ	0x0016FD30	223	blocked	served file Code/gen_asm/d_0016f340.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_0016f340@@YAXXZ	0x0016F340	238	blocked	served file Code/gen_asm/d_0016f340.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_00170020@@YAXXZ	0x00170020	198	blocked	served file Code/gen_asm/d_0016f340.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_00174cc0@@YAXXZ	0x00174CC0	261	blocked	served file Code/gen_asm/d_0016f340.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_00173fb0@@YAXXZ	0x00173FB0	402	blocked	served file Code/gen_asm/d_0016f340.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_0016f7c0@@YAXXZ	0x0016F7C0	426	blocked	served file Code/gen_asm/d_0016f340.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_00171b40@@YAXXZ	0x00171B40	413	blocked	served file Code/gen_asm/d_0016f340.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_00176070@@YAXXZ	0x00176070	379	blocked	served file Code/gen_asm/d_0016f340.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
