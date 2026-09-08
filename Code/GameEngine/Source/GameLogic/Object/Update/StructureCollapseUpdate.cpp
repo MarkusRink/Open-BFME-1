@@ -117,6 +117,8 @@ static void parseOCL( INI* ini, void *instance, void * /*store*/, const void* /*
 }
 
 //-------------------------------------------------------------------------------------------------
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/StructureCollapseFieldParseBuilder.cpp
+// ?buildFieldParse@StructureCollapseUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z present-unmatched
 /*static*/ void StructureCollapseUpdateModuleData::buildFieldParse(MultiIniFieldParse& p) 
 {
   UpdateModuleData::buildFieldParse(p);

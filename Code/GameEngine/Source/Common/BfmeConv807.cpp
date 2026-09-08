@@ -71,17 +71,10 @@ public:
 	void bfmeTwoEEC(void *p);
 };
 
-extern "C" unsigned char bfmeStrEECa[];
 extern "C" unsigned char bfmeStrEECb[];
 extern "C" unsigned char bfmeStrEECc[];
 void *__stdcall bfmeAllocEECa(unsigned int n);
 void *__stdcall bfmeAllocEECb(unsigned int n);
-
-void bfmeGoEECa(BfmeThingEEC *o)
-{
-	o->bfmeOneEEC((const char *)bfmeStrEECa, 0);
-	o->bfmeTwoEEC(bfmeAllocEECa(8));
-}
 
 void bfmeGoEECb(BfmeThingEEC *o)
 {
