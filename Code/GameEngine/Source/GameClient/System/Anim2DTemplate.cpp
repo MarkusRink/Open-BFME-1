@@ -6,24 +6,34 @@
 #include "Common/RandomValue.h"
 #include "Common/Xfer.h"
 #include "GameClient/Anim2D.h"
-#include "GameClient/Display.h"
 #include "GameClient/Image.h"
-#include "GameLogic/GameLogic.h"
 
-// The parser pair is kept in its own TU so the neighboring Anim2D.cpp compiler
-// labels stay stable. BFME retains the formatted INIException path in release.
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/INIException.h
+// BFME retains formatted exceptions in release and adds an integer to ZH's message storage.
 class INIException
 {
 public:
-	INIException(Int code, const char *message, ...);
+	INIException(Int, const char *message, ...);
 	INIException(const INIException &other);
 	~INIException();
 
 private:
-	Int m_code;
-	const char *m_message;
+	char *m_message;
+	Int m_unreconstructed04;
 };
+
+// ??0Anim2DTemplate@@QAE@VAsciiString@@@Z
+Anim2DTemplate::Anim2DTemplate( AsciiString name )
+{
+
+	m_name = name;
+	m_images = NULL;
+	m_numFrames = NUM_FRAMES_INVALID;
+	m_framesBetweenUpdates = 0;
+	m_animMode = ANIM_2D_LOOP;
+	m_randomizeStartFrame = FALSE;
+	m_nextTemplate = NULL;
+
+}  // end Anim2DTemplate
 
 // ?parseNumImages@Anim2DTemplate@@KAXPAVINI@@PAX1PBX@Z
 void Anim2DTemplate::parseNumImages(INI *ini, void *instance, void *store, const void *userData)
@@ -48,9 +58,9 @@ void Anim2DTemplate::storeImage(const Image *image)
 		return;
 	}
 
-	for (Int i = 0; i < m_numFrames; ++i) {
-		if (m_images[i] == NULL) {
-			m_images[i] = image;
+	for (Int frameIndex = 0; frameIndex < m_numFrames; ++frameIndex) {
+		if (m_images[frameIndex] == NULL) {
+			m_images[frameIndex] = image;
 			return;
 		}
 	}
