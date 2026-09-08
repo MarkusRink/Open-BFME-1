@@ -86078,3 +86078,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ??0AINamedListNode@@QAE@VAsciiString@@@Z,0x000026BC,AI::newOverride retail ILT-derived constructor callee
 ??4AINamedListTail@@QAEAAV0@ABV0@@Z,0x00043A63,AI::newOverride retail ILT-derived tail assignment callee
 ?bfmeProcessGD@BfmeRingGD@@QAEXHPAX@Z,0x000082A6,pin process for BfmeConv2057
+?bfmeLookupGH@BfmeMapGH@@QAEXPAPAVBfmeNodeGH@@PAPAX@Z,0x00018C5A,pin lookup for BfmeConv2059
