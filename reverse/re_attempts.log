@@ -12768,3 +12768,29 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_000d5a40@@YAXXZ	0x000D5A40	352	blocked	served d_000c81e0.asm; no safe clean identity or byte-exact reconstruction from current evidence; t=4 model=gpt-5.6
 ?d_000d6030@@YAXXZ	0x000D6030	162	blocked	served d_000c81e0.asm; no safe clean identity or byte-exact reconstruction from current evidence; t=4 model=gpt-5.6
 ?d_000d6100@@YAXXZ	0x000D6100	236	blocked	served d_000c81e0.asm; no safe clean identity or byte-exact reconstruction from current evidence; t=4 model=gpt-5.6
+?d_0026e5a0@@YAXXZ	0x0026E5A0	60	blocked	served d_00266ef0.asm; bounded node predicate reaches the first guards but clean loop codegen is 48B versus retail 60B with an unexplained esi-preserving shape; t=8 model=gpt-5.6
+?d_00267b10@@YAXXZ	0x00267B10	390	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00267d00@@YAXXZ	0x00267D00	102	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_002683d0@@YAXXZ	0x002683D0	745	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00269c50@@YAXXZ	0x00269C50	1073	blocked	served d_00266ef0.asm; large body has no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026aac0@@YAXXZ	0x0026AAC0	195	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026cf90@@YAXXZ	0x0026CF90	722	blocked	served d_00266ef0.asm; large body has no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026d8a0@@YAXXZ	0x0026D8A0	135	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026da00@@YAXXZ	0x0026DA00	425	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026e1f0@@YAXXZ	0x0026E1F0	310	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026e380@@YAXXZ	0x0026E380	173	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026eed0@@YAXXZ	0x0026EED0	289	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026f460@@YAXXZ	0x0026F460	213	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026fa80@@YAXXZ	0x0026FA80	128	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026fbe0@@YAXXZ	0x0026FBE0	153	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_0026fde0@@YAXXZ	0x0026FDE0	66	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00270360@@YAXXZ	0x00270360	212	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_002705d0@@YAXXZ	0x002705D0	783	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00270b40@@YAXXZ	0x00270B40	398	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00270d40@@YAXXZ	0x00270D40	137	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00270df0@@YAXXZ	0x00270DF0	424	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00271010@@YAXXZ	0x00271010	553	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00271630@@YAXXZ	0x00271630	70	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00271690@@YAXXZ	0x00271690	115	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00271ae0@@YAXXZ	0x00271AE0	77	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
+?d_00271b40@@YAXXZ	0x00271B40	282	blocked	served d_00266ef0.asm; no safe clean identity or byte-exact reconstruction; t=4 model=gpt-5.6
