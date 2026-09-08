@@ -71,7 +71,7 @@ static void parseFX( INI* ini, void *instance, void * /*store*/, const void* /*u
 }
 
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/InstantDeathBehaviorObjectCreationLists.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/InstantDeathBehaviorParsers.cpp
 static void parseOCL( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
 {
 	InstantDeathBehaviorModuleData* self = (InstantDeathBehaviorModuleData*)instance;
@@ -83,6 +83,7 @@ static void parseOCL( INI* ini, void *instance, void * /*store*/, const void* /*
 }
 
 //-------------------------------------------------------------------------------------------------
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/InstantDeathBehaviorParsers.cpp
 static void parseWeapon( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
 {
 	InstantDeathBehaviorModuleData* self = (InstantDeathBehaviorModuleData*)instance;

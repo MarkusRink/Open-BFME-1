@@ -12391,7 +12391,6 @@ name,address,notes
 ?_M_insert_overflow@?$vector@PBVFXList@@V?$allocator@PBVFXList@@@_STL@@@_STL@@IAEXPAPBVFXList@@ABQBV3@ABU__true_type@2@I_N@Z,0x00044FC1,ILT reached by InstantDeathBehavior parseFX twin at 0x0028BB10
 ?_M_insert_overflow@?$vector@PBVImage@@V?$allocator@PBVImage@@@_STL@@@_STL@@IAEXPAPBVImage@@ABQBV3@ABU__true_type@2@I_N@Z,0x004715B0,Open-BFME5 grow path of the image vector at BFMERetailCommandButton+0x138
 ?_M_insert_overflow@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@IAEXPAPBVModuleData@@ABQBV3@ABU__true_type@2@I_N@Z,0x00043333,pinned from newModuleDataFromINI @0x1295F0 which is byte-exact apart from this call
-?_M_insert_overflow@?$vector@PBVObjectCreationList@@V?$allocator@PBVObjectCreationList@@@_STL@@@_STL@@IAEXPAPBVObjectCreationList@@ABQBV3@ABU__true_type@2@I_N@Z,0x0002E65E,call displacement in InstantDeathBehavior parseOCL @0x00201770 (incremental-link thunk)
 ?_M_insert_overflow@?$vector@PBVThingTemplate@@V?$allocator@PBVThingTemplate@@@_STL@@@_STL@@IAEXPAPBVThingTemplate@@ABQBV3@ABU__true_type@2@I_N@Z,0x0000C5F4,zh_sweep packet 001dc59e callee pin
 ?_M_insert_overflow@?$vector@PBVWeaponTemplate@@V?$allocator@PBVWeaponTemplate@@@_STL@@@_STL@@IAEXPAPBVWeaponTemplate@@ABQBV3@ABU__true_type@2@I_N@Z,0x0002E65E,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002098B0 calls; autopin
 ?_M_insert_overflow@?$vector@U?$pair@PAVSubsystemInterface@@PAX@_STL@@V?$allocator@U?$pair@PAVSubsystemInterface@@PAX@_STL@@@2@@_STL@@IAEXPAU?$pair@PAVSubsystemInterface@@PAX@2@ABU32@ABU__false_type@2@I_N@Z,0x009A1E50,vector<pair<SubsystemInterface* void*>> growth path called by SubsystemInterfaceList::initSubsystem
@@ -77565,7 +77564,6 @@ name,address,notes
 ?findObjectByID@BFMEObjectLookup@@QAEPAVObject@@W4ObjectID@@@Z,0x0001F253,alias of the GameLogic enum spelling pinned below; AIUpdate.cpp reaches the lookup through a view class because the reference GameLogic.h inlines it
 ?findObjectByID@GameLogic@@QAEPAVObject@@H@Z,0x0001F253,ILT thunk to GameLogic::findObjectByID
 ?findObjectByID@GameLogic@@QAEPAVObject@@W4ObjectID@@@Z,0x0001F253,enum ABI spelling used by AIDockProcessDockState::findMyDrone; same matched ILT as the int-decorated overload
-?findObjectCreationList@ObjectCreationListStore@@QBEPBVObjectCreationList@@VAsciiString@@@Z,0x0000D3FA,call displacement in InstantDeathBehavior parseOCL @0x00201770 (incremental-link thunk); BFME takes the name by value
 ?findOrCreateIndex@Rva00359330StringRecordTable@@AAEHPAVAsciiString@@@Z,0x000333C5,address-derived table index insertion helper used by 0x0035CC50
 ?findOrCreateIndex@Rva0035D2B0StringRecordTable@@AAEHPAVAsciiString@@@Z,0x0004599E,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0035D2B0 calls; autopin
 ?findOrInsert@AptScreenRefMap@@QAEPAVRva0050F840FunctorHolder@@ABVAsciiString@@@Z,0x00461A00,find-or-insert of the named functor-holder slot used by _bfme_setAptScreenRef; body is the gen-dump at 0x00461A00
