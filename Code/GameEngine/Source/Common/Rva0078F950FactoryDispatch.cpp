@@ -42,6 +42,8 @@ Rva007996A0VptrCtor *__stdcall Rva0078F300New(void *argument);
 Rva00799730VptrCtor *__stdcall Rva0078F380New(void *argument);
 Rva00790C40VptrCtor *__stdcall Rva0078F400New(void *argument);
 Rva00790CD0VptrCtor *__stdcall Rva0078F480New(void *argument);
+void *__stdcall Rva0078ED00New(void *argument);
+void *__stdcall Rva0078ED80New(void *argument);
 void *__stdcall Rva0078EF00New(void *argument);
 void *__stdcall Rva0078EF80New(void *argument);
 void *__stdcall Rva0078F000New(void *argument);
@@ -104,6 +106,15 @@ DECLARE_FACTORY_SELECTOR_OWNER(0078F630);
 DECLARE_FACTORY_SELECTOR_OWNER(0078F670);
 DECLARE_FACTORY_SELECTOR_OWNER(0078F6B0);
 DECLARE_FACTORY_SELECTOR_OWNER(0078F6F0);
+
+class Rva0078F730Owner
+{
+public:
+	void selectFactory(Rva0078F950Record *record, int first, int second,
+		int third);
+	void dispatchFactory(Rva0078F950Record *record, int first, int second,
+		int third);
+};
 
 struct Rva0078F770Secondary
 {
@@ -180,6 +191,19 @@ DEFINE_FACTORY_SELECTOR(0078F630, Rva0078EA70New, Rva0078E9F0New)
 DEFINE_FACTORY_SELECTOR(0078F670, Rva0078E970New, Rva0078E8F0New)
 DEFINE_FACTORY_SELECTOR(0078F6B0, Rva0078EC80New, Rva0078EC00New)
 DEFINE_FACTORY_SELECTOR(0078F6F0, Rva0078EB80New, Rva0078EB00New)
+
+void Rva0078F730Owner::selectFactory(Rva0078F950Record *record, int first,
+	int second, int third)
+{
+	signed char kind = record->m_kind;
+
+	if (kind & 0x80)
+		record->m_factory = (Rva0078F950Factory)Rva0078ED80New;
+	else
+		record->m_factory = (Rva0078F950Factory)Rva0078ED00New;
+
+	dispatchFactory(record, first, second, third);
+}
 
 void Rva0078F770Owner::selectFactory(Rva0078F950Record *record,
 	Rva0078F770Secondary *secondary, int ignored, int value)

@@ -78108,6 +78108,7 @@ name,address,notes
 ?dispatchFactory@Rva0078F670Owner@@QAEXPAURva0078F950Record@@@Z,0x0047E010,address-derived shared member handler tail-called by retail 0x0078F670
 ?dispatchFactory@Rva0078F6B0Owner@@QAEXPAURva0078F950Record@@@Z,0x0047DD90,address-derived shared member handler tail-called by retail 0x0078F6B0
 ?dispatchFactory@Rva0078F6F0Owner@@QAEXPAURva0078F950Record@@@Z,0x0047DEC0,address-derived shared member handler tail-called by retail 0x0078F6F0
+?dispatchFactory@Rva0078F730Owner@@QAEXPAURva0078F950Record@@HHH@Z,0x0047D090,address-derived four-argument member handler tail-called by retail 0x0078F730
 ?dispatchFactory@Rva0078F770Owner@@QAEXPAURva0078F950Record@@PAURva0078F770Secondary@@HH@Z,0x0047D150,address-derived four-argument member handler called by retail 0x0078F770
 ?dispatchFactory@Rva0078F830Owner@@QAEHPAURva0078F950Record@@HHH@Z,0x0047D2B0,address-derived four-argument member handler called by retail 0x0078F830
 ?dispatchFactory@Rva0078F8D0Owner@@QAEXPAURva0078F950Record@@@Z,0x0047D500,address-derived shared member handler tail-called by retail 0x0078F8D0
