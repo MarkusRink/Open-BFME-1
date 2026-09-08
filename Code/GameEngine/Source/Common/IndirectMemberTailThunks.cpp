@@ -8,7 +8,9 @@
 // dword read out of the object, so the receiver is a stored pointer, not a
 // sub-object.  Control leaves through a jmp, so the callee's `ret` returns to
 // OUR caller and its stack pop is this function's: a bare `ret` at the callee
-// makes both sides __thiscall with no stack arguments.
+// makes both sides __thiscall with no stack arguments. The 0x008035A0
+// variant forwards one unsigned timestamp and returns int; it is typed
+// separately below because its target ends in ret 4.
 //
 // TWO AXES, BOTH READ DIRECTLY: the REL32 target and the load offset.
 // Twenty-four members over twenty-three callees at eight distinct offsets;
@@ -66,7 +68,6 @@ BFME_POINTER_TAIL_CALLEE( 0074F1F0 )
 BFME_POINTER_TAIL_CALLEE( 00752F40 )
 BFME_POINTER_TAIL_CALLEE( 00765B70 )
 BFME_POINTER_TAIL_CALLEE( 00765DC0 )
-BFME_POINTER_TAIL_CALLEE( 0080AB50 )
 BFME_POINTER_TAIL_CALLEE( 008811D0 )
 BFME_POINTER_TAIL_CALLEE( 008FAFD0 )
 BFME_POINTER_TAIL_CALLEE( 009A4A30 )
@@ -91,7 +92,26 @@ BFME_POINTER_TAIL_THUNK( Rva0074FF30, Gen0074F1F0, 12 )
 BFME_POINTER_TAIL_THUNK( Rva00753030, Gen00752F40, 4 )
 BFME_POINTER_TAIL_THUNK( Rva00767D90, Gen00765B70, 4 )
 BFME_POINTER_TAIL_THUNK( Rva00767DA0, Gen00765DC0, 4 )
-BFME_POINTER_TAIL_THUNK( Rva008035A0, Gen0080AB50, 24 )
+// Retail 0x008035A0: pointer tail thunk; the caller's unsigned timestamp
+// remains on the stack and the Gen0080AB50 callee returns int with ret 4.
+class Gen0080AB50
+{
+public:
+	int handle( unsigned int timestamp );
+};
+
+class Rva008035A0
+{
+public:
+	int invoke( unsigned int timestamp );
+	char m_lead[ 24 ];
+	Gen0080AB50 *m_receiver;
+};
+
+int Rva008035A0::invoke( unsigned int timestamp )
+{
+	return m_receiver->handle( timestamp );
+}
 BFME_POINTER_TAIL_THUNK( Rva00880E00, Gen008811D0, 12 )
 BFME_POINTER_TAIL_THUNK( Rva008F7360, Gen008FAFD0, 12 )
 BFME_POINTER_TAIL_THUNK( Rva009A2560, Gen009A4A30, 12 )

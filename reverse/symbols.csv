@@ -78794,7 +78794,7 @@ name,address,notes
 ?finish@Rva003BFC20@@QAEXXZ,0x0000A754,ILT to finish body 0x003BEC30; callee of 0x003BFC20
 ?finish@Rva00592A10Owner@@QAEXXZ,0x0002E014,address-derived tail cleanup thunk called by the 0x00592A10 reset
 ?finish@Rva0069AEB0Node@@QAEXPAX@Z,0x000287F4,AEB0 release callee via ILT
-?finish@Rva0080A940Owner@@QAEXXZ,0x008099A0,FESL thiscall finish the 0x0080A940 init calls
+?finish@Rva0080A940Owner@@QAE_NXZ,0x008099A0,FESL thiscall finish the 0x0080A940 init calls
 ?finish@Rva21ABF0RingDispatch@@QAEXXZ,0x0000ACA9,address-derived ring dispatch completion ILT thunk
 ?finish@S4Sink004135C0@@QAEXXZ,0x0001A64F,ILT to 0x00413580 LargeGroupBonusUpdate notify sink closer
 ?finish@SidesInfoSegmentShim@@QAEXPAX0@Z,0x00024C17,SidesInfo clear tail helper shim
@@ -81568,7 +81568,6 @@ name,address,notes
 ?handle@Gen00774D40@@QAEXXZ,0x00774D40,address-derived callee of the mov-ecx-from-stack tail-jump family; target read from the REL32 at its call site
 ?handle@Gen00776AC0@@QAEXPAVFlagPairTarget@@@Z,0x00776AC0,address-derived callee of the 45-byte flag-pair-then-direct-call family; target read from the REL32 at its call sites
 ?handle@Gen00777EE0@@QAEXPAX0@Z,0x00777EE0,address-derived callee of the 13-byte field-pair forwarder family; target read from the REL32 at its call sites
-?handle@Gen0080AB50@@QAEXXZ,0x0080AB50,address-derived callee of the load-ecx pointer tail-jump family; target read from the REL32 at its call sites
 ?handle@Gen0081D040@@QAEXXZ,0x0081D040,niladic __thiscall tail-jump target of an absolute-operand forwarder; address-derived name
 ?handle@Gen0082AE40@@QAEXXZ,0x0082AE40,niladic __thiscall tail-jump target of an absolute-operand forwarder; address-derived name
 ?handle@Gen00832090@@QAEXXZ,0x00832090,niladic __thiscall tail-jump target of an absolute-operand forwarder; address-derived name

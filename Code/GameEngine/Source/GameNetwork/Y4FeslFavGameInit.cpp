@@ -23,7 +23,7 @@ class Rva0080A940Owner
 {
 public:
 	void initFromMessage( Rva007E8810Message *msg );
-	void finish();
+	bool finish();
 
 	char m_gap00[ 0x5C ];
 	unsigned int m_t0;       // +0x5C
