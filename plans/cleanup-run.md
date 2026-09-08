@@ -3,10 +3,10 @@
 Started: 2026-09-07 16:41:55 UTC (2026-09-08 01:41:55 JST).
 Deadline: 2026-09-08 04:41:55 UTC (13:41:55 JST).
 Execution base: `8fe7448503316d344fb623d467f3b107126cd9c5`.
-Status: phase 4 naming and ownership work is active; 97 cleanup/prerequisite
-units are published through `4e1c238e83`. Full integration at that snapshot
-completed with 174 function failures, no new failure pairs and unchanged
-97 DIR32 inconsistency identities/address sets. Three categories remain red;
+Status: phase 4 naming and ownership work is active; 105 cleanup/prerequisite
+units are published through `dd0cca379a`. Full integration at that snapshot
+completed with the same 174 function failure pairs and 97 DIR32 inconsistency
+identities/address sets as hour eight. Three categories remain red;
 the full gate has not passed. See [README.md](README.md) for the standing runbook.
 
 ## Ownership
@@ -17,8 +17,8 @@ branches, indexes and build outputs. Coordinator alone publishes master.
 | Worker/root suffix | Current exclusive responsibility |
 |---|---|
 | cleanup_metrics / metrics | Independent final reviews, landed samples and full-gate attribution |
-| cleanup_placement / placement | Held template/comment cleanup; bounded Bfme807 state-method study |
-| cleanup_evidence / evidence | Held field builders; remaining Bfme807 identity study |
+| cleanup_placement / placement | HeaderTemplate creation and INI parser cohesion |
+| cleanup_evidence / evidence | SidesList donor drained; selecting next bounded identity cleanup |
 
 Existing contributor worktrees are preserved. No new service, port, database,
 shared writable cache or external fleet configuration is required.
@@ -649,6 +649,73 @@ observed results; do not prefill reviews or claim unmeasured speedups.
   it. No padding workaround was added.
 - Next: publish this reflection and the reviewed template, reverse-link and
   field-builder commits, then continue the bounded Bfme807 family cleanup. Next review01:41:55 UTC; deadline04:41:55 UTC.
+
+### Hour nine review — 2026-09-08 01:41 UTC
+
+- Published eight more reviewed units, reaching 105 through `dd0cca379a`.
+  Code changes total 6,510 lines added and 7,687 removed, net -1,177 across 195
+  distinct source paths. This hour removes 58 net lines. No generated source
+  was edited; a six-byte voice-table getter moved from a generated claim into
+  real C++. Other units preserve existing ranges while correcting names,
+  placement, lifetime models and stale provenance.
+- Template/collection cleanup removes 30 lines; the StructureCollapse lifecycle
+  removes 55, INI animation cohesion 63 and constructor navigation one. Clearer
+  field builders add 88 lines and typed trigger callbacks add three. Report the
+  mixed tradeoff rather than treating all identity work as code reduction.
+- The lifecycle now represents ObjectModule's actual 12-byte subobject and the
+  behavior/update/death interfaces. An implicit ObjectModule destructor retains
+  its virtual base lifetime and matches the teardown; no synthetic destructor
+  emission helper remains. All 174/32/30 bytes, actual vtable bases and the EH
+  cleanup route were independently checked. Only the obsolete fake-base pin
+  was removed; unchanged callers were proved not to consume it.
+- INI parser cohesion uses private StringBase inheritance and an owning 8-byte
+  exception view. Review confirmed the two destructor implementations have the
+  same cleanup semantics, without inventing a byte-identical alias or new pin.
+  The inherited post-throw CC byte was compared against the unchanged donor
+  immediately, avoiding another candidate shape or padding workaround.
+- Recent final readiness-to-verdict intervals were 33.697,120.178,98.062,
+  85.932 and77.431 seconds; four of five met the 120-second target. These are
+  different changes, not a controlled speed benchmark. The callback's initial
+  packet still needed a naming revision, taking 435.456 seconds end to end.
+  Check newly moved functions' argument/local names before freezing a packet;
+  preserved bytes alone do not mean the readability work is complete.
+- Approval-to-author receipt still took 45.617,81.860,72.951 and84.486 seconds
+  for the four recent worker commits. Next experiment: workers freeze staged
+  packets; after exact independent review, coordinator runs the normal commit
+  directly in that worker tree, then releases the worker. Both lanes acknowledged
+  sole coordinator commit ownership for the next packets. Measure the next two
+  approval-to-command intervals; preserve every hook and all publication checks.
+- Precompile analysis prevented an incomplete module-data cleanup: four vector
+  callbacks are shared with SlowDeath, ModuleFactory emits the scalar destructor,
+  an EH row must follow its parent, and the similarly named DieMux constructor
+  pin targets another body. The larger change is deferred. An isolated 58-byte
+  prerequisite now has primary field-table evidence and a first-attempt exact
+  scratch body, with no old-name consumers and no pin/EH scope.
+- Full integration on clean `dd0cca379a` ran 01:36:26.905–01:43:37.533,
+  430.629 seconds, exit 1, with the snapshot preserved. All 174 failure pairs are
+  identical to hour eight: zero introduced or removed. The initial 214 comparison
+  still attributes 35 removed pairs to team work and five to external changes.
+  This checkpoint receives no new failure-removal credit.
+- All 97 DIR32 identities and complete address sets are unchanged; independent
+  scan 78.246s. Only an UpdateModule source rehome and exception-list sites changed.
+  Strings 19,505 plus 1,126 empty references, 13,443 source claims and pin checks
+  pass. Null remains 65 rows/19 bodies/738 unreadable under the unchanged limit.
+  The gate compiled 19 of 14,026 TUs and reused 14,007. Functions, DIR32 and the
+  blocked no-op patch remain red; this is not an all-green full gate.
+- Independent landed samples of the lifecycle and INI cohesion match the reviewed,
+  published and frozen hashes and all five rows. Actual lifetime/vtable/exception
+  evidence is unchanged. Object hold was released after the terminal comparison.
+- Freeze began 86.905 seconds after the 01:35 target while the final reviewed
+  publication finished. Drafting this reflection began before the hourly boundary;
+  publication waited for exact terminal attribution.
+- First post-checkpoint commit experiment: the reviewed SidesList packet started
+  its normal worker-tree commit 0.000280 seconds after approval and completed
+  in 18.633 seconds, all hooks passing. Its final review still took 128.264 seconds,
+  so direct commit removes the handoff delay in this trial without solving review
+  time. Worker commit `d53908bc11` is held and is not part of the 105-unit snapshot.
+- Next: finish the remaining SidesList donor, land the bounded DieMux prerequisite,
+  and select the next INI cohesion from observed source contents. Next review
+  02:41:55 UTC; execution deadline 04:41:55 UTC.
 
 ## Resume
 
