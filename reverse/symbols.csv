@@ -86195,3 +86195,6 @@ _bfmePathVftIC,0x010C7E28,pin path vftable for BfmeConv2075
 ?bfmeCheckJX@@YAHPAUCodecState@@@Z,0x009A89C0,pin check for BfmeConv2080
 ?g_bfmeSharedJX@@3HA,0x00F571E0,pin shared for BfmeConv2080
 ?g_bfmeTableJX@@3HA,0x00F56B60,pin table for BfmeConv2080
+BoxEmissionVolumeConcrete_vtbl0,0x011111D4,ConcreteModuleTemplate BoxEmissionVolume primary vtable
+BoxEmissionVolumeConcrete_vtbl4,0x011111D0,ConcreteModuleTemplate BoxEmissionVolume secondary vtable
+BoxEmissionVolumeConcrete_vtbl8,0x011111BC,ConcreteModuleTemplate BoxEmissionVolume module-info vtable
