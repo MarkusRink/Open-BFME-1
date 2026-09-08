@@ -4253,7 +4253,6 @@ void DX8Wrapper::Get_DX8_Render_State_Value_Name(StringClass& name, D3DRENDERSTA
 }
 
 // byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperGetTextureStageStateValueNameThunk.cpp
-// ?Get_DX8_Texture_Stage_State_Value_Name@DX8Wrapper@@ present-unmatched
 void DX8Wrapper::Get_DX8_Texture_Stage_State_Value_Name(StringClass& name, D3DTEXTURESTAGESTATETYPE state, unsigned value)
 {
 	switch (state) {
@@ -4270,18 +4269,6 @@ void DX8Wrapper::Get_DX8_Texture_Stage_State_Value_Name(StringClass& name, D3DTE
 	case D3DTSS_ALPHAARG2:
 	case D3DTSS_RESULTARG:
 		name=Get_DX8_Texture_Arg_Name(value);
-		break;
-
-	case D3DTSS_ADDRESSU:
-	case D3DTSS_ADDRESSV:
-	case D3DTSS_ADDRESSW:
-		name=Get_DX8_Texture_Address_Name(value);
-		break;
-
-	case D3DTSS_MAGFILTER:
-	case D3DTSS_MINFILTER:
-	case D3DTSS_MIPFILTER:
-		name=Get_DX8_Texture_Filter_Name(value);
 		break;
 
 	case D3DTSS_TEXTURETRANSFORMFLAGS:
@@ -4311,16 +4298,6 @@ void DX8Wrapper::Get_DX8_Texture_Stage_State_Value_Name(StringClass& name, D3DTE
 		else {
 			name.Format("%d",value);
 		}
-		break;
-
-	// Integer value
-	case D3DTSS_MAXMIPLEVEL:
-	case D3DTSS_MAXANISOTROPY:
-		name.Format("%d",value);
-		break;
-	// Hex values
-	case D3DTSS_BORDERCOLOR:
-		name.Format("0x%x",value);
 		break;
 
 	default:
