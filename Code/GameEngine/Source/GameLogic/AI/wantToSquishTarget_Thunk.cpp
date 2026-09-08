@@ -1,186 +1,133 @@
 // cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// Authentic body from GeneralsMD/Code/GameEngine/Source/GameLogic/AI/AIStates.cpp.
 
-class State;
-bool __cdecl wantToSquishTarget(State *, void *);
+typedef bool Bool;
 
-// ?wantToSquishTarget@@YA_NPAVState@@PAX@Z
-__declspec(naked) bool __cdecl wantToSquishTarget(State *, void *)
+enum WhichTurretType { TURRET_INVALID = -1 };
+enum PlayerType { PLAYER_COMPUTER = 1 };
+enum CrushSquishTestType { TEST_TYPE_2 = 2 };
+enum KindOfType { KINDOF_DONT_AUTO_CRUSH_INFANTRY = 0x5b };
+
+class Object;
+
+class Player
 {
-	__asm {
-        __emit 0x8b
-        __emit 0x44
-        __emit 0x24
-        __emit 0x04
-        __emit 0x8b
-        __emit 0x48
-        __emit 0x1c
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x71
-        __emit 0x10
-        __emit 0x57
-        __emit 0xe8
-        __emit 0x6f
-        __emit 0xc5
-        __emit 0xe9
-        __emit 0xff
-        __emit 0x85
-        __emit 0xf6
-        __emit 0x8b
-        __emit 0xf8
-        __emit 0x0f
-        __emit 0x84
-        __emit 0x8e
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x85
-        __emit 0xff
-        __emit 0x0f
-        __emit 0x84
-        __emit 0x86
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x8b
-        __emit 0x46
-        __emit 0x04
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x0c
-        __emit 0x8b
-        __emit 0x48
-        __emit 0x04
-        __emit 0x85
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x05
-        __emit 0xe8
-        __emit 0x95
-        __emit 0x02
-        __emit 0xe9
-        __emit 0xff
-        __emit 0x8a
-        __emit 0x88
-        __emit 0x9d
-        __emit 0x04
-        __emit 0x00
-        __emit 0x00
-        __emit 0x84
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x69
-        __emit 0x8b
-        __emit 0x87
-        __emit 0x14
-        __emit 0x02
-        __emit 0x00
-        __emit 0x00
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x75
-        __emit 0x5f
-        __emit 0x8b
-        __emit 0x8e
-        __emit 0x04
-        __emit 0x02
-        __emit 0x00
-        __emit 0x00
-        __emit 0x85
-        __emit 0xc9
-        __emit 0x74
-        __emit 0x55
-        __emit 0xe8
-        __emit 0x5a
-        __emit 0x26
-        __emit 0xec
-        __emit 0xff
-        __emit 0x83
-        __emit 0xf8
-        __emit 0xff
-        __emit 0x74
-        __emit 0x4b
-        __emit 0x8b
-        __emit 0x0d
-        __emit 0x14
-        __emit 0xf2
-        __emit 0x2e
-        __emit 0x01
-        __emit 0x8b
-        __emit 0x51
-        __emit 0x14
-        __emit 0x8a
-        __emit 0x82
-        __emit 0x8c
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x84
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x38
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xe8
-        __emit 0xbc
-        __emit 0xe7
-        __emit 0xea
-        __emit 0xff
-        __emit 0x85
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x2d
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xe8
-        __emit 0xb1
-        __emit 0xe7
-        __emit 0xea
-        __emit 0xff
-        __emit 0x83
-        __emit 0x78
-        __emit 0x2c
-        __emit 0x01
-        __emit 0x75
-        __emit 0x20
-        __emit 0x6a
-        __emit 0x02
-        __emit 0x57
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xe8
-        __emit 0x27
-        __emit 0x00
-        __emit 0xed
-        __emit 0xff
-        __emit 0x84
-        __emit 0xc0
-        __emit 0x74
-        __emit 0x12
-        __emit 0x6a
-        __emit 0x5b
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xe8
-        __emit 0x8f
-        __emit 0x04
-        __emit 0xec
-        __emit 0xff
-        __emit 0x84
-        __emit 0xc0
-        __emit 0x75
-        __emit 0x05
-        __emit 0x5f
-        __emit 0xb0
-        __emit 0x01
-        __emit 0x5e
-        __emit 0xc3
-        __emit 0x5f
-        __emit 0x32
-        __emit 0xc0
-        __emit 0x5e
-        __emit 0xc3
+public:
+	PlayerType getPlayerType() const { return m_playerType; }
+private:
+	unsigned char m_pad000[0x2c];
+	PlayerType m_playerType;
+};
+
+class ThingTemplate
+{
+public:
+	ThingTemplate *getFinalOverride();
+	void *m_vtable;
+	ThingTemplate *m_override;
+	unsigned char m_pad008[0x495];
+	Bool m_hasAI;
+};
+
+class AIUpdateInterface
+{
+public:
+	WhichTurretType getWhichTurretForCurWeapon() const;
+};
+
+class Thing
+{
+public:
+	Bool isKindOf(KindOfType kind) const;
+};
+
+class Object : public Thing
+{
+public:
+	AIUpdateInterface *getAI() const
+	{
+		return m_ai;
 	}
+	Bool hasAI() const
+	{
+		ThingTemplate *finalTemplate = m_template;
+		if (finalTemplate && finalTemplate->m_override)
+			finalTemplate = finalTemplate->m_override->getFinalOverride();
+		return finalTemplate->m_hasAI;
+	}
+	Object *getContainedBy() const { return m_containedBy; }
+	Player *getControllingPlayer() const;
+	Bool crushPolicy(Object *victim, CrushSquishTestType test) const;
+
+private:
+	void *m_vtable;
+	ThingTemplate *m_template;
+	unsigned char m_pad008[0x1fc];
+	AIUpdateInterface *m_ai;
+	unsigned char m_pad208[0x0c];
+	Object *m_containedBy;
+};
+
+class StateMachine
+{
+public:
+	Object *getGoalObject();
+	unsigned char m_pad000[0x10];
+	Object *m_owner;
+};
+
+class State
+{
+public:
+	Object *getMachineOwner() { return m_machine->m_owner; }
+	Object *getMachineGoalObject() { return m_machine->getGoalObject(); }
+private:
+	unsigned char m_pad000[0x1c];
+	StateMachine *m_machine;
+};
+
+struct AIData
+{
+	unsigned char m_pad000[0x8c];
+	Bool m_aiCrushesInfantry;
+};
+
+class AI
+{
+public:
+	unsigned char m_pad000[0x14];
+	AIData *m_aiData;
+};
+
+extern AI *TheAI;
+
+Bool wantToSquishTarget(State *thisState, void *)
+{
+	Object *obj = thisState->getMachineOwner();
+	Object *victim = thisState->getMachineGoalObject();
+
+	if (obj && victim)
+	{
+		if (obj->hasAI())
+		{
+			if (victim->getContainedBy())
+				return false;
+			if (obj->getAI() && obj->getAI()->getWhichTurretForCurWeapon() != TURRET_INVALID)
+			{
+				if (TheAI->m_aiData->m_aiCrushesInfantry)
+				{
+					if (obj->getControllingPlayer() && obj->getControllingPlayer()->getPlayerType() == PLAYER_COMPUTER)
+					{
+						if (obj->crushPolicy(victim, TEST_TYPE_2))
+						{
+							if (!obj->isKindOf(KINDOF_DONT_AUTO_CRUSH_INFANTRY))
+								return true;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return false;
 }
