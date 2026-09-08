@@ -1,95 +1,94 @@
-// ?d_00416fe0@@YAXXZ
-// partial score=0.85 date=2026-09-08
+// ?getPerUnitSound@ThingTemplate@@QBEPBVAudioEventRTS@@ABVAsciiString@@@Z
+// partial score=0.95 date=2026-09-08
+// ?getPerUnitSound@ThingTemplate@@QBEPBVAudioEventRTS@@ABVAsciiString@@@Z
+// cl: /DNDEBUG /MD /EHsc
+
 class AudioEventRTS;
-class AsciiStringTU;
-class BfmeSubTU;
-class BfmeParentTU;
+class AsciiString;
 
 extern AudioEventRTS BfmeTheEmptyAudioEvent;
 
-class BfmeFinderTU
+class BfmePerUnitSoundFinder
 {
 public:
-	virtual void bfmeSlotB00TU();
-	virtual const AudioEventRTS *bfmeFindTU(const AsciiStringTU &name);
+	virtual void unused();
+	virtual const AudioEventRTS *find(const AsciiString &name);
 };
 
-class BfmeEntryTU
+class BfmePerUnitSoundEntry
 {
 public:
-	virtual void bfmeSlotA00TU();
-	virtual void bfmeSlotA01TU();
-	virtual void bfmeSlotA02TU();
-	virtual void bfmeSlotA03TU();
-	virtual void bfmeSlotA04TU();
-	virtual void bfmeSlotA05TU();
-	virtual void bfmeSlotA06TU();
-	virtual void bfmeSlotA07TU();
-	virtual void bfmeSlotA08TU();
-	virtual void bfmeSlotA09TU();
-	virtual void bfmeSlotA10TU();
-	virtual BfmeFinderTU *bfmeGetFinderTU();
+	virtual void slot00(); virtual void slot04(); virtual void slot08();
+	virtual void slot0c(); virtual void slot10(); virtual void slot14();
+	virtual void slot18(); virtual void slot1c(); virtual void slot20();
+	virtual void slot24(); virtual void slot28();
+	virtual BfmePerUnitSoundFinder *getFinder();
 };
 
-BfmeParentTU *__fastcall bfmeResolveTU(BfmeSubTU *sub);
-
-class BfmeParentTU
+class Overridable
 {
 public:
-	const AudioEventRTS *bfmeLookupTU(const AsciiStringTU &name);
+	const Overridable *getFinalOverride() const;
 
-	int m_bfmeHeadTU;
-	BfmeSubTU *m_bfmeSubTU;
+	void *m_vtable;
+	Overridable *m_nextOverride;
 };
 
-__forceinline BfmeParentTU *bfmeBaseTU(BfmeParentTU *p)
+class BfmeOverridable : public Overridable
 {
-	if (p->m_bfmeSubTU != 0)
-		return bfmeResolveTU(p->m_bfmeSubTU);
+public:
+	const AudioEventRTS *bfmeLookupPerUnitSound(const AsciiString &name);
+};
 
-	return p;
+__forceinline BfmeOverridable *resolveParent(BfmeOverridable *parent)
+{
+	if (parent->m_nextOverride != 0)
+		return (BfmeOverridable *)parent->m_nextOverride->getFinalOverride();
+	return parent;
 }
 
-class BfmeTemplateTU
+class ThingTemplate
 {
 public:
-	const AudioEventRTS *bfmeGetSoundTU(const AsciiStringTU &name) const;
+	const AudioEventRTS *getPerUnitSound(const AsciiString &name) const;
 
-	int m_bfmeHeadTU;
-	BfmeParentTU *m_bfmeParentTU;
-	unsigned char m_bfmePadTU[0x150];
-	BfmeEntryTU **m_bfmeSoundsTU;
+private:
+	void *m_vtable;
+	BfmeOverridable *m_parent;
+	unsigned char m_unreconstructed08[0x150];
+	BfmePerUnitSoundEntry **m_perUnitSounds;
 };
 
-const AudioEventRTS *BfmeTemplateTU::bfmeGetSoundTU(const AsciiStringTU &name) const
+// ?getPerUnitSound@ThingTemplate@@QBEPBVAudioEventRTS@@ABVAsciiString@@@Z
+const AudioEventRTS *ThingTemplate::getPerUnitSound(const AsciiString &name) const
 {
-	BfmeEntryTU **p = m_bfmeSoundsTU;
-
-	if (p != 0)
+	const AsciiString *soundName = &name;
+	__asm { }
+	BfmePerUnitSoundEntry **entry = m_perUnitSounds;
+	if (entry != 0)
 	{
-		while (*p != 0)
+		do
 		{
-			BfmeFinderTU *f = (*p)->bfmeGetFinderTU();
-
-			if (f != 0)
+			BfmePerUnitSoundEntry *current = *entry;
+			if (current == 0)
+				break;
+			BfmePerUnitSoundFinder *finder = current->getFinder();
+			if (finder != 0)
 			{
-				const AudioEventRTS *r = f->bfmeFindTU(name);
-
-				if (r != 0)
-					return r;
+				const AudioEventRTS *sound = finder->find(*soundName);
+				if (sound != 0)
+					return sound;
 			}
-
-			p++;
-		}
+			entry++;
+		} while (entry != 0);
 	}
 
-	BfmeParentTU *parent = m_bfmeParentTU;
-	BfmeParentTU *base = parent != 0 ? bfmeBaseTU(parent) : 0;
-
-	const AudioEventRTS *r = base->bfmeLookupTU(name);
-
-	if (r != 0)
-		return r;
-
+	const AudioEventRTS *sound;
+	if (m_parent == 0)
+		sound = ((BfmeOverridable *)0)->bfmeLookupPerUnitSound(*soundName);
+	else
+		sound = resolveParent(m_parent)->bfmeLookupPerUnitSound(*soundName);
+	if (sound != 0)
+		return sound;
 	return &BfmeTheEmptyAudioEvent;
 }
