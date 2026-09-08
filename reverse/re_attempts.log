@@ -14787,3 +14787,17 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_005a88e0@@YAXXZ	0x005A88E0	172	blocked	served file Code/gen_asm/d_005a42e0.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
 ?d_005ad330@@YAXXZ	0x005AD330	310	blocked	served file Code/gen_asm/d_005a42e0.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
 ?d_005a4c60@@YAXXZ	0x005A4C60	453	blocked	served file Code/gen_asm/d_005a42e0.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_00248c60@@YAXXZ	0x00248C60	124	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_00239580@@YAXXZ	0x00239580	101	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_0024eca0@@YAXXZ	0x0024ECA0	126	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_0023d850@@YAXXZ	0x0023D850	147	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_00238ae0@@YAXXZ	0x00238AE0	175	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_0023a100@@YAXXZ	0x0023A100	167	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_0024a840@@YAXXZ	0x0024A840	147	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_002496e0@@YAXXZ	0x002496E0	248	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_00242b90@@YAXXZ	0x00242B90	194	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_0023c200@@YAXXZ	0x0023C200	208	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_002434d0@@YAXXZ	0x002434D0	226	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_00240b10@@YAXXZ	0x00240B10	247	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_00237070@@YAXXZ	0x00237070	269	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
+?d_00239950@@YAXXZ	0x00239950	324	blocked	served file Code/gen_asm/d_00234360.asm; Ghidra bounds-high/generated body has no standalone source or safe identity after detector sweep; t=5min model=gpt-5.6-sol
