@@ -334,6 +334,12 @@ void DownloadMenuShutdown( WindowLayout *layout, void *userData )
 //-------------------------------------------------------------------------------------------------
 /** menu update method */
 //-------------------------------------------------------------------------------------------------
+class DownloadUnicodeStringSetView
+{
+public:
+	void set(const DownloadUnicodeStringSetView &other);
+};
+
 void DownloadMenuUpdate( WindowLayout *layout, void *userData )
 {
 	if (staticTextTime && !GadgetStaticTextGetText(staticTextTime).isEmpty())
@@ -348,7 +354,8 @@ void DownloadMenuUpdate( WindowLayout *layout, void *userData )
 		if (timeLeft)
 		{
 			DEBUG_ASSERTCRASH(timeLeft > 0, ("Time left is negative!"));
-			timeLeft = max(1, timeLeft);
+			if (timeLeft < 1)
+				timeLeft = 1;
 			Int takenHour, takenMin, takenSec;
 			takenHour = timeLeft / 60 / 60;
 			takenMin = timeLeft / 60;
@@ -357,7 +364,9 @@ void DownloadMenuUpdate( WindowLayout *layout, void *userData )
 		}
 		else
 		{
-			timeString = TheGameText->fetch("GUI:DownloadUnknownTime");
+			reinterpret_cast<DownloadUnicodeStringSetView *>(&timeString)->set(
+				reinterpret_cast<const DownloadUnicodeStringSetView &>(
+					TheGameText->fetch("GUI:DownloadUnknownTime")));
 		}
 		GadgetStaticTextSetText(staticTextTime, timeString);
 	}

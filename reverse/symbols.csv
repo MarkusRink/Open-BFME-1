@@ -3900,6 +3900,7 @@ name,address,notes
 ??1?$hashtable@U?$pair@$$CBHVFXList@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHVFXList@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHVFXList@@@_STL@@@2@@_STL@@QAE@XZ,0x0042DD70,FXListStore inline container at +8 with 36-byte FXList values; verified destructor42DE50 encodes ILT2D286 to this body.
 ??1?$hashtable@U?$pair@$$CBIW4Relationship@@@_STL@@IU?$hash@I@2@U?$_Select1st@U?$pair@$$CBIW4Relationship@@@_STL@@@2@U?$equal_to@I@2@V?$allocator@U?$pair@$$CBIW4Relationship@@@_STL@@@2@@_STL@@QAE@XZ,0x00010217,ILT of hashtable dtor from TeamRelationMap dtor
 ??1?$hashtable@U?$pair@$$CBIW4Rva000D3FA0Relationship@@@_STL@@IU?$hash@I@2@U?$_Select1st@U?$pair@$$CBIW4Rva000D3FA0Relationship@@@_STL@@@2@U?$equal_to@I@2@V?$allocator@U?$pair@$$CBIW4Rva000D3FA0Relationship@@@_STL@@@2@@_STL@@QAE@XZ,0x000247DF,ILT reached by Rva000D3FA0Map dtor at 0x000D3FA0
+??1?$hashtable@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@5@V?$allocator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@@_STL@@QAE@XZ,0x0003269B,ParticleSystemManager destructor calls the retail template map destructor thunk
 ??1?$hashtable@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVThingTemplate@@@_STL@@@2@@_STL@@QAE@XZ,0x0004403A,ThingFactory::m_templateHashMap implicit destructor called from 0x00137C90
 ??1?$hashtable@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@PBVGameWindow@@UhashConstGameWindowPtr@WindowVideoManager@@U?$_Select1st@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@U?$equal_to@PBVGameWindow@@@2@V?$allocator@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@@_STL@@QAE@XZ,0x000476EA,retail WindowVideoManager map destructor call target
 ??1?$moneypunct@D$00@_STL@@MAE@XZ,0x00847F30,STLport 4.5.3 moneypunct char true destructor; retail RTTI proves specialization
@@ -4421,7 +4422,6 @@ name,address,notes
 ??1DevastateSpecialPower@@MAE@XZ,0x000313D6,destructor ILT to 0x0025A810
 ??1DieModuleDataBase@@UAE@XZ,0x00887940,Open-BFME5 base dtor pin
 ??1Display@@UAE@XZ,0x000314BC,ILT to Display dtor body 0x005CB360
-??1ParticleSystemManager@@UAE@XZ,0x000314BC,ILT to ParticleSystemManager dtor body 0x005CB360; vtables 0x0110FDCC and 0x0110FDB8 plus FXParticleSystemManager string 0x0110FE14 identify the class
 ??1DisplayString@@MAE@XZ,0x0000D823,W3DDisplayString dtor call target
 ??1DisplayString@@UAE@XZ,0x0000D823,W3DDisplayString dtor call target; same thunk as the MAE spelling (access level differs between our header and retail)
 ??1DisplayStringManager@@UAE@XZ,0x000472E9,BFME DisplayStringManager destructor ILT called by exact W3DDisplayStringManager destructor
@@ -8827,6 +8827,7 @@ name,address,notes
 ??1ParticleSysBoneInfo@@QAE@XZ,0x00022FE3,"the address retail's own call sites encode; re-added after d27ae4b7b, one-name-one-body clean"
 ??1ParticleSysBoneInfo@@QAE@XZ,0x0004A462,"STLport callee exact retail rel32 target (incremental-link thunk); resolves repointed STL template thunk-dump; re-added after d27ae4b7b, one-name-one-body clean"
 ??1ParticleSystemHandle@@QAE@XZ,0x00013994,tracked particle-system handle unlink destructor
+??1ParticleSystemManager@@UAE@XZ,0x000314BC,ILT to ParticleSystemManager dtor body 0x005CB360; vtables 0x0110FDCC and 0x0110FDB8 plus FXParticleSystemManager string 0x0110FE14 identify the class
 ??1ParticleSystemTemplateBase@FXParticleSystem@@UAE@XZ,0x00002F5E,Open-BFME5 pin
 ??1ParticleSystemTemplateMemberA@FXParticleSystem@@QAE@XZ,0x000244BF,Open-BFME5 pin
 ??1ParticleSystemTemplateZA@@QAE@XZ,0x0002083D,Open-BFME5 the template destructor the 0x005CFF50 atexit thunk calls
@@ -8942,6 +8943,7 @@ name,address,notes
 ??1Rva000491E3TailBase@@UAE@XZ,0x000491E3,base destructor address decoded from the retail REL32 tail jump; name is address-derived
 ??1Rva0004B227TailBase@@UAE@XZ,0x0004B227,base destructor address decoded from the retail REL32 tail jump; name is address-derived
 ??1Rva000658A0Elem@@QAE@XZ,0x00026AB2,ILT thunk to the PlayerUpgradeSpecialPowerModuleData destructor 0x000658A0 called by 0x0049C020
+??1Rva00076B60@@UAE@XZ,0x00015C62,scalar-helper complete-dtor route: matched ILT j_00015c62 reaches existing Gen_00076C80 82-byte body; no duplicate local body
 ??1Rva00078460Elem@@QAE@XZ,0x0001F951,Open-BFME5 ILT the 0x00078460 implicit dtor hands to ??_M as the element destructor
 ??1Rva0008FE00AuxMap@@QAE@XZ,0x00032B19,Open-BFME5 near-twin aux-map destroy; reuses the pinned thunk at 0x00032B19
 ??1Rva00199180Tail@@QAE@XZ,0x000023D8,address-derived tail member dtor called by 0x00199180
@@ -62254,8 +62256,6 @@ name,address,notes
 ?b_00618860@@YAXXZ,0x00618860,gen-thunk body
 ?b_00618890@@YAXXZ,0x00618890,gen-thunk body
 ?b_00618980@@YAXXZ,0x00618980,gen-thunk body
-?rva00618980@Rva00618980Object@@QAEXH@Z,0x00618980,LivingWorldManager field +0x1A8 cleanup helper called by 0x00616410
-?clear@?$hashtable@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@@_STL@@QAEXXZ,0x006132E0,LivingWorldManager +0x224 object map clear called by 0x00616410
 ?b_00618a00@@YAXXZ,0x00618A00,gen-thunk body
 ?b_00618a90@@YAXXZ,0x00618A90,gen-thunk body
 ?b_00618c90@@YAXXZ,0x00618C90,gen-thunk body
@@ -73485,6 +73485,7 @@ name,address,notes
 ?begin@?$hashtable@U?$pair@$$CBHV?$list@VExperienceLevel@@V?$allocator@VExperienceLevel@@@_STL@@@_STL@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHV?$list@VExperienceLevel@@V?$allocator@VExperienceLevel@@@_STL@@@_STL@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$list@VExperienceLevel@@V?$allocator@VExperienceLevel@@@_STL@@@_STL@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBHV?$list@VExperienceLevel@@V?$allocator@VExperienceLevel@@@_STL@@@_STL@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHV?$list@VExperienceLevel@@V?$allocator@VExperienceLevel@@@_STL@@@_STL@@@_STL@@@2@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHV?$list@VExperienceLevel@@V?$allocator@VExperienceLevel@@@_STL@@@_STL@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$list@VExperienceLevel@@V?$allocator@VExperienceLevel@@@_STL@@@_STL@@@_STL@@@2@@2@XZ,0x0037EBB0,complete typed ExperienceLevel map begin body returns the STLport iterator {node owner}; retail findLevel call uses ILT 0x00019B37 whose E9 reaches this body;campaign=luna36h-20260907;lane=hlod;model=gpt-5.6-sol-ultra
 ?begin@?$hashtable@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@@2@XZ,0x00611680,LivingWorldManager +0x224 object map begin; 0x00615CB0 reaches the body through ILT 0x00036412 and uses the native two-word iterator;campaign=luna36h-20260907;lane=expand08;model=gpt-5.6-sol-ultra
 ?begin@?$hashtable@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@@2@XZ,0x006115A0,LivingWorldManager BfmeThingNA map begin at this+0x194 through ILT 0x00009561
+?begin@?$hashtable@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@5@V?$allocator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@6@V?$allocator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@@2@XZ,0x0001ABD1,ParticleSystemManager destructor calls the retail template map begin thunk
 ?begin@?$hashtable@U?$pair@$$CBVAsciiString@@PAVRva00460A70Mapped@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVRva00460A70Mapped@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVRva00460A70Mapped@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBVAsciiString@@PAVRva00460A70Mapped@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@PAVRva00460A70Mapped@@@_STL@@@2@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVRva00460A70Mapped@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVRva00460A70Mapped@@@_STL@@@2@@2@XZ,0x0045F550,bfmeReadSJA begin specialization
 ?begin@?$hashtable@U?$pair@$$CBVAsciiString@@PAVRva0061C1D0Object@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVRva0061C1D0Object@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVRva0061C1D0Object@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBVAsciiString@@PAVRva0061C1D0Object@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@PAVRva0061C1D0Object@@@_STL@@@2@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVRva0061C1D0Object@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVRva0061C1D0Object@@@_STL@@@2@@2@XZ,0x006115A0,LivingWorldManager +0x194 AsciiString-keyed object map begin; direct 0x006157C0 call reaches body through ILT 0x00009561;campaign=luna36h-20260907;lane=expand08;model=gpt-5.6-sol-ultra
 ?begin@?$hashtable@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@PBVGameWindow@@UhashConstGameWindowPtr@WindowVideoManager@@U?$_Select1st@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@U?$equal_to@PBVGameWindow@@@2@V?$allocator@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@U?$_Nonconst_traits@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@PBVGameWindow@@UhashConstGameWindowPtr@WindowVideoManager@@U?$_Select1st@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@U?$equal_to@PBVGameWindow@@@2@V?$allocator@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@@2@XZ,0x0003EE14
@@ -73653,6 +73654,7 @@ name,address,notes
 ?bfmeAccept@Gen_0077F790@@AAEXPAVBfmeSeedTarget@@@Z,0x00011CBB,Open-BFME5 ILT the seeder at 0x0077F790 accepts through
 ?bfmeAccepts@BfmeFourSlotEntry@@QAE_NPAVBfmeFourSlotSource@@HH@Z,0x002E85C,address-derived enabled-slot predicate
 ?bfmeAccepts@Gen_00684b90Holder@@QAEHPAX@Z,0x00004F6B,Open-BFME5 ILT the guard at 0x00684B90 asks its holder through
+?bfmeAcquireXZ@BfmeHostXZ@@QAEPAVBfmeThingXZ@@PAX@Z,0x000124D1,Open-BFME5 ILT thunk to 0x000A1310 called by the 0x0016AD90 start
 ?bfmeActME@BfmeThingME@@QAEXXZ,0x0000C4EB,pin
 ?bfmeActivate1236@BfmeNode1236@@QAEXXZ,0x008D2810,call target from exact 0x008BDD10 filtered node walk
 ?bfmeActive@BfmeSubF2C@@QAE_NXZ,0x00010758,ILT thunk to Gen_0026E570 bfmeActive
@@ -77708,6 +77710,7 @@ name,address,notes
 ?clear@?$hashtable@U?$pair@$$CBHW4Relationship@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHW4Relationship@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHW4Relationship@@@_STL@@@2@@_STL@@QAEXXZ,0x000188EA,ILT called by Player::removePlayerRelationship 0x000D4160; jmps to the PlayerRelationMap clear body at 0x000CF510
 ?clear@?$hashtable@U?$pair@$$CBIW4Relationship@@@_STL@@IU?$hash@I@2@U?$_Select1st@U?$pair@$$CBIW4Relationship@@@_STL@@@2@U?$equal_to@I@2@V?$allocator@U?$pair@$$CBIW4Relationship@@@_STL@@@2@@_STL@@QAEXXZ,0x00005B73,pinharvest x1 (thunk)
 ?clear@?$hashtable@U?$pair@$$CBIW4Rva000D3FA0Relationship@@@_STL@@IU?$hash@I@2@U?$_Select1st@U?$pair@$$CBIW4Rva000D3FA0Relationship@@@_STL@@@2@U?$equal_to@I@2@V?$allocator@U?$pair@$$CBIW4Rva000D3FA0Relationship@@@_STL@@@2@@_STL@@QAEXXZ,0x000188EA,ILT reached by Rva000D3FA0Map dtor at 0x000D3FA0
+?clear@?$hashtable@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@@_STL@@QAEXXZ,0x006132E0,LivingWorldManager +0x224 object map clear called by 0x00616410
 ?clear@?$hashtable@U?$pair@$$CBW4NameKeyType@@PAVBucket@@@_STL@@W4NameKeyType@@U?$hash@W4NameKeyType@@@rts@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@PAVBucket@@@_STL@@@2@U?$equal_to@W4NameKeyType@@@5@V?$allocator@U?$pair@$$CBW4NameKeyType@@PAVBucket@@@_STL@@@2@@_STL@@QAEXXZ,0x0008F880,NameKeyGenerator aux hash_map hashtable<>::clear() proven via freeSockets tail-jmp
 ?clear@?$hashtable@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@PBVGameWindow@@UhashConstGameWindowPtr@WindowVideoManager@@U?$_Select1st@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@U?$equal_to@PBVGameWindow@@@2@V?$allocator@U?$pair@QBVGameWindow@@PAVWindowVideo@@@_STL@@@2@@_STL@@QAEXXZ,0x000458BD
 ?clear@AptPalantirRegion@@QAEXXZ,0x00047B6D,AptPalantir immediate-hide cleanup for the subobject at +0x68
@@ -79787,6 +79790,7 @@ name,address,notes
 ?g_bfmeTab1053@@3HA,0x00EB9670,pin
 ?g_bfmeTableAD@@3UBfmeTableAD@@A,0x00F563A0
 ?g_bfmeTableERJ@@3PAVBfmeTableERJ@@A,0x00EEF428,pin
+?g_bfmeTableJX@@3HA,0x00F56B60,pin table for BfmeConv2080
 ?g_bfmeTableSWA@@3PAPAXA,0x00EC6FB8,pin
 ?g_bfmeTableSXA@@3PAPAXA,0x00EC6FB8,pin
 ?g_bfmeTag1028@@3PADA,0x00D23918,pin
@@ -82827,6 +82831,7 @@ name,address,notes
 ?packStatKey@PeerThreadClass@@AAE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@PBD0@Z,0x00006190,ILT thunk called by lookupStatForPlayer 0x00647DD0 (ZH PeerThread.cpp packStatKey)
 ?parent@@3PAVGameWindow@@A,0x012F415C,ScoreScreen.cpp file-static parent GameWindow pointer
 ?parse@?$DeathModelFlags@$09@@QAEXPAVINI@@PAVAsciiString@@@Z,0x00033433,SlowDeathBehavior DeathFlags model parser ILT
+?parse@?$DefaultModuleTemplate@$06@FXParticleSystem@@QAEXPAVINI@@@Z,0x0002C0A7,route=0x005FE460; ConcreteModuleClass<DefaultModuleTag<7>>::createTemplate(INI*) calls the wind template parser through this retail ILT
 ?parse@BoneFXUpdateModuleDataParseFXListShim@@SAXPAVINI@@PAX1PBX@Z,0x00287BC0,BoneFXUpdateModuleData parseFXList incremental-link thunk target through a TU-local forwarding shim
 ?parse@BoneFXUpdateModuleDataParseObjectCreationListShim@@SAXPAVINI@@PAX1PBX@Z,0x00287D00,BoneFXUpdateModuleData parseObjectCreationList incremental-link thunk target through a TU-local forwarding shim
 ?parse@BoxEmissionVolumeTemplateParseShim@FXParticleSystem@@QAEXPAVINI@@@Z,0x00027999,Open-BFME5 pin
@@ -83342,6 +83347,7 @@ name,address,notes
 ?reset@Mouse@@UAEXXZ,0x0001E259,DirectInputMouse::reset at 0x006BB8D0 tail-jumps to this ILT; target body 0x005A4410 is the shared Mouse reset implementation
 ?reset@NetCommandList@@QAEXXZ,0x0000B9CE,ILT thunk retail call sites use; real body 0x6731A0
 ?reset@Network@@UAEXXZ,0x00681910,vtable 0x0111A968 slot 4 (+0x10 = SubsystemInterface::reset position) via ILT 0x0003CF1A; body is mov eax [ecx] / jmp [eax+4] = this->init() = ZH Network::reset(){init();}; ICF class ?dup_00681910 so the pin is address-specific
+?reset@ParticleSystemManager@@UAEXXZ,0x00023D71,ParticleSystemManager destructor calls the retail reset thunk at 0x005C3740
 ?reset@PathfindCell@@QAEXXZ,0x0002C106,Open-BFME5 ILT thunk to body 0x003F6EC0; BFME PathfindCell reset helper
 ?reset@Rva0048EE10Child@@QAEXXZ,0x00009CF0,ILT to address-derived child reset at 0x0048EC50
 ?reset@Rva005A41F0@@QAEXXZ,0x005A3FD0,paired state reset called by Rva005A41F0::tick after the virtual input device returns 0xFF
@@ -83558,6 +83564,7 @@ name,address,notes
 ?rva00595230@@YAXXZ,0x00012FC6,Open-BFME5 ILT thunk b_00595230
 ?rva0060a880@@YGXPAX@Z,0x00019010,Open-BFME5 ILT thunk FUN_00a0a880
 ?rva0060d5a0@BfmeGameCW@@QAE_NI@Z,0x0060D5A0,direct body pin: neutral BfmeGameCW source-gate ABI; retail ILT 0x00014858 is E9 to this body; campaign=luna36h-20260907;lane=mesh
+?rva00618980@Rva00618980Object@@QAEXH@Z,0x00618980,LivingWorldManager field +0x1A8 cleanup helper called by 0x00616410
 ?rva0061bbb0@Rva0061C1D0Object@@QAEXXZ,0x0061BBB0,LivingWorldManager +0x194 mapped-object method; direct 0x00615850 call reaches body through ILT 0x0001447F; receiver proven by node +8 in the same native map as 0x006157C0 and 0x00615C20;campaign=luna36h-20260907;lane=expand08;model=gpt-5.6-sol-ultra
 ?rva0061c1d0@Rva0061C1D0Object@@QAEXXZ,0x0061C1D0,LivingWorldManager +0x194 mapped-object method; direct 0x006157C0 call reaches body through ILT 0x0001EF42; address-derived type and method;campaign=luna36h-20260907;lane=expand08;model=gpt-5.6-sol-ultra
 ?rva0061c2a0@Rva0061C1D0Object@@QAEXXZ,0x0061C2A0,LivingWorldManager +0x194 mapped-object method; direct 0x006159C0 call reaches body through ILT 0x0000EA6B; address-derived method on the mapped type shared with 0x006157C0 and 0x00615C20;campaign=luna36h-20260907;lane=expand08;model=gpt-5.6-sol-ultra
@@ -83718,6 +83725,7 @@ name,address,notes
 ?set@BfmeThingTemplateString@@QAEXPBDH@Z,0x00887D20,ThingTemplate validateAudio TU shim for StringBase<char>::set(const char*,int)
 ?set@Bitset67SetShim@_STL@@QAEAAV?$bitset@$0ED@@2@IH@Z,0x000E9910,incremental-link thunk target through a TU-local forwarding shim
 ?set@DX8TextureStageStateShim@@SAXIKI@Z,0x006C5840,DX8Wrapper incremental-link static thunk target through a TU-local forwarding shim
+?set@DownloadUnicodeStringSetView@@QAEXABV1@@Z,0x00888530,DownloadMenuUpdate assignment call targets the matched wide StringBase set body
 ?set@GameFileSetNameShim@@QAEPBDPBD@Z,0x006F63B0,GameFileClass Set_Name incremental-link thunk target through a TU-local forwarding shim
 ?set@Gen0002A1B2@@QAEXHHM@Z,0x0002A1B2,S2 sub-object setter reached from the six 24-byte constructors at 0x0073ABxx; target read from their REL32
 ?set@Gen003C0110Result@@QAEXH@Z,0x003A3E80,member called on the lookup result by the free forwarder at 0x003C0220; address-derived name
@@ -84171,6 +84179,8 @@ name,address,notes
 ?undoNamedMapReveal@ScriptEngineundoNamedMapRevealShim@@QAEXABVAsciiString@@@Z,0x0034D320,ScriptEngine::undoNamedMapReveal incremental-link thunk target through a TU-local forwarding shim
 ?undoRevealMapForPlayerPermanently@PartitionManager@@QAEXH@Z,0x008F7400,REL32 pin from ScriptActions::doBorderSwitch @0x2EFC50
 ?undoShroudReveal@PartitionManager@@QAEXPBUCoord3D@@MI@Z,0x008F7730,Open-BFME5 direct body call; ?undoNamedMapReveal@ScriptEngine@@QAEXABVAsciiString@@@Z at 0x0034D320 ends in it exactly where its do twin ends in doShroudReveal
+?unidentifiedSlot07@SubsystemInterface@@UAEXXZ,0x009A16C0,BFME nine-slot SubsystemInterface slot7 direct retail ret stub shared by table01075EE8 and base01141640
+?unidentifiedSlot08@SubsystemInterface@@UAEXH@Z,0x009A16D0,BFME nine-slot SubsystemInterface slot8 direct retail ret4 stub shared by table01075EE8 and base01141640
 ?unidentified_000029D7@Object@@QBEHXZ,0x000029D7,UNIDENTIFIED no-argument Object accessor whose result canResumeConstructionOf compares against the actor's field at +0x74; address-derived name; do not treat as an identity
 ?unidentified_000062DF@BfmeAptScreenSpellStore@@QAEXXZ,0x000062DF,SpellStore final UI update
 ?unidentified_0000f5fb@GameLogicShim@@QAEXH@Z,0x0000F5FB,ILT thunk -> body 0x00383C30: bounds index to [0-8) and stamps TheGameLogic frame (+0x3C) into the 0x1C-byte slot records at +0x1BC; called by hasAchievedVictory with the winning player index; address-derived shim name
@@ -84444,6 +84454,9 @@ AODHordeContainFieldParse,0x004334F6,AODHordeContain FieldParse
 AnimalAIUpdateFieldParse,0x00436E30,AnimalAIUpdate FieldParse
 ArrowStormUpdateModuleData_vtbl,0x010B3668,ArrowStormUpdateModuleData main vtbl
 AssaultTransportAIUpdateFieldParse,0x0040A35D,AssaultTransportAIUpdate FieldParse
+BoxEmissionVolumeConcrete_vtbl0,0x011111D4,ConcreteModuleTemplate BoxEmissionVolume primary vtable
+BoxEmissionVolumeConcrete_vtbl4,0x011111D0,ConcreteModuleTemplate BoxEmissionVolume secondary vtable
+BoxEmissionVolumeConcrete_vtbl8,0x011111BC,ConcreteModuleTemplate BoxEmissionVolume module-info vtable
 CategoryModuleTemplate06_sub_vtbl,0x0110FC94,CMT06 sub vtbl
 CategoryModuleTemplate06_vtbl0,0x0110FC80,CMT06 vtbl0
 CategoryModuleTemplate06_vtbl4,0x0110FC7C,CMT06 vtbl4
@@ -84454,6 +84467,9 @@ CategoryModuleTemplate8_vtbl4,0x01073844,CategoryModuleTemplate8 ctor vtbl at +4
 CategoryModuleTemplate8_vtbl_temp,0x0107375C,CategoryModuleTemplate8 ctor intermediate vtbl at +4
 ContestableContainModuleData_vtbl,0x010AFE60,ContestableContainModuleData main vtbl
 ConvertToCarBombCrateCollideFieldParse,0x00412751,ConvertToCarBombCrateCollide FieldParse
+CylinderEmissionVolumeConcrete_vtbl0,0x0111122C,ConcreteModuleTemplate CylinderEmissionVolume primary vtable
+CylinderEmissionVolumeConcrete_vtbl4,0x01111228,ConcreteModuleTemplate CylinderEmissionVolume secondary vtable
+CylinderEmissionVolumeConcrete_vtbl8,0x01111214,ConcreteModuleTemplate CylinderEmissionVolume module-info vtable
 DefaultModuleTemplate00FieldParse,0x01113360,DefaultModuleTemplate parse FieldParse
 DefaultModuleTemplate00_sub_vtbl,0x011108CC,DefaultModuleTemplate00 sub vtbl
 DefaultModuleTemplate00_vtbl0,0x011108B8,DefaultModuleTemplate00 outer vtbl0
@@ -84464,10 +84480,10 @@ DefaultModuleTemplate01_vtbl0,0x01110C50,DMT01 vtbl0
 DefaultModuleTemplate01_vtbl4,0x01110C4C,DMT01 vtbl4
 DefaultModuleTemplate02FieldParse,0x011145B0,DefaultModuleTemplate parse FieldParse
 DefaultModuleTemplate05FieldParse,0x01113594,DefaultModuleTemplate parse FieldParse
-DefaultModuleTemplate06FieldParse,0x01114768,DefaultModuleTemplate<7> Wind FieldParse table
 DefaultModuleTemplate05_sub_vtbl,0x0111094C,DMT05 sub vtbl
 DefaultModuleTemplate05_vtbl0,0x01110938,DMT05 vtbl0
 DefaultModuleTemplate05_vtbl4,0x01110934,DMT05 vtbl4
+DefaultModuleTemplate06FieldParse,0x01114768,DefaultModuleTemplate<7> Wind FieldParse table
 DefaultModuleTemplate0AFieldParse,0x01113460,DefaultModuleTemplate parse FieldParse
 DefaultModuleTemplate0A_sub_vtbl,0x0111090C,DMT0A sub vtbl
 DefaultModuleTemplate0A_vtbl0,0x011108F8,DMT0A vtbl0
@@ -84487,13 +84503,12 @@ DefaultModuleTemplate3Concrete_vtbl8,0x01110FAC,ConcreteModuleTemplate DefaultMo
 DefaultModuleTemplate6Concrete_vtbl0,0x01110E0C,ConcreteModuleTemplate DefaultModuleTag<6> primary vtable
 DefaultModuleTemplate6Concrete_vtbl4,0x01110E08,ConcreteModuleTemplate DefaultModuleTag<6> secondary vtable
 DefaultModuleTemplate6Concrete_vtbl8,0x01110DF4,ConcreteModuleTemplate DefaultModuleTag<6> module-info vtable
-DefaultModuleTemplate7Concrete_vtbl0,0x01111048,ConcreteModuleTemplate DefaultModuleTag<7> primary vtable
-DefaultModuleTemplate7Concrete_vtbl4,0x01111044,ConcreteModuleTemplate DefaultModuleTag<7> secondary vtable
-DefaultModuleTemplate7Concrete_vtbl8,0x01111030,ConcreteModuleTemplate DefaultModuleTag<7> module-info vtable
-?parse@?$DefaultModuleTemplate@$06@FXParticleSystem@@QAEXPAVINI@@@Z,0x0002C0A7,route=0x005FE460; ConcreteModuleClass<DefaultModuleTag<7>>::createTemplate(INI*) calls the wind template parser through this retail ILT
 DefaultModuleTemplate6_vtbl0,0x0111101C,DefaultModuleTemplate6 ctor vtbl anchor
 DefaultModuleTemplate6_vtbl4,0x01111018,DefaultModuleTemplate6 ctor vtbl anchor
 DefaultModuleTemplate6_vtbl8,0x01111004,DefaultModuleTemplate6 ctor vtbl anchor
+DefaultModuleTemplate7Concrete_vtbl0,0x01111048,ConcreteModuleTemplate DefaultModuleTag<7> primary vtable
+DefaultModuleTemplate7Concrete_vtbl4,0x01111044,ConcreteModuleTemplate DefaultModuleTag<7> secondary vtable
+DefaultModuleTemplate7Concrete_vtbl8,0x01111030,ConcreteModuleTemplate DefaultModuleTag<7> module-info vtable
 DefaultProductionExitUpdateFieldParse,0x00423687,DefaultProductionExitUpdate friend_newModuleData field parse
 DeflectSpecialPowerFieldParse,0x0044765E,DeflectSpecialPower FieldParse
 DelayedLuaEventUpdateFieldParse,0x0041B199,DelayedLuaEventUpdate FieldParse
@@ -84590,6 +84605,7 @@ _IsStatsConnected,0x009D2B60
 _MD5Final,0x0086AEE0,vendored=gamespy-2004
 _MD5Init,0x0086A400,vendored=gamespy-2004
 _MD5Update,0x0086AE20,vendored=gamespy-2004
+_Made001E5940_vtbl,0x010CE9CC,external12slot retailtable from constructor002DC520 called by matched parseDamageNugget001E5940; all12targets verified; table bytes not claimed as source
 _Made001E5A20_vtbl,0x010CE8FC,Made001E5A20 vftable used by its recovered constructor
 _Netbios@4,0x0081BDD8,Y2 lane: Netbios import thunk (gen-import ?ji_0081bdd8@@YAXXZ names the same address)
 _NewBucketSet,0x009D5BB0,vendored=gamespy-2004
@@ -86202,21 +86218,6 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?g_bfmeTableJX@@3HA,0x00F56B60,pin table for BfmeConv2080
-BoxEmissionVolumeConcrete_vtbl0,0x011111D4,ConcreteModuleTemplate BoxEmissionVolume primary vtable
-BoxEmissionVolumeConcrete_vtbl4,0x011111D0,ConcreteModuleTemplate BoxEmissionVolume secondary vtable
-BoxEmissionVolumeConcrete_vtbl8,0x011111BC,ConcreteModuleTemplate BoxEmissionVolume module-info vtable
-?reset@ParticleSystemManager@@UAEXXZ,0x00023D71,ParticleSystemManager destructor calls the retail reset thunk at 0x005C3740
-?begin@?$hashtable@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@5@V?$allocator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@6@V?$allocator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@@2@XZ,0x0001ABD1,ParticleSystemManager destructor calls the retail template map begin thunk
-??1?$hashtable@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@U?$equal_to@VAsciiString@@@5@V?$allocator@U?$pair@$$CBVAsciiString@@PAVParticleSystemTemplate@@@_STL@@@2@@_STL@@QAE@XZ,0x0003269B,ParticleSystemManager destructor calls the retail template map destructor thunk
-??1Rva00076B60@@UAE@XZ,0x00015C62,scalar-helper complete-dtor route: matched ILT j_00015c62 reaches existing Gen_00076C80 82-byte body; no duplicate local body
-?unidentifiedSlot07@SubsystemInterface@@UAEXXZ,0x009A16C0,BFME nine-slot SubsystemInterface slot7 direct retail ret stub shared by table01075EE8 and base01141640
-?unidentifiedSlot08@SubsystemInterface@@UAEXH@Z,0x009A16D0,BFME nine-slot SubsystemInterface slot8 direct retail ret4 stub shared by table01075EE8 and base01141640
-_Made001E5940_vtbl,0x010CE9CC,external12slot retailtable from constructor002DC520 called by matched parseDamageNugget001E5940; all12targets verified; table bytes not claimed as source
-?bfmeAcquireXZ@BfmeHostXZ@@QAEPAVBfmeThingXZ@@PAX@Z,0x000124D1,Open-BFME5 ILT thunk to 0x000A1310 called by the 0x0016AD90 start
-CylinderEmissionVolumeConcrete_vtbl0,0x0111122C,ConcreteModuleTemplate CylinderEmissionVolume primary vtable
-CylinderEmissionVolumeConcrete_vtbl4,0x01111228,ConcreteModuleTemplate CylinderEmissionVolume secondary vtable
-CylinderEmissionVolumeConcrete_vtbl8,0x01111214,ConcreteModuleTemplate CylinderEmissionVolume module-info vtable
 LineEmissionVolumeConcrete_vtbl0,0x011111A8,ConcreteModuleTemplate LineEmissionVolume primary vtable
 LineEmissionVolumeConcrete_vtbl4,0x011111A4,ConcreteModuleTemplate LineEmissionVolume secondary vtable
 LineEmissionVolumeConcrete_vtbl8,0x01111190,ConcreteModuleTemplate LineEmissionVolume module-info vtable
