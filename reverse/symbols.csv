@@ -86342,3 +86342,5 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ___security_cookie,0x012DBDB0,MSVC 7.1 /GS cookie; absolute data VA read by exact450B LAN-theater body and existing __security_check_cookie at009F74F4; retail initialvalueBB40E64E
 ?bfmeLookupZF@Rva0020AA00Registry@@QAEPAXPAX@Z,0x00028560,Open-BFME5 ILT registry lookup the 0x00233EC0 forwarder calls
 ?bfmeFinishZG@BfmeEntryZG@@QAEXPAX_N@Z,0x0003FE09,Open-BFME5 ILT entry finish the 0x00367310 step calls
+?Rva005A3460TranslateKey@Rva005A3EF0Keyboard@@QAEGG@Z,0x005A3460,Address-qualified Keyboard thiscall ushort modifier/translation helper; ILT25374
+?Rva005A3E00CheckRepeat@Rva005A3EF0Keyboard@@QAE_NXZ,0x005A3E00,Address-qualified Keyboard thiscall bool repeat helper; ILT39144; full181body
