@@ -1,255 +1,95 @@
 // cl: /DNDEBUG /MD /EHsc
+// Open-BFME5: AutoPickUpUpdate module-data constructor.
+//
+// The named factory at retail 0x00119B30 allocates 0x48 bytes and calls this
+// body. The matched destructor at 0x00282A80 independently fixes the policy at
+// +0x2C and twelve-byte owned member at +0x30.
 
-class AutoPickUpUpdateModuleData
+#include <string.h>
+
+struct AutoPickUpSixWords
 {
-public:
-    AutoPickUpUpdateModuleData();
+	AutoPickUpSixWords()
+	{
+		memset( m_words, 0, sizeof( m_words ) );
+	}
+
+	unsigned int m_words[ 6 ];
 };
 
-__declspec(naked) AutoPickUpUpdateModuleData::AutoPickUpUpdateModuleData()
+struct RespawnPolicy
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 03Eh
-        _emit 00Bh
-        _emit 001h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 053h
-        _emit 055h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 057h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 010h
-        _emit 0C7h
-        _emit 006h
-        _emit 088h
-        _emit 0B5h
-        _emit 00Bh
-        _emit 001h
-        _emit 033h
-        _emit 0C0h
-        _emit 089h
-        _emit 046h
-        _emit 00Ch
-        _emit 089h
-        _emit 046h
-        _emit 010h
-        _emit 089h
-        _emit 046h
-        _emit 014h
-        _emit 089h
-        _emit 046h
-        _emit 018h
-        _emit 089h
-        _emit 046h
-        _emit 01Ch
-        _emit 08Dh
-        _emit 07Eh
-        _emit 02Ch
-        _emit 033h
-        _emit 0DBh
-        _emit 08Bh
-        _emit 0CFh
-        _emit 089h
-        _emit 05Ch
-        _emit 024h
-        _emit 01Ch
-        _emit 089h
-        _emit 046h
-        _emit 020h
-        _emit 0E8h
-        _emit 050h
-        _emit 04Ch
-        _emit 0DBh
-        _emit 0FFh
-        _emit 089h
-        _emit 05Eh
-        _emit 030h
-        _emit 089h
-        _emit 05Eh
-        _emit 034h
-        _emit 089h
-        _emit 05Eh
-        _emit 038h
-        _emit 0C7h
-        _emit 046h
-        _emit 008h
-        _emit 005h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0C7h
-        _emit 046h
-        _emit 024h
-        _emit 000h
-        _emit 000h
-        _emit 096h
-        _emit 043h
-        _emit 088h
-        _emit 05Eh
-        _emit 028h
-        _emit 0A1h
-        _emit 0B8h
-        _emit 0D8h
-        _emit 02Eh
-        _emit 001h
-        _emit 08Bh
-        _emit 00Dh
-        _emit 0BCh
-        _emit 0D8h
-        _emit 02Eh
-        _emit 001h
-        _emit 08Bh
-        _emit 015h
-        _emit 0C0h
-        _emit 0D8h
-        _emit 02Eh
-        _emit 001h
-        _emit 083h
-        _emit 0ECh
-        _emit 018h
-        _emit 08Bh
-        _emit 0ECh
-        _emit 089h
-        _emit 045h
-        _emit 000h
-        _emit 089h
-        _emit 04Dh
-        _emit 004h
-        _emit 089h
-        _emit 055h
-        _emit 008h
-        _emit 08Bh
-        _emit 015h
-        _emit 0C4h
-        _emit 0D8h
-        _emit 02Eh
-        _emit 001h
-        _emit 089h
-        _emit 055h
-        _emit 00Ch
-        _emit 08Bh
-        _emit 015h
-        _emit 0C8h
-        _emit 0D8h
-        _emit 02Eh
-        _emit 001h
-        _emit 089h
-        _emit 055h
-        _emit 010h
-        _emit 08Bh
-        _emit 015h
-        _emit 0CCh
-        _emit 0D8h
-        _emit 02Eh
-        _emit 001h
-        _emit 089h
-        _emit 055h
-        _emit 014h
-        _emit 083h
-        _emit 0ECh
-        _emit 018h
-        _emit 08Bh
-        _emit 0ECh
-        _emit 089h
-        _emit 045h
-        _emit 000h
-        _emit 0A1h
-        _emit 0C0h
-        _emit 0D8h
-        _emit 02Eh
-        _emit 001h
-        _emit 089h
-        _emit 04Dh
-        _emit 004h
-        _emit 08Bh
-        _emit 00Dh
-        _emit 0C4h
-        _emit 0D8h
-        _emit 02Eh
-        _emit 001h
-        _emit 089h
-        _emit 045h
-        _emit 008h
-        _emit 0A1h
-        _emit 0C8h
-        _emit 0D8h
-        _emit 02Eh
-        _emit 001h
-        _emit 089h
-        _emit 04Dh
-        _emit 00Ch
-        _emit 089h
-        _emit 045h
-        _emit 010h
-        _emit 08Bh
-        _emit 0CFh
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 04Ch
-        _emit 002h
-        _emit 089h
-        _emit 055h
-        _emit 014h
-        _emit 0E8h
-        _emit 030h
-        _emit 0ABh
-        _emit 0D8h
-        _emit 0FFh
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 014h
-        _emit 05Fh
-        _emit 088h
-        _emit 05Eh
-        _emit 03Ch
-        _emit 088h
-        _emit 05Eh
-        _emit 03Dh
-        _emit 089h
-        _emit 05Eh
-        _emit 040h
-        _emit 088h
-        _emit 05Eh
-        _emit 044h
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 05Dh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 05Bh
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C3h
-    }
+	unsigned int values[ 6 ];
+};
+
+class RespawnPolicyMember
+{
+public:
+	RespawnPolicyMember();
+	~RespawnPolicyMember();
+	void setPolicies( RespawnPolicy first, RespawnPolicy second );
+
+private:
+	unsigned int m_value;
+};
+
+extern RespawnPolicy g_defaultRespawnPolicy;
+
+class AutoPickUpUpdateModuleDataMemberB
+{
+public:
+	AutoPickUpUpdateModuleDataMemberB()
+		: m_begin( 0 ), m_end( 0 ), m_capacity( 0 )
+	{
+	}
+	~AutoPickUpUpdateModuleDataMemberB();
+
+private:
+	void *m_begin;
+	void *m_end;
+	void *m_capacity;
+};
+
+class __declspec(novtable) AutoPickUpUpdateModuleDataBase
+{
+public:
+	virtual ~AutoPickUpUpdateModuleDataBase();
+
+protected:
+	unsigned int m_moduleData;
+};
+
+class AutoPickUpUpdateModuleData : public AutoPickUpUpdateModuleDataBase
+{
+public:
+	AutoPickUpUpdateModuleData();
+	virtual ~AutoPickUpUpdateModuleData();
+
+private:
+	unsigned int m_pickupCount;
+	AutoPickUpSixWords m_searchValues;
+	float m_pickupRadius;
+	unsigned char m_enabled;
+	unsigned char m_pad29[ 3 ];
+	RespawnPolicyMember m_policy;
+	AutoPickUpUpdateModuleDataMemberB m_ownedValues;
+	unsigned char m_flag3C;
+	unsigned char m_flag3D;
+	unsigned char m_pad3E[ 2 ];
+	unsigned int m_value40;
+	unsigned char m_flag44;
+	unsigned char m_pad45[ 3 ];
+};
+
+// ??0AutoPickUpUpdateModuleData@@QAE@XZ
+AutoPickUpUpdateModuleData::AutoPickUpUpdateModuleData()
+{
+	m_pickupCount = 5;
+	m_pickupRadius = 300.0f;
+	m_enabled = 0;
+	m_policy.setPolicies( g_defaultRespawnPolicy, g_defaultRespawnPolicy );
+	m_flag3C = 0;
+	m_flag3D = 0;
+	m_value40 = 0;
+	m_flag44 = 0;
 }
