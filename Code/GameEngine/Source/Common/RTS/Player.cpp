@@ -2689,35 +2689,48 @@ void Player::garrisonAllUnits(CommandSourceType source)
 }
 
 //=============================================================================
-// ?ungarrisonAllUnits@Player@@QAEXW4CommandSourceType@@@Z present-unmatched
 void Player::ungarrisonAllUnits(CommandSourceType source)
 {
-	for (PlayerTeamList::iterator it = m_playerTeamPrototypes.begin(); 
-			 it != m_playerTeamPrototypes.end(); ++it) {
-		for (DLINK_ITERATOR<Team> iter = (*it)->iterate_TeamInstanceList(); !iter.done(); iter.advance()) {
-			Team *team = iter.cur();
-			if (!team) {
-				continue;
-			}
-			
-			for (DLINK_ITERATOR<Object> iterObj = team->iterate_TeamMemberList(); !iterObj.done(); iterObj.advance()) {
-				Object *obj = iterObj.cur();
-				if (!obj) {
+	struct BfmePlayerTeamListField
+	{
+		unsigned char m_unmodelled_000[0x288];
+		BfmePlayerTeamListNode *m_head;
+	};
+	for (BfmePlayerTeamListNode *it =
+			((BfmePlayerTeamListField *)this)->m_head->m_next;
+			it != ((BfmePlayerTeamListField *)this)->m_head; it = it->m_next)
+	{
+			for (BfmePlayerTeamInstanceIterator iter(
+					it->m_prototype->m_teamInstanceList);
+				!iter.done(); iter.advance())
+			{
+				BfmePlayerTeamView *team = iter.cur();
+				if (!team)
 					continue;
-				}
 
-				AIUpdateInterface *ai = obj->getAIUpdateInterface();
-				if (!ai) {
-					continue;
-				}
+				BfmePlayerDlinkIterator<BfmePlayerObjectDlinkObject> iterObj =
+					team->iterate_TeamMemberList();
+				for (; !iterObj.done(); iterObj.advance())
+				{
+					BfmePlayerObjectView *obj =
+						(BfmePlayerObjectView *)iterObj.cur();
+					if (!obj)
+						continue;
 
-				// Tell everything that has stuff in it to kick them all out.  You can't tell the people to get
-				// out of what they are in, because they may not know, or they may be two transports deep, and their
-				// transport may not know where they are.
-				// And check for building so you don't unload transports in the ungarrison command
-				if( obj->isKindOf( KINDOF_STRUCTURE ) )
-					ai->aiEvacuate( FALSE, source);
-			}
+					BfmePlayerThingTemplate *thingTemplate;
+					BfmePlayerAIUpdateView *ai = obj->m_ai;
+					if (!ai)
+						continue;
+
+					thingTemplate = obj->m_template;
+					if (thingTemplate && thingTemplate->m_nextOverride)
+						thingTemplate = (BfmePlayerThingTemplate *)
+							thingTemplate->m_nextOverride->getFinalOverride();
+
+					if (thingTemplate->m_kindOfC8 & 0x80)
+						((AICommandInterface *)((char *)ai + 0x20))->aiEvacuate(
+							FALSE, source);
+				}
 		}
 	}
 }
