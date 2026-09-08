@@ -3450,7 +3450,6 @@ void W3DRoadBuffer::loadRoads()
 //=============================================================================
 /** Draws the roads.  Uses terrain bounds to cull. */
 //=============================================================================
-// ?updateLighting@W3DRoadBuffer@@QAEXXZ present-unmatched
 void W3DRoadBuffer::updateLighting(void)
 {
 	/*
@@ -3476,7 +3475,7 @@ void W3DRoadBuffer::updateLighting(void)
 	Result: 
 	As soon as the fence is set up, the player who Alt-tab'd would get Zero Hour crashing to desktop with Serious Error occured.
 	*/
-	if( !m_roads )
+	if( !m_initialized )
 	{
 		return;
 	}
