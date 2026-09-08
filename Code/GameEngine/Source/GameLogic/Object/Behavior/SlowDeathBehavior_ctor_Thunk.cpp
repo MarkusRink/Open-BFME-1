@@ -1,339 +1,126 @@
 // cl: /DNDEBUG /MD /EHsc
-// readable body of ??0SlowDeathBehavior@@QAE@PAVThing@@PBVModuleData@@@Z: Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehavior.cpp
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+
+// Open-BFME5: SlowDeathBehavior constructor.  The module factory and original
+// source establish the class identity; the module-data vectors explain BFME's
+// derived has-effect flag.
 
 class Thing;
 class ModuleData;
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/SlowDeathBehavior.h
-class SlowDeathBehavior {
+class Object;
+
+class ObjectModule
+{
+public:
+	ObjectModule(Thing *, const ModuleData *);
+	virtual ~ObjectModule();
+protected:
+	const ModuleData *m_moduleData;
+	Object *m_object;
+};
+
+class BehaviorModuleInterface { public: virtual void behaviorSlot(); };
+class UpdateModuleInterface { public: virtual void updateSlot(); };
+
+class UpdateModule : public ObjectModule,
+	public BehaviorModuleInterface, public UpdateModuleInterface
+{
+public:
+	UpdateModule(Thing *thing, const ModuleData *data)
+		: ObjectModule(thing, data), m_nextCallFrameAndPhase(0),
+		  m_indexInLogic(-1), m_updateState(-1) {}
+	virtual ~UpdateModule();
+protected:
+	void setWakeFrame(Object *, unsigned int);
+private:
+	unsigned int m_nextCallFrameAndPhase;
+	int m_indexInLogic;
+	int m_updateState;
+};
+
+class SlowDeathBehaviorInterface { public: virtual void slowDeathSlot(); };
+class DieModuleInterface { public: virtual void dieSlot(); };
+
+class INIException
+{
+public:
+	INIException(int, const char *, ...);
+	INIException(const INIException &);
+private:
+	int m_code;
+	int m_line;
+};
+
+extern const char Rva010A65BCProbabilityError[];
+
+struct SlowDeathBehaviorModuleDataFacade
+{
+	unsigned char m_pad00[0x38];
+	int m_probabilityModifier;
+	unsigned char m_pad3c[0x40];
+	void *m_fxBegin;
+	void *m_fxEnd;
+	unsigned char m_pad84[0x28];
+	void *m_oclBegin;
+	void *m_oclEnd;
+	unsigned char m_padb4[0x28];
+	void *m_weaponBegin;
+	void *m_weaponEnd;
+	unsigned char m_pade4[0x28];
+	void *m_lastBegin;
+	void *m_lastEnd;
+};
+
+class SlowDeathBehavior : public UpdateModule,
+	public SlowDeathBehaviorInterface, public DieModuleInterface
+{
 public:
 	SlowDeathBehavior(Thing *, const ModuleData *);
+	virtual ~SlowDeathBehavior();
+	virtual void slowDeathSlot();
+	virtual void dieSlot();
+private:
+	unsigned int m_flags;
+	unsigned int m_sinkFrame;
+	unsigned int m_midpointFrame;
+	unsigned int m_destructionFrame;
+	float m_acceleratedTimeScale;
+	unsigned int m_value3c;
+	bool m_hasLoadedEffect;
+	unsigned char m_pad41[3];
+	unsigned int m_value44;
+	bool m_value48;
+	unsigned char m_pad49[3];
+	int m_value4c;
 };
 
 // ??0SlowDeathBehavior@@QAE@PAVThing@@PBVModuleData@@@Z
-__declspec(naked) SlowDeathBehavior::SlowDeathBehavior(Thing *, const ModuleData *)
+SlowDeathBehavior::SlowDeathBehavior(Thing *thing, const ModuleData *data)
+	: UpdateModule(thing, data)
 {
-	__asm {
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x68
-		__emit 0x98
-		__emit 0xbf
-		__emit 0x00
-		__emit 0x01
-		__emit 0x64
-		__emit 0xa1
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x50
-		__emit 0x64
-		__emit 0x89
-		__emit 0x25
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x83
-		__emit 0xec
-		__emit 0x0c
-		__emit 0x8b
-		__emit 0x44
-		__emit 0x24
-		__emit 0x20
-		__emit 0x56
-		__emit 0x8b
-		__emit 0xf1
-		__emit 0x8b
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x20
-		__emit 0x50
-		__emit 0x51
-		__emit 0x8b
-		__emit 0xce
-		__emit 0x89
-		__emit 0x74
-		__emit 0x24
-		__emit 0x0c
-		__emit 0xe8
-		__emit 0x54
-		__emit 0xf5
-		__emit 0xe0
-		__emit 0xff
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x0c
-		__emit 0xd0
-		__emit 0xc9
-		__emit 0x09
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x10
-		__emit 0xa0
-		__emit 0xcb
-		__emit 0x09
-		__emit 0x01
-		__emit 0x83
-		__emit 0xc9
-		__emit 0xff
-		__emit 0x33
-		__emit 0xc0
-		__emit 0x89
-		__emit 0x46
-		__emit 0x14
-		__emit 0x89
-		__emit 0x4e
-		__emit 0x18
-		__emit 0x89
-		__emit 0x4e
-		__emit 0x1c
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x20
-		__emit 0x7c
-		__emit 0x25
-		__emit 0x0a
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x24
-		__emit 0x90
-		__emit 0x65
-		__emit 0x0a
-		__emit 0x01
-		__emit 0x89
-		__emit 0x46
-		__emit 0x3c
-		__emit 0x89
-		__emit 0x46
-		__emit 0x28
-		__emit 0x89
-		__emit 0x46
-		__emit 0x2c
-		__emit 0x89
-		__emit 0x46
-		__emit 0x30
-		__emit 0x89
-		__emit 0x46
-		__emit 0x34
-		__emit 0x88
-		__emit 0x46
-		__emit 0x40
-		__emit 0x88
-		__emit 0x46
-		__emit 0x48
-		__emit 0x89
-		__emit 0x44
-		__emit 0x24
-		__emit 0x18
-		__emit 0x8b
-		__emit 0x46
-		__emit 0x04
-		__emit 0x89
-		__emit 0x4e
-		__emit 0x4c
-		__emit 0xc7
-		__emit 0x06
-		__emit 0xb4
-		__emit 0x66
-		__emit 0x0a
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x0c
-		__emit 0xf0
-		__emit 0x65
-		__emit 0x0a
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x10
-		__emit 0xe4
-		__emit 0x65
-		__emit 0x0a
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x20
-		__emit 0xb8
-		__emit 0x65
-		__emit 0x0a
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x24
-		__emit 0xa4
-		__emit 0x65
-		__emit 0x0a
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x38
-		__emit 0x00
-		__emit 0x00
-		__emit 0x80
-		__emit 0x3f
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x44
-		__emit 0x9f
-		__emit 0x86
-		__emit 0x01
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x50
-		__emit 0x38
-		__emit 0xb9
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x3b
-		__emit 0xd1
-		__emit 0x7d
-		__emit 0x23
-		__emit 0x68
-		__emit 0xbc
-		__emit 0x65
-		__emit 0x0a
-		__emit 0x01
-		__emit 0x8d
-		__emit 0x54
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x6a
-		__emit 0x03
-		__emit 0x52
-		__emit 0xe8
-		__emit 0xda
-		__emit 0x89
-		__emit 0x64
-		__emit 0x00
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x0c
-		__emit 0x68
-		__emit 0x30
-		__emit 0xfc
-		__emit 0x1d
-		__emit 0x01
-		__emit 0x8d
-		__emit 0x44
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x50
-		__emit 0xe8
-		__emit 0xc8
-		__emit 0xf0
-		__emit 0x7e
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x50
-		__emit 0x7c
-		__emit 0x57
-		__emit 0x3b
-		__emit 0x90
-		__emit 0x80
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x74
-		__emit 0x03
-		__emit 0x88
-		__emit 0x4e
-		__emit 0x40
-		__emit 0x8b
-		__emit 0x90
-		__emit 0xac
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x3b
-		__emit 0x90
-		__emit 0xb0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x74
-		__emit 0x03
-		__emit 0x88
-		__emit 0x4e
-		__emit 0x40
-		__emit 0x8b
-		__emit 0x90
-		__emit 0xdc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x3b
-		__emit 0x90
-		__emit 0xe0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x74
-		__emit 0x03
-		__emit 0x88
-		__emit 0x4e
-		__emit 0x40
-		__emit 0x8b
-		__emit 0xb8
-		__emit 0x10
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x90
-		__emit 0x0c
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x3b
-		__emit 0xd7
-		__emit 0x5f
-		__emit 0x74
-		__emit 0x03
-		__emit 0x88
-		__emit 0x4e
-		__emit 0x40
-		__emit 0x8b
-		__emit 0x46
-		__emit 0x08
-		__emit 0x68
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0x3f
-		__emit 0x50
-		__emit 0x8b
-		__emit 0xce
-		__emit 0xe8
-		__emit 0x4d
-		__emit 0xdb
-		__emit 0xe0
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x10
-		__emit 0x8b
-		__emit 0xc6
-		__emit 0x5e
-		__emit 0x64
-		__emit 0x89
-		__emit 0x0d
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x18
-		__emit 0xc2
-		__emit 0x08
-		__emit 0x00
-	}
+	m_value3c = 0;
+	m_flags = 0;
+	m_sinkFrame = 0;
+	m_midpointFrame = 0;
+	m_destructionFrame = 0;
+	m_hasLoadedEffect = false;
+	m_value48 = false;
+	m_value4c = -1;
+	m_acceleratedTimeScale = 1.0f;
+	m_value44 = 99999;
+
+	const SlowDeathBehaviorModuleDataFacade *moduleData =
+		(const SlowDeathBehaviorModuleDataFacade *)m_moduleData;
+	if (moduleData->m_probabilityModifier < 1)
+		throw INIException(3, Rva010A65BCProbabilityError);
+
+	if (moduleData->m_fxBegin != moduleData->m_fxEnd)
+		m_hasLoadedEffect = true;
+	if (moduleData->m_oclBegin != moduleData->m_oclEnd)
+		m_hasLoadedEffect = true;
+	if (moduleData->m_weaponBegin != moduleData->m_weaponEnd)
+		m_hasLoadedEffect = true;
+	if (moduleData->m_lastBegin != moduleData->m_lastEnd)
+		m_hasLoadedEffect = true;
+
+	setWakeFrame(m_object, 0x3fffffff);
 }
