@@ -97,9 +97,9 @@ unsigned char Rva002DF120::test(void *first, void *second)
 {
 	if (second == 0)
 		return 0;
-	Object *other = (Object *)second;
 	if (!testOne(first))
 		return 0;
+	Object *other = (Object *)second;
 
 	Object *found = TheBfmeGameLogic->findObjectByID(
 		((Rva002DF120MatchContext *)first)->m_id);
