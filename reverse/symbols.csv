@@ -86291,25 +86291,6 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?insert@PlayTimeList@@QAE?AU?$_List_iterator@IU?$_Nonconst_traits@I@_STL@@@_STL@@U23@ABI@Z,0x00004FC5,FXList::bfmeIsBlocked list insertion callee at retail ILT 0x00004FC5
-?putNode@PlayTimeList@@QAEXPAU_List_node_base@_STL@@I@Z,0x0000EBEC,FXList::bfmeIsBlocked list node release callee at retail ILT 0x0000EBEC
-?size@PlayTimeList@@QBEIXZ,0x0000E49E,FXList::bfmeIsBlocked list size callee at retail ILT 0x0000E49E
-??_7LifeEventModuleInfo@FXParticleSystem@@6B@,0x01111278,LifeEventModuleInfo vtable
-?Add@?$SimpleDynVecClass@VVector3@@@@QAE_NABVVector3@@H@Z,0x00004EE9,SegmentedLineClass::Set_Points calls the retail SimpleDynVecClass<Vector3>::Add ILT
-??$_M_get_base_or_zero@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@D@_STL@@YAHAAV?$istreambuf_iterator@DV?$char_traits@D@_STL@@@0@0AAVios_base@0@PAD@Z,0x00832970,STLport 4.5.3 narrow _M_get_base_or_zero; called by signed __int64 num_get body at 0x00832DB0; exact retail parser family
-??$__get_integer@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@_J@_STL@@YA_NAAV?$istreambuf_iterator@DV?$char_traits@D@_STL@@@0@0HAA_JH_NDABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@0@ABU__true_type@0@@Z,0x00832EC0,STLport 4.5.3 narrow signed __int64 __get_integer; __alldiv and eight-byte value store match 0x00832DB0
-??$__get_integer@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@_J@_STL@@YA_NAAV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@0@0HAA_JH_NDABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@0@ABU__true_type@0@@Z,0x00834360,STLport 4.5.3 wide signed __int64 __get_integer; __alldiv and eight-byte value store match 0x00834250; BFME wchar_t is unsigned short
-_bfmeUrlXK,0x00D1A0E0,Open-BFME5 request url the 0x0065BF40 http start passes
-_bfmeCbXK,0x0065BD00,Open-BFME5 completion callback the 0x0065BF40 http start passes
-?bfmeAtXK@BfmeMapXK@@QAEAAPAUBfmeRecXK@@ABH@Z,0x0000C3B0,Open-BFME5 ILT map subscript the 0x0065BF40 http start uses
-?Get_Texture@MaterialInfoClass@@QBE?AVBfmeHandleCX@@H@Z,0x000366DD,MaterialInfo texture getter call thunk reaches Gen_007A0340::bfmeGet at 0x007A0340 and returns an owning handle
-?processAck@BfmeConnXN@@QAEPAVNetCommandRef@@GEI@Z,0x0003E66C,Open-BFME5 ILT connection processAck the 0x006621F0 and 0x00662230 ack wrappers call
-?bfmeDetachXP@Rva00579160Manager@@QAEXH@Z,0x000144BB,Open-BFME5 ILT window detach the 0x00470570 close-all calls
-?bfmeCloseXP@Rva00579160Manager@@QAEXH@Z,0x0002144A,Open-BFME5 ILT window close the 0x00470570 close-all calls
-?bfmeDoneXP@Shell40D9@@QAEXPAVBfmeHostXP@@H@Z,0x00002F1D,Open-BFME5 ILT shell shutdown-complete the 0x00470570 close-all calls
-?bfmeFindXQ@Rva00367E30Logic@@QAEPAVBfmeObjXQ@@PAX@Z,0x0001F253,Open-BFME5 ILT logic find the 0x0015CCE0 step calls
-?bfmeFindXQ@TeamFactory@@QAEPAVBfmeTeamXQ@@PAX@Z,0x00044C2E,Open-BFME5 ILT team factory find the 0x0015CCE0 step calls
-?bfmeEstimateXQ@BfmeTeamXQ@@QAEXPAUCoord3D@@@Z,0x000241FE,Open-BFME5 ILT team position estimate the 0x0015CCE0 step calls
 ?finishUpdate@OpenContain@@QAEXXZ,0x0000BA50,OpenContain update helper reached through the retail thunk at 0x00224340
 ?pruneDeadWanters@OpenContain@@QAEXXZ,0x00004953,OpenContain update helper reached through the retail thunk at 0x00224560
 ?clearCondition@Object@@QAEXH@Z,0x000348EC,Open-BFME5 ILT condition clear the 0x001FAEE0 refresh calls
