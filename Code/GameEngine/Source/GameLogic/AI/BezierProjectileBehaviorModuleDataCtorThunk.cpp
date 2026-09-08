@@ -1,210 +1,105 @@
 // cl: /DNDEBUG /MD /EHsc
+// Open-BFME5: BezierProjectileBehavior module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x001152C0 allocates 0xAC
+// bytes and calls this constructor. Landed projectile behavior bodies consume
+// the kill flag at +0x18, behavior flag at +0x4A, and four effect pointers at
+// +0x94..+0xA0, independently fixing the important parts of this layout.
+
+#include <string.h>
+
+struct BezierProjectileSixWords
+{
+	void clear()
+	{
+		memset( m_words, 0, sizeof( m_words ) );
+	}
+
+	unsigned int m_words[ 6 ];
+};
 
 class BezierProjectileBehaviorModuleData
 {
 public:
-    BezierProjectileBehaviorModuleData();
+	BezierProjectileBehaviorModuleData();
+	virtual ~BezierProjectileBehaviorModuleData();
+
+private:
+	unsigned int m_moduleData;
+	unsigned int m_value08;
+	unsigned int m_value0C;
+	unsigned int m_value10;
+	unsigned int m_value14;
+	unsigned char m_killInsteadOfDestroy;
+	unsigned char m_flag19;
+	unsigned char m_pad1A[ 2 ];
+	unsigned int m_effectFrame;
+	unsigned int m_value20;
+	unsigned int m_value24;
+	unsigned int m_value28;
+	unsigned int m_value2C;
+	unsigned int m_value30;
+	unsigned int m_value34;
+	unsigned int m_value38;
+	unsigned int m_value3C;
+	unsigned int m_value40;
+	unsigned int m_value44;
+	unsigned char m_flag48;
+	unsigned char m_enabled;
+	unsigned char m_objectFire;
+	unsigned char m_pad4B;
+	unsigned int m_value4C;
+	BezierProjectileSixWords m_firstCurve;
+	BezierProjectileSixWords m_secondCurve;
+	unsigned int m_value80;
+	unsigned int m_value84;
+	unsigned char m_flag88;
+	unsigned char m_pad89[ 3 ];
+	float m_minCurveFraction;
+	float m_maxCurveFraction;
+	void *m_effect94;
+	void *m_effect98;
+	void *m_effect9C;
+	void *m_effectA0;
+	int m_invalidA4;
+	unsigned int m_valueA8;
 };
 
-__declspec(naked) BezierProjectileBehaviorModuleData::BezierProjectileBehaviorModuleData()
+// ??0BezierProjectileBehaviorModuleData@@QAE@XZ
+BezierProjectileBehaviorModuleData::BezierProjectileBehaviorModuleData()
 {
-    __asm {
-        _emit 08Bh
-        _emit 0C1h
-        _emit 033h
-        _emit 0C9h
-        _emit 056h
-        _emit 0C7h
-        _emit 000h
-        _emit 0E0h
-        _emit 023h
-        _emit 00Ah
-        _emit 001h
-        _emit 089h
-        _emit 048h
-        _emit 008h
-        _emit 089h
-        _emit 048h
-        _emit 00Ch
-        _emit 089h
-        _emit 048h
-        _emit 010h
-        _emit 089h
-        _emit 048h
-        _emit 014h
-        _emit 088h
-        _emit 048h
-        _emit 018h
-        _emit 088h
-        _emit 048h
-        _emit 019h
-        _emit 089h
-        _emit 048h
-        _emit 01Ch
-        _emit 089h
-        _emit 048h
-        _emit 020h
-        _emit 089h
-        _emit 048h
-        _emit 024h
-        _emit 089h
-        _emit 048h
-        _emit 028h
-        _emit 089h
-        _emit 048h
-        _emit 02Ch
-        _emit 089h
-        _emit 048h
-        _emit 030h
-        _emit 089h
-        _emit 048h
-        _emit 034h
-        _emit 089h
-        _emit 048h
-        _emit 038h
-        _emit 089h
-        _emit 048h
-        _emit 03Ch
-        _emit 089h
-        _emit 048h
-        _emit 040h
-        _emit 089h
-        _emit 048h
-        _emit 044h
-        _emit 088h
-        _emit 048h
-        _emit 048h
-        _emit 0C6h
-        _emit 040h
-        _emit 049h
-        _emit 001h
-        _emit 088h
-        _emit 048h
-        _emit 04Ah
-        _emit 089h
-        _emit 048h
-        _emit 04Ch
-        _emit 033h
-        _emit 0D2h
-        _emit 08Dh
-        _emit 070h
-        _emit 050h
-        _emit 089h
-        _emit 016h
-        _emit 089h
-        _emit 056h
-        _emit 004h
-        _emit 089h
-        _emit 056h
-        _emit 008h
-        _emit 089h
-        _emit 056h
-        _emit 00Ch
-        _emit 089h
-        _emit 056h
-        _emit 010h
-        _emit 089h
-        _emit 056h
-        _emit 014h
-        _emit 08Dh
-        _emit 070h
-        _emit 068h
-        _emit 089h
-        _emit 016h
-        _emit 089h
-        _emit 056h
-        _emit 004h
-        _emit 089h
-        _emit 056h
-        _emit 008h
-        _emit 089h
-        _emit 056h
-        _emit 00Ch
-        _emit 089h
-        _emit 056h
-        _emit 010h
-        _emit 089h
-        _emit 056h
-        _emit 014h
-        _emit 089h
-        _emit 088h
-        _emit 080h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 088h
-        _emit 084h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 088h
-        _emit 088h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0C7h
-        _emit 080h
-        _emit 08Ch
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0C3h
-        _emit 0F5h
-        _emit 0A8h
-        _emit 03Eh
-        _emit 0C7h
-        _emit 080h
-        _emit 090h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0C3h
-        _emit 0F5h
-        _emit 028h
-        _emit 03Fh
-        _emit 089h
-        _emit 088h
-        _emit 094h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 088h
-        _emit 098h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 088h
-        _emit 09Ch
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 088h
-        _emit 0A0h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0C7h
-        _emit 080h
-        _emit 0A4h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0FFh
-        _emit 0FFh
-        _emit 0FFh
-        _emit 0FFh
-        _emit 089h
-        _emit 088h
-        _emit 0A8h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 05Eh
-        _emit 0C3h
-    }
+	m_value08 = 0;
+	m_value0C = 0;
+	m_value10 = 0;
+	m_value14 = 0;
+	m_killInsteadOfDestroy = 0;
+	m_flag19 = 0;
+	m_effectFrame = 0;
+	m_value20 = 0;
+	m_value24 = 0;
+	m_value28 = 0;
+	m_value2C = 0;
+	m_value30 = 0;
+	m_value34 = 0;
+	m_value38 = 0;
+	m_value3C = 0;
+	m_value40 = 0;
+	m_value44 = 0;
+	m_flag48 = 0;
+	m_enabled = 1;
+	m_objectFire = 0;
+	m_value4C = 0;
+	m_firstCurve.clear();
+	m_secondCurve.clear();
+	m_value80 = 0;
+	m_value84 = 0;
+	m_flag88 = 0;
+	m_minCurveFraction = 0.33f;
+	m_maxCurveFraction = 0.66f;
+	m_effect94 = 0;
+	m_effect98 = 0;
+	m_effect9C = 0;
+	m_effectA0 = 0;
+	m_invalidA4 = -1;
+	m_valueA8 = 0;
 }
