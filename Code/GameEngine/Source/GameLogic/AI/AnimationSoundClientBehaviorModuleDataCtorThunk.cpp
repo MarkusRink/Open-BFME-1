@@ -1,120 +1,77 @@
 // cl: /DNDEBUG /MD /EHsc
+// Open-BFME5: AnimationSoundClientBehavior module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x00121DA0 allocates 0x18
+// bytes and calls this constructor.  The eight-byte member at +0x08 owns a
+// 0x70-byte list header; its matched destructor at 0x00605E60 independently
+// confirms the header pointer/count layout and releases the same allocation.
 
-class AnimationSoundClientBehaviorModuleData
+namespace _STL
+{
+	class __new_alloc
+	{
+	public:
+		static void *allocate( unsigned int bytes );
+	};
+}
+
+class AnimationSoundListHeader
 {
 public:
-    AnimationSoundClientBehaviorModuleData();
+	unsigned char m_isData;
+	unsigned char m_pad[ 3 ];
+	void *m_first;
+	AnimationSoundListHeader *m_next;
+	AnimationSoundListHeader *m_prev;
+	unsigned char m_payload[ 0x70 - 0x10 ];
 };
 
-__declspec(naked) AnimationSoundClientBehaviorModuleData::AnimationSoundClientBehaviorModuleData()
+class AnimationSoundList
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 098h
-        _emit 0D6h
-        _emit 003h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 053h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 008h
-        _emit 033h
-        _emit 0DBh
-        _emit 0C7h
-        _emit 006h
-        _emit 0E0h
-        _emit 055h
-        _emit 011h
-        _emit 001h
-        _emit 06Ah
-        _emit 070h
-        _emit 089h
-        _emit 05Ch
-        _emit 024h
-        _emit 018h
-        _emit 089h
-        _emit 05Eh
-        _emit 008h
-        _emit 0E8h
-        _emit 0ACh
-        _emit 084h
-        _emit 022h
-        _emit 000h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 010h
-        _emit 089h
-        _emit 046h
-        _emit 008h
-        _emit 089h
-        _emit 05Eh
-        _emit 00Ch
-        _emit 088h
-        _emit 018h
-        _emit 08Bh
-        _emit 046h
-        _emit 008h
-        _emit 089h
-        _emit 058h
-        _emit 004h
-        _emit 08Bh
-        _emit 046h
-        _emit 008h
-        _emit 089h
-        _emit 040h
-        _emit 008h
-        _emit 08Bh
-        _emit 046h
-        _emit 008h
-        _emit 089h
-        _emit 040h
-        _emit 00Ch
-        _emit 083h
-        _emit 0C4h
-        _emit 004h
-        _emit 0C7h
-        _emit 046h
-        _emit 014h
-        _emit 0FFh
-        _emit 0FFh
-        _emit 07Fh
-        _emit 07Fh
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 05Bh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C3h
-    }
+public:
+	AnimationSoundList()
+	{
+		m_header = 0;
+		m_header = static_cast<AnimationSoundListHeader *>(
+			_STL::__new_alloc::allocate( 0x70 ) );
+		m_count = 0;
+		m_header->m_isData = 0;
+		m_header->m_first = 0;
+		m_header->m_next = m_header;
+		m_header->m_prev = m_header;
+	}
+
+	~AnimationSoundList();
+
+private:
+	AnimationSoundListHeader *m_header;
+	unsigned int m_count;
+};
+
+class AnimationSoundClientBehaviorModuleDataBase
+{
+public:
+	virtual ~AnimationSoundClientBehaviorModuleDataBase() {}
+
+private:
+	unsigned int m_unmodelled_04;
+};
+
+class AnimationSoundClientBehaviorModuleData
+	: public AnimationSoundClientBehaviorModuleDataBase
+{
+public:
+	AnimationSoundClientBehaviorModuleData();
+	virtual ~AnimationSoundClientBehaviorModuleData();
+
+private:
+	AnimationSoundList m_animationSounds; // +0x08
+	unsigned int m_unmodelled_10;
+	float m_loudestSound;
+};
+
+// ??0AnimationSoundClientBehaviorModuleData@@QAE@XZ
+AnimationSoundClientBehaviorModuleData::AnimationSoundClientBehaviorModuleData()
+{
+	m_loudestSound = 3.402823466e+38F;
 }
