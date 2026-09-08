@@ -1,4 +1,4 @@
-// ?parseHordeContainUnitTypePos@@YAXPAVINI@@PAX1PBX@Z
+// ?parseBannerCarrierPosition@@YAXPAVINI@@PAX1PBX@Z
 // partial score=0.97 date=2026-09-03
 // ?parseHordeContainUnitTypePos@@YAXPAVINI@@PAX1PBX@Z
 // partial score=0.97 date=2026-09-03
@@ -7,7 +7,7 @@
 // ?parseBannerCarrierPosition@@YAXPAVINI@@PAX1PBX@Z
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /Oi /Ireference/shims/iniexception
 // stlport
-// Open-BFME5: HordeContain unit-slot position field parser, retail 0x0023E280.
+// Open-BFME5: BannerCarrierPosition field parser, retail 0x0023E280.
 
 typedef int Int;
 typedef float Real;
@@ -73,7 +73,7 @@ public:
 	Coord2D m_pos;
 };
 
-void parseHordeContainUnitTypePos( INI *ini, void *instance, void *store,
+void parseBannerCarrierPosition( INI *ini, void *instance, void *store,
 	const void *userData )
 {
 	HordeContainUnitSlot *slot = new HordeContainUnitSlot;
