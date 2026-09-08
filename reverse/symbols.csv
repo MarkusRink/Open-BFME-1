@@ -86182,3 +86182,4 @@ _bfmePathVftIC,0x010C7E28,pin path vftable for BfmeConv2075
 ?initSamplePools@MilesAudioManager@@AAEXXZ,0x006A3130,MilesAudioManager sample-pool helper reached through retail ILT 0x0002CA8E
 ?getPath_UserData@ScreenshotGlobalData@@QBE?AVScreenshotAsciiString@@XZ,0x00036D9A,W3DDisplay screenshot path accessor thunk
 ??1ScreenshotAsciiString@@QAE@XZ,0x00887940,W3DDisplay screenshot path temporary cleanup
+?bfmeFreeOneJT@@YAXPAX@Z,0x009A5980,pin free-one for BfmeConv2079
