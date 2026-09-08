@@ -78657,6 +78657,7 @@ name,address,notes
 ?find@SuperweaponMap@@QAEPAUSuperweaponMapNode@@ABVAsciiString@@@Z,0x0000DCFB,ILT thunk to the superweapon-map find at 0x00448FE0
 ?find@TeamPrototypeMap@@QBEPAUTeamPrototypeNode@@ABUTeamPrototypeKey@@@Z,0x00011CB6,ILT thunk to the team prototype map lookup
 ?find@TemplateMap@FXParticleSystem@@QAEPAUNode@12@PBVAsciiString@@@Z,0x0000F727,exact createSlaveSystem callsite; ILT to matched STL hash find 0x005C76A0
+?find@TerrainLogic@@QAEPAVHarvestRecord@@PAV2@M@Z,0x000226AB,AIHarvestPrepareSiteState update vtable body call
 ?find@UpgradeCenterFindUpgradeShim@@QBEPBVUpgradeTemplate@@ABVAsciiString@@@Z,0x0010B0E0,UpgradeCenter findUpgrade incremental-link thunk target through a TU-local forwarding shim
 ?find@WeaponTemplateBitFlagsFindShim@_STL@@QBEPAU?$_Rb_tree_node@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@2@ABV?$BitFlags@$0BB@@@@Z,0x00141220,incremental-link thunk target through a TU-local forwarding shim
 ?findAllyNear@AI@@QAEPAVObject@@PAV2@MH@Z,0x0004650B,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0016DF90 calls; autopin
@@ -83097,6 +83098,7 @@ name,address,notes
 ?process@BfmeSceneVector@@AAEXPAPAUGen_00943CF0_Node@@@Z,0x00943CF0,scene-vector level rebuild relinks the cleared objects
 ?process@BfmeSubED8@@QAEXPAX@Z,0x000283F8,pin
 ?process@Gen003BDE80Element@@QAEXXZ,0x00033906,address-derived element member called by the indexed pointer-span walk at 0x003BDE80
+?process@TerrainLogic@@QAEXPAVHarvestRecord@@PAX@Z,0x0001ACBC,AIHarvestPrepareSiteState update vtable body call
 ?processAck@BfmeConnXN@@QAEPAVNetCommandRef@@GEI@Z,0x0003E66C,Open-BFME5 ILT connection processAck the 0x006621F0 and 0x00662230 ack wrappers call
 ?processAck@Connection@@QAEPAVNetCommandRef@@GEI@Z,0x00661CC0,the three-argument form; BFME passes the ack's original execution frame as well as the command id and player id
 ?processChat@ConnectionManager@@QAEXPAVNetChatCommandMsg@@@Z,0x00667060,EXTRA - wrong ledger name resolvePlayerFromName: dispatcher case 14 (CHAT) arm 0x0066A5C4 -> ILT 0x00004A07 -> here; formats L'[%ls] %ls' (0x01117AEC) with getPlayerNameForSlot; resolves the slot name to a Player via nameToKey/findPlayerWithNameKey; tests the local bit of the player mask then plays 0x00662CE0 and posts the line; ZH processChat is public
