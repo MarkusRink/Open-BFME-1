@@ -1,5 +1,5 @@
 // ?removePos@Pathfinder@@QAEXPAVObject@@@Z
-// partial score=0.72 date=2026-09-01
+// partial score=0.82 date=2026-09-08
 // cl: /DNDEBUG /MD /EHsc /Oy-
 // BFME Pathfinder::removePos uses the BFME Object and PathfindCell layouts.
 // Keep those views local: the larger AIPathfind.cpp TU still uses the ZH
@@ -61,7 +61,7 @@ struct BFMEPathfinderLayout
 
 struct BFMEPathfindCellInfo
 {
-	char m_padding00[0x1c];
+	char m_padding00[0x14];
 	ObjectID m_goalUnitID;
 	ObjectID m_posUnitID;
 };
@@ -69,11 +69,11 @@ struct BFMEPathfindCellInfo
 class PathfindCell
 {
 public:
-	void releaseInfo();
+	void setPosUnit(ObjectID unitID, const ICoord2D &pos);
 
 	BFMEPathfindCellInfo *m_info;
-	char m_padding04[2];
-	unsigned char m_flags;
+	char m_padding04[8];
+	unsigned int m_packed;
 };
 
 class Pathfinder
@@ -104,41 +104,32 @@ void Pathfinder::removePos(Object *object)
 		return;
 	}
 
-	__int64 currentCellStorage = *reinterpret_cast<__int64 *>(&objectLayout->m_currentX);
-	ICoord2D *currentCell = reinterpret_cast<ICoord2D *>(&currentCellStorage);
-	Int radius;
 	Bool center;
-	volatile double alignmentProbe = 0.0;
+	Int radius;
+	Int currentY = objectLayout->m_currentY;
+	Int currentX = objectLayout->m_currentX;
 	bfmeQuery(object, &radius, reinterpret_cast<Int *>(&center));
 	Int numCellsAbove = radius;
 	if (center) {
 		++numCellsAbove;
 	}
 	PathfindLayerEnum layer = static_cast<PathfindLayerEnum>(object->getLayer());
-	ICoord2D newCell;
-	newCell.x = newCell.y = -1;
-	objectLayout->m_currentX = newCell.x;
-	objectLayout->m_currentY = newCell.y;
-	if (currentCell->x < 0 || currentCell->y < 0) {
+	objectLayout->m_currentX = -1;
+	objectLayout->m_currentY = -1;
+	if (currentX < 0 || currentY < 0) {
 		return;
 	}
 
 	ICoord2D cellNdx;
-	for (Int i = currentCell->x - radius; i < currentCell->x + numCellsAbove; ++i) {
-		for (Int j = currentCell->y - radius; j < currentCell->y + numCellsAbove; ++j) {
+	for (Int i = currentX - radius; i < currentX + numCellsAbove; ++i) {
+		for (Int j = currentY - radius; j < currentY + numCellsAbove; ++j) {
 			cellNdx.x = i;
 			cellNdx.y = j;
 			PathfindCell *cell = getCell(layer, cellNdx.x, cellNdx.y);
 			if (cell) {
 				BFMEPathfindCellInfo *info = cell->m_info;
 				if (info && info->m_posUnitID == objectLayout->m_id) {
-					info->m_posUnitID = -1;
-					if (info->m_goalUnitID == -1) {
-						cell->m_flags &= 0x0f;
-						cell->releaseInfo();
-					} else {
-						cell->m_flags = (cell->m_flags & 0x0f) | 0x10;
-					}
+					cell->setPosUnit(0, cellNdx);
 				}
 			}
 			if (layer != PATHFIND_LAYER_GROUND) {
@@ -146,13 +137,7 @@ void Pathfinder::removePos(Object *object)
 				if (cell) {
 					BFMEPathfindCellInfo *info = cell->m_info;
 					if (info && info->m_posUnitID == objectLayout->m_id) {
-						info->m_posUnitID = -1;
-						if (info->m_goalUnitID == -1) {
-							cell->m_flags &= 0x0f;
-							cell->releaseInfo();
-						} else {
-							cell->m_flags = (cell->m_flags & 0x0f) | 0x10;
-						}
+						cell->setPosUnit(0, cellNdx);
 					}
 				}
 			}
