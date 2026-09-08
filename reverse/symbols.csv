@@ -12999,6 +12999,7 @@ name,address,notes
 ?_M_insert_overflow@?$vector@UTransitionInfo@State@@V?$allocator@UTransitionInfo@State@@@_STL@@@_STL@@IAEXPAUTransitionInfo@State@@ABU34@ABU__false_type@2@I_N@Z,0x0000E868,pinharvest x1 (thunk)
 ?_M_insert_overflow@?$vector@UUpgrades@CashHackSpecialPowerModuleData@@V?$allocator@UUpgrades@CashHackSpecialPowerModuleData@@@_STL@@@_STL@@IAEXPAUUpgrades@CashHackSpecialPowerModuleData@@ABU34@ABU__false_type@2@I_N@Z,0x0000EF11
 ?_M_insert_overflow@?$vector@UUpgrades@OCLSpecialPowerModuleData@@V?$allocator@UUpgrades@OCLSpecialPowerModuleData@@@_STL@@@_STL@@IAEXPAUUpgrades@OCLSpecialPowerModuleData@@ABU34@ABU__false_type@2@I_N@Z,0x0003913F
+?_M_insert_overflow@?$vector@UUpgrades@OCLSpecialPowerModuleData@@V?$allocator@UUpgrades@OCLSpecialPowerModuleData@@@_STL@@@_STL@@IAEXPAUUpgrades@OCLSpecialPowerModuleData@@ABU34@ABU__false_type@2@I_N@Z,0x009F36F0,result append call site encodes this ICF body
 ?_M_insert_overflow@?$vector@UVideo@@V?$allocator@UVideo@@@_STL@@@_STL@@IAEXPAUVideo@@ABU3@ABU__false_type@2@I_N@Z,0x000359B3,rel32 pin for exact-ambiguous landing
 ?_M_insert_overflow@?$vector@UWeaponBarrelInfo@ModelConditionInfo@@V?$allocator@UWeaponBarrelInfo@ModelConditionInfo@@@_STL@@@_STL@@IAEXPAUWeaponBarrelInfo@ModelConditionInfo@@ABU34@ABU__false_type@2@I_N@Z,0x0003D7B2,ILT thunk used by call site
 ?_M_insert_overflow@?$vector@UWeaponRecoilInfo@W3DModelDraw@@V?$allocator@UWeaponRecoilInfo@W3DModelDraw@@@_STL@@@_STL@@IAEXPAUWeaponRecoilInfo@W3DModelDraw@@ABU34@ABU__false_type@2@I_N@Z,0x00017FB2,"ILT the push_back site encodes"
