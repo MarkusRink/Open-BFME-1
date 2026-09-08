@@ -86350,3 +86350,4 @@ ___security_cookie,0x012DBDB0,MSVC 7.1 /GS cookie; absolute data VA read by exac
 ?unAccept@GameSlot@@QAEXXZ,0x0061EE60,OnAccept actual GameSlot callee body
 ?rva004CAF70@@YAXXZ,0x004CAF70,OnAccept null-global fallback actual body
 ?Rva005A3C00InsertOverflow@BfmeKeyboardEventVector@@QAEXPAUKeyboardIO@@ABU2@ABUBfmeFalseType@@I_N@Z,0x005A3C00,Keyboard repeat actual STLport eight-byte vector overflow body; ILT10E33
+?bfmeReleaseZM@BfmeChildZM@@QAEXXZ,0x0000CA68,Open-BFME5 ILT child release called before operator delete by 0x00150700
