@@ -152,11 +152,19 @@ struct Geometry
 	Int Create( Int numVertices, Int numPolygons )
 	{
 		if (numVertices)
+		{
+			if (m_verts)
+				delete [] m_verts;
 			if((m_verts=NEW Vector3[numVertices]) == 0)
 				return FALSE;
+		}
 		if (numPolygons)
+		{
+			if (m_indices)
+				delete [] m_indices;
 			if((m_indices=NEW UnsignedShort[numPolygons*3]) == 0)
 				return FALSE;
+		}
 		m_numPolygon=numPolygons;
 		m_numVertex=numVertices;
 		m_numActivePolygon=0;
