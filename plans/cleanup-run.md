@@ -3,12 +3,11 @@
 Started: 2026-09-07 16:41:55 UTC (2026-09-08 01:41:55 JST).
 Deadline: 2026-09-08 04:41:55 UTC (13:41:55 JST).
 Execution base: `8fe7448503316d344fb623d467f3b107126cd9c5`.
-Status: phase 4 naming and ownership work is active; 90 cleanup/prerequisite
-units are published through `4e8be7d877`. Full integration at that snapshot
-completed with three red categories, no new function-comparison failure and
-no changed DIR32 inconsistency identities or address sets. Isolated workers
-continue. The full gate has not passed. See [README.md](README.md) for the
-standing runbook.
+Status: phase 4 naming and ownership work is active; 97 cleanup/prerequisite
+units are published through `4e1c238e83`. Full integration at that snapshot
+completed with 174 function failures, no new failure pairs and unchanged
+97 DIR32 inconsistency identities/address sets. Three categories remain red;
+the full gate has not passed. See [README.md](README.md) for the standing runbook.
 
 ## Ownership
 
@@ -18,8 +17,8 @@ branches, indexes and build outputs. Coordinator alone publishes master.
 | Worker/root suffix | Current exclusive responsibility |
 |---|---|
 | cleanup_metrics / metrics | Independent final reviews, landed samples and full-gate attribution |
-| cleanup_placement / placement | Reviewed Drawable cohesion; Anim2D collection consolidation |
-| cleanup_evidence / evidence | CritterEmitter factory/constructor identities and exception cleanup |
+| cleanup_placement / placement | Held template/comment cleanup; bounded Bfme807 state-method study |
+| cleanup_evidence / evidence | Held field builders; remaining Bfme807 identity study |
 
 Existing contributor worktrees are preserved. No new service, port, database,
 shared writable cache or external fleet configuration is required.
@@ -576,6 +575,80 @@ observed results; do not prefill reviews or claim unmeasured speedups.
   reviews both. Coordinator publishes held Drawable cohesion and checks the
   separately discovered Anim2D draw prefix claim. Next review is 00:41:55 UTC;
   the deadline remains 04:41:55 UTC.
+
+### Hour 8: reflection begun 00:41 UTC; verification finalized 00:49 UTC
+
+- By the hour boundary, 97 cleanup/prerequisite units are published, seven this
+  elapsed hour. Code totals are 5,977 added and 7,096 removed: net -1,119 across
+  179 paths. This hour contributes net -134. Held template and builder units
+  are excluded. No generated source was edited.
+- Drawable cohesion removes two files and 54 lines. InstantDeath and animation
+  collection cohesion each remove 69 lines and one file. Correct Critter
+  factory/destruction identities add 12 lines; their separate TUs are justified
+  by observed exception/vtable behavior. The full Anim2D drawing repair adds
+  30 lines and restores 145 bytes missing from a truncated claim. The phase
+  parser work adds 16 lines, truthful five-phase types, and a newly verified
+  138-byte OCL callback. Line reduction is not substituted for correctness.
+- Full integration at `4e1c238e8311d76a4db895bf3c5d24c08a04c312` ran from
+  00:39:41.974471 to 00:46:02.767796 UTC: 380.793s, exit 1, snapshot preserved.
+  All 174 function failures are subsets of the prior 175 and initial 214.
+  The sole removed pair belongs to external camera repairs `375c3263af` and
+  `6078b3684d`, preserving the old range under cameraUpdate and recovering
+  zoomCamera at its actual address. Cumulative attribution is 35 team-related
+  removals and five external, not 40 repaired behaviors. This hour adds no
+  team credit to that failure-removal count.
+- All 97 DIR32 identities and complete address sets are unchanged. The terminal
+  read-only scan took 77.796s; only exception-list and OCL-global site lists
+  changed, on already established bases. Strings 19,504 plus 1,126 empty
+  references, 13,430 source claims, pins and null relocation pass. Null remains
+  65/19, with 738 unreadable rows under the unchanged 1,000 limit. The full gate
+  compiled 53 TUs and reused 13,960; functions, DIR32 and blocked no-op remain
+  the three red categories. These warm snapshots are not controlled benchmarks.
+- Independent landed samples of Anim2DDrawing and CritterDestructor equal the
+  reviewed/current source hashes and four expected rows. The reviewer re-read
+  the full draw endpoint/Display call and constructor/scalar/base-vtable routes.
+  Unknown original owners remain explicit; no source drift or unsupported
+  identity was found. Sampling repeated no build and read no active objects.
+- The current-object selection experiment reduced explicit source/claim scopes
+  on all three units:4/1003 to2/3,4/37 to2/25,6/1505 to2/3. Normal hooks agreed,
+  with zero unexpected extra callers. Selector durations were3.509,2.971 and
+  3.507s. The first standalone build duration was not captured; a small ignored
+  publisher logging change records subsequent command durations and exit codes.
+  The latter builds took7.151 and3.019s, versus worker scoped gates7.373 and
+  4.659s on different worktrees. Including selection gives10.122 and6.526s;
+  this does not establish an end-to-end speedup. Retain truthful current-object
+  selection and all mandatory checks; stop presenting smaller counts as timing.
+- Reviews rejected a combined Critter lifecycle after proving that novtable
+  would give the constructor the wrong vtable despite a superficially green
+  byte gate. The held field-builder patch preserves a neutral containment builder rather
+  than inheriting an unsupported ActiveBody label; neither range is discarded.
+  Template review found three reverse links to bodies absent from the canonical
+  file; the corrected worker commit is held and therefore not credited as published.
+- Coordination has larger observed delays than the scoped-build differences.
+  Template proposal review took309s. The root phase packet was ready00:34:15
+  but handed off late; its final decision00:37:10 includes174.625s end-to-end,
+  while the reviewer's first tool clock00:36:04 to decision was66s. Record
+  coordinator handoff, review, delivery and author action separately. The full
+  gate began later than the desired00:35 freeze, so this reflection is drafted
+  during the gate and will be published after the immutable snapshot completes.
+- Next measured adjustment: split queued final reviews between non-authors.
+  Metrics handles coordinator-authored patches and integration attribution;
+  coordinator reviews ready worker patches when metrics is occupied. Send
+  decisions directly before additional logging or analysis. For the next three
+  queued final reviews record readiness-to-handoff, readiness-to-verdict and
+  approval-to-author-action; no duplicate reviewer build or weaker gate.
+- Reassignment alone has not demonstrated faster review: the first two held
+  patches still waited 119s from the refined template packet (466s from its
+  initial packet) and 403.122s for the builder. Coordinator publication and
+  checkpoint work occupied the other reviewer too. Reserve review time before
+  taking more editing work, and keep the existing 120s target visible. The
+  following two-comment correction was approved in 54s after exact diff proof.
+- Secondary opportunity: compare the unchanged donor's full symbol and
+  relocations before trying codegen variants. An inherited trailing CC byte
+  caused one unnecessary template probe; baseline comparison would have avoided
+  it. No padding workaround was added.
+- Next: publish this reflection and the reviewed template, reverse-link and
+  field-builder commits, then continue the bounded Bfme807 family cleanup. Next review01:41:55 UTC; deadline04:41:55 UTC.
 
 ## Resume
 
