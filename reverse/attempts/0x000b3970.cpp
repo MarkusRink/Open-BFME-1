@@ -1,155 +1,261 @@
-// ?generateFilename@AudioEventRTS@@QAEXXZ
-// partial score=0.35 date=2026-09-05
+// ?d_000b3970@@YAXXZ
+// partial score=0.75 date=2026-09-08
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 
-// AudioEventRTS::generateFilename at retail RVA 0x000B3970 (400B). BLOCKED:
-// see notes below and reverse/re_attempts.log. This file records the shape
-// found via tools/dis_retail.py 0x000B3970 and the ZH twin
-// (reference/.../AudioEventRTS.cpp generateFilename) for the next attempt;
-// it compiles but is not byte-exact.
-//
-// Confirmed against the retail bytes:
-//  - this+0x46 (bool) gates the whole body together with this+8
-//    (m_eventInfo); on failure it is a bare early return, no assignment.
-//  - m_filenameToLoad = generateFilenamePrefix(m_eventInfo->m_soundType, false)
-//    is a real thiscall member call (0x0003B769, already landed at
-//    Code/GameEngine/Source/Common/Audio/AudioEventRTSGenerateFilenamePrefix.cpp)
-//    with ecx implicitly still `this` (never reloaded).
-//  - AudioEventInfo::m_soundType lives at +0x84 (matches generateFilenamePrefix's
-//    arg fetch and the `cmp eax,2` branch).
-//  - The `cmp eax, 2` branch is a single literal compare, not the ZH
-//    `soundType == AT_Music || soundType == AT_Streaming` pair -- BFME
-//    numbers whichever "simple single filename" AudioType as 2, or folds
-//    the OR into one immediate; not resolved.
-//  - BLOCKER: the random/sequential pick path calls a still-unconverted
-//    retail helper at 0x000B2430 (?d_000b2430@@YAXXZ, 104B, dump) through a
-//    non-portable convention: eax=index count, edx=array pointer, cl=a bool
-//    flag, no stack args -- not __cdecl/__thiscall/__fastcall. This reads as
-//    an MSVC "static function, single call site" custom register-passing
-//    optimization, only reproducible in our TU once 0x000B2430 itself is
-//    converted (so its true signature and the array element layout used by
-//    the cumulative-count walk in its body are known). Until then this body
-//    cannot byte-match past the AT_SoundEffect/random branch.
+// Open-BFME5: AudioEventRTS::generateFilename, retail 0x000B3970, 400B.
+// The BFME AudioEventInfo sound range contains eight-byte weighted entries;
+// its field getter and the weighted-choice helper are pinned from the direct
+// retail call sites rather than inferred from the Zero Hour vector typedef.
 
-typedef int Int;
-typedef bool Bool;
+extern int GetGameLogicRandomValue(int, int, char *, int);
+extern int GetGameAudioRandomValue(int, int, char *, int);
+extern "C" void _WriteBarrier();
+#pragma intrinsic(_WriteBarrier)
+extern void j_000017ee(void);
+extern void j_000067d5(void);
+extern void j_0002b855(void);
+extern void j_0002dfb5(void);
+extern void j_0003b769(void);
 
-class AsciiString
+template <typename T>
+class StringBase
 {
 public:
-	AsciiString(const AsciiString &other);
-	AsciiString &operator=(const AsciiString &other);
-	~AsciiString();
-	void concat(const AsciiString &other);
+	StringBase<T> &operator=(const StringBase<T> &other)
+	{
+		set(other);
+		return *this;
+	}
 
-	static const AsciiString TheEmptyString;
+	void concat(const StringBase<T> &other);
+
+	~StringBase()
+	{
+		releaseBuffer();
+	}
 
 private:
+	void set(const StringBase<T> &other);
+	void releaseBuffer();
 	void *m_data;
 };
 
-enum AudioType { AT_SoundEffect = 2 };
+class AsciiString : private StringBase<char>
+{
+public:
+	AsciiString &operator=(const AsciiString &other)
+	{
+		StringBase<char>::operator=(other);
+		return *this;
+	}
 
-struct SoundEntry
+	void concat(const AsciiString &other)
+	{
+		StringBase<char>::concat(other);
+	}
+
+	__forceinline void concatViaThunk(const AsciiString &other)
+	{
+		typedef void (StringBase<char>::*ConcatThunk)(const StringBase<char> &);
+		union
+		{
+			void (*function)(void);
+			ConcatThunk member;
+		} thunk;
+		thunk.function = j_0002b855;
+		(this->*thunk.member)(other);
+	}
+};
+
+struct WeightedSoundB2430
 {
 	AsciiString m_filename;
-	int m_weight;
+	unsigned m_weight;
+};
+
+struct WeightedSoundRangeB2430
+{
+	WeightedSoundB2430 *m_begin;
+	WeightedSoundB2430 *m_end;
+	WeightedSoundB2430 *m_capacity;
+};
+
+static __declspec(noinline) int bfmeWeightedChoiceB2430(
+	unsigned count, const WeightedSoundRangeB2430 *range, bool logical)
+{
+	if (!(count > 0))
+		return -1;
+
+	unsigned value;
+	--count;
+	if (logical)
+		value = GetGameLogicRandomValue(0, count,
+			"F:\\bfme\\Code\\gameengine\\Source\\Common\\Audio\\AudioEventRTS.cpp",
+			55);
+	else
+		value = GetGameAudioRandomValue(0, count,
+			"F:\\bfme\\Code\\gameengine\\Source\\Common\\Audio\\AudioEventRTS.cpp",
+			59);
+
+	WeightedSoundB2430 *it = range->m_begin;
+	if (it != range->m_end)
+	{
+		do
+		{
+			if (value < it->m_weight)
+				goto found;
+			value -= it->m_weight;
+			++it;
+		}
+		while (it != range->m_end);
+		return 0;
+	}
+
+found:
+	if (it == range->m_end)
+	{
+		_WriteBarrier();
+		return 0;
+	}
+	return (int)(it - range->m_begin);
+}
+
+enum AudioType
+{
+	AT_Music = 0,
+	AT_Streaming = 1,
+	AT_SoundEffect = 2,
+	AT_AmbientStream = 3,
+	AT_SoundEffectAlt = 4
 };
 
 class AudioEventInfo
 {
 public:
-	char m_pad[0x3c];
-	unsigned int m_control;             // +0x3c, bit 1 tested (AC_RANDOM)
-	char m_pad2[0x4c - 0x40];
-	SoundEntry *m_soundsBegin;           // +0x4c
-	SoundEntry *m_soundsEnd;             // +0x50
-	char m_pad3[0x30];
-	AudioType m_soundType;               // +0x84
-};
+	char m_pad0[0x0c];
+	AsciiString m_filename;
+	char m_pad1[0x3c - 0x10];
+	unsigned m_control;
+	WeightedSoundRangeB2430 m_sounds;
+	unsigned m_totalWeight;
+	char m_pad2[0x84 - 0x50];
+	AudioType m_soundType;
 
-// BLOCKED: real convention is eax/edx/cl, not this -- see file header.
-extern Int chooseCumulativeSound(Int count, const SoundEntry *arr, Bool logical);
+	const AsciiString &getFilename() const;
+};
 
 class AudioEventRTS
 {
 public:
-	void generateFilename(void);
-
-	AsciiString generateFilenamePrefix(AudioType audioTypeToPlay, Bool addLength);
-	void adjustForLocalization(AsciiString &filename);
+	AsciiString generateFilenamePrefix(AudioType audioTypeToPlay, bool localized);
 	AsciiString generateFilenameExtension(AudioType audioTypeToPlay);
+	void adjustForLocalization(AsciiString &filename);
+
+	__forceinline void generateFilenameExtensionViaThunk(
+		AudioType audioTypeToPlay, AsciiString &filename)
+	{
+		typedef AsciiString (AudioEventRTS::*ExtensionThunk)(AudioType);
+		union
+		{
+			void (*function)(void);
+			ExtensionThunk member;
+		} thunk;
+		thunk.function = j_000067d5;
+		filename.concatViaThunk((this->*thunk.member)(audioTypeToPlay));
+	}
+
+	__forceinline void adjustForLocalizationViaThunk(AsciiString &filename)
+	{
+		typedef void (AudioEventRTS::*AdjustThunk)(AsciiString &);
+		union
+		{
+			void (*function)(void);
+			AdjustThunk member;
+		} thunk;
+		thunk.function = j_0002dfb5;
+		(this->*thunk.member)(filename);
+	}
+
 
 private:
-	void *m_pad_0;                        // +0 (m_eventName etc, not modeled)
-	AsciiString m_filenameToLoad;        // +4
-	AudioEventInfo *m_eventInfo;         // +8
-	char m_pad_c[0x42 - 0xc];
-	bool m_isLogicalAudio;               // +0x42
-	char m_pad_43[0x46 - 0x43];
-	bool m_needsFilenameGenerated;       // +0x46
-	char m_pad_47[0x58 - 0x47];
-	Int m_playingAudioIndex;             // +0x58
+	char m_pad0[4];
+	AsciiString m_filenameToLoad;
+	AudioEventInfo *m_eventInfo;
+	char m_pad1[0x42 - 0x0c];
+	bool m_isLogicalAudio;
+	char m_pad2[0x46 - 0x43];
+	bool m_needsFilenameGenerated;
+	char m_pad3[0x58 - 0x47];
+	int m_playingAudioIndex;
+
+public:
+	void generateFilename();
 };
 
-void AudioEventRTS::generateFilename(void)
+void AudioEventRTS::generateFilename()
 {
 	if (!m_needsFilenameGenerated || !m_eventInfo)
 		return;
 
+	AsciiString *filenameToLoad = &m_filenameToLoad;
+	WeightedSoundRangeB2430 *sounds;
+	unsigned totalWeight;
 	m_needsFilenameGenerated = false;
+	*filenameToLoad = generateFilenamePrefix(m_eventInfo->m_soundType, false);
+	unsigned which = 0;
 
-	m_filenameToLoad = generateFilenamePrefix(m_eventInfo->m_soundType, false);
-
-	Int which = 0;
-
-	if (m_eventInfo->m_soundType == AT_SoundEffect)
+	if (m_eventInfo->m_soundType != AT_SoundEffect)
 	{
-		if (m_eventInfo->m_soundsBegin == m_eventInfo->m_soundsEnd)
-		{
-			m_filenameToLoad = AsciiString::TheEmptyString;
-			return;
-		}
-
-		Int count = (Int)(m_eventInfo->m_soundsEnd - m_eventInfo->m_soundsBegin);
-
-		if (m_eventInfo->m_control & 2)
-		{
-			if (count <= 1)
-			{
-				which = 0;
-			}
-			else
-			{
-				for (;;)
-				{
-					which = chooseCumulativeSound(count, m_eventInfo->m_soundsBegin, m_isLogicalAudio);
-					if (which != m_playingAudioIndex || which == -1)
-						break;
-				}
-				if (which == -1)
-				{
-					m_filenameToLoad = AsciiString::TheEmptyString;
-					return;
-				}
-				m_playingAudioIndex = which;
-			}
-		}
-		else
-		{
-			m_playingAudioIndex = m_playingAudioIndex + 1;
-			which = m_playingAudioIndex;
-		}
-
-		m_filenameToLoad.concat(m_eventInfo->m_soundsBegin[which].m_filename);
-	}
-	else
-	{
-		m_filenameToLoad.concat(m_eventInfo->m_soundsBegin[0].m_filename);
-		adjustForLocalization(m_filenameToLoad);
+		filenameToLoad->concatViaThunk(m_eventInfo->getFilename());
+		adjustForLocalizationViaThunk(*filenameToLoad);
 		return;
 	}
 
-	m_filenameToLoad.concat(generateFilenameExtension(m_eventInfo->m_soundType));
-	adjustForLocalization(m_filenameToLoad);
+	typedef WeightedSoundRangeB2430 *(AudioEventInfo::*SoundsThunk)(void);
+	union
+	{
+		void (*function)(void);
+		SoundsThunk member;
+	} soundsThunk;
+	soundsThunk.function = j_000017ee;
+	sounds = (m_eventInfo->*soundsThunk.member)();
+	WeightedSoundB2430 *begin = sounds->m_begin;
+	WeightedSoundB2430 *end = sounds->m_end;
+	totalWeight = m_eventInfo->m_totalWeight;
+	if (!totalWeight || begin == end)
+		goto empty_filename;
+
+	unsigned count = (unsigned)(end - begin);
+	if (m_eventInfo->m_control & 2)
+	{
+		if (count <= 1)
+			which = 0;
+		else
+		{
+				do
+			{
+				which = (unsigned)bfmeWeightedChoiceB2430(
+					totalWeight,
+					sounds,
+					m_isLogicalAudio);
+			}
+			while (which == m_playingAudioIndex);
+			if (which == (unsigned)-1)
+				goto empty_filename;
+			m_playingAudioIndex = which;
+		}
+	}
+	else
+	{
+		which = ++m_playingAudioIndex;
+		which %= count;
+	}
+
+	filenameToLoad->concatViaThunk(begin[which].m_filename);
+	generateFilenameExtensionViaThunk(m_eventInfo->m_soundType, *filenameToLoad);
+	adjustForLocalizationViaThunk(*filenameToLoad);
+	return;
+
+empty_filename:
+	*filenameToLoad = *(const AsciiString *)0x01336E50;
 }
