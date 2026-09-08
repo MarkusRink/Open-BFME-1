@@ -14309,3 +14309,9 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_00532f40@@YAXXZ	0x00532F40	287	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
 ?d_0052e990@@YAXXZ	0x0052E990	335	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
 ?d_0052fc70@@YAXXZ	0x0052FC70	358	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
+?d_002b0d40@@YAXXZ	0x002B0D40	273	blocked	served file Code/gen_asm/d_002afb20.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_002b5600@@YAXXZ	0x002B5600	334	blocked	served file Code/gen_asm/d_002afb20.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_002b8890@@YAXXZ	0x002B8890	291	blocked	served file Code/gen_asm/d_002afb20.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_002ba240@@YAXXZ	0x002BA240	266	blocked	served file Code/gen_asm/d_002afb20.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_002b9b80@@YAXXZ	0x002B9B80	330	blocked	served file Code/gen_asm/d_002afb20.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?d_002afb20@@YAXXZ	0x002AFB20	416	blocked	served file Code/gen_asm/d_002afb20.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
