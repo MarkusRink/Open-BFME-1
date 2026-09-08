@@ -86137,3 +86137,6 @@ _bfmeVftGS,0x00C968B0,pin vftable for BfmeConv2070
 ?writePhysicsScalar@FXParticleSystem@@YAXPAVINI@@PAXPBXPBM@Z,0x0001FC8A,DefaultModuleTemplate Gravity writer ILT
 ?writePhysicsPair@FXParticleSystem@@YAXPAX0PBXPAURandomVariableWriteView@1@@Z,0x00033384,DefaultModuleTemplate VelocityDamping writer ILT
 ?writePhysicsVector@FXParticleSystem@@YAXPAVINI@@PAXPBXPBM@Z,0x000382E4,DefaultModuleTemplate DriftVelocity writer ILT
+?find@TemplateMap@FXParticleSystem@@QAEPAUNode@12@PBVAsciiString@@@Z,0x0000F727,exact createSlaveSystem callsite; ILT to matched STL hash find 0x005C76A0
+?createParticleSystem@ParticleSystemManager@FXParticleSystem@@QAE?AVParticleSystemHandle@@PBVParticleSystemTemplate@2@_N@Z,0x0000EBE7,exact createSlaveSystem callsite; ILT to factory 0x005C3A30; upstream ParticleSys.cpp identity
+??4ParticleSystemHandle@@QAEAAV0@ABV0@@Z,0x0000FA3D,exact createSlaveSystem callsite; ILT to matched intrusive handle assignment 0x005C21D0

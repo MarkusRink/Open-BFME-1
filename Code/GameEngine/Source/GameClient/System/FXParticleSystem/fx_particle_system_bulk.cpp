@@ -10001,6 +10001,7 @@ void WindModuleInfo::DoXfer(Xfer &xfer)
 }
 
 // ?createSlaveSystem@ParticleSystemTemplate@FXParticleSystem@@QBE?AV?$TrackingPtr@VParticleSystem@FXParticleSystem@@@@_N@Z
+#if 0 // Reconstructed as clean C++ in ParticleSystemTemplateCreateSlave.cpp.
 __declspec(naked) TrackingPtr<ParticleSystem> ParticleSystemTemplate::createSlaveSystem(bool) const
 {
     __asm {
@@ -10253,6 +10254,7 @@ __declspec(naked) TrackingPtr<ParticleSystem> ParticleSystemTemplate::createSlav
     }
 }
 
+#endif
 // ?getEventFX@LifeEventModuleInfo@FXParticleSystem@@QAEPBVFXList@@XZ
 const FXList *LifeEventModuleInfo::getEventFX()
 {
