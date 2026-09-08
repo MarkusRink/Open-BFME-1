@@ -1,156 +1,70 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
+// Open-BFME5: GeometryUpgrade module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x0011DFA0 allocates 0x94
+// bytes and calls this constructor.  Its matched destructor independently
+// fixes the +0x08 upgrade subobject, two twelve-byte vector members at
+// +0x70/+0x7C, and three trailing AsciiStrings.
 
-class GeometryUpgradeModuleData
+#include <vector>
+
+class UpgradeModuleDataSub
 {
 public:
-    GeometryUpgradeModuleData();
+	UpgradeModuleDataSub();
+	~UpgradeModuleDataSub();
+
+private:
+	unsigned char m_unmodelled[ 0x68 ];
 };
 
-__declspec(naked) GeometryUpgradeModuleData::GeometryUpgradeModuleData()
+class BFMERetailAsciiString
 {
-    __asm {
-        _emit 6Ah
-        _emit 0FFh
-        _emit 68h
-        _emit 98h
-        _emit 49h
-        _emit 01h
-        _emit 01h
-        _emit 64h
-        _emit 0A1h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 50h
-        _emit 64h
-        _emit 89h
-        _emit 25h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 51h
-        _emit 53h
-        _emit 56h
-        _emit 8Bh
-        _emit 0F1h
-        _emit 57h
-        _emit 8Dh
-        _emit 4Eh
-        _emit 08h
-        _emit 89h
-        _emit 74h
-        _emit 24h
-        _emit 0Ch
-        _emit 0E8h
-        _emit 9Fh
-        _emit 93h
-        _emit 0D3h
-        _emit 0FFh
-        _emit 33h
-        _emit 0C0h
-        _emit 0C7h
-        _emit 06h
-        _emit 90h
-        _emit 0CDh
-        _emit 0Ch
-        _emit 01h
-        _emit 89h
-        _emit 46h
-        _emit 70h
-        _emit 89h
-        _emit 46h
-        _emit 74h
-        _emit 89h
-        _emit 44h
-        _emit 24h
-        _emit 18h
-        _emit 89h
-        _emit 46h
-        _emit 78h
-        _emit 89h
-        _emit 46h
-        _emit 7Ch
-        _emit 89h
-        _emit 86h
-        _emit 80h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 89h
-        _emit 86h
-        _emit 84h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 8Dh
-        _emit 8Eh
-        _emit 88h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 89h
-        _emit 01h
-        _emit 8Dh
-        _emit 0BEh
-        _emit 8Ch
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 89h
-        _emit 07h
-        _emit 8Dh
-        _emit 9Eh
-        _emit 90h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 89h
-        _emit 03h
-        _emit 0C6h
-        _emit 44h
-        _emit 24h
-        _emit 18h
-        _emit 05h
-        _emit 0E8h
-        _emit 0F3h
-        _emit 1Bh
-        _emit 5Bh
-        _emit 00h
-        _emit 8Bh
-        _emit 0CFh
-        _emit 0E8h
-        _emit 0ECh
-        _emit 1Bh
-        _emit 5Bh
-        _emit 00h
-        _emit 8Bh
-        _emit 0CBh
-        _emit 0E8h
-        _emit 0E5h
-        _emit 1Bh
-        _emit 5Bh
-        _emit 00h
-        _emit 8Bh
-        _emit 4Ch
-        _emit 24h
-        _emit 10h
-        _emit 5Fh
-        _emit 8Bh
-        _emit 0C6h
-        _emit 5Eh
-        _emit 5Bh
-        _emit 64h
-        _emit 89h
-        _emit 0Dh
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 83h
-        _emit 0C4h
-        _emit 10h
-        _emit 0C3h
-    }
+public:
+	BFMERetailAsciiString() : m_data( 0 ) {}
+	~BFMERetailAsciiString() { releaseBuffer(); }
+	void clear() { releaseBuffer(); }
+
+private:
+	void releaseBuffer();
+	char *m_data;
+};
+
+class __declspec(novtable) GeometryUpgradeModuleDataPrimaryBase
+{
+public:
+	virtual ~GeometryUpgradeModuleDataPrimaryBase() {}
+
+private:
+	unsigned int m_unmodelled_04;
+};
+
+class __declspec(novtable) GeometryUpgradeModuleDataIntermediateBase
+	: public GeometryUpgradeModuleDataPrimaryBase
+{
+protected:
+	UpgradeModuleDataSub m_upgradeData; // +0x08
+};
+
+class GeometryUpgradeModuleData : public GeometryUpgradeModuleDataIntermediateBase
+{
+public:
+	GeometryUpgradeModuleData();
+	virtual ~GeometryUpgradeModuleData();
+
+private:
+	_STL::vector<unsigned int> m_geometryNames; // +0x70
+	_STL::vector<unsigned int> m_modelNames;    // +0x7C
+	BFMERetailAsciiString m_name0;              // +0x88
+	BFMERetailAsciiString m_name1;              // +0x8C
+	BFMERetailAsciiString m_name2;              // +0x90
+};
+
+// ??0GeometryUpgradeModuleData@@QAE@XZ
+GeometryUpgradeModuleData::GeometryUpgradeModuleData()
+{
+	m_name0.clear();
+	m_name1.clear();
+	m_name2.clear();
 }
