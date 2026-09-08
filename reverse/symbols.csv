@@ -4123,7 +4123,6 @@ name,address,notes
 ??1CashHackSpecialPower@@MAE@XZ,0x00010370,destructor ILT to 0x00258300
 ??1CivilianSpawnUpdateModuleDataMemberA@@QAE@XZ,0x0001A401,Open-BFME5 pin
 ??1CivilianSpawnUpdateModuleDataMemberB@@QAE@XZ,0x00026AB2,Open-BFME5 pin
-??1ClassicEnvironmentMapperClass@@UAE@XZ,0x00921380,0x00921430 deleting wrapper directly calls this body; exact constructor 0x00921390 and Clone 0x009213E0 form the contiguous ClassicEnvironmentMapper emission group
 ??1ClearanceTestingSlowDeathBehaviorModuleDataBase@@UAE@XZ,0x00015645,Open-BFME5 base pin
 ??1ClearanceTestingSlowDeathBehaviorModuleDataMember@@QAE@XZ,0x000309F4,Open-BFME5 pin
 ??1CloudBreakSpecialPower@@MAE@XZ,0x00007379,destructor ILT to 0x00259060

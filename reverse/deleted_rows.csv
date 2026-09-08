@@ -25045,3 +25045,5 @@ dup_489b30,0x00489B30,Rehomed to neutral address owner; does not belong to LANAP
 dup_685660,0x00685660,Replaced alias with true LANAPI::GetMyName proved by virtual slot47
 dup_6e2280,0x006E2280,Rehomed to neutral address owner; does not belong to LANAPI getter family
 dup_af1f0,0x000AF1F0,Rehomed to neutral address owner; does not belong to LANAPI getter family
+??_GTextureMapperClass@@UAEPAXI@Z,0x005BF290,wrong ICF alias removed: TextureMapper constructor 0x009645D0 installs vtable 0x0113BFB4 whose deleting-destructor slot is 0x00921430
+??_GGen_dtor_00921430@@UAEPAXI@Z,0x00921430,generated deleting-destructor placeholder retired because TextureMapperClass vtable 0x0113BFB4 identifies the authentic wrapper at this address
