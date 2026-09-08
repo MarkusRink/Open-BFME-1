@@ -15416,3 +15416,4 @@ _ciCallCallback	0x008712F0	369	blocked	Identity is the GameSpy Chat SDK callback
 ?d_002A2B20@@YAXXZ	0x002A2B20	1158	blocked	t=2min model=gpt-5; generated-only body with no built source emitter or resolved identity; raw dump and thunk alias do not establish a safe clean-C++ owner
 ?d_002A30D0@@YAXXZ	0x002A30D0	399	blocked	t=2min model=gpt-5; generated-only body with no built source emitter or resolved identity; raw dump and thunk alias do not establish a safe clean-C++ owner
 ?d_002A32D0@@YAXXZ	0x002A32D0	463	blocked	t=2min model=gpt-5; generated-only body with no built source emitter or resolved identity; raw dump and thunk alias do not establish a safe clean-C++ owner
+?d_002A3B40@@YAXXZ	0x002A3B40	1009	blocked	t=2min model=gpt-5; generated-only body with no built source emitter or resolved identity; raw dump and thunk alias do not establish a safe clean-C++ owner
