@@ -85944,3 +85944,5 @@ _bfmeVftEAX,0x00D28880,pin vftable for BfmeConv2013
 ??0Bitmap@Gdiplus@@QAE@HHHHPAE@Z,0x0005BE50,direct body pin: VS2003 gdiplusheaders.h scan-buffer Bitmap constructor exact 70-byte body; retail caller selects the existing ILT at 0x0001BF45; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
 ??1Bitmap@Gdiplus@@UAE@XZ,0x0005BE30,direct body pin: VS2003 gdiplusheaders.h Bitmap destructor exact 16-byte body; retail caller selects the existing ILT at 0x00034833; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
 ?UpdateBitmapInfo@CImage@ATL@@AAEXW4DIBOrientation@12@@Z,0x0005C350,direct body pin: VS2003 atlimage.h CImage::UpdateBitmapInfo exact 200-byte body; CreateEx reaches it through retail ILT 0x0004606F; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+_bfmeVftEAZ,0x00CFA338,pin vftable for BfmeConv2016
+??1BfmeStrEAZ@@QAE@XZ,0x00887940,pin string dtor for BfmeConv2016
