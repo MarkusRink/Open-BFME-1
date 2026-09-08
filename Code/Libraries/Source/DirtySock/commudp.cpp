@@ -1,5 +1,8 @@
 // cl: /DNDEBUG /MD /GX /Od /GZ /GS
 
+#define _DLL
+#include <string.h>
+
 // EA's DirtySock CommUDP transport, which BFME uses for its GameSpy/online
 // traffic. It has no counterpart in the vendored Zero Hour reference, and no
 // __FILE__ string for it survives in the executable, so the directory name here
@@ -25,7 +28,14 @@ extern "C" {
 	void Rva007FD3F0(void *socket);
 	void Rva00818FF0(void *ref, const char *text);
 	int Rva00819590(void *ref, void *socket, const void *peerAddress);
+	void Rva007FEBD0(void *lock);
+	void Rva007FECB0(void *lock);
+	void Rva00817640(void *ref);
+	int Rva00817B30(unsigned int tick);
 }
+
+extern char g_Rva0130AF38Lock[4];
+extern int g_Rva0130AD08Count;
 
 int Rva007FE780Printf(const char *format, ...);
 
@@ -130,7 +140,7 @@ extern "C" {
 	void CommUdpSetup(void *ref, void *packet, void *from);
 	int CommUdpPoke(void *ref);
 	int CommUdpListen(void *ref, const char *text);
-	int CommUDPSend();
+	int CommUDPSend(void *ref, const void *buffer, int length, int flags);
 	void Rva00818500(void *ref, void *from);
 	int Rva00819090(void *ref, void *socket, const void *address);
 }
@@ -1243,257 +1253,60 @@ int CommUdpListen(void *ref, const char *text)
 
 // Queues an outbound packet, rejecting anything past the limit with
 // "CommUDP: Oversized packet send (%d bytes)".
-__declspec(naked) int CommUDPSend()
+int CommUDPSend(void *ref, const void *buffer, int length, int flags)
 {
-	__asm {
-		push ebp
-		mov ebp, esp
-		sub esp, 10h
-		mov eax, 0CCCCCCCCh
-		mov dword ptr [ebp-10h], eax
-		mov dword ptr [ebp-0Ch], eax
-		mov dword ptr [ebp-8h], eax
-		mov dword ptr [ebp-4h], eax
-		mov eax, dword ptr [ebp+8h]
-		cmp dword ptr [eax+90h], 4h
-		je L00_8173ED
-		mov eax, 0FFFFFFFEh
-		jmp L01_817623
-L00_8173ED:
-		mov ecx, dword ptr [ebp+8h]
-		mov eax, dword ptr [ecx+0C0h]
-		mov edx, dword ptr [ebp+8h]
-		add eax, dword ptr [edx+0B8h]
-		mov ecx, dword ptr [ebp+8h]
-		cdq
-		idiv dword ptr [ecx+0BCh]
-		mov eax, dword ptr [ebp+8h]
-		cmp edx, dword ptr [eax+0C4h]
-		jne L02_81741B
-		xor eax, eax
-		jmp L01_817623
-L02_81741B:
-		mov ecx, dword ptr [ebp+8h]
-		mov edx, dword ptr [ecx+0B8h]
-		sub edx, 10h
-		cmp dword ptr [ebp+10h], edx
-		jle L03_817447
-		mov eax, dword ptr [ebp+10h]
-		push eax
-		push 12C4FD0h
-		__emit 0E8h
-		__emit 046h
-		__emit 073h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 8h
-		mov eax, 0FFFFFFFAh
-		jmp L01_817623
-L03_817447:
-		cmp dword ptr [ebp+10h], 0h
-		jne L04_81748C
-		mov ecx, dword ptr [ebp+8h]
-		mov eax, dword ptr [ecx+0C0h]
-		mov edx, dword ptr [ebp+8h]
-		add eax, dword ptr [edx+0BCh]
-		mov ecx, dword ptr [ebp+8h]
-		sub eax, dword ptr [ecx+0C4h]
-		mov ecx, dword ptr [ebp+8h]
-		cdq
-		idiv dword ptr [ecx+0BCh]
-		mov ecx, dword ptr [ebp+8h]
-		mov eax, edx
-		cdq
-		idiv dword ptr [ecx+0B8h]
-		mov dword ptr [ebp-4h], eax
-		mov eax, dword ptr [ebp-4h]
-		add eax, 1h
-		jmp L01_817623
-L04_81748C:
-		mov edx, dword ptr [ebp+8h]
-		mov eax, dword ptr [edx+0CCh]
-		mov ecx, dword ptr [ebp+8h]
-		add eax, dword ptr [ecx+0C0h]
-		mov dword ptr [ebp-8h], eax
-		mov edx, dword ptr [ebp-8h]
-		mov eax, dword ptr [ebp+10h]
-		mov dword ptr [edx], eax
-		mov ecx, dword ptr [ebp+10h]
-		push ecx
-		mov edx, dword ptr [ebp+0Ch]
-		push edx
-		mov eax, dword ptr [ebp-8h]
-		add eax, 10h
-		push eax
-		__emit 0E8h
-		__emit 0FBh
-		__emit 000h
-		__emit 01Eh
-		__emit 000h   // call 0x9F75B8
-		add esp, 0Ch
-		__emit 0E8h
-		__emit 03Bh
-		__emit 075h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FEA00
-		mov ecx, dword ptr [ebp-8h]
-		mov dword ptr [ecx+4h], eax
-		mov edx, dword ptr [ebp+14h]
-		and edx, 1h
-		je L05_817523
-		push 130AF38h
-		__emit 0E8h
-		__emit 0F3h
-		__emit 076h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FEBD0
-		add esp, 4h
-		mov eax, dword ptr [ebp-8h]
-		mov dword ptr [eax+8h], 6h
-		mov ecx, dword ptr [ebp+8h]
-		mov edx, dword ptr [ecx+0ACh]
-		sub edx, 1h
-		mov eax, dword ptr [ebp-8h]
-		mov dword ptr [eax+0Ch], edx
-		mov ecx, dword ptr [ebp-8h]
-		push ecx
-		mov edx, dword ptr [ebp+8h]
-		push edx
-		__emit 0E8h
-		__emit 027h
-		__emit 0FBh
-		__emit 0FFh
-		__emit 0FFh   // call 0x817030
-		add esp, 8h
-		push 130AF38h
-		__emit 0E8h
-		__emit 09Ah
-		__emit 077h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FECB0
-		add esp, 4h
-		mov eax, 1h
-		jmp L01_817623
-L05_817523:
-		mov eax, dword ptr [ebp-8h]
-		mov ecx, dword ptr [ebp+8h]
-		mov edx, dword ptr [ecx+0D0h]
-		mov dword ptr [eax+8h], edx
-		mov eax, dword ptr [ebp+8h]
-		mov ecx, dword ptr [eax+0D0h]
-		add ecx, 1h
-		mov edx, dword ptr [ebp+8h]
-		mov dword ptr [edx+0D0h], ecx
-		mov eax, dword ptr [ebp+8h]
-		mov ecx, dword ptr [eax+0ACh]
-		sub ecx, 1h
-		mov edx, dword ptr [ebp-8h]
-		mov dword ptr [edx+0Ch], ecx
-		mov eax, dword ptr [ebp+8h]
-		mov eax, dword ptr [eax+0C0h]
-		mov ecx, dword ptr [ebp+8h]
-		add eax, dword ptr [ecx+0B8h]
-		mov ecx, dword ptr [ebp+8h]
-		cdq
-		idiv dword ptr [ecx+0BCh]
-		mov eax, dword ptr [ebp+8h]
-		mov dword ptr [eax+0C0h], edx
-		mov ecx, dword ptr [ebp+8h]
-		mov eax, dword ptr [ecx+0C0h]
-		mov edx, dword ptr [ebp+8h]
-		add eax, dword ptr [edx+0BCh]
-		mov ecx, dword ptr [ebp+8h]
-		sub eax, dword ptr [ecx+0C4h]
-		mov ecx, dword ptr [ebp+8h]
-		cdq
-		idiv dword ptr [ecx+0BCh]
-		mov ecx, dword ptr [ebp+8h]
-		mov eax, edx
-		cdq
-		idiv dword ptr [ecx+0B8h]
-		mov dword ptr [ebp-4h], eax
-		cmp dword ptr [ebp-4h], 10h
-		jge L06_81760B
-		push 130AF38h
-		__emit 0E8h
-		__emit 00Eh
-		__emit 076h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FEBD0
-		add esp, 4h
-		mov edx, dword ptr [ebp+8h]
-		push edx
-		__emit 0E8h
-		__emit 072h
-		__emit 000h
-		__emit 000h
-		__emit 000h   // call 0x817640
-		add esp, 4h
-		__emit 083h
-		__emit 03Dh
-		__emit 008h
-		__emit 0ADh
-		__emit 030h
-		__emit 001h
-		__emit 000h   // cmp dword ptr [0x130ad08], 0
-		je L07_8175FE
-		__emit 0E8h
-		__emit 021h
-		__emit 074h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FEA00
-		mov dword ptr [ebp-0Ch], eax
-L09_8175E2:
-		mov eax, dword ptr [ebp-0Ch]
-		push eax
-		__emit 0E8h
-		__emit 045h
-		__emit 005h
-		__emit 000h
-		__emit 000h   // call 0x817B30
-		add esp, 4h
-		test eax, eax
-		jle L08_8175F4
-		jmp L09_8175E2
-L08_8175F4:
-		__emit 0C7h
-		__emit 005h
-		__emit 008h
-		__emit 0ADh
-		__emit 030h
-		__emit 001h
-		__emit 000h
-		__emit 000h
-		__emit 000h
-		__emit 000h   // mov dword ptr [0x130ad08], 0
-L07_8175FE:
-		push 130AF38h
-		__emit 0E8h
-		__emit 0A8h
-		__emit 076h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FECB0
-		add esp, 4h
-L06_81760B:
-		cmp dword ptr [ebp-4h], 0h
-		jle L10_817619
-		mov ecx, dword ptr [ebp-4h]
-		mov dword ptr [ebp-10h], ecx
-		jmp L11_817620
-L10_817619:
-		mov dword ptr [ebp-10h], 1h
-L11_817620:
-		mov eax, dword ptr [ebp-10h]
-L01_817623:
-		add esp, 10h
-		cmp ebp, esp
-		__emit 0E8h
-		__emit 0D5h
-		__emit 0FEh
-		__emit 01Dh
-		__emit 000h   // call 0x9F7502
-		mov esp, ebp
-		pop ebp
-		ret
+	int queued;
+	char *packet;
+	unsigned int tick;
+
+	if (*(int *)((char *)ref + 0x90) != 4) {
+		return -2;
 	}
+	if ((*(int *)((char *)ref + 0xC0) + *(int *)((char *)ref + 0xB8)) %
+	        *(int *)((char *)ref + 0xBC) == *(int *)((char *)ref + 0xC4)) {
+		return 0;
+	}
+	if (length > *(int *)((char *)ref + 0xB8) - 0x10) {
+		Rva007FE780Printf("CommUDP: Oversized packet send (%d bytes)\n", length);
+		return -6;
+	}
+	if (length == 0) {
+		queued = ((*(int *)((char *)ref + 0xC0) + *(int *)((char *)ref + 0xBC) -
+		           *(int *)((char *)ref + 0xC4)) % *(int *)((char *)ref + 0xBC)) /
+		         *(int *)((char *)ref + 0xB8);
+		return queued + 1;
+	}
+	packet = *(char **)((char *)ref + 0xCC) + *(int *)((char *)ref + 0xC0);
+	*(int *)packet = length;
+	memcpy(packet + 0x10, buffer, length);
+	*(unsigned int *)(packet + 4) = Rva007FEA00();
+	if ((flags & 1) != 0) {
+		Rva007FEBD0(g_Rva0130AF38Lock);
+		*(int *)(packet + 8) = 6;
+		*(int *)(packet + 0x0C) = *(int *)((char *)ref + 0xAC) - 1;
+		CommUDPWrite(ref, packet);
+		Rva007FECB0(g_Rva0130AF38Lock);
+		return 1;
+	}
+	*(int *)(packet + 8) = *(int *)((char *)ref + 0xD0);
+	++*(int *)((char *)ref + 0xD0);
+	*(int *)(packet + 0x0C) = *(int *)((char *)ref + 0xAC) - 1;
+	*(int *)((char *)ref + 0xC0) =
+		(*(int *)((char *)ref + 0xC0) + *(int *)((char *)ref + 0xB8)) %
+		*(int *)((char *)ref + 0xBC);
+	queued = ((*(int *)((char *)ref + 0xC0) + *(int *)((char *)ref + 0xBC) -
+	           *(int *)((char *)ref + 0xC4)) % *(int *)((char *)ref + 0xBC)) /
+	         *(int *)((char *)ref + 0xB8);
+	if (queued < 0x10) {
+		Rva007FEBD0(g_Rva0130AF38Lock);
+		Rva00817640(ref);
+		if (g_Rva0130AD08Count != 0) {
+			tick = Rva007FEA00();
+			while (Rva00817B30(tick) > 0) {
+			}
+			g_Rva0130AD08Count = 0;
+		}
+		Rva007FECB0(g_Rva0130AF38Lock);
+	}
+    return queued > 0 ? queued : 1;
 }
