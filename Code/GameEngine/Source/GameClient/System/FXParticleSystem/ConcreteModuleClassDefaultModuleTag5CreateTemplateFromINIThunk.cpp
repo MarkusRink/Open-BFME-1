@@ -1,158 +1,68 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /O2 /Ob2
 
 class INI;
 
 namespace FXParticleSystem
 {
-template<int Category>
-class DefaultModuleTag
-{
-};
+
+void __cdecl operator delete(void *);
+template<int Category> class DefaultModuleTag {};
 
 template<int Category>
 class DefaultModuleTemplate
 {
+public:
+	void parse(INI *ini);
+};
+
+class DefaultModuleTemplate6CtorShim
+{
+public:
+	void construct();
+};
+
+extern "C" char DefaultModuleTemplate6Concrete_vtbl0;
+extern "C" char DefaultModuleTemplate6Concrete_vtbl4;
+extern "C" char DefaultModuleTemplate6Concrete_vtbl8;
+
+class DefaultModuleTemplate6Allocation
+{
+public:
+	DefaultModuleTemplate6Allocation()
+	{
+		((DefaultModuleTemplate6CtorShim *)this)->construct();
+		*(void **)((char *)this + 0) = &DefaultModuleTemplate6Concrete_vtbl0;
+		*(void **)((char *)this + 4) = &DefaultModuleTemplate6Concrete_vtbl4;
+		*(void **)((char *)this + 8) = &DefaultModuleTemplate6Concrete_vtbl8;
+	}
+
+private:
+	unsigned char bytes_[0x0C];
 };
 
 template<class Tag>
 class ConcreteModuleClass
 {
 public:
-    virtual DefaultModuleTemplate<6> *createTemplate(INI *) const;
+	virtual DefaultModuleTemplate<6> *createTemplate(INI *) const;
 };
 
 template<class Tag>
-__declspec(naked) DefaultModuleTemplate<6> *ConcreteModuleClass<Tag>::createTemplate(INI *) const
+DefaultModuleTemplate<6> *ConcreteModuleClass<Tag>::createTemplate(INI *ini) const
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 013h
-        _emit 0B6h
-        _emit 003h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 056h
-        _emit 06Ah
-        _emit 00Ch
-        _emit 0E8h
-        _emit 082h
-        _emit 0E1h
-        _emit 029h
-        _emit 000h
-        _emit 08Bh
-        _emit 0F0h
-        _emit 083h
-        _emit 0C4h
-        _emit 004h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 004h
-        _emit 085h
-        _emit 0F6h
-        _emit 0C7h
-        _emit 044h
-        _emit 024h
-        _emit 010h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 074h
-        _emit 01Dh
-        _emit 08Bh
-        _emit 0CEh
-        _emit 0E8h
-        _emit 060h
-        _emit 0BEh
-        _emit 0A4h
-        _emit 0FFh
-        _emit 0C7h
-        _emit 006h
-        _emit 00Ch
-        _emit 00Eh
-        _emit 011h
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 004h
-        _emit 008h
-        _emit 00Eh
-        _emit 011h
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 008h
-        _emit 0F4h
-        _emit 00Dh
-        _emit 011h
-        _emit 001h
-        _emit 0EBh
-        _emit 002h
-        _emit 033h
-        _emit 0F6h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 004h
-        _emit 08Bh
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 050h
-        _emit 08Bh
-        _emit 0CEh
-        _emit 0C7h
-        _emit 044h
-        _emit 024h
-        _emit 014h
-        _emit 001h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 01Bh
-        _emit 06Eh
-        _emit 0A5h
-        _emit 0FFh
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 008h
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C2h
-        _emit 004h
-        _emit 000h
-    }
+	DefaultModuleTemplate<6> *result = (DefaultModuleTemplate<6> *)
+		new DefaultModuleTemplate6Allocation;
+	struct ParseScope
+	{
+		ParseScope(DefaultModuleTemplate<6> *value) : value_(value) {}
+		~ParseScope() { if (value_) operator delete(value_); }
+		DefaultModuleTemplate<6> *value_;
+	} scope(result);
+	result->parse(ini);
+	scope.value_ = 0;
+	return result;
 }
 
 template class ConcreteModuleClass<DefaultModuleTag<6> >;
+
 }
