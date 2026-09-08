@@ -22,25 +22,25 @@ typedef int Int;
 typedef unsigned int UnsignedInt;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString
+template <typename T> class StringBase
 {
 public:
-	~AsciiString();						// folded onto releaseBuffer, 0x00887940
+	StringBase(const StringBase &);
 
-	Int compare(const char *str, Int len) const
+	Int compare(const T *str, Int len) const
 	{
 		const Int myLen = m_data ? m_data->length : 0;
-		const char *data = m_data ? &m_data->data[0] : "";
+		const T *data = m_data ? &m_data->data[0] : (const T *)"";
 		Int result = memcmp(data, str, myLen < len ? myLen : len);
 		if (result != 0)
 			return result;
 		return myLen - len;
 	}
 
-	Int compare(const AsciiString &str) const
+	Int compare(const StringBase &str) const
 	{
 		const Int len = str.m_data ? str.m_data->length : 0;
-		const char *data = str.m_data ? &str.m_data->data[0] : "";
+		const T *data = str.m_data ? &str.m_data->data[0] : (const T *)"";
 		return compare(data, len);
 	}
 
@@ -49,10 +49,16 @@ private:
 		int ref_count;
 		unsigned short length;
 		unsigned short capacity;
-		char data[1];
+		T data[1];
 	};
 
 	Header *m_data;
+};
+
+class AsciiString : public StringBase<char>
+{
+public:
+	~AsciiString();						// folded onto releaseBuffer, 0x00887940
 };
 
 inline bool operator==(const AsciiString &left, const AsciiString &right)
@@ -67,8 +73,14 @@ public:
 	AsciiString getTooltipName(void) const;			// ILT 0x0002D830, returns by value
 
 private:
-	unsigned char m_unmodelled_000[0x2C];			// sizeof, for the map node only
+	AsciiString m_tooltipName;
+	unsigned char m_unmodelled_004[0x28];			// sizeof, for the map node only
 };
+
+AsciiString MultiplayerColorDefinition::getTooltipName(void) const
+{
+	return m_tooltipName;
+}
 
 typedef _STL::map<Int, MultiplayerColorDefinition> MultiplayerColorList;
 typedef MultiplayerColorList::iterator MultiplayerColorIter;
