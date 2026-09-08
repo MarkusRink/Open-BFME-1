@@ -4478,6 +4478,7 @@ name,address,notes
 ??1FileStraw@@UAE@XZ,0x009E1C50
 ??1FlammableUpdateModuleDataMemberA@@QAE@XZ,0x00887940,Open-BFME5 pin
 ??1FlammableUpdateModuleDataMemberB@@QAE@XZ,0x0004908A,Open-BFME5 pin
+?erase@FlammableUpdateModuleDataMemberB@@AAEXPAX0@Z,0x0002637D,FlammableUpdateModuleData FireFXList clear callee; named parser proves the twelve-byte vector at +0x24
 ??1FrameData@@QAE@XZ,0x0002A08B,pinharvest x1 (thunk)
 ??1FreeLifeBody@@UAE@XZ,0x00017EA4,destructor ILT to 0x002132B0
 ??1FreezingRainSpecialPower@@MAE@XZ,0x0001AC99,destructor ILT to 0x0025D5E0
