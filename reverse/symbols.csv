@@ -85950,3 +85950,6 @@ _bfmeVftEAZ,0x00CFA338,pin vftable for BfmeConv2016
 ?bfmeSetEBA@BfmeUStrEBA@@QAEXABV1@@Z,0x00888530,pin ustring set for BfmeConv2017
 ?bfmeFormatEBA@@YA?AVBfmeUStrEBA@@H@Z,0x000220B1,pin format for BfmeConv2017
 ?bfmeLookupEBA@@YAPAVBfmeRecEBA@@PAVBfmeUStrEBA@@@Z,0x00035B43,pin lookup for BfmeConv2017
+??0LocalFileSystem@@QAE@XZ,0x009CDE10,pin local fs ctor for BfmeConv2018
+??0ArchiveFileSystem@@QAE@XZ,0x009CC350,pin archive fs ctor for BfmeConv2018
+?g_bfmeShaderFlagEBB@@3DA,0x00F4CB4C,pin shader flag for BfmeConv2018
