@@ -86246,6 +86246,9 @@ RenderObjectDrawConcrete_vtbl8,0x01111380,ConcreteModuleTemplate RenderObjectDra
 ?destroy@RenderObjectDrawModuleInfoDtorShim@FXParticleSystem@@QAEXXZ,0x00022903,RenderObjectDrawModuleInfo destructor ILT used by its module-template destructor
 RenderObjectDrawCategory_vtbl4,0x0110F97C,RenderObjectDraw category-info base vtable
 ModuleTemplate_vtbl0,0x01073758,ModuleTemplate base vtable
+??_7LifeEventModuleInfoBase@FXParticleSystem@@6B@,0x01073744,LifeEvent module-info base vtable
+??_7?$CategoryModuleInfo@$07@FXParticleSystem@@6B@,0x0107375C,CategoryModuleInfo<8> base vtable
+??_7ModuleTemplate@FXParticleSystem@@6B@,0x01073758,ModuleTemplate base vtable
 TerrainCollisionConcrete_vtbl0,0x01111450,ConcreteModuleTemplate TerrainCollision primary vtable
 TerrainCollisionConcrete_vtbl4,0x0111144C,ConcreteModuleTemplate TerrainCollision secondary vtable
 TerrainCollisionConcrete_vtbl12,0x01111438,ConcreteModuleTemplate TerrainCollision module-info vtable

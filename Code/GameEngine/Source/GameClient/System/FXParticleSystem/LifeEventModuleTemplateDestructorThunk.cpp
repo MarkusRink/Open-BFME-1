@@ -1,134 +1,80 @@
 // cl: /DNDEBUG /MD /EHsc
 
-namespace FXParticleSystem
-{
-class LifeEventModuleTemplate
+// Open-BFME5: LifeEventModuleTemplate destructor.
+
+class BFMERetailAsciiString
 {
 public:
-    ~LifeEventModuleTemplate();
+	~BFMERetailAsciiString() { releaseBuffer(); }
+
+private:
+	void releaseBuffer();
 };
 
-__declspec(naked) LifeEventModuleTemplate::~LifeEventModuleTemplate()
+namespace FXParticleSystem
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 000h
-        _emit 0AEh
-        _emit 003h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0ECh
-        _emit 008h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 057h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 00Ch
-        _emit 085h
-        _emit 0F6h
-        _emit 0C7h
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 074h
-        _emit 005h
-        _emit 08Dh
-        _emit 07Eh
-        _emit 00Ch
-        _emit 0EBh
-        _emit 002h
-        _emit 033h
-        _emit 0FFh
-        _emit 089h
-        _emit 07Ch
-        _emit 024h
-        _emit 008h
-        _emit 08Dh
-        _emit 04Fh
-        _emit 004h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 001h
-        _emit 0E8h
-        _emit 01Ch
-        _emit 099h
-        _emit 02Ah
-        _emit 000h
-        _emit 085h
-        _emit 0F6h
-        _emit 0C7h
-        _emit 007h
-        _emit 044h
-        _emit 037h
-        _emit 007h
-        _emit 001h
-        _emit 074h
-        _emit 009h
-        _emit 0C7h
-        _emit 046h
-        _emit 004h
-        _emit 05Ch
-        _emit 037h
-        _emit 007h
-        _emit 001h
-        _emit 0EBh
-        _emit 008h
-        _emit 033h
-        _emit 0C0h
-        _emit 0C7h
-        _emit 000h
-        _emit 05Ch
-        _emit 037h
-        _emit 007h
-        _emit 001h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 010h
-        _emit 0C7h
-        _emit 006h
-        _emit 058h
-        _emit 037h
-        _emit 007h
-        _emit 001h
-        _emit 05Fh
-        _emit 05Eh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 014h
-        _emit 0C3h
-    }
+
+class ModuleTemplate
+{
+public:
+	virtual ~ModuleTemplate() {}
+};
+
+template <int Category>
+class CategoryModuleInfo
+{
+public:
+	virtual void unusedVirtual();
+
+protected:
+	~CategoryModuleInfo() {}
+};
+
+template <int Category>
+class __declspec(novtable) CategoryModuleTemplateBase : public ModuleTemplate,
+	public CategoryModuleInfo<Category>
+{
+public:
+	virtual ~CategoryModuleTemplateBase() {}
+};
+
+template <int Category>
+class __declspec(novtable) CategoryModuleTemplate
+	: public CategoryModuleTemplateBase<Category>
+{
+public:
+	virtual ~CategoryModuleTemplate() {}
+
+private:
+	bool m_enabled;
+	bool m_inherited;
+};
+
+class LifeEventModuleInfoBase
+{
+public:
+	virtual ~LifeEventModuleInfoBase() {}
+};
+
+class __declspec(novtable) LifeEventModuleInfo : public LifeEventModuleInfoBase
+{
+public:
+	virtual ~LifeEventModuleInfo() {}
+
+private:
+	BFMERetailAsciiString m_buffer;
+};
+
+class __declspec(novtable) LifeEventModuleTemplate
+	: public CategoryModuleTemplate<8>, public LifeEventModuleInfo
+{
+public:
+	virtual ~LifeEventModuleTemplate();
+};
+
+// ??1LifeEventModuleTemplate@FXParticleSystem@@UAE@XZ
+LifeEventModuleTemplate::~LifeEventModuleTemplate()
+{
 }
+
 }
