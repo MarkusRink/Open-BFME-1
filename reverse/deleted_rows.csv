@@ -25049,3 +25049,4 @@ dup_af1f0,0x000AF1F0,Rehomed to neutral address owner; does not belong to LANAPI
 ??_GGen_dtor_00921430@@UAEPAXI@Z,0x00921430,generated deleting-destructor placeholder retired because TextureMapperClass vtable 0x0113BFB4 identifies the authentic wrapper at this address
 ??0Rva001DDA40Filter@@QAE@PBVObject@@@Z,0x001DCE00,address-derived constructor identity retired for authentic PartitionFilterRejectBuildings ownership proven by PartitionManager.cpp call sites and vtable 0x0109FB64
 ?allow@Rva001DDA40Filter@@MAE_NPAVObject@@@Z,0x001DDA40,address-derived method identity retired with its constructor because the same vtable and BFME PartitionManager behavior identify PartitionFilterRejectBuildings
+?j_006bb8d0@@YAXXZ,0x006BB8D0,generated thunk identity retired because the surrounding DirectInputMouse method sequence and the tail target identify DirectInputMouse::reset
