@@ -1,3 +1,4 @@
+// cl: /GS
 // EA FESL client SDK ("jabba") -- feedback transaction request builder.
 // The literal keys and the 'fdbk' category identify the wire payload.  The
 // helper callees serialize an 8-byte-stride target-id array and 0x208-byte
@@ -5,6 +6,11 @@
 
 typedef __int64 FeslInt64;
 
+extern "C" int __cdecl sprintf( char *buffer, const char *format, ... );
+
+extern const char g_Rva012DAC14[];
+extern const char g_Rva012DAC20[];
+extern const char g_Rva012DAC30[];
 class Rva007E8810Message
 {
 public:
@@ -44,6 +50,23 @@ public:
 		const Rva007F2080ChatLog *chatLog, int chatLogCount,
 		const char *extraFeedbackDetail );
 };
+
+void Rva007F1F60Feedback::addChatLog( Rva007E8810Message *msg,
+	const Rva007F2080ChatLog *chatLog, int count )
+{
+	char key[ 32 ];
+	Rva007E8810Message *message = msg;
+	const Rva007F2080ChatLog *logs = chatLog;
+	int limit = count;
+	for ( int i = 0; i < limit; ++i )
+	{
+		sprintf( key, g_Rva012DAC30, i );
+		message->addInt64( key, logs[ i ].userId );
+		sprintf( key, g_Rva012DAC20, i );
+		message->addString( key, logs[ i ].chat );
+	}
+	message->addInt( "chatLog.[]", count );
+}
 
 void Rva007F1F60Feedback::buildRequest( Rva007E8810Message *msg, int targetType,
 	const Rva007F2010TargetId *targetIds, int targetIdCount,
