@@ -86331,8 +86331,6 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?bfmeFormatIntYS@@YAPAVStreamWriter@@PAV1@H@Z,0x0002CE5D,Open-BFME5 ILT integer formatter the 0x005F02B0 colour writer calls
-?erase@EnragedBehaviorRange@@QAEXPAX0@Z,0x00024C17,EnragedBehavior vector<AsciiString> clear passes its begin and end through this proven ILT to 0x00065960
 ?bfmeCheckYX@BFMEActionManager@@QAE_NPAVBfmeObjYX@@PAVBfmeThingYX@@H@Z,0x000338D4,Open-BFME5 ILT action check the 0x002C9A70 apply calls
 ?bfmeGetIdYX@BfmeThingYX@@QAEHXZ,0x000029D7,Open-BFME5 ILT id getter the 0x002C9A70 apply calls
 ?g_Va013385F8@@3EA,0x013385F8,Neutral Apt lookup key; absolute data VA from target899C20 operand+0C
