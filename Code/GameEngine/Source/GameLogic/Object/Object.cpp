@@ -5004,44 +5004,6 @@ void Object::removeUpgrade( const UpgradeTemplate *upgradeT )
 //-------------------------------------------------------------------------------------------------
 /** Central point for onCapture logic */
 //-------------------------------------------------------------------------------------------------
-// ?onCapture@Object@@QAEXPAVPlayer@@0@Z present-unmatched
-void Object::onCapture( Player *oldOwner, Player *newOwner )
-{
-	// Everybody dhills when they captured so they don't keep doing something the new player might not want him to be doing
-	if( getAIUpdateInterface()  &&  (oldOwner != newOwner) )
-		getAIUpdateInterface()->aiIdle(CMD_FROM_AI);
-
-	// this gets the new owner some points
-	newOwner->getScoreKeeper()->addObjectCaptured(this);
-
-	// rip through the behavior modules and call the onCapture for any modules that care
-	for( BehaviorModule **module = m_behaviors; *module; ++module )
-		(*module)->onCapture( oldOwner, newOwner );
-
-	//
-	// We have to undo our look for the old team and redo it for the new.
-	// onCapture is used now, so it better be called after ownership changes and not before.
-	//
-	handlePartitionCellMaintenance();
-	
-	// Design needs the player to be able to sell buildings he steals from the AI's build list, and this is the
-	// easiest fix.  The only snafu would be a key building build listed by the AI that the player can capture
-	// and the AI tries to capture back but needs to not sell.  In that case, a Cinematic Unsellable version
-	// of the building needs to be made.  This fix has been okayed as the most non-lethal in November.
-	clearScriptStatus(OBJECT_STATUS_SCRIPT_UNSELLABLE);
-
-	// mark the command bar to redraw
-	TheControlBar->markUIDirty();
-
-	if (oldOwner!=newOwner && newOwner->isSkirmishAIPlayer()) {
-		// The skirmish ai doesn't know what to do with captured faction buildings except sell them.
-		if (isFactionStructure()) {
-			TheBuildAssistant->sellObject( this );
-		}
-	}
-
-}  // end onCapture
-
 //-------------------------------------------------------------------------------------------------
 /// Object level events that need to happen upon game death
 // ?onDie@Object@@QAEXPAVDamageInfo@@@Z present-unmatched
