@@ -1,25 +1,5 @@
 // Open-BFME5 conversions.
 
-int bfmeTestSB(void);
-
-struct BfmeThingSB
-{
-	char m_bfmePad[0x10c];
-	int m_bfmeOn;
-	char m_bfmePad2[0x218];
-	int m_bfmeSlot;
-};
-
-void *bfmeGoSB(BfmeThingSB *t)
-{
-	int ok = 0;
-	if (t->m_bfmeOn)
-		ok = bfmeTestSB();
-	if (!ok)
-		return 0;
-	return &t->m_bfmeSlot;
-}
-
 class BfmeSrcSG
 {
 public:
