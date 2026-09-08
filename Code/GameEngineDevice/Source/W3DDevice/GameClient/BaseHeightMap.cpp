@@ -4598,6 +4598,7 @@ void BaseHeightMapRenderObjClass::renderTrees(CameraClass * camera)
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
+// ?crc@BaseHeightMapRenderObjClass@@MAEXPAVXfer@@@Z present-unmatched
 void BaseHeightMapRenderObjClass::crc( Xfer *xfer )
 {
 	// empty. jba [8/11/2003]	
@@ -4626,6 +4627,7 @@ void BaseHeightMapRenderObjClass::xfer( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+// ?loadPostProcess@BaseHeightMapRenderObjClass@@MAEXXZ present-unmatched
 void BaseHeightMapRenderObjClass::loadPostProcess( void )
 {
 	// empty. jba [8/11/2003]	
