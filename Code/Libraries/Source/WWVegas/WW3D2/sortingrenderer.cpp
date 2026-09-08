@@ -47,11 +47,54 @@
 #include "dx8wrapper.h"
 #include "vertmaterial.h"
 #include "texture.h"
+#include "ref_ptr.h"
 #include "d3d8.h"
 #include "D3dx8math.h"
 #include "statistics.h"
 #include <wwprofile.h>
 #include <algorithm>
+
+// BFME stores the eight texture references in RenderStateStruct as owning
+// handles.  The Zero Hour header exposes them as raw pointers, which has the
+// same layout but makes VC7 emit a hand-written release loop instead of the
+// retail eh-vector-destructor call.  Keep the correction local to this TU:
+// SortingNodeStruct is the only owner whose destructor is claimed here.
+struct BfmeSortingRenderStateStruct
+{
+	ShaderClass shader;
+	VertexMaterialClass *material;
+	RefCountPtr<TextureClass> Textures[MAX_TEXTURE_STAGES];
+	D3DLIGHT8 Lights[4];
+	bool LightEnable[4];
+	Matrix4x4 world;
+	Matrix4x4 view;
+	unsigned vertex_buffer_types[MAX_VERTEX_STREAMS];
+	unsigned index_buffer_type;
+	unsigned short vba_offset;
+	unsigned short vba_count;
+	unsigned short iba_offset;
+	VertexBufferClass *vertex_buffers[MAX_VERTEX_STREAMS];
+	IndexBufferClass *index_buffer;
+	unsigned short index_base_offset;
+
+	__forceinline ~BfmeSortingRenderStateStruct()
+	{
+		if (material) {
+			material->Release_Ref();
+			*reinterpret_cast<VertexMaterialClass * volatile *>(&material) = 0;
+		}
+		for (unsigned i = 0; i < MAX_VERTEX_STREAMS; ++i) {
+			if (vertex_buffers[i]) {
+				vertex_buffers[i]->Release_Ref();
+				*reinterpret_cast<VertexBufferClass * volatile *>(&vertex_buffers[i]) = 0;
+			}
+		}
+		if (index_buffer) {
+			index_buffer->Release_Ref();
+			*reinterpret_cast<IndexBufferClass * volatile *>(&index_buffer) = 0;
+		}
+	}
+};
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -167,7 +210,7 @@ class SortingNodeStruct : public DLNodeClass<SortingNodeStruct>
 	// not W3DMPO pool free — drop W3DMPO_GLUE (same as MatBuffer/TexBuffer).
 
 public:
-	RenderStateStruct sorting_state;
+	BfmeSortingRenderStateStruct sorting_state;
 
 	SphereClass bounding_sphere;
 
@@ -242,7 +285,7 @@ void SortingRendererClass::Insert_Triangles(
 
 	SortingNodeStruct* state=Get_Sorting_Struct();
 
-	DX8Wrapper::Get_Render_State(state->sorting_state);
+	DX8Wrapper::Get_Render_State(reinterpret_cast<RenderStateStruct &>(state->sorting_state));
 
  	WWASSERT(
 		((state->sorting_state.index_buffer_type==BUFFER_TYPE_SORTING || state->sorting_state.index_buffer_type==BUFFER_TYPE_DYNAMIC_SORTING) &&
@@ -339,7 +382,7 @@ void Release_Refs(SortingNodeStruct* state)
 	REF_PTR_RELEASE(state->sorting_state.material);
 	for (i=0;i<DX8Wrapper::Get_Current_Caps()->Get_Max_Textures_Per_Pass();++i) 
 	{
-		REF_PTR_RELEASE(state->sorting_state.Textures[i]);
+		state->sorting_state.Textures[i].Clear();
 	}
 }
 
@@ -583,7 +626,7 @@ void SortingRendererClass::Flush_Sorting_Pool()
 	for (unsigned i=1;i<overlapping_polygon_count;++i) {
 		if (node_id!=tis[i].idx) {
 			SortingNodeStruct* state=overlapping_nodes[node_id];
-			Apply_Render_State(state->sorting_state);
+			Apply_Render_State(reinterpret_cast<RenderStateStruct &>(state->sorting_state));
 
 // ?Draw_Triangles@DX8Wrapper@@ present-unmatched
 			DX8Wrapper::Draw_Triangles(
@@ -602,7 +645,7 @@ void SortingRendererClass::Flush_Sorting_Pool()
 	// Render any remaining polygons...
 	if (count_to_render) {
 		SortingNodeStruct* state=overlapping_nodes[node_id];
-		Apply_Render_State(state->sorting_state);
+		Apply_Render_State(reinterpret_cast<RenderStateStruct &>(state->sorting_state));
 
 // ?Draw_Triangles@DX8Wrapper@@ present-unmatched
 		DX8Wrapper::Draw_Triangles(
@@ -684,7 +727,7 @@ void SortingRendererClass::Insert_VolumeParticle(
 	DX8_RECORD_SORTING_RENDER( polygon_count * layerCount,vertex_count * layerCount);//THIS IS VOLUME_PARTICLE SPECIFIC
 
 	SortingNodeStruct* state=Get_Sorting_Struct();
-	DX8Wrapper::Get_Render_State(state->sorting_state);
+	DX8Wrapper::Get_Render_State(reinterpret_cast<RenderStateStruct &>(state->sorting_state));
 
  	WWASSERT(
 		((state->sorting_state.index_buffer_type==BUFFER_TYPE_SORTING || state->sorting_state.index_buffer_type==BUFFER_TYPE_DYNAMIC_SORTING) &&
