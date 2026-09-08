@@ -49,7 +49,8 @@ public:
 };
 
 extern Rva008AE770Stack Rva008AE770TheStack;
-extern void *d_008930c0(int value);
+class BfmeNestedBE;
+extern BfmeNestedBE *Rva008930C0AptLookup(int value);
 
 #pragma comment(linker, "/alternatename:?createString@Rva008AE770Stack@@QAEPAVRva00899770@@PAXHPAVBfmeStrVKI@@HHH@Z=?d_008cc940@@YAXXZ")
 
@@ -57,6 +58,6 @@ void aptExportString(const char *name, char *out)
 {
 	BfmeStrVKI value(name);
 	Rva00899770 *result = Rva008AE770TheStack.createString(
-		d_008930c0(0), 0, &value, 1, 1, 0);
+		Rva008930C0AptLookup(0), 0, &value, 1, 1, 0);
 	result->exportString(out);
 }
