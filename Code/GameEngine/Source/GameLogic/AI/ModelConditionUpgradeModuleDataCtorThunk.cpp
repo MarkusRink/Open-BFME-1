@@ -1,173 +1,71 @@
 // cl: /DNDEBUG /MD /EHsc
-// readable body of ??0ModelConditionUpgradeModuleData@@QAE@XZ: Code/GameEngine/Source/GameLogic/Object/Upgrade/ModelConditionUpgrade.cpp
+// Open-BFME5: ModelConditionUpgrade module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x0011DD90 allocates 0xC0
+// bytes and calls this constructor. Its matched destructor at 0x002D6B20
+// independently fixes the UpgradeModuleData subobject at +0x08. The remaining
+// eighty bytes are the two adjacent ten-word model-condition masks.
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/ModelConditionUpgrade.h
-class ModelConditionUpgradeModuleData
+#include <string.h>
+
+class UpgradeModuleDataSub
 {
 public:
-    ModelConditionUpgradeModuleData();
+	UpgradeModuleDataSub();
+	~UpgradeModuleDataSub();
+
+private:
+	unsigned char m_data[ 0x68 ];
 };
 
-__declspec(naked) ModelConditionUpgradeModuleData::ModelConditionUpgradeModuleData()
+class ModelConditionFlags
 {
-    __asm {
-        _emit 56h
-        _emit 8Bh
-        _emit 0F1h
-        _emit 57h
-        _emit 8Dh
-        _emit 4Eh
-        _emit 08h
-        _emit 0E8h
-        _emit 7Ah
-        _emit 86h
-        _emit 0D3h
-        _emit 0FFh
-        _emit 0C7h
-        _emit 06h
-        _emit 0C0h
-        _emit 0D4h
-        _emit 0Ch
-        _emit 01h
-        _emit 8Dh
-        _emit 46h
-        _emit 70h
-        _emit 8Bh
-        _emit 0D0h
-        _emit 33h
-        _emit 0C9h
-        _emit 89h
-        _emit 0Ah
-        _emit 89h
-        _emit 4Ah
-        _emit 04h
-        _emit 89h
-        _emit 4Ah
-        _emit 08h
-        _emit 89h
-        _emit 4Ah
-        _emit 0Ch
-        _emit 89h
-        _emit 4Ah
-        _emit 10h
-        _emit 89h
-        _emit 4Ah
-        _emit 14h
-        _emit 89h
-        _emit 4Ah
-        _emit 18h
-        _emit 89h
-        _emit 4Ah
-        _emit 1Ch
-        _emit 89h
-        _emit 4Ah
-        _emit 20h
-        _emit 89h
-        _emit 4Ah
-        _emit 24h
-        _emit 33h
-        _emit 0D2h
-        _emit 8Dh
-        _emit 8Eh
-        _emit 98h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 8Bh
-        _emit 0F9h
-        _emit 89h
-        _emit 17h
-        _emit 89h
-        _emit 57h
-        _emit 04h
-        _emit 89h
-        _emit 57h
-        _emit 08h
-        _emit 89h
-        _emit 57h
-        _emit 0Ch
-        _emit 89h
-        _emit 57h
-        _emit 10h
-        _emit 89h
-        _emit 57h
-        _emit 14h
-        _emit 89h
-        _emit 57h
-        _emit 18h
-        _emit 89h
-        _emit 57h
-        _emit 1Ch
-        _emit 89h
-        _emit 57h
-        _emit 20h
-        _emit 89h
-        _emit 57h
-        _emit 24h
-        _emit 89h
-        _emit 10h
-        _emit 89h
-        _emit 50h
-        _emit 04h
-        _emit 89h
-        _emit 50h
-        _emit 08h
-        _emit 89h
-        _emit 50h
-        _emit 0Ch
-        _emit 89h
-        _emit 50h
-        _emit 10h
-        _emit 89h
-        _emit 50h
-        _emit 14h
-        _emit 89h
-        _emit 50h
-        _emit 18h
-        _emit 89h
-        _emit 50h
-        _emit 1Ch
-        _emit 89h
-        _emit 50h
-        _emit 20h
-        _emit 89h
-        _emit 50h
-        _emit 24h
-        _emit 33h
-        _emit 0C0h
-        _emit 89h
-        _emit 01h
-        _emit 89h
-        _emit 41h
-        _emit 04h
-        _emit 89h
-        _emit 41h
-        _emit 08h
-        _emit 89h
-        _emit 41h
-        _emit 0Ch
-        _emit 89h
-        _emit 41h
-        _emit 10h
-        _emit 89h
-        _emit 41h
-        _emit 14h
-        _emit 89h
-        _emit 41h
-        _emit 18h
-        _emit 89h
-        _emit 41h
-        _emit 1Ch
-        _emit 89h
-        _emit 41h
-        _emit 20h
-        _emit 89h
-        _emit 41h
-        _emit 24h
-        _emit 5Fh
-        _emit 8Bh
-        _emit 0C6h
-        _emit 5Eh
-        _emit 0C3h
-    }
+public:
+	ModelConditionFlags()
+	{
+		memset( m_words, 0, sizeof( m_words ) );
+	}
+
+	void clear()
+	{
+		memset( m_words, 0, sizeof( m_words ) );
+	}
+
+private:
+	unsigned int m_words[ 10 ];
+};
+
+class __declspec(novtable) ModelConditionUpgradeModuleDataPrimaryBase
+{
+public:
+	virtual ~ModelConditionUpgradeModuleDataPrimaryBase() {}
+
+private:
+	unsigned int m_moduleData;
+};
+
+class __declspec(novtable) ModelConditionUpgradeModuleDataIntermediateBase
+	: public ModelConditionUpgradeModuleDataPrimaryBase
+{
+protected:
+	UpgradeModuleDataSub m_upgradeData;
+};
+
+class ModelConditionUpgradeModuleData
+	: public ModelConditionUpgradeModuleDataIntermediateBase
+{
+public:
+	ModelConditionUpgradeModuleData();
+	virtual ~ModelConditionUpgradeModuleData();
+
+private:
+	ModelConditionFlags m_conditionFlag;
+	ModelConditionFlags m_forbiddenConditionFlag;
+};
+
+// ??0ModelConditionUpgradeModuleData@@QAE@XZ
+ModelConditionUpgradeModuleData::ModelConditionUpgradeModuleData()
+{
+	m_conditionFlag.clear();
+	m_forbiddenConditionFlag.clear();
 }
