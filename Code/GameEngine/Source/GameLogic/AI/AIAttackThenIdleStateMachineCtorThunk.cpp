@@ -1,366 +1,109 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Ireference/shims/stringinline
+
+#include "StringInline.h"
 
 class Object;
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString
-{
-};
+class State;
+struct StateConditionInfo;
 
-class AIAttackThenIdleStateMachine
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/StateMachine.h
+class StateMachine
 {
 public:
-    AIAttackThenIdleStateMachine(Object *, AsciiString);
+	StateMachine( Object *owner, AsciiString name, bool flag );
+	virtual ~StateMachine();
+
+protected:
+	void defineState( unsigned int id, State *state,
+		unsigned int successID, unsigned int failureID,
+		const StateConditionInfo *conditions );
 };
 
-__declspec(naked) AIAttackThenIdleStateMachine::AIAttackThenIdleStateMachine(Object *, AsciiString)
+class Rva0014F280StateBase
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 0F1h
-        _emit 063h
-        _emit 000h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0ECh
-        _emit 008h
-        _emit 053h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 057h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 00Ch
-        _emit 033h
-        _emit 0DBh
-        _emit 053h
-        _emit 051h
-        _emit 08Dh
-        _emit 044h
-        _emit 024h
-        _emit 030h
-        _emit 089h
-        _emit 064h
-        _emit 024h
-        _emit 018h
-        _emit 08Bh
-        _emit 0CCh
-        _emit 050h
-        _emit 089h
-        _emit 05Ch
-        _emit 024h
-        _emit 028h
-        _emit 0E8h
-        _emit 0E7h
-        _emit 030h
-        _emit 070h
-        _emit 000h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 02Ch
-        _emit 051h
-        _emit 08Bh
-        _emit 0CEh
-        _emit 0E8h
-        _emit 09Eh
-        _emit 0A6h
-        _emit 0E8h
-        _emit 0FFh
-        _emit 06Ah
-        _emit 054h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 020h
-        _emit 001h
-        _emit 0C7h
-        _emit 006h
-        _emit 0F8h
-        _emit 076h
-        _emit 009h
-        _emit 001h
-        _emit 0E8h
-        _emit 099h
-        _emit 0D4h
-        _emit 06Fh
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 004h
-        _emit 089h
-        _emit 044h
-        _emit 024h
-        _emit 024h
-        _emit 03Bh
-        _emit 0C3h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 01Ch
-        _emit 002h
-        _emit 074h
-        _emit 00Fh
-        _emit 053h
-        _emit 053h
-        _emit 06Ah
-        _emit 001h
-        _emit 053h
-        _emit 056h
-        _emit 08Bh
-        _emit 0C8h
-        _emit 0E8h
-        _emit 088h
-        _emit 074h
-        _emit 0E8h
-        _emit 0FFh
-        _emit 0EBh
-        _emit 002h
-        _emit 033h
-        _emit 0C0h
-        _emit 053h
-        _emit 053h
-        _emit 053h
-        _emit 050h
-        _emit 06Ah
-        _emit 00Ah
-        _emit 08Bh
-        _emit 0CEh
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 030h
-        _emit 001h
-        _emit 0E8h
-        _emit 0E9h
-        _emit 086h
-        _emit 0EBh
-        _emit 0FFh
-        _emit 06Ah
-        _emit 054h
-        _emit 0E8h
-        _emit 05Fh
-        _emit 0D4h
-        _emit 06Fh
-        _emit 000h
-        _emit 08Bh
-        _emit 0F8h
-        _emit 083h
-        _emit 0C4h
-        _emit 004h
-        _emit 089h
-        _emit 07Ch
-        _emit 024h
-        _emit 024h
-        _emit 03Bh
-        _emit 0FBh
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 01Ch
-        _emit 003h
-        _emit 074h
-        _emit 024h
-        _emit 051h
-        _emit 089h
-        _emit 064h
-        _emit 024h
-        _emit 014h
-        _emit 08Bh
-        _emit 0CCh
-        _emit 068h
-        _emit 028h
-        _emit 061h
-        _emit 009h
-        _emit 001h
-        _emit 0E8h
-        _emit 0CCh
-        _emit 040h
-        _emit 070h
-        _emit 000h
-        _emit 056h
-        _emit 08Bh
-        _emit 0CFh
-        _emit 0E8h
-        _emit 086h
-        _emit 0D6h
-        _emit 0EAh
-        _emit 0FFh
-        _emit 0C7h
-        _emit 007h
-        _emit 0D0h
-        _emit 060h
-        _emit 009h
-        _emit 001h
-        _emit 089h
-        _emit 05Fh
-        _emit 050h
-        _emit 0EBh
-        _emit 002h
-        _emit 033h
-        _emit 0FFh
-        _emit 053h
-        _emit 053h
-        _emit 053h
-        _emit 057h
-        _emit 06Ah
-        _emit 027h
-        _emit 08Bh
-        _emit 0CEh
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 030h
-        _emit 001h
-        _emit 0E8h
-        _emit 098h
-        _emit 086h
-        _emit 0EBh
-        _emit 0FFh
-        _emit 06Ah
-        _emit 028h
-        _emit 0E8h
-        _emit 00Eh
-        _emit 0D4h
-        _emit 06Fh
-        _emit 000h
-        _emit 08Bh
-        _emit 0F8h
-        _emit 083h
-        _emit 0C4h
-        _emit 004h
-        _emit 089h
-        _emit 07Ch
-        _emit 024h
-        _emit 024h
-        _emit 03Bh
-        _emit 0FBh
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 01Ch
-        _emit 004h
-        _emit 074h
-        _emit 02Dh
-        _emit 051h
-        _emit 089h
-        _emit 064h
-        _emit 024h
-        _emit 014h
-        _emit 08Bh
-        _emit 0CCh
-        _emit 068h
-        _emit 004h
-        _emit 086h
-        _emit 009h
-        _emit 001h
-        _emit 0E8h
-        _emit 07Bh
-        _emit 040h
-        _emit 070h
-        _emit 000h
-        _emit 056h
-        _emit 08Bh
-        _emit 0CFh
-        _emit 0E8h
-        _emit 065h
-        _emit 0EAh
-        _emit 0E7h
-        _emit 0FFh
-        _emit 0C7h
-        _emit 007h
-        _emit 0B0h
-        _emit 085h
-        _emit 009h
-        _emit 001h
-        _emit 088h
-        _emit 05Fh
-        _emit 026h
-        _emit 088h
-        _emit 05Fh
-        _emit 027h
-        _emit 066h
-        _emit 0C7h
-        _emit 047h
-        _emit 024h
-        _emit 0FFh
-        _emit 0FFh
-        _emit 0EBh
-        _emit 002h
-        _emit 033h
-        _emit 0FFh
-        _emit 053h
-        _emit 053h
-        _emit 053h
-        _emit 057h
-        _emit 053h
-        _emit 08Bh
-        _emit 0CEh
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 030h
-        _emit 001h
-        _emit 0E8h
-        _emit 03Fh
-        _emit 086h
-        _emit 0EBh
-        _emit 0FFh
-        _emit 08Dh
-        _emit 04Ch
-        _emit 024h
-        _emit 028h
-        _emit 0C7h
-        _emit 044h
-        _emit 024h
-        _emit 01Ch
-        _emit 0FFh
-        _emit 0FFh
-        _emit 0FFh
-        _emit 0FFh
-        _emit 0E8h
-        _emit 0BBh
-        _emit 02Dh
-        _emit 070h
-        _emit 000h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 014h
-        _emit 05Fh
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 05Bh
-        _emit 083h
-        _emit 0C4h
-        _emit 014h
-        _emit 0C2h
-        _emit 008h
-        _emit 000h
-    }
+public:
+	Rva0014F280StateBase( void *machine, AsciiString name );
+};
+
+class Rva000A19E0StateBase
+{
+public:
+	Rva000A19E0StateBase( void *machine, AsciiString name );
+};
+
+class AttackExitConditionsInterface;
+
+class AIAttackState
+{
+public:
+	AIAttackState( StateMachine *machine, bool follow, bool attackingObject,
+		bool forceAttacking, AttackExitConditionsInterface *attackParameters );
+
+private:
+	char m_layout[ 0x54 ];
+};
+
+extern int g_AIPickUpCrateStateVTable;
+
+class AIPickUpCrateState : public Rva0014F280StateBase
+{
+public:
+	AIPickUpCrateState( void *machine );
+
+private:
+	int *volatile m_vftable;
+	char m_gap0[ 0x4C ];
+	volatile int m_field50;
+};
+
+AIPickUpCrateState::AIPickUpCrateState( void *machine )
+	: Rva0014F280StateBase( machine, AsciiString( "AIAttackPickUpCrateState" ) )
+{
+	m_vftable = &g_AIPickUpCrateStateVTable;
+	m_field50 = 0;
+}
+
+extern int g_AIIdleStateVTable;
+
+class AIIdleState : public Rva000A19E0StateBase
+{
+public:
+	AIIdleState( void *machine );
+
+private:
+	int *volatile m_vftable;
+	char m_gap0[ 0x20 ];
+	volatile unsigned short m_field24;
+	volatile unsigned char m_field26;
+	volatile unsigned char m_field27;
+};
+
+AIIdleState::AIIdleState( void *machine )
+	: Rva000A19E0StateBase( machine, AsciiString( "AIIdleState" ) )
+{
+	m_vftable = &g_AIIdleStateVTable;
+	m_field26 = 0;
+	m_field27 = 0;
+	m_field24 = 0xFFFF;
+}
+
+class AIAttackThenIdleStateMachine : public StateMachine
+{
+public:
+	AIAttackThenIdleStateMachine( Object *owner, AsciiString name );
+};
+
+// ??0AIAttackThenIdleStateMachine@@QAE@PAVObject@@VAsciiString@@@Z
+AIAttackThenIdleStateMachine::AIAttackThenIdleStateMachine(
+	Object *owner, AsciiString name )
+	: StateMachine( owner, name, false )
+{
+	AIAttackState *attack = new AIAttackState( this, false, true, false, 0 );
+	defineState( 10, (State *)attack, 0, 0, 0 );
+
+	AIPickUpCrateState *pickUpCrate = new AIPickUpCrateState( this );
+	defineState( 39, (State *)pickUpCrate, 0, 0, 0 );
+
+	AIIdleState *idle = new AIIdleState( this );
+	defineState( 0, (State *)idle, 0, 0, 0 );
 }
