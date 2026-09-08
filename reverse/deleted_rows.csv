@@ -25106,6 +25106,7 @@ dup_af1f0,0x000AF1F0,Rehomed to neutral address owner; does not belong to LANAPI
 ??_EGen_dtorv_005d8ad0@@UAEPAXI@Z,0x005D8AD0,Generic generator placeholder superseded by authentic FXParticleSystem QuadDrawModuleTemplate vector-deleting destructor proven by vtable 0x01110CD0 and matched destructor
 ??_EGen_dtorv_005d8d80@@UAEPAXI@Z,0x005D8D80,Generic generator placeholder superseded by authentic FXParticleSystem ButterflyDrawModuleTemplate vector-deleting destructor proven by vtable 0x01110D10 and matched destructor
 ??_EGen_dtorv_005d8140@@UAEPAXI@Z,0x005D8140,Generic generator placeholder superseded by authentic FXParticleSystem DefaultModuleTemplate specialization 2 vector-deleting destructor proven by vtable 0x01110C24 and matched destructor
+??_EGen_dtorv_005d84c0@@UAEPAXI@Z,0x005D84C0,Generic generator placeholder superseded by authentic FXParticleSystem DefaultModuleTemplate specialization 1 vector-deleting destructor proven by vtable 0x01110C50 and matched destructor
 ?bfmeGo1019B@@YAXH@Z,0x007F0000,Repair existing DirtySock allocator/shutdown/state identity and ABI; same verified bytes; replaced by ?Rva007F0000Alloc@@YAPAXH@Z
 ?bfmeGoTAA@@YAXH@Z,0x0081B9B0,Repair existing DirtySock allocator/shutdown/state identity and ABI; same verified bytes; replaced by _Rva0081B9B0
 ?bfmeGroupOL@@YAHPBUBfmeThingOL@@@Z,0x0081B9D0,Repair existing DirtySock allocator/shutdown/state identity and ABI; same verified bytes; replaced by _Rva0081B9D0
