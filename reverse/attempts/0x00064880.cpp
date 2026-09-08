@@ -1,42 +1,37 @@
-// ?isAfter@Rva00064770Tree@@QBE_NI@Z
-// partial score=0.95 date=2026-09-04
-// ?isAfter@Rva00064770Tree@@QBE_NI@Z
-// partial score=0.95 date=2026-09-02
-// cl: /DNDEBUG /MD /EHs-c-
-// Near-miss for 0x00064880. Sibling of isBefore@Rva00064770Tree. Exact 39-byte
-// shape except the key load uses ecx instead of eax (ModRM 48 vs 40).
-
-typedef int Int;
-typedef unsigned int UnsignedInt;
-
-struct Rva00064770Node
+// ?bfmeAtEndYJ@BfmeHostYJ@@QAE_NI@Z
+// partial score=0.98 date=2026-09-08
+namespace _STL
 {
-	Int m_colour;
-	Rva00064770Node *m_parent;
-	Rva00064770Node *m_left;
-	Rva00064770Node *m_right;
-	unsigned char m_unreconstructed_10[0x18];
-	UnsignedInt m_key;
+
+struct _Rb_tree_node_base
+{
+	unsigned char m_bfmeHeadYJ[0x28];
+	unsigned int m_bfme28YJ;
 };
 
-extern "C" Rva00064770Node *__cdecl _W3RbDecrement(Rva00064770Node *node);
+template <class T>
+struct _Rb_global
+{
+	static _Rb_tree_node_base *_M_decrement(_Rb_tree_node_base *n);
+};
 
-class Rva00064770Tree
+}
+
+class BfmeHostYJ
 {
 public:
-	bool isAfter(UnsignedInt key) const;
+	bool bfmeAtEndYJ(unsigned int limit);
 
-private:
-	Rva00064770Node *m_header;
-	Int m_count;
+	_STL::_Rb_tree_node_base *m_bfme00YJ;
+	_STL::_Rb_tree_node_base *m_bfme04YJ;
 };
 
-bool Rva00064770Tree::isAfter(UnsignedInt key) const
+bool BfmeHostYJ::bfmeAtEndYJ(unsigned int limit)
 {
-	if (m_count == 0)
-	{
+	if (m_bfme04YJ == 0)
 		return true;
-	}
 
-	return _W3RbDecrement(m_header)->m_key < key;
+	unsigned int v = _STL::_Rb_global<bool>::_M_decrement(m_bfme00YJ)->m_bfme28YJ;
+
+	return v < limit;
 }
