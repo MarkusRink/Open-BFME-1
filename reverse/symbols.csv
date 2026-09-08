@@ -86242,6 +86242,9 @@ RenderObjectDrawConcrete_vtbl4,0x01111394,ConcreteModuleTemplate RenderObjectDra
 RenderObjectDrawConcrete_vtbl8,0x01111380,ConcreteModuleTemplate RenderObjectDraw module-info vtable
 ?Reset_Polys@Render2DSentenceClass@@QAEXXZ,0x0093D0F0,Render2DSentenceClass::Reset_Polys from the W3DGameWindow drawText reference body
 ?Draw_Sentence@Render2DSentenceClass@@QAEXHHHH@Z,0x0093EB50,Render2DSentenceClass four-argument draw call recovered from W3DGameWindow drawText
+?destroy@RenderObjectDrawModuleInfoDtorShim@FXParticleSystem@@QAEXXZ,0x00022903,RenderObjectDrawModuleInfo destructor ILT used by its module-template destructor
+RenderObjectDrawCategory_vtbl4,0x0110F97C,RenderObjectDraw category-info base vtable
+ModuleTemplate_vtbl0,0x01073758,ModuleTemplate base vtable
 TerrainCollisionConcrete_vtbl0,0x01111450,ConcreteModuleTemplate TerrainCollision primary vtable
 TerrainCollisionConcrete_vtbl4,0x0111144C,ConcreteModuleTemplate TerrainCollision secondary vtable
 TerrainCollisionConcrete_vtbl12,0x01111438,ConcreteModuleTemplate TerrainCollision module-info vtable
