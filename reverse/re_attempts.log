@@ -14300,3 +14300,12 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_00290250@@YAXXZ	0x00290250	470	blocked	served file Code/gen_asm/d_0028fdf0.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
 ?d_00293e50@@YAXXZ	0x00293E50	463	blocked	served file Code/gen_asm/d_0028fdf0.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
 ?d_0025a9d0@@YAXXZ	0x0025A9D0	458	blocked	DevastateSpecialPower vtable 0x010B4608 slot 13 reaches RVA 0x0025A9D0 through thunk 0x00029AAA. Clean C++ reproduces the control flow and helper relocations, but MSVC 7.1 assigns player to EBX and module data to EDI while retail uses EDI and EBX. t=45 model=gpt-5.6-luna
+?d_0052dc00@@YAXXZ	0x0052DC00	147	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
+?d_0052e7b0@@YAXXZ	0x0052E7B0	165	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
+?d_0052deb0@@YAXXZ	0x0052DEB0	191	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
+?d_00531de0@@YAXXZ	0x00531DE0	171	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
+?d_0052e680@@YAXXZ	0x0052E680	237	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
+?d_00536870@@YAXXZ	0x00536870	240	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
+?d_00532f40@@YAXXZ	0x00532F40	287	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
+?d_0052e990@@YAXXZ	0x0052E990	335	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
+?d_0052fc70@@YAXXZ	0x0052FC70	358	blocked	served file Code/gen_asm/d_0052b540.asm; identity sweep found no safe standalone source for this dump body; t=5min model=gpt-5.6-sol
