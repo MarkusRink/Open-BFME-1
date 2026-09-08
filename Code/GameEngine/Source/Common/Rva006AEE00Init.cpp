@@ -1,28 +1,19 @@
-// ?init@Rva006AEE00@@AAEXXZ
-// partial score=0.72 date=2026-09-08
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/sweep /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 // stlport
-//
-// Retail 0x006AEE00: thiscall returning StringBase by hidden pointer.  If the
-// ready byte at +0x630 is clear, run init.  Find in the tree at +0x64, maybe
-// increment, then copy either the empty string or the payload at node+0x10.
+
+#include <hash_map>
+#include <set>
 
 template <typename T> class StringBase
 {
-	friend class Rva006AEE00;
-
-	public:
+public:
 	StringBase(const StringBase<T> &other);
 	~StringBase();
-
-	private:
+private:
 	void *m_data;
 };
 
 extern StringBase<char> g_Va01336E50;
-
-void *rbIncrement(void *node);
-void *rbDecrement(void *node);
 
 class Rva006AEE00Tree
 {
@@ -71,9 +62,6 @@ public:
 	unsigned int m_lowPassCutoff;
 };
 
-#include <hash_map>
-#include <set>
-
 struct Rva006AEE00Less
 {
 	bool operator()(const StringBase<char> &, const StringBase<char> &) const;
@@ -97,6 +85,23 @@ typedef _STL::hash_map<StringBase<char>, Rva006AEE00Info *,
 class Rva006AEE00Hashtable
 {
 public:
+	struct BucketVector
+	{
+		void **m_start;
+		void **m_finish;
+		void **m_end;
+
+		unsigned int size() const
+		{
+			return (unsigned int)(m_finish - m_start);
+		}
+
+		void *operator[](unsigned int index) const
+		{
+			return m_start[index];
+		}
+	};
+
 	struct Value
 	{
 		StringBase<char> first;
@@ -125,7 +130,7 @@ public:
 	Iterator begin();
 	unsigned int bucketCount() const
 	{
-		return (unsigned int)(m_finish - m_start);
+		return m_buckets.size();
 	}
 
 	unsigned int bucketNumber(const StringBase<char> &key) const
@@ -142,42 +147,33 @@ public:
 		count = bucketCount();
 		Node *next = 0;
 		while (next == 0 && ++bucket < count)
-			next = reinterpret_cast<Node *>(m_start[bucket]);
+			next = reinterpret_cast<Node *>(m_buckets[bucket]);
 		return next;
 	}
 
 	char m_pad00[4];
-	void * volatile *m_start;
-	void **m_finish;
-	void **m_end;
+	BucketVector m_buckets;
 	unsigned int m_count;
 };
 
-static __forceinline void
-rva006AEE00Advance(Rva006AEE00Hashtable::Node *&current,
+static __forceinline Rva006AEE00Hashtable::Node *
+rva006AEE00Next(Rva006AEE00Hashtable::Node *current,
 	Rva006AEE00Hashtable *table)
 {
+	Rva006AEE00Hashtable::Node *next;
 	if (current->next)
-	{
-		current = current->next;
-		return;
-	}
+		return current->next;
 	unsigned int bucket = table->bucketNumber(current->value.first);
 	unsigned int count = table->bucketCount();
-	Rva006AEE00Hashtable::Node *next = 0;
+	next = 0;
 	while (next == 0 && ++bucket < count)
 		next = reinterpret_cast<Rva006AEE00Hashtable::Node *>(
-		table->m_start[bucket]);
-	current = next;
-	return;
+			table->m_buckets[bucket]);
+	return next;
 }
 
 class Rva006AEE00
 {
-public:
-	StringBase<char> get(void *key);
-	StringBase<char> getPrev(void *key);
-
 private:
 	void init();
 
@@ -185,46 +181,6 @@ private:
 	Rva006AEE00Tree m_tree;
 	char m_pad6C[0x630 - 0x6C];
 	unsigned char m_ready;
-};
-
-StringBase<char> Rva006AEE00::get(void *key)
-{
-	if (!m_ready)
-		init();
-	void *it = m_tree.find(key);
-	if (it != m_tree.header)
-		it = rbIncrement(it);
-	void *header = m_tree.header;
-	if (it == header)
-	{
-		it = *((void **)header + 2);
-		if (it == header)
-			return g_Va01336E50;
-	}
-	return *reinterpret_cast<StringBase<char> *>((char *)it + 0x10);
-}
-
-StringBase<char> Rva006AEE00::getPrev(void *key)
-{
-	if (!m_ready)
-		init();
-	if (m_tree.count == 0)
-		return g_Va01336E50;
-	void *it = m_tree.find(key);
-	void *header = m_tree.header;
-	if (it == *((void **)header + 2))
-		it = header;
-	it = rbDecrement(it);
-	return *reinterpret_cast<StringBase<char> *>((char *)it + 0x10);
-}
-
-class Rva006AEE00TreeHeader
-{
-public:
-	int color;
-	void *parent;
-	void *left;
-	void *right;
 };
 
 void Rva006AEE00::init()
@@ -250,7 +206,7 @@ void Rva006AEE00::init()
 				tree->insert_unique(
 					reinterpret_cast<Rva006AEE00Tree::InsertResult *>(&it.current),
 					*info->getName());
-			rva006AEE00Advance(current, table);
+			current = rva006AEE00Next(current, table);
 		}
 	}
 	m_ready = 1;
