@@ -142,14 +142,41 @@ RenderObjClass * W3DStatusCircle::Clone(void) const
 }
 
 
-// ?freeMapResources@W3DStatusCircle@@QAEHXZ present-unmatched
+struct W3DStatusCircleRetailResources
+{
+	char m_head[0xd8];
+	DX8IndexBufferClass *m_indexBuffer;
+	char m_gap[4];
+	VertexMaterialClass *m_vertexMaterialClass;
+	DX8VertexBufferClass *m_vertexBufferCircle;
+	DX8VertexBufferClass *m_vertexBufferScreen;
+};
+
 Int W3DStatusCircle::freeMapResources(void)
 {
+	W3DStatusCircleRetailResources *resources =
+		reinterpret_cast<W3DStatusCircleRetailResources *>(this);
 
-	REF_PTR_RELEASE(m_indexBuffer);
-	REF_PTR_RELEASE(m_vertexBufferScreen);
-	REF_PTR_RELEASE(m_vertexBufferCircle);
-	REF_PTR_RELEASE(m_vertexMaterialClass);
+	if (resources->m_indexBuffer)
+	{
+		resources->m_indexBuffer->Release_Ref();
+		resources->m_indexBuffer = NULL;
+	}
+	if (resources->m_vertexBufferScreen)
+	{
+		resources->m_vertexBufferScreen->Release_Ref();
+		resources->m_vertexBufferScreen = NULL;
+	}
+	if (resources->m_vertexBufferCircle)
+	{
+		resources->m_vertexBufferCircle->Release_Ref();
+		resources->m_vertexBufferCircle = NULL;
+	}
+	if (resources->m_vertexMaterialClass)
+	{
+		resources->m_vertexMaterialClass->Release_Ref();
+		resources->m_vertexMaterialClass = NULL;
+	}
 	return 0;
 }
 
