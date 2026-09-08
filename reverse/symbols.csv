@@ -86020,3 +86020,4 @@ __imp__BfmeDecTQ@4,0x00F58E54,pin decrement import for BfmeConv2026
 ?erase@Rva0076F980Mid@@QAEPAVAsciiString@@PAV2@0@Z,0x00065960,typed neutral vector<AsciiString> erase; LivingWorldRegion resets reach this body through ILT 0x00024C17
 ??1Rva0076F980Mid@@QAE@XZ,0x000658A0,neutral vector<AsciiString> destructor used by constructor EH cleanup; retail ILT 0x00026AB2 reaches body 0x000658A0
 ?reset@Mouse@@UAEXXZ,0x0001E259,DirectInputMouse::reset at 0x006BB8D0 tail-jumps to this ILT; target body 0x005A4410 is the shared Mouse reset implementation
+__imp__BfmeFloorER,0x00F593B8,pin floor import for BfmeConv2039
