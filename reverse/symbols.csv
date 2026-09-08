@@ -86344,3 +86344,6 @@ ___security_cookie,0x012DBDB0,MSVC 7.1 /GS cookie; absolute data VA read by exac
 ?bfmeFinishZG@BfmeEntryZG@@QAEXPAX_N@Z,0x0003FE09,Open-BFME5 ILT entry finish the 0x00367310 step calls
 ?Rva005A3460TranslateKey@Rva005A3EF0Keyboard@@QAEGG@Z,0x005A3460,Address-qualified Keyboard thiscall ushort modifier/translation helper; ILT25374
 ?Rva005A3E00CheckRepeat@Rva005A3EF0Keyboard@@QAE_NXZ,0x005A3E00,Address-qualified Keyboard thiscall bool repeat helper; ILT39144; full181body
+?bfmeSetSlot@Rva00516BB0@@QAEXGE@Z,0x00516BB0,OnAccept wrapper; adjusts this+25C then jumps to523380
+?unAccept@GameSlot@@QAEXXZ,0x0061EE60,OnAccept actual GameSlot callee body
+?rva004CAF70@@YAXXZ,0x004CAF70,OnAccept null-global fallback actual body
