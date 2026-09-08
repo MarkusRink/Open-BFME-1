@@ -86008,3 +86008,4 @@ __imp__BfmeDecTQ@4,0x00F58E54,pin decrement import for BfmeConv2026
 ?getRealFilename@NetFileCommandMsg@@QAE?AVAsciiString@@XZ,0x00675450,AsciiString forwarding ABI view of matched StringBase<char> filename getter; type19 processFile 0x00669E20 calls ILT0x0001A00F twice then reads narrow text for FileSystem doesFileExist/openFile
 ?setRealFilename@NetFileAnnounceCommandMsg@@QAEXVAsciiString@@@Z,0x00675640,AsciiString forwarding ABI view of matched StringBase<char> setter; sendFileAnnounce 0x0066A170 copies source filename by value then calls ILT0x0001ED30; type20 ctor identifies payload owner
 ??0EstablishConnectionsMenu@@QAE@XZ,0x004B2C80,NAT establish672A60 calls via ILT0000F529; base vtable010FD79C slots4/5 route to matched setPlayerName004B2D10 and setPlayerStatus004B2DC0; derived menus6709F0/670A10 use same base
+?g_bfmeLimitEK@@3MB,0x0108885C,pin clamp limit for BfmeConv2035
