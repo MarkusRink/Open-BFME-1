@@ -57,11 +57,16 @@ extern "C"
 
 	// the Win9x fallbacks; each is an ILT thunk into a convert-call-convert body
 	int __stdcall Rva0005E9A0_CompareStringW9x(DWORD, DWORD, const WCHAR *, int, const WCHAR *, int);
-	int __stdcall Rva0005F8E0_GetStringTypeExW9x(DWORD, DWORD, const WCHAR *, int, unsigned short *);
 	int __stdcall Rva0005DD20_lstrcmpiW9x(const WCHAR *, const WCHAR *);
 	WCHAR *__stdcall Rva0005DE80_CharLowerW9x(WCHAR *);
 	WCHAR *__stdcall Rva0005B930_CharUpperW9x(WCHAR *);
 	DWORD __stdcall Rva0005F680_GetEnvironmentVariableW9x(const WCHAR *, WCHAR *, DWORD);
+}
+
+namespace ATL
+{
+	int __stdcall GetStringTypeExWFake(DWORD locale, DWORD infoType,
+		const WCHAR *src, int count, unsigned short *charType);
 }
 
 typedef int (__stdcall *PFNCOMPARESTRINGW)(DWORD, DWORD, const WCHAR *, int, const WCHAR *, int);
@@ -104,7 +109,7 @@ int __stdcall Rva0005FA00_GetStringTypeExW(DWORD locale, DWORD infoType,
 	const WCHAR *src, int count, unsigned short *charType)
 {
 	InterlockedExchange((LONG *)&g_pfnGetStringTypeExW,
-		isWindows9x() ? (LONG)Rva0005F8E0_GetStringTypeExW9x : (LONG)GetStringTypeExW);
+		isWindows9x() ? (LONG)ATL::GetStringTypeExWFake : (LONG)GetStringTypeExW);
 	return g_pfnGetStringTypeExW(locale, infoType, src, count, charType);
 }
 
