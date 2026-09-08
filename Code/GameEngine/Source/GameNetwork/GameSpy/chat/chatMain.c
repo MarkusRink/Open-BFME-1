@@ -92,6 +92,36 @@ CHATBool ciCheckForIDAnchor(CHAT chat, int ID)
 	return ciCheckForID(chat, ID);
 }
 
+void chatSetGlobalKeysA(CHAT chat, int num,
+	const char **keys, const char **values)
+{
+	char buffer[512];
+	const char *key;
+	const char *value;
+	int i;
+	ciConnection *connection = (ciConnection *)chat;
+
+	if(!connection || !connection->connected)
+		return;
+
+	if(!keys || !values)
+		return;
+
+	strcpy(buffer, "SETKEY :");
+	for(i = 0 ; i < num ; i++)
+	{
+		key = keys[i];
+		if(!key || !key[0])
+			return;
+		value = values[i];
+		if(!value)
+			value = "";
+		sprintf(buffer + strlen(buffer), "\\%s\\%s", key, value);
+	}
+
+	ciSocketSend(&connection->chatSocket, buffer);
+}
+
 char *ciRandomCookie(void)
 {
 	static char cookie[4];
