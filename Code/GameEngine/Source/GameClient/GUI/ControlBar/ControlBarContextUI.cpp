@@ -34,6 +34,12 @@ typedef bool Bool;
 enum { LOGICFRAMES_PER_SECOND = 5 };
 enum { MAX_COMMANDS_PER_SET = 20 };
 
+class BfmeTargetJB
+{
+public:
+	bool bfmeTailJB(void);
+};
+
 enum NameKeyType { NAMEKEY_INVALID = 0 };
 
 class Object;
@@ -240,6 +246,152 @@ private:
 	Object *m_object;					// this+0xFC
 };
 
+enum Relationship { RELATIONSHIP_INVALID = 0 };
+
+class Team;
+
+class Player
+{
+public:
+	Relationship getRelationship(const Team *team) const;
+};
+
+class Rva002EE330PlayerList
+{
+private:
+	char m_slice_pad[0x0C];
+
+public:
+	Player *m_localPlayer;
+};
+
+extern Rva002EE330PlayerList *Rva002EE330ThePlayers;
+
+class BfmeStructureInventoryObject
+{
+public:
+	virtual void slot00(void) = 0;
+	virtual void slot01(void) = 0;
+	virtual void slot02(void) = 0;
+	virtual void slot03(void) = 0;
+	virtual void slot04(void) = 0;
+	virtual void slot05(void) = 0;
+	virtual void slot06(void) = 0;
+	virtual void slot07(void) = 0;
+	virtual void slot08(void) = 0;
+	virtual void slot09(void) = 0;
+	virtual Drawable *getDrawable(void) = 0;
+
+	Team *getTeam(void) const
+	{
+		return *(Team *const *)((const char *)this + 0x23C);
+	}
+
+	ContainModuleInterface *getContain(void) const
+	{
+		return *(ContainModuleInterface *const *)((const char *)this + 0x1FC);
+	}
+
+	UnsignedInt getID(void) const
+	{
+		return *(const UnsignedInt *)((const char *)this + 0x74);
+	}
+};
+
+class GameMessage
+{
+public:
+	enum Type { MSG_INVALID = 0, MSG_CONTEXT = 0x3EC };
+
+	void appendObjectIDArgument(UnsignedInt objectID);
+};
+
+class MessageStream
+{
+public:
+	virtual void slot00(void) = 0;
+	virtual void slot01(void) = 0;
+	virtual void slot02(void) = 0;
+	virtual void slot03(void) = 0;
+	virtual void slot04(void) = 0;
+	virtual void slot05(void) = 0;
+	virtual void slot06(void) = 0;
+	virtual void slot07(void) = 0;
+	virtual void slot08(void) = 0;
+	virtual void slot09(void) = 0;
+	virtual void slot10(void) = 0;
+	virtual void slot11(void) = 0;
+	virtual void slot12(void) = 0;
+	virtual GameMessage *appendMessage(GameMessage::Type type) = 0;
+};
+
+extern MessageStream *TheMessageStream;
+
+class InGameUI
+{
+public:
+	virtual void slot00(void) = 0;
+	virtual void slot01(void) = 0;
+	virtual void slot02(void) = 0;
+	virtual void slot03(void) = 0;
+	virtual void slot04(void) = 0;
+	virtual void slot05(void) = 0;
+	virtual void slot06(void) = 0;
+	virtual void slot07(void) = 0;
+	virtual void slot08(void) = 0;
+	virtual void slot09(void) = 0;
+	virtual void slot10(void) = 0;
+	virtual void slot11(void) = 0;
+	virtual void slot12(void) = 0;
+	virtual void slot13(void) = 0;
+	virtual void slot14(void) = 0;
+	virtual void slot15(void) = 0;
+	virtual void slot16(void) = 0;
+	virtual void slot17(void) = 0;
+	virtual void slot18(void) = 0;
+	virtual void slot19(void) = 0;
+	virtual void slot20(void) = 0;
+	virtual void slot21(void) = 0;
+	virtual void slot22(void) = 0;
+	virtual void slot23(void) = 0;
+	virtual void slot24(void) = 0;
+	virtual void slot25(void) = 0;
+	virtual void slot26(void) = 0;
+	virtual void slot27(void) = 0;
+	virtual void slot28(void) = 0;
+	virtual void slot29(void) = 0;
+	virtual void slot30(void) = 0;
+	virtual void slot31(void) = 0;
+	virtual void slot32(void) = 0;
+	virtual void slot33(void) = 0;
+	virtual void slot34(void) = 0;
+	virtual void slot35(void) = 0;
+	virtual void slot36(void) = 0;
+	virtual void slot37(void) = 0;
+	virtual void slot38(void) = 0;
+	virtual void slot39(void) = 0;
+	virtual void slot40(void) = 0;
+	virtual void slot41(void) = 0;
+	virtual void slot42(void) = 0;
+	virtual void slot43(void) = 0;
+	virtual void slot44(void) = 0;
+	virtual void slot45(void) = 0;
+	virtual void slot46(void) = 0;
+	virtual void slot47(void) = 0;
+	virtual void slot48(void) = 0;
+	virtual void slot49(void) = 0;
+	virtual void slot50(void) = 0;
+	virtual void slot51(void) = 0;
+	virtual void slot52(void) = 0;
+	virtual void slot53(void) = 0;
+	virtual void slot54(void) = 0;
+	virtual void slot55(void) = 0;
+	virtual void slot56(void) = 0;
+	virtual void deselectDrawable(Drawable *draw) = 0;
+};
+
+extern InGameUI *TheInGameUI;
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/NameKeyGenerator.h
 class NameKeyGenerator
 {
@@ -353,6 +505,8 @@ private:
 protected:
 	void updateOCLTimerTextDisplay(UnsignedInt secondsLeft, Real percentDone);
 	void updateContextUnderConstruction(void);
+	void updateContextStructureInventory(void);
+	void populateStructureInventory(Object *building, Bool refresh);
 	void evaluateContextUI(void);
 	void resetContainData(void);
 	void doTransportInventoryUI(Object *transport, const CommandSet *commandSet);
@@ -370,6 +524,8 @@ protected:
 
 	static ContainEntry m_containData[MAX_COMMANDS_PER_SET];
 };
+
+#pragma comment(linker, "/alternatename:?populateStructureInventory@ControlBar@@IAEXPAVObject@@_N@Z=?j_0001df4d@@YAXXZ")
 
 ContainEntry ControlBar::m_containData[MAX_COMMANDS_PER_SET];
 
@@ -449,6 +605,39 @@ void ControlBar::updateContextUnderConstruction(void)
 
 	if (m_displayedConstructPercent != obj->getConstructionPercent())
 		updateConstructionTextDisplay(obj);
+}
+
+// ControlBar::updateContextStructureInventory, retail 0x004AF3D0, 151 bytes.
+// The selected object leaves the local player's relationship unless it is
+// locally controlled. In that case the UI posts the context message, removes
+// the drawable from selection, and otherwise refreshes the inventory count.
+
+// ?updateContextStructureInventory@ControlBar@@IAEXXZ
+void ControlBar::updateContextStructureInventory(void)
+{
+	BfmeStructureInventoryObject *source =
+		reinterpret_cast<BfmeStructureInventoryObject *>(m_currentSelectedDrawable->getObject());
+	Player *localPlayer = Rva002EE330ThePlayers->m_localPlayer;
+
+	if (!reinterpret_cast<BfmeTargetJB *>(source)->bfmeTailJB() &&
+		localPlayer->getRelationship(source->getTeam()) != (Relationship)1)
+	{
+		Drawable *draw = source->getDrawable();
+		if (draw)
+		{
+			GameMessage *message = TheMessageStream->appendMessage(GameMessage::MSG_CONTEXT);
+			message->appendObjectIDArgument(source->getID());
+			TheInGameUI->deselectDrawable(draw);
+		}
+		return;
+	}
+
+	ContainModuleInterface *contain = source->getContain();
+	if (!contain)
+		return;
+
+	if (m_lastRecordedInventoryCount != contain->getContainCount(false))
+		populateStructureInventory(reinterpret_cast<Object *>(source), false);
 }
 
 // ControlBar::resetContainData, retail 0x004A3B00, 59 bytes.
