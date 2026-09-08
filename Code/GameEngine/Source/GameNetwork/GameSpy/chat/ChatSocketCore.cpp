@@ -66,14 +66,45 @@ struct ciSocket
 	ciServerMessage lastMessage;
 };
 
+struct ciHostEntry
+{
+	char *name;
+	char **aliases;
+	short addressType;
+	short addressLength;
+	char **addressList;
+};
+
+struct ciInternetAddress
+{
+	unsigned long address;
+};
+
+struct ciSocketAddress
+{
+	short family;
+	unsigned short port;
+	ciInternetAddress internetAddress;
+	char zero[8];
+};
+
 extern "C" {
 int __stdcall shutdown(unsigned int socket, int how);
 int __stdcall closesocket(unsigned int socket);
 int __stdcall send(unsigned int socket, const char *buffer, int length, int flags);
 int __stdcall recv(unsigned int socket, char *buffer, int length, int flags);
 int __stdcall WSAGetLastError(void);
+unsigned long __stdcall inet_addr(const char *address);
+ciHostEntry *__stdcall gethostbyname(const char *name);
+unsigned short __stdcall htons(unsigned short value);
+unsigned long __stdcall htonl(unsigned long value);
+unsigned int __stdcall socket(int addressFamily, int type, int protocol);
+int __stdcall setsockopt(unsigned int socket, int level, int option, const char *value, int valueLength);
+int __stdcall bind(unsigned int socket, const ciSocketAddress *address, int addressLength);
+int __stdcall connect(unsigned int socket, const ciSocketAddress *address, int addressLength);
 void GSISocketSelect(unsigned int socket, int *readFlag, int *writeFlag, int *exceptFlag);
 void gs_crypt(unsigned char *buffer, int length, gs_crypt_key *key);
+extern unsigned int gsiSocketInterface;
 
 static CHATBool ciBufferInit(ciBuffer *buffer)
 {
@@ -124,6 +155,55 @@ CHATBool ciSocketInit(ciSocket *socket, CILoginType loginType)
 		ciBufferFree(&socket->inputQueue);
 	}
 	return CHATFalse;
+}
+
+CHATBool ciSocketConnect(ciSocket *socket, const char *serverAddress, int port)
+{
+	unsigned long ip;
+	ciHostEntry *host;
+	ciSocketAddress localAddress;
+	ciSocketAddress address;
+	int keepalive;
+
+	strncpy(socket->serverAddress, serverAddress, 255);
+	socket->serverAddress[254] = '\0';
+
+	ip = inet_addr(serverAddress);
+	if(ip == ~0UL) {
+		host = gethostbyname(serverAddress);
+		if(host == NULL)
+			return CHATFalse;
+		ip = *(unsigned long *)host->addressList[0];
+	}
+
+	memset(&address, 0, sizeof(address));
+	address.family = 2;
+	address.internetAddress.address = ip;
+	address.port = htons((unsigned short)port);
+
+	memset(&localAddress, 0, sizeof(localAddress));
+	localAddress.family = 2;
+	localAddress.internetAddress.address = htonl(gsiSocketInterface);
+	localAddress.port = 0;
+
+	socket->sock = ::socket(2, 1, 0);
+	if(socket->sock == ~0U)
+		return CHATFalse;
+
+	keepalive = 1;
+	setsockopt(socket->sock, 0xffff, 8, (const char *)&keepalive, sizeof(keepalive));
+
+	if(bind(socket->sock, &localAddress, sizeof(localAddress)) == -1) {
+		closesocket(socket->sock);
+		return CHATFalse;
+	}
+	if(connect(socket->sock, &address, sizeof(address)) == -1) {
+		closesocket(socket->sock);
+		return CHATFalse;
+	}
+
+	socket->connectState = ciConnected;
+	return CHATTrue;
 }
 
 static void ciSocketSelect(unsigned int socket, CHATBool *readFlag, CHATBool *writeFlag, CHATBool *exceptFlag)
