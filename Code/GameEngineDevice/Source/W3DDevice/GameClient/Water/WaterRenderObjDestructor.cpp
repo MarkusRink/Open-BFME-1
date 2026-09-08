@@ -1,7 +1,8 @@
-// ??1WaterRenderObjClass@@QAE@XZ
-// partial score=0.8 date=2026-09-03
 // cl: /DNDEBUG /MD /EHsc
-// BFME WaterRenderObjClass destructor reconstruction at retail 0x0079EFD0.
+
+// Open-BFME5: WaterRenderObjClass destructor at retail 0x0079EFD0, 310 bytes.
+// The water and buffer offsets, reset call, and refcount release order match
+// the retail destructor's direct field accesses.
 
 class WaterGridRef
 {
@@ -40,6 +41,7 @@ public:
 
 void W3DRadarResetLock(void);
 void BFME_DX8_Thread_Assert(void);
+
 class WaterDestructorGuard
 {
 public:
@@ -65,7 +67,7 @@ private:
 	WaterComRef *m_bumpTexture1;
 	WaterComRef *m_bumpTexture2;
 	unsigned char m_before24c[0x110];
-	TextureBaseClass *m_reflectionTexture;
+	volatile TextureBaseClass *m_reflectionTexture;
 	unsigned char m_before254[4];
 	SkyBoxRenderObject *m_skyBox;
 	unsigned char m_before2b0[0x58];
@@ -73,6 +75,14 @@ private:
 	WaterComRef *m_waterTexture1;
 	WaterComRef *m_waterTexture2;
 };
+
+static inline void releaseReflection(TextureBaseClass *&texture)
+{
+	if (texture != 0) {
+		texture->Release_Ref();
+		texture = 0;
+	}
+}
 
 WaterRenderObjClass::~WaterRenderObjClass(void)
 {
@@ -93,12 +103,8 @@ WaterRenderObjClass::~WaterRenderObjClass(void)
 		m_indexBuffer = 0;
 	}
 
-	if (m_reflectionTexture != 0) {
-		TextureBaseClass *reflection = m_reflectionTexture;
-		if (reflection != 0)
-			reflection->Release_Ref();
-		m_reflectionTexture = 0;
-	}
+	if (m_reflectionTexture != 0)
+		releaseReflection(const_cast<TextureBaseClass *&>(m_reflectionTexture));
 	if (m_skyBox != 0)
 		m_skyBox->Release_Ref();
 
@@ -126,5 +132,4 @@ WaterRenderObjClass::~WaterRenderObjClass(void)
 		m_bumpTexture2->Release();
 		m_bumpTexture2 = 0;
 	}
-
 }
