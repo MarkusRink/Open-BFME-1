@@ -85976,3 +85976,6 @@ _bfmeVftEAZ,0x00CFA338,pin vftable for BfmeConv2016
 ??0Rva00690FF0Handle@@QAE@XZ,0x00690FE0,one-pointer owning-handle default constructor body is the 9-byte null constructor at RVA 0x00690FE0; retail call uses auto-discovered ILT 0x004035EE and adjacent 0x00690FF0 is the matched same-type pointee constructor;campaign=luna36h-20260907;lane=expand23;model=gpt-5.6-sol-ultra
 ??0Rva00434810SubtitleEntry@@QAE@PAVGameFont@@ABVUnicodeString@@IHHHHH@Z,0x00434810,neutral direct-body derived SubtitleEntry constructor: matched base-ctor call then vtable 0x010F3920 and three owned display strings; target call encodes ILT 0x0004A7AA which retail routes here; campaign=luna36h-20260907;lane=expand17;model=gpt-5.6-sol-ultra
 ??4ExperienceLevel@@QAEAAV0@ABV0@@Z,0x00381690,body identity from full D8 field-by-field assignment including AsciiString four vectors ModelConditionFlags RadiusDecalTemplate and scalar tail; retail copy constructor calls it through ILT 0x0000AEC0;campaign=luna36h-20260907;lane=hlod;model=gpt-5.6-sol-ultra
+?bfmeSetMatrixTN@BfmeThingTN@@QAEXPBVMatrix3DTN@@@Z,0x000361CE,pin set matrix for BfmeConv2024
+?bfmeMarkTN@BfmeThingTN@@QAEXI@Z,0x0002BB43,pin mark for BfmeConv2024
+?bfmeFlagTN@BfmeXTN@@QAEXH@Z,0x00034C3E,pin flag for BfmeConv2024
