@@ -5876,7 +5876,7 @@ name,address,notes
 ??1ParticleSystem@@MAE@XZ,0x00007CBB,authentic protected virtual destructor callee; ParticleSystem vtable 0x0110FE48 and scalar wrapper prove identity
 ??1Gen_dtor_005cf020@@UAE@XZ,0x00029BF9,gen-dtor class destructor
 ??1Particle@@MAE@XZ,0x00005556,authentic protected virtual destructor callee; Particle vtable 0x0110FE8C and scalar wrapper prove identity
-??1ParticleSystemInfo@@UAE@XZ,0x00029BF9,authentic virtual destructor callee; vtable 0x0110FE78 and FXParticleInfo name slot prove identity
+??1ParticleInfo@@UAE@XZ,0x00029BF9,authentic virtual destructor callee; vtable 0x0110FE78 and FXParticleInfo name slot prove identity
 ??1Gen_dtor_005cf050@@UAE@XZ,0x00005556,gen-dtor class destructor
 ??1Gen_dtor_005d2300@@UAE@XZ,0x00030652,gen-dtor class destructor
 ??1Gen_dtor_005d2bd0@@UAE@XZ,0x0003B719,gen-dtor class destructor
