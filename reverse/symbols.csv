@@ -86282,3 +86282,6 @@ _bfmeCbXK,0x0065BD00,Open-BFME5 completion callback the 0x0065BF40 http start pa
 ?bfmeAtXK@BfmeMapXK@@QAEAAPAUBfmeRecXK@@ABH@Z,0x0000C3B0,Open-BFME5 ILT map subscript the 0x0065BF40 http start uses
 ?Get_Texture@MaterialInfoClass@@QBE?AVBfmeHandleCX@@H@Z,0x000366DD,MaterialInfo texture getter call thunk reaches Gen_007A0340::bfmeGet at 0x007A0340 and returns an owning handle
 ?processAck@BfmeConnXN@@QAEPAVNetCommandRef@@GEI@Z,0x0003E66C,Open-BFME5 ILT connection processAck the 0x006621F0 and 0x00662230 ack wrappers call
+?bfmeDetachXP@Rva00579160Manager@@QAEXH@Z,0x000144BB,Open-BFME5 ILT window detach the 0x00470570 close-all calls
+?bfmeCloseXP@Rva00579160Manager@@QAEXH@Z,0x0002144A,Open-BFME5 ILT window close the 0x00470570 close-all calls
+?bfmeDoneXP@Shell40D9@@QAEXPAVBfmeHostXP@@H@Z,0x00002F1D,Open-BFME5 ILT shell shutdown-complete the 0x00470570 close-all calls
