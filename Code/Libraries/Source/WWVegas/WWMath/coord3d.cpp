@@ -474,71 +474,13 @@ void Coord3D::crossProduct(const Coord3D *left, const Coord3D *right, Coord3D *r
     result->z = left->x * right->y - left->y * right->x;
 }
 
-__declspec(naked) Coord3D &Coord3D::CrossProduct(const Coord3DBase &left, const Coord3DBase &right)
+Coord3D &Coord3D::CrossProduct(const Coord3DBase &left, const Coord3DBase &right)
 {
-    __asm {
-        __emit 0x8b
-        __emit 0x54
-        __emit 0x24
-        __emit 0x04
-        __emit 0x56
-        __emit 0x8b
-        __emit 0x74
-        __emit 0x24
-        __emit 0x0c
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x08
-        __emit 0x8b
-        __emit 0xc1
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x04
-        __emit 0xd9
-        __emit 0x46
-        __emit 0x04
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x08
-        __emit 0xde
-        __emit 0xe9
-        __emit 0xd9
-        __emit 0x18
-        __emit 0xd9
-        __emit 0x06
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x08
-        __emit 0xd9
-        __emit 0x02
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x08
-        __emit 0xde
-        __emit 0xe9
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x04
-        __emit 0xd9
-        __emit 0x02
-        __emit 0xd8
-        __emit 0x4e
-        __emit 0x04
-        __emit 0xd9
-        __emit 0x06
-        __emit 0x5e
-        __emit 0xd8
-        __emit 0x4a
-        __emit 0x04
-        __emit 0xde
-        __emit 0xe9
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x08
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
-    }
+    // Preserve the original x87 load order for the two shared operands.
+    x = left.y * right.z - left.z * *(const volatile float *)&right.y;
+    y = left.z * *(const volatile float *)&right.x - left.x * right.z;
+    z = left.x * right.y - left.y * right.x;
+    return *this;
 }
 
 Coord3D &Coord3D::SetZero()
