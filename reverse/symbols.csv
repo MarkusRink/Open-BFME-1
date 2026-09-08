@@ -86330,3 +86330,5 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeGetIdYX@BfmeThingYX@@QAEHXZ,0x000029D7,Open-BFME5 ILT id getter the 0x002C9A70 apply calls
 ?g_Va013385F8@@3EA,0x013385F8,Neutral Apt lookup key; absolute data VA from target899C20 operand+0C
 ?g_Va013387D8@@3PAURva00899C20Registry@@A,0x013387D8,Neutral Apt registry pointer; absolute data VA from target899C20 operands+07/+21; table subobject at+8
+?bfmeFinalZB@BfmeOverride1137@@QAEPAV1@XZ,0x000022BB,Open-BFME5 ILT override walk the 0x0045B060 destructor calls
+??_7BfmeHostZB@@6B@,0x00CF6898,Open-BFME5 vftable the 0x0045B060 destructor installs
