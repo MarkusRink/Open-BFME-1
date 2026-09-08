@@ -3,11 +3,12 @@
 Started: 2026-09-07 16:41:55 UTC (2026-09-08 01:41:55 JST).
 Deadline: 2026-09-08 04:41:55 UTC (13:41:55 JST).
 Execution base: `8fe7448503316d344fb623d467f3b107126cd9c5`.
-Status: phase 3 ownership/cohesion work is active; 80 cleanup/prerequisite units
-are published through `c8d5bfe7c5`. Full integration at that snapshot completed
-with three red categories and no new function-comparison failure. The added
-DIR32 finding belongs to an external terrain change. Isolated workers continue.
-The full gate has not passed. See [README.md](README.md) for the standing runbook.
+Status: phase 4 naming and ownership work is active; 90 cleanup/prerequisite
+units are published through `4e8be7d877`. Full integration at that snapshot
+completed with three red categories, no new function-comparison failure and
+no changed DIR32 inconsistency identities or address sets. Isolated workers
+continue. The full gate has not passed. See [README.md](README.md) for the
+standing runbook.
 
 ## Ownership
 
@@ -17,8 +18,8 @@ branches, indexes and build outputs. Coordinator alone publishes master.
 | Worker/root suffix | Current exclusive responsibility |
 |---|---|
 | cleanup_metrics / metrics | Independent final reviews, landed samples and full-gate attribution |
-| cleanup_placement / placement | Reviewed reference-state destructor; Drawable lifecycle implementation |
-| cleanup_evidence / evidence | Neutral 9F2800 destructor and retirement of its false aliases |
+| cleanup_placement / placement | Reviewed Drawable cohesion; Anim2D collection consolidation |
+| cleanup_evidence / evidence | CritterEmitter factory/constructor identities and exception cleanup |
 
 Existing contributor worktrees are preserved. No new service, port, database,
 shared writable cache or external fleet configuration is required.
@@ -512,6 +513,69 @@ observed results; do not prefill reviews or claim unmeasured speedups.
   unrelated 9F2800 owner, and the coordinator prepares true FXListStore cohesion after its identity
   dependency is resolved. Next review is 23:41:55 UTC; the deadline remains
   04:41:55 UTC. The eight-unit count stops at the actual hour boundary.
+
+### Hour 7: review 23:37–00:01 UTC
+
+- Delivered by 23:41:55: 90 cleanup/prerequisite units, ten this elapsed hour.
+  Team patches total 5,366 Code lines added and 6,351 removed: net -985 across
+  164 distinct source paths; this hour contributes net -239. The count excludes
+  the hourly document and a reviewed Drawable consolidation still awaiting
+  publication. No generated source was edited.
+- Concrete outcomes include true FXListStore and FXList lifecycles, one neutral
+  owner replacing unrelated 9F2800 destructor aliases, and Drawable icon types,
+  slot indexes and local names matching their actual layout. Three callbacks
+  falsely described as FX parsers now use ObjectCreationList types and paths
+  for InstantDeath, CritterEmitter and StructureTopple. Raw registration/field
+  tables establish module ownership; unknown original class or static-method
+  spellings stay explicit. Byte equality alone is not identity evidence.
+- Independent landed samples of FXList and the three OCL parsers match all four
+  reviewed source hashes and seven exact rows. The reviewer re-read primary PE
+  return-type exports and raw OCL/SpawnObject field records. No source drift or
+  unsupported new identity was found; no duplicate build was run for sampling.
+- Full check: `4e8be7d877e273e1a600f7e6c6ff7bbe29785855`, 23:35:04.399279 to
+  23:41:18.567221 UTC, 374.168s, exit 1, snapshot preserved. All 175 function
+  failures are subsets of the previous 180 and initial 214. Three removed pairs
+  are our retired false VectorClass scalar aliases; external `ce23dcdd6e` fixes
+  a NetPacket serializer binding and `1235860512` repairs a falsely named factory.
+  Cumulatively, 35 removed pairs intersect team changes and four external
+  changes. This is not a count of repaired runtime behaviors.
+- All 97 DIR32 inconsistency identities and their full address sets are unchanged
+  from hour 6. A separate read-only scan took 73.495s. Ninety-five site lists
+  are identical; exception-list claim churn and three newly truthful OCL parser
+  references explain the other two. Existing conflicting OCL global references
+  remain. Strings 19,500 plus 1,123 empty references, 13,395 source claims, pins
+  and null relocation pass. Null relocation is 65/19 with 739 unreadable rows,
+  below the unchanged 1,000 limit. No-op remains blocked, so three categories
+  remain red. The gate compiled 45 TUs and reused 13,933 current cache entries.
+- Reflection on the early-caller-audit trial: all three prospective units had
+  correct REL32 consumer predictions. Precompile audit ordering is documented
+  for two; the neutral 9F2800 audit timing is unrecorded. Its 1.709s measurement
+  is compile time, not audit time. Its mandatory C61E10 exception-cleanup row
+  was discovered after the exact scratch body existed, before tracked edits.
+  Thus two units avoided late dependency expansion; a universal success claim
+  is unsupported. Keep early caller audits and explicitly inspect EH ownership.
+  No controlled elapsed-time saving has been measured.
+- Reviews caught misleading parser types, false owner names and layout claims.
+  Most recorded decisions took 45–102s. The 9F2800 decision was complete at
+  22:58:50 but reached its author at 23:01:44; reviewer context compaction
+  intervened before sending. This is a coordination delay, not proven transport
+  latency. Send decisions directly before further work. The full check ended
+  before the boundary, but checkpoint publication is late; preserve actual
+  timestamps and continue rather than backdating the review.
+- Next measured adjustment: select extra integration callers from the
+  coordinator's current objects instead of copying the worker's conservative
+  cold-cache list. Always include every changed surviving Code TU and both
+  checked callable/pin selector outputs; retain normal hooks and all full-gate
+  triggers. For the next three identity units record worker versus coordinator
+  source/claim counts, selector and build durations, and unexpected consumers.
+  FXList needed 19 worker sources/6,799 claims while current coordinator evidence
+  already excluded all retained callers; this is an opportunity, not an observed
+  speedup. Use existing selectors and publication arguments, without new tooling.
+- Next owners: placement finishes animation collection cohesion, evidence
+  corrects the CritterEmitter factory and constructor, and metrics independently
+  reviews both. Coordinator publishes held Drawable cohesion and checks the
+  separately discovered Anim2D draw prefix claim. Next review is 00:41:55 UTC;
+  the deadline remains 04:41:55 UTC.
 
 ## Resume
 
