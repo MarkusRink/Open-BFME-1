@@ -78668,6 +78668,7 @@ name,address,notes
 ?findHeaderTemplate@HeaderTemplateManager@@QAEPAVHeaderTemplate@@VAsciiString@@@Z,0x0048C8C0,direct body pin: HeaderTemplateManager list lookup proven by 0x00487F80 caller and retail manager/template offsets; resolver derives ILT 0x0004881A; campaign=luna36h-20260907;lane=mid
 ?findImageByName@ImageCollection@@QAEPBVImage@@ABVAsciiString@@@Z,0x0001D606
 ?findImageByName@MappedImageCollection@@QAEPBVImage@@ABVAsciiString@@@Z,0x0001D606
+?resolveNames@ProductionPrerequisite@@QAEXXZ,0x0002DFBF,ThingTemplate resolveNames prerequisite loop through the retail ILT
 ?findImageByName@MappedImageCollectionPortraitShim@@QAEPBVImage@@ABVAsciiString@@@Z,0x0001D606,BFME portrait selector image lookup ILT
 ?findImageByName@Open2Images143730@@QAEPBVImage@@ABVAsciiString@@@Z,0x0001D606,Open2 0x00143730 portrait twin callee
 ?findLadderByIndex@LadderList@@QAEPBVLadderInfo@@H@Z,0x00028E93
