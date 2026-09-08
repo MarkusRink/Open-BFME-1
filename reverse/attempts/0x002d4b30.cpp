@@ -73,10 +73,10 @@ GenerateMinefieldBehaviorModuleData::GenerateMinefieldBehaviorModuleData() :
 	m_distanceAroundObject(0.0f),
 	m_minesPerSquareFoot(0.0f)
 {
-	GMBDefaultString &defaultName = m_bfmeDefaultName;
+	GMBDefaultString *defaultName = &m_bfmeDefaultName;
 	m_onDeath = false;
-	defaultName.m_data = 0;
+	defaultName->m_data = 0;
 	_ReadWriteBarrier();
-	defaultName.set("<UNSPECIFIED>", 13);
+	defaultName->set("<UNSPECIFIED>", 13);
 	m_borderOnly = false;
 }
