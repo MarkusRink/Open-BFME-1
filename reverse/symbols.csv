@@ -2514,6 +2514,7 @@ name,address,notes
 ??0CreateObjectDie@@QAE@PAVThing@@PBVModuleData@@@Z,0x0001D3AE,pinharvest x1 (thunk)
 ??0CreateObjectDieModuleData@@QAE@XZ,0x00010B2C,derived-ICF
 ??0CriticalSectionClass@@QAE@XZ,0x009DB420
+??0CritterEmitterUpdateModuleDataInner@@QAE@XZ,0x0000F0A6,CritterEmitterUpdateModuleData +0x08 base member constructor called before the derived vtable store and paired with its matched destructor
 ??0CrushDie@@QAE@PAVThing@@PBVModuleData@@@Z,0x0001D3AE,pinharvest x1 (thunk)
 ??0CullNodeStruct@AABTreeBuilderClass@@QAE@XZ,0x0096B500
 ??0CullSystemClass@@QAE@XZ,0x008E2140
