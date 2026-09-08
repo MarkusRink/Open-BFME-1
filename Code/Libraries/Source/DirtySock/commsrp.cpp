@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX /Od /GZ
+// cl: /DNDEBUG /MD /GX /Od /GZ /GS
 
 #define _DLL
 #include <string.h>
@@ -12,9 +12,15 @@ extern "C" {
 	int CommSRPResolve();
 	int CommSRPSend(void *ref, const void *buffer, int length, int flags);
 	int CommSRPListen();
-	int CommSRPConnect();
+	int CommSRPConnect(void *ref, const char *text);
 	int Rva00815680(void *ref, void *packet);
 	int Rva00815AB0(void *ref, void *packet);
+	int Rva007FFDD0(unsigned int *address, int *port, int *extra, const char *text);
+	void Rva00816910(void *ref);
+	void *Rva007FD2D0(int family, int type, int protocol);
+	void Rva008154F0(void *ref, void *socket);
+	int Rva007FD510(void *socket, const void *address, int length);
+	int Rva007FDE80(void *socket, int flags, int interval, void *ref, void *callback);
 }
 
 int Rva007FE780Printf(const char *format, ...);
@@ -313,222 +319,58 @@ L02_816879:
 }
 
 // Connects out, logging "CommSRPConnect: Error %d binding socket".
-__declspec(naked) int CommSRPConnect()
+
+int CommSRPConnect(void *ref, const char *text)
 {
-	__asm {
-		push ebp
-		mov ebp, esp
-		sub esp, 4Ch
-		push edi
-		lea edi,  [ebp-4Ch]
-		mov ecx, 13h
-		mov eax, 0CCCCCCCCh
-		rep stosd
-		__emit 0A1h
-		__emit 0B0h
-		__emit 0BDh
-		__emit 02Dh
-		__emit 001h   // mov eax, dword ptr [0x12dbdb0]
-		mov dword ptr [ebp-4h], eax
-		mov eax, dword ptr [ebp+8h]
-		cmp dword ptr [eax+90h], 0h
-		jne L00_8169A3
-		mov ecx, dword ptr [ebp+8h]
-		cmp dword ptr [ecx+7Ch], 0h
-		je L01_8169AD
-L00_8169A3:
-		mov eax, 0FFFFFFFEh
-		jmp L02_816B6B
-L01_8169AD:
-		mov edx, dword ptr [ebp+0Ch]
-		push edx
-		lea eax,  [ebp-28h]
-		push eax
-		lea ecx,  [ebp-34h]
-		push ecx
-		lea edx,  [ebp-40h]
-		push edx
-		__emit 0E8h
-		__emit 00Eh
-		__emit 094h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FFDD0
-		add esp, 10h
-		and eax, 3h
-		cmp eax, 3h
-		je L03_8169D7
-		mov eax, 0FFFFFFFDh
-		jmp L02_816B6B
-L03_8169D7:
-		cmp dword ptr [ebp-28h], 0h
-		jne L04_8169EC
-		mov eax, dword ptr [ebp-34h]
-		mov dword ptr [ebp-28h], eax
-		mov ecx, dword ptr [ebp-34h]
-		add ecx, 1h
-		mov dword ptr [ebp-34h], ecx
-L04_8169EC:
-		mov edx, dword ptr [ebp+8h]
-		push edx
-		__emit 0E8h
-		__emit 01Bh
-		__emit 0FFh
-		__emit 0FFh
-		__emit 0FFh   // call 0x816910
-		add esp, 4h
-		push 0h
-		push 2h
-		push 2h
-		__emit 0E8h
-		__emit 0CDh
-		__emit 068h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FD2D0
-		add esp, 0Ch
-		mov dword ptr [ebp-48h], eax
-		mov eax, dword ptr [ebp-48h]
-		push eax
-		mov ecx, dword ptr [ebp+8h]
-		push ecx
-		__emit 0E8h
-		__emit 0DAh
-		__emit 0EAh
-		__emit 0FFh
-		__emit 0FFh   // call 0x8154F0
-		add esp, 8h
-		mov edx, dword ptr [ebp+8h]
-		cmp dword ptr [edx+7Ch], 0h
-		jne L05_816A2C
-		mov eax, 0FFFFFFFCh
-		jmp L02_816B6B
-L05_816A2C:
-		mov word ptr [ebp-18h], 2h
-		mov word ptr [ebp-16h], 0h
-		mov dword ptr [ebp-14h], 0h
-		mov dword ptr [ebp-10h], 0h
-		mov dword ptr [ebp-0Ch], 0h
-		mov eax, dword ptr [ebp-34h]
-		sar eax, 8h
-		mov byte ptr [ebp-16h], al
-		mov cl, byte ptr [ebp-34h]
-		mov byte ptr [ebp-15h], cl
-		push 10h
-		lea edx,  [ebp-18h]
-		push edx
-		mov eax, dword ptr [ebp+8h]
-		mov ecx, dword ptr [eax+7Ch]
-		push ecx
-		__emit 0E8h
-		__emit 0A2h
-		__emit 06Ah
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FD510
-		add esp, 0Ch
-		mov dword ptr [ebp-20h], eax
-		cmp dword ptr [ebp-20h], 0h
-		jge L06_816A95
-		mov edx, dword ptr [ebp-20h]
-		push edx
-		push 12C4D1Ch
-		__emit 0E8h
-		__emit 0F8h
-		__emit 07Ch
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 8h
-		mov eax, 0FFFFFFFBh
-		jmp L02_816B6B
-L06_816A95:
-		mov eax, dword ptr [ebp+8h]
-		mov word ptr [eax+80h], 2h
-		mov ecx, dword ptr [ebp+8h]
-		mov word ptr [ecx+82h], 0h
-		mov edx, dword ptr [ebp+8h]
-		mov dword ptr [edx+84h], 0h
-		mov eax, dword ptr [ebp+8h]
-		mov dword ptr [eax+88h], 0h
-		mov ecx, dword ptr [ebp+8h]
-		mov dword ptr [ecx+8Ch], 0h
-		mov edx, dword ptr [ebp-40h]
-		mov dword ptr [ebp-4Ch], edx
-		mov eax, dword ptr [ebp+8h]
-		mov cl, byte ptr [ebp-4Ch]
-		mov byte ptr [eax+87h], cl
-		mov edx, dword ptr [ebp-4Ch]
-		shr edx, 8h
-		mov dword ptr [ebp-4Ch], edx
-		mov eax, dword ptr [ebp+8h]
-		mov cl, byte ptr [ebp-4Ch]
-		mov byte ptr [eax+86h], cl
-		mov edx, dword ptr [ebp-4Ch]
-		shr edx, 8h
-		mov dword ptr [ebp-4Ch], edx
-		mov eax, dword ptr [ebp+8h]
-		mov cl, byte ptr [ebp-4Ch]
-		mov byte ptr [eax+85h], cl
-		mov edx, dword ptr [ebp-4Ch]
-		shr edx, 8h
-		mov dword ptr [ebp-4Ch], edx
-		mov eax, dword ptr [ebp+8h]
-		mov cl, byte ptr [ebp-4Ch]
-		mov byte ptr [eax+84h], cl
-		mov edx, dword ptr [ebp-28h]
-		sar edx, 8h
-		mov eax, dword ptr [ebp+8h]
-		mov byte ptr [eax+82h], dl
-		mov ecx, dword ptr [ebp+8h]
-		mov dl, byte ptr [ebp-28h]
-		mov byte ptr [ecx+83h], dl
-		push 0C15B50h
-		mov eax, dword ptr [ebp+8h]
-		push eax
-		push 64h
-		push 2h
-		mov ecx, dword ptr [ebp+8h]
-		mov edx, dword ptr [ecx+7Ch]
-		push edx
-		__emit 0E8h
-		__emit 027h
-		__emit 073h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FDE80
-		add esp, 14h
-		mov eax, dword ptr [ebp+8h]
-		mov dword ptr [eax+90h], 1h
-		xor eax, eax
-L02_816B6B:
-		push edx
-		mov ecx, ebp
-		push eax
-		__emit 08Dh
-		__emit 015h
-		__emit 093h
-		__emit 06Bh
-		__emit 0C1h
-		__emit 000h   // lea edx, [0xc16b93]
-		__emit 0E8h
-		__emit 0ABh
-		__emit 009h
-		__emit 01Eh
-		__emit 000h   // call 0x9F7525
-		pop eax
-		pop edx
-		mov ecx, dword ptr [ebp-4h]
-		__emit 0E8h
-		__emit 070h
-		__emit 009h
-		__emit 01Eh
-		__emit 000h   // call 0x9F74F4
-		pop edi
-		add esp, 4Ch
-		cmp ebp, esp
-		__emit 0E8h
-		__emit 073h
-		__emit 009h
-		__emit 01Eh
-		__emit 000h   // call 0x9F7502
-		mov esp, ebp
-		pop ebp
-		ret
+	char socketAddress[0x10];
+	int result;
+	int peerPort;
+	int bindPort;
+	unsigned int address;
+	void *socket;
+	unsigned int temp;
+
+	if (*(int *)((char *)ref + 0x90) != 0 || *(int *)((char *)ref + 0x7C) != 0) {
+		return -2;
 	}
+	if ((Rva007FFDD0(&address, &bindPort, &peerPort, text) & 3) != 3) {
+		return -3;
+	}
+	if (peerPort == 0) {
+		peerPort = bindPort;
+		++bindPort;
+	}
+	Rva00816910(ref);
+	socket = Rva007FD2D0(2, 2, 0);
+	Rva008154F0(ref, socket);
+	if (*(void **)((char *)ref + 0x7C) == 0) {
+		return -4;
+	}
+	*(unsigned short *)&socketAddress[0] = 2;
+	*(unsigned short *)&socketAddress[2] = 0;
+	*(unsigned int *)&socketAddress[4] = 0;
+	*(unsigned int *)&socketAddress[8] = 0;
+	*(unsigned int *)&socketAddress[12] = 0;
+	socketAddress[2] = (unsigned char)(bindPort >> 8);
+	socketAddress[3] = (unsigned char)bindPort;
+	result = Rva007FD510(*(void **)((char *)ref + 0x7C), socketAddress, 0x10);
+	if (result < 0) {
+		Rva007FE780Printf("CommSRPConnect: Error %d binding socket\n", result);
+		return -5;
+	}
+	*(unsigned short *)((char *)ref + 0x80) = 2;
+	*(unsigned short *)((char *)ref + 0x82) = 0;
+	*(unsigned int *)((char *)ref + 0x84) = 0;
+	*(unsigned int *)((char *)ref + 0x88) = 0;
+	*(unsigned int *)((char *)ref + 0x8C) = 0;
+	temp = address;
+	*((unsigned char *)ref + 0x87) = (unsigned char)temp; temp >>= 8;
+	*((unsigned char *)ref + 0x86) = (unsigned char)temp; temp >>= 8;
+	*((unsigned char *)ref + 0x85) = (unsigned char)temp; temp >>= 8;
+	*((unsigned char *)ref + 0x84) = (unsigned char)temp;
+	*((unsigned char *)ref + 0x82) = (unsigned char)(peerPort >> 8);
+	*((unsigned char *)ref + 0x83) = (unsigned char)peerPort;
+	Rva007FDE80(*(void **)((char *)ref + 0x7C), 2, 0x64, ref, (void *)0x00C15B50);
+	*(int *)((char *)ref + 0x90) = 1;
+	return 0;
 }
