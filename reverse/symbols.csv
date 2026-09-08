@@ -62239,6 +62239,8 @@ name,address,notes
 ?b_00618860@@YAXXZ,0x00618860,gen-thunk body
 ?b_00618890@@YAXXZ,0x00618890,gen-thunk body
 ?b_00618980@@YAXXZ,0x00618980,gen-thunk body
+?rva00618980@Rva00618980Object@@QAEXH@Z,0x00618980,LivingWorldManager field +0x1A8 cleanup helper called by 0x00616410
+?clear@?$hashtable@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAURva00615D50Object@@@_STL@@@2@@_STL@@QAEXXZ,0x006132E0,LivingWorldManager +0x224 object map clear called by 0x00616410
 ?b_00618a00@@YAXXZ,0x00618A00,gen-thunk body
 ?b_00618a90@@YAXXZ,0x00618A90,gen-thunk body
 ?b_00618c90@@YAXXZ,0x00618C90,gen-thunk body
