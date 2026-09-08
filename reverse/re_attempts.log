@@ -12716,3 +12716,26 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_006b0630@@YAXXZ	0x006B0630	299	blocked	served d_006a9200.asm; complex body lacks safe clean identity and byte-exact source shape; t=5 model=gpt-5.6
 ?d_006b0850@@YAXXZ	0x006B0850	414	blocked	served d_006a9200.asm; complex body lacks safe clean identity and byte-exact source shape; t=5 model=gpt-5.6
 ?d_006ace90@@YAXXZ	0x006ACE90	113	blocked	served d_006a9200.asm; by-value GameSpy room operation has unresolved owning method identity; t=5 model=gpt-5.6
+?d_004498d0@@YAXXZ	0x004498D0	302	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_0044a240@@YAXXZ	0x0044A240	127	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_0044a6a0@@YAXXZ	0x0044A6A0	356	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_0044b3f0@@YAXXZ	0x0044B3F0	716	blocked	served d_00448a60.asm; large generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_0044c120@@YAXXZ	0x0044C120	242	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_0044ced0@@YAXXZ	0x0044CED0	574	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_0044d960@@YAXXZ	0x0044D960	446	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_0044f410@@YAXXZ	0x0044F410	150	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_0044f960@@YAXXZ	0x0044F960	427	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_004502d0@@YAXXZ	0x004502D0	153	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_00450460@@YAXXZ	0x00450460	146	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_00450cd0@@YAXXZ	0x00450CD0	143	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_00450de0@@YAXXZ	0x00450DE0	375	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_00451350@@YAXXZ	0x00451350	211	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_004515f0@@YAXXZ	0x004515F0	188	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_00451e90@@YAXXZ	0x00451E90	164	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_00451f60@@YAXXZ	0x00451F60	122	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_00452000@@YAXXZ	0x00452000	220	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_004525b0@@YAXXZ	0x004525B0	152	blocked	served d_00448a60.asm; no built object emits the generated candidate and no named caller reaches it; t=4 model=gpt-5.6
+?d_00452ad0@@YAXXZ	0x00452AD0	656	blocked	served d_00448a60.asm; large generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_00453480@@YAXXZ	0x00453480	225	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_00454300@@YAXXZ	0x00454300	164	blocked	served d_00448a60.asm; generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
+?d_00454b00@@YAXXZ	0x00454B00	802	blocked	served d_00448a60.asm; large generated body has no safe clean identity or reconstruction; t=4 model=gpt-5.6
