@@ -15330,3 +15330,4 @@ _ciCallCallback	0x008712F0	369	blocked	Identity is the GameSpy Chat SDK callback
 ?d_0046fd40@@YAXXZ	0x0046FD40	1228	blocked	t=2m model=gpt-5; tools/find_emitter.py reports no built object defines 0x0046FD40; identity detectors provide no trustworthy real owner, so no honest C++ body can be attempted.
 ?d_00471900@@YAXXZ	0x00471900	1170	blocked	t=2m model=gpt-5; tools/find_emitter.py reports no built object defines 0x00471900; identity detectors provide no trustworthy real owner, so no honest C++ body can be attempted.
 ?d_00472000@@YAXXZ	0x00472000	387	blocked	t=2m model=gpt-5; tools/find_emitter.py reports no built object defines 0x00472000; identity detectors provide no trustworthy real owner, so no honest C++ body can be attempted.
+?d_004721f0@@YAXXZ	0x004721F0	586	blocked	t=2m model=gpt-5; tools/find_emitter.py reports no built object defines 0x004721F0; identity detectors provide no trustworthy real owner, so no honest C++ body can be attempted.
