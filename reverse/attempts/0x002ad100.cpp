@@ -1,54 +1,47 @@
-// ?apply@Rva002AD100@@QAEXXZ
-// partial score=0.63 date=2026-09-04
-// ?apply@Rva002AD100@@QAEXXZ
-// partial score=0.63 date=2026-09-04
-// cl: /DNDEBUG /MD
-
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Coord3D
+// ?bfmeRunXG@BfmeHostXG@@QAEXXZ
+// partial score=0.9 date=2026-09-08
+// pin needed: ?bfmeApplyXG@BfmeHostXG@@QAEXPAUBfmeFieldAXG@@PAUBfmeFieldBXG@@@Z,0x0001B04A
+struct BfmeFieldAXG
 {
-	float x, y, z;
+	int m_bfmeVXG;
+};
+
+struct BfmeFieldBXG
+{
+	int m_bfmeVXG;
 };
 
 struct RvaC4390First
 {
-	unsigned char m_pad[ 0x38 ];
-	Coord3D m_pos;
+	unsigned char m_bfmeHeadXG[0x38];
+	BfmeFieldBXG m_bfme38XG;
 };
 
 class RvaC4390Second
 {
 public:
-	RvaC4390First *resolve( int allowLookup );
-	Coord3D *getPosition() { return &m_pos; }
+	RvaC4390First *resolve(int k);
 
-	unsigned char m_pad[ 0x38 ];
-	Coord3D m_pos;
+	unsigned char m_bfmeHeadXG[0x38];
+	BfmeFieldAXG m_bfme38XG;
 };
 
-class Rva002AD100
+class BfmeHostXG
 {
 public:
-	void apply();
+	void bfmeRunXG();
+	void bfmeApplyXG(BfmeFieldAXG *a, BfmeFieldBXG *b);
 
-private:
-	void sibling( Coord3D *a, Coord3D *b );
-
-	void *m_vtable;
-	void *m_moduleData;
-	RvaC4390Second *m_object;
+	unsigned char m_bfmeHeadXG[8];
+	RvaC4390Second *m_bfme08XG;
 };
 
-// ?apply@Rva002AD100@@QAEXXZ
-void Rva002AD100::apply()
+void BfmeHostXG::bfmeRunXG()
 {
-	RvaC4390First *resolved = m_object->resolve( 0 );
-	if( !resolved )
-	{
-		Rva002AD100 *self = this;
-		self->sibling( m_object->getPosition(), m_object->getPosition() );
-		return;
-	}
-	Rva002AD100 *self = this;
-	self->sibling( &m_object->m_pos, &resolved->m_pos );
+	RvaC4390First *p = m_bfme08XG->resolve(0);
+
+	if (p == 0)
+		bfmeApplyXG(&m_bfme08XG->m_bfme38XG, &((RvaC4390First *)m_bfme08XG)->m_bfme38XG);
+	else
+		bfmeApplyXG(&m_bfme08XG->m_bfme38XG, &p->m_bfme38XG);
 }
