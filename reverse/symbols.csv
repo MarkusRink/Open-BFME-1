@@ -86400,3 +86400,6 @@ __imp__GetClientRect@8,0x0135901C,Open-BFME5 USER32 GetClientRect import the 0x0
 ?bfmeTickAAW@BfmeHostAAW@@QAEXXZ,0x0004ACC8,Open-BFME5 ILT pre-step the 0x006FD3C0 update calls first
 ?bfmeReadyAAW@Rva005A00B0Transition@@QAE_NXZ,0x00042E6F,Open-BFME5 ILT transition ready check the 0x006FD3C0 update calls
 ?g_bfmeDeltaAAW@@3MB,0x012F8230,Open-BFME5 frame delta the 0x006FD3C0 update adds and subtracts
+?bfmeCheckAAX@Glo012F1028Type@@QAE_NH@Z,0x00001078,Open-BFME5 ILT eligibility check the 0x006140C0 dispatch calls
+?bfmeApplyAAX@Glo012F1028Type@@QAEXH@Z,0x0003F7F1,Open-BFME5 ILT apply the 0x006140C0 dispatch calls after the cursor change
+?bfmeTailAAX@Glo012F1028Type@@QAEXH@Z,0x000206A8,Open-BFME5 ILT index handler the 0x006140C0 dispatch calls
