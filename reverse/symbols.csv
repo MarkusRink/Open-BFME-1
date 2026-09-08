@@ -86295,3 +86295,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?pruneDeadWanters@OpenContain@@QAEXXZ,0x00004953,OpenContain update helper reached through the retail thunk at 0x00224560
 ?clearCondition@Object@@QAEXH@Z,0x000348EC,Open-BFME5 ILT condition clear the 0x001FAEE0 refresh calls
 ?bfmeApplyXT@BfmeHostXT@@QAEXPAVObject@@H@Z,0x000157DA,Open-BFME5 ILT apply the 0x001FAEE0 refresh tail-calls
+?bfmeApplyXW@BfmeHostXW@@QAEXPAVObject@@H@Z,0x000157DA,Open-BFME5 ILT apply the 0x00256CD0 setter calls
