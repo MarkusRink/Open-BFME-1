@@ -86300,3 +86300,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?clearCondition@Object@@QAEXH@Z,0x000348EC,Open-BFME5 ILT condition clear the 0x001FAEE0 refresh calls
 ?bfmeApplyXT@BfmeHostXT@@QAEXPAVObject@@H@Z,0x000157DA,Open-BFME5 ILT apply the 0x001FAEE0 refresh tail-calls
 ?bfmeApplyXW@BfmeHostXW@@QAEXPAVObject@@H@Z,0x000157DA,Open-BFME5 ILT apply the 0x00256CD0 setter calls
+?bfmeEnabledXY@AudioEventRTS@@QAE_NXZ,0x0000F380,Open-BFME5 ILT enabled test the 0x00695F80 position getter calls
