@@ -9645,6 +9645,7 @@ name,address,notes
 ??_7Rva00740AE0@@6B@,0x0112171C,derived vftable stored by the 0x00740AE0 constructor
 ??_7Rva00740AE0Base@@6B@,0x010C7450,base vftable stored by the 0x00740AE0 constructor
 ??_7Rva00745B10Owner@@6B@,0x011217A0,primary vftable of the 0x2450-byte owner (ctor 0x00745B10 dtor 0x007461B0)
+??0Rva00741830@@QAE@ABVAsciiString@@ABUCoord3D@@MMMMMM@Z,0x00741830,constructor ABI alias for six float values used by the W3DView camera snapshot
 ??_7Rva00745B10Owner@@6BRva007461B0BaseS@@@,0x01121790,second-base vftable of the owner (subobject at +0xb4)
 ??_7Rva00745B10Owner@@6BSubsystemInterface@@@,0x01121764,SubsystemInterface vftable of the owner (subobject at +0xfc)
 ??_7Rva007461B0BaseS@@6B@,0x011216B0,vftable of the second base restored by its inline destructor in 0x007461B0
