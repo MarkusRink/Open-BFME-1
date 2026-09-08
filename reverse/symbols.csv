@@ -84025,6 +84025,7 @@ _ciInChannel,0x00871C40,gamespy-chat: checks if client is in channel
 _ciInitCallbacks,0x008702C0,gamespy-chat: second of the four init calls in chatConnectDoit at 0x00861ED0
 _ciInitChannels,0x008717B0,gamespy-chat: first of the four init calls in chatConnectDoit at 0x00861ED0
 _ciJoinCallbackCalled,0x00871E90,gamespy-chat: marks join callback called
+_ciParseUser,0x0085ADD0,GameSpy Chat 1.15.00 chatSocket.c static user-prefix parser; exact ciParseMessage caller and contiguous source order prove identity
 _ciProcessServerMessage,0x00860110,"Complete85-byte static helper independently matches. GameSpy source command dispatch loop, strcmp import,54-entry table, hidden message in EDI induced from real same-TU parameters."
 _ciRemoveFilter,0x0086BB80,"Root compared complete upstream filter match/removal/finish algorithms and independently byte-verified all6 complete symbols together: find157, remove104, finish1224, list-end108, whois-user225, whois-channels232. Real static helper definitions with explicit parameters allow MSVC private register ABI; no implicit-register extern dependency. Callback variants retain real param sizes and cleanup lists. Protocol table commands323/311/319 independently anchor handler names. All relocations resolve, no masked bytes or emitted vtables. Existing unused get-key helper is complete upstream C and not credited."
 _ciSetChannelMode,0x00871D10,gamespy-chat: sets channel mode
