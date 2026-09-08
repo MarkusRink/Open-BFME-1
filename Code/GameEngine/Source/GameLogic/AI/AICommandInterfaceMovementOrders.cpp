@@ -4,6 +4,7 @@
 // it out of where it is.
 //
 //   ?aiMoveToPosition@         0x000D86C0, AICMD 0x00
+//   ?aiIdle@                   0x000D87E0, AICMD 0x05
 //   ?aiHunt@                   0x000D88D0, AICMD 0x12
 //   ?aiEnter@                  0x000D89C0, AICMD 0x17
 //   ?aiEvacuate@               0x000D8AC0, AICMD 0x1B
@@ -49,6 +50,7 @@ struct Coord3D
 enum AICommandType
 {
 	AICMD_MOVE_TO_POSITION = 0x00,
+	AICMD_IDLE = 0x05,
 	AICMD_ATTACKMOVE_TO_POSITION = 0x0F,
 	AICMD_HUNT = 0x12,
 	AICMD_ENTER = 0x17,
@@ -94,6 +96,7 @@ public:
 	virtual void aiDoCommand( const AICommandParms *parms ) = 0;
 
 	void aiMoveToPosition( const Coord3D *pos, CommandSourceType cmdSource );
+	void aiIdle( CommandSourceType cmdSource );
 	void aiHunt( CommandSourceType cmdSource );
 	void aiEnter( Object *obj, CommandSourceType cmdSource );
 	void aiEvacuate( bool exposeStealthUnits, CommandSourceType cmdSource );
@@ -105,6 +108,12 @@ void AICommandInterface::aiMoveToPosition( const Coord3D *pos, CommandSourceType
 {
 	AICommandParms parms( AICMD_MOVE_TO_POSITION, cmdSource );
 	parms.m_pos = *pos;
+	aiDoCommand( &parms );
+}
+
+void AICommandInterface::aiIdle( CommandSourceType cmdSource )
+{
+	AICommandParms parms( AICMD_IDLE, cmdSource );
 	aiDoCommand( &parms );
 }
 

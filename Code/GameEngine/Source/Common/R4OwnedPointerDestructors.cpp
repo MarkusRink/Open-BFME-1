@@ -1,4 +1,4 @@
-// Seven 94-byte virtual destructors whose whole body is one delete of an owned
+// Six 94-byte virtual destructors whose whole body is one delete of an owned
 // member pointer -- and the mnemonic family turned out to be TWO SOURCE SHAPES,
 // which is exactly what the byte gate is for.
 //
@@ -16,17 +16,17 @@
 // leaves a following `p = 0` OUTSIDE the guarded block; a source-level
 // `if (p) { delete p; p = 0; }` pulls the store INSIDE it and the compiler does
 // not re-test.  Three rows jump 0x0D bytes (over the call AND the store) and
-// four jump 0x06 (over the call only).  Same instruction sequence, same length,
+// three jump 0x06 (over the call only).  Same instruction sequence, same length,
 // two different sources -- the mnemonic grouping could not see it, and both
-// spellings are written out below rather than one being forced onto all seven.
+// spellings are written out below rather than one being forced onto all six.
 //
-// AXES.  The member's OFFSET -- 0x24, 0x28, 0x2C, 0x50, 0x58, 0x60, 0x6C, all
-// seven distinct -- carried here as padding between the vptr and the pointer;
+// AXES.  The member's OFFSET -- 0x24, 0x28, 0x2C, 0x50, 0x60, 0x6C, all
+// six distinct -- carried here as padding between the vptr and the pointer;
 // and the BASE destructor's REL32, of which there are two, 0x000A1B30 and
 // 0x00172430.  The guard/no-guard split cuts ACROSS both, so it is a third
 // independent fact and not a restatement of either.  The vftable stored at
-// offset 0 is a DIR32 operand and costs no pin; all seven differ, which
-// independently confirms seven types rather than one seen seven times.
+// offset 0 is a DIR32 operand and costs no pin; all six differ, which
+// independently confirms six types rather than one seen six times.
 //
 // IDENTITY IS NOT RECOVERED.  Every name is derived from an address.
 //
@@ -72,7 +72,8 @@ R4_OWNED_PTR_DTOR_GUARDED( Rva00173F30, Gen000A1B30, 0x20 )
 R4_OWNED_PTR_DTOR_GUARDED( Rva001780A0, Gen00172430, 0x4C )
 R4_OWNED_PTR_DTOR_GUARDED( Rva00179550, Gen00172430, 0x5C )
 
-R4_OWNED_PTR_DTOR_PLAIN( Rva00183C10, Gen00172430, 0x54 )
+// Rva00183C10 now lives with its constructor and full 18-slot class in
+// GameLogic/AI/Rva00183AF0StateCtor.cpp.
 R4_OWNED_PTR_DTOR_PLAIN( Rva00183DC0, Gen00172430, 0x68 )
 R4_OWNED_PTR_DTOR_PLAIN( Rva002B85C0, Gen000A1B30, 0x24 )
 R4_OWNED_PTR_DTOR_PLAIN( Rva002BF7D0, Gen000A1B30, 0x28 )

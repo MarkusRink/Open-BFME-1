@@ -86239,3 +86239,6 @@ RenderObjectDrawConcrete_vtbl8,0x01111380,ConcreteModuleTemplate RenderObjectDra
 TerrainCollisionConcrete_vtbl0,0x01111450,ConcreteModuleTemplate TerrainCollision primary vtable
 TerrainCollisionConcrete_vtbl4,0x0111144C,ConcreteModuleTemplate TerrainCollision secondary vtable
 TerrainCollisionConcrete_vtbl12,0x01111438,ConcreteModuleTemplate TerrainCollision module-info vtable
+??0Rva00581F60SubMachine@@QAE@PAVObject@@VAsciiString@@@Z,0x00181F60,neutral submachine constructor: retail call ILT 0000DFA8 reaches matched 347B body; AIMoveToState nested AIAttackMoveMachine construction
+??1Rva00183C10@@UAE@XZ,0x0001C215,route=0x00183C10; scalar helper001873E0 complete destructor call; unified full18slot class owns existing94B destructor
+??1AIInternalMoveToState@@UAE@XZ,0x0004AAF7,route=0x00172430; complete state destructor00183C10 calls canonical AIInternalMoveToState through actual retail ILT; decoded call at00183C59
