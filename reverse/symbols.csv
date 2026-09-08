@@ -86313,8 +86313,8 @@ g_bfmeWindowManagerAR,0x012F1B40,Open-BFME5 the window manager the replay-contro
 g_bfmeZeroCY,0x01075350,Open-BFME5 the constant the ratio at 0x0075F3D0 falls back to
 g_rva0058BED0NextId,0x012F4B9C,address-derived update alias for the 0x0058BED0 identifier counter
 g_rva0058BED0ReadId,0x012F4B9C,address-derived read alias for the 0x0058BED0 identifier counter
-g_rva0088E000MessageText,0x01336EAC,dialog message pointer loaded by 0x0088E000 before SendDlgItemMessageA
-g_rva0088E000WindowText,0x01336EB0,dialog text pointer loaded by 0x0088E000 before SetWindowTextA
+_g_rva0088E000MessageText,0x01336EAC,dialog message pointer loaded by 0x0088E000 before SendDlgItemMessageA
+_g_rva0088E000WindowText,0x01336EB0,dialog text pointer loaded by 0x0088E000 before SetWindowTextA
 g_rva00891FA0Ready,0x01337808,address-derived diagnostics readiness flag read by 0x00891FA0
 g_rva00891FA0Value,0x013377F4,address-derived diagnostics value read by 0x00891FA0
 g_rva01336CE8,0x01336CE8,tracker owner table sentinel used by the 0x00883340 initializer
