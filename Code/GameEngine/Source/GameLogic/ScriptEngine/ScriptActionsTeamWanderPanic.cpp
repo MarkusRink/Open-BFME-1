@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/objectdlink /Ireference/shims/stringinline
-// Retail identity evidence names this body as TEAM_PANIC in the ScriptEngine
-// action table. The retail address is 0x00302090, and the adjacent team-wander
-// body has the same member-list walk with locomotor value 3 instead of 4.
+// Retail identity evidence names these bodies as TEAM_WANDER at 0x00301ED0 and
+// TEAM_PANIC at 0x00302090 in the ScriptEngine action table. Both bodies walk
+// the team member list and differ in their locomotor value and AI command.
 
 #include "StringInline.h"
 
@@ -173,6 +173,7 @@ enum CommandSourceType
 class AICommandInterface
 {
 public:
+	void aiWander(const Waypoint *, CommandSourceType);
 	void aiPanic(const Waypoint *, CommandSourceType);
 };
 
@@ -325,8 +326,38 @@ extern TerrainLogic *TheTerrainLogic;
 class ScriptActions
 {
 protected:
+	void doTeamWander(const AsciiString &, const AsciiString &);
 	void doTeamPanic(const AsciiString &, const AsciiString &);
 };
+
+void ScriptActions::doTeamWander(const AsciiString &teamName,
+	const AsciiString &waypointPathLabel)
+{
+	Team *team = TheScriptEngine->getTeamNamed(teamName, false);
+	if (!team)
+		return;
+
+	for (DLINK_ITERATOR<Object> iter = team->iterate_TeamMemberList();
+		!iter.done(); iter.advance())
+	{
+		Object *obj = iter.cur();
+		AIUpdateInterface *ai = obj->getAIUpdateInterface();
+		if (!ai)
+			continue;
+
+		Coord3D pos;
+		pos.x = obj->m_position.x;
+		pos.y = obj->m_position.y;
+		pos.z = obj->m_position.z;
+		Waypoint *way = TheTerrainLogic->getClosestWaypointOnPath(
+			&pos, waypointPathLabel);
+		if (!way)
+			return;
+
+		ai->chooseLocomotorSet(3);
+		ai->m_command.aiWander(way, CMD_FROM_SCRIPT);
+	}
+}
 
 void ScriptActions::doTeamPanic(const AsciiString &teamName,
 	const AsciiString &waypointPathLabel)
