@@ -86360,3 +86360,4 @@ ___security_cookie,0x012DBDB0,MSVC 7.1 /GS cookie; absolute data VA read by exac
 ?isLeechRangeWeapon@BfmeOutOfWeaponRangeTemplate@@QBE_NXZ,0x00028F74,outOfWeaponRangeObject retail template-leech thunk
 ?isSignificantlyAboveTerrain@BfmeOutOfWeaponRangeObject@@QBE_NXZ,0x00019FF1,outOfWeaponRangeObject retail terrain test thunk
 ?isWithinAttackRange@BfmeOutOfWeaponRangeWeapon@@QBE_NPBVBfmeOutOfWeaponRangeObject@@0H@Z,0x0002E85C,outOfWeaponRangeObject retail range thunk
+?g_bfmeLockZS@@3PAVBfmeLockVHX@@A,0x012F9858,Open-BFME5 global lock pointer the 0x00C709F0 teardown deletes
