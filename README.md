@@ -18,7 +18,7 @@ The bar above tracks how much of the game rebuilds from what we hold — C++ we 
 libs we link. The rest is byte-true dumps of retail: a boundary, not source. Converting them
 is the work.
 
-Updated once daily from `master`, using `tools/progress.py`.
+Updated at 8 a.m. and 6 p.m. Eastern from `master`, using `tools/progress.py`.
 This is ledger-derived coverage; a clean `build.sh` run is the byte-match proof.
 
 ## Roadmap

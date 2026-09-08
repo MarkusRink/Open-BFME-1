@@ -21,8 +21,9 @@ def setup_state(tmp_path, monkeypatch, state=None):
     return path
 
 
-def test_no_duplicate_or_unchanged_post(tmp_path, monkeypatch):
-    state = {"rebuilt": 50, "total": 100, "message_id": "123"}
+def test_retry_does_not_duplicate_post(tmp_path, monkeypatch):
+    monkeypatch.setenv("GITHUB_RUN_ID", "run-123")
+    state = {"rebuilt": 50, "total": 100, "message_id": "123", "run_id": "run-123"}
     setup_state(tmp_path, monkeypatch, state)
     monkeypatch.setattr(daily, "urlopen", lambda *a, **k: pytest.fail("Unexpected post"))
     daily.notify({"rebuilt": 50, "total": 100})
@@ -43,16 +44,19 @@ def test_success_records_delivery_and_disables_mentions(tmp_path, monkeypatch):
     assert json.loads(path.read_text())["message_id"] == "123"
 
 
-def test_changed_progress_edits_same_message(tmp_path, monkeypatch):
-    path = setup_state(tmp_path, monkeypatch, {"rebuilt": 40, "total": 100, "message_id": "123"})
+@pytest.mark.parametrize("previous_count", [40, 50])
+def test_each_run_posts_new_message_even_if_unchanged(tmp_path, monkeypatch, previous_count):
+    monkeypatch.setenv("GITHUB_RUN_ID", "new-run")
+    path = setup_state(tmp_path, monkeypatch, {"rebuilt": previous_count, "total": 100, "message_id": "123", "run_id": "old-run"})
     monkeypatch.setenv("DISCORD_PROGRESS_WEBHOOK", "https://discord.com/api/webhooks/test/token")
     def send(request, timeout):
-        assert request.method == "PATCH"
-        assert request.full_url.endswith("/messages/123")
-        return io.BytesIO(b'{"id":"123"}')
+        assert request.method == "POST"
+        assert request.full_url.endswith("?wait=true")
+        return io.BytesIO(b'{"id":"456"}')
     monkeypatch.setattr(daily, "urlopen", send)
     daily.notify({"rebuilt": 50, "total": 100})
     assert json.loads(path.read_text())["rebuilt"] == 50
+    assert json.loads(path.read_text())["message_id"] == "456"
 
 
 def test_failed_post_does_not_advance_state_or_leak_url(tmp_path, monkeypatch):

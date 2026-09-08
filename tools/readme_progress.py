@@ -53,16 +53,17 @@ def announcement(current, previous):
 def notify(current):
     state_path = progress.ROOT / "docs" / "discord-main-progress.json"
     previous = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else None
-    if previous and all(previous[k] == current[k] for k in ("rebuilt", "total")):
-        print("Discord: progress unchanged")
+    run_id = os.environ.get("GITHUB_RUN_ID")
+    if run_id and previous and previous.get("run_id") == run_id:
+        print("Discord: this run already posted")
         return
     webhook = os.environ.get("DISCORD_PROGRESS_WEBHOOK", "").strip()
     if not webhook.startswith("https://discord.com/api/webhooks/"):
         raise SystemExit("DISCORD_PROGRESS_WEBHOOK is missing or invalid")
-    url = webhook + ("/messages/" + previous["message_id"] if previous else "?wait=true")
+    url = webhook + "?wait=true"
     request = Request(url, data=json.dumps(announcement(current, None)).encode("utf-8"),
                       headers={"Content-Type": "application/json", "User-Agent": "OpenBFME-Progress/1.0"},
-                      method="PATCH" if previous else "POST")
+                      method="POST")
     try:
         with urlopen(request, timeout=30) as response:
             message = json.load(response)
@@ -71,13 +72,13 @@ def notify(current):
     except URLError:
         raise SystemExit("Discord update failed: connection error") from None
     state_path.write_text(json.dumps({**current, "updated_at": datetime.now(timezone.utc).isoformat(),
-                                     "message_id": message["id"]}, indent=2) + "\n", encoding="utf-8")
-    print("Discord: progress message " + ("updated" if previous else "created"))
+                                     "message_id": message["id"], "run_id": run_id}, indent=2) + "\n", encoding="utf-8")
+    print("Discord: new progress message posted")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--discord", action="store_true", help="update the main Discord progress message")
+    parser.add_argument("--discord", action="store_true", help="post a new main Discord progress message")
     args = parser.parse_args()
     matched = progress.matched_at(None)
     start, size = progress.retail_text()
