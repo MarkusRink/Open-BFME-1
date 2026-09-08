@@ -110,6 +110,7 @@ class BfmeFirstWalkOnArmy
 public:
 	bool lookupWaypoints(const BfmePointNC *point, Waypoint **outSpawn, Waypoint **outGather);
 	void armyNameFromIndex(unsigned int index, AsciiString *out);
+	void moveObjects(class BfmeObjectList *objects, const BfmePointNC *point, bool initial);
 };
 
 bool BfmeFirstWalkOnArmy::lookupWaypoints(
@@ -130,4 +131,118 @@ bool BfmeFirstWalkOnArmy::lookupWaypoints(
 			return true;
 	}
 	return false;
+}
+
+struct Coord3D
+{
+	float x;
+	float y;
+	float z;
+};
+
+class Waypoint
+{
+private:
+	unsigned char m_beforeLocation[12];
+public:
+	Coord3D m_location;
+};
+
+class Object {};
+class AIGroup {};
+class AI {};
+
+namespace _STL
+{
+	template <bool threads, int instance>
+	class __node_alloc
+	{
+	public:
+		static void _M_deallocate(void *node, unsigned int bytes);
+	};
+}
+
+struct BfmeObjectNode
+{
+	BfmeObjectNode *next;
+	BfmeObjectNode *previous;
+	Object *object;
+};
+
+class BfmeObjectList
+{
+public:
+	BfmeObjectNode *sentinel;
+
+	void clear()
+	{
+		BfmeObjectNode *current = sentinel->next;
+		while (current != sentinel)
+		{
+			BfmeObjectNode *old = current;
+			current = current->next;
+			_STL::__node_alloc<true, 0>::_M_deallocate(old, sizeof(BfmeObjectNode));
+		}
+		sentinel->next = sentinel;
+		sentinel->previous = sentinel;
+	}
+};
+
+extern AI *TheAI;
+extern void j_00011833();
+extern void j_00030cb0();
+extern void j_0003b570();
+extern void j_0002b7e2();
+extern void j_0002059a();
+extern void j_00003918();
+extern void j_00015f69();
+
+typedef bool (BfmeFirstWalkOnArmy::*LookupInitialWaypointsCall)(Waypoint **, Waypoint **);
+typedef bool (BfmeFirstWalkOnArmy::*LookupWaypointsCall)(const BfmePointNC *, Waypoint **, Waypoint **);
+typedef AIGroup *(AI::*CreateGroupCall)();
+typedef void (AIGroup::*AddObjectCall)(Object *);
+typedef void (AIGroup::*PrepareWalkOnCall)(const Coord3D *, const Coord3D *, int);
+typedef void (AIGroup::*MoveWalkOnCall)(const Coord3D *, int, int, int);
+typedef void (AI::*DestroyGroupCall)(AIGroup *);
+
+void BfmeFirstWalkOnArmy::moveObjects(
+	BfmeObjectList *objects, const BfmePointNC *point, bool initial)
+{
+	Waypoint *spawn;
+	Waypoint *gather;
+	union { void *raw; LookupInitialWaypointsCall call; } initialLookup;
+	initialLookup.raw = (void *)j_00011833;
+	union { void *raw; LookupWaypointsCall call; } axisLookup;
+	axisLookup.raw = (void *)j_00030cb0;
+	if ((!initial || !(this->*initialLookup.call)(&spawn, &gather)) &&
+		!(this->*axisLookup.call)(point, &spawn, &gather))
+	{
+		return;
+	}
+
+	union { void *raw; CreateGroupCall call; } create;
+	create.raw = (void *)j_0003b570;
+	AIGroup *group = (TheAI->*create.call)();
+	if (group == 0)
+		return;
+
+	union { void *raw; AddObjectCall call; } add;
+	add.raw = (void *)j_0002b7e2;
+	for (BfmeObjectNode *it = objects->sentinel->next; it != objects->sentinel; it = it->next)
+	{
+		if (it->object != 0)
+			(group->*add.call)(it->object);
+	}
+
+	union { void *raw; PrepareWalkOnCall call; } prepare;
+	prepare.raw = (void *)j_0002059a;
+	const Coord3D *gatherLocation = &gather->m_location;
+	(group->*prepare.call)(&spawn->m_location, gatherLocation, 2);
+	union { void *raw; MoveWalkOnCall call; } move;
+	move.raw = (void *)j_00003918;
+	(group->*move.call)(gatherLocation, 2, 0, 1);
+	objects->clear();
+	union { void *raw; DestroyGroupCall call; } destroy;
+	destroy.raw = (void *)j_00015f69;
+	(TheAI->*destroy.call)(group);
 }
