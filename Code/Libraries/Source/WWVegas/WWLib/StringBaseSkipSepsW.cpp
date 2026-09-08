@@ -44,23 +44,24 @@ static unsigned short *skipSepsW(unsigned short *p, const unsigned short *seps)
 	unsigned short c = *p;
 	if (!c)
 		return p;
-	for (;;)
+	while (c)
 	{
 		unsigned short first = *seps;
 		const unsigned short *s = seps;
 		if (!first)
 			return p;
 		unsigned short sc = first;
-		while (sc != c)
+		do
 		{
+			if (sc == c)
+				goto advance;
 			sc = *++s;
-			if (!sc)
-				return p;
-		}
+		} while (sc);
+		return p;
+	advance:
 		c = *++p;
-		if (!c)
-			return p;
 	}
+	return p;
 }
 
 static unsigned short *skipNonSepsW(unsigned short *p, const unsigned short *seps)
