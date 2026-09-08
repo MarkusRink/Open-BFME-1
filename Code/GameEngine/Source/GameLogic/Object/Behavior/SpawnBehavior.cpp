@@ -367,22 +367,6 @@ void SpawnBehavior::orderSlavesToAttackPosition( const Coord3D *pos, Int maxShot
 }
 
 // ------------------------------------------------------------------------------------------------
-// ?orderSlavesToGoIdle@SpawnBehavior@@ present-unmatched
-void SpawnBehavior::orderSlavesToGoIdle( CommandSourceType cmdSource )
-{
-	for( objectIDListIterator it = m_spawnIDs.begin(); it != m_spawnIDs.end(); ++it )
-	{
-		Object *obj = TheGameLogic->findObjectByID( *it );
-		if( obj )
-		{
-			AIUpdateInterface *ai = obj->getAI();
-			if( ai )
-			{
-				ai->aiIdle( cmdSource );
-			}
-		}
-	}
-}
 
 // ------------------------------------------------------------------------------------------------
 // ?orderSlavesDisabledUntil@SpawnBehavior@@ present-unmatched
