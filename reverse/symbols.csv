@@ -86340,3 +86340,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 _Rva005FAD00FillUnitVector,0x005FAD00,Address-qualified cdecl output-pointer helper; retail ILT 0x000107EE
 ?Rva00C75350Zero@@3MB,0x00C75350,Address-qualified readonly zero float; image VA0x01075350 bytes00000000
 ?Rva00C75334One@@3MB,0x00C75334,Address-qualified readonly unit float; image VA0x01075334 bytes0000803F
+___security_cookie,0x012DBDB0,MSVC 7.1 /GS cookie; absolute data VA read by exact450B LAN-theater body and existing __security_check_cookie at009F74F4; retail initialvalueBB40E64E
