@@ -12,6 +12,8 @@ name,target_rva,reason
 ?d_005ee650@@YAXXZ,0x005EE650,"gen-dump placeholder superseded by the recovered BfmeSubAccept_000061B3 identity and exact C++ body"
 ?GadgetListBoxSetColors@@YAXPAVGameWindow@@HHHHHHHHHHHH@Z,0x000410AB,"five-byte incremental-link thunk claim retracted so the exact BFME body at 0x004B6D40 can carry the name; the thunk bytes return to the gen-thunk pool."
 ?d_00823190@@YAXXZ,0x00823190,"gen-dump placeholder superseded by the real identity of ?LZHLDecompress@@YAHPAXPAEPAIPBE2@Z, byte-verified from the LZH wrapper source over the same 30-byte range."
+?d_0005f680@@YAXXZ,0x0005F680,gen-dump placeholder superseded by ATL::GetEnvironmentVariableWFake at the same range; the matched C++ source now owns the body.
+?d_0005fac0@@YAXXZ,0x0005FAC0,gen-dump placeholder superseded by ATL::CImage::CreateFromGdiplusBitmap at the same range; the matched C++ source now owns the body.
 # Rows deleted on purpose because byte-evidence proved them wrong. functions.csv
 # uses git's union merge driver, which has no concept of a deletion: merging any
 # branch that forked before the delete silently resurrects the row. check_csv
