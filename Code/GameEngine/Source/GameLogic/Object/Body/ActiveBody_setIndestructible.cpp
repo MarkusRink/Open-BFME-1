@@ -1,6 +1,7 @@
-// ?setIndestructible@ActiveBody@@UAEX_N@Z
-// partial score=0.96 date=2026-09-07
 // cl: /DNDEBUG /MD /EHsc
+// Retail 0x00210690 is ActiveBody::setIndestructible.  The body stores the
+// requested flag, follows the Object template override chain, tests the bridge
+// kind bit, and propagates the flag to each of four bridge towers.
 
 typedef bool Bool;
 typedef int Int;
@@ -17,7 +18,7 @@ class BfmeActiveBodySetOverridable
 {
 public:
 	unsigned char m_memoryPoolObject[4];
-	BfmeActiveBodySetOverridable * volatile m_nextOverride;
+	BfmeActiveBodySetOverridable *m_nextOverride;
 	const BfmeActiveBodySetOverridable *getFinalOverride() const;
 };
 
@@ -78,33 +79,30 @@ public:
 	virtual void setIndestructible( Bool indestructible );
 };
 
-// ?setIndestructible@ActiveBody@@ present-unmatched
+// ?setIndestructible@ActiveBody@@UAEX_N@Z
 void ActiveBody::setIndestructible( Bool indestructible )
 {
 	*(unsigned char *)((unsigned char *)this + 0x97) = (unsigned char)indestructible;
 
 	Object *us = *(Object **)((unsigned char *)this - 8);
 	BfmeActiveBodySetOverridable *thingTemplate = us->m_template;
-	if( thingTemplate )
+	if( thingTemplate && thingTemplate->m_nextOverride )
 	{
-		if( BfmeActiveBodySetOverridable *nextOverride = thingTemplate->m_nextOverride )
+		thingTemplate = (BfmeActiveBodySetOverridable *)thingTemplate->m_nextOverride->getFinalOverride();
+	}
+	if( (*(unsigned int *)((unsigned char *)thingTemplate + 0xC8) & 0x400000) != 0 )
+	{
+		BridgeBehaviorInterface *bbi = BfmeActiveBodySetBridgeBehavior::getBridgeBehaviorInterfaceFromObject( us );
+		if( bbi )
 		{
-			thingTemplate = (BfmeActiveBodySetOverridable *)nextOverride->getFinalOverride();
-			if( (*(unsigned int *)((unsigned char *)thingTemplate + 0xC8) & 0x400000) != 0 )
+			for( Int i = 0; i < 4; ++i )
 			{
-				BridgeBehaviorInterface *bbi = BfmeActiveBodySetBridgeBehavior::getBridgeBehaviorInterfaceFromObject( us );
-				if( bbi )
+				Object *tower = TheBfmeGameLogic->findObjectByID( bbi->getTowerID( (BridgeTowerType)i ) );
+				if( tower )
 				{
-					for( Int i = 0; i < 4; ++i )
-					{
-						Object *tower = TheBfmeGameLogic->findObjectByID( bbi->getTowerID( (BridgeTowerType)i ) );
-						if( tower )
-						{
-							BodyModuleInterface *body = tower->m_body;
-							if( body )
-								body->setIndestructible( indestructible );
-						}
-					}
+					BodyModuleInterface *body = tower->m_body;
+					if( body )
+						body->setIndestructible( indestructible );
 				}
 			}
 		}

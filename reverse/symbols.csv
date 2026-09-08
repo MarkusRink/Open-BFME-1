@@ -78590,6 +78590,7 @@ name,address,notes
 ?findObject@GameLogic@@QAEPAVRva0025DF30Object@@H@Z,0x0001F253,address-derived object lookup target read from retail RVA 0x0025DF30
 ?findObjectByID@BFMEObjectLookup@@QAEPAVObject@@W4ObjectID@@@Z,0x0001F253,alias of the GameLogic enum spelling pinned below; AIUpdate.cpp reaches the lookup through a view class because the reference GameLogic.h inlines it
 ?findObjectByID@GameLogic@@QAEPAVObject@@H@Z,0x0001F253,ILT thunk to GameLogic::findObjectByID
+?findObjectByID@BfmeActiveBodySetGameLogic@@QAEPAVObject@@H@Z,0x0001F253,ActiveBody::setIndestructible tower lookup helper ILT
 ?findObjectByID@GameLogic@@QAEPAVObject@@W4ObjectID@@@Z,0x0001F253,enum ABI spelling used by AIDockProcessDockState::findMyDrone; same matched ILT as the int-decorated overload
 ?findOrCreateIndex@Rva00359330StringRecordTable@@AAEHPAVAsciiString@@@Z,0x000333C5,address-derived table index insertion helper used by 0x0035CC50
 ?findOrCreateIndex@Rva0035D2B0StringRecordTable@@AAEHPAVAsciiString@@@Z,0x0004599E,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0035D2B0 calls; autopin
@@ -80432,6 +80433,7 @@ name,address,notes
 ?getBounds@Rva8BB1A0BoundsSource@@QAEXPAURva8BB1A0Bounds@@@Z,0x008AE2E0,Open-BFME5 bounds getter pin
 ?getBountyBonusPercent@CampaignObject@@QAEHXZ,0x00029CBC,address-derived living-world bounty adjuster reads this percentage through the retail ILT
 ?getBridgeBehaviorInterfaceFromObject@BridgeBehavior@@SAPAVBridgeBehaviorInterface@@PAVObject@@@Z,0x00010424,Bridge::updateDamageState calls the existing ILT thunk before the scaffold check
+?getBridgeBehaviorInterfaceFromObject@BfmeActiveBodySetBridgeBehavior@@SAPAVBridgeBehaviorInterface@@PAVObject@@@Z,0x00010424,ActiveBody::setIndestructible bridge propagation helper ILT
 ?getBridgeHeight@Bridge@@QAEMPBUCoord3D@@PAU2@@Z,0x0000B802,ILT thunk used by call site
 ?getBridgeScaffoldBehaviorInterfaceFromObject@BridgeScaffoldBehavior@@SAPAVBridgeScaffoldBehaviorInterface@@PAVObject@@@Z,0x00046F8D,ILT thunk proven by BridgeBehavior scaffold-list callers at 0x001F3C30 and 0x001F3D40
 ?getBufferForRead@UnicodeString@@QAEPAGH@Z,0x00888480,ICF with StringBase<unsigned short>::getBufferForRead; readUnicodeString callee
@@ -80533,6 +80535,7 @@ name,address,notes
 ?getFinalOverride@Overridable@@QBEPBV1@XZ,0x000022BB
 ?getFinalOverride@Rva226790Template@@QAEPAV1@XZ,0x000022BB,address-derived template override-chain ILT thunk
 ?getFinalOverride@ThingTemplate@@QAEPAV1@XZ,0x000022BB,ILT 0x000022BB fence-width override walk from shouldProjectileCollideWith
+?getFinalOverride@BfmeActiveBodySetOverridable@@QBEPBV1@XZ,0x000022BB,ActiveBody::setIndestructible override-chain helper ILT
 ?getFirstItemIn_TeamMemberList@Team@@QBEPAVObject@@XZ,0x0003FD41,Team::getFirstItemIn_TeamMemberList resolves to the retail 5-byte ILT at 0x0003FD41, whose body is the proven +0x0C team-member-head getter used by evaluateTeamCanPathToWaypoint
 ?getFirstObject@GameLogic@@QAEPAVObject@@XZ,0x000358BE,doEnableOrDisableObjectDifficultyBonuses call target (incremental-link thunk)
 ?getFont@FontLibrary@@QAEPAVGameFont@@PAVAsciiString@@ME@Z,0x0000ABC3,ILT thunk to FontLibrary::getFont from HeaderTemplateManager::populateGameFonts
