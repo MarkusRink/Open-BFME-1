@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX /Od /GZ
+// cl: /DNDEBUG /MD /GX /Od /GZ /GS
 
 // EA's DirtySock CommUDP transport, which BFME uses for its GameSpy/online
 // traffic. It has no counterpart in the vendored Zero Hour reference, and no
@@ -365,7 +365,7 @@ L01_8194E8:
 extern "C" {
 	int CommUdpProcess();
 	int CommUdpSetup();
-	int CommUdpPoke();
+	int CommUdpPoke(void *ref);
 	int CommUdpListen();
 	int CommUDPSend();
 }
@@ -1498,79 +1498,14 @@ L01_8184F4:
 }
 
 // Sends a poke packet to prod a peer whose address may have moved.
-__declspec(naked) int CommUdpPoke()
+int CommUdpPoke(void *ref)
 {
-	__asm {
-		push ebp
-		mov ebp, esp
-		sub esp, 234h
-		push edi
-		lea edi,  [ebp-234h]
-		mov ecx, 8Dh
-		mov eax, 0CCCCCCCCh
-		rep stosd
-		__emit 0A1h
-		__emit 0B0h
-		__emit 0BDh
-		__emit 02Dh
-		__emit 001h   // mov eax, dword ptr [0x12dbdb0]
-		mov dword ptr [ebp-4h], eax
-		push 12C4E18h
-		__emit 0E8h
-		__emit 032h
-		__emit 05Dh
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 4h
-		mov dword ptr [ebp-230h], 0h
-		mov dword ptr [ebp-228h], 5h
-		mov eax, dword ptr [ebp+8h]
-		mov ecx, dword ptr [eax+94h]
-		mov dword ptr [ebp-224h], ecx
-		lea edx,  [ebp-230h]
-		push edx
-		mov eax, dword ptr [ebp+8h]
-		push eax
-		__emit 0E8h
-		__emit 0ACh
-		__emit 0E5h
-		__emit 0FFh
-		__emit 0FFh   // call 0x817030
-		add esp, 8h
-		push edx
-		mov ecx, ebp
-		push eax
-		__emit 08Dh
-		__emit 015h
-		__emit 0B2h
-		__emit 08Ah
-		__emit 0C1h
-		__emit 000h   // lea edx, [0xc18ab2]
-		__emit 0E8h
-		__emit 08Fh
-		__emit 0EAh
-		__emit 01Dh
-		__emit 000h   // call 0x9F7525
-		pop eax
-		pop edx
-		mov ecx, dword ptr [ebp-4h]
-		__emit 0E8h
-		__emit 054h
-		__emit 0EAh
-		__emit 01Dh
-		__emit 000h   // call 0x9F74F4
-		pop edi
-		add esp, 234h
-		cmp ebp, esp
-		__emit 0E8h
-		__emit 054h
-		__emit 0EAh
-		__emit 01Dh
-		__emit 000h   // call 0x9F7502
-		mov esp, ebp
-		pop ebp
-		ret
-	}
+	char packet[0x228];
+	Rva007FE780Printf("CommUdpPoke: sending poke packet\n");
+	*(int *)&packet[0] = 0;
+	*(int *)&packet[8] = 5;
+	*(int *)&packet[12] = *(int *)((char *)ref + 0x94);
+	return ((int (__cdecl *)(void *, void *))CommUDPWrite)(ref, &packet);
 }
 
 // Puts the socket into listening mode for an incoming CommUDP connection.
