@@ -1,302 +1,94 @@
-// cl: /DNDEBUG /MD /EHsc
-// readable body of ??0ParticleUplinkCannonUpdateModuleData@@: Code/GameEngine/Source/GameLogic/Object/Update/ParticleUplinkCannonUpdate.cpp
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
+// Open-BFME5: ParticleUplinkCannonUpdate module-data constructor.
+// The unique factory constructor/destructor chain fixes this identity. The
+// matched 0x002A26C0 destructor fixes members at +08/+A0/+AC/+B0.
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/ParticleUplinkCannonUpdate.h
-class ParticleUplinkCannonUpdateModuleData
+#include <map>
+#include <string.h>
+
+class ParticleUplinkCannonUpdateModuleDataMemberA
 {
 public:
-    ParticleUplinkCannonUpdateModuleData();
+	ParticleUplinkCannonUpdateModuleDataMemberA();
+	~ParticleUplinkCannonUpdateModuleDataMemberA();
+private:
+	unsigned int m_value;
 };
 
-__declspec(naked) ParticleUplinkCannonUpdateModuleData::ParticleUplinkCannonUpdateModuleData()
+struct ParticleUplinkTenWordsA
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 033h
-        _emit 026h
-        _emit 001h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 053h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 008h
-        _emit 033h
-        _emit 0DBh
-        _emit 08Dh
-        _emit 04Eh
-        _emit 008h
-        _emit 089h
-        _emit 05Ch
-        _emit 024h
-        _emit 014h
-        _emit 0C7h
-        _emit 006h
-        _emit 0C8h
-        _emit 01Ah
-        _emit 00Ch
-        _emit 001h
-        _emit 0E8h
-        _emit 028h
-        _emit 04Fh
-        _emit 0D9h
-        _emit 0FFh
-        _emit 033h
-        _emit 0C0h
-        _emit 08Dh
-        _emit 04Eh
-        _emit 00Ch
-        _emit 089h
-        _emit 001h
-        _emit 089h
-        _emit 041h
-        _emit 004h
-        _emit 089h
-        _emit 041h
-        _emit 008h
-        _emit 089h
-        _emit 041h
-        _emit 00Ch
-        _emit 089h
-        _emit 041h
-        _emit 010h
-        _emit 089h
-        _emit 041h
-        _emit 014h
-        _emit 089h
-        _emit 041h
-        _emit 018h
-        _emit 089h
-        _emit 041h
-        _emit 01Ch
-        _emit 089h
-        _emit 041h
-        _emit 020h
-        _emit 089h
-        _emit 041h
-        _emit 024h
-        _emit 033h
-        _emit 0D2h
-        _emit 08Dh
-        _emit 046h
-        _emit 034h
-        _emit 089h
-        _emit 010h
-        _emit 089h
-        _emit 050h
-        _emit 004h
-        _emit 089h
-        _emit 050h
-        _emit 008h
-        _emit 089h
-        _emit 050h
-        _emit 00Ch
-        _emit 089h
-        _emit 050h
-        _emit 010h
-        _emit 089h
-        _emit 050h
-        _emit 014h
-        _emit 089h
-        _emit 050h
-        _emit 018h
-        _emit 089h
-        _emit 050h
-        _emit 01Ch
-        _emit 089h
-        _emit 050h
-        _emit 020h
-        _emit 089h
-        _emit 050h
-        _emit 024h
-        _emit 033h
-        _emit 0C9h
-        _emit 08Dh
-        _emit 056h
-        _emit 05Ch
-        _emit 089h
-        _emit 00Ah
-        _emit 089h
-        _emit 04Ah
-        _emit 004h
-        _emit 089h
-        _emit 04Ah
-        _emit 008h
-        _emit 089h
-        _emit 04Ah
-        _emit 00Ch
-        _emit 089h
-        _emit 04Ah
-        _emit 010h
-        _emit 089h
-        _emit 04Ah
-        _emit 014h
-        _emit 089h
-        _emit 04Ah
-        _emit 018h
-        _emit 089h
-        _emit 04Ah
-        _emit 01Ch
-        _emit 089h
-        _emit 04Ah
-        _emit 020h
-        _emit 089h
-        _emit 04Ah
-        _emit 024h
-        _emit 06Ah
-        _emit 024h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 001h
-        _emit 089h
-        _emit 09Eh
-        _emit 0A0h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 076h
-        _emit 0BFh
-        _emit 058h
-        _emit 000h
-        _emit 089h
-        _emit 086h
-        _emit 0A0h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 010h
-        _emit 089h
-        _emit 09Eh
-        _emit 0A4h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 018h
-        _emit 08Bh
-        _emit 086h
-        _emit 0A0h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 058h
-        _emit 004h
-        _emit 08Bh
-        _emit 086h
-        _emit 0A0h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 008h
-        _emit 08Bh
-        _emit 086h
-        _emit 0A0h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 00Ch
-        _emit 089h
-        _emit 09Eh
-        _emit 0ACh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 0B0h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 004h
-        _emit 089h
-        _emit 09Eh
-        _emit 084h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 088h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 08Ch
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 090h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 094h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 098h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 09Eh
-        _emit 09Ch
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 05Bh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C3h
-    }
+	ParticleUplinkTenWordsA()
+	{
+		memset(m_words, 0, sizeof(m_words));
+	}
+	unsigned int m_words[10];
+};
+
+struct ParticleUplinkTenWordsB
+{
+	ParticleUplinkTenWordsB()
+	{
+		memset(m_words, 0, sizeof(m_words));
+	}
+	unsigned int m_words[10];
+};
+
+struct ParticleUplinkTenWordsC
+{
+	ParticleUplinkTenWordsC()
+	{
+		memset(m_words, 0, sizeof(m_words));
+	}
+	unsigned int m_words[10];
+};
+
+struct ParticleUplinkMapValue { unsigned int m_words[4]; };
+
+class BFMERetailAsciiString
+{
+public:
+	BFMERetailAsciiString() : m_data(0) {}
+	~BFMERetailAsciiString();
+private:
+	char *m_data;
+};
+
+class __declspec(novtable) ParticleUplinkCannonUpdateModuleDataBase
+{
+public:
+	virtual ~ParticleUplinkCannonUpdateModuleDataBase();
+protected:
+	unsigned int m_moduleData;
+};
+
+class ParticleUplinkCannonUpdateModuleData
+	: public ParticleUplinkCannonUpdateModuleDataBase
+{
+public:
+	ParticleUplinkCannonUpdateModuleData();
+	virtual ~ParticleUplinkCannonUpdateModuleData();
+private:
+	ParticleUplinkCannonUpdateModuleDataMemberA m_handle;
+	ParticleUplinkTenWordsA m_values0C;
+	ParticleUplinkTenWordsB m_values34;
+	ParticleUplinkTenWordsC m_values5C;
+	unsigned int m_values84[6];
+	unsigned char m_flag9C;
+	unsigned char m_pad9D[3];
+	std::map<unsigned int, ParticleUplinkMapValue> m_ownedValues;
+	BFMERetailAsciiString m_nameAC;
+	BFMERetailAsciiString m_nameB0;
+};
+
+// ??0ParticleUplinkCannonUpdateModuleData@@QAE@XZ
+ParticleUplinkCannonUpdateModuleData::ParticleUplinkCannonUpdateModuleData()
+{
+	m_values84[0] = 0;
+	m_values84[1] = 0;
+	m_values84[2] = 0;
+	m_values84[3] = 0;
+	m_values84[4] = 0;
+	m_values84[5] = 0;
+	m_flag9C = 0;
 }
