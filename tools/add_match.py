@@ -225,7 +225,8 @@ def main():
         if len(at_rva) != 1:
             fail(f"--replace-rva 0x{old_rva:08X} matches {len(at_rva)} rows; "
                  "it retires exactly one")
-        if not at_rva[0]["notes"].lstrip().startswith("gen-dump"):
+        scaffold_kinds = ("gen-dump", "gen-thunk")
+        if not at_rva[0]["notes"].lstrip().startswith(scaffold_kinds):
             fail(f"--replace-rva 0x{old_rva:08X} is {at_rva[0]['name']} "
                  f"({at_rva[0]['source']}), not a gen-dump scaffold row",
                  "only scaffolding may be taken over by name; retract a real claim "
