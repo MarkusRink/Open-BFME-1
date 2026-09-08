@@ -5915,7 +5915,7 @@ name,address,notes
 ??1Gen_dtor_005dc5d0@@UAE@XZ,0x00001D16,gen-dtor class destructor
 ??1Gen_dtor_005dc780@@UAE@XZ,0x0001D9EE,gen-dtor class destructor
 ??1Gen_dtor_005dd340@@UAE@XZ,0x0000CC16,gen-dtor class destructor
-??1Gen_dtor_005deab0@@UAE@XZ,0x00017C1A,gen-dtor class destructor
+??1?$DefaultModuleTemplate@$06@FXParticleSystem@@UAE@XZ,0x00017C1A,authentic virtual destructor callee; matched body 0x005D9910 and constructor vtable 0x0111101C prove identity
 ??1Gen_dtor_005dec80@@UAE@XZ,0x00031084,gen-dtor class destructor
 ??1Gen_dtor_005decb0@@UAE@XZ,0x00004C82,gen-dtor class destructor
 ??1Gen_dtor_005df760@@UAE@XZ,0x00016DBA,gen-dtor class destructor
