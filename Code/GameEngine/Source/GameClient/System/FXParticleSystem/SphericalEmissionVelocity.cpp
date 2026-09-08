@@ -26,7 +26,7 @@ struct Coord3D
 	float z;
 };
 
-extern "C" void Rva005FAD00FillUnitVector( Coord3D *out );
+extern "C" Coord3D *Rva005FAD00FillUnitVector( Coord3D *out );
 
 class SphericalEmissionVelocityModule
 {

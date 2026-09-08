@@ -21,7 +21,7 @@ struct Coord3D {
 
 // Address-qualified cdecl output helper: retail ILT RVA 0x000107EE reaches
 // body RVA 0x005FAD00. Its full 246-byte body fills a normalized random vector.
-extern "C" void Rva005FAD00FillUnitVector(Coord3D *out);
+extern "C" Coord3D *Rva005FAD00FillUnitVector(Coord3D *out);
 
 class PointEmissionVolumeModule {
 public:

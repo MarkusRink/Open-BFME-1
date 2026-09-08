@@ -1,6 +1,9 @@
 // cl: /DNDEBUG /MD /GX- /O2 /Ob2
 // Retail RVA 0x005FAD00: complete 246-byte cdecl output-pointer helper.
 // Point and related emission callbacks reach it through ILT RVA 0x000107EE.
+// Caller RVA0x005FAA40 immediately reads the returned address in EAX. This
+// address-qualified ABI view exposes that output-address return explicitly.
+// The original pointer/reference/hidden-aggregate source spelling is unknown.
 // The historical helper name is unknown. Three random-real calls use source
 // lines31/32/33 and ILT RVA0x00047681 -> body RVA0x00096E80 (69 bytes).
 // A zero vector is retried; other vectors are normalized when length is nonzero.
@@ -24,7 +27,7 @@ struct Coord3D
 static char kRetailFile[] =
 	"F:\\bfme\\Code\\gameengine\\Source\\GameClient\\System\\FXParticleSystem\\fxpsemittervolumemodule.cpp";
 
-extern "C" void Rva005FAD00FillUnitVector( Coord3D *out )
+extern "C" Coord3D *Rva005FAD00FillUnitVector( Coord3D *out )
 {
 	Coord3D components;
 
@@ -54,4 +57,5 @@ extern "C" void Rva005FAD00FillUnitVector( Coord3D *out )
 	out->x = components.x;
 	out->y = components.y;
 	out->z = components.z;
+	return out;
 }
