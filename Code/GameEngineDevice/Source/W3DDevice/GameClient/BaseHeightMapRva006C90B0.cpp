@@ -70,11 +70,13 @@ public:
 
 private:
 	unsigned char m_unmodeledBaseHeightMap[0x2fd8 - sizeof(RenderObjClass)];
-	VertexBufferClass *m_vertexScorch;       // +0x2FD8
-	IndexBufferClass *m_indexScorch;         // +0x2FDC
-	TextureBaseClass *m_scorchTexture;       // +0x2FE0
-	int m_curNumScorchVertices;              // +0x2FE4
-	int m_curNumScorchIndices;               // +0x2FE8
+	// This is a second, independently observed render-buffer family.  The
+	// protected scorch buffers occupy +0xD0/+0xD4/+0xD8 instead.
+	VertexBufferClass *m_buffer2FD8;          // +0x2FD8
+	IndexBufferClass *m_buffer2FDC;           // +0x2FDC
+	TextureBaseClass *m_resource2FE0;         // +0x2FE0
+	int m_count2FE4;                          // +0x2FE4
+	int m_count2FE8;                          // +0x2FE8
 	unsigned char m_unmodeled2FEC[0x3094 - 0x2fec];
 	Gen_006C5690 *m_treeBuffer;              // +0x3094
 };
@@ -82,24 +84,24 @@ private:
 void BaseHeightMapRenderObjClass::rva006C90B0(void)
 {
 	if (!TheWritableGlobalData->m_renderFeatureEnabled ||
-		!m_scorchTexture ||
-		!m_curNumScorchVertices ||
-		!m_curNumScorchIndices ||
+		!m_resource2FE0 ||
+		!m_count2FE4 ||
+		!m_count2FE8 ||
 		Is_Hidden())
 	{
 		return;
 	}
 
 	DX8Wrapper::Set_Shader(ShaderClass::_PresetAlphaShader);
-	DX8Wrapper::Set_Index_Buffer(m_indexScorch, 0);
-	DX8Wrapper::Set_Vertex_Buffer(m_vertexScorch, 0);
+	DX8Wrapper::Set_Index_Buffer(m_buffer2FDC, 0);
+	DX8Wrapper::Set_Vertex_Buffer(m_buffer2FD8, 0);
 	BoxSetTexture(0, (TextureBaseClass *&)m_treeBuffer->bfmeGet());
 
 	BaseHeightMapScorchSetZBias(1);
 	DX8Wrapper::Draw_Triangles(
 		0,
-		(unsigned short)(m_curNumScorchIndices / 3),
+		(unsigned short)(m_count2FE8 / 3),
 		0,
-		(unsigned short)m_curNumScorchVertices);
+		(unsigned short)m_count2FE4);
 	BaseHeightMapScorchSetZBias(0);
 }

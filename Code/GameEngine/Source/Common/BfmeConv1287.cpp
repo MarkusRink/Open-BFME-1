@@ -1,15 +1,19 @@
 // Open-BFME5 conversions.
+// The complete getter at 0x007E8900 returns a signed decimal integer, and this
+// matched caller requests the TID and PID fields before forwarding both to the
+// 0x00809100 sink.  The older void-pointer declarations preserved the same
+// 32-bit machine ABI but did not describe the values the retail code handles.
 
 class BfmeThingSA
 {
 public:
-	void *bfmeGetSA(void *a, void *b);
+	int bfmeGetSA(const char *key, int fallback);
 };
 
 class BfmeSinkSA
 {
 public:
-	void bfmeUseSA(void *a, void *b);
+	void bfmeUseSA(int tid, int pid);
 };
 
 class BfmeHostSA
@@ -22,9 +26,9 @@ public:
 
 void BfmeHostSA::bfmeGoSA(BfmeThingSA *r)
 {
-	void *a = r->bfmeGetSA((void *)"TID", 0);
-	void *b = r->bfmeGetSA((void *)"PID", 0);
-	m_bfmeSink->bfmeUseSA(a, b);
+	int tid = r->bfmeGetSA("TID", 0);
+	int pid = r->bfmeGetSA("PID", 0);
+	m_bfmeSink->bfmeUseSA(tid, pid);
 }
 
 class BfmeThingSB

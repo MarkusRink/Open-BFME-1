@@ -74719,7 +74719,6 @@ name,address,notes
 ?bfmeGetPoolVLR@@YAPAVBfmePoolVLR@@XZ,0x007EFFC0,pin
 ?bfmeGetPoolVMP@@YAPAVBfmePoolVMP@@XZ,0x007EFFC0,pin
 ?bfmeGetRelationInterface@Object@@QBEPAVBfmeRelationInterface@@XZ,0x0000D3B9,Object relationship body calls this protected ILT for its BFME relation interface
-?bfmeGetSA@BfmeThingSA@@QAEPAXPAX0@Z,0x007E8900,pin
 ?bfmeGetSB@BfmeThingSB@@QAEPAXPAX0@Z,0x007E8900,pin
 ?bfmeGetSNA@@YAPAVBfmeLogSNA@@XZ,0x007EB810,pin
 ?bfmeGetStrVHC@BfmeMsgVHC@@QAEDPAXPADH@Z,0x007E8A80,pin
@@ -76320,7 +76319,6 @@ name,address,notes
 ?bfmeUseGI@BfmeSubGI@@QAEXPAX@Z,0x0002D2EF,pin
 ?bfmeUsePrimaryRank1294@BfmeGameLogic1294@@QAE_NXZ,0x0001D1C9,address-derived rank-selection predicate called by the 0x003A0860 retail body
 ?bfmeUseRT@BfmeSlotRT@@QAEXXZ,0x0003A427,pin
-?bfmeUseSA@BfmeSinkSA@@QAEXPAX0@Z,0x00809100,pin
 ?bfmeUseSB@BfmeSinkSB@@QAEXPAX0@Z,0x00809E00,pin
 ?bfmeUseSHA@BfmeStoreSHA@@QAEXPAH@Z,0x0001A37A,pin
 ?bfmeUseTBB@BfmeThingTBB@@QAEXH@Z,0x0001284B,pin
@@ -85856,7 +85854,6 @@ _bfmeVftCEVK,0x00D12DA4,pin vftable for BfmeConv2001
 ?rva003C8340@LivingWorldRegionManager@@QAEXPAVLivingWorldRegion@@@Z,0x003C8340,address-derived typed LivingWorldRegionManager member body whose matched layout consumes the selected-region pointer at this+0x08; campaign=luna36h-20260907;lane=expand02;model=gpt-5.6-sol-ultra
 ?bfmeGet@Gen_006C5690@@QBE?AVBfmeHandleCX@@XZ,0x0001DF34,retail BaseHeightMap call uses this incremental-link thunk to the matched getter body; route=0x006C5690; campaign=luna36h-20260907;lane=shaders;model=gpt-5.6-sol-ultra
 ?g_pfnGetThreadACP@ATL@@3P6GIXZA,0x012A64C0,VS2003 ATL conversion ACP slot; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
-?_AtlVerifyStackAvailable@_ATL_SAFE_ALLOCA_IMPL@ATL@@YA_NI@Z,0x0005B6E0,direct body pin: VS2003 atlalloc.h stack probe reached through retail ILT 0x0002F6F8; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
 ?AtlW2AHelper@ATL@@YGPADPADPBGHI@Z,0x0005B8E0,direct body pin: VS2003 atlconv.h wide-to-ANSI helper reached through retail ILT 0x0001B3F6; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
 ?AtlThrow@ATL@@YGXJ@Z,0x0005BA40,direct body pin: VS2003 atlexcept.h exception helper reached through retail ILT 0x00019ACE; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
 ?Rva007EFFC0Get@@YAPAVRva007EFFC0Allocator@@XZ,0x007EFFC0,typed allocator singleton getter; complete body returns global allocator and the 0x00808ED0 caller uses proven allocate slot +8 and release slot +0xC; direct body; campaign=luna36h-20260907;lane=netpacket_next;model=gpt-5.6-sol-ultra
@@ -85918,3 +85915,32 @@ _bfmeVftEAX,0x00D28880,pin vftable for BfmeConv2013
 ?bfmeEraseEAY@BfmeListEAY@@QAEXPAVBfmeNodeEAY@@@Z,0x00035F12,pin erase for BfmeConv2014
 ?bfmeReleaseSJ@BfmeThingSJ@@QAEXXZ,0x009EB7A0,pin release for BfmeConv2015
 ??1BfmeBaseSJ@@QAE@XZ,0x00030652,pin base dtor for BfmeConv2015
+??$_M_insert_dispatch@U?$_List_iterator@VExperienceLevel@@U?$_Const_traits@VExperienceLevel@@@_STL@@@_STL@@@?$list@VExperienceLevel@@V?$allocator@VExperienceLevel@@@_STL@@@_STL@@QAEXU?$_List_iterator@VExperienceLevel@@U?$_Nonconst_traits@VExperienceLevel@@@_STL@@@1@U?$_List_iterator@VExperienceLevel@@U?$_Const_traits@VExperienceLevel@@@_STL@@@1@1ABU__false_type@1@@Z,0x00381D10,body identity from the matched 224-byte-node range insert and its _Construct route to the proven ExperienceLevel layout at 0x00381B60;campaign=luna36h-20260907;lane=hlod;model=gpt-5.6-sol-ultra
+??1?$_List_base@VExperienceLevel@@V?$allocator@VExperienceLevel@@@_STL@@@_STL@@QAE@XZ,0x0037E2F0,retail 0x00381DF0 FuncInfo sole unwind action reaches this clear-and-delete list-base destructor body;campaign=luna36h-20260907;lane=hlod;model=gpt-5.6-sol-ultra
+?Init@?$CW2AEX@$0IA@@ATL@@AAEXPBGI@Z,0x0005DA80,direct body pin: VS2003 ATL CW2AEX<128> initializer; exact 107-byte body reached through retail ILT 0x0000F62D; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+??1?$CW2AEX@$0IA@@ATL@@QAE@XZ,0x0005D7B0,direct body pin: VS2003 ATL CW2AEX<128> destructor; exact 18-byte body reached by this function's retail unwind action through ILT 0x000012FD; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+??0Rva006D65B0ScorchHandle@@QAE@W4MipCountType@@@Z,0x006D65B0,address-derived typed one-pointer scorch texture handle constructor; EXScorch tag consumer and initHeightData call chain verify MipCountType ABI; campaign=luna36h-20260907;lane=shaders;model=gpt-5.6-sol-ultra
+?bfmeGetSA@BfmeThingSA@@QAEHPBDH@Z,0x007E8900,matched 0x008037A0 caller reads TID and PID through this method; complete 45B body returns the fallback or calls the matched signed-decimal parser 0x007EE720; replaces stale pointer-shaped declaration; campaign=luna36h-20260907;lane=netpacket_next;model=gpt-5.6-sol-ultra
+?send@Rva008038F0Sender@@QAEXPAVBfmeC994@@@Z,0x008038F0,neutral direct-body member ABI; retail 0x00809100 and multiple matched FESL callers load the sender receiver into ECX; complete 123B body reads receiver +0x10 and forwards the message through virtual slot +0x0C; campaign=luna36h-20260907;lane=netpacket_next;model=gpt-5.6-sol-ultra
+??1Rva007E86B0Base@@UAE@XZ,0x007E86C0,neutral base destructor paired with the held direct constructor pin at 0x007E86B0; both complete bodies install vtable 0x01129358 and retail 0x00809100 invokes this cleanup for the naturally scoped BfmeC994 derived message; campaign=luna36h-20260907;lane=netpacket_next;model=gpt-5.6-sol-ultra
+?onRemoving@OpenContain@@UAEXPAVObject@@@Z,0x00227DC0,OpenContain secondary-vtable 0x010AC038 slot +0x48 reaches actual body 0x00227DC0
+?rva001CA2E0@Object@@QAEXXZ,0x001CA2E0,address-derived Object no-argument member called on the removed object by CaveContain::onRemoving
+?rva00411DD0@Drawable@@QAEX_N@Z,0x00411DD0,address-derived Drawable Bool member called through the removed object's vslot +0x28 result
+?bfmeDestroy354A60@Rva0035B3D0RecordNode@@QAEXXZ,0x00354A60,direct body pin; retail 0x0035B3D0 calls through ILT 0x00028EC0 on the record+0x10 node; body adjusts this by +4 then reaches Script destructor 0x00352C20 with vtable 0x010E858C; campaign=luna36h-20260907;lane=expand01;model=gpt-5.6-sol-ultra
+?bfmeRelease359530@Rva0035B3D0TableView@@QAEXH@Z,0x00359530,direct body pin; retail 0x0035B3D0 calls through ILT 0x0003E85B with owner+0x2C and the wrapper record index; body releases the 20-byte table record; campaign=luna36h-20260907;lane=expand01;model=gpt-5.6-sol-ultra
+?bfmeDelete350E30@Rva0035B3D0ListNode@@QAEPAXI@Z,0x00350E30,direct body pin; retail 0x0035B3D0 calls through ILT 0x00002338 with flag 1; body recursively invokes the same deleting destructor then conditionally frees the node and returns it; campaign=luna36h-20260907;lane=expand01;model=gpt-5.6-sol-ultra
+?rva003C3AC0@Glo012F1028Type@@QAEXXZ,0x003C3AC0,actual body receives the 0x012F1028 global and passes its embedded +0x68/+0x6C vector pair to the proven range helper; campaign=luna36h-20260907;lane=expand07;model=gpt-5.6-sol-ultra
+?rva003C3B50@Glo012F1028Type@@QAEXPBUP6Elem003C3B50@@@Z,0x003C3B50,actual body receives the same 0x012F1028 global and appends a typed 0x60-byte record through its +0x68/+0x6C/+0x70 vector; campaign=luna36h-20260907;lane=expand07;model=gpt-5.6-sol-ultra
+?g_rva001B5860TwoPi@@3MB,0x01087B10,direct float data 0x40C90FDB used as 2*pi angular-period numerator at retail 0x001B5860;campaign=luna36h-20260907;lane=files;model=gpt-5.6-sol-ultra
+?reserve@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEXI@Z,0x00025243,route=0x0053A100; retail 0x0083C100 calls the matched narrow basic_string reserve through this ILT;campaign=luna36h-20260907;lane=expand10;model=gpt-5.6-sol-ultra
+?__write_float@_STL@@YAXAAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@1@HHO@Z,0x00849860,retail wide num_put helper passes string flags precision and long double; the sibling double overload is 0x00849770;campaign=luna36h-20260907;lane=expand10;model=gpt-5.6-sol-ultra
+??$__put_float@V?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@YA?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@0@PAD0V10@AAVios_base@0@GGGABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@0@@Z,0x0083C210,retail argument pushes prove wide output iterator hidden sret char range ios fill decimal separator and grouping;campaign=luna36h-20260907;lane=expand10;model=gpt-5.6-sol-ultra
+?_S_lock@?$_Node_Alloc_Lock@$00$0A@@_STL@@2U_STLP_mutex_base@2@A,0x0130B254,STLport node allocator lock used by the inlined basic_string destructor;campaign=luna36h-20260907;lane=expand10;model=gpt-5.6-sol-ultra
+?_S_free_list@?$__node_alloc@$00$0A@@_STL@@0RCRAV_Node_alloc_obj@2@C,0x0130B1C0,STLport node allocator free-list table used by the inlined basic_string destructor;campaign=luna36h-20260907;lane=expand10;model=gpt-5.6-sol-ultra
+?CreateEx@CImage@ATL@@QAEHHHHKPBKK@Z,0x0005ECD0,direct body pin: VS2003 atlimage.h CImage::CreateEx exact 307-byte body; its retail caller selects the existing ILT at 0x0000CCB6; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+?_AtlVerifyStackAvailable@_ATL_SAFE_ALLOCA_IMPL@ATL@@YA_NK@Z,0x0005B6E0,direct body pin: VS2003 atlalloc.h SIZE_T signature exact 133-byte body; retail caller selects the existing ILT at 0x0002F6F8; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+??1?$CAtlSafeAllocBufferManager@VCCRTAllocator@ATL@@@_ATL_SAFE_ALLOCA_IMPL@ATL@@QAE@XZ,0x0005C660,direct body pin: VS2003 atlalloc.h safe-allocation manager destructor exact 37-byte body; retail caller selects the existing ILT at 0x000290DC; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+?SetColorTable@CImage@ATL@@QAEXIIPBUtagRGBQUAD@@@Z,0x0005C280,direct body pin: VS2003 atlimage.h CImage::SetColorTable exact 113-byte body; retail caller selects the existing ILT at 0x0004AF48; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+??0Bitmap@Gdiplus@@QAE@HHHHPAE@Z,0x0005BE50,direct body pin: VS2003 gdiplusheaders.h scan-buffer Bitmap constructor exact 70-byte body; retail caller selects the existing ILT at 0x0001BF45; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+??1Bitmap@Gdiplus@@UAE@XZ,0x0005BE30,direct body pin: VS2003 gdiplusheaders.h Bitmap destructor exact 16-byte body; retail caller selects the existing ILT at 0x00034833; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra
+?UpdateBitmapInfo@CImage@ATL@@AAEXW4DIBOrientation@12@@Z,0x0005C350,direct body pin: VS2003 atlimage.h CImage::UpdateBitmapInfo exact 200-byte body; CreateEx reaches it through retail ILT 0x0004606F; campaign=luna36h-20260907;lane=xfer;model=gpt-5.6-sol-ultra

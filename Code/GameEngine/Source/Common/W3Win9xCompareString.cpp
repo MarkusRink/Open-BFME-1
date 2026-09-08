@@ -51,7 +51,7 @@ namespace ATL
 
 	namespace _ATL_SAFE_ALLOCA_IMPL
 	{
-		bool __cdecl _AtlVerifyStackAvailable(size_t bytes);
+		bool __cdecl _AtlVerifyStackAvailable(unsigned long bytes);
 
 		template <class Allocator>
 		class CAtlSafeAllocBufferManager
