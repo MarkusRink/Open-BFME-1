@@ -15593,3 +15593,12 @@ _Rva0088E000DialogProc@16	0x0088E000	143	partial	clean C++ dialog procedure matc
 ?d_0081d520@@YAXXZ	0x0081D520	82	blocked	video/INI helper has unresolved object identity and virtual callback ownership; clean C++ reconstruction not verified t=12min model=gpt-5.6
 ?d_0081d600@@YAXXZ	0x0081D600	341	blocked	video/INI body has deep SEH, x87 arithmetic and unresolved helper/class ownership; no clean C++ identity verified t=25min model=gpt-5.6
 ?d_0081d7c0@@YAXXZ	0x0081D7C0	194	blocked	video/INI body has unresolved global state and helper ownership; no clean C++ reconstruction verified t=15min model=gpt-5.6
+?d_003492a0@@YAXXZ	0x003492A0	928	blocked	large mixed UI/debug body has unresolved object, list and callback ownership; no clean C++ identity verified t=25min model=gpt-5.6
+?d_0034e520@@YAXXZ	0x0034E520	110	blocked	audio/script body has unresolved source identity and helper ownership; no clean C++ reconstruction verified t=12min model=gpt-5.6
+?d_0034e810@@YAXXZ	0x0034E810	482	blocked	audio/script body has unresolved source identity and helper ownership; no clean C++ reconstruction verified t=20min model=gpt-5.6
+?d_0034f160@@YAXXZ	0x0034F160	829	blocked	large audio/script body has deep control flow and unresolved helper ownership; no clean C++ identity verified t=25min model=gpt-5.6
+?d_0034f570@@YAXXZ	0x0034F570	420	blocked	audio/script body has unresolved source identity and helper ownership; no clean C++ reconstruction verified t=18min model=gpt-5.6
+?d_00357d30@@YAXXZ	0x00357D30	514	blocked	container/list body has unresolved source identity and helper ownership; no clean C++ reconstruction verified t=20min model=gpt-5.6
+?d_003594a0@@YAXXZ	0x003594A0	108	blocked	string-record helper has unresolved owner identity and cleanup ownership; no clean C++ reconstruction verified t=15min model=gpt-5.6
+?d_00359dc0@@YAXXZ	0x00359DC0	101	blocked	string-record lookup body has unresolved owner identity and callback ownership; no clean C++ reconstruction verified t=15min model=gpt-5.6
+?d_00359e40@@YAXXZ	0x00359E40	121	blocked	string-record lookup body has unresolved owner identity and callback ownership; no clean C++ reconstruction verified t=15min model=gpt-5.6
