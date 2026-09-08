@@ -86256,3 +86256,6 @@ TerrainCollisionConcrete_vtbl12,0x01111438,ConcreteModuleTemplate TerrainCollisi
 ?bfmeCmpXD@BfmeStrXD@@QBEHABV1@@Z,0x000220C5,Open-BFME5 AsciiString compare ILT the median of three at 0x002E7FF0 calls
 ??1BfmeElemXF@@QAE@XZ,0x0002A4F0,Open-BFME5 ILT destructor the slot clear at 0x003D1690 calls
 ??4BfmeBaseXF@@QAEAAV0@ABV0@@Z,0x0003A49A,Open-BFME5 ILT base assignment the 0x003D1690 copy calls
+?setCurrentFilename@BfmeAptScreenMapTransfer@@QAEXABVAsciiString@@@Z,0x00510320,FileTransfer 0x0066CE60 call through ILT 0x00030418 on singleton 0x012F496C; same this as exact BfmeAptScreenMapTransfer::processProgress and filename reference ABI proven by caller
+?processTimeout@BfmeAptScreenMapTransfer@@QAEXH@Z,0x00510130,FileTransfer 0x0066CE60 calls through ILT 0x000362B9 on singleton 0x012F496C; same this as exact BfmeAptScreenMapTransfer::processProgress and ZH timeout semantic twin
+?update@BfmeAptScreenMapTransfer@@QAEXH@Z,0x0050FF30,FileTransfer 0x0066CE60 calls through ILT 0x00015D0C on singleton 0x012F496C; same this as exact BfmeAptScreenMapTransfer::processProgress and percent update callsites
