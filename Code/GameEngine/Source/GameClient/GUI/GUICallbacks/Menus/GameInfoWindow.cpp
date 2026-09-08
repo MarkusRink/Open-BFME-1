@@ -217,35 +217,6 @@ void HideGameInfoWindow(Bool hide)
 }
 
 //-------------------------------------------------------------------------------------------------
-/** Initialize the GameInfoWindow */
-//-------------------------------------------------------------------------------------------------
-void GameInfoWindowInit( WindowLayout *layout, void *userData )
-{
-
-	parentID = TheNameKeyGenerator->nameToKey( "GameInfoWindow.wnd:ParentGameInfo" );
-	staticTextGameNameID = TheNameKeyGenerator->nameToKey( "GameInfoWindow.wnd:StaticTextGameName" );
-	staticTextMapNameID = TheNameKeyGenerator->nameToKey( "GameInfoWindow.wnd:StaticTextMapName" );
-	listBoxPlayersID = TheNameKeyGenerator->nameToKey( "GameInfoWindow.wnd:ListBoxPlayers" );
-	winCratesID = TheNameKeyGenerator->nameToKey( "GameInfoWindow.wnd:WinCrates" );
-	winSuperWeaponsID = TheNameKeyGenerator->nameToKey( "GameInfoWindow.wnd:WinSuperWeapons" );
-	winFreeForAllID = TheNameKeyGenerator->nameToKey( "GameInfoWindow.wnd:WinFreeForAll" );
-	
-	parent = TheWindowManager->winGetWindowFromId( NULL, parentID );
-	staticTextGameName = TheWindowManager->winGetWindowFromId( parent, staticTextGameNameID );
-	staticTextMapName = TheWindowManager->winGetWindowFromId( parent, staticTextMapNameID );
-	listBoxPlayers = TheWindowManager->winGetWindowFromId( parent, listBoxPlayersID );
-	winCrates = TheWindowManager->winGetWindowFromId( parent, winCratesID );
-	winSuperWeapons = TheWindowManager->winGetWindowFromId( parent, winSuperWeaponsID );
-	winFreeForAll = TheWindowManager->winGetWindowFromId( parent, winFreeForAllID );
-
-	GadgetStaticTextSetText(staticTextGameName,UnicodeString.TheEmptyString);
-	GadgetStaticTextSetText(staticTextMapName,UnicodeString.TheEmptyString);
-	GadgetListBoxReset(listBoxPlayers);
-	
-}  // end MapSelectMenuInit
-
-
-//-------------------------------------------------------------------------------------------------
 /** GameInfo window system callback */
 //-------------------------------------------------------------------------------------------------
 WindowMsgHandledType GameInfoWindowSystem( GameWindow *window, UnsignedInt msg, 
@@ -295,4 +266,3 @@ WindowMsgHandledType GameInfoWindowSystem( GameWindow *window, UnsignedInt msg,
 	return MSG_HANDLED;
 
 }  // end MapSelectMenuSystem
-
