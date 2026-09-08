@@ -86065,3 +86065,5 @@ g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?_M_fill_insert@?$list@URva003C15C0Element@@V?$allocator@URva003C15C0Element@@@_STL@@@_STL@@QAEXU?$_List_iterator@URva003C15C0Element@@U?$_Nonconst_traits@URva003C15C0Element@@@_STL@@@2@IABURva003C15C0Element@@@Z,0x003C0000,retail call from 0x003C15C0 resolves to matched 12-byte list fill_insert body at 0x003C0000
+?bfmeFindFN@BfmeOwnerFN@@QAEHPAVBfmeVecFN@@PBD@Z,0x007F76F0,pin find for BfmeConv2048
+?bfmeAppendFN@BfmeBufFN@@QAEXPBD@Z,0x008002C0,pin append for BfmeConv2048
