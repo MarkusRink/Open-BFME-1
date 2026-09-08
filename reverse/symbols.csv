@@ -86269,48 +86269,7 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-LineEmissionVolumeConcrete_vtbl0,0x011111A8,ConcreteModuleTemplate LineEmissionVolume primary vtable
-LineEmissionVolumeConcrete_vtbl4,0x011111A4,ConcreteModuleTemplate LineEmissionVolume secondary vtable
-LineEmissionVolumeConcrete_vtbl8,0x01111190,ConcreteModuleTemplate LineEmissionVolume module-info vtable
-?update@ShellMenuSchemeManager@@QAEXXZ,0x005802A0,Shell update calls the retail no-op scheme manager update body through ILT 0x000131D8
-LifeEventConcrete_vtbl0,0x01111424,ConcreteModuleTemplate LifeEvent primary vtable
-LifeEventConcrete_vtbl4,0x01111420,ConcreteModuleTemplate LifeEvent secondary vtable
-LifeEventConcrete_vtbl12,0x0111140C,ConcreteModuleTemplate LifeEvent module-info vtable
-?canAffordUpgrade@UpgradeCenter@@QBE_NPAVPlayer@@PBVUpgradeTemplate@@PBVThingTemplate@@_N@Z,0x0001CEA9,ProductionUpdate queueUpgrade affordability thunk
-?hasUpgradeInProduction@Player@@QAE_NPBVUpgradeTemplate@@@Z,0x00020C8E,ProductionUpdate queueUpgrade player upgrade check thunk
-??0ProductionEntry@@QAE@XZ,0x00047DFC,ProductionUpdate queueUpgrade entry constructor thunk
-?calcCostToBuild@UpgradeTemplate@@QBEHPAVPlayer@@PBVThingTemplate@@@Z,0x0003F8D7,ProductionUpdate queueUpgrade cost thunk
-?rva0036BB10FindCastleMemberBehavior@@YAPAVModule@@PBVObject@@@Z,0x0000E6E7,ProductionUpdate queueUpgrade behavior lookup thunk
-?addToProductionQueue@ProductionUpdate@@IAEXPAVProductionEntry@@@Z,0x000450F7,ProductionUpdate queueUpgrade append thunk
-RenderObjectDrawConcrete_vtbl0,0x01111398,ConcreteModuleTemplate RenderObjectDraw primary vtable
-RenderObjectDrawConcrete_vtbl4,0x01111394,ConcreteModuleTemplate RenderObjectDraw secondary vtable
-RenderObjectDrawConcrete_vtbl8,0x01111380,ConcreteModuleTemplate RenderObjectDraw module-info vtable
-?Reset_Polys@Render2DSentenceClass@@QAEXXZ,0x0093D0F0,Render2DSentenceClass::Reset_Polys from the W3DGameWindow drawText reference body
-?Draw_Sentence@Render2DSentenceClass@@QAEXHHHH@Z,0x0093EB50,Render2DSentenceClass four-argument draw call recovered from W3DGameWindow drawText
-?destroy@RenderObjectDrawModuleInfoDtorShim@FXParticleSystem@@QAEXXZ,0x00022903,RenderObjectDrawModuleInfo destructor ILT used by its module-template destructor
-RenderObjectDrawCategory_vtbl4,0x0110F97C,RenderObjectDraw category-info base vtable
-ModuleTemplate_vtbl0,0x01073758,ModuleTemplate base vtable
-??_7LifeEventModuleInfoBase@FXParticleSystem@@6B@,0x01073744,LifeEvent module-info base vtable
-??_7?$CategoryModuleInfo@$07@FXParticleSystem@@6B@,0x0107375C,CategoryModuleInfo<8> base vtable
-??_7ModuleTemplate@FXParticleSystem@@6B@,0x01073758,ModuleTemplate base vtable
 ??_7LifeEventModuleInfo@FXParticleSystem@@6B@,0x01111278,LifeEventModuleInfo vtable
-TerrainCollisionConcrete_vtbl0,0x01111450,ConcreteModuleTemplate TerrainCollision primary vtable
-TerrainCollisionConcrete_vtbl4,0x0111144C,ConcreteModuleTemplate TerrainCollision secondary vtable
-TerrainCollisionConcrete_vtbl12,0x01111438,ConcreteModuleTemplate TerrainCollision module-info vtable
-??0Rva00581F60SubMachine@@QAE@PAVObject@@VAsciiString@@@Z,0x00181F60,neutral submachine constructor: retail call ILT 0000DFA8 reaches matched 347B body; AIMoveToState nested AIAttackMoveMachine construction
-??1Rva00183C10@@UAE@XZ,0x0001C215,route=0x00183C10; scalar helper001873E0 complete destructor call; unified full18slot class owns existing94B destructor
-??1AIInternalMoveToState@@UAE@XZ,0x0004AAF7,route=0x00172430; complete state destructor00183C10 calls canonical AIInternalMoveToState through actual retail ILT; decoded call at00183C59
-?rva0089EEF0@Rva8CD130String@@QAEXII@Z,0x0089EEF0,neutral Apt string member; direct retail call008AE6D9; two32-bitargs ret8; boundary230B
-?rva00896AF0@Rva00896AF0Tracker@@QAEXPAVRva8CD130String@@V2@@Z,0x00896AF0,neutral Apt tracker member; direct retail call008AE70E; pointer and by-value4Bstring ret8; boundary1272B
-??1BfmeE976@@QAE@XZ,0x0000B42E,BfmeAptScreenLanLobby embedded +0x25C cleanup call through the retail incremental-link thunk
-??1LanLobbyUserNamePrefs@@QAE@XZ,0x00040DB3,BfmeAptScreenLanLobby embedded +0x390 cleanup call through the retail incremental-link thunk
-??1LanLobbyTail@@QAE@XZ,0x0004598F,BfmeAptScreenLanLobby embedded +0x3C0 cleanup call through the retail incremental-link thunk
-?bfmeCmpXD@BfmeStrXD@@QBEHABV1@@Z,0x000220C5,Open-BFME5 AsciiString compare ILT the median of three at 0x002E7FF0 calls
-??1BfmeElemXF@@QAE@XZ,0x0002A4F0,Open-BFME5 ILT destructor the slot clear at 0x003D1690 calls
-??4BfmeBaseXF@@QAEAAV0@ABV0@@Z,0x0003A49A,Open-BFME5 ILT base assignment the 0x003D1690 copy calls
-?setCurrentFilename@BfmeAptScreenMapTransfer@@QAEXABVAsciiString@@@Z,0x00510320,FileTransfer 0x0066CE60 call through ILT 0x00030418 on singleton 0x012F496C; same this as exact BfmeAptScreenMapTransfer::processProgress and filename reference ABI proven by caller
-?processTimeout@BfmeAptScreenMapTransfer@@QAEXH@Z,0x00510130,FileTransfer 0x0066CE60 calls through ILT 0x000362B9 on singleton 0x012F496C; same this as exact BfmeAptScreenMapTransfer::processProgress and ZH timeout semantic twin
-?update@BfmeAptScreenMapTransfer@@QAEXH@Z,0x0050FF30,FileTransfer 0x0066CE60 calls through ILT 0x00015D0C on singleton 0x012F496C; same this as exact BfmeAptScreenMapTransfer::processProgress and percent update callsites
 ??$_M_get_base_or_zero@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@D@_STL@@YAHAAV?$istreambuf_iterator@DV?$char_traits@D@_STL@@@0@0AAVios_base@0@PAD@Z,0x00832970,STLport 4.5.3 narrow _M_get_base_or_zero; called by signed __int64 num_get body at 0x00832DB0; exact retail parser family
 ??$__get_integer@V?$istreambuf_iterator@DV?$char_traits@D@_STL@@@_STL@@_J@_STL@@YA_NAAV?$istreambuf_iterator@DV?$char_traits@D@_STL@@@0@0HAA_JH_NDABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@0@ABU__true_type@0@@Z,0x00832EC0,STLport 4.5.3 narrow signed __int64 __get_integer; __alldiv and eight-byte value store match 0x00832DB0
 ??$__get_integer@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@_J@_STL@@YA_NAAV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@0@0HAA_JH_NDABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@0@ABU__true_type@0@@Z,0x00834360,STLport 4.5.3 wide signed __int64 __get_integer; __alldiv and eight-byte value store match 0x00834250; BFME wchar_t is unsigned short
