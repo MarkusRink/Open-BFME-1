@@ -86105,3 +86105,5 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeNotifyGG@BfmeThingGG@@QAEXXZ,0x0002191D,pin notify for BfmeConv2064
 ?g_bfmeMgrGK@@3PAVBfmeMgrGK@@A,0x00EF101C,pin manager for BfmeConv2065
 ?bfmeCheckGK@BfmeMgrGK@@QAEDPAVBfmeObjGK@@HH@Z,0x000481FD,pin check for BfmeConv2065
+_bfmeVftGL,0x00D2E8B8,pin vftable for BfmeConv2066
+__imp_??0BfmeBaseGL@@QAE@XZ,0x00F59214,pin base ctor for BfmeConv2066
