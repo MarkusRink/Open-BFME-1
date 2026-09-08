@@ -12625,3 +12625,8 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_00377550@@YAXXZ	0x00377550	392	blocked	t=3min model=gpt-5.6-sol identity detectors and brief show no named caller or owning emitted object; only address-derived player/network callees and globals
 ?d_00377af0@@YAXXZ	0x00377AF0	441	blocked	t=3min model=gpt-5.6-sol INI/name-key callback has no named caller or owning emitted object; helper pins do not establish the callback identity
 ?d_0037f190@@YAXXZ	0x0037F190	115	blocked	t=3min model=gpt-5.6-sol ExperienceLevelSystem-family callees are suggestive but no matched caller or one-name identity evidence establishes the exact helper
+?d_0037c030@@YAXXZ	0x0037C030	543	blocked	t=4min model=gpt-5.6-sol identity detectors and brief show no named caller or owning emitted object; complex object-state body depends on multiple address-derived callees
+?d_0037c310@@YAXXZ	0x0037C310	465	blocked	t=4min model=gpt-5.6-sol identity detectors and brief show no named caller or owning emitted object; player/object-state body has only address-derived callees
+?d_0037dfd0@@YAXXZ	0x0037DFD0	347	blocked	t=4min model=gpt-5.6-sol identity detectors and brief show no named caller or owning emitted object; complex object-effect body has only address-derived callees
+?d_0037fbc0@@YAXXZ	0x0037FBC0	187	blocked	t=4min model=gpt-5.6-sol INI/name-key and vector-insertion body has no named caller or owning emitted object; helper pins do not establish callback identity
+?d_003820a0@@YAXXZ	0x003820A0	293	blocked	t=4min model=gpt-5.6-sol factory/allocation body has no named caller or owning emitted object; identity detectors provide no safe function name
