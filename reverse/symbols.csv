@@ -86374,3 +86374,7 @@ ___security_cookie,0x012DBDB0,MSVC 7.1 /GS cookie; absolute data VA read by exac
 ?bfmeDtorAAO@BfmeMemAAO@@QAEXXZ,0x000187D2,Open-BFME5 ILT member teardown the 0x00C70E90 static teardown calls first
 ?bfmeDtorBAAO@BfmeMemBAAO@@QAEXXZ,0x0000AC2C,Open-BFME5 ILT member teardown the 0x00C70E90 static teardown calls second
 ?g_bfmeStaticAAO@@3UBfmeStaticAAO@@A,0x0130E918,Open-BFME5 static object the 0x00C70E90 teardown destroys
+__imp__GetCurrentThreadId@0,0x01358D7C,Open-BFME5 KERNEL32 GetCurrentThreadId import the 0x0088A520 window probe calls
+__imp__EnumThreadWindows@12,0x01358FDC,Open-BFME5 USER32 EnumThreadWindows import the 0x0088A520 window probe calls
+__imp__GetWindowLongA@8,0x01359018,Open-BFME5 USER32 GetWindowLongA import the 0x0088A520 window probe calls
+__imp__GetClientRect@8,0x0135901C,Open-BFME5 USER32 GetClientRect import the 0x0088A520 window probe calls
