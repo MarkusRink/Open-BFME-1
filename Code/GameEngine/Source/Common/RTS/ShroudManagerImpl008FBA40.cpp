@@ -7,8 +7,27 @@ typedef float Real;
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
+enum CellShroudStatus
+{
+	CELLSHROUD_CLEAR,
+	CELLSHROUD_FOGGED,
+	CELLSHROUD_SHROUDED
+};
+
+enum ObjectShroudStatus
+{
+	OBJECTSHROUD_INVALID,
+	OBJECTSHROUD_CLEAR,
+	OBJECTSHROUD_PARTIAL_CLEAR,
+	OBJECTSHROUD_FOGGED,
+	OBJECTSHROUD_SHROUDED
+};
+
 extern "C" __declspec(dllimport) double __cdecl ceil(double value);
 extern "C" __declspec(dllimport) double __cdecl floor(double value);
+extern const Real g_bfmeK1253;
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 
 __forceinline Int shroudFloatToLong(Real value)
 {
@@ -70,6 +89,9 @@ struct Gen_t_008fb350_p12pod
 
 class ShroudManagerImpl008FBA40;
 class PartitionManager;
+struct ShroudManagerImpl008FBA40ElementLayout;
+__forceinline ShroudManagerImpl008FBA40ElementLayout *shroudElementAt(
+	const ShroudManagerImpl008FBA40 *manager, Int x, Int y);
 
 class BfmePartVRA;
 
@@ -131,6 +153,13 @@ __forceinline int shroudStatusFromCount(unsigned short status)
 	return status == 0xffff ? 2 : status == 0;
 }
 
+__forceinline int shroudStatusFromRaw(unsigned short status)
+{
+	if (status == 0xffff)
+		return CELLSHROUD_SHROUDED;
+	return status == 0;
+}
+
 typedef void (__cdecl *ShroudManagerImpl008FBA40RefreshCallback)(
 	int x, int y, int status);
 
@@ -159,6 +188,10 @@ class ShroudManagerImpl008FBA40
 public:
 	ShroudManagerImpl008FBA40();
 	~ShroudManagerImpl008FBA40();
+	__declspec(noinline) CellShroudStatus getShroudStatusForPlayer(
+		Int playerIndex, Int x, Int y) const;
+	ObjectShroudStatus getPropShroudStatusForPlayer(Int playerIndex,
+		const Coord3D *loc) const;
 	void drainPending();
 	void updatePlayerCells008FB010(int playerIndex);
 	void updatePlayerCells008FB060(int playerIndex);
@@ -190,6 +223,8 @@ private:
 	void processPending(bool drainAll);
 	friend class ShroudManagerImpl008FBA40Element;
 	friend class PartitionManager;
+	friend ShroudManagerImpl008FBA40ElementLayout *shroudElementAt(
+		const ShroudManagerImpl008FBA40 *manager, Int x, Int y);
 };
 
 bool processShroudRevealCircle008F9A70(Int cellX, Int cellY, Int cellRadius,
@@ -439,6 +474,79 @@ void ShroudManagerImpl008FBA40::undoShroudReveal(Int cellX, Int cellY,
 	if (playerMask != 0 && cellRadius >= 0)
 		processShroudRevealCircle008F9B10(cellX, cellY, cellRadius, this,
 			playerMask & 0xffff);
+}
+
+struct ShroudManagerImpl008FBA40ElementLayout
+{
+	ShroudManagerImpl008FBA40Node *cellNodes;
+	unsigned short playerStates[16][3];
+	int unknown64;
+};
+
+__forceinline ShroudManagerImpl008FBA40ElementLayout *shroudElementAt(
+	const ShroudManagerImpl008FBA40 *manager, Int x, Int y)
+{
+	if (x < 0 || x >= (Int)manager->width || y < 0 ||
+		y >= (Int)manager->height)
+		return 0;
+
+	return reinterpret_cast<ShroudManagerImpl008FBA40ElementLayout *>(
+		manager->elements + manager->width * y + x);
+}
+
+// ?getShroudStatusForPlayer@ShroudManagerImpl008FBA40@@QBE?AW4CellShroudStatus@@HHH@Z present-unmatched
+__declspec(noinline) CellShroudStatus
+ShroudManagerImpl008FBA40::getShroudStatusForPlayer(
+	Int playerIndex, Int x, Int y) const
+{
+	CellShroudStatus result;
+	ShroudManagerImpl008FBA40ElementLayout *element =
+		shroudElementAt(this, x, y);
+	if (element)
+	{
+		unsigned short status = element->playerStates[playerIndex][0];
+		result = (CellShroudStatus)shroudStatusFromRaw(status);
+	}
+	else
+		result = CELLSHROUD_SHROUDED;
+
+	if (result == CELLSHROUD_FOGGED && !enabled)
+		result = CELLSHROUD_CLEAR;
+	return (CellShroudStatus)result;
+}
+
+ObjectShroudStatus ShroudManagerImpl008FBA40::getPropShroudStatusForPlayer(
+	Int playerIndex, const Coord3D *loc) const
+{
+	if (playerIndex < 0 || playerIndex >= 16)
+		return OBJECTSHROUD_SHROUDED;
+
+	Int x = shroudFloatToLong((Real)floor((loc->x - defaultCellSize *
+		0.5f - region.lo.x) *
+		inverseCellSize));
+	Int y = shroudFloatToLong((Real)floor((loc->y - defaultCellSize *
+		0.5f - region.lo.y) *
+		inverseCellSize));
+
+	CellShroudStatus cellStatus = getShroudStatusForPlayer(playerIndex, x, y);
+	if (cellStatus != getShroudStatusForPlayer(playerIndex, x + 1, y))
+		return OBJECTSHROUD_PARTIAL_CLEAR;
+	if (cellStatus != getShroudStatusForPlayer(playerIndex, x, y + 1))
+		return OBJECTSHROUD_PARTIAL_CLEAR;
+	if (cellStatus != getShroudStatusForPlayer(playerIndex, x + 1, y + 1))
+		return OBJECTSHROUD_PARTIAL_CLEAR;
+	switch (cellStatus)
+	{
+	case CELLSHROUD_CLEAR:
+		_ReadWriteBarrier();
+		return OBJECTSHROUD_CLEAR;
+	case CELLSHROUD_SHROUDED:
+		_ReadWriteBarrier();
+		return OBJECTSHROUD_SHROUDED;
+	default:
+		_ReadWriteBarrier();
+		return OBJECTSHROUD_FOGGED;
+	}
 }
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/PartitionManager.h
