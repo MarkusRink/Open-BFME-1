@@ -86303,3 +86303,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeApplyXW@BfmeHostXW@@QAEXPAVObject@@H@Z,0x000157DA,Open-BFME5 ILT apply the 0x00256CD0 setter calls
 ?bfmeEnabledXY@AudioEventRTS@@QAE_NXZ,0x0000F380,Open-BFME5 ILT enabled test the 0x00695F80 position getter calls
 ??1Condition@@UAE@XZ,0x000461B9,route=0x00352D20; actual Condition scalar deleting wrapper355CE0 calls proven complete destructor through this ILT; campaign=36h-20260908-1018
+?validUnderCursor@@YAPAVObject@@PBUICoord2D@@PBVCommandButton@@W4PickType@@@Z,0x005B15A0,static cursor target validator defined in GUICommandTranslator.cpp
