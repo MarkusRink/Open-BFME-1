@@ -4676,7 +4676,7 @@ name,address,notes
 ??1Gen_dtor_00077530@@UAE@XZ,0x000079DC,gen-dtor class destructor
 ??1Gen_dtor_00078480@@UAE@XZ,0x00022390,gen-dtor class destructor
 ??1Gen_dtor_00078d60@@UAE@XZ,0x0002CEE9,gen-dtor class destructor
-??1Gen_dtor_0007b640@@UAE@XZ,0x0003B89F,gen-dtor class destructor
+??1FunctorNotSet@@UAE@XZ,0x0003B89F,FunctorNotSet complete destructor ICF alias routed to the imported std::exception destructor
 ??1TimedOperationNode@@UAE@XZ,0x00018593,ILT for the identified TimedOperationNode complete destructor at RVA 0x0007B8B0
 ??1Gen_dtor_0007cc90@@UAE@XZ,0x00031EF3,gen-dtor class destructor
 ??1Gen_dtor_00080ac0@@UAE@XZ,0x00034496,gen-dtor class destructor
