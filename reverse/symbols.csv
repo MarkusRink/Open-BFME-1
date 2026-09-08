@@ -11368,7 +11368,7 @@ name,address,notes
 ?Set_Point_Orientation@PointGroupClass@@QAEXE@Z,0x00912040,derived from Render_Particles call sites
 ?Set_Point_Size@PointGroupClass@@QAEXM@Z,0x00912000,derived from Render_Particles call sites
 ?Set_Position@RenderObjClass@@UAEXABVVector3@@@Z,0x00920220
-?Set_Position_Retail@RetailAABoxRenderObjBase@@QAEXABVVector3@@@Z,0x009201A0,Open-BFME5 retail AABox base position call
+?Set_Position_Retail@RetailAABoxRenderObjBase@@QAEXABVVector3@@@Z,0x00920220,AABoxRenderObjClass constructor at 0x00957880 calls RenderObjClass::Set_Position
 ?Set_Priority@ThreadClass@@QAEXH@Z,0x009DB540,25-byte unclaimed body immediately ahead of the Execute candidate
 ?Set_Render_Device@DX8Wrapper@@KA_NHHHHH_N00@Z,0x0090B020,pinharvest x5 (body)
 ?Set_Render_Device@DX8Wrapper@@KA_NPBDHHHH_N@Z,0x0090B850,pinharvest x3 (body)

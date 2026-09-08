@@ -780,11 +780,13 @@ AABoxRenderObjClass::AABoxRenderObjClass(const AABoxRenderObjClass & src)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/AABoxRenderObjClassCtorThunk.cpp
-// ??0AABoxRenderObjClass@@ present-unmatched
-// Implemented in AABoxRenderObjClassCtorThunk.cpp because the real class's
-// base subobjects make MSVC prepend constructor initialization to a naked body.
-
+AABoxRenderObjClass::AABoxRenderObjClass(const AABoxClass & box)
+{
+	ObjSpaceCenter.Set(0,0,0);
+	ObjSpaceExtent.Set(box.Extent);
+	Set_Position(box.Center);
+	update_cached_box();
+}
 
 /***********************************************************************************************
  * AABoxRenderObjClass::operator -- assignment operator                                        *
