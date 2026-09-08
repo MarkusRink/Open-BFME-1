@@ -1,5 +1,3 @@
-// ?update@AIGiantBirdAttackState@@UAE?AW4StateReturnType@@XZ
-// partial score=0.96 date=2026-09-07
 // cl: /DNDEBUG /MD /EHsc
 //
 // AIGiantBirdAttackState::update, retail RVA 0x002BEA50.  The constructor at
@@ -8,7 +6,6 @@
 // a reloading weapon, then fires the current weapon at the target.
 
 typedef int Int;
-typedef bool Bool;
 
 enum StateReturnType
 {
@@ -213,16 +210,11 @@ StateReturnType AIGiantBirdAttackState::update()
 			} notifyModelConditionChangedCast;
 			notifyModelConditionChangedCast.asVoid = (void *)j_0002191d;
 			(object->*notifyModelConditionChangedCast.asMember)();
-			goto stateFireContinue;
 		}
 		goto stateContinue;
-
-stateFireContinue:
-		return STATE_CONTINUE;
 	}
-	if ((weapon->*getStatusCast.asMember)() != RELOADING_CLIP)
-		goto stateContinue;
-	goto stateSuccess;
+	if ((weapon->*getStatusCast.asMember)() == RELOADING_CLIP)
+		goto stateSuccess;
 
 stateContinue:
 	return STATE_CONTINUE;
