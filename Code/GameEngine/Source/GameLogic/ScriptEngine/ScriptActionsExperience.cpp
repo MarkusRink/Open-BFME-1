@@ -18,7 +18,7 @@ typedef int Int;
 class Object;
 class Team;
 class ScriptActionParameter;
-class BfmeExperienceLevelDefinition;
+class ExperienceLevel;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
 class AsciiString
@@ -68,7 +68,7 @@ extern void __cdecl bfmeTeamRefreshExperienceVisitor(Object *, void *);
 class ExperienceLevelSystem
 {
 public:
-	BfmeExperienceLevelDefinition *findLevel(const AsciiString &);
+	ExperienceLevel *findLevel(const AsciiString &);
 	void gainLevel(Object *, Bool);
 };
 
@@ -137,7 +137,7 @@ void ScriptActions::doTeamGiveExperienceLevel(
 		return;
 	}
 
-	BfmeExperienceLevelDefinition *level =
+	ExperienceLevel *level =
 		TheExperienceLevelSystem->findLevel(levelName);
 	if (!level) {
 		return;

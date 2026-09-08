@@ -15,7 +15,9 @@ private:
 	char *m_text;
 };
 
-class BfmeExperienceLevelDefinition
+// Borrowed field view of the D8-byte ExperienceLevel returned by findLevel.
+// This wrapper emits no constructor, destructor or virtual table for it.
+class ExperienceLevel
 {
 public:
 	char m_pad00[0x10];
@@ -24,6 +26,7 @@ public:
 	void *m_effectData;
 	char m_pad7C[0x50];
 	Int m_level;
+	char m_unmodeledD0[8];
 };
 
 class Arg1
@@ -78,7 +81,7 @@ public:
 class ExperienceLevelSystem
 {
 public:
-	BfmeExperienceLevelDefinition *findLevel(const AsciiString &name);
+	ExperienceLevel *findLevel(const AsciiString &name);
 	void rva00380790(const AsciiString &name, ObjectView *object,
 		Bool showEffect);
 };
@@ -87,7 +90,7 @@ public:
 void ExperienceLevelSystem::rva00380790(const AsciiString &name,
 	ObjectView *object, Bool showEffect)
 {
-	BfmeExperienceLevelDefinition *level = findLevel(name);
+	ExperienceLevel *level = findLevel(name);
 	if (!level)
 		return;
 	if (!object)
