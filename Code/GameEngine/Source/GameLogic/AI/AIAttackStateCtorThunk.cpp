@@ -1,143 +1,95 @@
-// cl: /DNDEBUG /MD /EHsc
-// readable body of ??0AIAttackState@@QAE@PAVStateMachine@@_N11PAVAttackExitConditionsInterface@@@Z: Code/GameEngine/Source/GameLogic/AI/AIStates.cpp
+// cl: /DNDEBUG /MD /EHsc /Ireference/shims/sweep /Ireference/shims/campaignmanagerascii /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /ICode/Libraries/Source/WWVegas/WWLib
+
+#include "Common/AsciiString.h"
 
 class StateMachine;
 class AttackExitConditionsInterface;
+class Team;
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AIStateMachine.h
-class AIAttackState
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/StateMachine.h
+class State
 {
 public:
-    AIAttackState(StateMachine*, bool, bool, bool, AttackExitConditionsInterface*);
+	State(StateMachine *machine, AsciiString name);
+	virtual ~State();
+
+private:
+	unsigned char m_head[0x20];
 };
 
-__declspec(naked) AIAttackState::AIAttackState(StateMachine*, bool, bool, bool, AttackExitConditionsInterface*)
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/AIUpdateModule.h
+class NotifyWeaponFiredInterface
 {
-    __asm {
-        _emit 51h
-        _emit 56h
-        _emit 51h
-        _emit 8Bh
-        _emit 0F1h
-        _emit 89h
-        _emit 64h
-        _emit 24h
-        _emit 08h
-        _emit 8Bh
-        _emit 0CCh
-        _emit 68h
-        _emit 24h
-        _emit 0A1h
-        _emit 09h
-        _emit 01h
-        _emit 0E8h
-        _emit 9Bh
-        _emit 0C2h
-        _emit 70h
-        _emit 00h
-        _emit 8Bh
-        _emit 44h
-        _emit 24h
-        _emit 10h
-        _emit 50h
-        _emit 8Bh
-        _emit 0CEh
-        _emit 0E8h
-        _emit 81h
-        _emit 6Ch
-        _emit 0E8h
-        _emit 0FFh
-        _emit 8Bh
-        _emit 4Ch
-        _emit 24h
-        _emit 1Ch
-        _emit 8Ah
-        _emit 54h
-        _emit 24h
-        _emit 10h
-        _emit 0C7h
-        _emit 46h
-        _emit 24h
-        _emit 0E0h
-        _emit 76h
-        _emit 09h
-        _emit 01h
-        _emit 33h
-        _emit 0C0h
-        _emit 89h
-        _emit 46h
-        _emit 28h
-        _emit 89h
-        _emit 4Eh
-        _emit 2Ch
-        _emit 8Ah
-        _emit 4Ch
-        _emit 24h
-        _emit 14h
-        _emit 89h
-        _emit 46h
-        _emit 30h
-        _emit 0C7h
-        _emit 06h
-        _emit 0C8h
-        _emit 0A0h
-        _emit 09h
-        _emit 01h
-        _emit 0C7h
-        _emit 46h
-        _emit 24h
-        _emit 0B0h
-        _emit 0A0h
-        _emit 09h
-        _emit 01h
-        _emit 89h
-        _emit 46h
-        _emit 40h
-        _emit 88h
-        _emit 56h
-        _emit 44h
-        _emit 8Ah
-        _emit 54h
-        _emit 24h
-        _emit 18h
-        _emit 89h
-        _emit 46h
-        _emit 48h
-        _emit 88h
-        _emit 46h
-        _emit 4Ch
-        _emit 88h
-        _emit 46h
-        _emit 4Dh
-        _emit 88h
-        _emit 4Eh
-        _emit 45h
-        _emit 88h
-        _emit 56h
-        _emit 46h
-        _emit 0C7h
-        _emit 46h
-        _emit 50h
-        _emit 03h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 89h
-        _emit 46h
-        _emit 34h
-        _emit 89h
-        _emit 46h
-        _emit 38h
-        _emit 89h
-        _emit 46h
-        _emit 3Ch
-        _emit 8Bh
-        _emit 0C6h
-        _emit 5Eh
-        _emit 59h
-        _emit 0C2h
-        _emit 14h
-        _emit 00h
-    }
-}
+public:
+	virtual void notifyFired() = 0;
+};
 
+struct Coord3D
+{
+	float x;
+	float y;
+	float z;
+
+	void zero()
+	{
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
+	}
+};
+
+// upstream source: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source/GameLogic/AI/AIStates.cpp
+// The four tail fields are BFME additions absent from the later Generals header;
+// their initialization and offsets are preserved from the retail constructor.
+class AIAttackState : public State, public NotifyWeaponFiredInterface
+{
+public:
+	AIAttackState(
+		StateMachine *machine,
+		bool follow,
+		bool attackingObject,
+		bool forceAttacking,
+		AttackExitConditionsInterface *attackParameters);
+
+	virtual bool isAttack() const;
+	virtual void notifyFired();
+
+private:
+	void *m_attackMachine;
+	AttackExitConditionsInterface *m_attackParameters;
+	Team *m_victimTeam;
+	Coord3D m_originalVictimPos;
+	AsciiString m_lockedWeaponOnEnter;
+	bool m_follow;
+	bool m_isAttackingObject;
+	bool m_isForceAttacking;
+	unsigned char m_pad47;
+	unsigned int m_bfmeAttackState48;
+	bool m_bfmeAttackState4C;
+	bool m_bfmeAttackState4D;
+	unsigned char m_pad4E[2];
+	unsigned int m_bfmeAttackState50;
+};
+
+// ??0AIAttackState@@QAE@PAVStateMachine@@_N11PAVAttackExitConditionsInterface@@@Z
+AIAttackState::AIAttackState(
+	StateMachine *machine,
+	bool follow,
+	bool attackingObject,
+	bool forceAttacking,
+	AttackExitConditionsInterface *attackParameters) :
+	State(machine, "AIAttackState"),
+	m_attackMachine(0),
+	m_attackParameters(attackParameters),
+	m_victimTeam(0),
+	m_lockedWeaponOnEnter(),
+	m_follow(follow),
+	m_isAttackingObject(attackingObject),
+	m_isForceAttacking(forceAttacking),
+	m_bfmeAttackState48(0),
+	m_bfmeAttackState4C(false),
+	m_bfmeAttackState4D(false),
+	m_bfmeAttackState50(3)
+{
+	m_originalVictimPos.zero();
+}
