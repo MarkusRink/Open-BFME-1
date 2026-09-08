@@ -71,6 +71,11 @@ static void drawFramerateBar(void);
 #include "Lib/BaseType.h"
 #include "W3DDevice/Common/W3DConvert.h"
 #include "W3DDevice/GameClient/W3DAssetManager.h"
+#include "GameClient/Display.h"
+#include "WW3D2/lightenvironment.h"
+#define protected protected: void saveScreenShot(char *image, UnsignedInt width, UnsignedInt height); protected
+#include "W3DDevice/GameClient/W3DDisplay.h"
+#undef protected
 #include "W3DDevice/GameClient/W3DGameClient.h"
 #include "W3DDevice/GameClient/W3DFileSystem.h"
 #include "W3DDevice/GameClient/W3DDynamicLight.h"
@@ -3055,6 +3060,59 @@ static void CreateBMPFile(LPTSTR pszFile, char *image, Int width, Int height)
 
     // Free memory. 
 	LocalFree( (HLOCAL) pbmi);
+}
+
+// ?saveScreenShot@W3DDisplay@@IAEXPADII@Z
+class ScreenshotAsciiString
+{
+public:
+	const char *str() const { return m_text ? m_text + 8 : ""; }
+	~ScreenshotAsciiString();
+
+private:
+	char *m_text;
+};
+
+class ScreenshotGlobalData
+{
+public:
+	ScreenshotAsciiString getPath_UserData() const;
+};
+
+void W3DDisplay::saveScreenShot(char *image, UnsignedInt width, UnsignedInt height)
+{
+	char leafname[256];
+	char pathname[1024];
+
+	static int frame_number = 1;
+
+	do {
+		sprintf(leafname, "%s%.4d.bmp", "sshot", frame_number++);
+		strcpy(pathname, ((const ScreenshotGlobalData *)TheGlobalData)->getPath_UserData().str());
+		strcat(pathname, leafname);
+	} while (_access(pathname, 0) != -1);
+
+	char *ptr, *ptr1;
+	char v, v1;
+
+	for (UnsignedInt y = 0; y < (height >> 1); y++)
+	{
+		ptr = image + ((width * y) * 3);
+		ptr1 = image + ((width * (height - 1)) * 3);
+		ptr1 -= ((width * y) * 3);
+
+		for (UnsignedInt x = 0; x < (width * 3); x++)
+		{
+			v = *ptr;
+			v1 = *ptr1;
+			*ptr = v1;
+			*ptr1 = v;
+			ptr++;
+			ptr1++;
+		}
+	}
+
+	CreateBMPFile(pathname, image, width, height);
 }
 
 ///Save Screen Capture to a file
