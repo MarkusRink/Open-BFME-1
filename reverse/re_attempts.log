@@ -15438,3 +15438,4 @@ _peerAuthenticateCDKeyA	0x008585F0	146	blocked	The GameSpy 2007 peer wrapper ide
 ?d_00397350@@YAXXZ	0x00397350	390	blocked	t=2min model=gpt-5; generated-only body in shared dumps_000.cpp with no built source emitter or resolved identity; raw dump and thunk alias do not establish a safe clean-C++ owner
 ?d_0039DE20@@YAXXZ	0x0039DE20	511	blocked	t=2min model=gpt-5; generated-only body in shared dumps_000.cpp with no built source emitter or resolved identity; raw dump and thunk alias do not establish a safe clean-C++ owner
 ?d_004331D0@@YAXXZ	0x004331D0	212	blocked	t=2min model=gpt-5; generated-only body in shared dumps_000.cpp with no built source emitter or resolved identity; raw dump and thunk alias do not establish a safe clean-C++ owner
+?d_0046DA70@@YAXXZ	0x0046DA70	251	blocked	t=2min model=gpt-5; generated-only body in shared dumps_000.cpp with no built source emitter or resolved identity; raw dump and thunk alias do not establish a safe clean-C++ owner
