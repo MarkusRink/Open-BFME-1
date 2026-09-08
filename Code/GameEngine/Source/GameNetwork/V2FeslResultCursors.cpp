@@ -226,6 +226,49 @@ bool Rva007F3820MemberWalk::next( Rva007F3710Member *member )
 	return true;
 }
 
+#pragma pack( push, 4 )
+struct Rva007F1C90Record
+{
+	FeslInt64 m_userId;
+	int m_score;
+};
+#pragma pack( pop )
+
+class Rva007F1C90Cursor
+{
+public:
+	bool next( Rva007F1C90Record *record );
+
+	Rva007E8810Message *m_msg;
+	int m_index;
+};
+
+bool Rva007F1C90Cursor::next( Rva007F1C90Record *record )
+{
+	bool result;
+	char name[ 0x40 ];
+	int score;
+	Rva007F1C90Record *out;
+	int zero2;
+
+	result = false;
+	zero2 = 0;
+	out = record;
+	out->m_userId = result;
+	out->m_score = zero2;
+	sprintf( name, "reputations.%d.UserId", m_index );
+	score = m_msg->getInt( name, -1 );
+	if( score > -1 )
+	{
+		out->m_userId = score;
+		sprintf( name, "reputations.%d.Score", m_index );
+		out->m_score = m_msg->getInt( name, result );
+		++m_index;
+		result = true;
+	}
+	return result;
+}
+
 // ------------------------------ request builders that format indexed keys
 void __stdcall Rva007F2A50( Rva007E8810Message *msg, const Rva007F2A50Owner *owner,
 	const char * const *keys, int count, int periodId, int periodPast )
