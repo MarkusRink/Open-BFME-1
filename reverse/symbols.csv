@@ -86376,3 +86376,6 @@ ___security_cookie,0x012DBDB0,MSVC 7.1 /GS cookie; absolute data VA read by exac
 ??1?$_Rb_tree@HU?$pair@$$CBHPAVRva001B6F20Elem@@@_STL@@U?$_Select1st@U?$pair@$$CBHPAVRva001B6F20Elem@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHPAVRva001B6F20Elem@@@_STL@@@2@@_STL@@QAE@XZ,0x00027115,callee for Rva001B6F20 map destructor; target ILT 0x00027115 routes to the verified STLport tree destructor
 ?Rva008FC4F0_PixelSize@SurfaceDescription@SurfaceClass@@QBEIXZ,0x008FC4F0,Address-qualified BFME ECX SurfaceDescription format helper; 50 bytes of code; 105 bytes including complete switch tables; actual direct callee of SurfaceByteSize120; all jump entries audited; campaign=astra36h-20260908
 ?d_008fc4f0@@YAXXZ,0x008FC4F0,Legacy relocation spelling for retired generated ASM50 claim; existing DrawPixel call independently reaches this actual ECX-description/EAX-result helper; full105 clean recovery now in SurfaceByteSize.cpp; not a historical C++ signature; campaign=astra36h-20260908
+?bfmeDtorAAO@BfmeMemAAO@@QAEXXZ,0x000187D2,Open-BFME5 ILT member teardown the 0x00C70E90 static teardown calls first
+?bfmeDtorBAAO@BfmeMemBAAO@@QAEXXZ,0x0000AC2C,Open-BFME5 ILT member teardown the 0x00C70E90 static teardown calls second
+?g_bfmeStaticAAO@@3UBfmeStaticAAO@@A,0x0130E918,Open-BFME5 static object the 0x00C70E90 teardown destroys
