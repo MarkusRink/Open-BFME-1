@@ -245,12 +245,11 @@ void VertexBufferClass::Release_Engine_Ref() const
 //
 // ----------------------------------------------------------------------------
 
-// ??0WriteLockClass@@ present-unmatched
 VertexBufferClass::WriteLockClass::WriteLockClass(VertexBufferClass* VertexBuffer, int flags)
 	:
 	VertexBufferLockClass(VertexBuffer)
 {
-	DX8_THREAD_ASSERT();
+	W3DRadarResetLock();
 	WWASSERT(VertexBuffer);
 	WWASSERT(!VertexBuffer->Engine_Refs());
 	VertexBuffer->Add_Ref();
@@ -267,7 +266,7 @@ VertexBufferClass::WriteLockClass::WriteLockClass(VertexBufferClass* VertexBuffe
 		}
 #endif
 		DX8_Assert();
-		DX8_ErrorCode(static_cast<DX8VertexBufferClass*>(VertexBuffer)->Get_DX8_Vertex_Buffer()->Lock(
+		BFME_DX8_ErrorCode(static_cast<DX8VertexBufferClass*>(VertexBuffer)->Get_DX8_Vertex_Buffer()->Lock(
 			0,
 			0,
 			(unsigned char**)&Vertices,
@@ -311,7 +310,6 @@ VertexBufferClass::WriteLockClass::~WriteLockClass()
 //
 // ----------------------------------------------------------------------------
 
-// ??0AppendLockClass@@ present-unmatched
 VertexBufferClass::AppendLockClass::AppendLockClass(VertexBufferClass* VertexBuffer,unsigned start_index, unsigned index_range, int flags)
 	:
 	VertexBufferLockClass(VertexBuffer)
@@ -352,7 +350,6 @@ VertexBufferClass::AppendLockClass::AppendLockClass(VertexBufferClass* VertexBuf
 
 // ----------------------------------------------------------------------------
 
-// ??1AppendLockClass@@ present-unmatched
 VertexBufferClass::AppendLockClass::~AppendLockClass()
 {
 	DX8_THREAD_ASSERT();
@@ -938,7 +935,7 @@ void DynamicVBAccessClass::Allocate_Sorting_Dynamic_Buffer()
 
 // ----------------------------------------------------------------------------
 static int dx8_lock;
-// ??0WriteLockClass@@ present-unmatched
+// ??0WriteLockClass@DynamicVBAccessClass@@QAE@PAV1@@Z present-unmatched
 DynamicVBAccessClass::WriteLockClass::WriteLockClass(DynamicVBAccessClass* dynamic_vb_access_)
 	:
 	DynamicVBAccess(dynamic_vb_access_)
