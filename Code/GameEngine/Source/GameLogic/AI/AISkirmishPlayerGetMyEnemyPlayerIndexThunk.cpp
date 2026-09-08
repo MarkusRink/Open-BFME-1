@@ -1,75 +1,62 @@
+// cl: /DNDEBUG /MD /EHsc
+// Open-BFME5: AISkirmishPlayer::getMyEnemyPlayerIndex, retail 0x001687B0, 63 bytes.
+
+typedef int Int;
+
+enum PlayerType
+{
+	PLAYER_HUMAN = 0
+};
+
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Player.h
+class Player
+{
+public:
+	Int getPlayerIndex(void) const { return m_playerIndex; }
+	PlayerType getPlayerType(void) const { return m_playerType; }
+
+private:
+	unsigned char m_unreconstructed_00[0x24];
+	Int m_playerIndex;
+	unsigned char m_unreconstructed_28[4];
+	PlayerType m_playerType;
+};
+
+class PlayerList
+{
+public:
+	Int getPlayerCount(void) const { return m_playerCount; }
+	Player *getNthPlayer(Int playerIndex);
+
+private:
+	unsigned char m_unreconstructed_00[0x10];
+	Int m_playerCount;
+};
+
+extern PlayerList *ThePlayerList;
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/AISkirmishPlayer.h
 class AISkirmishPlayer
 {
 protected:
-    int getMyEnemyPlayerIndex(void);
+	Int getMyEnemyPlayerIndex(void);
+
+private:
+	unsigned char m_unreconstructed_00[0x9C];
+	Player *m_currentEnemy;
 };
 
-__declspec(naked) int AISkirmishPlayer::getMyEnemyPlayerIndex(void)
+// ?getMyEnemyPlayerIndex@AISkirmishPlayer@@IAEHXZ
+Int AISkirmishPlayer::getMyEnemyPlayerIndex(void)
 {
-    __asm {
-        _emit 08Bh
-        _emit 081h
-        _emit 09Ch
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 085h
-        _emit 0C0h
-        _emit 074h
-        _emit 004h
-        _emit 08Bh
-        _emit 040h
-        _emit 024h
-        _emit 0C3h
-        _emit 08Bh
-        _emit 00Dh
-        _emit 048h
-        _emit 0D7h
-        _emit 02Eh
-        _emit 001h
-        _emit 08Bh
-        _emit 041h
-        _emit 010h
-        _emit 056h
-        _emit 033h
-        _emit 0F6h
-        _emit 085h
-        _emit 0C0h
-        _emit 07Eh
-        _emit 01Dh
-        _emit 08Bh
-        _emit 0FFh
-        _emit 056h
-        _emit 0E8h
-        _emit 05Ah
-        _emit 0C7h
-        _emit 0EDh
-        _emit 0FFh
-        _emit 08Bh
-        _emit 048h
-        _emit 02Ch
-        _emit 085h
-        _emit 0C9h
-        _emit 074h
-        _emit 00Eh
-        _emit 08Bh
-        _emit 00Dh
-        _emit 048h
-        _emit 0D7h
-        _emit 02Eh
-        _emit 001h
-        _emit 08Bh
-        _emit 041h
-        _emit 010h
-        _emit 046h
-        _emit 03Bh
-        _emit 0F0h
-        _emit 07Ch
-        _emit 0E5h
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 0C3h
-    }
+	Int playerNdx;
+	if (m_currentEnemy)
+		return m_currentEnemy->getPlayerIndex();
+
+	for (playerNdx = 0; playerNdx < ThePlayerList->getPlayerCount(); playerNdx++)
+	{
+		if (ThePlayerList->getNthPlayer(playerNdx)->getPlayerType() == PLAYER_HUMAN)
+			break;
+	}
+	return playerNdx;
 }
