@@ -1,6 +1,5 @@
-// ?update@LifetimeUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.9 date=2026-09-08
 // cl: /DNDEBUG /MD /EHsc
+
 // LifetimeUpdate::update, retail 0x00298010.
 
 typedef unsigned int UnsignedInt;
@@ -101,30 +100,37 @@ class LifetimeUpdate
 {
 public:
 	virtual UpdateSleepTime update();
+
+protected:
+	Object *getObject() const
+	{
+		return *(Object **)((const unsigned char *)this - 8);
+	}
+
+	LifetimeUpdateModuleData *getLifetimeUpdateModuleData() const
+	{
+		return *(LifetimeUpdateModuleData **)((const unsigned char *)this - 0xc);
+	}
 };
 
 extern GameLogic *TheGameLogic;
 
-// ?update@LifetimeUpdate@@UAE?AW4UpdateSleepTime@@XZ
 UpdateSleepTime LifetimeUpdate::update()
 {
-	Object *self = *(Object **)((const unsigned char *)this - 8);
-	register const LifetimeUpdateModuleData *data =
-		*(const LifetimeUpdateModuleData **)((const unsigned char *)this - 0xc);
-	if ((*((UnsignedInt *)((char *)self + 0x120)) & 0x10000) != 0)
+	register Object *self = getObject();
+	LifetimeUpdateModuleData *data = getLifetimeUpdateModuleData();
+	if ((*((volatile UnsignedInt *)((char *)self + 0x120)) & 0x10000) != 0)
 		return UPDATE_SLEEP_NONE;
 
-	if (!data->isEnabled())
-		return UPDATE_SLEEP_FOREVER;
-
-	int sourceID = 0;
-	if (self->getBodyModule()->getLastDamageInfo() != 0)
-		sourceID = self->getBodyModule()->getLastDamageInfo()->m_sourceID;
-
-	GameLogic *gameLogic = TheGameLogic;
-	Object *killer = gameLogic->findObjectByID(sourceID);
-	if (killer != 0)
-		((BFMEReportDamageSource *)killer)->report(self, 1);
+	if (data->isEnabled())
+	{
+		Object *killer = TheGameLogic->findObjectByID(
+			self->getBodyModule()->getLastDamageInfo() != 0
+				? self->getBodyModule()->getLastDamageInfo()->m_sourceID
+				: 0);
+		if (killer != 0)
+			((BFMEReportDamageSource *)killer)->report(self, 1);
+	}
 
 	self->kill(DAMAGE_SNIPER, (DeathType)data->getDeathType());
 	return UPDATE_SLEEP_FOREVER;
