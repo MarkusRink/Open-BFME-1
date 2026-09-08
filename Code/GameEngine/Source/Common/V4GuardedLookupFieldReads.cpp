@@ -12,7 +12,7 @@ const float BfmeReportWeightScaleHolder::value = 30.0f;
 // then read a flag out of whatever comes back:
 //
 //     mov eax,ecx / mov ecx,[eax+0x28] / test ecx,ecx / jz .fail
-//     add eax,0x30 / push eax / call <REL32>        ; owner->find( &this->m_at30 )
+//     add eax,0x30 / push eax / call <REL32>        ; manager->rva003C8A50(...)
 //     test eax,eax / jz .fail
 //     <read a field of the result> / ret
 //   .fail: xor <ret>,<ret> / ret
@@ -36,10 +36,17 @@ const float BfmeReportWeightScaleHolder::value = 30.0f;
 // returns the byte unchanged -- no `setne`, no `movzx` -- so the field and the
 // return type are the same one-byte type.
 //
-// IDENTITY IS NOT RECOVERED.  Every name is derived from an address; the callee
-// pin is address-derived and additive.
+// The lookup identity is now closed by the LivingWorldRegionManager constructor
+// and vtable chain and by the LivingWorldRegion allocation/constructor chain.
+// The three enclosing row owners remain address-derived where named that way.
 
-class Gen003C8A50Result
+class AsciiString
+{
+public:
+	char *m_data;
+};
+
+class LivingWorldRegion
 {
 public:
 	char   m_pad00[ 0x50 ];
@@ -49,11 +56,19 @@ public:
 	bool   m_at84;
 };
 
+class LivingWorldRegionManager
+{
+public:
+	LivingWorldRegion *rva003C8A50( const AsciiString &key );
+};
+
+// The owner of the separate drop operation is not established by this
+// correction; retain its existing address-derived ABI without aliasing lookup.
+class Gen003C8A50Result;
 class Gen003C8A50
 {
 public:
-	Gen003C8A50Result * find( const char * key );
-	void                drop( Gen003C8A50Result * found );
+	void drop( Gen003C8A50Result *found );
 };
 
 class Glo012F4B98Type
@@ -86,15 +101,15 @@ extern Glo012F4B98Type * Glo012F4B98;
 	public:                                                               \
 		bool flag();                                                      \
 		char          m_pad00[ 0x28 ];                                    \
-		Gen003C8A50 * m_at28;                                             \
+		LivingWorldRegionManager * m_at28;                                \
 		char          m_pad2C[ 0x4 ];                                     \
-		char          m_at30;                                             \
+		AsciiString   m_at30;                                             \
 	};                                                                    \
 	bool NAME::flag()                                                     \
 	{                                                                     \
 		if( m_at28 )                                                      \
 		{                                                                 \
-			Gen003C8A50Result *found = m_at28->find( &m_at30 );           \
+			LivingWorldRegion *found = m_at28->rva003C8A50( m_at30 );     \
 			if( found )                                                   \
 				return found->FIELD;                                      \
 		}                                                                 \
@@ -117,16 +132,16 @@ class Rva003BCA90
 public:
 	void run();
 	char          m_pad00[ 0x28 ];
-	Gen003C8A50 * m_at28;
+	LivingWorldRegionManager * m_at28;
 	char          m_pad2C[ 0x4 ];
-	char          m_at30;
+	AsciiString   m_at30;
 };
 void Rva003BCA90::run()
 {
-	Gen003C8A50Result *found = m_at28->find( &m_at30 );
+	LivingWorldRegion *found = m_at28->rva003C8A50( m_at30 );
 	if( !found )
 		return;
-	m_at28->drop( found );
+	((Gen003C8A50 *)m_at28)->drop( (Gen003C8A50Result *)found );
 	int count = found->m_at80;
 	if( count <= 0 )
 		return;

@@ -16,12 +16,25 @@ public:
 
 extern Glo012F706CType *g_bfmeGameCW;
 
+class AsciiString
+{
+public:
+	char *m_data;
+};
+
+class LivingWorldRegion;
+
+class LivingWorldRegionManager
+{
+public:
+	LivingWorldRegion *rva003C8A50(const AsciiString &key);
+};
+
 class Gen003C8A50Result;
 
 class Gen003C8A50
 {
 public:
-	Gen003C8A50Result *find(const char *key);
 	void updateConqueredEffects003C7130(Gen003C8A50Result *found);
 };
 
@@ -75,10 +88,10 @@ public:
 
 private:
 	char m_pad00[0x28];
-	Gen003C8A50 *m_at28;
+	LivingWorldRegionManager *m_at28;
 	char m_pad2C[4];
-	char m_at30;
-	char m_pad31[0x78 - 0x31];
+	AsciiString m_at30;
+	char m_pad34[0x78 - 0x34];
 	unsigned char m_at78;
 	char m_pad79[0x7C - 0x79];
 	int m_at7C;
@@ -117,7 +130,7 @@ void Rva003C1A50Tick::tick()
 		m_at7C = left;
 		if (left > 0)
 			return;
-		Gen003C8A50Result *found = m_at28->find(&m_at30);
+		LivingWorldRegion *found = m_at28->rva003C8A50(m_at30);
 		TheThingAZB->bfmeSetAZB(found);
 		bfmeNamedAudio0046F1A0(nameOf((void **)((Gen_003C63A0 *)m_at28)->bfmeField()));
 	}
@@ -128,9 +141,10 @@ void Rva003C1A50Tick::tick()
 		return;
 
 	m_at78 = 0;
-	Gen003C8A50Result *found = m_at28->find(&m_at30);
+	LivingWorldRegion *found = m_at28->rva003C8A50(m_at30);
 	if (found)
-		m_at28->updateConqueredEffects003C7130(found);
+		((Gen003C8A50 *)m_at28)->updateConqueredEffects003C7130(
+			(Gen003C8A50Result *)found);
 
 	if (m_at80)
 	{

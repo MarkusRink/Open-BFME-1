@@ -596,6 +596,57 @@ void W3DRadar::drawIcons( Int pixelX, Int pixelY, Int width, Int height )
 	}
 }
 
+// BFME's Object declaration adds this visibility query after the Zero Hour
+// headers used to compile this source.  The retail body at 0x001CAEE0 reads
+// Object's status at +0x90, and both its canonical Object spelling and this
+// TU-local declaration route through ILT 0x00003B1B.
+class BFMEObjectStealthQuery : public Object
+{
+public:
+	Bool isStealthedAndUndetected(const Object *viewer) const;
+};
+
+// Retail places this private cold path immediately before renderObjectList.
+// The sole caller at 0x006C45C2 supplies the Object in ESI and the address of
+// its local Color in EBX; keeping the helper TU-local lets the compiler select
+// that same private calling convention.
+static __declspec(noinline) Bool rva006C42B0(
+	const Object *object, Color *color)
+{
+	const BFMEObjectStealthQuery *stealthQuery =
+		static_cast<const BFMEObjectStealthQuery *>(object);
+	if (!stealthQuery->isStealthedAndUndetected(NULL))
+		return TRUE;
+
+	if (object->getControllingPlayer() != ThePlayerList->getLocalPlayer() &&
+		!object->testStatus(OBJECT_STATUS_DETECTED))
+	{
+		return FALSE;
+	}
+
+	UnsignedByte red;
+	UnsignedByte green;
+	UnsignedByte blue;
+	UnsignedByte alpha;
+	GameGetColorComponents(*color, &red, &green, &blue, &alpha);
+
+	const UnsignedInt framesForTransition = 60;
+	const UnsignedInt halfTransition = framesForTransition / 2;
+	const UnsignedInt alphaRange = 191;
+	UnsignedInt frame = TheGameClient->getFrame() % framesForTransition;
+	if (frame >= halfTransition)
+		alpha = (UnsignedByte)(255 - ((frame - halfTransition) * alphaRange) / halfTransition);
+	else
+		alpha = (UnsignedByte)(64 + (frame * alphaRange) / halfTransition);
+
+	*color = GameMakeColor(red, green, blue, alpha);
+	return TRUE;
+}
+
+// BFME inserts two KindOf entries before AIRCRAFT, making DISGUISER bit 89.
+// The matched caller tests word 2 at ThingTemplate+0xD0 with 0x02000000.
+static const KindOfType BFME_KINDOF_DISGUISER = static_cast<KindOfType>(89);
+
 //-------------------------------------------------------------------------------------------------
 /** Render an object list into the texture passed in */
 //-------------------------------------------------------------------------------------------------
@@ -677,27 +728,10 @@ void W3DRadar::renderObjectList( const RadarObject *listHead, TextureClass *text
 		// if( obj->getRadarPriority() == RADAR_PRIORITY_LOCAL_UNIT_ONLY )
 		// ML-- What the heck is this? local-only and neutral-observier-viewed units are stealthy?? Since when?	
 		// Now it twinkles for any stealthed object, whether locally controlled or neutral-observier-viewed
-		if( obj->testStatus( OBJECT_STATUS_STEALTHED ) )
+		if( obj->isKindOf(BFME_KINDOF_DISGUISER) )
 		{
-      if ( ThePlayerList->getLocalPlayer()->getRelationship(obj->getTeam()) == ENEMIES )
-        if( !obj->testStatus( OBJECT_STATUS_DETECTED ) && !obj->testStatus( OBJECT_STATUS_DISGUISED ) )
-				  skip = TRUE;
-
-			UnsignedByte r, g, b, a;
-			GameGetColorComponents( c, &r, &g, &b, &a );
-
-			const UnsignedInt framesForTransition = LOGICFRAMES_PER_SECOND;
-			const UnsignedByte minAlpha = 32;
-			
-      if (skip)
-        continue;
-
-			Real alphaScale = INT_TO_REAL(TheGameLogic->getFrame() % framesForTransition) / (framesForTransition / 2.0f);
-			if( alphaScale > 0.0f )
-				a = REAL_TO_UNSIGNEDBYTE( ((alphaScale - 1.0f) * (255.0f - minAlpha)) + minAlpha );
-			else
-				a = REAL_TO_UNSIGNEDBYTE( (alphaScale * (255.0f - minAlpha)) + minAlpha );
-			c = GameMakeColor( r, g, b, a );
+			if (!rva006C42B0(obj, &c))
+				continue;
 
 		}  // end if
 

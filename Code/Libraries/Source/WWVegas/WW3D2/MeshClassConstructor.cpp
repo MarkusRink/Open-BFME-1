@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /ICode/Libraries/Source/WWVegas/WWMath /ICode/Libraries/Source/WWVegas/WWLib /ICode/Libraries/Source/WWVegas/WWDebug /ICode/Libraries/Source/WWVegas/WWSaveLoad /ICode/Libraries/Source/WWVegas/WW3D2 /ICode/Libraries/Source/WWVegas/Wwutil /ICode/Libraries/Source/WWVegas/WWDownload /ICode/Libraries/Source/Compression /Ireference/shims/sweep
-// BFME MeshClass default constructor, retail 0x0092C270.
+// BFME MeshClass constructors, retail 0x0092C270 and 0x0092CD00.
 //
 // The matched Rva00970EC0Proto::Load_Mesh caller allocates 0x318 bytes and
 // calls the global ??0MeshClass@@QAE@XZ symbol.  Retail constructs an embedded
@@ -14,12 +14,21 @@
 // deleting-destructor thunk adjusting this by -8.  The production RenderObj
 // declaration supplies the reconciled virtual interface; this TU changes only
 // the BFME-only Mesh member layout that the shared ZH-derived header lacks.
+//
+// Primary-vtable slot 2 is the matched body at 0x0092CEF0: it allocates 0x318
+// bytes, passes its MeshClass receiver to 0x0092CD00, and returns the result.
+// That is the exact shape of the production MeshClass::Clone implementation,
+// NEW_REF(MeshClass, (*this)), and names 0x0092CD00 as this copy constructor.
+// meshmdl.h supplies the real global MeshModelClass/RefCountClass hierarchy,
+// so REF_PTR_SET below carries its actual intrusive-refcount lifetime.  MSVC's
+// emitted unwind map destroys the constructed LightEnvironmentClass at +0xD0
+// before the RenderObjClass base if that lifetime operation throws.
 
 #include "rendobj.h"
+#include "meshmdl.h"
 
 class MeshBuilderClass;
 class MeshLoadInfoClass;
-class MeshModelClass;
 class DecalMeshClass;
 class MaterialPassClass;
 class IndexBufferClass;
@@ -143,4 +152,22 @@ MeshClass::MeshClass(void) :
 	MaterialPassEmissiveOverride(1.0f),
 	RuntimeData(0)
 {
+}
+
+// ??0MeshClass@@QAE@ABV0@@Z
+MeshClass::MeshClass(const MeshClass &that) :
+	RenderObjClass(that),
+	Model(0),
+	DecalMesh(0),
+	LightEnvironment(),
+	BaseVertexOffset(that.BaseVertexOffset),
+	NextVisibleSkin(0),
+	IsDisabledByDebugger(false),
+	MeshDebugId(MeshDebugIdCount++),
+	AlphaOverride(1.0f),
+	MaterialPassAlphaOverride(1.0f),
+	MaterialPassEmissiveOverride(1.0f),
+	RuntimeData(0)
+{
+	REF_PTR_SET(Model, that.Model);
 }

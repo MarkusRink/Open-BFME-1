@@ -4,15 +4,37 @@
 // rather than the pointed-to texture, to this nonvirtual handle operation.
 
 class TextureClass;
+class SurfaceClass;
+struct IDirect3DSurface8;
+
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 
 template<class T>
 class RefCountPtr
 {
 public:
 	void Apply(unsigned int stage);
+	SurfaceClass Rva0090DDC0_Get_Surface_Level(unsigned int level) const;
+	unsigned int Get_Texture_Memory_Usage() const;
 
 private:
 	T *Referent;
+};
+
+// BFME's SurfaceClass is a four-byte owning wrapper around the COM surface.
+// The level accessor returns it by value: retail passes a hidden destination
+// pointer and destroys that local after querying its byte size.  The two
+// RVA-named methods stay neutral because their call sites prove these ABIs but
+// do not expose the original lexical method names.
+class SurfaceClass
+{
+public:
+	~SurfaceClass();
+	unsigned int Rva008FCA30_Surface_Byte_Size() const;
+
+private:
+	IDirect3DSurface8 *m_d3dSurface;
 };
 
 class Debug_Statistics
@@ -56,6 +78,8 @@ public:
 private:
 	unsigned char m_beforeD3DState[0x10];
 	TextureStateView0090E030 *m_state14;
+	unsigned char m_beforeMipLevelCount[0x18];
+	unsigned int m_mipLevelCount;
 
 	friend class RefCountPtr<TextureClass>;
 };
@@ -137,4 +161,24 @@ void RefCountPtr<TextureClass>::Apply(unsigned int stage)
 		texture->Init();
 	texture->m_state14->Apply(stage);
 	texture->Slot_3C_Apply(stage);
+}
+
+template<>
+unsigned int RefCountPtr<TextureClass>::Get_Texture_Memory_Usage() const
+{
+	TextureClass *texture = Referent;
+	if (texture == 0)
+		return 0;
+	if (!texture->Is_Initialized())
+	{
+		// This zero-code compiler fence keeps MSVC 7.1's shared guard epilogue
+		// ahead of the EH-bearing surface path, as it is in the retail TU.
+		_ReadWriteBarrier();
+		return 0;
+	}
+
+	unsigned int size = Rva0090DDC0_Get_Surface_Level(0).Rva008FCA30_Surface_Byte_Size();
+	if (texture->m_mipLevelCount != 1)
+		size = static_cast<unsigned int>(static_cast<float>(size) * 1.3f);
+	return size;
 }

@@ -8,7 +8,13 @@ struct Rva003BDF70Span
 	int size() const { return m_end - m_begin; }
 };
 
-class Gen003C8A50Result
+class AsciiString
+{
+public:
+	char *m_data;
+};
+
+class LivingWorldRegion
 {
 public:
 	char m_pad00[ 0x54 ];
@@ -17,10 +23,10 @@ public:
 	Rva003BDF70Span m_second;            // +0x60
 };
 
-class Gen003C8A50
+class LivingWorldRegionManager
 {
 public:
-	Gen003C8A50Result *find( const char *key );
+	LivingWorldRegion *rva003C8A50( const AsciiString &key );
 };
 
 class Rva003BDF70Owner
@@ -30,9 +36,9 @@ public:
 
 private:
 	char m_pad00[ 0x28 ];
-	Gen003C8A50 *m_resolver;             // +0x28
+	LivingWorldRegionManager *m_resolver; // +0x28
 	char m_pad2C[ 0x4 ];
-	char m_key;                          // +0x30
+	AsciiString m_key;                   // +0x30
 };
 
 int Rva003BDF70Owner::combinedSpanCount()
@@ -40,7 +46,7 @@ int Rva003BDF70Owner::combinedSpanCount()
 	if (!m_resolver)
 		return 0;
 
-	Gen003C8A50Result *result = m_resolver->find( &m_key );
+	LivingWorldRegion *result = m_resolver->rva003C8A50( m_key );
 	if (!result)
 		return 0;
 

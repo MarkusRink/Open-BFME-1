@@ -11,7 +11,13 @@ struct Rva003BDF70Span
 	int size() const { return m_end - m_begin; }
 };
 
-class Gen003C8A50Result
+class AsciiString
+{
+public:
+	char *m_data;
+};
+
+class LivingWorldRegion
 {
 public:
 	char m_pad00[ 0x54 ];
@@ -20,13 +26,13 @@ public:
 	Rva003BDF70Span m_second;
 };
 
-class Gen003C8A50
+class LivingWorldRegionManager
 {
 public:
-	Gen003C8A50Result *find( const char *key );
+	LivingWorldRegion *rva003C8A50( const AsciiString &key );
 };
 
-static __forceinline int isInSecondSpan( const Gen003C8A50Result *found, unsigned index )
+static __forceinline int isInSecondSpan( const LivingWorldRegion *found, unsigned index )
 {
 	unsigned first = (unsigned)found->m_first.size();
 	if ( index < first )
@@ -53,20 +59,20 @@ public:
 
 private:
 	char m_pad00[ 0x28 ];
-	Gen003C8A50 *m_resolver;
+	LivingWorldRegionManager *m_resolver;
 	char m_pad2C[ 0x4 ];
-	char m_key;
+	AsciiString m_key;
 };
 
 unsigned char CampaignManager::isMissionObjectiveIndexed( int index )
 {
-	Gen003C8A50 *resolver = m_resolver;
+	LivingWorldRegionManager *resolver = m_resolver;
 	if ( resolver )
 	{
 		int idx = index;
 		if ( idx >= 0 )
 		{
-			Gen003C8A50Result *found = resolver->find( &m_key );
+			LivingWorldRegion *found = resolver->rva003C8A50( m_key );
 			if ( found )
 				return isInSecondSpan( found, (unsigned)idx );
 		}
