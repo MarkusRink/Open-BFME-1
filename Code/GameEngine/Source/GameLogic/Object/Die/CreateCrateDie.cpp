@@ -55,6 +55,8 @@ public:
 			tmpl = tmpl->m_nextOverride->getFinalOverride();
 		return (const ThingTemplate *)tmpl;
 	}
+
+	void setOrientation( float angle );
 };
 
 enum ScienceType { SCIENCE_INVALID = -1 };
@@ -80,8 +82,10 @@ public:
 class AsciiString
 {
 public:
-	AsciiString( const AsciiString &that ) throw();
-	~AsciiString() throw();
+	AsciiString( const char *text );
+	AsciiString( const AsciiString &that );
+	~AsciiString();
+	AsciiString &operator=( const AsciiString &that );
 
 private:
 	void *m_data;
@@ -134,6 +138,13 @@ public:
 	int getID( void ) const
 	{
 		return *(const int *)( (const unsigned char *)this + 0x74 );
+	}
+
+	float getMajorRadius( void ) const
+	{
+		volatile const float *radius =
+			(volatile const float *)( (const unsigned char *)this + 0xBC );
+		return *radius;
 	}
 
 	void setTeam( void *team )
@@ -272,6 +283,7 @@ public:
 private:
 	__declspec(noinline) bool testKillerType( CrateTemplate const *currentCrateData, Object *killer );
 	bool testKillerScience( CrateTemplate const *currentCrateData, Object *killer );
+	Object *createCrate( CrateTemplate const *currentCrateData );
 };
 
 CreateCrateDie::CreateCrateDie( Thing *thing, const ModuleData *moduleData )
@@ -314,4 +326,281 @@ bool CreateCrateDie::testKillerScience( CrateTemplate const *currentCrateData, O
 		return false;
 
 	return true;
+}
+
+// The following are the narrow views used by CreateCrateDie::createCrate.  They
+// preserve the retail object and STL layouts without introducing a second
+// canonical class declaration or a new vtable.
+struct Coord3D
+{
+	float x;
+	float y;
+	float z;
+};
+
+typedef int PathfindLayerEnum;
+typedef int Bool;
+enum { LAYER_GROUND = 1 };
+
+struct CrateCreationNode
+{
+	CrateCreationNode *m_next;
+	CrateCreationNode *m_prev;
+	AsciiString m_crateName;
+	float m_crateChance;
+};
+
+struct FindPositionOptions
+{
+	FindPositionOptions()
+		: flags( 0 ), minRadius( 0.0f ), maxRadius( 0.0f ),
+		  startAngle( -99999.9f ), maxZDelta( 1.0e10f ),
+		  ignoreObject( 0 ), sourceToPathToDest( 0 ), relationshipObject( 0 )
+	{
+	}
+
+	int flags;
+	float minRadius;
+	float maxRadius;
+	float startAngle;
+	float maxZDelta;
+	Object *ignoreObject;
+	void *sourceToPathToDest;
+	Object *relationshipObject;
+};
+
+enum { FPF_IGNORE_ALLY_OR_NEUTRAL_UNITS = 0x00000008 };
+
+struct ObjectStatusMaskType
+{
+	unsigned int m_bits[3];
+};
+
+class Team;
+class ThingFactory
+{
+};
+
+class Drawable
+{
+};
+
+class ObjectDrawableView
+{
+public:
+	virtual void slot00() = 0;
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0C() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1C() = 0;
+	virtual void slot20() = 0;
+	virtual void slot24() = 0;
+	virtual Drawable *getDrawable() const = 0;
+};
+
+extern ThingFactory *TheThingFactory;
+extern float g_bfmeOffsetDF;
+extern const char g_Rva0107301CEmptyString[];
+extern void j_0000b848();
+extern void j_0001214d();
+extern void j_00026c4c();
+extern void j_00028560();
+extern void j_00035e0e();
+extern void j_000399a5();
+extern void j_0003a1a7();
+extern void j_0003a391();
+extern void j_0003bdef();
+extern void j_0004494a();
+
+typedef int (Object::*ObjectGetLayerCall)() const;
+typedef void (Object::*ObjectSetPositionCall)( const Coord3D * );
+typedef void (Object::*ObjectSetLayerCall)( PathfindLayerEnum );
+typedef void (Thing::*ThingSetOrientationCall)( float );
+typedef const ThingTemplate *(ThingFactory::*ThingFactoryFindTemplateCall)( const AsciiString & );
+typedef Object *(ThingFactory::*ThingFactoryNewObjectCall)(
+	const ThingTemplate *, Team *, const volatile ObjectStatusMaskType &, void * );
+typedef void (Drawable::*DrawableSetDecalCall)( int );
+typedef void (Drawable::*DrawableSetDecalSizeCall)( float, float );
+typedef void (Drawable::*DrawableSetDecalFadeCall)( float, float );
+typedef bool (*FindPositionAroundCall)( const Coord3D *, const FindPositionOptions *, Coord3D * );
+
+static __forceinline PathfindLayerEnum createCrateGetLayer( Object *object )
+{
+	union { void (*raw)(); ObjectGetLayerCall member; } call;
+	call.raw = j_0003a391;
+	return (object->*call.member)();
+}
+
+static __forceinline Drawable *createCrateGetDrawable( Object *object )
+{
+	return ( (const ObjectDrawableView *)object )->getDrawable();
+}
+
+static __forceinline void createCrateSetPosition( Object *object, const Coord3D *position )
+{
+	union { void (*raw)(); ObjectSetPositionCall member; } call;
+	call.raw = j_0003a1a7;
+	(object->*call.member)( position );
+}
+
+static __forceinline void createCrateSetOrientation( Object *object, float angle )
+{
+	union { void (*raw)(); ThingSetOrientationCall member; } call;
+	call.raw = j_000399a5;
+	( ( (Thing *)object )->*call.member )( angle );
+}
+
+static __forceinline void createCrateSetLayer( Object *object, PathfindLayerEnum layer )
+{
+	union { void (*raw)(); ObjectSetLayerCall member; } call;
+	call.raw = j_00035e0e;
+	(object->*call.member)( layer );
+}
+
+static __forceinline const ThingTemplate *createCrateFindTemplate(
+	ThingFactory *factory, const AsciiString &name )
+{
+	union { void (*raw)(); ThingFactoryFindTemplateCall member; } call;
+	call.raw = j_00028560;
+	return (factory->*call.member)( name );
+}
+
+static __forceinline Object *createCrateNewObject(
+	ThingFactory *factory, const ThingTemplate *thingTemplate, Team *team,
+	const volatile ObjectStatusMaskType &statusBits = ObjectStatusMaskType(),
+	void *extra = 0 )
+{
+	union { void (*raw)(); ThingFactoryNewObjectCall member; } call;
+	call.raw = j_0004494a;
+	return (factory->*call.member)( thingTemplate, team, statusBits, extra );
+}
+
+static __forceinline bool createCrateFindPositionAround(
+	const Coord3D *center, const FindPositionOptions *options, Coord3D *result )
+{
+	union { void (*raw)(); FindPositionAroundCall call; } target;
+	target.raw = j_00026c4c;
+	return target.call( center, options, result );
+}
+
+static __forceinline void createCrateSetDecal( Drawable *drawable, int decal )
+{
+	union { void (*raw)(); DrawableSetDecalCall member; } call;
+	call.raw = j_0001214d;
+	(drawable->*call.member)( decal );
+}
+
+static __forceinline void createCrateSetDecalSize( Drawable *drawable, float x, float y )
+{
+	union { void (*raw)(); DrawableSetDecalSizeCall member; } call;
+	call.raw = j_0000b848;
+	(drawable->*call.member)( x, y );
+}
+
+static __forceinline void createCrateSetDecalFade( Drawable *drawable, float target, float rate )
+{
+	union { void (*raw)(); DrawableSetDecalFadeCall member; } call;
+	call.raw = j_0003bdef;
+	(drawable->*call.member)( target, rate );
+}
+
+// ?createCrate@CreateCrateDie@@AAEPAVObject@@PBVCrateTemplate@@@Z
+// Retail 0x00253FF0.  The source and helper sequence are the original
+// CreateCrateDie::createCrate implementation; only ABI-neutral typed views are
+// used for the already-bound incremental-link thunks.
+Object *CreateCrateDie::createCrate( CrateTemplate const *currentCrateData )
+{
+	CreateCrateDie *self = this;
+	PathfindLayerEnum layer = createCrateGetLayer(
+		*(Object **)( (unsigned char *)self + 8 ) );
+	float multipleCratePick = GetGameLogicRandomValueReal(
+		0.0f, 1.0f,
+		(char *)"F:\\bfme\\Code\\gameengine\\Source\\GameLogic\\Object\\Die\\CreateCrateDie.cpp",
+		167 );
+	float multipleCrateRunningTotal = 0.0f;
+	AsciiString crateName( g_Rva0107301CEmptyString );
+
+	CrateCreationNode *sentinel =
+		(CrateCreationNode *)currentCrateData->m_possibleCrates.m_node;
+	for( CrateCreationNode *iter = sentinel->m_next;
+			iter != sentinel;
+			iter = iter->m_next )
+	{
+		multipleCrateRunningTotal += iter->m_crateChance;
+		if( multipleCrateRunningTotal > multipleCratePick )
+		{
+			AsciiString const *crateNameSource = &iter->m_crateName;
+			crateName = *crateNameSource;
+			break;
+		}
+	}
+
+	const ThingTemplate *crateType = createCrateFindTemplate( TheThingFactory, crateName );
+	if( crateType == 0 )
+		return 0;
+
+	Object *object = *(Object **)( (unsigned char *)self + 8 );
+	Coord3D centerPoint;
+	centerPoint.x = *(float *)( (unsigned char *)object + 0x38 );
+	centerPoint.y = *(float *)( (unsigned char *)object + 0x3C );
+	centerPoint.z = *(float *)( (unsigned char *)object + 0x40 );
+	Bool spotFound = 0;
+	Coord3D creationPoint;
+	FindPositionOptions fpOptions;
+	fpOptions.minRadius = 0.0f;
+	fpOptions.maxRadius = 5.0f;
+	fpOptions.relationshipObject = object;
+	fpOptions.flags = FPF_IGNORE_ALLY_OR_NEUTRAL_UNITS;
+
+	if( layer != LAYER_GROUND )
+	{
+		creationPoint = centerPoint;
+		spotFound = true;
+	}
+	else if( createCrateFindPositionAround( &centerPoint, &fpOptions, &creationPoint ) )
+	{
+		spotFound = true;
+	}
+	else
+	{
+		fpOptions.minRadius = 0.0f;
+		fpOptions.maxRadius = 125.0f;
+		fpOptions.relationshipObject = 0;
+		fpOptions.flags = 0;
+		if( createCrateFindPositionAround( &centerPoint, &fpOptions, &creationPoint ) )
+			spotFound = true;
+	}
+
+	if( spotFound )
+	{
+		Object *newCrate = createCrateNewObject(
+			TheThingFactory, crateType, (Team *)0 );
+
+		createCrateSetPosition( newCrate, &creationPoint );
+		( (Thing *)newCrate )->setOrientation( GetGameLogicRandomValueReal(
+			0.0f, 2.0f * 3.14159265359f,
+			(char *)"F:\\bfme\\Code\\gameengine\\Source\\GameLogic\\Object\\Die\\CreateCrateDie.cpp",
+			226 ) );
+		createCrateSetLayer( newCrate, layer );
+
+		Drawable *crateDrawable =
+			( (const ObjectDrawableView *)newCrate )->getDrawable();
+		if( crateDrawable )
+		{
+			createCrateSetDecal( crateDrawable, 5 );
+			union { void (*raw)(); DrawableSetDecalSizeCall member; } decalSizeCall;
+			decalSizeCall.raw = j_0000b848;
+			( crateDrawable->*decalSizeCall.member )(
+				newCrate->getMajorRadius() * g_bfmeOffsetDF,
+				newCrate->getMajorRadius() * g_bfmeOffsetDF );
+			createCrateSetDecalFade( crateDrawable, 1.0f, 0.03f );
+		}
+
+		return newCrate;
+	}
+
+	return 0;
 }
