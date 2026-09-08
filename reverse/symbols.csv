@@ -960,6 +960,7 @@ name,address,notes
 ??$__copy_backward@PAUGen_t_003daa60_p128pod@@PAU1@H@_STL@@YAPAUGen_t_003daa60_p128pod@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x003D7C90,gen-tgrid payload member
 ??$__copy_backward@PAUGen_t_00423040_p128pod@@PAU1@H@_STL@@YAPAUGen_t_00423040_p128pod@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00422A20,gen-tgrid payload member
 ??$__copy_backward@PAUGen_t_004231d0_p128pod@@PAU1@H@_STL@@YAPAUGen_t_004231d0_p128pod@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00422AC0,gen-tgrid payload member
+??$__copy_backward@PAUGen_t_004258e0_p24cd@@PAU1@H@_STL@@YAPAUGen_t_004258e0_p24cd@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x0003E51D,Open-BFME5 STLport 24-byte vector backward-copy helper called by EvaCheckVecBase::fillInsert at 0x00425420
 ??$__copy_backward@PAUGen_t_00425fc0_p128pod@@PAU1@H@_STL@@YAPAUGen_t_00425fc0_p128pod@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x004259E0,gen-tgrid payload member
 ??$__copy_backward@PAUGen_t_00425ff0_p128pod@@PAU1@H@_STL@@YAPAUGen_t_00425ff0_p128pod@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00425A60,gen-tgrid payload member
 ??$__copy_backward@PAUGen_t_00426060_p128pod@@PAU1@H@_STL@@YAPAUGen_t_00426060_p128pod@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00425AE0,gen-tgrid payload member
@@ -1175,6 +1176,7 @@ name,address,notes
 ??$__unguarded_partition@PAUS4SortElem12@@U1@US4Cmp00574DF0@@@_STL@@YAPAUS4SortElem12@@PAU1@0U1@US4Cmp00574DF0@@@Z,0x000270B1,"Lead independently reproduced and disassembled120B partition: signed key comparison,12B stride and full3dword swap"
 ??$__uninitialized_copy@PAUGen_t_00282af0_p12pod@@PAU1@@_STL@@YAPAUGen_t_00282af0_p12pod@@PAU1@00ABU__false_type@0@@Z,0x00035BF7,retail call target from _M_insert_overflow at 0x00282910
 ??$__uninitialized_copy@PAUGen_t_003c1800_p2pod@@PAU1@@_STL@@YAPAUGen_t_003c1800_p2pod@@PAU1@00ABU__false_type@0@@Z,0x000413A3,"Independent full retail helper review: 2-byte copy/backward/fill/placement-fill and existing 3C16A0 overflow; RVA-derived POD type, no guessed game owner"
+??$__uninitialized_copy@PAUGen_t_004258e0_p24cd@@PAU1@@_STL@@YAPAUGen_t_004258e0_p24cd@@PAU1@00ABU__false_type@0@@Z,0x0002031F,Open-BFME5 STLport 24-byte vector uninitialized-copy helper called by EvaCheckVecBase::fillInsert at 0x00425420
 ??$__uninitialized_copy@PAUGen_t_0074d9c0_p128pod@@PAU1@@_STL@@YAPAUGen_t_0074d9c0_p128pod@@PAU1@00ABU__false_type@0@@Z,0x00021A1C,typed helper for 36-byte vector fill insert
 ??$__uninitialized_copy@PAUGen_t_0074e320_p16pod@@PAU1@@_STL@@YAPAUGen_t_0074e320_p16pod@@PAU1@00ABU__false_type@0@@Z,0x0074AA10,gen-tgrid payload member
 ??$__uninitialized_copy@PAURunwayInfo@FlightDeckBehavior@@PAU12@@_STL@@YAPAURunwayInfo@FlightDeckBehavior@@PAU12@00ABU__false_type@0@@Z,0x00038C80,Open-BFME5 the range copy the RunwayInfo vector _M_insert_overflow at 0x0039EC70 calls
@@ -1254,6 +1256,7 @@ name,address,notes
 ??$fill@PAPAXPAX@_STL@@YAXPAPAX0ABQAX@Z,0x0000A060,vector<void*>::_M_fill_insert REL32 call via ILT thunk
 ??$fill@PAUGen_p24pod@@U1@@_STL@@YAXPAUGen_p24pod@@0ABU1@@Z,0x0058ACB0,gen-tgrid payload member used by AptPalantirHeroSelector constructor
 ??$fill@PAUGen_t_003c1800_p2pod@@U1@@_STL@@YAXPAUGen_t_003c1800_p2pod@@0ABU1@@Z,0x000311F6,"Independent full retail helper review: 2-byte copy/backward/fill/placement-fill and existing 3C16A0 overflow; RVA-derived POD type, no guessed game owner"
+??$fill@PAUGen_t_004258e0_p24cd@@U1@@_STL@@YAXPAUGen_t_004258e0_p24cd@@0ABU1@@Z,0x0000A231,Open-BFME5 STLport 24-byte vector fill helper called by EvaCheckVecBase::fillInsert at 0x00425420
 ??$fill@PAUGen_t_0074d9c0_p128pod@@U1@@_STL@@YAXPAUGen_t_0074d9c0_p128pod@@0ABU1@@Z,0x0003EF9F,typed helper for 36-byte vector fill insert
 ??$fill@PAUGen_t_0074e320_p16pod@@U1@@_STL@@YAXPAUGen_t_0074e320_p16pod@@0ABU1@@Z,0x00749270,gen-tgrid payload member
 ??$fill@PAURva00244A80Element@@U1@@_STL@@YAXPAURva00244A80Element@@0ABU1@@Z,0x00030F58,Open-BFME5 0x002403E0 fill ILT
@@ -2813,6 +2816,7 @@ name,address,notes
 ??0Gen_t_003d3b10_k4@@QAE@ABU0@@Z,0x00887B60,gen-tgrid payload member
 ??0Gen_t_00423760_mc4@@QAE@ABU0@@Z,0x00887B60,family-emit payload member
 ??0Gen_t_00423e00_k4@@QAE@ABU0@@Z,0x00887B60,gen-tgrid payload member
+??0Gen_t_004258e0_p24cd@@QAE@ABU0@@Z,0x000336FE,Open-BFME5 24-byte EvaCheck value-copy helper called by EvaCheckVecBase::fillInsert at 0x00425420
 ??0Gen_t_0042d250_m4cd@@QAE@ABU0@@Z,0x0042D170,family-emit payload member
 ??0Gen_t_0042d280_m4cd@@QAE@ABU0@@Z,0x0042D170,family-emit payload member
 ??0Gen_t_0042dcd0_m4cd@@QAE@ABU0@@Z,0x0042D170,family-emit payload member
