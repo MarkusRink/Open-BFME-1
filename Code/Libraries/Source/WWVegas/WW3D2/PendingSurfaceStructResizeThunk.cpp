@@ -57,6 +57,7 @@ protected:
 	SurfaceResource *m_surface;
 };
 
+// ?W3DRadarResetSurface::operator= present-unmatched
 W3DRadarResetSurface &W3DRadarResetSurface::operator=(const W3DRadarResetSurface &that)
 {
 	if (that.m_surface)
@@ -87,6 +88,7 @@ public:
 	bool VectorClassPad[2];
 };
 
+// ?VectorClassDummy::VectorClassDummy present-unmatched
 inline VectorClassDummy::VectorClassDummy(int size, void *const *array) :
 	Vector(0), VectorMax(size), IsValid(true), IsAllocated(false)
 {
@@ -103,6 +105,7 @@ inline VectorClassDummy::VectorClassDummy(int size, void *const *array) :
 	}
 }
 
+// ?VectorClassDummy::operator= present-unmatched
 VectorClassDummy &VectorClassDummy::operator=(const VectorClassDummy &that)
 {
 	if (this != &that)
@@ -140,6 +143,7 @@ public:
 	int GrowthStep;
 };
 
+// ?DynamicVectorDummy::DynamicVectorDummy present-unmatched
 inline DynamicVectorDummy::DynamicVectorDummy(int size, void *const *array)
 	: VectorClassDummy(size, array)
 {
@@ -175,6 +179,9 @@ public:
 	virtual int ID(T const &ptr);								///< vtable +0x14
 
 protected:
+	T &operator[](int index) { return Vector[index]; }
+	int Length(void) const { return VectorMax; }
+
 	T *Vector;						///< retail this+0x04
 	int VectorMax;					///< retail this+0x08
 	bool IsValid;					///< retail this+0x0C
@@ -243,3 +250,30 @@ bool VectorClass<T>::Resize(int newsize, T const *array)
 // this isolated TU calls it.
 template VectorClass<PendingSurfaceStruct>::VectorClass(int, PendingSurfaceStruct const *);
 template bool VectorClass<PendingSurfaceStruct>::Resize(int, PendingSurfaceStruct const *);
+
+template <class T>
+class DynamicVectorClass : public VectorClass<T>
+{
+public:
+	bool Add(T const &object)
+	{
+		if (ActiveCount >= this->Length()) {
+			if ((this->IsAllocated || !this->VectorMax) && GrowthStep > 0) {
+				if (!this->Resize(this->Length() + GrowthStep))
+					return false;
+			} else {
+				return false;
+			}
+		}
+
+		(*this)[ActiveCount++] = object;
+		return true;
+	}
+
+protected:
+	int ActiveCount;
+	int GrowthStep;
+};
+
+template bool DynamicVectorClass<PendingSurfaceStruct>::Add(
+	PendingSurfaceStruct const &);
