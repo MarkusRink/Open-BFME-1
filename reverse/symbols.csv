@@ -1249,6 +1249,7 @@ name,address,notes
 ??$fill@PAMM@_STL@@YAXPAM0ABM@Z,0x00011171,Open-BFME5 ILT thunk to 0x00459A00 - the fill() both fill-arms of _M_fill_insert at 0x00459D90 call; same TU 0x390 bytes below it
 ??$fill@PAPAVObject@@PAV1@@_STL@@YAXPAPAVObject@@0ABQAV1@@Z,0x0003C7F9,ILT thunk used by call site
 ??$fill@PAPAXPAX@_STL@@YAXPAPAX0ABQAX@Z,0x0000A060,vector<void*>::_M_fill_insert REL32 call via ILT thunk
+??$fill@PAUGen_p24pod@@U1@@_STL@@YAXPAUGen_p24pod@@0ABU1@@Z,0x0058ACB0,gen-tgrid payload member used by AptPalantirHeroSelector constructor
 ??$fill@PAUGen_t_003c1800_p2pod@@U1@@_STL@@YAXPAUGen_t_003c1800_p2pod@@0ABU1@@Z,0x000311F6,"Independent full retail helper review: 2-byte copy/backward/fill/placement-fill and existing 3C16A0 overflow; RVA-derived POD type, no guessed game owner"
 ??$fill@PAUGen_t_0074d9c0_p128pod@@U1@@_STL@@YAXPAUGen_t_0074d9c0_p128pod@@0ABU1@@Z,0x0003EF9F,typed helper for 36-byte vector fill insert
 ??$fill@PAUGen_t_0074e320_p16pod@@U1@@_STL@@YAXPAUGen_t_0074e320_p16pod@@0ABU1@@Z,0x00749270,gen-tgrid payload member
@@ -11740,6 +11741,7 @@ name,address,notes
 ?_M_advance@?$_Deque_iterator_base@UGen_t_0069e4e0_p12cd@@@_STL@@QAEXH@Z,0x006979F0,gen-tgrid payload member
 ?_M_advance@?$_Deque_iterator_base@UGen_t_0076f6d0_p12cd@@@_STL@@QAEXH@Z,0x0076D280,gen-tgrid payload member
 ?_M_allocate@?$__node_alloc@$00$0A@@_STL@@CAPAXI@Z,0x0082E540,STLport _Node_alloc::_M_allocate called by list<Coord3D> copy ctor
+?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z,0x000025E5,STLport narrow fill constructor call uses the retail ILT thunk for the matched body at 0x002D8640
 ?_M_allocate_buffers@?$basic_filebuf@DV?$char_traits@D@_STL@@@_STL@@AAE_NPADH@Z,0x008416C0,STLport 4.5.3 library-internal callee; address read from the retail REL32 displacement in Code/stlport/X4Filebuf.cpp
 ?_M_allocate_buffers@?$basic_filebuf@GV?$char_traits@G@_STL@@@_STL@@AAE_NPAGH@Z,0x008420B0,STLport 4.5.3 library-internal callee; address read from the retail REL32 displacement in Code/stlport/X4Filebuf.cpp
 ?_M_bkt_num_key@?$hashtable@U?$pair@$$CBVAsciiString@@PAUAudioEventInfo@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAUAudioEventInfo@@@_STL@@@2@U?$equal_to@VAsciiString@@@5@V?$allocator@U?$pair@$$CBVAsciiString@@PAUAudioEventInfo@@@_STL@@@2@@_STL@@ABEIABVAsciiString@@I@Z,0x000103F7,resweep callee back-solved
@@ -12340,6 +12342,7 @@ name,address,notes
 ?_M_exit_putback_mode@?$basic_filebuf@GV?$char_traits@G@_STL@@@_STL@@AAEXXZ,0x00842650,STLport wchar filebuf helper read from retail seek initializer call
 ?_M_fill_insert@?$list@UGen_t_0009f4d0_m12cd@@V?$allocator@UGen_t_0009f4d0_m12cd@@@_STL@@@_STL@@QAEXU?$_List_iterator@UGen_t_0009f4d0_m12cd@@U?$_Nonconst_traits@UGen_t_0009f4d0_m12cd@@@_STL@@@2@IABUGen_t_0009f4d0_m12cd@@@Z,0x0009F290,family-emit payload member
 ?_M_fill_insert@?$list@UGen_t_003c0c40_m12cd@@V?$allocator@UGen_t_003c0c40_m12cd@@@_STL@@@_STL@@QAEXU?$_List_iterator@UGen_t_003c0c40_m12cd@@U?$_Nonconst_traits@UGen_t_003c0c40_m12cd@@@_STL@@@2@IABUGen_t_003c0c40_m12cd@@@Z,0x003C0000,family-emit payload member
+?_M_fill_insert@?$list@URva003C15C0Element@@V?$allocator@URva003C15C0Element@@@_STL@@@_STL@@QAEXU?$_List_iterator@URva003C15C0Element@@U?$_Nonconst_traits@URva003C15C0Element@@@_STL@@@2@IABURva003C15C0Element@@@Z,0x003C0000,retail call from 0x003C15C0 resolves to matched 12-byte list fill_insert body at 0x003C0000
 ?_M_fill_insert@?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAEXU?$_List_iterator@VAsciiString@@U?$_Nonconst_traits@VAsciiString@@@_STL@@@2@IABVAsciiString@@@Z,0x00008EC2,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0009F630 calls; autopin
 ?_M_fill_insert@?$list@VUnicodeString@@V?$allocator@VUnicodeString@@@_STL@@@_STL@@QAEXU?$_List_iterator@VUnicodeString@@U?$_Nonconst_traits@VUnicodeString@@@_STL@@@2@IABVUnicodeString@@@Z,0x00008EC2,route=0x0009F290; retail SkirmishPreferences list<UnicodeString> constructor calls this ILT at 0x0009F68E; wide-list type follows m_userNames at this+0x14
 ?_M_fill_insert@?$vector@GV?$allocator@G@Gen003C2EE0Stl@@@Gen003C2EE0Stl@@QAEXPAGIABG@Z,0x000417F9,callee of the assigned 0x003C2EE0 resize conversion
@@ -73472,10 +73475,6 @@ name,address,notes
 ?bfmeAETC@BfmeBaseETC@@QAEXPAX00@Z,0x00015BC2,pin
 ?bfmeAbortAbility@SpecialAbilityUpdate@@QAEXXZ,0x0001466E,Open-BFME5 ILT thunk to body 0x002A5A30; exact helper dispatches SpecialAbilityUpdate onExit(false true)
 ?bfmeAbove@Gen_001de260@@QBEHPBMH@Z,0x000473C5,ILT to the exact landed integer threshold predicate at 0x001DE260
-?bfmeAsyncGethostbyname@@YAHPAD@Z,0x0002E118,HTTPThinkWrapper BFME async DNS call through the retail incremental-link thunk
-?bfmeGhttpThink@@YAXXZ,0x0087AC30,HTTPThinkWrapper BFME tail-call target; canonical GameSpy ghttpThink body
-?bfmeReallyStartPatchCheck@@YAXXZ,0x00630160,HTTPThinkWrapper BFME successful-DNS continuation decoded from the retail call
-?bfmeStartOnline@@YAXXZ,0x0062EA60,HTTPThinkWrapper BFME failed-DNS continuation decoded from the retail call
 ?bfmeAccept@BfmeSinkA@@QAEXPAVBfmeFlagTarget@@@Z,0x008815A0,Open-BFME5 the sink the describe at 0x00881040 hands its target to
 ?bfmeAccept@BfmeSinkB@@QAEXPAVBfmeFlagTarget@@@Z,0x008FB0B0,Open-BFME5 the sink the describe at 0x008F7650 hands its target to
 ?bfmeAccept@BfmeSinkC@@QAEXPAVBfmeFlagTarget@@@Z,0x009A2FC0,Open-BFME5 the sink the describe at 0x009A2700 hands its target to
@@ -73761,6 +73760,7 @@ name,address,notes
 ?bfmeAnyBridgeAt@Bfme5BridgeList@@QAEDPBUCoord3D@@@Z,0x00012A99,retail getLayerForDestination calls the ILT thunk to the matched 0x003D5DA0 body
 ?bfmeAnyVKQ@BfmeBlockVKQ@@QAEDABV1@@Z,0x00026F62,pin
 ?bfmeAnyYN@BfmeMaskYN@@QAEDPAU1@@Z,0x00022C5A
+?bfmeAppendFN@BfmeBufFN@@QAEXPBD@Z,0x008002C0,pin append for BfmeConv2048
 ?bfmeAppendV16@BfmeStrV16@@QAEXID@Z,0x00012396,Open-BFME5 append n chars thunk for 0x0082FB10
 ?bfmeAppendV36@BfmeStrV36@@QAEXPAD00@Z,0x00011522,Open-BFME5 append-range pin for 0x00830F00
 ?bfmeAppendVCB@BfmeBufVCB@@QAEXPBD@Z,0x008002C0,pin
@@ -73894,6 +73894,7 @@ name,address,notes
 ?bfmeAssignVSM@BfmeStrVSM@@QAEXABV1@@Z,0x00887C90,pin
 ?bfmeAssignVSO@BfmeStrVSO@@QAEXABV1@@Z,0x00887C90,pin
 ?bfmeAssignVTY@BfmeStrVTY@@QAEXABV1@@Z,0x00887C90,pin
+?bfmeAsyncGethostbyname@@YAHPAD@Z,0x0002E118,HTTPThinkWrapper BFME async DNS call through the retail incremental-link thunk
 ?bfmeAt1079@BfmeL1079@@QAEPAVBfmeM1079@@H@Z,0x0001EC18,pin
 ?bfmeAt1238B@BfmeS1238@@QAEPAV1@H@Z,0x0089CC30,pin
 ?bfmeAt1238C@BfmeU1238@@QAEPAVBfmeS1238@@H@Z,0x008BD1D0,pin
@@ -74974,6 +74975,7 @@ name,address,notes
 ?bfmeFindFBD@BfmeGlobFBD@@QAEPAUBfmeObjFBD@@PAX@Z,0x0001F253,pin
 ?bfmeFindFFG@BfmeMidFFG@@QAEPAUBfmeResFFG@@PAUBfmeSubFFG@@@Z,0x0003B890,pin
 ?bfmeFindFGE@BfmeGlobFGE@@QAEPAVBfmeResFGE@@PAX@Z,0x0004AD0E,pin
+?bfmeFindFN@BfmeOwnerFN@@QAEHPAVBfmeVecFN@@PBD@Z,0x007F76F0,pin find for BfmeConv2048
 ?bfmeFindFX@BfmeFinderFX@@QAEPAVBfmeThingFX@@PAH@Z,0x00009C41,pin
 ?bfmeFindInRange@@YAPAXPAX0HPBH@Z,0x000434E6,pin 0x00582540 find_if helper ILT target
 ?bfmeFindItemE63@@YAPAUBfmeItemE63@@H@Z,0x0000E6E7,pin
@@ -75499,6 +75501,7 @@ name,address,notes
 ?bfmeGet_00219890@BfmeChainResult@@QAEPAXXZ,0x0002818C,Open-BFME5 ILT the lookup at 0x00219890 tail-jumps through
 ?bfmeGet_002198b0@BfmeChainResult@@QAEPAXXZ,0x00036165,Open-BFME5 ILT the lookup at 0x002198B0 tail-jumps through
 ?bfmeGet_002198d0@BfmeChainResult@@QAEPAXXZ,0x000456E2,Open-BFME5 ILT the lookup at 0x002198D0 tail-jumps through
+?bfmeGhttpThink@@YAXXZ,0x0087AC30,HTTPThinkWrapper BFME tail-call target; canonical GameSpy ghttpThink body
 ?bfmeGlobalCGD@@YAXXZ,0x009A3AD0,pin
 ?bfmeGo1057A@BfmeA1057@@QAEXH@Z,0x00046A1F,call-site callee of Gen_0022F900::bfmeGain; ILT 0x00046A1F -> bfmeGo1057A 0x00410D80
 ?bfmeGo76A0@@YAXHPAHPAXHHH1@Z,0x009A76A0,8x8 block helper called from bfmeGo7820
@@ -76329,6 +76332,7 @@ name,address,notes
 ?bfmeReadyFX@BfmeInnerFX@@QAEDXZ,0x00028F74,pin
 ?bfmeReadyLW@BfmeOwnerLW@@QAEDXZ,0x00029CDF,pin
 ?bfmeReadyYP@BfmeThingYP@@QAEDXZ,0x00011F77
+?bfmeReallyStartPatchCheck@@YAXXZ,0x00630160,HTTPThinkWrapper BFME successful-DNS continuation decoded from the retail call
 ?bfmeRebuild@BFMERopeDrawableGetPositionShim@@AAEXH@Z,0x00034C3E,Open-BFME5 ILT the rope getPosition at 0x0041D090 rebuilds through
 ?bfmeRebuildZones@BfmePathfindZoneManager@@QAEXPAXPAUBfmePathfindLayer44@@PAUBfmePathfindExtent@@@Z,0x00020A13,Open-BFME5 zone rebuild ILT thunk used by 0x003D5790
 ?bfmeRecordTransform@Object@@QAEXI@Z,0x0002BB43,ILT 0x0002BB43 -> 0x001C0BE0 Drawable::bfmeRecordTransform ICF; fire-at Object this
@@ -76814,6 +76818,7 @@ name,address,notes
 ?bfmeStartAllSpecialPowerRecharges@Object@@QBEXXZ,0x00026490,Open-BFME5 ILT thunk to body 0x001BE820; walks Object behaviors at +0x1F0 and calls special-power interface slot +0x40 after the behavior-interface query at +0x1C; bfme prefix records unrecovered retail spelling
 ?bfmeStartCW@BfmeHostCW@@QAEXXZ,0x00020BA3
 ?bfmeStartERU@BfmeThingERU@@QAEXXZ,0x00013075,pin
+?bfmeStartOnline@@YAXXZ,0x0062EA60,HTTPThinkWrapper BFME failed-DNS continuation decoded from the retail call
 ?bfmeStartSA@BfmeSubSA@@QAEXXZ,0x0000F0A6,pin
 ?bfmeStartSE@BfmeThingSE@@QAEXXZ,0x0000E9A3,pin
 ?bfmeStartTD@BfmeSubTD@@QAEXPAX@Z,0x00047B27,pin
@@ -78429,6 +78434,7 @@ name,address,notes
 ?fill@TaintBufferFillThunk@@QAEXE@Z,0x0002CFE3,callee pin used by TaintBuffer::init
 ?fill@U1SupplierHigh@@QAEXPAVU1FillTargetHigh@@PAX@Z,0x005C8E90,tail of the slot-2 field collectors reading the 0xB8-0xBC run; address-derived name
 ?fill@U1SupplierLow@@QAEXPAVU1FillTargetLow@@PAX@Z,0x005C8D40,tail of the slot-2 field collectors reading the 0x3C-0x54 run; address-derived name
+?fill@_STL@@YAXPAD0ABD@Z,0x0082ADB0,STLport narrow fill helper called by the basic_string size-and-character constructor at 0x008308E0
 ?fillCellAlongLine@BfmeAttackQuery@@QAEXPBUICoord2D@@0HPAUBfmeCellResult@@@Z,0x00042E01,BFME attack query line fill thunk used by checkCandidate
 ?fillCurrentLANGameInfo@@YAXPADI@Z,0x0002A6D5,three LAN message-building callers identify the current-game serializer helper
 ?fillInsert@BfmeVecWR@@QAEXPAUBfmePod16WR@@IABU2@@Z,0x00012EFE,Open-BFME5 16-byte vector fill-insert ILT used by 0x0074E6B0 resize
@@ -83478,8 +83484,6 @@ name,address,notes
 ?rva007FF100Encode@@YAXIPBDPAX@Z,0x007FF100,neutral direct-body base64 encoder ABI: retail reads length/source/destination as three cdecl arguments and has a 327-byte body; target uses the same FESL blob length formula and encoder call
 ?rva007e8530_bar@@YGXPAX0@Z,0x000476E0,Open-BFME5 fresh stdcall at ILT of this+global 0x007E8530
 ?rva0082ADB0Fill@@YAXPAD0ABD@Z,0x0082ADB0,callee of rva0082BE60FillN; STLport fill at the ICF alias
-?fill@_STL@@YAXPAD0ABD@Z,0x0082ADB0,STLport narrow fill helper called by the basic_string size-and-character constructor at 0x008308E0
-?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z,0x000025E5,STLport narrow fill constructor call uses the retail ILT thunk for the matched body at 0x002D8640
 ?rva0082C6E0CopyValues@@YAPAURva0082C6E0Value@@PAU1@00@Z,0x00018179,0x0082C6E0 vector erase trivial-copy thunk;target=0x00065E30
 ?rva0082C760Acquire@@YAXPAVNodeAllocMutex@_STL@@@Z,0x0082C760,node_alloc real acquire called by _M_acquire_lock
 ?rva008AC790@BfmeSlotState1289@@QAEXXZ,0x008AC790,Address-qualified thiscall helper; retail prologue consumes ECX and initializes receiver values at +0x48
