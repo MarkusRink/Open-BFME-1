@@ -12658,3 +12658,22 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_00243070@@YAXXZ	0x00243070	474	blocked	HordeContain AI group body with generated AI/list helpers and globals; no named caller or reliable owner identity supports a clean C++ claim; t=4min model=codex
 ?d_002435f0@@YAXXZ	0x002435F0	737	blocked	HordeContain member/formation body with generated index and experience helpers; no named caller, vtable evidence, or authoritative source owner; t=4min model=codex
 ??1ios_base@_STL@@UAE@XZ	0x0083F730	210	partial	EH state store differs by one compiler-generated value; all callback, allocator, locale, and vtable bytes match; t=25 minutes model=gpt-5 score=0.99 stash=reverse/attempts/0x0083f730.cpp submitted=0.99 alternative=reverse/attempt_history/0x0083f730/10bfd3f6b1a3eaa66e7f31b68c1a7da1df0ae45601fb29c0f92bd2efce4f76fc.json
+?d_005f02b0@@YAXXZ	0x005F02B0	158	blocked	complex FX-particle parser; three unresolved call families and no named caller establish no clean identity or source home after the served-file audit; t=2m model=gpt-5.6-sol
+?d_005f3750@@YAXXZ	0x005F3750	227	blocked	multi-base FX-particle constructor; pinned base and several unresolved callees do not identify the most-derived class; t=2m model=gpt-5.6-sol
+?d_005f4e90@@YAXXZ	0x005F4E90	259	blocked	multi-base FX-particle constructor with unresolved base/callee ownership; vtable evidence is shared and no named caller settles identity; t=2m model=gpt-5.6-sol
+?d_005f69c0@@YAXXZ	0x005F69C0	259	blocked	anonymous FX-particle body with only low-offset field accesses and no named caller; family identity remains unresolved; t=2m model=gpt-5.6-sol
+?d_005f6b60@@YAXXZ	0x005F6B60	692	blocked	anonymous FX-particle body with no settled caller or class identity; surrounding module rows do not prove ownership; t=2m model=gpt-5.6-sol
+?d_005f7820@@YAXXZ	0x005F7820	267	blocked	multi-base FX-particle constructor; vtable family and unresolved base callee leave the owner unproven; t=2m model=gpt-5.6-sol
+?d_005f8890@@YAXXZ	0x005F8890	464	blocked	anonymous FX-particle body with unresolved owner and no named caller; nearby volume methods are not identity evidence; t=2m model=gpt-5.6-sol
+?d_005fb530@@YAXXZ	0x005FB530	1366	blocked	large FX-particle lifecycle body with multiple unresolved callees and no named caller; clean ownership is not established; t=2m model=gpt-5.6-sol
+?d_005fbbe0@@YAXXZ	0x005FBBE0	364	blocked	multi-base FX-particle constructor with unresolved base/callee ownership; installed vtables are shared and no named caller proves the class; t=2m model=gpt-5.6-sol
+?d_005fd550@@YAXXZ	0x005FD550	266	blocked	multi-base FX-particle constructor; unresolved transition/collision callees and shared vtable family leave identity unproven; t=2m model=gpt-5.6-sol
+?d_005fdc70@@YAXXZ	0x005FDC70	293	blocked	anonymous FX-particle lifecycle body with unresolved allocation/handle callees and no named caller; owner not recovered; t=2m model=gpt-5.6-sol
+?d_005fde80@@YAXXZ	0x005FDE80	196	blocked	multi-base FX-particle constructor with unresolved transition callee and shared vtable evidence; owner not proven; t=2m model=gpt-5.6-sol
+?d_005fe480@@YAXXZ	0x005FE480	408	blocked	anonymous FX-particle body with six unresolved thunk calls and no named caller; clean source identity unavailable; t=2m model=gpt-5.6-sol
+?d_005fead0@@YAXXZ	0x005FEAD0	271	blocked	multi-base FX-particle constructor with unresolved thunk callees and shared vtable family; owner identity not proven; t=2m model=gpt-5.6-sol
+?d_005fed60@@YAXXZ	0x005FED60	758	blocked	anonymous FX-particle body with unresolved callees and no named caller; nearby module names do not establish identity; t=2m model=gpt-5.6-sol
+?d_005ffbb0@@YAXXZ	0x005FFBB0	346	blocked	multi-base FX-particle constructor with unresolved base/callee ownership and shared vtables; owner identity not proven; t=2m model=gpt-5.6-sol
+?d_005ffdb0@@YAXXZ	0x005FFDB0	262	blocked	multi-base FX-particle constructor with unresolved transition callee and shared vtable family; owner identity not proven; t=2m model=gpt-5.6-sol
+?d_00601490@@YAXXZ	0x00601490	140	blocked	anonymous lifecycle body; vtable 0x01114FD4 is shared and the sole caller is a generated deleting thunk, so TerrainRoadCollection is only a hypothesis; t=2m model=gpt-5.6-sol
+?d_005fb4d0@@YAXXZ	0x005FB4D0	75	blocked	short linked-list mutation body with no named caller; fields at +4,+8,+98,+9C do not establish the owning class, and no clean source identity was recovered; t=3m model=gpt-5.6-sol
