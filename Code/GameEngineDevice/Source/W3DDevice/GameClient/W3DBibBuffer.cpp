@@ -81,13 +81,23 @@ static ShaderClass detailAlphaShader(SC_ALPHA_DETAIL);
 //         Private Functions                                               
 //-----------------------------------------------------------------------------
 
+// BFME keeps the terrain diffuse triplet at +0x9BC and the ambient triplet at
+// +0x9E0.  The shared reference GlobalData declaration places these members at
+// different offsets, so this narrow view is local to the bib upload body.
+struct BFMEBibGlobalLightingData
+{
+	char pad0[0x9bc];
+	RGBColor terrainDiffuse[1];
+	char pad1[0x18];
+	RGBColor terrainAmbient[1];
+};
+
 
 //=============================================================================
 // W3DBibBuffer::loadBibsInVertexAndIndexBuffers
 //=============================================================================
 /** Loads the bibs into the vertex buffer for drawing. */
 //=============================================================================
-// ?loadBibsInVertexAndIndexBuffers@W3DBibBuffer@@IAEXXZ present-unmatched
 void W3DBibBuffer::loadBibsInVertexAndIndexBuffers(void)
 {
 	if (!m_indexBib || !m_vertexBib || !m_initialized) {
@@ -122,12 +132,12 @@ void W3DBibBuffer::loadBibsInVertexAndIndexBuffers(void)
 
 	// Calculate a static lighting value to use for all the bibs.
 	Real shadeR, shadeG, shadeB;
-	shadeR = TheGlobalData->m_terrainAmbient[0].red;
-	shadeG = TheGlobalData->m_terrainAmbient[0].green;
-	shadeB = TheGlobalData->m_terrainAmbient[0].blue;
-	shadeR += TheGlobalData->m_terrainDiffuse[0].red;
-	shadeG += TheGlobalData->m_terrainDiffuse[0].green;
-	shadeB += TheGlobalData->m_terrainDiffuse[0].blue;
+	shadeR = ((BFMEBibGlobalLightingData *)TheGlobalData)->terrainAmbient[0].red;
+	shadeG = ((BFMEBibGlobalLightingData *)TheGlobalData)->terrainAmbient[0].green;
+	shadeB = ((BFMEBibGlobalLightingData *)TheGlobalData)->terrainAmbient[0].blue;
+	shadeR += ((BFMEBibGlobalLightingData *)TheGlobalData)->terrainDiffuse[0].red;
+	shadeG += ((BFMEBibGlobalLightingData *)TheGlobalData)->terrainDiffuse[0].green;
+	shadeB += ((BFMEBibGlobalLightingData *)TheGlobalData)->terrainDiffuse[0].blue;
 	if (shadeR>1.0f) shadeR=1.0f;
 	if (shadeG>1.0f) shadeG=1.0f;
 	if (shadeB>1.0f) shadeB=1.0f;
@@ -135,9 +145,10 @@ void W3DBibBuffer::loadBibsInVertexAndIndexBuffers(void)
 	shadeG*=255.0f;
 	shadeB*=255.0f;
 
-	Int diffuse = (REAL_TO_INT(shadeB) | (REAL_TO_INT(shadeG) << 8) | (REAL_TO_INT(shadeR) << 16) | (255 << 24));
+	// Retail narrows these x87 values with MSVC's __ftol2 conversion helper;
+	// the shared REAL_TO_INT macro expands to the newer inline truncation path.
+	Int diffuse = ((Int)shadeB | ((Int)shadeG << 8) | ((Int)shadeR << 16) | (255 << 24));
 	Int doHighlight;
-	try {
 	for (doHighlight=0; doHighlight<=1; doHighlight++) 
 	{
 		if (doHighlight==1) 
@@ -179,6 +190,9 @@ void W3DBibBuffer::loadBibsInVertexAndIndexBuffers(void)
 					case 3:
 						U=0;V=0;
 						break;
+					default:
+						U=0;V=0;
+						break;
 				}
 
 				curVb->u1 = U;
@@ -199,10 +213,6 @@ void W3DBibBuffer::loadBibsInVertexAndIndexBuffers(void)
 			*curIb++ = startVertex + 3;
 			m_curNumBibIndices+=6;
 		}		
-	}
-	IndexBufferExceptionFunc();
-	} catch(...) {
-		IndexBufferExceptionFunc();
 	}
 }
 
