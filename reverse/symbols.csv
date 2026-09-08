@@ -8880,6 +8880,7 @@ name,address,notes
 ??1SegLineRendererClass@@QAE@XZ,0x00960030,derived from ~ParticleBufferClass call site
 ??1SegmentedLineClass@@UAE@XZ,0x0094F9C0,0x009509B0 is the first slot of the table followed by exact SegmentedLine Clone and Class_ID methods; wrapper directly calls this body
 ??1ShellMenuSchemeManager@@QAE@XZ,0x00041871,Shell destructor retail call invokes the scheme-manager destructor ILT thunk
+??1?$_List_base@PAVShellMenuScheme@@V?$allocator@PAVShellMenuScheme@@@_STL@@@_STL@@QAE@XZ,0x0002509F,ShellMenuSchemeManager list base destructor ILT; target body 0x00580AE0 matches the list-node teardown used by the manager
 ??1ShroudCrateCollide@@MAE@XZ,0x0000807B,destructor ILT to 0x00218670
 ??1ShroudManagerImpl008FBA40Element@@QAE@XZ,0x008F9330,RVA 0x008FBA40 element-array destructor callback
 ??1ShroudManagerImpl008FBA40Node@@QAE@XZ,0x008F8340,RVA 0x008FBA40 node-chain destructor call target

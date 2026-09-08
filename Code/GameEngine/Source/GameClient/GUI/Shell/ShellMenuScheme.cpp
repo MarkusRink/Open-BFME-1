@@ -199,7 +199,6 @@ ShellMenuSchemeManager::ShellMenuSchemeManager( void )
 	m_currentScheme = NULL;
 }
 
-// ??1ShellMenuSchemeManager@@QAE@XZ present-unmatched
 ShellMenuSchemeManager::~ShellMenuSchemeManager( void )
 {
 	m_currentScheme = NULL;
