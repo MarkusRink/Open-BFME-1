@@ -68222,6 +68222,7 @@ name,address,notes
 ?b_006e8dd0@@YAXXZ,0x006E8DD0,gen-thunk body
 ?b_006e8de0@@YAXXZ,0x006E8DE0,gen-thunk body
 ?b_006e8df0@@YAXXZ,0x006E8DF0,gen-thunk body
+?drawThirdDebugDisplay@W3DDisplay@@QAEXXZ,0x006E8800,address-derived W3DDisplay callback fast-path helper reached by drawCurrentDebugDisplay
 ?b_006e8e60@@YAXXZ,0x006E8E60,gen-thunk body
 ?b_006e9140@@YAXXZ,0x006E9140,gen-thunk body
 ?b_006e9150@@YAXXZ,0x006E9150,gen-thunk body
