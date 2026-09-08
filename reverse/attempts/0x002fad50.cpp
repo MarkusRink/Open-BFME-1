@@ -15,7 +15,6 @@ template <typename T> struct BfmeStringData
 	int m_refCount;
 	unsigned short m_length;
 	unsigned short m_capacity;
-	T m_text[1];
 };
 
 template <typename T> class StringBase
@@ -32,10 +31,14 @@ private:
 	__forceinline int compare(const StringBase<T> &other) const
 	{
 		const int length = other.m_data ? other.m_data->m_length : 0;
-		const char *data = other.m_data ? &other.m_data->m_text[0] : "";
+		const char *data = other.m_data ? (const char *)(other.m_data + 1) : "";
 		const int myLength = m_data ? m_data->m_length : 0;
-		const char *myData = m_data ? &m_data->m_text[0] : "";
-		int result = memcmp(myData, data, myLength < length ? myLength : length);
+		const char *myText;
+		if (m_data)
+			myText = (const char *)(m_data + 1);
+		else
+			myText = "";
+		int result = memcmp(myText, data, myLength < length ? myLength : length);
 		if (result == 0) {
 			result = myLength - length;
 		}
@@ -71,15 +74,15 @@ public:
 
 	const char *str() const
 	{
-		return m_data ? m_data->m_text : "";
+		return m_data ? (const char *)(m_data + 1) : "";
 	}
 
 	int compare(const AsciiString &other) const
 	{
 		int otherLength = other.m_data ? other.m_data->m_length : 0;
-		const char *otherText = other.m_data ? other.m_data->m_text : "";
+		const char *otherText = other.m_data ? (const char *)(other.m_data + 1) : "";
 		int thisLength = m_data ? m_data->m_length : 0;
-		const char *thisText = m_data ? m_data->m_text : "";
+		const char *thisText = m_data ? (const char *)(m_data + 1) : "";
 		int result = memcmp(thisText, otherText,
 			thisLength < otherLength ? thisLength : otherLength);
 		if (result == 0)
@@ -89,7 +92,15 @@ public:
 
 	friend __forceinline bool operator==(const AsciiString &left, const AsciiString &right)
 	{
-		return left.compare(right) == 0;
+		int rightLength = right.m_data ? right.m_data->m_length : 0;
+		const char *rightText = right.m_data ? (const char *)(right.m_data + 1) : "";
+		int leftLength = left.m_data ? left.m_data->m_length : 0;
+		const char *leftText = left.m_data ? (const char *)(left.m_data + 1) : "";
+		int result = memcmp(leftText, rightText,
+			leftLength < rightLength ? leftLength : rightLength);
+		if (result == 0)
+			result = leftLength - rightLength;
+		return result == 0;
 	}
 
 private:
