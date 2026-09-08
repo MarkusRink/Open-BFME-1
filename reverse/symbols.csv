@@ -86121,3 +86121,11 @@ __imp_??0BfmeBaseGL@@QAE@XZ,0x00F59214,pin base ctor for BfmeConv2066
 _bfmeVftGS,0x00C968B0,pin vftable for BfmeConv2070
 ?g_bfmeDivGT@@3HA,0x00EBB1CC,pin divisor for BfmeConv2071
 ?bfmeStartGT@BfmeSubGT@@QAEXHHM@Z,0x0002A1B2,pin start for BfmeConv2071
+?writeDefaultAlphaHeader@FXParticleSystem@@YAXPBXPAVFile@@PAI@Z,0x00008094,DefaultModuleTemplate alpha writer header ILT
+?indent@StreamWriter@@QAEXH@Z,0x0001B77A,default alpha writer indentation emitter ILT
+?append@StreamWriter@@QAEXPBD@Z,0x0002DFEC,default alpha writer text append ILT
+?formatInteger@@YAPAVStreamWriter@@PAV1@I@Z,0x00021927,default alpha writer integer formatter ILT
+?formatReal@@YAPAVStreamWriter@@PAV1@N@Z,0x0000F376,default alpha writer floating formatter ILT
+?separate@StreamWriter@@QAEXH@Z,0x0002408C,default alpha writer separator emitter ILT
+?getText@StreamTextAccessor@@QAE?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@XZ,0x0001CA26,default alpha writer stream text accessor ILT
+??1?$basic_filebuf@DV?$char_traits@D@_STL@@@_STL@@UAE@XZ,0x00044459,default alpha writer inlined ofstream member teardown ILT
