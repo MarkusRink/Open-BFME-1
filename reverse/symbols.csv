@@ -76376,6 +76376,9 @@ name,address,notes
 ?bfmeRangeErrorQX@BfmeThingQX@@QAEXXZ,0x000132CD,pin
 ?bfmeRankPointsFromStats@@YAHPAVGen_uw_00025c1b@@H@Z,0x00022976,ILT to 0x004DA980 rank-points helper
 ?bfmeReadSJA@@YAXPAX0PAD@Z,0x0000FB73,pin
+?bfmeReadAsciiString@DataChunkInput@@QAE?AVAsciiString@@XZ,0x000041C9,BEnvironmentData parser readAsciiString thunk
+?bfmeReadByte@DataChunkInput@@QAEEXZ,0x0000C234,BEnvironmentData parser readByte thunk
+?bfmeReadReal@DataChunkInput@@QAEMXZ,0x0002E5E1,BEnvironmentData parser readReal thunk
 ?bfmeReadVFC@BfmeChunkVFC@@QAEIPAXI@Z,0x009E15C0,pin
 ?bfmeReadVHT@BfmeChunkVHT@@QAEIPAXI@Z,0x009E15C0,pin
 ?bfmeReady1001@BfmeUnit1001@@QAEDXZ,0x000331C7,pin
@@ -84271,6 +84274,8 @@ name,address,notes
 ?updateLighting@W3DRoadBuffer@@QAEXXZ,0x000109A1,incremental thunk used by BaseHeightMap setTimeOfDay
 ?updateMPBattleHonors@@YAXAAHAAVPSPlayerStats@@@Z,0x004E59E0,ZH updateMPBattleHonors(Int& honors PSPlayerStats& stats) with stats in EAX (LTCG custom convention) and honors on the stack: winsInARow(+0x188)>=3/10/25 -> 0x2/0x8/0x10 (ZH only STREAK at 5); gamesInRowWithLastGeneral(+0x17c)>=20 && localPlayer side America/China/GLA -> 0x20/0x40/0x200; getTotalUnitsBuilt(VEHICLE !AIRCRAFT)>=50 -> 0x80 (BATTLE_TANK); (AIRCRAFT)>=20 -> 0x100 (AIR_WING); TheGameLogic frame/300<5 -> 0x4000 BLITZ5 frame/5/60<10 -> 0x8000 BLITZ10; no apocalypse/global-general arms; sole caller populatePlayerInfo 0x004E75F1 gated on !crc !discon !isLocalAlliedDefeat getEndFrame
 ?updateMacroTexture@BaseHeightMapResetTerrain@@QAEXVBaseHeightMapResetAsciiString@@_N@Z,0x00003CE2,BaseHeightMap reset two-argument macro-texture ILT thunk
+?bfmeUpdateMacroTexture@BaseHeightMapRenderObjClass@@QAEXVAsciiString@@_N@Z,0x00003CE2,BEnvironmentData parser macro-texture update thunk
+?bfmeUpdateTexture@BaseHeightMapRenderObjClass@@QAEXVAsciiString@@@Z,0x00003B66,BEnvironmentData parser default-texture update thunk
 ?updateMacroTexture@Rva006D23C0Owner@@QAEXVBaseHeightMapResetAsciiString@@_N@Z,0x006CB8D0,refresh6CCDB0 same receiver ECX; ILT3CE2 ->6CB8D0; macro texture name3070 and force306C match existing body; campaign=luna36h-20260907;lane=shaders
 ?updateMapOverrides@WaterRenderObjClass@@AAEXXZ,0x00028B8C,retail ILT called by WaterRenderObjClass reset and forwarding to 0x007A1330
 ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z,0x007BE000,certified packet 348; updateMeshVolume body 0x7BE000 (thunk 0xC392 from updateVolumes)
