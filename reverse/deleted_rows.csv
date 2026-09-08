@@ -25061,3 +25061,4 @@ dup_af1f0,0x000AF1F0,Rehomed to neutral address owner; does not belong to LANAPI
 ?d_002c95b0@@YAXXZ,0x002C95B0,gen-dump placeholder superseded by the byte-verified WorkerAIUpdate::update identity in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdate.cpp
 ?d_00883e90@@YAXXZ,0x00883E90,gen-dump placeholder superseded by the byte-verified WWDownload::setStringInRegistry identity in Code/Libraries/Source/WWVegas/WWDownload/registry.cpp
 ?d_0049c3f0@@YAXXZ,0x0049C3F0,gen-dump placeholder superseded by the byte-verified CommandButton::cacheButtonImage identity in Code/GameEngine/Source/GameClient/GUI/ControlBar/CommandButton_cacheButtonImageVector.cpp
+?d_0018f400@@YAXXZ,0x0018F400,gen-dump placeholder superseded by the byte-verified PolygonTrigger::updateBounds identity in Code/GameEngine/Source/GameLogic/Map/PolygonTrigger_updateBounds.cpp
