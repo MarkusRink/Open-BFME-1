@@ -650,6 +650,7 @@ void (*bfme_force_DeliverPayloadNugget_Payload_comdats)() =
 	&DeliverPayloadNugget::bfmeForcePayloadComdats;
 
 //-------------------------------------------------------------------------------------------------
+#line 566 "F:\\bfme\\Code\\gameengine\\Source\\GameLogic\\Object\\ObjectCreationList.cpp"
 static void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPitch, Coord3D* force)
 {
 	Real angle = GameLogicRandomValueReal(0, 2*PI);
@@ -667,6 +668,7 @@ static void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPit
 	force->y = v.Y;
 	force->z = v.Z;
 }
+#line 670
 
 
 //-------------------------------------------------------------------------------------------------
