@@ -350,6 +350,7 @@ def coff_name(data, symbol_offset, string_table):
 # undefined. A 250-instantiation generated TU needed 44,768 COMDATs and lost 56
 # rows to exactly that, diagnosed only as "symbol not found in object".
 COFF_SECTION_CEILING = 0x7FFF
+COFF_STORAGE_STATIC = 3
 
 
 def read_object_symbols(data):
@@ -364,11 +365,14 @@ def read_object_symbols(data):
         value = u32(data, offset + 8)
         section_number = struct.unpack_from("<h", data, offset + 12)[0]
         aux_count = data[offset + 17]
-        symbols.append({"name": name, "value": value, "section": section_number, "aux": aux_count})
+        storage_class = data[offset + 16]
+        symbols.append({"name": name, "value": value, "section": section_number,
+                        "aux": aux_count, "storage": storage_class})
         for _ in range(aux_count):
             index += 1
             offset = symbol_table + index * 18
-            symbols.append({"name": "", "value": 0, "section": 0, "aux": 0})
+            symbols.append({"name": "", "value": 0, "section": 0, "aux": 0,
+                            "storage": 0})
         index += 1
     return symbols
 
@@ -1863,6 +1867,11 @@ def verify_dir32_consistency(rows):
         obj = require_row_object(row)
         trva, tsz = int(row["target_rva"], 16), int(row["target_size"])
         target = read_target_bytes(trva, tsz)
+        stat = obj.stat()
+        _, _, symbols = _object_layout(str(obj), stat.st_mtime_ns, stat.st_size)
+        local_static = {symbol["name"] for symbol in symbols
+                        if symbol["section"] > 0 and
+                        symbol["storage"] == COFF_STORAGE_STATIC}
         try:
             body, relocs = read_object_symbol_bytes(
                 obj, ledger_object_symbol(row), tsz)
@@ -1883,6 +1892,8 @@ def verify_dir32_consistency(rows):
             # not fold COMDATs, so a template instantiation claimed at N retail
             # addresses legitimately resolves its handler to N stub addresses.
             if sym.startswith("__ehhandler$"):
+                continue
+            if sym in local_static:
                 continue
             final = struct.unpack_from("<I", target, off)[0]
             addend = struct.unpack_from("<I", body, off)[0]
