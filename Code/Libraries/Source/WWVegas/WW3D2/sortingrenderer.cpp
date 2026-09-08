@@ -59,9 +59,16 @@
 // same layout but makes VC7 emit a hand-written release loop instead of the
 // retail eh-vector-destructor call.  Keep the correction local to this TU:
 // SortingNodeStruct is the only owner whose destructor is claimed here.
+struct BfmeSortingShaderState
+{
+	unsigned int bits;
+
+	BfmeSortingShaderState() : bits(0x0010441B) {}
+};
+
 struct BfmeSortingRenderStateStruct
 {
-	ShaderClass shader;
+	BfmeSortingShaderState shader;
 	VertexMaterialClass *material;
 	RefCountPtr<TextureClass> Textures[MAX_TEXTURE_STAGES];
 	D3DLIGHT8 Lights[4];
@@ -76,6 +83,13 @@ struct BfmeSortingRenderStateStruct
 	VertexBufferClass *vertex_buffers[MAX_VERTEX_STREAMS];
 	IndexBufferClass *index_buffer;
 	unsigned short index_base_offset;
+
+	BfmeSortingRenderStateStruct()
+		: shader(), material(0), index_buffer(0)
+	{
+		vertex_buffers[0] = 0;
+		vertex_buffers[1] = 0;
+	}
 
 	__forceinline ~BfmeSortingRenderStateStruct()
 	{
@@ -212,9 +226,7 @@ class SortingNodeStruct : public DLNodeClass<SortingNodeStruct>
 public:
 	BfmeSortingRenderStateStruct sorting_state;
 
-	SphereClass bounding_sphere;
-
-	Vector3 transformed_center;
+	float transformed_center;
 	unsigned short start_index;			// First index used in the ib
 	unsigned short polygon_count;			// Polygon count to process (3 indices = one polygon)
 	unsigned short min_vertex_index;		// First index used in the vb
@@ -292,7 +304,6 @@ void SortingRendererClass::Insert_Triangles(
 		(state->sorting_state.vertex_buffer_types[0]==BUFFER_TYPE_SORTING || state->sorting_state.vertex_buffer_types[0]==BUFFER_TYPE_DYNAMIC_SORTING)));
 
 
-	state->bounding_sphere=bounding_sphere;
 	state->start_index=start_index;
 	state->polygon_count=polygon_count;
 	state->min_vertex_index=min_vertex_index;
@@ -303,20 +314,20 @@ void SortingRendererClass::Insert_Triangles(
 	WWASSERT(state->vertex_count<=vertex_buffer->Get_Vertex_Count());
 
 	D3DXMATRIX mtx=(D3DXMATRIX&)state->sorting_state.world*(D3DXMATRIX&)state->sorting_state.view;
-	D3DXVECTOR3 vec=(D3DXVECTOR3&)state->bounding_sphere.Center;
+	D3DXVECTOR3 vec=(D3DXVECTOR3&)bounding_sphere.Center;
 	D3DXVECTOR4 transformed_vec;
 	D3DXVec3Transform(
 		&transformed_vec,
 		&vec,
 		&mtx); 
-	state->transformed_center=Vector3(transformed_vec[0],transformed_vec[1],transformed_vec[2]);
+	state->transformed_center=transformed_vec[2];
 
 	
 	/// @todo lorenzen sez use a bucket sort here... and stop copying so much data so many times
 
 	SortingNodeStruct* node=sorted_list.Head();
 	while (node) {
-		if (state->transformed_center.Z>node->transformed_center.Z) {
+		if (state->transformed_center>node->transformed_center) {
 			if (sorted_list.Head()==sorted_list.Tail())
 				sorted_list.Add_Head(state);
 			else
@@ -733,7 +744,6 @@ void SortingRendererClass::Insert_VolumeParticle(
 		((state->sorting_state.index_buffer_type==BUFFER_TYPE_SORTING || state->sorting_state.index_buffer_type==BUFFER_TYPE_DYNAMIC_SORTING) &&
 		(state->sorting_state.vertex_buffer_types[0]==BUFFER_TYPE_SORTING || state->sorting_state.vertex_buffer_types[0]==BUFFER_TYPE_DYNAMIC_SORTING)));
 
-	state->bounding_sphere=bounding_sphere;
 	state->start_index=start_index;
 	state->min_vertex_index=min_vertex_index;
 	state->polygon_count=polygon_count * layerCount;//THIS IS VOLUME_PARTICLE SPECIFIC
@@ -746,13 +756,13 @@ void SortingRendererClass::Insert_VolumeParticle(
 	// Transform the center point to view space for sorting
 
 	D3DXMATRIX mtx=(D3DXMATRIX&)state->sorting_state.world*(D3DXMATRIX&)state->sorting_state.view;
-	D3DXVECTOR3 vec=(D3DXVECTOR3&)state->bounding_sphere.Center;
+	D3DXVECTOR3 vec=(D3DXVECTOR3&)bounding_sphere.Center;
 	D3DXVECTOR4 transformed_vec;
 	D3DXVec3Transform(
 		&transformed_vec,
 		&vec,
 		&mtx); 
-	state->transformed_center=Vector3(transformed_vec[0],transformed_vec[1],transformed_vec[2]);
+	state->transformed_center=transformed_vec[2];
 
 
 	// BUT WHAT IS THE DEAL WITH THE VERTCOUNT AND POLYCOUNT BEING N BUT TRANSFORMED CENTER COUNT == 1
@@ -763,7 +773,7 @@ void SortingRendererClass::Insert_VolumeParticle(
 
 	SortingNodeStruct* node=sorted_list.Head();
 	while (node) {
-		if (state->transformed_center.Z>node->transformed_center.Z) {
+		if (state->transformed_center>node->transformed_center) {
 			if (sorted_list.Head()==sorted_list.Tail())
 				sorted_list.Add_Head(state);
 			else

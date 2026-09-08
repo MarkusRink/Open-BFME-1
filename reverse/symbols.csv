@@ -86051,3 +86051,4 @@ _j_0003b971,0x0003B971,COFF C-linkage alias for the existing incremental-link th
 ?setup@OnlineQuickMatchColorSetup@@QAEXXZ,0x00005F3D,OnlineQuickMatch InitGadgets color setup call uses the existing incremental-link thunk
 ?refreshLayout@GameWindowManager@@QAEXPAX@Z,0x000412C2,OnlineQuickMatch InitGadgets layout refresh call uses the existing incremental-link thunk
 ?bfmeTryZZ@BfmeOwnerZZ@@QAEDPAVBfmeItemZZ@@@Z,0x000441A2,Bfme owner scan remove callee uses the verified AIGroup remove ILT
+?finish@Rva0006AB90FunctionCurve@@QAEXXZ,0x0006ACF0,typed thiscall curve accumulator finalization body; retail0006AF00 calls viaILT00024000; receiver layout proven by adjacent0006AB90 and0006ACF0; campaign=luna36h-20260907
