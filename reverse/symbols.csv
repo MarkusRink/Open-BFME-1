@@ -86249,6 +86249,7 @@ ModuleTemplate_vtbl0,0x01073758,ModuleTemplate base vtable
 ??_7LifeEventModuleInfoBase@FXParticleSystem@@6B@,0x01073744,LifeEvent module-info base vtable
 ??_7?$CategoryModuleInfo@$07@FXParticleSystem@@6B@,0x0107375C,CategoryModuleInfo<8> base vtable
 ??_7ModuleTemplate@FXParticleSystem@@6B@,0x01073758,ModuleTemplate base vtable
+??_7LifeEventModuleInfo@FXParticleSystem@@6B@,0x01111278,LifeEventModuleInfo vtable
 TerrainCollisionConcrete_vtbl0,0x01111450,ConcreteModuleTemplate TerrainCollision primary vtable
 TerrainCollisionConcrete_vtbl4,0x0111144C,ConcreteModuleTemplate TerrainCollision secondary vtable
 TerrainCollisionConcrete_vtbl12,0x01111438,ConcreteModuleTemplate TerrainCollision module-info vtable
