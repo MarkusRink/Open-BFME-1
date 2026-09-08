@@ -73,6 +73,7 @@ class CameraMarkerList
 public:
 	void clear();
 	CameraMarker *find(const AsciiString &name) const;
+	void remove(CameraMarker *marker);
 
 private:
 	char m_unknown[0x80];
@@ -100,4 +101,20 @@ CameraMarker *CameraMarkerList::find(
 		marker = marker->m_next;
 	}
 	return 0;
+}
+
+void CameraMarkerList::remove(CameraMarker *marker)
+{
+	CameraMarker **link = &m_markers;
+	while (*link)
+	{
+		if ((*link)->m_name == marker->m_name)
+		{
+			CameraMarker *removed = *link;
+			*link = removed->m_next;
+			delete removed;
+			return;
+		}
+		link = &(*link)->m_next;
+	}
 }
