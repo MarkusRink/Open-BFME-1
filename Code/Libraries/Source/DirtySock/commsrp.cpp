@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX /Od /GZ
 
 // EA's DirtySock middleware -- see commudp.cpp for why this directory name is an
 // inference. Every function name here is retail's own: each body logs it.
@@ -12,29 +12,13 @@ extern "C" {
 	int CommSRPConnect();
 }
 
+int Rva007FE780Printf(const char *format, ...);
+
 // Always fails: "Resolve functionality not supported by CommSRP".
-__declspec(naked) int CommSRPResolve()
+int CommSRPResolve()
 {
-	__asm {
-		push ebp
-		mov ebp, esp
-		push 12C4C68h
-		__emit 0E8h
-		__emit 013h
-		__emit 090h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 4h
-		or eax, 0FFFFFFFFh
-		cmp ebp, esp
-		__emit 0E8h
-		__emit 088h
-		__emit 01Dh
-		__emit 01Eh
-		__emit 000h   // call 0x9F7502
-		pop ebp
-		ret
-	}
+	Rva007FE780Printf("Resolve functionality not supported by CommSRP\n");
+	return -1;
 }
 
 // Queues an outbound packet. Reports "CommSRPSend: input queue full" and
