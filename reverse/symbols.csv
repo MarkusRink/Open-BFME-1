@@ -86315,8 +86315,6 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-??1TeamPrototype@@MAE@XZ,0x00023641,route=0x000F6E40; actual TeamPrototype scalar wrapper F7580 calls canonical protected complete destructor through this ILT; campaign=36h-20260908-1018
-?releaseBuffer@?$StringBase@D@@AAEXXZ,0x00887940,Canonical private StringBase<char> releaseBuffer; matched134B real body in WWLib/string_base.cpp; target3C0110 direct call
 ?erase@PlayerUpgradeRange@@QAEXPAX0@Z,0x00024C17,PlayerUpgrade vector<AsciiString> clear passes its begin and end through this proven ILT to 0x00065960
 ?erase@ProductionSpeedBonusRange@@QAEXPAX0@Z,0x00024C17,ProductionSpeedBonus vector<AsciiString> clear passes its begin and end through this proven ILT to 0x00065960
 ??1Rva00785FD0Renderer@@QAE@XZ,0x00039F45,Open-BFME5 ILT renderer destructor the 0x00783F60 shutdown deletes through
