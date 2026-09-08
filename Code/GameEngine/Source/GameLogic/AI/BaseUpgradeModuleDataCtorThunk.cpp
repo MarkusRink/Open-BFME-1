@@ -1,140 +1,63 @@
 // cl: /DNDEBUG /MD /EHsc
+// Open-BFME5: BaseUpgrade module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x0011D190 allocates 0x7C
+// bytes and calls this constructor.  The matched destructor independently
+// fixes the +0x08 0x68-byte upgrade subobject and two strings at +0x70/+0x74.
 
-class BaseUpgradeModuleData
+class UpgradeModuleDataSub
 {
 public:
-    BaseUpgradeModuleData();
+	UpgradeModuleDataSub();
+	~UpgradeModuleDataSub();
+
+private:
+	unsigned char m_unmodelled[ 0x68 ];
 };
 
-__declspec(naked) BaseUpgradeModuleData::BaseUpgradeModuleData()
+class RetailLayoutString
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 0CEh
-        _emit 046h
-        _emit 001h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 057h
-        _emit 08Dh
-        _emit 04Eh
-        _emit 008h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 008h
-        _emit 0E8h
-        _emit 030h
-        _emit 0B4h
-        _emit 0D3h
-        _emit 0FFh
-        _emit 08Dh
-        _emit 04Eh
-        _emit 070h
-        _emit 0C7h
-        _emit 006h
-        _emit 020h
-        _emit 0C1h
-        _emit 00Ch
-        _emit 001h
-        _emit 0C7h
-        _emit 044h
-        _emit 024h
-        _emit 014h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0C7h
-        _emit 001h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 08Dh
-        _emit 07Eh
-        _emit 074h
-        _emit 0C7h
-        _emit 007h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 06Ah
-        _emit 004h
-        _emit 068h
-        _emit 0D8h
-        _emit 036h
-        _emit 007h
-        _emit 001h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 01Ch
-        _emit 002h
-        _emit 0E8h
-        _emit 079h
-        _emit 040h
-        _emit 05Bh
-        _emit 000h
-        _emit 06Ah
-        _emit 004h
-        _emit 068h
-        _emit 0D8h
-        _emit 036h
-        _emit 007h
-        _emit 001h
-        _emit 08Bh
-        _emit 0CFh
-        _emit 0E8h
-        _emit 06Bh
-        _emit 040h
-        _emit 05Bh
-        _emit 000h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 00Ch
-        _emit 0C7h
-        _emit 046h
-        _emit 078h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 05Fh
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C3h
-    }
+public:
+	RetailLayoutString() : m_data( 0 ) {}
+	~RetailLayoutString();
+	void set( const char *text, int length );
+
+private:
+	char *m_data;
+};
+
+class __declspec(novtable) BaseUpgradeModuleDataPrimaryBase
+{
+public:
+	virtual ~BaseUpgradeModuleDataPrimaryBase() {}
+
+private:
+	unsigned int m_unmodelled_04;
+};
+
+class __declspec(novtable) BaseUpgradeModuleDataIntermediateBase
+	: public BaseUpgradeModuleDataPrimaryBase
+{
+protected:
+	UpgradeModuleDataSub m_upgradeData; // +0x08
+};
+
+class BaseUpgradeModuleData : public BaseUpgradeModuleDataIntermediateBase
+{
+public:
+	BaseUpgradeModuleData();
+	virtual ~BaseUpgradeModuleData();
+
+private:
+	RetailLayoutString m_upgradeName; // +0x70
+	RetailLayoutString m_conflictName; // +0x74
+	unsigned int m_unmodelled_78;
+};
+
+// ??0BaseUpgradeModuleData@@QAE@XZ
+BaseUpgradeModuleData::BaseUpgradeModuleData()
+{
+	m_upgradeName.set( "NONE", 4 );
+	m_conflictName.set( "NONE", 4 );
+	m_unmodelled_78 = 0;
 }
