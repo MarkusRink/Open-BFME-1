@@ -85916,3 +85916,5 @@ _bfmeVftEAX,0x00D28880,pin vftable for BfmeConv2013
 ??0BfmeMsgEAY@@QAE@XZ,0x000171FC,pin msg ctor for BfmeConv2014
 ??1BfmeMsgEAY@@QAE@XZ,0x00016BD5,pin msg dtor for BfmeConv2014
 ?bfmeEraseEAY@BfmeListEAY@@QAEXPAVBfmeNodeEAY@@@Z,0x00035F12,pin erase for BfmeConv2014
+?bfmeReleaseSJ@BfmeThingSJ@@QAEXXZ,0x009EB7A0,pin release for BfmeConv2015
+??1BfmeBaseSJ@@QAE@XZ,0x00030652,pin base dtor for BfmeConv2015
