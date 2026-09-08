@@ -201,19 +201,6 @@ void View::setAngleAndPitchToDefault( void )
 }
 
 /**
- * write the view's current location in to the view location object
- */
-// ?getLocation@View@@UAEXPAVViewLocation@@@Z present-unmatched
-void View::getLocation( ViewLocation *location )
-{
-
-	const Coord3D *pos = getPosition();
-	location->init( pos->x, pos->y, pos->z, getAngle(), getPitch(), getZoom() );
-
-}
-
-
-/**
  * set the view's current location from to the view location object
  */
 // ?setLocation@View@@UAEXPBVViewLocation@@@Z present-unmatched
