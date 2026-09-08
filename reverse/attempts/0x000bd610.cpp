@@ -1,26 +1,27 @@
-// ?bfmeStepBN@BfmeOwnBN@@QAEXXZ (identity unknown)
-// partial score=0.85 date=2026-09-06
-// 28/34 at exact size and exact structure: a one-byte local whose address is
-// passed (the `lea edx,[esp+0xb]` into the push-ecx frame slot), the member
-// passed twice, and the result stored back over it.
-// Residue: retail emits `push 0` (the last argument) BEFORE `mov esi,ecx` and
-// the two member loads, and holds them in ecx/eax where MSVC uses edx/eax and
-// pushes the zero after the loads. Scratch-register and push-scheduling class.
-void * __cdecl bfmeRunBN(void *first, void *second, void *third, char *status, int flag);
-
-class BfmeOwnBN
+// ?bfmeUpdateBD@Rva000BD610Host@@QAEXXZ (identity unknown)
+// partial score=0.75 date=2026-09-08
+// Clean reconstruction of the 34-byte helper call at retail 0x000BD610.
+// The callee is a method on the context stored at host+8; the result replaces
+// host+0x0c.  The one-byte local is passed by address and the final argument is
+// the literal zero visible in the retail push sequence.
+class Rva000BD610Context
 {
 public:
-	void bfmeStepBN(void);
-
-	unsigned char m_bfmeHeadBN[8];
-	void *m_bfmeSrcBN;
-	void *m_bfmeCurBN;
+	int bfmeUpdateBD(int first, int second, char *flag, int value);
 };
 
-void BfmeOwnBN::bfmeStepBN(void)
+class Rva000BD610Host
 {
-	char status;
+public:
+	void bfmeUpdateBD();
 
-	m_bfmeCurBN = bfmeRunBN(m_bfmeCurBN, m_bfmeCurBN, m_bfmeSrcBN, &status, 0);
+	unsigned char m_prefix[8];
+	Rva000BD610Context *m_context;
+	int m_result;
+};
+
+void Rva000BD610Host::bfmeUpdateBD()
+{
+	char flag;
+	m_result = m_context->bfmeUpdateBD(m_result, m_result, &flag, 0);
 }
