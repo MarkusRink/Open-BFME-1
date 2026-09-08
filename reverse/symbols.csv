@@ -86221,3 +86221,6 @@ LineEmissionVolumeConcrete_vtbl0,0x011111A8,ConcreteModuleTemplate LineEmissionV
 LineEmissionVolumeConcrete_vtbl4,0x011111A4,ConcreteModuleTemplate LineEmissionVolume secondary vtable
 LineEmissionVolumeConcrete_vtbl8,0x01111190,ConcreteModuleTemplate LineEmissionVolume module-info vtable
 ?update@ShellMenuSchemeManager@@QAEXXZ,0x005802A0,Shell update calls the retail no-op scheme manager update body through ILT 0x000131D8
+LifeEventConcrete_vtbl0,0x01111424,ConcreteModuleTemplate LifeEvent primary vtable
+LifeEventConcrete_vtbl4,0x01111420,ConcreteModuleTemplate LifeEvent secondary vtable
+LifeEventConcrete_vtbl12,0x0111140C,ConcreteModuleTemplate LifeEvent module-info vtable

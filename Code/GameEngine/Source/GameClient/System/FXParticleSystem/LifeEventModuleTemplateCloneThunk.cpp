@@ -1,106 +1,53 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /O2 /Ob2
 
-extern "C" __declspec(naked) void bfme_export_35059752()
+// Open-BFME5: LifeEvent ConcreteModuleTemplate::clone
+
+namespace FXParticleSystem
 {
-    __asm {
-        __emit 0x6a
-        __emit 0xff
-        __emit 0x68
-        __emit 0x6b
-        __emit 0xb5
-        __emit 0x03
-        __emit 0x01
-        __emit 0x64
-        __emit 0xa1
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x50
-        __emit 0x64
-        __emit 0x89
-        __emit 0x25
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x51
-        __emit 0x56
-        __emit 0x57
-        __emit 0x6a
-        __emit 0x24
-        __emit 0x8b
-        __emit 0xf9
-        __emit 0xe8
-        __emit 0x9f
-        __emit 0xfe
-        __emit 0x29
-        __emit 0x00
-        __emit 0x8b
-        __emit 0xf0
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x04
-        __emit 0x89
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x3b
-        __emit 0xf0
-        __emit 0x89
-        __emit 0x44
-        __emit 0x24
-        __emit 0x14
-        __emit 0x74
-        __emit 0x1e
-        __emit 0x57
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xe8
-        __emit 0x96
-        __emit 0xe2
-        __emit 0xa3
-        __emit 0xff
-        __emit 0xc7
-        __emit 0x06
-        __emit 0x24
-        __emit 0x14
-        __emit 0x11
-        __emit 0x01
-        __emit 0xc7
-        __emit 0x46
-        __emit 0x04
-        __emit 0x20
-        __emit 0x14
-        __emit 0x11
-        __emit 0x01
-        __emit 0xc7
-        __emit 0x46
-        __emit 0x0c
-        __emit 0x0c
-        __emit 0x14
-        __emit 0x11
-        __emit 0x01
-        __emit 0x8b
-        __emit 0xc6
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x5f
-        __emit 0x5e
-        __emit 0x64
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x10
-        __emit 0xc3
+class LifeEventModule {};
+class LifeEventModuleTemplate {};
+class ParticleLifeEventModule {};
+class ParticleLifeEventModuleTemplate {};
+extern const char LIFE_EVENT_MODULE_KEY[1];
+extern const char LIFE_EVENT_MODULE_NAME[1];
+template <int Category, const char (&Key)[1], const char (&Name)[1], class Module,
+    class ModuleTemplate, class ParticleModule, class ParticleModuleTemplate>
+class ModuleTag {};
+typedef ModuleTag<8, LIFE_EVENT_MODULE_KEY, LIFE_EVENT_MODULE_NAME,
+    LifeEventModule, LifeEventModuleTemplate,
+    ParticleLifeEventModule, ParticleLifeEventModuleTemplate> LifeEventModuleTag;
+void *__cdecl operator new(unsigned int);
+void __cdecl operator delete(void *);
+class LifeEventTemplateCopyCtorShim
+{
+public:
+    void construct(const void *source);
+};
+extern "C" char LifeEventConcrete_vtbl0;
+extern "C" char LifeEventConcrete_vtbl4;
+extern "C" char LifeEventConcrete_vtbl12;
+class LifeEventTemplateAllocation
+{
+public:
+    __forceinline LifeEventTemplateAllocation(const void *source)
+    {
+        ((LifeEventTemplateCopyCtorShim *)this)->construct(source);
+        *(void **)((char *)this + 0) = &LifeEventConcrete_vtbl0;
+        *(void **)((char *)this + 4) = &LifeEventConcrete_vtbl4;
+        *(void **)((char *)this + 12) = &LifeEventConcrete_vtbl12;
     }
+private:
+    unsigned char m_bytes[0x24];
+};
+template <class Tag> class ConcreteModuleTemplate;
+template <>
+class ConcreteModuleTemplate<LifeEventModuleTag>
+{
+public:
+    virtual LifeEventModuleTemplate *clone() const;
+};
+LifeEventModuleTemplate *ConcreteModuleTemplate<LifeEventModuleTag>::clone() const
+{
+    return (LifeEventModuleTemplate *)new LifeEventTemplateAllocation(this);
+}
 }
