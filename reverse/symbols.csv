@@ -86319,3 +86319,4 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeUnhookYQ@Gen009F5040Node@@QAEXXZ,0x009F2B60,Open-BFME5 node unhook the 0x009F5170 drop calls
 ?resetHpState@Rva007F5D10HostLookup@@QAEXPAVRva008022A0Owner@@@Z,0x008014F0,gamebrowser pending-active reply calls the existing reset thunk through its host-lookup object
 ?bfmeFormatIntYS@@YAPAVStreamWriter@@PAV1@H@Z,0x0002CE5D,Open-BFME5 ILT integer formatter the 0x005F02B0 colour writer calls
+?erase@EnragedBehaviorRange@@QAEXPAX0@Z,0x00024C17,EnragedBehavior vector<AsciiString> clear passes its begin and end through this proven ILT to 0x00065960

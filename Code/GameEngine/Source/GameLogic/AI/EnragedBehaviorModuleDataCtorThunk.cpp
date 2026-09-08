@@ -1,130 +1,78 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
+// Open-BFME5: EnragedBehavior module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x00114A40 allocates 0x2C
+// bytes and calls this constructor.  The matched destructor confirms that the
+// twelve-byte member at +0x08 is destroyed before the common module-data base.
 
-class EnragedBehaviorModuleData
+#include <vector>
+
+class AsciiString
 {
 public:
-    EnragedBehaviorModuleData();
+	~AsciiString();
+
+private:
+	char *m_text;
 };
 
-__declspec(naked) EnragedBehaviorModuleData::EnragedBehaviorModuleData()
+class EnragedBehaviorModuleDataBase
 {
-    __asm {
-        _emit 6Ah
-        _emit 0FFh
-        _emit 68h
-        _emit 43h
-        _emit 0BBh
-        _emit 00h
-        _emit 01h
-        _emit 64h
-        _emit 0A1h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 50h
-        _emit 64h
-        _emit 89h
-        _emit 25h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 51h
-        _emit 56h
-        _emit 8Bh
-        _emit 0F1h
-        _emit 89h
-        _emit 74h
-        _emit 24h
-        _emit 04h
-        _emit 33h
-        _emit 0C0h
-        _emit 8Dh
-        _emit 4Eh
-        _emit 08h
-        _emit 0C7h
-        _emit 06h
-        _emit 58h
-        _emit 5Ah
-        _emit 0Ah
-        _emit 01h
-        _emit 89h
-        _emit 01h
-        _emit 89h
-        _emit 41h
-        _emit 04h
-        _emit 89h
-        _emit 44h
-        _emit 24h
-        _emit 10h
-        _emit 89h
-        _emit 41h
-        _emit 08h
-        _emit 8Bh
-        _emit 15h
-        _emit 0C8h
-        _emit 0D5h
-        _emit 2Eh
-        _emit 01h
-        _emit 8Bh
-        _emit 92h
-        _emit 0A0h
-        _emit 01h
-        _emit 00h
-        _emit 00h
-        _emit 89h
-        _emit 56h
-        _emit 14h
-        _emit 89h
-        _emit 46h
-        _emit 18h
-        _emit 89h
-        _emit 46h
-        _emit 1Ch
-        _emit 89h
-        _emit 46h
-        _emit 20h
-        _emit 89h
-        _emit 46h
-        _emit 24h
-        _emit 89h
-        _emit 46h
-        _emit 28h
-        _emit 8Bh
-        _emit 41h
-        _emit 04h
-        _emit 8Bh
-        _emit 11h
-        _emit 50h
-        _emit 52h
-        _emit 0C6h
-        _emit 44h
-        _emit 24h
-        _emit 18h
-        _emit 01h
-        _emit 0E8h
-        _emit 54h
-        _emit 0Dh
-        _emit 0E2h
-        _emit 0FFh
-        _emit 8Bh
-        _emit 4Ch
-        _emit 24h
-        _emit 08h
-        _emit 8Bh
-        _emit 0C6h
-        _emit 5Eh
-        _emit 64h
-        _emit 89h
-        _emit 0Dh
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 83h
-        _emit 0C4h
-        _emit 10h
-        _emit 0C3h
-    }
+public:
+	virtual ~EnragedBehaviorModuleDataBase() {}
+
+private:
+	unsigned int m_unmodelled_04;
+};
+
+class EnragedBehaviorRange
+{
+public:
+	void erase( void *first, void *last );
+
+	void *volatile m_begin;
+	void *volatile m_end;
+	void *m_capacity;
+};
+
+struct Rva006C9270GlobalData
+{
+	unsigned char m_unmodelled[ 0x1A0 ];
+	unsigned int m_defaultEnragedDuration;
+};
+
+extern Rva006C9270GlobalData *TheWritableGlobalData;
+
+class EnragedBehaviorModuleData : public EnragedBehaviorModuleDataBase
+{
+public:
+	EnragedBehaviorModuleData();
+	virtual ~EnragedBehaviorModuleData();
+
+private:
+	_STL::vector<AsciiString> m_requiredUpgrades; // +0x08
+	unsigned int m_duration;                     // +0x14
+	unsigned int m_unmodelled_18;
+	unsigned int m_unmodelled_1C;
+	unsigned int m_unmodelled_20;
+	unsigned int m_unmodelled_24;
+	unsigned int m_unmodelled_28;
+};
+
+// ??0EnragedBehaviorModuleData@@QAE@XZ
+EnragedBehaviorModuleData::EnragedBehaviorModuleData()
+{
+	m_duration = TheWritableGlobalData->m_defaultEnragedDuration;
+	m_unmodelled_18 = 0;
+	m_unmodelled_1C = 0;
+	m_unmodelled_20 = 0;
+	m_unmodelled_24 = 0;
+	m_unmodelled_28 = 0;
+
+	EnragedBehaviorRange *range =
+		reinterpret_cast<EnragedBehaviorRange *>( &m_requiredUpgrades );
+	void *last = range->m_end;
+	void *first = range->m_begin;
+	range->erase( first, last );
 }
