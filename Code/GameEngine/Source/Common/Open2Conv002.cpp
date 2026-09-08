@@ -202,18 +202,96 @@ void *Rva005D0490::ensure( void )
 //     call <DTOR> / push esi / call operator delete / add esp,4 / done: pop esi
 //
 // The destructor is reached by a direct call rather than through vtable slot 0,
-// so the class is NOT polymorphic, and the slot is left holding its old value
-// -- neither body writes the global back.  Both reach the same destructor at
-// 0x0090F680, so the two globals hold the same type.
+// and both callers reach the same body at 0x0090F680.  The body releases four
+// RefCountClass fields, two shared globals and one TextureClass field.
+
+class RefCountClass
+{
+public:
+	virtual void Delete_This( void );
+
+	void Release_Ref( void )
+	{
+		if( --m_refs == 0 )
+			Delete_This();
+	}
+
+	int m_refs;
+};
+
+class TextureClass
+{
+public:
+	void Release_Ref( void );
+};
+
+class TextureRef
+{
+public:
+	~TextureRef()
+	{
+		if( m_ptr )
+			m_ptr->Release_Ref();
+	}
+
+	TextureClass *m_ptr;
+};
 
 class Gen0090F680
 {
 public:
 	~Gen0090F680();
+
+	RefCountClass *m_00;
+	RefCountClass *m_04;
+	RefCountClass *m_08;
+	RefCountClass *m_0c;
+	int m_10;
+	TextureRef m_14;
 };
 
 extern Gen0090F680 *TheGen012F6D88;
 extern Gen0090F680 *TheGen012F6DFC;
+
+Gen0090F680::~Gen0090F680()
+{
+	if( m_00 )
+	{
+		m_00->Release_Ref();
+		m_00 = 0;
+	}
+	if( m_04 )
+	{
+		m_04->Release_Ref();
+		m_04 = 0;
+	}
+	if( m_08 )
+	{
+		m_08->Release_Ref();
+		m_08 = 0;
+	}
+	if( m_0c )
+	{
+		m_0c->Release_Ref();
+		m_0c = 0;
+	}
+
+	RefCountClass *globalA = *(RefCountClass **)0x01341214;
+	if( globalA )
+		globalA->Release_Ref();
+
+	RefCountClass *globalB = *(RefCountClass **)0x01341218;
+	if( globalB )
+	{
+		bool last = globalB->m_refs == 1;
+		globalB->Release_Ref();
+		if( last )
+		{
+			*(RefCountClass **)0x01341214 = 0;
+			*(RefCountClass **)0x01341218 = 0;
+		}
+	}
+}
 
 // @?Rva005F0D10@@YAXXZ 0x005F0D10
 void Rva005F0D10( void )
