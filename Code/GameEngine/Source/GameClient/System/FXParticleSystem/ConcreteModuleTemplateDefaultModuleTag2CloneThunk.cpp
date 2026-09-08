@@ -1,15 +1,36 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /GX- /O2 /Ob2
+
+// Open-BFME5: DefaultModuleTag<3> ConcreteModuleTemplate::clone
 
 namespace FXParticleSystem
 {
-template<int Category>
-class DefaultModuleTag
+template<int Category> class DefaultModuleTag {};
+template<int Category> class DefaultModuleTemplate {};
+void *__cdecl operator new(unsigned int);
+void __cdecl operator delete(void *);
+
+class DefaultModuleTemplate3CopyCtorShim
 {
+public:
+    void construct(const void *source);
 };
 
-template<int Category>
-class DefaultModuleTemplate
+extern "C" char DefaultModuleTemplate3Concrete_vtbl0;
+extern "C" char DefaultModuleTemplate3Concrete_vtbl4;
+extern "C" char DefaultModuleTemplate3Concrete_vtbl8;
+
+class DefaultModuleTemplate3Allocation
 {
+public:
+    __forceinline DefaultModuleTemplate3Allocation(const void *source)
+    {
+        ((DefaultModuleTemplate3CopyCtorShim *)this)->construct(source);
+        *(void **)((char *)this + 0) = &DefaultModuleTemplate3Concrete_vtbl0;
+        *(void **)((char *)this + 4) = &DefaultModuleTemplate3Concrete_vtbl4;
+        *(void **)((char *)this + 8) = &DefaultModuleTemplate3Concrete_vtbl8;
+    }
+private:
+    unsigned char m_bytes[0x28];
 };
 
 template<class Tag>
@@ -20,68 +41,9 @@ public:
 };
 
 template<class Tag>
-__declspec(naked) DefaultModuleTemplate<3> *ConcreteModuleTemplate<Tag>::clone() const
+DefaultModuleTemplate<3> *ConcreteModuleTemplate<Tag>::clone() const
 {
-    __asm {
-        _emit 056h
-        _emit 057h
-        _emit 06Ah
-        _emit 028h
-        _emit 08Bh
-        _emit 0F9h
-        _emit 0E8h
-        _emit 0A5h
-        _emit 052h
-        _emit 02Ah
-        _emit 000h
-        _emit 08Bh
-        _emit 0F0h
-        _emit 083h
-        _emit 0C4h
-        _emit 004h
-        _emit 085h
-        _emit 0F6h
-        _emit 074h
-        _emit 021h
-        _emit 057h
-        _emit 08Bh
-        _emit 0CEh
-        _emit 0E8h
-        _emit 0AAh
-        _emit 07Eh
-        _emit 0A3h
-        _emit 0FFh
-        _emit 05Fh
-        _emit 0C7h
-        _emit 006h
-        _emit 0C4h
-        _emit 00Fh
-        _emit 011h
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 004h
-        _emit 0C0h
-        _emit 00Fh
-        _emit 011h
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 008h
-        _emit 0ACh
-        _emit 00Fh
-        _emit 011h
-        _emit 001h
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 0C3h
-        _emit 05Fh
-        _emit 033h
-        _emit 0C0h
-        _emit 05Eh
-        _emit 0C3h
-    }
+    return (DefaultModuleTemplate<3> *)new DefaultModuleTemplate3Allocation(this);
 }
 
 template class ConcreteModuleTemplate<DefaultModuleTag<3> >;
