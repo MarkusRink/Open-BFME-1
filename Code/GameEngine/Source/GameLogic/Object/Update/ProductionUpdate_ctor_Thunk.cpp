@@ -1,414 +1,124 @@
-// cl: /DNDEBUG /MD /EHsc
-// readable body of ??0ProductionUpdate@@: Code/GameEngine/Source/GameLogic/Object/Update/ProductionUpdate.cpp
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
+
+// Open-BFME5: ProductionUpdate constructor.  The module factory, matched
+// destructor, and original ProductionUpdate.cpp body establish its identity.
+
+#include <list>
+#include <string.h>
 
 class Thing;
 class ModuleData;
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/ProductionUpdate.h
-class ProductionUpdate {
+
+class ObjectModule
+{
+public:
+	ObjectModule(Thing *, const ModuleData *);
+	virtual ~ObjectModule();
+private:
+	const ModuleData *m_moduleData;
+	void *m_object;
+};
+
+class BehaviorModuleInterface
+{
+public: virtual void behaviorSlot();
+};
+
+class UpdateModuleInterface
+{
+public: virtual void updateSlot();
+};
+
+class UpdateModule : public ObjectModule,
+	public BehaviorModuleInterface, public UpdateModuleInterface
+{
+public:
+	UpdateModule(Thing *thing, const ModuleData *data)
+		: ObjectModule(thing, data), m_nextCallFrameAndPhase(0),
+		  m_indexInLogic(-1), m_updateState(-1) {}
+	virtual ~UpdateModule();
+private:
+	unsigned int m_nextCallFrameAndPhase;
+	int m_indexInLogic;
+	int m_updateState;
+};
+
+class ProductionUpdateInterface
+{
+public: virtual void productionSlot();
+};
+
+class DieModuleInterface
+{
+public: virtual void dieSlot();
+};
+
+struct DoorInfo
+{
+	DoorInfo()
+		: m_doorOpenedFrame(0), m_doorWaitOpenFrame(0),
+		  m_doorClosedFrame(0), m_holdOpen(false) {}
+	unsigned int m_doorOpenedFrame;
+	unsigned int m_doorWaitOpenFrame;
+	unsigned int m_doorClosedFrame;
+	bool m_holdOpen;
+	unsigned char m_pad[3];
+};
+
+struct ModelConditionFlags
+{
+	ModelConditionFlags() { clear(); }
+	void clear()
+	{
+		memset(m_bits, 0, sizeof(m_bits));
+	}
+	unsigned int m_bits[10];
+};
+
+class ProductionUpdate : public UpdateModule,
+	public ProductionUpdateInterface, public DieModuleInterface
+{
 public:
 	ProductionUpdate(Thing *, const ModuleData *);
+	virtual ~ProductionUpdate();
+	virtual void productionSlot();
+	virtual void dieSlot();
+private:
+	void *m_productionQueue;
+	void *m_productionQueueTail;
+	unsigned int m_uniqueID;
+	unsigned int m_productionCount;
+	unsigned int m_constructionCompleteFrame;
+	DoorInfo m_doors[4];
+	ModelConditionFlags m_clearFlags;
+	ModelConditionFlags m_setFlags;
+	bool m_flagsDirty;
+	unsigned char m_padcd[3];
+	void *m_specialPowerConstructionCommandButton;
+	bool m_flagd4;
+	bool m_flagd5;
+	unsigned char m_padd6[2];
+	void *m_valueD8;
+	_STL::list<int> m_list;
+	unsigned int m_listCount;
+	unsigned int m_valueE4;
 };
 
 // ??0ProductionUpdate@@QAE@PAVThing@@PBVModuleData@@@Z
-__declspec(naked) ProductionUpdate::ProductionUpdate(Thing *, const ModuleData *)
+ProductionUpdate::ProductionUpdate(Thing *thing, const ModuleData *data)
+	: UpdateModule(thing, data),
+	  m_productionQueue(0), m_productionQueueTail(0), m_uniqueID(1),
+	  m_productionCount(0), m_constructionCompleteFrame(0),
+	  m_flagsDirty(false), m_specialPowerConstructionCommandButton(0),
+	  m_flagd4(false), m_flagd5(false), m_valueD8(0), m_listCount(0),
+	  m_valueE4(1)
 {
-	__asm {
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x68
-		__emit 0x78
-		__emit 0x22
-		__emit 0x01
-		__emit 0x01
-		__emit 0x64
-		__emit 0xa1
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x50
-		__emit 0x64
-		__emit 0x89
-		__emit 0x25
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x51
-		__emit 0x8b
-		__emit 0x44
-		__emit 0x24
-		__emit 0x18
-		__emit 0x53
-		__emit 0x56
-		__emit 0x8b
-		__emit 0xf1
-		__emit 0x8b
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x1c
-		__emit 0x50
-		__emit 0x51
-		__emit 0x8b
-		__emit 0xce
-		__emit 0x89
-		__emit 0x74
-		__emit 0x24
-		__emit 0x10
-		__emit 0xe8
-		__emit 0xd5
-		__emit 0xa6
-		__emit 0xd7
-		__emit 0xff
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x0c
-		__emit 0xd0
-		__emit 0xc9
-		__emit 0x09
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x10
-		__emit 0xa0
-		__emit 0xcb
-		__emit 0x09
-		__emit 0x01
-		__emit 0x83
-		__emit 0xc8
-		__emit 0xff
-		__emit 0x33
-		__emit 0xdb
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x14
-		__emit 0x89
-		__emit 0x46
-		__emit 0x18
-		__emit 0x89
-		__emit 0x46
-		__emit 0x1c
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x20
-		__emit 0x98
-		__emit 0x0d
-		__emit 0x0c
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x24
-		__emit 0x7c
-		__emit 0x25
-		__emit 0x0a
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x06
-		__emit 0x34
-		__emit 0x0f
-		__emit 0x0c
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x0c
-		__emit 0x70
-		__emit 0x0e
-		__emit 0x0c
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x10
-		__emit 0x64
-		__emit 0x0e
-		__emit 0x0c
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x20
-		__emit 0x00
-		__emit 0x0e
-		__emit 0x0c
-		__emit 0x01
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x24
-		__emit 0xfc
-		__emit 0x0d
-		__emit 0x0c
-		__emit 0x01
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x28
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x2c
-		__emit 0xc7
-		__emit 0x46
-		__emit 0x30
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x34
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x38
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x3c
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x40
-		__emit 0x89
-		__emit 0x5e
-		__emit 0x44
-		__emit 0x88
-		__emit 0x5e
-		__emit 0x48
-		__emit 0x33
-		__emit 0xd2
-		__emit 0x8d
-		__emit 0x46
-		__emit 0x3c
-		__emit 0x89
-		__emit 0x58
-		__emit 0x10
-		__emit 0x89
-		__emit 0x58
-		__emit 0x14
-		__emit 0x89
-		__emit 0x58
-		__emit 0x18
-		__emit 0x88
-		__emit 0x58
-		__emit 0x1c
-		__emit 0x83
-		__emit 0xc0
-		__emit 0x10
-		__emit 0x89
-		__emit 0x58
-		__emit 0x10
-		__emit 0x89
-		__emit 0x58
-		__emit 0x14
-		__emit 0x89
-		__emit 0x58
-		__emit 0x18
-		__emit 0x88
-		__emit 0x58
-		__emit 0x1c
-		__emit 0x83
-		__emit 0xc0
-		__emit 0x10
-		__emit 0x89
-		__emit 0x58
-		__emit 0x10
-		__emit 0x89
-		__emit 0x58
-		__emit 0x14
-		__emit 0x89
-		__emit 0x58
-		__emit 0x18
-		__emit 0x88
-		__emit 0x58
-		__emit 0x1c
-		__emit 0x83
-		__emit 0xc0
-		__emit 0x10
-		__emit 0x8d
-		__emit 0x46
-		__emit 0x7c
-		__emit 0x89
-		__emit 0x10
-		__emit 0x89
-		__emit 0x50
-		__emit 0x04
-		__emit 0x89
-		__emit 0x50
-		__emit 0x08
-		__emit 0x89
-		__emit 0x50
-		__emit 0x0c
-		__emit 0x89
-		__emit 0x50
-		__emit 0x10
-		__emit 0x89
-		__emit 0x50
-		__emit 0x14
-		__emit 0x89
-		__emit 0x50
-		__emit 0x18
-		__emit 0x89
-		__emit 0x50
-		__emit 0x1c
-		__emit 0x89
-		__emit 0x50
-		__emit 0x20
-		__emit 0x89
-		__emit 0x50
-		__emit 0x24
-		__emit 0x33
-		__emit 0xc9
-		__emit 0x8d
-		__emit 0x96
-		__emit 0xa4
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x0a
-		__emit 0x89
-		__emit 0x4a
-		__emit 0x04
-		__emit 0x89
-		__emit 0x4a
-		__emit 0x08
-		__emit 0x89
-		__emit 0x4a
-		__emit 0x0c
-		__emit 0x89
-		__emit 0x4a
-		__emit 0x10
-		__emit 0x89
-		__emit 0x4a
-		__emit 0x14
-		__emit 0x89
-		__emit 0x4a
-		__emit 0x18
-		__emit 0x89
-		__emit 0x4a
-		__emit 0x1c
-		__emit 0x89
-		__emit 0x4a
-		__emit 0x20
-		__emit 0x89
-		__emit 0x4a
-		__emit 0x24
-		__emit 0x88
-		__emit 0x9e
-		__emit 0xcc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x9e
-		__emit 0xd0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x88
-		__emit 0x9e
-		__emit 0xd4
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x88
-		__emit 0x9e
-		__emit 0xd5
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x9e
-		__emit 0xd8
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x5c
-		__emit 0x24
-		__emit 0x14
-		__emit 0x89
-		__emit 0x9e
-		__emit 0xdc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x6a
-		__emit 0x0c
-		__emit 0xe8
-		__emit 0x20
-		__emit 0x1a
-		__emit 0x59
-		__emit 0x00
-		__emit 0x89
-		__emit 0x00
-		__emit 0x89
-		__emit 0x40
-		__emit 0x04
-		__emit 0x89
-		__emit 0x86
-		__emit 0xdc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x04
-		__emit 0x89
-		__emit 0x9e
-		__emit 0xe0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xc7
-		__emit 0x86
-		__emit 0xe4
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x46
-		__emit 0x40
-		__emit 0xb9
-		__emit 0x04
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x58
-		__emit 0xfc
-		__emit 0x89
-		__emit 0x18
-		__emit 0x89
-		__emit 0x58
-		__emit 0x04
-		__emit 0x88
-		__emit 0x58
-		__emit 0x08
-		__emit 0x83
-		__emit 0xc0
-		__emit 0x10
-		__emit 0x49
-		__emit 0x75
-		__emit 0xef
-		__emit 0x8b
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x0c
-		__emit 0x8b
-		__emit 0xc6
-		__emit 0x5e
-		__emit 0x5b
-		__emit 0x64
-		__emit 0x89
-		__emit 0x0d
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x10
-		__emit 0xc2
-		__emit 0x08
-		__emit 0x00
+	for (int i = 0; i != 4; ++i)
+	{
+		m_doors[i].m_doorOpenedFrame = 0;
+		m_doors[i].m_doorWaitOpenFrame = 0;
+		m_doors[i].m_doorClosedFrame = 0;
+		m_doors[i].m_holdOpen = false;
 	}
 }
