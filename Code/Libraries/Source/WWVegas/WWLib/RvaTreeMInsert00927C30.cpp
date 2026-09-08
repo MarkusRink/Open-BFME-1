@@ -194,6 +194,26 @@ struct BfmeRbTreeInsert00927C30AnchorHelper
 // Gen_p16pod (Code/gen_small/tgrid_000.cpp), retail 0x009267A0.
 struct Gen_p16pod { int a[4]; };
 
+inline bool compare_tail(const Gen_p16pod &left, const Gen_p16pod &right)
+{
+	const int left1 = left.a[1];
+	return right.a[1] > left1
+		|| (!(right.a[1] < left1) && left.a[2] < right.a[2]);
+}
+
+namespace _STL
+{
+template <> struct less< ::Gen_p16pod>
+{
+	bool operator()(const ::Gen_p16pod &left, const ::Gen_p16pod &right) const
+	{
+		const int left0 = left.a[0];
+		return right.a[0] > left0
+			|| (!(right.a[0] < left0) && compare_tail(left, right));
+	}
+};
+}
+
 typedef _STL::_Rb_tree<Gen_p16pod, Gen_p16pod, _STL::_Identity<Gen_p16pod>,
 	_STL::less<Gen_p16pod>, _STL::allocator<Gen_p16pod> > Rva00927C30Tree;
 
