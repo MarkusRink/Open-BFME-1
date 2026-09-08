@@ -34,10 +34,66 @@
 
 #include "Common/GameState.h"
 #include "Common/TunnelTracker.h"
-#include "Common/Xfer.h"
 #include "GameLogic/CaveSystem.h"
 
 CaveSystem *TheCaveSystem = NULL;
+
+// BFME's Xfer ABI differs from the Generals header used by the rest of the
+// tree.  This local view keeps the three slots exercised by CaveSystem::xfer
+// at their retail positions: mode at +08, version at +28, snapshot at +30,
+// and unsigned-short transfer at +7C.
+struct BfmeXferVersion
+{
+	UnsignedByte m_version;
+	UnsignedByte m_currentVersion;
+};
+
+class BfmeCaveXfer
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual Bool getXferMode();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual void xferVersion( BfmeXferVersion *version );
+	virtual void slot11();
+	virtual void xferSnapshot( void *snapshot );
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
+	virtual void slot16();
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot20();
+	virtual void slot21();
+	virtual void slot22();
+	virtual void slot23();
+	virtual void slot24();
+	virtual void slot25();
+	virtual void slot26();
+	virtual void slot27();
+	virtual void slot28();
+	virtual void slot29();
+	virtual void slot30();
+	virtual void xferUnsignedShort( UnsignedShort *value );
+};
+
+struct BfmeFormattedText
+{
+	char opaque[6];
+};
+
+extern "C" BfmeFormattedText *__cdecl bfmeFormatText(
+	BfmeFormattedText *result, Int tag, const char *format, ...);
+extern void __declspec(noreturn) __stdcall _CxxThrowException(
+	void *object, void *throwInfo);
 
 // ??0CaveSystem@@QAE@XZ present-unmatched
 CaveSystem::CaveSystem()
@@ -147,20 +203,22 @@ TunnelTracker *CaveSystem::getTunnelTrackerForCaveIndex( Int theIndex )
 	* Version Info
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-// ?xfer@CaveSystem@@MAEXPAVXfer@@@Z present-unmatched
 void CaveSystem::xfer( Xfer *xfer )
 {
+	BfmeCaveXfer *bfmeXfer = (BfmeCaveXfer *)xfer;
 
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
+	{
+		BfmeXferVersion version;
+		version.m_version = 1;
+		version.m_currentVersion = 1;
+		bfmeXfer->xferVersion( &version );
+	}
 
 	// tunnel tracker size and data
 	UnsignedShort count = m_tunnelTrackerVector.size();
-	xfer->xferUnsignedShort( &count );
+	bfmeXfer->xferUnsignedShort( &count );
 	TunnelTracker *tracker;
-	if( xfer->getXferMode() == XFER_SAVE )
+	if( bfmeXfer->getXferMode() )
 	{
 		std::vector< TunnelTracker* >::iterator it;
 
@@ -169,7 +227,7 @@ void CaveSystem::xfer( Xfer *xfer )
 
 			// xfer data
 			tracker = *it;
-			xfer->xferSnapshot( tracker );
+			bfmeXfer->xferSnapshot( tracker );
 
 		}  // end
 
@@ -180,9 +238,9 @@ void CaveSystem::xfer( Xfer *xfer )
 		// the list must be empty now
 		if( m_tunnelTrackerVector.empty() == FALSE )
 		{
-
-			DEBUG_CRASH(( "CaveSystem::xfer - m_tunnelTrackerVector should be empty but is not\n" ));
-			throw SC_INVALID_DATA;
+			BfmeFormattedText error;
+			bfmeFormatText( &error, 5, 0 );
+			_CxxThrowException( &error, (void *)0x011DFE5C );
 
 		}  // end if
 
@@ -194,7 +252,7 @@ void CaveSystem::xfer( Xfer *xfer )
 			tracker = newInstance( TunnelTracker );
 
 			// read data
-			xfer->xferSnapshot( tracker );
+			bfmeXfer->xferSnapshot( tracker );
 
 			// put in vector
 			m_tunnelTrackerVector.push_back( tracker );
@@ -204,5 +262,3 @@ void CaveSystem::xfer( Xfer *xfer )
 	}  // end else, laod
 
 }  // end xfer
-
-
