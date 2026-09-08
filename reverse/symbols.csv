@@ -13845,6 +13845,7 @@ name,address,notes
 ?attach@Rva00065C50Owner@@AAEXPAX@Z,0x009D6290,one-argument __thiscall callee of the 0x00065C50 constructor (U3_small_ctors.cpp); identity not recovered
 ?attachFile@ArchiveFile@@QAEXPAVFile@@@Z,0x009CE560,closes any previous file then stores the new one
 ?attachModel@Drawable@@QAEXVAsciiString@@_NH@Z,0x00042EDD,ILT thunk to BFME Drawable attachment body 0x00416A30; walks draw modules and passes model name, random-rotation flag, and expiration timer
+?attachToDrawable@StructureToppleParticleSystemAttachShim@@QAEXPBVDrawable@@@Z,0x00012319,StructureTopple delay FX particle attachment call thunk
 ?attachToObject@ParticleSystem@@QAEXPBVObject@@@Z,0x00013C82,ILT thunk to ParticleSystem::attachToObject body at 0x005BE170, resolved via decode_calls at the tossEmitters call site
 ?attack@AIGroupGroupAttackObjectPrivateShim@@QAEX_NPAVObject@@HW4CommandSourceType@@@Z,0x00155DA0,AIGroup groupAttackObjectPrivate incremental-link thunk target through a TU-local forwarding shim
 ?attackOptimizedTarget@AIStateTargetDispatch@@QAEXPAVThing@@@Z,0x0027E070,address-derived optimized target dispatch callee
@@ -78254,6 +78255,7 @@ name,address,notes
 ?doNamedMapReveal@ScriptEngine@@QAEXABVAsciiString@@@Z,0x0001FC3F
 ?doNamedMapReveal@ScriptEnginedoNamedMapRevealShim@@QAEXABVAsciiString@@@Z,0x0034D200,ScriptEngine::doNamedMapReveal incremental-link thunk target through a TU-local forwarding shim
 ?doPhaseStuff@StructureCollapseUpdate@@IAEXW4StructureCollapsePhaseType@@PBUCoord3D@@@Z,0x00022872,StructureCollapse initial-phase ILT thunk
+?doPhaseStuff@StructureToppleUpdate@@IAEXW4StructureTopplePhaseType@@PBUCoord3D@@@Z,0x00022AAC,StructureTopple delay FX final phase call thunk
 ?doPush@Shell@@IAEXVAsciiString@@@Z,0x00026792,Shell doPush ILT reached by Shell::shutdownComplete
 ?doRepopulateBuildTooltipLayout@ControlBar@@QAEXXZ,0x004C1320,Open-BFME5 the zero-argument member repopulateBuildTooltipLayout tail-jumps to; unnamed in the image
 ?doSend@Connection@@QAEI_N@Z,0x00661F10,BFME doSend with a Bool six-packet cap (stop after count exceeds five): MaxQuitFlushTime add ecx 0x7530 at 0x00661F57; NetCommandList::reset 0x006731A0; m_retryTime +0x1C; CommandRequiresAck 0x00682DB0; inlined doRetryMetrics 10s window on +0x354; Transport::queueSend 0x00683830; callers flushConnections 0x00663708 and update 0x0066ADB1 via ILT 0x00013633
