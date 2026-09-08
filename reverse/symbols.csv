@@ -2477,6 +2477,7 @@ name,address,notes
 ??0Cftp@@QAE@XZ,0x00885AD0
 ??0CheckpointUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00037619,derived-ICF
 ??0CivilianSpawnCollideBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,CivilianSpawnCollide ctor base
+??0CivilianSpawnUpdateModuleDataMemberA@@QAE@XZ,0x0003747A,member constructor thunk decoded from the exact CivilianSpawnUpdateModuleData retail call site
 ??0CleanupAreaPowerModuleData@@QAE@XZ,0x0001ABF9,pinharvest x1 (thunk)
 ??0CleanupHazardUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00004C9B,pinharvest x1 (thunk)
 ??0CleanupHazardUpdateModuleData@@QAE@XZ,0x000261CA,ModuleFactory ILT thunk to 0x0020D580; the byte-verified retail caller encodes it
