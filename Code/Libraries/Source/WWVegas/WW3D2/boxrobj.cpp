@@ -356,14 +356,18 @@ BoxRenderObjClass::BoxRenderObjClass(void)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/BoxRenderObjClassConstructorThunk.cpp
-// ??0BoxRenderObjClass@@ present-unmatched
 BoxRenderObjClass::BoxRenderObjClass(const W3dBoxStruct & def)
 {
 	Set_Name(def.Name);
-	W3dUtilityClass::Convert_Color(def.Color,&Color);
-	W3dUtilityClass::Convert_Vector(def.Center,&ObjSpaceCenter);
-	W3dUtilityClass::Convert_Vector(def.Extent,&ObjSpaceExtent);
+	Color.X = (float)def.Color.R / 255.0f;
+	Color.Y = (float)def.Color.G / 255.0f;
+	Color.Z = (float)def.Color.B / 255.0f;
+	ObjSpaceCenter.X = def.Center.X;
+	ObjSpaceCenter.Y = def.Center.Y;
+	ObjSpaceCenter.Z = def.Center.Z;
+	ObjSpaceExtent.X = def.Extent.X;
+	ObjSpaceExtent.Y = def.Extent.Y;
+	ObjSpaceExtent.Z = def.Extent.Z;
 	int col_bits = (def.Attributes & W3D_BOX_ATTRIBUTE_COLLISION_TYPE_MASK) >> W3D_BOX_ATTRIBUTE_COLLISION_TYPE_SHIFT;
 	Set_Collision_Type(col_bits<<1);
 	Opacity = 0.25f;
