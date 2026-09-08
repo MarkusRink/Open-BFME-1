@@ -222,11 +222,24 @@ HRESULT DownloadManagerMunkee::OnEnd()
 
 static time_t lastUpdate = 0;
 static Int timeLeft = 0;
+
+class DownloadManagerProgressView
+{
+public:
+	HRESULT OnProgressUpdate(Int bytesread, Int totalsize, Int timetaken, Int timeleft);
+};
+
+class DownloadUnicodeStringSetView
+{
+public:
+	void set(const DownloadUnicodeStringSetView &other);
+};
+
 // byte-exact reconstruction: Code/GameEngine/Source/Common/DownloadManagerMunkee_OnProgressUpdateMethodThunk.cpp
-// ?OnProgressUpdate@DownloadManagerMunkee@@UAEJHHHH@Z present-unmatched
 HRESULT DownloadManagerMunkee::OnProgressUpdate( Int bytesread, Int totalsize, Int timetaken, Int timeleft )
 {
-	HRESULT ret = DownloadManager::OnProgressUpdate( bytesread, totalsize, timetaken, timeleft );
+	HRESULT ret = reinterpret_cast<DownloadManagerProgressView *>(this)->OnProgressUpdate(
+		bytesread, totalsize, timetaken, timeleft );
 
 	if (progressBarMunkee)
 	{
@@ -257,7 +270,9 @@ HRESULT DownloadManagerMunkee::OnProgressUpdate( Int bytesread, Int totalsize, I
 		}
 		else
 		{
-			timeString = TheGameText->fetch("GUI:DownloadUnknownTime");
+			reinterpret_cast<DownloadUnicodeStringSetView *>(&timeString)->set(
+				reinterpret_cast<const DownloadUnicodeStringSetView &>(
+					TheGameText->fetch("GUI:DownloadUnknownTime")));
 		}
 		GadgetStaticTextSetText(staticTextTime, timeString);
 	}
@@ -334,12 +349,6 @@ void DownloadMenuShutdown( WindowLayout *layout, void *userData )
 //-------------------------------------------------------------------------------------------------
 /** menu update method */
 //-------------------------------------------------------------------------------------------------
-class DownloadUnicodeStringSetView
-{
-public:
-	void set(const DownloadUnicodeStringSetView &other);
-};
-
 void DownloadMenuUpdate( WindowLayout *layout, void *userData )
 {
 	if (staticTextTime && !GadgetStaticTextGetText(staticTextTime).isEmpty())
