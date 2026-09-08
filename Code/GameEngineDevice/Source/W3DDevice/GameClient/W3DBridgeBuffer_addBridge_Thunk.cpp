@@ -1,384 +1,135 @@
-// cl: /DNDEBUG /MD /EHsc
-// readable body of ?addBridge@W3DBridgeBuffer@@IAEXVVector3@@0VAsciiString@@PAVW3DTerrainLogic@@PAVDict@@@Z: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeBuffer.cpp
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/stringinline
+// Open-BFME5: byte-exact C++ reconstruction of W3DBridgeBuffer::addBridge.
 
-class Vector3 {};
-class AsciiString {};
-class W3DTerrainLogic;
+#include "StringInline.h"
+
+class Vector3
+{
+	public:
+	float X;
+	float Y;
+	float Z;
+
+	Vector3() {}
+	Vector3(const Vector3 &v)
+	{
+		X = v.X;
+		Y = v.Y;
+		Z = v.Z;
+	}
+};
+
 class Dict;
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include/W3DDevice/GameClient/W3DBridgeBuffer.h
-class W3DBridgeBuffer {
+
+enum BodyDamageType
+{
+	BODY_PRISTINE
+};
+
+class BridgeInfo
+{
+	public:
+	BridgeInfo();
+
+	public:
+	char pad000[0x4c];
+	int bridgeIndex;
+	char pad050[0x18];
+	unsigned char damageStateChanged;
+};
+
+class W3DBridge
+{
+public:
+	void init(Vector3 fromLoc, Vector3 toLoc, AsciiString name);
+	bool load(BodyDamageType curDamageState);
+	void getBridgeInfo(BridgeInfo *info);
+
+	char pad000[0x114];
+};
+
+class W3DTerrainLogic
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
+	virtual void slot16();
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot20();
+	virtual void slot21();
+	virtual void slot22();
+	virtual void slot23();
+	virtual void slot24();
+	virtual void slot25();
+	virtual void slot26();
+	virtual void slot27();
+	virtual void slot28();
+	virtual void slot29();
+	virtual void slot30();
+	virtual void slot31();
+	virtual void slot32();
+	virtual void slot33();
+	virtual void slot34();
+	virtual void slot35();
+	virtual void slot36();
+	virtual void slot37();
+	virtual void slot38();
+	virtual void slot39();
+	virtual void slot40();
+	virtual void slot41();
+	virtual void slot42();
+	virtual void addBridgeToLogic(BridgeInfo *info, Dict *props, AsciiString name);
+};
+
+class W3DBridgeBuffer
+{
 protected:
-	void addBridge(Vector3, Vector3, AsciiString, W3DTerrainLogic *, Dict *);
+	void addBridge(Vector3 fromLoc, Vector3 toLoc, AsciiString name,
+		W3DTerrainLogic *pTerrainLogic, Dict *props);
+
+	char pad000[0x18];
+	W3DBridge m_bridges[200];
+	int m_numBridges;
+	unsigned char m_initialized;
 };
 
 // ?addBridge@W3DBridgeBuffer@@IAEXVVector3@@0VAsciiString@@PAVW3DTerrainLogic@@PAVDict@@@Z
-__declspec(naked) void W3DBridgeBuffer::addBridge(Vector3, Vector3, AsciiString, W3DTerrainLogic *, Dict *)
+void W3DBridgeBuffer::addBridge(Vector3 fromLoc, Vector3 toLoc, AsciiString name,
+	W3DTerrainLogic *pTerrainLogic, Dict *props)
 {
-	__asm {
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x68
-		__emit 0xc8
-		__emit 0xab
-		__emit 0x04
-		__emit 0x01
-		__emit 0x64
-		__emit 0xa1
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x50
-		__emit 0x64
-		__emit 0x89
-		__emit 0x25
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x83
-		__emit 0xec
-		__emit 0x70
-		__emit 0x53
-		__emit 0x56
-		__emit 0x57
-		__emit 0x8b
-		__emit 0xf1
-		__emit 0x81
-		__emit 0xbe
-		__emit 0xb8
-		__emit 0xd7
-		__emit 0x00
-		__emit 0x00
-		__emit 0xc8
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xc7
-		__emit 0x84
-		__emit 0x24
-		__emit 0x84
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x0f
-		__emit 0x8d
-		__emit 0x09
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8a
-		__emit 0x86
-		__emit 0xbc
-		__emit 0xd7
-		__emit 0x00
-		__emit 0x00
-		__emit 0x84
-		__emit 0xc0
-		__emit 0x0f
-		__emit 0x84
-		__emit 0xfb
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x51
-		__emit 0x8d
-		__emit 0x84
-		__emit 0x24
-		__emit 0xa8
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x64
-		__emit 0x24
-		__emit 0x10
-		__emit 0x8b
-		__emit 0xcc
-		__emit 0x50
-		__emit 0xe8
-		__emit 0x56
-		__emit 0xda
-		__emit 0x1a
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x8c
-		__emit 0x24
-		__emit 0x9c
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x94
-		__emit 0x24
-		__emit 0xa0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x83
-		__emit 0xec
-		__emit 0x0c
-		__emit 0x8b
-		__emit 0xc4
-		__emit 0x89
-		__emit 0x08
-		__emit 0x8b
-		__emit 0x8c
-		__emit 0x24
-		__emit 0xb0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x50
-		__emit 0x04
-		__emit 0x8b
-		__emit 0x94
-		__emit 0x24
-		__emit 0x9c
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x48
-		__emit 0x08
-		__emit 0x8b
-		__emit 0x8c
-		__emit 0x24
-		__emit 0xa0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x64
-		__emit 0x24
-		__emit 0x1c
-		__emit 0x83
-		__emit 0xec
-		__emit 0x0c
-		__emit 0x8b
-		__emit 0xc4
-		__emit 0x89
-		__emit 0x10
-		__emit 0x8b
-		__emit 0x94
-		__emit 0x24
-		__emit 0xb0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x48
-		__emit 0x04
-		__emit 0x89
-		__emit 0x50
-		__emit 0x08
-		__emit 0x8b
-		__emit 0x86
-		__emit 0xb8
-		__emit 0xd7
-		__emit 0x00
-		__emit 0x00
-		__emit 0x69
-		__emit 0xc0
-		__emit 0x14
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x30
-		__emit 0x18
-		__emit 0x89
-		__emit 0x64
-		__emit 0x24
-		__emit 0x28
-		__emit 0xe8
-		__emit 0x4e
-		__emit 0xee
-		__emit 0x95
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x8e
-		__emit 0xb8
-		__emit 0xd7
-		__emit 0x00
-		__emit 0x00
-		__emit 0x69
-		__emit 0xc9
-		__emit 0x14
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x6a
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x31
-		__emit 0x18
-		__emit 0xe8
-		__emit 0x7c
-		__emit 0x90
-		__emit 0x95
-		__emit 0xff
-		__emit 0x84
-		__emit 0xc0
-		__emit 0x74
-		__emit 0x6b
-		__emit 0x8b
-		__emit 0x96
-		__emit 0xb8
-		__emit 0xd7
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0xbc
-		__emit 0x24
-		__emit 0xa8
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x69
-		__emit 0xd2
-		__emit 0x14
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x85
-		__emit 0xff
-		__emit 0x8d
-		__emit 0x5c
-		__emit 0x32
-		__emit 0x18
-		__emit 0x74
-		__emit 0x4a
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x10
-		__emit 0xe8
-		__emit 0xf3
-		__emit 0xfc
-		__emit 0x93
-		__emit 0xff
-		__emit 0x8d
-		__emit 0x44
-		__emit 0x24
-		__emit 0x10
-		__emit 0x50
-		__emit 0x8b
-		__emit 0xcb
-		__emit 0xe8
-		__emit 0x03
-		__emit 0xd4
-		__emit 0x96
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x8e
-		__emit 0xb8
-		__emit 0xd7
-		__emit 0x00
-		__emit 0x00
-		__emit 0x51
-		__emit 0x89
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x60
-		__emit 0x8d
-		__emit 0x94
-		__emit 0x24
-		__emit 0xa8
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x89
-		__emit 0x64
-		__emit 0x24
-		__emit 0x10
-		__emit 0x8b
-		__emit 0xcc
-		__emit 0x52
-		__emit 0xe8
-		__emit 0x8c
-		__emit 0xd9
-		__emit 0x1a
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x8c
-		__emit 0x24
-		__emit 0xb0
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x07
-		__emit 0x51
-		__emit 0x8d
-		__emit 0x54
-		__emit 0x24
-		__emit 0x18
-		__emit 0x52
-		__emit 0x8b
-		__emit 0xcf
-		__emit 0xff
-		__emit 0x90
-		__emit 0xac
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xff
-		__emit 0x86
-		__emit 0xb8
-		__emit 0xd7
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x8c
-		__emit 0x24
-		__emit 0xa4
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xc7
-		__emit 0x84
-		__emit 0x24
-		__emit 0x84
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xe8
-		__emit 0x38
-		__emit 0xd7
-		__emit 0x1a
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x7c
-		__emit 0x5f
-		__emit 0x5e
-		__emit 0x64
-		__emit 0x89
-		__emit 0x0d
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x5b
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x7c
-		__emit 0xc2
-		__emit 0x24
-		__emit 0x00
+	if (m_numBridges >= 200)
+		return;
+
+	if (!m_initialized)
+		return;
+
+	m_bridges[m_numBridges].init(fromLoc, toLoc, name);
+	if (m_bridges[m_numBridges].load(BODY_PRISTINE))
+	{
+		W3DBridge *pBridge = m_bridges + m_numBridges;
+		if (pTerrainLogic)
+		{
+			BridgeInfo info;
+			pBridge->getBridgeInfo(&info);
+			info.bridgeIndex = m_numBridges;
+			pTerrainLogic->addBridgeToLogic(&info, props, name);
+		}
+		m_numBridges++;
 	}
 }
