@@ -45,6 +45,8 @@ public:
 	void setPosition(const Coord3D *position);
 	void setField94(void *value);
 	void start();
+	void stop();
+	void destroy();
 
 	unsigned char m_pad[0xAC];
 	int m_systemId;
@@ -53,6 +55,30 @@ public:
 ParticleSystem *Make00001B18(void);
 
 class U1CachedHolder;
+
+class W3DAnimationInfo;
+
+namespace _STL
+{
+class W3DAnimationInfoCopyShim
+{
+public:
+	static W3DAnimationInfo *copy(W3DAnimationInfo *first,
+		W3DAnimationInfo *last, W3DAnimationInfo *result,
+		const random_access_iterator_tag &, int *n);
+};
+}
+
+class W3DAnimationInfo
+{
+public:
+	ParticleSystem *m_system;
+	W3DAnimationInfo *m_previous;
+	W3DAnimationInfo *m_next;
+	int m_systemId;
+
+	~W3DAnimationInfo() throw();
+};
 
 class U1Sub
 {
@@ -112,6 +138,13 @@ struct Gen_t_00617d60_p16cd
 
 typedef _STL::vector<Gen_t_00617d60_p16cd> Rva00617D60Vector;
 
+struct Rva00617D60RawVector
+{
+	Gen_t_00617d60_p16cd *m_start;
+	Gen_t_00617d60_p16cd *m_finish;
+	Gen_t_00617d60_p16cd *m_endOfStorage;
+};
+
 class Gen_00609320
 {
 public:
@@ -124,8 +157,10 @@ extern Gen_00609320 *g_bfmeStateDF;
 class BfmeLivingWorldManager
 {
 public:
+	void rva00617c60();
 	void rva00617e30();
 	void j_0003b1e2();
+	void rva00610090();
 
 private:
 	unsigned char m_pad00[0x20];
@@ -134,6 +169,34 @@ private:
 	unsigned char m_pad30[0x240];
 	Rva00617D60Vector m_particleSystems;
 };
+
+void BfmeLivingWorldManager::rva00617c60()
+{
+	for (unsigned int i = 0; i < m_particleSystems.size(); ++i)
+	{
+		if (m_particleSystems[i].m_handle)
+		{
+			m_particleSystems[i].m_handle->stop();
+			m_particleSystems[i].m_handle->destroy();
+		}
+	}
+	Rva00617D60RawVector *particleSystems =
+		(Rva00617D60RawVector *)&m_particleSystems;
+	Gen_t_00617d60_p16cd *start = particleSystems->m_start;
+	Gen_t_00617d60_p16cd *finish = particleSystems->m_finish;
+	_STL::random_access_iterator_tag tag;
+	W3DAnimationInfo *destination = _STL::W3DAnimationInfoCopyShim::copy(
+		(W3DAnimationInfo *)finish, (W3DAnimationInfo *)finish,
+		(W3DAnimationInfo *)start, tag, (int *)0);
+	Gen_t_00617d60_p16cd *oldFinish = particleSystems->m_finish;
+	for (W3DAnimationInfo *current = destination;
+		current != (W3DAnimationInfo *)oldFinish; ++current)
+	{
+		current->~W3DAnimationInfo();
+	}
+	particleSystems->m_finish = (Gen_t_00617d60_p16cd *)destination;
+	rva00610090();
+}
 
 void BfmeLivingWorldManager::rva00617e30()
 {

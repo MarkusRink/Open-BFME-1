@@ -4403,6 +4403,7 @@ name,address,notes
 ??1CommandSetUpgradeModuleDataMemberA@@QAE@XZ,0x0001B97D,Open-BFME5 pin
 ??1CommandSetUpgradeModuleDataMemberB@@QAE@XZ,0x00887940,Open-BFME5 pin
 ??1CompositeRenderObjClass@@UAE@XZ,0x0091FC10
+??1Condition@@UAE@XZ,0x000461B9,route=0x00352D20; actual Condition scalar deleting wrapper355CE0 calls proven complete destructor through this ILT; campaign=36h-20260908-1018
 ??1Connection@@QAE@XZ,0x006652B0,EH-framed body: deletes m_netCommandList(+0x18) through vslot0(1) then StringBase<unsigned short>::releaseBuffer on +0x14; no vtable store so non-virtual; callers disconnectPlayer 0x00666409 (non-quitting connection) and update 0x0066ADD6 (quit frame reached && isQueueEmpty) via ILT 0x0003CECF
 ??1ConnectionManager@@QAE@XZ,0x00019E25,ILT thunk to 0x00668D90; the address Network::~Network at 0x006823B0 encodes before operator delete
 ??1CountUpBuffer@@QAE@XZ,0x008881D0,Open-BFME5 pin
@@ -83625,6 +83626,7 @@ name,address,notes
 ?rva00595230@@YAXXZ,0x00012FC6,Open-BFME5 ILT thunk b_00595230
 ?rva0060a880@@YGXPAX@Z,0x00019010,Open-BFME5 ILT thunk FUN_00a0a880
 ?rva0060d5a0@BfmeGameCW@@QAE_NI@Z,0x0060D5A0,direct body pin: neutral BfmeGameCW source-gate ABI; retail ILT 0x00014858 is E9 to this body; campaign=luna36h-20260907;lane=mesh
+?rva00610090@BfmeLivingWorldManager@@QAEXXZ,0x00610090,address-derived manager cleanup helper over vectors at +0x240 and +0x24C; retail ILT 0x0002A8F1 reaches this body
 ?rva00618980@Rva00618980Object@@QAEXH@Z,0x00618980,LivingWorldManager field +0x1A8 cleanup helper called by 0x00616410
 ?rva0061bbb0@Rva0061C1D0Object@@QAEXXZ,0x0061BBB0,LivingWorldManager +0x194 mapped-object method; direct 0x00615850 call reaches body through ILT 0x0001447F; receiver proven by node +8 in the same native map as 0x006157C0 and 0x00615C20;campaign=luna36h-20260907;lane=expand08;model=gpt-5.6-sol-ultra
 ?rva0061c1d0@Rva0061C1D0Object@@QAEXXZ,0x0061C1D0,LivingWorldManager +0x194 mapped-object method; direct 0x006157C0 call reaches body through ILT 0x0001EF42; address-derived type and method;campaign=luna36h-20260907;lane=expand08;model=gpt-5.6-sol-ultra
@@ -84382,6 +84384,7 @@ name,address,notes
 ?validMovementPosition@BFMEPathfinderMove@@QAE_NPBUCoord3D@@W4PathfindLayerEnum@@IPAVObject@@@Z,0x0003B359,alias of the Pathfinder spelling pinned below; AIUpdate.cpp reaches it through a view class because the reference Pathfinder declares Zero Hour argument order
 ?validMovementPosition@Pathfinder@@QAE_NPBUCoord3D@@W4PathfindLayerEnum@@IPAVObject@@@Z,0x0003B359,Open-BFME5 isValidLocomotorPosition exact four-argument call setup reaches ILT thunk to body 0x003DB520
 ?validMovementTerrain@Pathfinder@@QAE_NHPBVLocomotor@@PBUCoord3D@@@Z,0x0001B405,ILT thunk to the pathfinder terrain check at 0x003D85C0
+?validUnderCursor@@YAPAVObject@@PBUICoord2D@@PBVCommandButton@@W4PickType@@@Z,0x005B15A0,static cursor target validator defined in GUICommandTranslator.cpp
 ?validate@BfmeThingACF@@QAE_NPAX0@Z,0x0001D813,pin
 ?validate@BfmeThingE80@@QAE_NPAX0@Z,0x0001D813,pin
 ?value00683900@Gen00683900@@QBEMXZ,0x00034AF4,S2 float getter tail-jumped to from 0x00681C10; ILT thunk to body 0x00683900
