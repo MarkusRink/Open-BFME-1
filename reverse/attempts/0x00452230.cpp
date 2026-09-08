@@ -1,5 +1,5 @@
-// ?bfmeInsertJM@BfmeListJM@@QAEXPAVBfmeValJM@@@Z
-// partial score=0.95 date=2026-09-08
+// ?bfmeInsertZO@BfmeIterZO@@QAEXPBUBfmeValZO@@@Z
+// partial score=0.96 date=2026-09-08
 namespace _STL
 {
 
@@ -11,45 +11,45 @@ public:
 
 }
 
-class BfmeValJM
+inline void *operator new(unsigned int, void *p)
 {
-public:
-	int m_bfmeAJM;
-	int m_bfmeBJM;
+	return p;
+}
+
+struct BfmeValZO
+{
+	BfmeValZO(const BfmeValZO &o) : m_bfmeAZO(o.m_bfmeAZO), m_bfmeBZO(o.m_bfmeBZO) {}
+
+	void *m_bfmeAZO;
+	void *m_bfmeBZO;
 };
 
-class BfmeNodeJM
+struct BfmeNodeZO
 {
-public:
-	BfmeNodeJM *m_bfmePrevJM;
-	BfmeNodeJM *m_bfmeNextJM;
-	BfmeValJM m_bfmeValJM;
+	BfmeNodeZO *m_bfmePrevZO;
+	BfmeNodeZO *m_bfmeNextZO;
+	BfmeValZO m_bfmeValZO;
 };
 
-class BfmeListJM
+class BfmeIterZO
 {
 public:
-	void bfmeInsertJM(BfmeValJM *v);
+	void bfmeInsertZO(const BfmeValZO *v);
 
-	BfmeNodeJM *m_bfmeNodeJM;
+	BfmeNodeZO **m_bfme00ZO;
 };
 
-void BfmeListJM::bfmeInsertJM(BfmeValJM *v)
+void BfmeIterZO::bfmeInsertZO(const BfmeValZO *v)
 {
-	BfmeNodeJM *e = m_bfmeNodeJM->m_bfmePrevJM;
-	BfmeNodeJM *n = (BfmeNodeJM *)_STL::__new_alloc::allocate(16);
-	BfmeValJM *p = &n->m_bfmeValJM;
+	BfmeNodeZO *at = *m_bfme00ZO;
+	BfmeNodeZO *n = (BfmeNodeZO *)_STL::__new_alloc::allocate(16);
 
-	if (p != 0)
-	{
-		p->m_bfmeAJM = v->m_bfmeAJM;
-		p->m_bfmeBJM = v->m_bfmeBJM;
-	}
+	new (&n->m_bfmeValZO) BfmeValZO(*v);
 
-	BfmeNodeJM *nx = e->m_bfmeNextJM;
+	BfmeNodeZO *nx = at->m_bfmeNextZO;
 
-	n->m_bfmePrevJM = e;
-	n->m_bfmeNextJM = nx;
-	nx->m_bfmePrevJM = n;
-	e->m_bfmeNextJM = n;
+	n->m_bfmePrevZO = at;
+	n->m_bfmeNextZO = nx;
+	nx->m_bfmePrevZO = n;
+	at->m_bfmeNextZO = n;
 }
