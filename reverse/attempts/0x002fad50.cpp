@@ -32,13 +32,13 @@ private:
 	__forceinline int compare(const StringBase<T> &other) const
 	{
 		const int length = other.m_data ? other.m_data->m_length : 0;
-		const char *data = other.m_data ? other.m_data->m_text : "";
+		const char *data = other.m_data ? &other.m_data->m_text[0] : "";
 		const int myLength = m_data ? m_data->m_length : 0;
-		const char *myData = m_data ? m_data->m_text : "";
-		int result = memcmp(myData, data,
-			myLength < length ? myLength : length);
-		if (result == 0)
+		const char *myData = m_data ? &m_data->m_text[0] : "";
+		int result = memcmp(myData, data, myLength < length ? myLength : length);
+		if (result == 0) {
 			result = myLength - length;
+		}
 		return result;
 	}
 
