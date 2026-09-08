@@ -3260,20 +3260,6 @@ static ScienceType *bfme_force_ScienceVec_erase(ScienceVec *v, ScienceType *it)
 ScienceType *(*bfme_force_ScienceVec_erase_anchor)(ScienceVec *, ScienceType *) =
 	&bfme_force_ScienceVec_erase;
 
-//=============================================================================
-// ?getScienceAvailabilityTypeFromString@Player@@QAE?AW4ScienceAvailabilityType@@ABVAsciiString@@@Z present-unmatched
-ScienceAvailabilityType Player::getScienceAvailabilityTypeFromString( const AsciiString& name )
-{
-	for( Int i = 0; i < SCIENCE_AVAILABILITY_COUNT; i++ )
-	{
-		if( !name.compareNoCase( ScienceAvailabilityNames[ i ] ) )
-		{
-			return (ScienceAvailabilityType)i;
-		}
-	}
-	return SCIENCE_AVAILABILITY_INVALID;
-}
-
 namespace
 {
   // ------------------------------------------------------------------------------------------------
