@@ -1,120 +1,63 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
+// Open-BFME5: ProductionSpeedBonus module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x00120120 allocates 0x224
+// bytes and calls this constructor.  The final twelve bytes are an STLport
+// vector<AsciiString>; the matched destructor confirms that it is destroyed
+// before the common SpecialPower module-data base.
 
-class ProductionSpeedBonusModuleData
+#include <vector>
+
+class AsciiString
 {
 public:
-    ProductionSpeedBonusModuleData();
+	~AsciiString();
+
+private:
+	char *m_text;
 };
 
-__declspec(naked) ProductionSpeedBonusModuleData::ProductionSpeedBonusModuleData()
+class BfmeSpecialPowerModuleDataBase
 {
-    __asm {
-        _emit 6Ah
-        _emit 0FFh
-        _emit 68h
-        _emit 0E6h
-        _emit 0F9h
-        _emit 00h
-        _emit 01h
-        _emit 64h
-        _emit 0A1h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 50h
-        _emit 64h
-        _emit 89h
-        _emit 25h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 51h
-        _emit 56h
-        _emit 8Bh
-        _emit 0F1h
-        _emit 89h
-        _emit 74h
-        _emit 24h
-        _emit 04h
-        _emit 0E8h
-        _emit 92h
-        _emit 15h
-        _emit 0DBh
-        _emit 0FFh
-        _emit 33h
-        _emit 0C0h
-        _emit 8Dh
-        _emit 8Eh
-        _emit 18h
-        _emit 02h
-        _emit 00h
-        _emit 00h
-        _emit 0C7h
-        _emit 06h
-        _emit 30h
-        _emit 69h
-        _emit 0Bh
-        _emit 01h
-        _emit 89h
-        _emit 01h
-        _emit 89h
-        _emit 41h
-        _emit 04h
-        _emit 89h
-        _emit 44h
-        _emit 24h
-        _emit 10h
-        _emit 89h
-        _emit 41h
-        _emit 08h
-        _emit 89h
-        _emit 86h
-        _emit 10h
-        _emit 02h
-        _emit 00h
-        _emit 00h
-        _emit 89h
-        _emit 86h
-        _emit 14h
-        _emit 02h
-        _emit 00h
-        _emit 00h
-        _emit 8Bh
-        _emit 41h
-        _emit 04h
-        _emit 8Bh
-        _emit 11h
-        _emit 50h
-        _emit 52h
-        _emit 0C6h
-        _emit 44h
-        _emit 24h
-        _emit 18h
-        _emit 01h
-        _emit 0E8h
-        _emit 2Eh
-        _emit 05h
-        _emit 0DCh
-        _emit 0FFh
-        _emit 8Bh
-        _emit 4Ch
-        _emit 24h
-        _emit 08h
-        _emit 8Bh
-        _emit 0C6h
-        _emit 5Eh
-        _emit 64h
-        _emit 89h
-        _emit 0Dh
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 83h
-        _emit 0C4h
-        _emit 10h
-        _emit 0C3h
-    }
+public:
+	BfmeSpecialPowerModuleDataBase();
+	virtual ~BfmeSpecialPowerModuleDataBase();
+
+private:
+	unsigned char m_unmodelled_04[ 0x210 - 4 ];
+};
+
+class ProductionSpeedBonusRange
+{
+public:
+	void erase( void *first, void *last );
+
+	void *volatile m_begin;
+	void *volatile m_end;
+	void *m_capacity;
+};
+
+class ProductionSpeedBonusModuleData : public BfmeSpecialPowerModuleDataBase
+{
+public:
+	ProductionSpeedBonusModuleData();
+	virtual ~ProductionSpeedBonusModuleData();
+
+private:
+	unsigned int m_bonusPercent;               // +0x210
+	unsigned int m_duration;                   // +0x214
+	_STL::vector<AsciiString> m_upgradeTypes;  // +0x218
+};
+
+// ??0ProductionSpeedBonusModuleData@@QAE@XZ
+ProductionSpeedBonusModuleData::ProductionSpeedBonusModuleData()
+{
+	m_bonusPercent = 0;
+	m_duration = 0;
+	ProductionSpeedBonusRange *range =
+		reinterpret_cast<ProductionSpeedBonusRange *>( &m_upgradeTypes );
+	void *last = range->m_end;
+	void *first = range->m_begin;
+	range->erase( first, last );
 }
