@@ -8811,6 +8811,7 @@ name,address,notes
 ??1PB_DeepBase@@UAE@XZ,0x00047C53,Open-BFME5 SlaveWatcherBehavior base destructor ILT pin
 ??1PSPlayerStats@@QAE@XZ,0x00025C1B,PSRequest retail member destructor
 ??1PSResponse@@QAE@XZ,0x0003B0CF,ILT the PSResponse deque pop_front calls at 0x00656BE1; its target adds four to this and tail-jumps to ??1PSPlayerStats
+??1Parameter@@QAE@XZ,0x0003463A,Parameter destructor thunk used by ScriptAction cleanup
 ??1ParticleSysBoneInfo@@QAE@XZ,0x000033B9,pinharvest x1 (thunk)
 ??1ParticleSysBoneInfo@@QAE@XZ,0x00022FE3,"the address retail's own call sites encode; re-added after d27ae4b7b, one-name-one-body clean"
 ??1ParticleSysBoneInfo@@QAE@XZ,0x0004A462,"STLport callee exact retail rel32 target (incremental-link thunk); resolves repointed STL template thunk-dump; re-added after d27ae4b7b, one-name-one-body clean"
