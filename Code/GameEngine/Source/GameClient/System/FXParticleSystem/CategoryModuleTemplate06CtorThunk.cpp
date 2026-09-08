@@ -1,126 +1,65 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+
+// Open-BFME5: CategoryModuleTemplate<7> default constructor. Category 7 owns
+// the WindModuleInfo subobject; DefaultModuleTemplate<7> immediately derives
+// from this object and replaces the same three vtables.
 
 namespace FXParticleSystem
 {
-template<int Category>
-class CategoryModuleTemplate
+
+class ModuleTemplate
 {
 public:
-    CategoryModuleTemplate();
+	ModuleTemplate() {}
+	virtual ~ModuleTemplate() {}
 };
 
-template<int Category>
-__declspec(naked) CategoryModuleTemplate<Category>::CategoryModuleTemplate()
+template <int Category>
+class CategoryModuleInfo
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 028h
-        _emit 098h
-        _emit 003h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 0C7h
-        _emit 046h
-        _emit 004h
-        _emit 014h
-        _emit 0FAh
-        _emit 010h
-        _emit 001h
-        _emit 057h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 008h
-        _emit 0C7h
-        _emit 006h
-        _emit 068h
-        _emit 0FCh
-        _emit 010h
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 004h
-        _emit 064h
-        _emit 0FCh
-        _emit 010h
-        _emit 001h
-        _emit 08Dh
-        _emit 07Eh
-        _emit 008h
-        _emit 08Bh
-        _emit 0CFh
-        _emit 0C7h
-        _emit 044h
-        _emit 024h
-        _emit 014h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 026h
-        _emit 0D0h
-        _emit 0A7h
-        _emit 0FFh
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 00Ch
-        _emit 0C7h
-        _emit 007h
-        _emit 094h
-        _emit 0FCh
-        _emit 010h
-        _emit 001h
-        _emit 0C7h
-        _emit 006h
-        _emit 080h
-        _emit 0FCh
-        _emit 010h
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 004h
-        _emit 07Ch
-        _emit 0FCh
-        _emit 010h
-        _emit 001h
-        _emit 05Fh
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C3h
-    }
+public:
+	CategoryModuleInfo() {}
+	virtual void unusedVirtual();
+
+protected:
+	~CategoryModuleInfo() {}
+};
+
+template <int Category>
+class CategoryModuleTemplateBase
+	: public ModuleTemplate,
+	  public CategoryModuleInfo<Category>
+{
+public:
+	CategoryModuleTemplateBase() {}
+	virtual ~CategoryModuleTemplateBase() {}
+};
+
+class WindModuleInfo
+{
+public:
+	WindModuleInfo();
+	virtual ~WindModuleInfo();
+};
+
+template <int Category>
+class CategoryModuleTemplate
+	: public CategoryModuleTemplateBase<Category>,
+	  public WindModuleInfo
+{
+public:
+	CategoryModuleTemplate();
+	virtual ~CategoryModuleTemplate() {}
+};
+
+// MSVC mangles CategoryModuleTemplate<7> as @$06.
+template <int Category>
+CategoryModuleTemplate<Category>::CategoryModuleTemplate()
+	: CategoryModuleTemplateBase<Category>(),
+	  WindModuleInfo()
+{
 }
 
-template class CategoryModuleTemplate<7>;
+template CategoryModuleTemplate<7>::CategoryModuleTemplate();
+
 }
