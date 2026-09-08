@@ -15,6 +15,7 @@ class StringBase
 {
 public:
 	StringBase() : m_data(0) {}
+	StringBase(const StringBase &other);
 
 private:
 	struct Data
@@ -32,18 +33,33 @@ class UnicodeString : private StringBase<UnsignedShort>
 {
 public:
 	UnicodeString() : StringBase<UnsignedShort>() {}
+	UnicodeString(const UnicodeString &other) : StringBase<UnsignedShort>(other) {}
 	~UnicodeString();
 };
 
-class AsciiString
+class MapDisplayNameTail : private StringBase<UnsignedShort>
 {
 public:
-	AsciiString() : m_data(0) {}
+	MapDisplayNameTail() : StringBase<UnsignedShort>() {}
+	MapDisplayNameTail(const MapDisplayNameTail &other) : StringBase<UnsignedShort>(other) {}
+	~MapDisplayNameTail();
+};
+
+class MapDescriptionTail : private StringBase<UnsignedShort>
+{
+public:
+	MapDescriptionTail() : StringBase<UnsignedShort>() {}
+	MapDescriptionTail(const MapDescriptionTail &other) : StringBase<UnsignedShort>(other) {}
+	~MapDescriptionTail();
+};
+
+class AsciiString : private StringBase<char>
+{
+public:
+	AsciiString() : StringBase<char>() {}
+	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
 	~AsciiString();
 	bool operator<(const AsciiString &other) const;
-
-private:
-	char *m_data;
 };
 
 struct Coord3D
@@ -73,6 +89,7 @@ struct PlayerPosition
 	UnsignedInt m_factionPad;
 
 	PlayerPosition();
+	PlayerPosition(const PlayerPosition &other);
 	~PlayerPosition();
 };
 
@@ -80,7 +97,13 @@ struct PlayerPosition
 // placeholders. Their retail addresses are independently established by the
 // 0x000C0B00 and 0x0001F951 rows.
 #pragma comment(linker, "/alternatename:??0PlayerPosition@@QAE@XZ=?j_0003a760@@YAXXZ")
+#pragma comment(linker, "/alternatename:??0PlayerPosition@@QAE@ABU0@@Z=??0Gen_000C0DF0@@QAE@ABV0@@Z")
 #pragma comment(linker, "/alternatename:??1PlayerPosition@@QAE@XZ=??1Rva00078460Elem@@QAE@XZ")
+
+struct MapPlayers
+{
+	PlayerPosition m_items[8];
+};
 
 class MapMetaData
 {
@@ -91,11 +114,12 @@ public:
 private:
 	UnicodeString m_displayName;
 	UnicodeString m_description;
-	struct Region3D
-	{
-		Coord3D lo;
-		Coord3D hi;
-	} m_extent;
+	float m_extentLoX;
+	float m_extentLoY;
+	float m_extentLoZ;
+	float m_extentHiX;
+	float m_extentHiY;
+	float m_extentHiZ;
 	Int m_numPlayers;
 	Bool m_isMultiplayer;
 	Bool m_isScenarioMP;
@@ -108,9 +132,9 @@ private:
 	Coord3DList m_supplyPositions;
 	Coord3DList m_techPositions;
 	AsciiString m_fileName;
-	PlayerPosition m_players[8];
-	UnicodeString m_displayNameTail;
-	UnicodeString m_descriptionTail;
+	MapPlayers m_players;
+	MapDisplayNameTail m_displayNameTail;
+	MapDescriptionTail m_descriptionTail;
 };
 
 MapMetaData::MapMetaData()
@@ -121,12 +145,23 @@ MapMetaData::MapMetaData()
 	  m_filesize(0),
 	  m_CRC(0)
 {
-	m_extent.lo.x = 0.0f;
-	m_extent.lo.y = 0.0f;
-	m_extent.lo.z = 0.0f;
-	m_extent.hi.x = 0.0f;
-	m_extent.hi.y = 0.0f;
-	m_extent.hi.z = 0.0f;
+	m_extentLoX = 0.0f;
+	m_extentLoY = 0.0f;
+	m_extentLoZ = 0.0f;
+	m_extentHiX = 0.0f;
+	m_extentHiY = 0.0f;
+	m_extentHiZ = 0.0f;
 	m_timestampHi = 0;
 	m_timestampLo = 0;
+}
+
+
+// Keep the compiler-generated copy constructor in this translation unit. The
+// map-cache callers copy the complete record before reading its scalar fields.
+volatile MapMetaData *g_mapMetaDataCopyAnchor;
+
+__declspec(noinline) void copyMapMetaData(const MapMetaData &other)
+{
+	MapMetaData copy(other);
+	g_mapMetaDataCopyAnchor = &copy;
 }
