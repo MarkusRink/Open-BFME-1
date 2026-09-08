@@ -1,105 +1,57 @@
 // cl: /DNDEBUG /MD /EHsc
+// Open-BFME5: PlayerHealSpecialPower module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x00121480 allocates 0x238
+// bytes and calls this constructor.  The shared SpecialPower module-data base
+// occupies the first 0x210 bytes.  Retail then initializes the scalar healing
+// parameters and the six-word object filter at +0x218.
 
-class PlayerHealSpecialPowerModuleData
+class BfmeSpecialPowerModuleDataBase
 {
 public:
-    PlayerHealSpecialPowerModuleData();
+	BfmeSpecialPowerModuleDataBase();
+	virtual void moduleDataAnchor();
+
+private:
+	unsigned char m_unmodelled_04[ 0x210 - 4 ];
 };
 
-__declspec(naked) PlayerHealSpecialPowerModuleData::PlayerHealSpecialPowerModuleData()
+struct PlayerHealObjectFilter
 {
-    __asm {
-        _emit 56h
-        _emit 8Bh
-        _emit 0F1h
-        _emit 0E8h
-        _emit 5Ch
-        _emit 20h
-        _emit 0DBh
-        _emit 0FFh
-        _emit 0C7h
-        _emit 06h
-        _emit 00h
-        _emit 65h
-        _emit 0Bh
-        _emit 01h
-        _emit 8Dh
-        _emit 86h
-        _emit 18h
-        _emit 02h
-        _emit 00h
-        _emit 00h
-        _emit 33h
-        _emit 0C9h
-        _emit 8Bh
-        _emit 0D0h
-        _emit 89h
-        _emit 0Ah
-        _emit 89h
-        _emit 4Ah
-        _emit 04h
-        _emit 89h
-        _emit 4Ah
-        _emit 08h
-        _emit 89h
-        _emit 4Ah
-        _emit 0Ch
-        _emit 89h
-        _emit 4Ah
-        _emit 10h
-        _emit 89h
-        _emit 4Ah
-        _emit 14h
-        _emit 89h
-        _emit 8Eh
-        _emit 10h
-        _emit 02h
-        _emit 00h
-        _emit 00h
-        _emit 0C7h
-        _emit 86h
-        _emit 14h
-        _emit 02h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 00h
-        _emit 0C8h
-        _emit 42h
-        _emit 33h
-        _emit 0D2h
-        _emit 89h
-        _emit 10h
-        _emit 89h
-        _emit 50h
-        _emit 04h
-        _emit 89h
-        _emit 50h
-        _emit 08h
-        _emit 89h
-        _emit 50h
-        _emit 0Ch
-        _emit 89h
-        _emit 50h
-        _emit 10h
-        _emit 89h
-        _emit 50h
-        _emit 14h
-        _emit 89h
-        _emit 8Eh
-        _emit 30h
-        _emit 02h
-        _emit 00h
-        _emit 00h
-        _emit 89h
-        _emit 8Eh
-        _emit 34h
-        _emit 02h
-        _emit 00h
-        _emit 00h
-        _emit 8Bh
-        _emit 0C6h
-        _emit 5Eh
-        _emit 0C3h
-    }
+	unsigned int m_words[ 6 ];
+
+	PlayerHealObjectFilter()
+	{
+		for ( int i = 0; i != 6; ++i )
+			m_words[ i ] = 0;
+	}
+
+	void clear()
+	{
+		for ( int i = 0; i != 6; ++i )
+			m_words[ i ] = 0;
+	}
+};
+
+class PlayerHealSpecialPowerModuleData : public BfmeSpecialPowerModuleDataBase
+{
+public:
+	PlayerHealSpecialPowerModuleData();
+
+private:
+	unsigned int m_healAmount;       // +0x210
+	float m_healRadius;               // +0x214
+	PlayerHealObjectFilter m_filter;  // +0x218
+	unsigned int m_affectsAllies;     // +0x230
+	unsigned int m_affectsSelf;       // +0x234
+};
+
+// ??0PlayerHealSpecialPowerModuleData@@QAE@XZ
+PlayerHealSpecialPowerModuleData::PlayerHealSpecialPowerModuleData()
+{
+	m_healAmount = 0;
+	m_healRadius = 100.0f;
+	m_filter.clear();
+	m_affectsAllies = 0;
+	m_affectsSelf = 0;
 }
