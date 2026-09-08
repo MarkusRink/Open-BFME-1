@@ -1,108 +1,53 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /GX- /O2 /Ob2
+
+// Open-BFME5: CylinderEmissionVolume ConcreteModuleTemplate::clone
 
 namespace FXParticleSystem
 {
-template <int N>
-class DefaultParticleModule
-{
-};
-
-template <int N>
-class DefaultParticleModuleTemplate
-{
-};
-
-class CylinderEmissionVolumeModule
-{
-};
-
-class CylinderEmissionVolumeModuleTemplate
-{
-};
-
+template <int N> class DefaultParticleModule {};
+template <int N> class DefaultParticleModuleTemplate {};
+class CylinderEmissionVolumeModule {};
+class CylinderEmissionVolumeModuleTemplate {};
 extern const char CYLINDER_EMISSION_VOLUME_MODULE_KEY[1];
 extern const char CYLINDER_EMISSION_VOLUME_MODULE_NAME[1];
-
-template <int Category, const char (&Key)[1], const char (&Name)[1], class Module, class ModuleTemplate, class ParticleModule, class ParticleModuleTemplate>
-class ModuleTag
-{
-};
-
-template <class Tag>
-class ConcreteModuleTemplate;
-
+template <int Category, const char (&Key)[1], const char (&Name)[1], class Module,
+    class ModuleTemplate, class ParticleModule, class ParticleModuleTemplate>
+class ModuleTag {};
 typedef ModuleTag<5, CYLINDER_EMISSION_VOLUME_MODULE_KEY, CYLINDER_EMISSION_VOLUME_MODULE_NAME,
     CylinderEmissionVolumeModule, CylinderEmissionVolumeModuleTemplate,
     DefaultParticleModule<5>, DefaultParticleModuleTemplate<5> > CylinderEmissionVolumeTag;
-
+void *__cdecl operator new(unsigned int);
+void __cdecl operator delete(void *);
+class CylinderEmissionVolumeTemplateCopyCtorShim
+{
+public:
+    void construct(const void *source);
+};
+extern "C" char CylinderEmissionVolumeConcrete_vtbl0;
+extern "C" char CylinderEmissionVolumeConcrete_vtbl4;
+extern "C" char CylinderEmissionVolumeConcrete_vtbl8;
+class CylinderEmissionVolumeTemplateAllocation
+{
+public:
+    __forceinline CylinderEmissionVolumeTemplateAllocation(const void *source)
+    {
+        ((CylinderEmissionVolumeTemplateCopyCtorShim *)this)->construct(source);
+        *(void **)((char *)this + 0) = &CylinderEmissionVolumeConcrete_vtbl0;
+        *(void **)((char *)this + 4) = &CylinderEmissionVolumeConcrete_vtbl4;
+        *(void **)((char *)this + 8) = &CylinderEmissionVolumeConcrete_vtbl8;
+    }
+private:
+    unsigned char m_bytes[0x24];
+};
+template <class Tag> class ConcreteModuleTemplate;
 template <>
 class ConcreteModuleTemplate<CylinderEmissionVolumeTag>
 {
 public:
     virtual CylinderEmissionVolumeModuleTemplate *clone() const;
 };
-
-__declspec(naked) CylinderEmissionVolumeModuleTemplate *ConcreteModuleTemplate<CylinderEmissionVolumeTag>::clone() const
+CylinderEmissionVolumeModuleTemplate *ConcreteModuleTemplate<CylinderEmissionVolumeTag>::clone() const
 {
-    __asm {
-        _emit 056h
-        _emit 057h
-        _emit 06Ah
-        _emit 024h
-        _emit 08Bh
-        _emit 0F9h
-        _emit 0E8h
-        _emit 0D5h
-        _emit 04Fh
-        _emit 02Ah
-        _emit 000h
-        _emit 08Bh
-        _emit 0F0h
-        _emit 083h
-        _emit 0C4h
-        _emit 004h
-        _emit 085h
-        _emit 0F6h
-        _emit 074h
-        _emit 021h
-        _emit 057h
-        _emit 08Bh
-        _emit 0CEh
-        _emit 0E8h
-        _emit 083h
-        _emit 068h
-        _emit 0A4h
-        _emit 0FFh
-        _emit 05Fh
-        _emit 0C7h
-        _emit 006h
-        _emit 02Ch
-        _emit 012h
-        _emit 011h
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 004h
-        _emit 028h
-        _emit 012h
-        _emit 011h
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 008h
-        _emit 014h
-        _emit 012h
-        _emit 011h
-        _emit 001h
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 0C3h
-        _emit 05Fh
-        _emit 033h
-        _emit 0C0h
-        _emit 05Eh
-        _emit 0C3h
-    }
+    return (CylinderEmissionVolumeModuleTemplate *)new CylinderEmissionVolumeTemplateAllocation(this);
 }
 }

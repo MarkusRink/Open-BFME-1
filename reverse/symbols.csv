@@ -86214,3 +86214,6 @@ BoxEmissionVolumeConcrete_vtbl8,0x011111BC,ConcreteModuleTemplate BoxEmissionVol
 ?unidentifiedSlot08@SubsystemInterface@@UAEXH@Z,0x009A16D0,BFME nine-slot SubsystemInterface slot8 direct retail ret4 stub shared by table01075EE8 and base01141640
 _Made001E5940_vtbl,0x010CE9CC,external12slot retailtable from constructor002DC520 called by matched parseDamageNugget001E5940; all12targets verified; table bytes not claimed as source
 ?bfmeAcquireXZ@BfmeHostXZ@@QAEPAVBfmeThingXZ@@PAX@Z,0x000124D1,Open-BFME5 ILT thunk to 0x000A1310 called by the 0x0016AD90 start
+CylinderEmissionVolumeConcrete_vtbl0,0x0111122C,ConcreteModuleTemplate CylinderEmissionVolume primary vtable
+CylinderEmissionVolumeConcrete_vtbl4,0x01111228,ConcreteModuleTemplate CylinderEmissionVolume secondary vtable
+CylinderEmissionVolumeConcrete_vtbl8,0x01111214,ConcreteModuleTemplate CylinderEmissionVolume module-info vtable
