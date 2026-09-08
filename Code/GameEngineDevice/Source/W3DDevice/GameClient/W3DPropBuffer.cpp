@@ -67,6 +67,19 @@
 #include "W3DDevice/GameClient/BaseHeightMap.h"
 #include "GameLogic/PartitionManager.h"
 
+RenderObjClass *Create_Render_Obj(const char *name);
+
+class PropNameString
+{
+public:
+	const char *str( void ) const
+	{
+		return m_data ? (const char *)m_data + 8 : (const char *)0x0107388b;
+	}
+
+	void *m_data;
+};
+
 #ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)
@@ -173,7 +186,6 @@ void W3DPropBuffer::clearAllProps(void)
 //=============================================================================
 /** Adds a type of prop (model & texture). */
 //=============================================================================
-// ?addPropType@W3DPropBuffer@@QAEHABVAsciiString@@@Z present-unmatched
 Int W3DPropBuffer::addPropType(const AsciiString &modelName)
 {
 	if (m_numPropTypes>=MAX_TYPES) {
@@ -181,7 +193,7 @@ Int W3DPropBuffer::addPropType(const AsciiString &modelName)
 		return 0;
 	}
 
-	m_propTypes[m_numPropTypes].m_robj = WW3DAssetManager::Get_Instance()->Create_Render_Obj(modelName.str());
+	m_propTypes[m_numPropTypes].m_robj = Create_Render_Obj(((const PropNameString &)modelName).str());
 	if (m_propTypes[m_numPropTypes].m_robj==NULL) {
 		DEBUG_CRASH(("Unable to find model for prop %s\n", modelName.str()));
 		return -1;
