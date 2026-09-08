@@ -91,6 +91,7 @@ StructureCollapseUpdate::~StructureCollapseUpdate( void )
 
 //-------------------------------------------------------------------------------------------------
 // ?parseFX@@YAXPAVINI@@PAX1PBX@Z present-unmatched
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/StructureCollapsePhaseParsers.cpp
 static void parseFX( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
 {
 	StructureCollapseUpdateModuleData* self = (StructureCollapseUpdateModuleData*)instance;
@@ -103,6 +104,7 @@ static void parseFX( INI* ini, void *instance, void * /*store*/, const void* /*u
 }
 
 //-------------------------------------------------------------------------------------------------
+// byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Update/StructureCollapsePhaseParsers.cpp
 static void parseOCL( INI* ini, void *instance, void * /*store*/, const void* /*userData*/ )
 {
 	StructureCollapseUpdateModuleData* self = (StructureCollapseUpdateModuleData*)instance;
