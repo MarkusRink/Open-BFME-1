@@ -1,10 +1,8 @@
-// ?draw@Rva005BA9E0Anim2D@@QAEXHH@Z
-// Complete byte-verified reconstruction at retail RVA005BA9E0.
 // cl: /DNDEBUG /MD /EHsc
+// readable body of ?draw@Anim2D@@QAEXHHHH@Z: Code/GameEngine/Source/GameClient/System/Anim2D.cpp
 
 typedef int Int;
 typedef float Real;
-typedef unsigned char Bool;
 typedef unsigned char UnsignedByte;
 typedef unsigned short UnsignedShort;
 
@@ -16,10 +14,8 @@ struct ICoord2D
 
 class Image;
 
-// Retail 0x005BA9E0 calls the real-coordinate core at vtable +0xD4.  The
-// surrounding begin/core/end wrapper is the already matched Display body at
-// 0x0040D900; this complete prefix preserves its proven slot without emitting
-// a local Display vtable.
+// Both retail draws call the real-coordinate core at vtable +0xD4. This
+// complete prefix preserves that slot without emitting a local Display vtable.
 class Display
 {
 public:
@@ -105,20 +101,28 @@ struct BfmeImageFields
 
 class Rva005BA9E0Anim2D;
 
-// Use the existing named Anim2D helper for the final frame advance.  It is a
-// declaration only: the matched body is Anim2D::tryNextFrame at 0x005BA6C0,
-// and the retail caller uses its ILT 0x0002A7BB.
+// Drawable::drawEmoticon calls this four-argument Anim2D interface.
 class Anim2D
 {
+public:
+	void draw(Int x, Int y, Int width, Int height);
 protected:
+	virtual ~Anim2D();
 	void tryNextFrame();
 	friend class Rva005BA9E0Anim2D;
+private:
+	UnsignedShort m_currentFrame;
+	unsigned char m_unreconstructed_06[2];
+	Int m_lastUpdateFrame;
+	BfmeAnim2DTemplate *m_template;
+	UnsignedByte m_status;
+	unsigned char m_unreconstructed_11[0x0b];
+	Real m_alpha;
+	void *m_collectionSystem;
 };
 
-// The BFME Anim2D body has a compact layout around the fields used here: the
-// current frame is +0x04, template +0x0c, status +0x10, alpha +0x1c, and the
-// optional collection owner +0x20.  The adapter is non-virtual and therefore
-// emits no replacement vtable.
+// 0x005BA9E0 shares the accessed frame fields and advance helper, but no
+// matched caller establishes its original class name.
 class Rva005BA9E0Anim2D
 {
 public:
@@ -159,4 +163,28 @@ void Rva005BA9E0Anim2D::draw(Int x, Int y)
 
 	if(m_collectionSystem == 0 && (m_status & 1) == 0)
 	((Anim2D *)this)->tryNextFrame();
+}
+
+// ?draw@Anim2D@@QAEXHHHH@Z
+void Anim2D::draw(Int x, Int y, Int width, Int height)
+{
+	UnsignedShort currentFrame = m_currentFrame;
+	BfmeAnim2DTemplate *animTemplate = m_template;
+	const Image *image;
+	if(currentFrame < animTemplate->m_numFrames)
+	{
+		image = animTemplate->m_images[ currentFrame ];
+	}
+	else
+		image = 0;
+
+	Real alphaValue = m_alpha;
+	alphaValue *= g_bfmeScaleB3;
+	register Int alpha = alphaValue;
+	Int color = GameMakeColor(255, 255, 255, alpha);
+	TheDisplay->drawImageCore(image, (Real)x, (Real)y,
+		(Real)(x + width), (Real)(y + height), color, 3);
+
+	if(m_collectionSystem == 0 && (m_status & 1) == 0)
+	tryNextFrame();
 }

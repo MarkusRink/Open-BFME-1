@@ -526,6 +526,8 @@ void Anim2D::draw( Int x, Int y )
 // ------------------------------------------------------------------------------------------------
 /** Drawing an Anim2D using a forced width and height */
 // ------------------------------------------------------------------------------------------------
+// ?draw@Anim2D@@QAEXHHHH@Z
+// Readable BFME body in Code/GameEngine/Source/GameClient/System/Anim2DDrawing.cpp.
 void Anim2D::draw( Int x, Int y, Int width, Int height )
 {
 
