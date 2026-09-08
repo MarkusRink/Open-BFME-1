@@ -62,3 +62,35 @@ void Rva00592570ResourceImageSlot::cacheResourceImage(const AsciiString &suffix)
 	else
 		m_resourceImage = 0;
 }
+
+class Rva00592A90ResourceImageSlot
+{
+public:
+	void cacheResourceImage(const AsciiString &suffix);
+
+private:
+	bool m_helpBoxShown;
+	unsigned char m_beforeResourceImage[0x2b];
+	const Image *m_resourceImage;
+};
+
+class Rva00564A10
+{
+public:
+	static void go();
+};
+
+// ?cacheResourceImage@Rva00592A90ResourceImageSlot@@QAEXABVAsciiString@@@Z
+void Rva00592A90ResourceImageSlot::cacheResourceImage(const AsciiString &suffix)
+{
+	if (m_helpBoxShown)
+	{
+		Rva00564A10::go();
+		m_helpBoxShown = false;
+	}
+
+	if (suffix.isNotEmpty())
+		m_resourceImage = TheMappedImageCollection->findImageByName(AsciiString("ResourceBar_") + suffix);
+	else
+		m_resourceImage = 0;
+}
