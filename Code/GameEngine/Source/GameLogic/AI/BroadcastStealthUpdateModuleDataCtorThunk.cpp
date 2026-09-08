@@ -1,92 +1,79 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHs-c-
+// Open-BFME5: BroadcastStealthUpdate module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x0012A350 allocates 0x94
+// bytes and calls this constructor.  Its field-parse method applies the shared
+// upgrade table at +0x2C, identifying the 0x68-byte upgrade subobject reached
+// through the same constructor used by the upgrade module-data family.
+// Retail compiled this constructor without C++ unwind state; destruction stays
+// in the separately matched destructor TU, so this local view models only the
+// construction ABI.
 
-class BroadcastStealthUpdateModuleData
+class BroadcastStealthMask
 {
 public:
-    BroadcastStealthUpdateModuleData();
+	BroadcastStealthMask()
+	{
+		for ( int i = 0; i != 6; ++i )
+			m_words[ i ] = 0;
+	}
+
+	void clear()
+	{
+		for ( int i = 0; i != 6; ++i )
+			m_words[ i ] = 0;
+	}
+
+private:
+	unsigned int m_words[ 6 ];
 };
 
-__declspec(naked) BroadcastStealthUpdateModuleData::BroadcastStealthUpdateModuleData()
+class BroadcastStealthPolicy
 {
-    __asm {
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 0C7h
-        _emit 006h
-        _emit 028h
-        _emit 0F1h
-        _emit 008h
-        _emit 001h
-        _emit 033h
-        _emit 0C0h
-        _emit 057h
-        _emit 08Dh
-        _emit 07Eh
-        _emit 008h
-        _emit 08Bh
-        _emit 0CFh
-        _emit 089h
-        _emit 001h
-        _emit 089h
-        _emit 041h
-        _emit 004h
-        _emit 089h
-        _emit 041h
-        _emit 008h
-        _emit 089h
-        _emit 041h
-        _emit 00Ch
-        _emit 089h
-        _emit 041h
-        _emit 010h
-        _emit 089h
-        _emit 041h
-        _emit 014h
-        _emit 08Dh
-        _emit 04Eh
-        _emit 02Ch
-        _emit 089h
-        _emit 046h
-        _emit 028h
-        _emit 0E8h
-        _emit 099h
-        _emit 04Dh
-        _emit 0EEh
-        _emit 0FFh
-        _emit 033h
-        _emit 0D2h
-        _emit 089h
-        _emit 017h
-        _emit 089h
-        _emit 057h
-        _emit 004h
-        _emit 089h
-        _emit 057h
-        _emit 008h
-        _emit 089h
-        _emit 057h
-        _emit 00Ch
-        _emit 089h
-        _emit 057h
-        _emit 010h
-        _emit 089h
-        _emit 057h
-        _emit 014h
-        _emit 05Fh
-        _emit 0C7h
-        _emit 046h
-        _emit 020h
-        _emit 000h
-        _emit 000h
-        _emit 0C8h
-        _emit 042h
-        _emit 089h
-        _emit 056h
-        _emit 024h
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 0C3h
-    }
+public:
+	BroadcastStealthPolicy() : m_value( 0 ) {}
+
+private:
+	unsigned int m_value;
+};
+
+class UpgradeModuleDataSub
+{
+public:
+	UpgradeModuleDataSub();
+
+private:
+	unsigned char m_unmodelled[ 0x68 ];
+};
+
+class BroadcastStealthUpdateModuleDataBase
+{
+public:
+	virtual ~BroadcastStealthUpdateModuleDataBase() {}
+
+private:
+	unsigned int m_unmodelled_04;
+};
+
+class BroadcastStealthUpdateModuleData
+	: public BroadcastStealthUpdateModuleDataBase
+{
+public:
+	BroadcastStealthUpdateModuleData();
+	virtual ~BroadcastStealthUpdateModuleData();
+
+private:
+	BroadcastStealthMask m_kindOf;       // +0x08
+	float m_broadcastRadius;              // +0x20
+	unsigned int m_unmodelled_24;
+	BroadcastStealthPolicy m_policy;      // +0x28
+	UpgradeModuleDataSub m_upgradeData;   // +0x2C
+};
+
+// ??0BroadcastStealthUpdateModuleData@@QAE@XZ
+BroadcastStealthUpdateModuleData::BroadcastStealthUpdateModuleData()
+{
+	m_kindOf.clear();
+	m_broadcastRadius = 100.0f;
+	m_unmodelled_24 = 0;
 }
