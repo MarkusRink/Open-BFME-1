@@ -25112,6 +25112,7 @@ dup_af1f0,0x000AF1F0,Rehomed to neutral address owner; does not belong to LANAPI
 ??_GGen_dtor_005d8490@@UAEPAXI@Z,0x005D8490,Generic generator placeholder superseded by authentic FXParticleSystem DefaultModuleTemplate specialization 1 scalar-deleting destructor proven by call thunk 0x00004F61 primary vtable 0x01110C50 and matched destructor
 ??_GGen_dtor_005d8110@@UAEPAXI@Z,0x005D8110,Generic generator placeholder superseded by authentic FXParticleSystem DefaultModuleTemplate specialization 2 scalar-deleting destructor proven by call thunk 0x00048DF6 primary vtable 0x01110C24 and matched destructor
 ??_GGen_dtor_005d55f0@@UAEPAXI@Z,0x005D55F0,Generic generator placeholder superseded by authentic FXParticleSystem DefaultModuleTemplate specialization 0 scalar-deleting destructor proven by call thunk 0x0003F260 primary vtable 0x011108F8 and matched destructor
+?d_0061c060@@YAXXZ,0x0061C060,Generic dump placeholder superseded by authentic LivingWorldSound reactivation helper proven by copy and assignment callers plus AudioEventRTS construction and AudioManager slot 0x44
 ?bfmeGo1019B@@YAXH@Z,0x007F0000,Repair existing DirtySock allocator/shutdown/state identity and ABI; same verified bytes; replaced by ?Rva007F0000Alloc@@YAPAXH@Z
 ?bfmeGoTAA@@YAXH@Z,0x0081B9B0,Repair existing DirtySock allocator/shutdown/state identity and ABI; same verified bytes; replaced by _Rva0081B9B0
 ?bfmeGroupOL@@YAHPBUBfmeThingOL@@@Z,0x0081B9D0,Repair existing DirtySock allocator/shutdown/state identity and ABI; same verified bytes; replaced by _Rva0081B9D0
