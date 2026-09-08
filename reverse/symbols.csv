@@ -86025,3 +86025,9 @@ __imp__BfmeFloorER,0x00F593B8,pin floor import for BfmeConv2039
 ?g_bfmeFallbackET@@3MB,0x0069CECC,pin fallback ratio for BfmeConv2041
 ?bfmeFinalET@BfmeTmplET@@QBEPBV1@XZ,0x000022BB,pin override walk for BfmeConv2041
 ?bfmeMaxTurnET@BfmeHostET@@QBEMPAVBfmeThingET@@@Z,0x00024EA6,pin max turn rate for BfmeConv2041
+?_M_erase@?$_Rb_tree@V?$StringBase@D@@V1@U?$_Identity@V?$StringBase@D@@@_STL@@URva006AEE00Less@@V?$allocator@V?$StringBase@D@@@3@@_STL@@AAEXPAU?$_Rb_tree_node@V?$StringBase@D@@@2@@Z,0x0002900F,Rva006AEE00::init tree clear callee at retail 0x0002900F
+?begin@Rva006AEE00Hashtable@@QAE?AUIterator@1@XZ,0x0000AF6F,Rva006AEE00::init hash-table begin callee at retail 0x0000AF6F
+?bucketNumber@Rva006AEE00Hashtable@@QBEIABV?$StringBase@D@@I@Z,0x0004004D,Rva006AEE00::init hash-table bucket callee at retail 0x0004004D
+?insert_unique@Rva006AEE00Tree@@QAE?AUInsertResult@1@ABV?$StringBase@D@@@Z,0x0001BC02,Rva006AEE00::init tree insertion callee at retail 0x0001BC02
+?insert_unique@?$_Rb_tree@V?$StringBase@D@@V1@U?$_Identity@V?$StringBase@D@@@_STL@@URva006AEE00Less@@V?$allocator@V?$StringBase@D@@@3@@_STL@@QAE?AU?$pair@U?$_Rb_tree_iterator@V?$StringBase@D@@U?$_Nonconst_traits@V?$StringBase@D@@@_STL@@@_STL@@_N@2@ABV?$StringBase@D@@@Z,0x0001BC02,Rva006AEE00::init STL set insertion callee at retail 0x0001BC02
+?insert_unique@Rva006AEE00Tree@@QAEXPAUInsertResult@1@ABV?$StringBase@D@@@Z,0x0001BC02,Rva006AEE00::init insertion output callee at retail 0x0001BC02
