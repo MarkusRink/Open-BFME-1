@@ -103,20 +103,17 @@ void SegmentedLineClass::Reset_Line(void)
 
 // These are segment points, and include the start and end point of the
 // entire line. Therefore there must be at least two.
-// ?SegmentedLineClass::Set_Points present-unmatched
 void SegmentedLineClass::Set_Points(unsigned int num_points, Vector3 *locs)
 {
+	PointLocations.Delete_All();
+	Invalidate_Cached_Bounding_Volumes();
 	if (num_points < 2 || !locs) {
-		WWASSERT(0);
 		return;
 	}
 
-	PointLocations.Delete_All();
 	for (unsigned int i=0; i<num_points; i++) {
 		PointLocations.Add(locs[i],num_points);
 	}
-
-	Invalidate_Cached_Bounding_Volumes();
 }
 
 // These are segment points, and include the start and end point of the
@@ -633,5 +630,3 @@ bool SegmentedLineClass::Cast_Ray(RayCollisionTestClass & raytest)
 
 	return retval;
 }
-
-
