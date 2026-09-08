@@ -1,65 +1,67 @@
-// ?bfmeInitD70@@YAXPAX0@Z
-// partial score=0.7 date=2026-09-02
-// cl: /DNDEBUG /MD /O2
+// ?bfmeSetupJY@@YAXPAVBfmeCodecJY@@PBI@Z
+// partial score=0.85 date=2026-09-08
+extern "C" void *__cdecl memcpy(void *d, const void *s, unsigned int n);
 
-struct BfmeBlock14
+class BfmeCodecJY
 {
-	int m_word[14];
+public:
+	unsigned char m_bfmeHeadJY[0x40];
+	unsigned int m_bfme40JY;
+	unsigned int m_bfme44JY;
+	unsigned int m_bfme48JY;
+	unsigned int m_bfme4cJY;
+	unsigned int m_bfmeRestJY[10];
+	unsigned int m_bfme78JY;
+	unsigned int m_bfme7cJY;
+	unsigned int m_bfme80JY;
+	unsigned int m_bfme84JY;
+	unsigned int m_bfme88JY;
+	unsigned int m_bfme8cJY;
+	unsigned int m_bfme90JY;
+	unsigned int m_bfme94JY;
+	unsigned int m_bfme98JY;
+	unsigned int m_bfme9cJY;
+	unsigned char m_bfmeGapJY[0x14];
+	unsigned int m_bfmeB4JY;
 };
 
-struct BfmeHolderD70
+void bfmeSetupJY(BfmeCodecJY *p, const unsigned int *src)
 {
-	unsigned char m_lead[0x40];
-	unsigned int m_at40;
-	unsigned int m_at44;
-	unsigned int m_at48;
-	unsigned int m_at4C;
-	unsigned char m_gap[0x78 - 0x50];
-	unsigned int m_at78;
-	unsigned int m_at7C;
-	unsigned int m_at80;
-	unsigned int m_at84;
-	unsigned int m_at88;
-	unsigned int m_at8C;
-	unsigned int m_at90;
-	unsigned int m_at94;
-	unsigned int m_at98;
-	unsigned int m_at9C;
-	unsigned char m_gap2[0xB4 - 0xA0];
-	unsigned int m_atB4;
-};
+	memcpy(&p->m_bfme40JY, src, 14 * 4);
 
-// ?bfmeInitD70@@YAXPAX0@Z
-void __cdecl bfmeInitD70(void *self, void *src)
-{
-	BfmeHolderD70 *dst = (BfmeHolderD70 *)self;
+	unsigned int a = p->m_bfme40JY;
+	unsigned int m44 = p->m_bfme44JY;
+	unsigned int m48 = p->m_bfme48JY;
 
-	*(BfmeBlock14 *)((unsigned char *)dst + 0x40) = *(BfmeBlock14 *)src;
+	a = a >> 3;
 
-	unsigned int a = dst->m_at40 >> 3;
-	unsigned int b = dst->m_at44 >> 3;
-	unsigned int c = dst->m_at48;
+	unsigned int b = m44 >> 3;
 
-	dst->m_at94 = b;
-	register unsigned int ab = b * a;
-	dst->m_at84 = ab;
-	register unsigned int d = dst->m_at4C;
-	unsigned int ab4 = ab >> 2;
-	dst->m_at8C = ab + ab4 * 2;
-	dst->m_at90 = a;
+	p->m_bfme94JY = b;
 
-	unsigned int e = c - (a * 8);
-	e >>= 1;
-	unsigned int cPlusOne = c + 1;
-	dst->m_at78 = e * cPlusOne;
-	unsigned int f = (dst->m_at44 + e * 2) * c;
-	dst->m_at98 = c;
+	unsigned int ab = b * a;
 
-	unsigned int e2 = e >> 1;
-	unsigned int g = ((dst->m_at44 >> 1) + e) * d;
-	dst->m_atB4 = e;
-	dst->m_at88 = ab4;
-	dst->m_at7C = (d + 1) * e2 + f;
-	dst->m_at9C = d;
-	dst->m_at80 = e2 * d + g + e2 + f;
+	p->m_bfme84JY = ab;
+
+	unsigned int c = p->m_bfme4cJY;
+	unsigned int q = ab >> 2;
+
+	p->m_bfme8cJY = ab + q * 2;
+	p->m_bfme90JY = a;
+
+	unsigned int d = (m48 - a * 8) >> 1;
+
+	p->m_bfme78JY = (m48 + 1) * d;
+
+	unsigned int e = (m44 + d * 2) * m48;
+
+	p->m_bfme98JY = m48;
+
+	unsigned int h = d >> 1;
+
+	p->m_bfmeB4JY = d;
+	p->m_bfme88JY = q;
+	p->m_bfme7cJY = (c + 1) * h + e;
+	p->m_bfme9cJY = c;
+	p->m_bfme80JY = h * c + (((m44 >> 1) + d) * c + h) + e;
 }
