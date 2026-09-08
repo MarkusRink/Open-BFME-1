@@ -1,105 +1,98 @@
-// ?bfmeSaveBF@BfmeHostBF@@QAEXPAVBfmeAgentBF@@@Z (identity unknown)
-// partial score=0.95 date=2026-09-07
-// 161/164. Xfer-family body with TWO info blocks (one in the `push ecx` slot,
-// one in the dead parameter home slot), both {1,1} and both ignored, then eight
-// member visits. Everything matches except that the member at +0x34 is visited
-// TWICE: retail recomputes `lea eax,[edi+0x34]` at both call sites, MSVC CSEs
-// the address into ebx and pushes the register the second time (-3 bytes).
-// The constant 1 lives in bl across both fill calls in BOTH builds; retail's
-// allocator simply never reuses ebx afterwards, MSVC does.
-// Tried: splitting the member into two names with a union at the same offset
-// (address value is identical, CSE still fires). Nothing syntactic reaches a
-// value-based CSE -- this needs the allocator to leave ebx alone.
-struct BfmeInfoBF
+// ?bfmeXferYT@BfmeHostYT@@QAEXPAVXfer@@@Z
+// partial score=0.96 date=2026-09-08
+struct BfmeVerYT
 {
-	unsigned char m_bfmeFlagBF;
-	unsigned char m_bfmeLevelBF;
+	unsigned char m_bfmeAYT;
+	unsigned char m_bfmeBYT;
 };
 
-class BfmeAgentBF
+class GameClientRandomVariable
 {
 public:
-	virtual void bfmeSlot00BF();
-	virtual void bfmeSlot01BF();
-	virtual void bfmeSlot02BF();
-	virtual void bfmeSlot03BF();
-	virtual void bfmeSlot04BF();
-	virtual void bfmeSlot05BF();
-	virtual void bfmeSlot06BF();
-	virtual void bfmeSlot07BF();
-	virtual void bfmeSlot08BF();
-	virtual void bfmeSlot09BF();
-	virtual void bfmeFillBF(BfmeInfoBF *info);
-	virtual void bfmeSlot11BF();
-	virtual void bfmeSlot12BF();
-	virtual void bfmeSlot13BF();
-	virtual void bfmeSlot14BF();
-	virtual void bfmeSlot15BF();
-	virtual void bfmeSlot16BF();
-	virtual void bfmeSlot17BF();
-	virtual void bfmeSlot18BF();
-	virtual void bfmeSlot19BF();
-	virtual void bfmeSlot20BF();
-	virtual void bfmeSlot21BF();
-	virtual void bfmeSlot22BF();
-	virtual void bfmeSlot23BF();
-	virtual void bfmeSlot24BF();
-	virtual void bfmeSlot25BF();
-	virtual void bfmeMarkBF(void *dst);
-	virtual void bfmeSlot27BF();
-	virtual void bfmeSlot28BF();
-	virtual void bfmeWordBF(void *dst);
-	virtual void bfmeSlot30BF();
-	virtual void bfmeSlot31BF();
-	virtual void bfmeSlot32BF();
-	virtual void bfmeSlot33BF();
-	virtual void bfmeSlot34BF();
-	virtual void bfmeByteBF(unsigned char *dst);
+	unsigned char m_bfmeHeadYT[0xc];
 };
 
-extern "C" void __cdecl bfmeXferBF(BfmeAgentBF *ag, void *dst);
-
-class BfmeHostBF
+class Xfer
 {
 public:
-	void bfmeSaveBF(BfmeAgentBF *ag);
-
-	unsigned char m_bfmeHeadBF[0x1c];
-	unsigned char m_bfmeSlotABF;
-	unsigned char m_bfmeSlotBBF;
-	unsigned char m_bfmePadOneBF[6];
-	unsigned char m_bfmeSlotCBF[4];
-	unsigned char m_bfmeSlotDBF[4];
-	unsigned char m_bfmePadTwoBF[8];
-	union
-	{
-		unsigned char m_bfmeSlotEBF;
-		unsigned char m_bfmeSlotE2BF;
-	};
-	unsigned char m_bfmePadThreeBF[7];
-	unsigned char m_bfmeSlotFBF[4];
-	unsigned char m_bfmeSlotGBF;
+	virtual void bfmeVA0() = 0;
+	virtual void bfmeVA1() = 0;
+	virtual void bfmeVA2() = 0;
+	virtual void bfmeVA3() = 0;
+	virtual void bfmeVA4() = 0;
+	virtual void bfmeVA5() = 0;
+	virtual void bfmeVA6() = 0;
+	virtual void bfmeVA7() = 0;
+	virtual void bfmeVA8() = 0;
+	virtual void bfmeVA9() = 0;
+	virtual void bfmeVersionYT(BfmeVerYT *v) = 0;
+	virtual void bfmeVB11() = 0;
+	virtual void bfmeVB12() = 0;
+	virtual void bfmeVB13() = 0;
+	virtual void bfmeVB14() = 0;
+	virtual void bfmeVB15() = 0;
+	virtual void bfmeVB16() = 0;
+	virtual void bfmeVB17() = 0;
+	virtual void bfmeVB18() = 0;
+	virtual void bfmeVB19() = 0;
+	virtual void bfmeVB20() = 0;
+	virtual void bfmeVB21() = 0;
+	virtual void bfmeVB22() = 0;
+	virtual void bfmeVB23() = 0;
+	virtual void bfmeVB24() = 0;
+	virtual void bfmeVB25() = 0;
+	virtual void bfmeXfer24YT(int *p) = 0;
+	virtual void bfmeVC27() = 0;
+	virtual void bfmeVC28() = 0;
+	virtual void bfmeXfer3CYT(int *p) = 0;
+	virtual void bfmeVD30() = 0;
+	virtual void bfmeVD31() = 0;
+	virtual void bfmeVD32() = 0;
+	virtual void bfmeVD33() = 0;
+	virtual void bfmeVD34() = 0;
+	virtual void bfmeXferByteYT(unsigned char *p) = 0;
 };
 
-void BfmeHostBF::bfmeSaveBF(BfmeAgentBF *ag)
+void xferRandomVariable(Xfer &x, GameClientRandomVariable &v);
+
+class BfmeHostYT
 {
-	BfmeInfoBF first;
-	BfmeInfoBF second;
+public:
+	void bfmeXferYT(Xfer *x);
 
-	first.m_bfmeFlagBF = 1;
-	first.m_bfmeLevelBF = 1;
-	ag->bfmeFillBF(&first);
+	unsigned char m_bfmeHeadYT[0x1c];
+	unsigned char m_bfme1CYT;
+	unsigned char m_bfme1DYT;
+	unsigned char m_bfmeGap1YT[6];
+	int m_bfme24YT;
+	GameClientRandomVariable m_bfme28YT;
+	unsigned char m_bfme34YT;
+	unsigned char m_bfmeGap2YT[7];
+	int m_bfme3CYT;
+	unsigned char m_bfme40YT;
+};
 
-	second.m_bfmeFlagBF = 1;
-	second.m_bfmeLevelBF = 1;
-	ag->bfmeFillBF(&second);
+void BfmeHostYT::bfmeXferYT(Xfer *x)
+{
+	BfmeVerYT v1;
 
-	bfmeXferBF(ag, m_bfmeSlotDBF);
-	ag->bfmeMarkBF(m_bfmeSlotCBF);
-	ag->bfmeByteBF(&m_bfmeSlotEBF);
-	ag->bfmeByteBF(&m_bfmeSlotABF);
-	ag->bfmeByteBF(&m_bfmeSlotBBF);
-	ag->bfmeByteBF(&m_bfmeSlotE2BF);
-	ag->bfmeByteBF(&m_bfmeSlotGBF);
-	ag->bfmeWordBF(m_bfmeSlotFBF);
+	v1.m_bfmeAYT = 1;
+	v1.m_bfmeBYT = 1;
+	x->bfmeVersionYT(&v1);
+
+	BfmeVerYT v2;
+
+	v2.m_bfmeAYT = 1;
+	v2.m_bfmeBYT = 1;
+	x->bfmeVersionYT(&v2);
+
+	xferRandomVariable(*x, m_bfme28YT);
+
+	x->bfmeXfer24YT(&m_bfme24YT);
+	x->bfmeXferByteYT(&m_bfme34YT);
+	x->bfmeXferByteYT(&m_bfme1CYT);
+	x->bfmeXferByteYT(&m_bfme1DYT);
+	x->bfmeXferByteYT(&m_bfme34YT);
+	x->bfmeXferByteYT(&m_bfme40YT);
+	x->bfmeXfer3CYT(&m_bfme3CYT);
 }
