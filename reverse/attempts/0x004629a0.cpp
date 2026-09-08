@@ -1,40 +1,58 @@
 // ?_bfme_closeAptScreen@@YAXABVAsciiString@@@Z
-// partial score=0.4 date=2026-09-03
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/stringinline
+// partial score=0.99 date=2026-09-08
 // ?_bfme_closeAptScreen@@YAXABVAsciiString@@@Z
-// Retail 0x004629A0, 97 bytes. Copies the name, builds a hashtable iterator
-// against the global at 0x012F19A4 via begin() at ILT 0x0001BDC9, hands both
-// to 0x00462540, then thiscall-searches the WindowManager at 0x012F1990
-// (ILT 0x0000F547 -> 0x00461040).
+// This body matches retail except for the register used for the hidden result
+// address before the call at 0x00462540.
 
-#include "StringInline.h"
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// stlport
+#include <hash_map>
+#include "../reference/shims/stringinline/StringInline.h"
 
-struct HtIterator
+struct BfmeAptScreenHashValue
 {
-	void *node;
-	void *table;
+	unsigned char m_padding[0x2c];
+	AsciiString m_name;
 };
 
-class NameTable
+struct BfmeAptScreenHashKey
+{
+	const AsciiString &operator()( const BfmeAptScreenHashValue &value ) const
+	{
+		return value.m_name;
+	}
+};
+
+typedef _STL::hashtable<BfmeAptScreenHashValue, AsciiString,
+	_STL::hash<AsciiString>, BfmeAptScreenHashKey,
+	_STL::equal_to<AsciiString>, _STL::allocator<BfmeAptScreenHashValue> >
+	BfmeAptScreenHashTable;
+
+typedef BfmeAptScreenHashTable::iterator BfmeAptScreenHashIterator;
+
+class BfmeAptScreenWindowManager
 {
 public:
-	HtIterator begin();
+	void findScreen( const AsciiString &name ) throw();
 };
 
-class WindowManager
+class BfmeAptScreenEraseResult : public AsciiString
 {
-public:
-	void findScreen( const AsciiString &name );
 };
 
-void eraseScreen( HtIterator it, AsciiString name );
+BfmeAptScreenEraseResult eraseBfmeAptScreen(
+	BfmeAptScreenHashIterator first, BfmeAptScreenHashIterator last,
+	const AsciiString name ) throw();
 
-NameTable *const g_nameTable = (NameTable *)0x012F19A4;
-WindowManager *const g_windowManager = (WindowManager *)0x012F1990;
+BfmeAptScreenHashTable *const g_bfmeAptScreenHashTable =
+	(BfmeAptScreenHashTable *)0x012F19A4;
+BfmeAptScreenWindowManager *const g_bfmeAptScreenWindowManager =
+	(BfmeAptScreenWindowManager *)0x012F1990;
 
-// ?_bfme_closeAptScreen@@YAXABVAsciiString@@@Z present-unmatched
-void _bfme_closeAptScreen( const AsciiString &name )
+__declspec( noinline ) void _bfme_closeAptScreen( const AsciiString &name )
 {
-	eraseScreen( g_nameTable->begin(), name );
-	g_windowManager->findScreen( name );
+	eraseBfmeAptScreen( g_bfmeAptScreenHashTable->begin(),
+		BfmeAptScreenHashIterator( 0, g_bfmeAptScreenHashTable ),
+		AsciiString( name ) );
+	g_bfmeAptScreenWindowManager->findScreen( name );
 }
