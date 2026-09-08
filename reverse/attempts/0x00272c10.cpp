@@ -83,7 +83,7 @@ Bool AIUpdateInterface::chooseLocomotorSetExplicit(LocomotorSetType wst)
 	BfmeThingTemplate *sourceTemplate = *templateSlot;
 	Int zero = 0;
 	BfmeThingTemplate *thingTemplate = sourceTemplate;
-	if (sourceTemplate != (BfmeThingTemplate *)zero)
+	if (sourceTemplate != (BfmeThingTemplate *)0)
 	{
 		BfmeThingTemplate *nextOverride = sourceTemplate->m_nextOverride;
 		if (nextOverride != (BfmeThingTemplate *)zero)

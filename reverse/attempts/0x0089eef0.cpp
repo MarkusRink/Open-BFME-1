@@ -31,6 +31,7 @@ protected:
 
 class EAStringC : private StringBase<char>
 {
+	BfmeStringData3AF0 *m_pData;
 	enum CBPushZero
 	{
 		CB_NO_PUSH_ZERO,

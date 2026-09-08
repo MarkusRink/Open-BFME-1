@@ -1,4 +1,4 @@
-// ?bfmeCheckEQS@BfmeHostEQS@@QAEDXZ (identity unknown)
+// ?bfmeIsRawVHN@BfmeNameVHN@@QAEDXZ
 // partial score=0.95 date=2026-09-07
 // 142/142 EXACT SIZE. COM refresh-rate probe: slot 0x48 hands back an
 // interface into a stack local, slot 0x30 fills a 32-byte descriptor, the
