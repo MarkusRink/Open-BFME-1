@@ -2013,6 +2013,228 @@ struct BfmePlayerTeamFields
 	Player::PlayerTeamList m_playerTeamPrototypes;		///< retail this+0x288
 };
 
+class BfmeTeamInstanceLink
+{
+public:
+	BfmeTeamInstanceLink *_bfme_nextInInstanceList();
+};
+
+class BfmePlayerObjectDlinkObject;
+
+class BfmePlayerObjectVirtualTail
+{
+public:
+	unsigned char m_vt[4];
+};
+
+class BfmePlayerObjectVbptrCarrier : public virtual BfmePlayerObjectVirtualTail
+{
+public:
+	unsigned char m_carrier[4];
+};
+
+class BfmePlayerObjectVtbl
+{
+public:
+	virtual void bfmeObjectSlot0();
+};
+
+class BfmePlayerObjectDlinkBase
+{
+public:
+	BfmePlayerObjectDlinkObject *dlink_next_TeamMemberList() const;
+};
+
+class BfmePlayerObjectDlinkPad
+{
+public:
+	unsigned char m_pad[0x64];
+};
+
+class BfmePlayerObjectDlinkObject : public BfmePlayerObjectVtbl,
+	public BfmePlayerObjectDlinkBase, public BfmePlayerObjectDlinkPad,
+	public BfmePlayerObjectVbptrCarrier
+{
+public:
+	unsigned char m_tail[0x40];
+};
+
+template <class ObjectType> class BfmePlayerDlinkIterator
+{
+public:
+	typedef ObjectType *(ObjectType::*GetNextFunc)() const;
+
+	BfmePlayerDlinkIterator(ObjectType *cur,
+		GetNextFunc getNext)
+		: m_cur(cur), m_getNext(getNext) { }
+
+	Bool done() const { return m_cur == NULL; }
+	ObjectType *cur() const { return m_cur; }
+
+	void advance()
+	{
+		if (m_cur)
+			m_cur = (m_cur->*m_getNext)();
+	}
+
+	private:
+	ObjectType *m_cur;
+	GetNextFunc m_getNext;
+};
+
+struct BfmePlayerTeamMemberListView
+{
+	unsigned char m_unmodelled_000[0x0c];
+	BfmePlayerObjectDlinkObject *m_head;
+
+	BfmePlayerDlinkIterator<BfmePlayerObjectDlinkObject> iterate() const
+	{
+		return BfmePlayerDlinkIterator<BfmePlayerObjectDlinkObject>(m_head,
+			BfmePlayerObjectDlinkBase::dlink_next_TeamMemberList);
+	}
+};
+
+class BfmePlayerTeamView
+{
+public:
+	unsigned char m_unmodelled_000[0x0c];
+	BfmePlayerObjectDlinkObject *m_head;
+
+	BfmePlayerDlinkIterator<BfmePlayerObjectDlinkObject> iterate_TeamMemberList() const
+	{
+		return BfmePlayerDlinkIterator<BfmePlayerObjectDlinkObject>(m_head,
+			BfmePlayerObjectDlinkBase::dlink_next_TeamMemberList);
+	}
+};
+
+class BfmePlayerTeamInstanceIterator;
+
+struct BfmePlayerTeamPrototypeInstances
+{
+	unsigned char m_unmodelled_000[0x274];
+	BfmePlayerTeamView *m_teamInstanceList;
+};
+
+class BfmePlayerTeamInstanceIterator
+{
+public:
+	BfmePlayerTeamInstanceIterator(BfmePlayerTeamView *head) : m_cur(head) { }
+
+	Bool done() const { return m_cur == NULL; }
+	BfmePlayerTeamView *cur() const { return m_cur; }
+
+	void advance()
+	{
+		if (m_cur)
+			m_cur = (BfmePlayerTeamView *)
+				((BfmeTeamInstanceLink *)m_cur)->_bfme_nextInInstanceList();
+	}
+
+	private:
+	BfmePlayerTeamView *m_cur;
+	Int m_unmodelled;
+};
+
+struct BfmePlayerTeamListNode
+{
+	BfmePlayerTeamListNode *m_next;
+	BfmePlayerTeamListNode *m_prev;
+	BfmePlayerTeamPrototypeInstances *m_prototype;
+};
+
+class BfmeOverridable
+{
+public:
+	const BfmeOverridable *getFinalOverride() const;
+
+	void *m_vtable;
+	BfmeOverridable *m_nextOverride;
+};
+
+class BfmePlayerThingTemplate : public BfmeOverridable
+{
+public:
+	unsigned char m_unmodelled_008[0xc8 - 0x08];
+	signed char m_kindOfC8;
+};
+
+struct BfmePlayerSupplyTruckAIView;
+
+class BfmePlayerAIUpdateView
+{
+public:
+#define BFME_PLAYER_AI_SLOT(n) virtual void slot##n();
+	BFME_PLAYER_AI_SLOT(00) BFME_PLAYER_AI_SLOT(04) BFME_PLAYER_AI_SLOT(08)
+	BFME_PLAYER_AI_SLOT(0c) BFME_PLAYER_AI_SLOT(10) BFME_PLAYER_AI_SLOT(14)
+	BFME_PLAYER_AI_SLOT(18) BFME_PLAYER_AI_SLOT(1c) BFME_PLAYER_AI_SLOT(20)
+	BFME_PLAYER_AI_SLOT(24) BFME_PLAYER_AI_SLOT(28) BFME_PLAYER_AI_SLOT(2c)
+	BFME_PLAYER_AI_SLOT(30) BFME_PLAYER_AI_SLOT(34) BFME_PLAYER_AI_SLOT(38)
+	BFME_PLAYER_AI_SLOT(3c) BFME_PLAYER_AI_SLOT(40) BFME_PLAYER_AI_SLOT(44)
+	BFME_PLAYER_AI_SLOT(48) BFME_PLAYER_AI_SLOT(4c) BFME_PLAYER_AI_SLOT(50)
+	BFME_PLAYER_AI_SLOT(54) BFME_PLAYER_AI_SLOT(58) BFME_PLAYER_AI_SLOT(5c)
+	BFME_PLAYER_AI_SLOT(60) BFME_PLAYER_AI_SLOT(64) BFME_PLAYER_AI_SLOT(68)
+	BFME_PLAYER_AI_SLOT(6c) BFME_PLAYER_AI_SLOT(70) BFME_PLAYER_AI_SLOT(74)
+	BFME_PLAYER_AI_SLOT(78) BFME_PLAYER_AI_SLOT(7c) BFME_PLAYER_AI_SLOT(80)
+	BFME_PLAYER_AI_SLOT(84) BFME_PLAYER_AI_SLOT(88) BFME_PLAYER_AI_SLOT(8c)
+	BFME_PLAYER_AI_SLOT(90) BFME_PLAYER_AI_SLOT(94) BFME_PLAYER_AI_SLOT(98)
+	BFME_PLAYER_AI_SLOT(9c) BFME_PLAYER_AI_SLOT(a0) BFME_PLAYER_AI_SLOT(a4)
+	BFME_PLAYER_AI_SLOT(a8) BFME_PLAYER_AI_SLOT(ac) BFME_PLAYER_AI_SLOT(b0)
+	BFME_PLAYER_AI_SLOT(b4) BFME_PLAYER_AI_SLOT(b8) BFME_PLAYER_AI_SLOT(bc)
+	BFME_PLAYER_AI_SLOT(c0) BFME_PLAYER_AI_SLOT(c4) BFME_PLAYER_AI_SLOT(c8)
+	BFME_PLAYER_AI_SLOT(cc) BFME_PLAYER_AI_SLOT(d0) BFME_PLAYER_AI_SLOT(d4)
+	BFME_PLAYER_AI_SLOT(d8) BFME_PLAYER_AI_SLOT(dc) BFME_PLAYER_AI_SLOT(e0)
+	BFME_PLAYER_AI_SLOT(e4) BFME_PLAYER_AI_SLOT(e8) BFME_PLAYER_AI_SLOT(ec)
+	BFME_PLAYER_AI_SLOT(f0) BFME_PLAYER_AI_SLOT(f4) BFME_PLAYER_AI_SLOT(f8)
+	BFME_PLAYER_AI_SLOT(fc) BFME_PLAYER_AI_SLOT(100) BFME_PLAYER_AI_SLOT(104)
+	BFME_PLAYER_AI_SLOT(108) BFME_PLAYER_AI_SLOT(10c) BFME_PLAYER_AI_SLOT(110)
+	BFME_PLAYER_AI_SLOT(114) BFME_PLAYER_AI_SLOT(118) BFME_PLAYER_AI_SLOT(11c)
+	BFME_PLAYER_AI_SLOT(120) BFME_PLAYER_AI_SLOT(124) BFME_PLAYER_AI_SLOT(128)
+	BFME_PLAYER_AI_SLOT(12c) BFME_PLAYER_AI_SLOT(130) BFME_PLAYER_AI_SLOT(134)
+	BFME_PLAYER_AI_SLOT(138) BFME_PLAYER_AI_SLOT(13c) BFME_PLAYER_AI_SLOT(140)
+	virtual BfmePlayerSupplyTruckAIView *getSupplyTruckAIInterface() const = 0;
+	BFME_PLAYER_AI_SLOT(148) BFME_PLAYER_AI_SLOT(14c) BFME_PLAYER_AI_SLOT(150)
+	BFME_PLAYER_AI_SLOT(154) BFME_PLAYER_AI_SLOT(158) BFME_PLAYER_AI_SLOT(15c)
+	BFME_PLAYER_AI_SLOT(160) BFME_PLAYER_AI_SLOT(164) BFME_PLAYER_AI_SLOT(168)
+	BFME_PLAYER_AI_SLOT(16c) BFME_PLAYER_AI_SLOT(170) BFME_PLAYER_AI_SLOT(174)
+	BFME_PLAYER_AI_SLOT(178) BFME_PLAYER_AI_SLOT(17c)
+	virtual Bool isIdle() const = 0;
+#undef BFME_PLAYER_AI_SLOT
+};
+
+struct BfmePlayerSupplyTruckAIView
+{
+	virtual void slot00();
+	virtual void slot04();
+	virtual void slot08();
+	virtual void slot0c();
+	virtual void slot10();
+	virtual void slot14();
+	virtual void slot18();
+	virtual void slot1c();
+	virtual void slot20();
+	virtual void slot24();
+	virtual void slot28();
+	virtual void setForceWantingState(Bool force);
+};
+
+class BfmePlayerObjectView
+{
+public:
+	void *m_vtable;
+	BfmePlayerThingTemplate *m_template;
+	unsigned char m_unmodelled_008[0x38 - 0x08];
+	Coord3D m_position;
+	unsigned char m_unmodelled_044[0x204 - 0x44];
+	BfmePlayerAIUpdateView *m_ai;
+};
+
+extern void j_00001140();
+extern void j_000022a70();
+extern void j_000022bb();
+#pragma comment(linker, "/alternatename:?dlink_next_TeamMemberList@BfmePlayerObjectDlinkBase@@QBEPAVBfmePlayerObjectDlinkObject@@@Z=?j_00001140@@YAXXZ")
+#pragma comment(linker, "/alternatename:?_bfme_nextInInstanceList@BfmePlayerTeamInstanceLink@@QAEPAV1@XZ=?j_000022a70@@YAXXZ")
+#pragma comment(linker, "/alternatename:?getFinalOverride@BfmePlayerOverridable@@QBEPBV1@XZ=?j_000022bb@@YAXXZ")
+
 //=============================================================================
 // ?countObjectsByThingTemplate@Player@@QBEXHPBQBVThingTemplate@@_NPAH1@Z
 void Player::countObjectsByThingTemplate(Int numTmplates, const ThingTemplate* const * things, Bool ignoreDead, Int *counts, Bool ignoreUnderConstruction ) const
@@ -2502,44 +2724,61 @@ void Player::ungarrisonAllUnits(CommandSourceType source)
 
 
 //=============================================================================
-// ?setUnitsShouldIdleOrResume@Player@@QAEX_N@Z present-unmatched
 void Player::setUnitsShouldIdleOrResume(Bool idle)
 {
-	for (PlayerTeamList::iterator it = m_playerTeamPrototypes.begin(); 
-			 it != m_playerTeamPrototypes.end(); ++it) 
+	struct BfmePlayerTeamListField
 	{
-		for (DLINK_ITERATOR<Team> iter = (*it)->iterate_TeamInstanceList(); !iter.done(); iter.advance()) 
-		{
-			Team *team = iter.cur();
-			if (!team)
-				continue;
-			
-			for (DLINK_ITERATOR<Object> iterObj = team->iterate_TeamMemberList(); !iterObj.done(); iterObj.advance()) 
+		unsigned char m_unmodelled_000[0x288];
+		BfmePlayerTeamListNode *m_head;
+	};
+	for (BfmePlayerTeamListNode *it =
+			((BfmePlayerTeamListField *)this)->m_head->m_next;
+			it != ((BfmePlayerTeamListField *)this)->m_head; it = it->m_next)
+	{
+			for (BfmePlayerTeamInstanceIterator iter(
+					it->m_prototype->m_teamInstanceList);
+				!iter.done(); iter.advance())
 			{
-				Object *obj = iterObj.cur();
-				if (!obj)
-					continue;
-
-				if (obj->isKindOf(KINDOF_STRUCTURE))
-					continue;
-
-				AIUpdateInterface *ai = obj->getAIUpdateInterface();
-				if (!ai)
-					continue;
-
-				if (idle)
+				BfmePlayerTeamView *team = iter.cur();
+				if (team)
 				{
-					// force it to move to its position to make it stop.
- 					ai->aiMoveToPosition(obj->getPosition(), CMD_FROM_SCRIPT);
-				}
-				else
-				{
-					// Here is the special bit for this exit style, force wanting on SupplyTruck types
-					if (ai->isIdle())
+					BfmePlayerDlinkIterator<BfmePlayerObjectDlinkObject> iterObj(
+						team->m_head,
+						BfmePlayerObjectDlinkBase::dlink_next_TeamMemberList);
+					for (; !iterObj.done(); iterObj.advance())
 					{
-						SupplyTruckAIInterface* supplyTruckAI = ai->getSupplyTruckAIInterface();
-						if( supplyTruckAI )
-							supplyTruckAI->setForceWantingState(true);
+						BfmePlayerObjectView *obj =
+							(BfmePlayerObjectView *)iterObj.cur();
+						if (!obj)
+							continue;
+					BfmePlayerThingTemplate *thingTemplate = obj->m_template;
+					if (thingTemplate && thingTemplate->m_nextOverride)
+						thingTemplate = (BfmePlayerThingTemplate *)
+							thingTemplate->m_nextOverride->getFinalOverride();
+
+					if (!(thingTemplate->m_kindOfC8 & 0x80))
+					{
+						BfmePlayerAIUpdateView *ai = obj->m_ai;
+						if (ai)
+						{
+							if (idle)
+							{
+								// force it to move to its position to make it stop.
+								((AICommandInterface *)((char *)ai + 0x20))->aiMoveToPosition(
+									&obj->m_position, CMD_FROM_SCRIPT);
+							}
+							else
+							{
+								// Here is the special bit for this exit style, force wanting on SupplyTruck types
+								if (ai->isIdle())
+								{
+									BfmePlayerSupplyTruckAIView *supplyTruckAI =
+										ai->getSupplyTruckAIInterface();
+									if( supplyTruckAI )
+										supplyTruckAI->setForceWantingState(true);
+								}
+								}
+						}
 					}
 				}
 			}
