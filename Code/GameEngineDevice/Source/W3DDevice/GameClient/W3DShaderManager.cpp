@@ -3347,40 +3347,13 @@ ChipsetType W3DShaderManager::getChipset( void )
 #endif
 
 // Retail's active implementation is the compact global override accessor.
-// Keep the historical hardware-probing reconstruction above for reference,
-// but emit the exact retail body from this C++ translation unit.
-__declspec(naked) ChipsetType W3DShaderManager::getChipset( void )
+__declspec(noinline) ChipsetType W3DShaderManager::getChipset( void )
 {
-	__asm {
-		_emit 0A1h
-		_emit 0C8h
-		_emit 0D5h
-		_emit 02Eh
-		_emit 001h
-		_emit 08Ah
-		_emit 048h
-		_emit 028h
-		_emit 084h
-		_emit 0C9h
-		_emit 0A1h
-		_emit 0F8h
-		_emit 09Ch
-		_emit 02Fh
-		_emit 001h
-		_emit 074h
-		_emit 00Ah
-		_emit 083h
-		_emit 0F8h
-		_emit 003h
-		_emit 07Ch
-		_emit 005h
-		_emit 0B8h
-		_emit 002h
-		_emit 000h
-		_emit 000h
-		_emit 000h
-		_emit 0C3h
-	}
+	if (*(volatile unsigned char *)((char *)TheGlobalData + 0x28)
+		&& m_currentChipset >= BFME_DC_GENERIC_PIXEL_SHADER_1_1)
+		return (ChipsetType)2;
+
+	return m_currentChipset;
 }
 
 //=============================================================================
