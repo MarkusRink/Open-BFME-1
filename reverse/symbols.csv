@@ -86150,3 +86150,4 @@ _bfmeVftGS,0x00C968B0,pin vftable for BfmeConv2070
 ??0?$StringBase@G@@IAE@ABV0@@Z,0x00888400,BFME display-name getter UnicodeString forwarding-base copy constructor
 ??0?$StringBase@G@@IAE@PBG@Z,0x00888DE0,BFME display-name getter UnicodeString forwarding-base wide-text constructor
 ??1?$StringBase@G@@IAE@XZ,0x008881D0,BFME display-name getter UnicodeString forwarding-base destructor
+_bfmeWeaponVftIA,0x010A13F4,pin weapon vftable for BfmeConv2074
