@@ -1,349 +1,224 @@
 // cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// BFME's lobby displays the base player name with the preorder and rank icons.
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork/GameSpy/PeerDefs.h
+typedef int Int;
+typedef bool Bool;
+
+template <typename T>
+inline const T &min(const T &left, const T &right)
+{
+	return left < right ? left : right;
+}
+
+template <typename T>
+class StringBase
+{
+public:
+	StringBase() : m_data(0) {}
+	StringBase(const StringBase &other);
+
+protected:
+	~StringBase();
+	void releaseBuffer();
+
+	void *m_data;
+};
+
+class AsciiString
+{
+protected:
+	void *m_data;
+};
+
+class BFMERetailAsciiString : public AsciiString
+{
+public:
+	BFMERetailAsciiString(const char *text);
+	~BFMERetailAsciiString() { releaseBuffer(); }
+	void releaseBuffer();
+};
+
+class UnicodeString : private StringBase<unsigned short>
+{
+	public:
+	UnicodeString() : StringBase<unsigned short>() {}
+	UnicodeString(const UnicodeString &other) : StringBase<unsigned short>(other) {}
+	void translate(const AsciiString &text);
+};
+
 class PlayerInfo
 {
 };
 
-int insertPlayerInListbox(const PlayerInfo &, int);
+class GameWindow
+{
+};
+
+class Image
+{
+public:
+	char m_prefix[0x24];
+	Int m_imageWidth;
+};
+
+class MappedImageCollection
+{
+public:
+	const Image *findImageByName(const AsciiString &name);
+};
+
+class GameSpyInfo
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual void slot0A();
+	virtual void slot0B();
+	virtual void slot0C();
+	virtual void slot0D();
+	virtual void slot0E();
+	virtual void slot0F();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
+	virtual void slot16();
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot1A();
+	virtual void slot1B();
+	virtual void slot1C();
+	virtual void slot1D();
+	virtual void slot1E();
+	virtual void slot1F();
+	virtual void slot20();
+	virtual void slot21();
+	virtual void slot22();
+	virtual void slot23();
+	virtual void slot24();
+	virtual void slot25();
+	virtual void slot26();
+	virtual void slot27();
+	virtual void slot28();
+	virtual void slot29();
+	virtual void slot2A();
+	virtual void slot2B();
+	virtual void slot2C();
+	virtual void slot2D();
+	virtual void slot2E();
+	virtual void slot2F();
+	virtual void slot30();
+	virtual void slot31();
+	virtual void slot32();
+	virtual void slot33();
+	virtual void slot34();
+	virtual void slot35();
+	virtual void slot36();
+	virtual void slot37();
+	virtual void slot38();
+	virtual void slot39();
+	virtual void slot3A();
+	virtual void slot3B();
+	virtual void slot3C();
+	virtual void slot3D();
+	virtual void slot3E();
+	virtual void slot3F();
+	virtual void slot40();
+	virtual void slot41();
+	virtual void slot42();
+	virtual void slot43();
+	virtual void slot44();
+	virtual void slot45();
+	virtual void slot46();
+	virtual void slot47();
+	virtual void slot48();
+	virtual void slot49();
+	virtual void slot4A();
+	virtual void slot4B();
+	virtual void slot4C();
+	virtual void slot4D();
+	virtual void slot4E();
+	virtual void slot4F();
+	virtual void slot50();
+	virtual void slot51();
+	virtual void slot52();
+	virtual void slot53();
+	virtual void slot54();
+	virtual void slot55();
+	virtual void slot56();
+	virtual void slot57();
+	virtual Bool didPlayerPreorder(Int profileID) const;
+};
+
+extern GameSpyInfo *TheGameSpyInfo;
+extern MappedImageCollection *TheMappedImageCollection;
+extern GameWindow *listboxLobbyPlayers;
+
+Int GadgetListBoxGetColumnWidth(GameWindow *listbox, Int column);
+Int GadgetListBoxAddEntryImage(GameWindow *listbox, const Image *image,
+	Int row, Int column, Int width, Int height, Bool overwrite, Int color);
+Int GadgetListBoxAddEntryText(GameWindow *listbox, UnicodeString text,
+	Int color, Int row, Int column, Bool overwrite);
+const Image *LookupSmallRankImage(Int side, Int rankPoints);
+
+struct BFMEPlayerInfoLayout
+{
+	char m_prefix[4];
+	AsciiString m_baseName;
+	char m_fields08[12];
+	Int m_profileID;
+	char m_fields18[4];
+	Int m_rankPoints;
+	char m_fields20[12];
+	Int m_side;
+};
 
 // ?insertPlayerInListbox@@YAHABVPlayerInfo@@H@Z
-__declspec(naked) int insertPlayerInListbox(const PlayerInfo &, int)
+static Int insertPlayerInListbox(const PlayerInfo &info, Int color)
 {
-	__asm {
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x68
-		__emit 0x10
-		__emit 0xcf
-		__emit 0x02
-		__emit 0x01
-		__emit 0x64
-		__emit 0xa1
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x50
-		__emit 0x64
-		__emit 0x89
-		__emit 0x25
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x83
-		__emit 0xec
-		__emit 0x10
-		__emit 0x53
-		__emit 0x55
-		__emit 0x56
-		__emit 0x33
-		__emit 0xc0
-		__emit 0x57
-		__emit 0x8b
-		__emit 0xf1
-		__emit 0x89
-		__emit 0x44
-		__emit 0x24
-		__emit 0x14
-		__emit 0x89
-		__emit 0x44
-		__emit 0x24
-		__emit 0x28
-		__emit 0x8d
-		__emit 0x46
-		__emit 0x04
-		__emit 0x50
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x18
-		__emit 0xe8
-		__emit 0x5b
-		__emit 0xf3
-		__emit 0x38
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x94
-		__emit 0x71
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x8b
-		__emit 0x46
-		__emit 0x14
-		__emit 0x8b
-		__emit 0x11
-		__emit 0x8b
-		__emit 0x6e
-		__emit 0x1c
-		__emit 0x8b
-		__emit 0x5e
-		__emit 0x2c
-		__emit 0x50
-		__emit 0xff
-		__emit 0x92
-		__emit 0x60
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x68
-		__emit 0x78
-		__emit 0x9f
-		__emit 0x0f
-		__emit 0x01
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x1c
-		__emit 0x88
-		__emit 0x44
-		__emit 0x24
-		__emit 0x17
-		__emit 0xe8
-		__emit 0x01
-		__emit 0xed
-		__emit 0x38
-		__emit 0x00
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x18
-		__emit 0x51
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x24
-		__emit 0x69
-		__emit 0x2f
-		__emit 0x01
-		__emit 0xc6
-		__emit 0x44
-		__emit 0x24
-		__emit 0x2c
-		__emit 0x01
-		__emit 0xe8
-		__emit 0x32
-		__emit 0x37
-		__emit 0xb2
-		__emit 0xff
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x18
-		__emit 0x8b
-		__emit 0xf8
-		__emit 0xc6
-		__emit 0x44
-		__emit 0x24
-		__emit 0x28
-		__emit 0x00
-		__emit 0xe8
-		__emit 0x5c
-		__emit 0xda
-		__emit 0x38
-		__emit 0x00
-		__emit 0x85
-		__emit 0xff
-		__emit 0x74
-		__emit 0x05
-		__emit 0x8b
-		__emit 0x77
-		__emit 0x24
-		__emit 0xeb
-		__emit 0x05
-		__emit 0xbe
-		__emit 0x0a
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x15
-		__emit 0x24
-		__emit 0x46
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x6a
-		__emit 0x00
-		__emit 0x52
-		__emit 0x89
-		__emit 0x74
-		__emit 0x24
-		__emit 0x24
-		__emit 0xe8
-		__emit 0x8d
-		__emit 0x64
-		__emit 0xb3
-		__emit 0xff
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0x89
-		__emit 0x44
-		__emit 0x24
-		__emit 0x18
-		__emit 0x3b
-		__emit 0xc6
-		__emit 0x8d
-		__emit 0x44
-		__emit 0x24
-		__emit 0x18
-		__emit 0x7c
-		__emit 0x04
-		__emit 0x8d
-		__emit 0x44
-		__emit 0x24
-		__emit 0x1c
-		__emit 0x8b
-		__emit 0x30
-		__emit 0x8a
-		__emit 0x44
-		__emit 0x24
-		__emit 0x13
-		__emit 0x84
-		__emit 0xc0
-		__emit 0x75
-		__emit 0x02
-		__emit 0x33
-		__emit 0xff
-		__emit 0x55
-		__emit 0x53
-		__emit 0xe8
-		__emit 0x62
-		__emit 0x7f
-		__emit 0xb1
-		__emit 0xff
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x6a
-		__emit 0x01
-		__emit 0x56
-		__emit 0x56
-		__emit 0x6a
-		__emit 0x00
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x8b
-		__emit 0xe8
-		__emit 0xa1
-		__emit 0x24
-		__emit 0x46
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x57
-		__emit 0x50
-		__emit 0xe8
-		__emit 0xe8
-		__emit 0xd1
-		__emit 0xb1
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x24
-		__emit 0x46
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x6a
-		__emit 0xff
-		__emit 0x6a
-		__emit 0x01
-		__emit 0x56
-		__emit 0x56
-		__emit 0x6a
-		__emit 0x01
-		__emit 0x8b
-		__emit 0xf8
-		__emit 0x57
-		__emit 0x55
-		__emit 0x51
-		__emit 0xe8
-		__emit 0xd0
-		__emit 0xd1
-		__emit 0xb1
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x54
-		__emit 0x24
-		__emit 0x78
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x48
-		__emit 0x6a
-		__emit 0x01
-		__emit 0x6a
-		__emit 0x02
-		__emit 0x57
-		__emit 0x52
-		__emit 0x51
-		__emit 0x8d
-		__emit 0x44
-		__emit 0x24
-		__emit 0x28
-		__emit 0x89
-		__emit 0x64
-		__emit 0x24
-		__emit 0x44
-		__emit 0x8b
-		__emit 0xcc
-		__emit 0x50
-		__emit 0xe8
-		__emit 0x88
-		__emit 0xe4
-		__emit 0x38
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x24
-		__emit 0x46
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x51
-		__emit 0xe8
-		__emit 0x02
-		__emit 0x5f
-		__emit 0xb4
-		__emit 0xff
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x18
-		__emit 0x8d
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x14
-		__emit 0xc7
-		__emit 0x44
-		__emit 0x24
-		__emit 0x28
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0xe8
-		__emit 0x38
-		__emit 0xe2
-		__emit 0x38
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x20
-		__emit 0x8b
-		__emit 0xc7
-		__emit 0x5f
-		__emit 0x5e
-		__emit 0x5d
-		__emit 0x64
-		__emit 0x89
-		__emit 0x0d
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x5b
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x1c
-		__emit 0xc3
+	const BFMEPlayerInfoLayout &player =
+		*reinterpret_cast<const BFMEPlayerInfoLayout *>(&info);
+	UnicodeString uStr;
+	uStr.translate(player.m_baseName);
+
+	Int currentRank = player.m_rankPoints;
+	Int currentSide = player.m_side;
+	Bool isPreorder = TheGameSpyInfo->didPlayerPreorder(player.m_profileID);
+
+	const Image *preorderImg;
+	{
+		BFMERetailAsciiString imageName("OfficersClubsmall");
+		preorderImg = TheMappedImageCollection->findImageByName(imageName);
 	}
+	Int w = preorderImg ? preorderImg->m_imageWidth : 10;
+	Int oldW = w;
+	w = min(GadgetListBoxGetColumnWidth(listboxLobbyPlayers, 0), oldW);
+	Int h = w;
+	if (!isPreorder)
+		preorderImg = 0;
+
+	const Image *rankImg = LookupSmallRankImage(currentSide, currentRank);
+	Int index = GadgetListBoxAddEntryImage(
+		listboxLobbyPlayers, preorderImg, -1, 0, w, h, true, -1);
+	GadgetListBoxAddEntryImage(
+		listboxLobbyPlayers, rankImg, index, 1, w, h, true, -1);
+	GadgetListBoxAddEntryText(
+		listboxLobbyPlayers, uStr, color, index, 2, true);
+	return index;
+}
+
+__declspec(noinline) Int insertPlayerInListboxAnchor(const PlayerInfo &info, Int color)
+{
+	return insertPlayerInListbox(info, color);
 }
