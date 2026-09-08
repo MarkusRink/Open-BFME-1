@@ -86191,7 +86191,7 @@ _bfmePathVftIC,0x010C7E28,pin path vftable for BfmeConv2075
 ?bfmeFreeOneJT@@YAXPAX@Z,0x009A5980,pin free-one for BfmeConv2079
 ??2Bucket@@SAPAXIW4BucketMagicEnum@0@@Z,0x009A5970,pin bucket new for BfmeConv2079
 ?bfmeStepJW@@YAXPAX@Z,0x009A85F0,pin step for BfmeConv2080
-?bfmeAllocJX@@YAPAUCodecState@@XZ,0x009A4C20,pin alloc for BfmeConv2080
 ?bfmeMakeSubJX@@YAPAUBfmeSubJX@@XZ,0x009A6F20,pin make-sub for BfmeConv2080
 ?bfmeCheckJX@@YAHPAUCodecState@@@Z,0x009A89C0,pin check for BfmeConv2080
 ?g_bfmeSharedJX@@3HA,0x00F571E0,pin shared for BfmeConv2080
+?g_bfmeTableJX@@3HA,0x00F56B60,pin table for BfmeConv2080
