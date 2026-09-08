@@ -23,6 +23,8 @@ private:
 class AsciiString
 {
 public:
+	static const AsciiString TheEmptyString;
+
 	AsciiString( const AsciiString &other )
 	{
 		((StringBase<char> *)this)->StringBase<char>::StringBase(
@@ -32,6 +34,20 @@ public:
 
 private:
 	char *m_text;
+};
+
+// The record's range member is the ordinary three-pointer STLport vector.
+// Retail nevertheless reaches the shared range-cleanup ILT 0x00024C17 from
+// this constructor; this ABI view keeps that call's already-proven parameter
+// order without claiming a second vector implementation.
+class Rva003BA9C0Range
+{
+public:
+	void assign( void *first, void *last );
+
+	void *volatile m_start;
+	void *volatile m_finish;
+	void *m_end;
 };
 
 namespace _STL
@@ -45,11 +61,18 @@ template <class T, class A = allocator<T> >
 class vector
 {
 public:
+	vector()
+	{
+		m_start = 0;
+		m_finish = 0;
+		m_end = 0;
+	}
 	vector( const vector &other );
+	~vector();
 
 private:
-	T *m_start;
-	T *m_finish;
+	T *volatile m_start;
+	T *volatile m_finish;
 	T *m_end;
 };
 }
@@ -95,6 +118,23 @@ private:
 
 typedef char Rva003BABE0RecordSizeMustBe24[
 	sizeof( Rva003BABE0Record ) == 0x24 ? 1 : -1];
+
+// ??0Rva003BABE0Record@@QAE@XZ
+Rva003BABE0Record::Rva003BABE0Record()
+	: m_regionName( AsciiString::TheEmptyString ),
+	  m_closeDistanceTime( 0 ),
+	  m_mediumDistanceTime( 0 ),
+	  m_farDistanceTime( 0 ),
+	  m_pathFindRuleAllRegions( false ),
+	  m_pathFindRulePlayerOwned( false ),
+	  m_autoSummon( false )
+{
+	Rva003BA9C0Range *range =
+		reinterpret_cast<Rva003BA9C0Range *>( &m_addReinforcementArmy );
+	void *last = range->m_finish;
+	void *first = range->m_start;
+	range->assign( first, last );
+}
 
 Rva003BABE0Record::Rva003BABE0Record( const Rva003BABE0Record &other )
 	: m_regionName( other.m_regionName ),
