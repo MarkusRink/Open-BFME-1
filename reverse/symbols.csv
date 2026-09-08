@@ -86100,3 +86100,5 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeEnsure_005D9B50@@YAXXZ,0x005D9B50,direct body call from FXParticleSystem::staticInitModules at 0x005EB423
 ?bfmeEnsure_005D9BC0@@YAXXZ,0x005D9BC0,direct body call from FXParticleSystem::staticInitModules at 0x005EB428
 ?bfmeEnsure_005D9D10@@YAXXZ,0x005D9D10,direct body call from FXParticleSystem::staticInitModules at 0x005EB437
+?bfmeBaseHH@BfmeSelfHH@@QAEXPAX@Z,0x00029311,pin base for BfmeConv2063
+?bfmeSomethingHH@BfmeThingHH@@QAEXXZ,0x0002191D,pin helper for BfmeConv2063
