@@ -238,7 +238,24 @@ void Rva0080FFB0( const unsigned short *limbs, int limbCount,
 int Rva0080FD30( unsigned short *result, int count,
 	const unsigned short *a, const unsigned short *b );
 int Rva0080FDD0( unsigned short *result, int count,
-	const unsigned short *a, const unsigned short *b );
+	const unsigned short *a, const unsigned short *b )
+{
+	unsigned int carry;
+
+	a += count;
+	b += count;
+	result += count;
+	carry = 0;
+
+	for ( ; count > 0; count-- )
+	{
+		carry = *--a - *--b - carry;
+		*--result = (unsigned short)carry;
+		carry = ( carry >> 16 ) & 1;
+	}
+
+	return carry;
+}
 void *memset( void *dest, int value, unsigned int count );
 void *memcpy( void *dest, const void *src, unsigned int count );
 
