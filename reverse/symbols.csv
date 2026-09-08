@@ -86068,3 +86068,9 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeFindFN@BfmeOwnerFN@@QAEHPAVBfmeVecFN@@PBD@Z,0x007F76F0,pin find for BfmeConv2048
 ?bfmeAppendFN@BfmeBufFN@@QAEXPBD@Z,0x008002C0,pin append for BfmeConv2048
 ?bfmeComputeFV@BfmeThingFV@@QAEXPAVBfmeArgFV@@PAVBfmeVec3FV@@@Z,0x0002F734,pin compute for BfmeConv2053
+??4TAiData@@QAEAAV0@ABV0@@Z,0x00045A61,AI::newOverride retail ILT-derived assignment callee
+??0AISideInfo@@QAE@XZ,0x00045165,AI::newOverride retail ILT-derived constructor callee
+??4AISideInfo@@QAEAAV0@ABV0@@Z,0x00019FB0,AI::newOverride retail ILT-derived assignment callee
+?addFactionBuildList@TAiData@@QAEXPAVAISideBuildList@@@Z,0x0003E1D0,AI::newOverride retail ILT-derived insertion callee
+??0AINamedListNode@@QAE@VAsciiString@@@Z,0x000026BC,AI::newOverride retail ILT-derived constructor callee
+??4AINamedListTail@@QAEAAV0@ABV0@@Z,0x00043A63,AI::newOverride retail ILT-derived tail assignment callee
