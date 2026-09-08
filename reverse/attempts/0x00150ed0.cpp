@@ -1,46 +1,41 @@
-// ?bfmeGoFL@BfmeFinderFL@@QAEXPAX0@Z (identity unknown)
-// partial score=0.97 date=2026-09-06
-// 30/30, exact size; two instructions differ only in which register carries the
-// intermediate node: retail mov ecx,[eax] / mov ecx,[ecx+8], MSVC mov eax,[eax] /
-// mov ecx,[eax+8]. Pin: ?bfmeLookupFL@BfmeItemFL@@QAEPAVBfmeResultFL@@XZ 0x0000B3E3
-class BfmeResultFL
+// ?bfmeNotifyYF@BfmeHostYF@@QAEXHH@Z
+// partial score=0.98 date=2026-09-08
+struct RvaC4390Interface
 {
-public:
-	virtual void bfmeApplyFL(void *first, void *second);
+	virtual void bfmeDoYF(int a, int b) = 0;
 };
 
-class BfmeItemFL
+class RvaC4390First
 {
 public:
-	BfmeResultFL *bfmeLookupFL(void);
+	RvaC4390Interface *getInterface();
 };
 
-class BfmeNodeFL
+struct BfmeNodeYF
+{
+	BfmeNodeYF *m_bfmeNextYF;
+	unsigned char m_bfmePadYF[4];
+	RvaC4390First *m_bfme08YF;
+};
+
+class BfmeHostYF
 {
 public:
-	BfmeNodeFL *volatile m_bfmeNextFL;
-	unsigned char m_bfmeMidFL[4];
-	BfmeItemFL *m_bfmeItemFL;
+	void bfmeNotifyYF(int a, int b);
+
+	unsigned char m_bfmeHeadYF[4];
+	BfmeNodeYF *m_bfme04YF;
 };
 
-class BfmeFinderFL
+void BfmeHostYF::bfmeNotifyYF(int a, int b)
 {
-public:
-	void bfmeGoFL(void *first, void *second);
-
-	unsigned char m_bfmeHeadFL[4];
-	BfmeNodeFL *m_bfmeListFL;
-};
-
-void BfmeFinderFL::bfmeGoFL(void *first, void *second)
-{
-	BfmeNodeFL *list = m_bfmeListFL;
-	if (list->m_bfmeNextFL == list)
+	if (m_bfme04YF->m_bfmeNextYF == m_bfme04YF)
 		return;
 
-	BfmeResultFL *result = list->m_bfmeNextFL->m_bfmeItemFL->bfmeLookupFL();
-	if (result == 0)
+	RvaC4390Interface *iface = m_bfme04YF->m_bfmeNextYF->m_bfme08YF->getInterface();
+
+	if (iface == 0)
 		return;
 
-	result->bfmeApplyFL(first, second);
+	iface->bfmeDoYF(a, b);
 }

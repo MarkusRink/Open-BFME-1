@@ -1,67 +1,75 @@
-// ?bfmeStartVX@BfmeOwnerVX@@QAEHXZ (identity unknown)
-// partial score=0.9 date=2026-09-07
-// 65/67 bytes. The guard is inverted from the obvious reading: retail's
-// `cmp eax,[edx+3ch]; jae body` means the source is
-// `if (m_index < count) return -1;` -- the LESS-than case returns.
-// Everything else lines up: a 12-byte local args block passed by address with
-// a trailing 0 argument, and the sink reached as this->m_1c->m_10.
-// Residue (2 bytes): retail builds the 400000h field through the zero
-// register -- `xor edx,edx; mov eax,edx; or eax,400000h` -- and writes the
-// three fields in the order 1, 0, 2, while MSVC stores immediates directly.
-// A constructor taking the flags and assigning in that 1,0,2 order does not
-// recover it either (still 65, 14 differing lines).
-// Zero-register-propagation residue.
+// ?bfmeApplyYH@BfmeHostYH@@QAEHXZ
+// partial score=0.98 date=2026-09-08
+extern "C" void *__cdecl memset(void *d, int c, unsigned int n);
+
+template <int N>
+class BitFlags
+{
+public:
+	unsigned int m_bfmeBitsYG[10];
+};
+
+class ModelConditionFlags
+{
+public:
+	unsigned int m_bfmeBitsYH[3];
+};
+
 struct Rva00367E30Logic
 {
-	unsigned char m_bfmeHeadVX[0x3c];
-	unsigned int m_bfmeCountVX;
+	unsigned char m_bfmeHeadYH[0x3c];
+	unsigned int m_bfme3CYH;
 };
 
 extern Rva00367E30Logic *TheBfmeGameLogic;
 
-struct BfmeArgsVX
-{
-	int m_bfmeFlagsVX;
-	int m_bfmeSecondVX;
-	int m_bfmeThirdVX;
-};
-
-class BfmeSinkVX
+class Object
 {
 public:
-	void bfmeSendVX(BfmeArgsVX *args, int flag);
+	void applyRva1C7370(const ModelConditionFlags &flags, bool on);
+	void clearAndSetModelConditionFlags(const BitFlags<320> &clr, const BitFlags<320> &set);
+	void bfmeClearYG(const BitFlags<320> &set);
 };
 
-class BfmeThingVX
+void Object::bfmeClearYG(const BitFlags<320> &set)
+{
+	BitFlags<320> zero;
+
+	memset(&zero, 0, 40);
+	clearAndSetModelConditionFlags(zero, set);
+}
+
+class BfmeOwnerYH
 {
 public:
-	unsigned char m_bfmeHeadVX[0x10];
-	BfmeSinkVX *m_bfmeSinkVX;
+	unsigned char m_bfmeHeadYH[0x10];
+	Object *m_bfme10YH;
 };
 
-class BfmeOwnerVX
+class BfmeHostYH
 {
 public:
-	int bfmeStartVX(void);
+	int bfmeApplyYH();
 
-	unsigned char m_bfmeHeadVX[0x1c];
-	BfmeThingVX *m_bfmeThingVX;
-	unsigned char m_bfmeGapVX[4];
-	unsigned int m_bfmeIndexVX;
+	unsigned char m_bfmeHeadYH[0x1c];
+	BfmeOwnerYH *m_bfme1CYH;
+	unsigned char m_bfmeGapYH[4];
+	unsigned int m_bfme24YH;
 };
 
-int BfmeOwnerVX::bfmeStartVX(void)
+int BfmeHostYH::bfmeApplyYH()
 {
-	if (m_bfmeIndexVX < TheBfmeGameLogic->m_bfmeCountVX)
+	if (m_bfme24YH < TheBfmeGameLogic->m_bfme3CYH)
 		return -1;
 
-	BfmeArgsVX args;
+	Object *obj = m_bfme1CYH->m_bfme10YH;
 
-	args.m_bfmeFlagsVX = 0x400000;
-	args.m_bfmeSecondVX = 0;
-	args.m_bfmeThirdVX = 0;
+	ModelConditionFlags flags;
 
-	m_bfmeThingVX->m_bfmeSinkVX->bfmeSendVX(&args, 0);
+	memset(flags.m_bfmeBitsYH, 0, 12);
+	flags.m_bfmeBitsYH[0] |= 0x400000;
+
+	obj->applyRva1C7370(flags, false);
 
 	return 0;
 }
