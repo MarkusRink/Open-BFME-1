@@ -25079,3 +25079,4 @@ dup_af1f0,0x000AF1F0,Rehomed to neutral address owner; does not belong to LANAPI
 ?d_0052f8e0@@YAXXZ,0x0052F8E0,gen-dump placeholder retracted: range owned by real C++ ?bfmeMedianXE@@YAABUS4SortElem12@@ABU1@00@Z landed by the fleet
 ?d_005c5030@@YAXXZ,0x005C5030,gen-dump placeholder retracted: range owned by real C++ ?loadPostProcess@Particle@@MAEXXZ landed by the fleet
 ?d_005c3c80@@YAXXZ,0x005C3C80,gen-dump placeholder retracted: range owned by real C++ ?destroyAttachedSystems@ParticleSystemManager@@QAEXPAVObject@@@Z landed by the fleet
+??_GGen_dtor_00355ce0@@UAEPAXI@Z,0x00355CE0,Generated scalar helper replaced by natural real C++ Condition helper; weak E resolves strong G; complete destructor lifetime proved; generated file preserved; campaign=36h-20260908-1018
