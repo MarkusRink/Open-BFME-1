@@ -93,6 +93,17 @@ MultiplayerSettings::MultiplayerSettings()
 	m_initialCredits[ 4 ] = 2500;
 }
 
+MultiplayerColorDefinition *MultiplayerSettings::newMultiplayerColorDefinition(AsciiString name)
+{
+	MultiplayerColorDefinition tmp;
+	Int numColors = getNumColors();
+
+	m_colorList[numColors] = tmp;
+	m_numColors = m_colorList.size();
+
+	return &m_colorList[numColors];
+}
+
 void INI::parseMultiplayerSettingsDefinition( INI* ini )
 {
 	if( TheMultiplayerSettings )
