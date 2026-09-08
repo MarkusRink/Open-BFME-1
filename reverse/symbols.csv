@@ -83473,6 +83473,8 @@ name,address,notes
 ?rva007FF100Encode@@YAXIPBDPAX@Z,0x007FF100,neutral direct-body base64 encoder ABI: retail reads length/source/destination as three cdecl arguments and has a 327-byte body; target uses the same FESL blob length formula and encoder call
 ?rva007e8530_bar@@YGXPAX0@Z,0x000476E0,Open-BFME5 fresh stdcall at ILT of this+global 0x007E8530
 ?rva0082ADB0Fill@@YAXPAD0ABD@Z,0x0082ADB0,callee of rva0082BE60FillN; STLport fill at the ICF alias
+?fill@_STL@@YAXPAD0ABD@Z,0x0082ADB0,STLport narrow fill helper called by the basic_string size-and-character constructor at 0x008308E0
+?_M_allocate_block@?$_String_base@DV?$allocator@D@_STL@@@_STL@@QAEXI@Z,0x000025E5,STLport narrow fill constructor call uses the retail ILT thunk for the matched body at 0x002D8640
 ?rva0082C6E0CopyValues@@YAPAURva0082C6E0Value@@PAU1@00@Z,0x00018179,0x0082C6E0 vector erase trivial-copy thunk;target=0x00065E30
 ?rva0082C760Acquire@@YAXPAVNodeAllocMutex@_STL@@@Z,0x0082C760,node_alloc real acquire called by _M_acquire_lock
 ?rva008AC790@BfmeSlotState1289@@QAEXXZ,0x008AC790,Address-qualified thiscall helper; retail prologue consumes ECX and initializes receiver values at +0x48
