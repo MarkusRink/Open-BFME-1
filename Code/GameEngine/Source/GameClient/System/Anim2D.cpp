@@ -662,8 +662,7 @@ void Anim2DCollection::update( void )
 /** Search the template list for a template with a matching name */
 // ------------------------------------------------------------------------------------------------
 // ?findTemplate@Anim2DCollection@@QAEPAVAnim2DTemplate@@ABVAsciiString@@@Z
-// Body in Anim2DCollection_walls.asm (exact 155B retail; BFME AsciiString
-// compare with TheEmptyString fallback -- AsciiString reconciliation wall).
+// Readable body in Code/GameEngine/Source/GameClient/System/Anim2DCollectionTemplates.cpp.
 
 //-------------------------------------------------------------------------------------------------
 Anim2DTemplate* Anim2DCollection::getNextTemplate( Anim2DTemplate *animTemplate ) const
@@ -679,8 +678,7 @@ Anim2DTemplate* Anim2DCollection::getNextTemplate( Anim2DTemplate *animTemplate 
 /** Allocate a new template, assign name, and link to our internal list */
 // ------------------------------------------------------------------------------------------------
 // ?newTemplate@Anim2DCollection@@QAEPAVAnim2DTemplate@@ABVAsciiString@@@Z
-// Body in Anim2DCollection_walls.asm (exact 106B retail; by-value AsciiString
-// arg copy is out-of-line in BFME -- AsciiString reconciliation wall).
+// Readable body in Code/GameEngine/Source/GameClient/System/Anim2DCollectionTemplates.cpp.
 
 // ------------------------------------------------------------------------------------------------
 /** Register animation instance with us.  When an animation instance is registered it can
