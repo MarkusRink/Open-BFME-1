@@ -21,7 +21,6 @@ extern "C" {
 	void *GetReadmeFromMap(void *out, void *path);
 	int doFileTransfer(void *filename, void *ls, int mask);
 	int DoAnyMapTransfers(void *game);
-	void *GetFileFromPath(void *out, void *path);
 	void *GetBaseFileFromFile(void *out, void *fname);
 	void *GetBasePathFromPath(void *out, void *path);
 }
@@ -1852,77 +1851,6 @@ L05_66E2F7:
 // GetPreviewFromMap calls, matching the ZH reference's
 // GetBaseFileFromFile(GetFileFromPath(path)) nesting. BFME's version tests for
 // '.' as well as '\\', which the reference does not.
-__declspec(naked) void *GetFileFromPath(void *out, void *path)
-{
-	__asm {
-		push 0FFFFFFFFh
-		push 10448E1h
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		push ecx
-		mov dword ptr [esp], 0h
-		mov eax, dword ptr [esp+18h]
-		test eax, eax
-		mov dword ptr [esp+0Ch], 1h
-		je L00_66D3F6
-		lea ecx,  [eax+8h]
-		movzx eax, word ptr [eax+4h]
-		jmp L01_66D3FD
-L00_66D3F6:
-		mov ecx, 107388Bh
-		xor eax, eax
-L01_66D3FD:
-		add eax, ecx
-		cmp eax, ecx
-		push esi
-		je L02_66D411
-L04_66D404:
-		mov dl, byte ptr [eax-1h]
-		dec eax
-		cmp dl, 5Ch
-		je L03_66D449
-		cmp eax, ecx
-		jne L04_66D404
-L02_66D411:
-		mov esi, dword ptr [esp+18h]
-		lea eax,  [esp+1Ch]
-		push eax
-		mov ecx, esi
-		__emit 0E8h
-		__emit 03Fh
-		__emit 0A7h
-		__emit 021h
-		__emit 000h   // call 0x887B60
-L05_66D421:
-		lea ecx,  [esp+1Ch]
-		mov byte ptr [esp+10h], 0h
-		mov dword ptr [esp+4h], 1h
-		__emit 0E8h
-		__emit 009h
-		__emit 0A5h
-		__emit 021h
-		__emit 000h   // call 0x887940
-		mov ecx, dword ptr [esp+8h]
-		mov eax, esi
-		pop esi
-		mov dword ptr fs:[0h], ecx
-		add esp, 10h
-		ret
-L03_66D449:
-		mov esi, dword ptr [esp+18h]
-		inc eax
-		push eax
-		mov ecx, esi
-		__emit 0E8h
-		__emit 06Ah
-		__emit 0B7h
-		__emit 021h
-		__emit 000h   // call 0x888BC0
-		jmp L05_66D421
-	}
-}
-
 // A filename with its extension removed: reverseFind('.'), then copy the prefix
 // through getBufferForRead. Second of GetPreviewFromMap's three calls.
 __declspec(naked) void *GetBaseFileFromFile(void *out, void *path)
