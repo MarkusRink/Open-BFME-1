@@ -15567,3 +15567,13 @@ _Rva0088E000DialogProc@16	0x0088E000	143	partial	clean C++ dialog procedure matc
 ?d_000f9780@@YAXXZ	0x000F9780	125	blocked	BFME helper body has unresolved record identity and call ownership; clean C++ reconstruction not verified t=12min model=gpt-5.6
 ?d_000f99c0@@YAXXZ	0x000F99C0	151	blocked	Team/AI helper has unresolved container identity and callback ownership; clean C++ reconstruction not verified t=12min model=gpt-5.6
 ?d_000fa1b0@@YAXXZ	0x000FA1B0	350	blocked	Object exit/interface body has unresolved owner identity and helper call ownership; clean C++ reconstruction not verified t=15min model=gpt-5.6
+?d_0015f0f0@@YAXXZ	0x0015F0F0	263	blocked	Team/AI body has unresolved owner identity and helper/vtable semantics; no clean C++ reconstruction verified t=15min model=gpt-5.6
+?d_0015f2fb0@@YAXXZ	0x0015F2FB0	528	blocked	large Team/AI body has deep SEH, x87 state and several unresolved helper/class identities; no clean C++ owner verified t=20min model=gpt-5.6
+?d_0015f3e40@@YAXXZ	0x0015F3E40	367	blocked	Team/AI body has unresolved container and callback ownership; no clean C++ identity verified t=16min model=gpt-5.6
+?d_0015f44c0@@YAXXZ	0x0015F44C0	171	blocked	Team/AI helper has unresolved object/list ownership and callback identity; no clean C++ reconstruction verified t=12min model=gpt-5.6
+?d_0015f4f30@@YAXXZ	0x0015F4F30	1280	blocked	large Team/AI body has deep SEH, x87 arithmetic and unresolved helper ownership; no clean C++ reconstruction verified t=25min model=gpt-5.6
+?d_0015f67b0@@YAXXZ	0x0015F67B0	403	blocked	global scale/sine body has unresolved object identity and helper ownership; clean C++ reconstruction not verified t=15min model=gpt-5.6
+?d_0015f8290@@YAXXZ	0x0015F8290	238	blocked	TeamFactory/AI helper has unresolved owner identity and multiple unowned calls; clean C++ reconstruction not verified t=15min model=gpt-5.6
+?d_0015f9780@@YAXXZ	0x0015F9780	125	blocked	BFME helper body has unresolved record identity and call ownership; clean C++ reconstruction not verified t=12min model=gpt-5.6
+?d_0015f99c0@@YAXXZ	0x0015F99C0	151	blocked	Team/AI helper has unresolved container identity and callback ownership; clean C++ reconstruction not verified t=12min model=gpt-5.6
+?d_0015fa1b0@@YAXXZ	0x0015FA1B0	350	blocked	Object exit/interface body has unresolved owner identity and helper call ownership; clean C++ reconstruction not verified t=15min model=gpt-5.6
