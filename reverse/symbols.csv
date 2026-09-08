@@ -76735,6 +76735,7 @@ name,address,notes
 ?clearLeaveRequestTime@BFMEConnectionManager@@QAEXXZ,0x00662E70,zeroes +0x12110 (the leave-request stamp); sole caller 0x00682B55 in 0x00682A90 when the router sees its own PLAYERLEAVE execute; ILT 0x000316DD
 ?clearLocalStagingState@BfmeAptScreenOnlineCustomMatch@@QAEXXZ,0x0001118F,ILT to 0x005392B0 used by CustomMatch leaveStaging 0x00539750
 ?clearModelConditionFlags@Object@@QAEXABV?$BitFlags@$0BDA@@@@Z,0x0000B95B,Object clearModelConditionFlags ILT used by WeaponSet::setWeaponLock / releaseWeaponLock (USING_A/B/C)
+?clearModelConditionFlags@Object@@QAEXABVBfmeE1166@@@Z,0x0000B95B,BFME model-condition clear ICF spelling used by Rva0026C7C0Owner::bfmeAdvance
 ?clearOwned@Rva003C1A50@@QAEXXZ,0x000214E0,ILT to clear body 0x003C0EF0; callee of 0x003C1A50
 ?clearPopupMessageData@InGameUI@@QAEXXZ,0x0000F5F6,ILT fronting the 125-byte body at 0x0043B890; from InGamePopupMessageSystem
 ?clearSingleton@Rva003C1A50@@QAEXXZ,0x00024875,ILT to clear body 0x003C0DB0; callee of 0x003C1A50
