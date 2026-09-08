@@ -86041,3 +86041,5 @@ _BfmeSpinSleep,0x0082BE10,STLport nanosecond backoff helper; final call operand 
 ??1MeshMatDescClass@@QAE@XZ,0x0092A3D0,MeshModelClass destructor and assignment directly call this body for DefMatDesc and AlternateMatDesc; body calls exact MeshMatDescClass Reset 0x00929310
 ?call_002234A0@Rva0021B200ListOwner@@QAEXP6AXPAX0@Z0I@Z,0x002234A0,neutral body pin for 0x0021B200 continuation; retail ILT=0x0003D0D7 resolves to this body; campaign=luna36h-20260907;lane=shaders;model=gpt-5.6-luna
 _gsiSocketInterface,0x0130E628,GameSpy common socket interface global; exact ciSocketConnect local-bind setup loads it before htonl
+?bfmeFindEY@BfmeMapEY@@QBE?AVBfmeIterEY@@PAX@Z,0x0094C5E0,pin map find for BfmeConv2045
+?bfmeRefreshEY@BfmeHostEY@@QAEXXZ,0x0094D450,pin refresh for BfmeConv2045
