@@ -86281,3 +86281,4 @@ _bfmeUrlXK,0x00D1A0E0,Open-BFME5 request url the 0x0065BF40 http start passes
 _bfmeCbXK,0x0065BD00,Open-BFME5 completion callback the 0x0065BF40 http start passes
 ?bfmeAtXK@BfmeMapXK@@QAEAAPAUBfmeRecXK@@ABH@Z,0x0000C3B0,Open-BFME5 ILT map subscript the 0x0065BF40 http start uses
 ?Get_Texture@MaterialInfoClass@@QBE?AVBfmeHandleCX@@H@Z,0x000366DD,MaterialInfo texture getter call thunk reaches Gen_007A0340::bfmeGet at 0x007A0340 and returns an owning handle
+?processAck@BfmeConnXN@@QAEPAVNetCommandRef@@GEI@Z,0x0003E66C,Open-BFME5 ILT connection processAck the 0x006621F0 and 0x00662230 ack wrappers call
