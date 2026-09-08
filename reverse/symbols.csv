@@ -86158,3 +86158,5 @@ _bfmeBaseVftIC,0x010C7450,pin base vftable for BfmeConv2075
 _bfmePathVftIC,0x010C7E28,pin path vftable for BfmeConv2075
 ?bfmeStartIC@BfmeSubIC@@QAEXHHM@Z,0x0002A1B2,pin sub start for BfmeConv2075
 ?bfmePushHeapVOU@@YAXPAUBfmeElemVOU@@HHU1@PAX@Z,0x009CCF60,out-of-line push_heap callee of bfmeAdjustHeapVOU at 0x009CD1E0
+?bfmeInitJK@BfmeSubAJK@@QAEXH@Z,0x0000F42A,pin sub init for BfmeConv2077
+?bfmeResetJK@BfmeSubBJK@@QAEXH@Z,0x000049C1,pin sub reset for BfmeConv2077
