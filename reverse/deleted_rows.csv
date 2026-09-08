@@ -25065,3 +25065,5 @@ dup_af1f0,0x000AF1F0,Rehomed to neutral address owner; does not belong to LANAPI
 ?setRankLevel@Player@@QAE_NH@Z,0x000D93AC,false identity retired because the bytes start inside a larger retail routine at 0x000D9300 and continue into 0x000D9510; the verified Player::setRankLevel body is at 0x000D7E30
 ?action@RepairDockUpdate@@UAE_NPAVObject@@0@Z,0x001A9110,"stale Open-BFME4 claim at 0x001A9110; the BFME1 RepairDockUpdate action is the 224-byte body at 0x002CEFA0 reached by interface vtable slot 12 through ILT 0x00020CF2"
 ?loadPostProcess@Upgrade@@MAEXXZ,0x00109560,false identity retired: official Upgrade::loadPostProcess is empty; retail ignores ECX and returns a UnicodeString built from the BFME registry DisplayName and fallback title
+?d_009f3ea0@@YAXXZ,0x009F3EA0,gen-dump placeholder superseded by byte-verified Gen009F3EA0 clean C++ body in Code/GameEngine/Source/Common/Q3IntrosortFamilies.cpp
+?d_009f3c70@@YAXXZ,0x009F3C70,gen-dump placeholder superseded by byte-verified Rva009F3C70Result append body in Code/Libraries/Source/WWVegas/WWLib/Rva009F3C70ResultAppend.cpp

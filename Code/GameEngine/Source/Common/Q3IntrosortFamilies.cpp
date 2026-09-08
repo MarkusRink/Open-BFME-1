@@ -202,6 +202,10 @@ Q3SortElem8 *Gen009F3280( Q3SortElem8 *first, Q3SortElem8 *last,
 	Q3SortElem8 value, Q3SortCompare comp );
 void Gen009F3B00( Q3SortElem8 *first, Q3SortElem8 *last,
 	Q3SortElem8 *middle, int zero, Q3SortCompare comp );
+Q3SortElem8 *Gen009F3300( Q3SortElem8 *first, Q3SortElem8 *last,
+	Q3SortElem8 value, Q3SortCompare comp );
+void Gen009F3B80( Q3SortElem8 *first, Q3SortElem8 *last,
+	Q3SortElem8 *middle, int zero, Q3SortCompare comp );
 
 static __forceinline const Q3SortElem8 *Gen009F3DC0Median( const Q3SortElem8 *a,
 	const Q3SortElem8 *b, const Q3SortElem8 *c, Q3SortCompare comp )
@@ -239,3 +243,44 @@ void Gen009F3DC0( Q3SortElem8 *first, Q3SortElem8 *last,
 		last = cut;
 	}
 }
+
+#define BFME_Q3_COMPARE_009F3EA0(LEFT, RIGHT) ((LEFT).m_b > (RIGHT).m_b)
+
+static __forceinline const Q3SortElem8 *Gen009F3EA0Median(const Q3SortElem8 *a,
+	const Q3SortElem8 *b, const Q3SortElem8 *c, Q3SortCompare comp)
+{
+	if (BFME_Q3_COMPARE_009F3EA0(*a, *b))
+	{
+		if (BFME_Q3_COMPARE_009F3EA0(*b, *c))
+			return b;
+		if (BFME_Q3_COMPARE_009F3EA0(*a, *c))
+			return c;
+		return a;
+	}
+	if (BFME_Q3_COMPARE_009F3EA0(*a, *c))
+		return a;
+	if (BFME_Q3_COMPARE_009F3EA0(*b, *c))
+		return c;
+	return b;
+}
+
+void Gen009F3EA0(Q3SortElem8 *first, Q3SortElem8 *last,
+	Q3SortElem8 *, int depthLimit, Q3SortCompare comp)
+{
+	while (last - first > 16)
+	{
+		if (depthLimit == 0)
+		{
+			Gen009F3B80(first, last, last, 0, comp);
+			return;
+		}
+		--depthLimit;
+		Q3SortElem8 *cut = Gen009F3300(first, last,
+			*Gen009F3EA0Median(first, first + (last - first) / 2,
+				last - 1, comp), comp);
+		Gen009F3EA0(cut, last, (Q3SortElem8 *)0, depthLimit, comp);
+		last = cut;
+	}
+}
+
+#undef BFME_Q3_COMPARE_009F3EA0
