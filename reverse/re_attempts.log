@@ -14771,3 +14771,13 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_009064f0@@YAXXZ	0x009064F0	287	blocked	served file Code/gen_asm/d_00904510.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
 ?d_00905140@@YAXXZ	0x00905140	358	blocked	served file Code/gen_asm/d_00904510.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
 ?rva00551C80@BfmeAptScreenOnlineLogin@@QAEX_N@Z	0x00551C80	240	blocked	t=33min model=Luna; clean C++ body matches the nickname removal write refresh and clear semantics but MSVC 7.1 reserves 0x24 stack bytes and assigns ESI to this instead of retail EDI after several source-shape and optimization-flag attempts
+?d_003bf630@@YAXXZ	0x003BF630	104	blocked	served file Code/gen_asm/d_003b8450.asm; mixed linker-order region and no standalone source or safe identity for this dump body; t=5min model=gpt-5.6-sol
+?d_003bbc20@@YAXXZ	0x003BBC20	145	blocked	served file Code/gen_asm/d_003b8450.asm; mixed linker-order region and no standalone source or safe identity for this dump body; t=5min model=gpt-5.6-sol
+?d_003bf580@@YAXXZ	0x003BF580	139	blocked	served file Code/gen_asm/d_003b8450.asm; mixed linker-order region and no standalone source or safe identity for this dump body; t=5min model=gpt-5.6-sol
+?d_003be020@@YAXXZ	0x003BE020	239	blocked	served file Code/gen_asm/d_003b8450.asm; mixed linker-order region and no standalone source or safe identity for this dump body; t=5min model=gpt-5.6-sol
+?d_003c0110@@YAXXZ	0x003C0110	214	blocked	served file Code/gen_asm/d_003b8450.asm; mixed linker-order region and no standalone source or safe identity for this dump body; t=5min model=gpt-5.6-sol
+?d_003bbe50@@YAXXZ	0x003BBE50	227	blocked	served file Code/gen_asm/d_003b8450.asm; mixed linker-order region and no standalone source or safe identity for this dump body; t=5min model=gpt-5.6-sol
+?d_003b8cc0@@YAXXZ	0x003B8CC0	276	blocked	served file Code/gen_asm/d_003b8450.asm; mixed linker-order region and no standalone source or safe identity for this dump body; t=5min model=gpt-5.6-sol
+?d_003c12a0@@YAXXZ	0x003C12A0	443	blocked	served file Code/gen_asm/d_003b8450.asm; mixed linker-order region and no standalone source or safe identity for this dump body; t=5min model=gpt-5.6-sol
+?d_003b9690@@YAXXZ	0x003B9690	418	blocked	served file Code/gen_asm/d_003b8450.asm; mixed linker-order region and no standalone source or safe identity for this dump body; t=5min model=gpt-5.6-sol
+?d_003bf190@@YAXXZ	0x003BF190	444	blocked	served file Code/gen_asm/d_003b8450.asm; mixed linker-order region and no standalone source or safe identity for this dump body; t=5min model=gpt-5.6-sol
