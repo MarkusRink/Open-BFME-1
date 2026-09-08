@@ -1,203 +1,81 @@
 // cl: /DNDEBUG /MD /EHsc
 
-namespace FXParticleSystem
-{
-class RenderObjectDrawModuleInfo
+// Open-BFME5: RenderObjectDrawModuleInfo copy constructor.
+
+template <typename Character>
+class StringBase
 {
 public:
-    RenderObjectDrawModuleInfo(const RenderObjectDrawModuleInfo &);
+	StringBase(const StringBase &);
+
+private:
+	void *m_data;
 };
 
-__declspec(naked) RenderObjectDrawModuleInfo::RenderObjectDrawModuleInfo(const RenderObjectDrawModuleInfo &)
+class BFMERetailAsciiString : private StringBase<char>
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 08Eh
-        _emit 0AEh
-        _emit 003h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 057h
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 008h
-        _emit 08Bh
-        _emit 07Ch
-        _emit 024h
-        _emit 01Ch
-        _emit 0C7h
-        _emit 006h
-        _emit 0B8h
-        _emit 012h
-        _emit 011h
-        _emit 001h
-        _emit 08Ah
-        _emit 047h
-        _emit 004h
-        _emit 088h
-        _emit 046h
-        _emit 004h
-        _emit 08Bh
-        _emit 04Fh
-        _emit 008h
-        _emit 089h
-        _emit 04Eh
-        _emit 008h
-        _emit 08Ah
-        _emit 057h
-        _emit 00Ch
-        _emit 08Dh
-        _emit 047h
-        _emit 010h
-        _emit 08Dh
-        _emit 04Eh
-        _emit 010h
-        _emit 050h
-        _emit 0C7h
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 056h
-        _emit 00Ch
-        _emit 0E8h
-        _emit 0A2h
-        _emit 098h
-        _emit 02Ah
-        _emit 000h
-        _emit 08Bh
-        _emit 04Fh
-        _emit 014h
-        _emit 089h
-        _emit 04Eh
-        _emit 014h
-        _emit 08Bh
-        _emit 057h
-        _emit 018h
-        _emit 089h
-        _emit 056h
-        _emit 018h
-        _emit 08Bh
-        _emit 047h
-        _emit 01Ch
-        _emit 08Dh
-        _emit 057h
-        _emit 020h
-        _emit 08Dh
-        _emit 04Eh
-        _emit 020h
-        _emit 052h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 001h
-        _emit 089h
-        _emit 046h
-        _emit 01Ch
-        _emit 0E8h
-        _emit 07Fh
-        _emit 098h
-        _emit 02Ah
-        _emit 000h
-        _emit 08Bh
-        _emit 047h
-        _emit 024h
-        _emit 089h
-        _emit 046h
-        _emit 024h
-        _emit 08Bh
-        _emit 04Fh
-        _emit 028h
-        _emit 089h
-        _emit 04Eh
-        _emit 028h
-        _emit 08Bh
-        _emit 057h
-        _emit 02Ch
-        _emit 08Dh
-        _emit 047h
-        _emit 030h
-        _emit 050h
-        _emit 08Dh
-        _emit 04Eh
-        _emit 030h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 002h
-        _emit 089h
-        _emit 056h
-        _emit 02Ch
-        _emit 0E8h
-        _emit 05Ch
-        _emit 098h
-        _emit 02Ah
-        _emit 000h
-        _emit 08Bh
-        _emit 04Fh
-        _emit 034h
-        _emit 089h
-        _emit 04Eh
-        _emit 034h
-        _emit 08Bh
-        _emit 057h
-        _emit 038h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 00Ch
-        _emit 089h
-        _emit 056h
-        _emit 038h
-        _emit 08Bh
-        _emit 047h
-        _emit 03Ch
-        _emit 089h
-        _emit 046h
-        _emit 03Ch
-        _emit 05Fh
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C2h
-        _emit 004h
-        _emit 000h
-    }
+public:
+	BFMERetailAsciiString(const BFMERetailAsciiString &that)
+		: StringBase<char>(that)
+	{
+	}
+	~BFMERetailAsciiString();
+};
+
+namespace FXParticleSystem
+{
+
+class RenderObjectDrawModuleInfoBase
+{
+public:
+	RenderObjectDrawModuleInfoBase(const RenderObjectDrawModuleInfoBase &) {}
+	virtual ~RenderObjectDrawModuleInfoBase() {}
+};
+
+class RenderObjectDrawModuleInfo : public RenderObjectDrawModuleInfoBase
+{
+public:
+	RenderObjectDrawModuleInfo(const RenderObjectDrawModuleInfo &);
+	virtual ~RenderObjectDrawModuleInfo();
+
+private:
+	bool m_enabled;
+	unsigned int m_type;
+	bool m_flag;
+	BFMERetailAsciiString m_name0;
+	unsigned int m_value00;
+	unsigned int m_value01;
+	unsigned int m_value02;
+	BFMERetailAsciiString m_name1;
+	unsigned int m_value10;
+	unsigned int m_value11;
+	unsigned int m_value12;
+	BFMERetailAsciiString m_name2;
+	unsigned int m_value20;
+	unsigned int m_value21;
+	unsigned int m_value22;
+};
+
+// ??0RenderObjectDrawModuleInfo@FXParticleSystem@@QAE@ABV01@@Z
+RenderObjectDrawModuleInfo::RenderObjectDrawModuleInfo(
+	const RenderObjectDrawModuleInfo &that)
+	: RenderObjectDrawModuleInfoBase(that),
+	  m_enabled(that.m_enabled),
+	  m_type(that.m_type),
+	  m_flag(that.m_flag),
+	  m_name0(that.m_name0),
+	  m_value00(that.m_value00),
+	  m_value01(that.m_value01),
+	  m_value02(that.m_value02),
+	  m_name1(that.m_name1),
+	  m_value10(that.m_value10),
+	  m_value11(that.m_value11),
+	  m_value12(that.m_value12),
+	  m_name2(that.m_name2),
+	  m_value20(that.m_value20),
+	  m_value21(that.m_value21),
+	  m_value22(that.m_value22)
+{
 }
+
 }
