@@ -86048,3 +86048,4 @@ _j_0003b971,0x0003B971,COFF C-linkage alias for the existing incremental-link th
 ?gadgetComboBoxReset@@YAXPAVGameWindow@@@Z,0x00007004,OnlineQuickMatch InitGadgets reset call uses the existing incremental-link thunk
 ?setup@OnlineQuickMatchColorSetup@@QAEXXZ,0x00005F3D,OnlineQuickMatch InitGadgets color setup call uses the existing incremental-link thunk
 ?refreshLayout@GameWindowManager@@QAEXPAX@Z,0x000412C2,OnlineQuickMatch InitGadgets layout refresh call uses the existing incremental-link thunk
+?bfmeTryZZ@BfmeOwnerZZ@@QAEDPAVBfmeItemZZ@@@Z,0x000441A2,Bfme owner scan remove callee uses the verified AIGroup remove ILT
