@@ -1,59 +1,66 @@
 // ??0W3DOverlordTankDrawModuleData@@QAE@XZ
-// partial score=0.93 date=2026-08-31
+// partial score=0.95 date=2026-09-08
 // cl: /DNDEBUG /MD /EHsc
-// Focused clean-C++ reconstruction of the retail BFME module-data layout.
 
-class OTD_BaseModuleData
+// Open-BFME5: W3DOverlordTankDrawModuleData default construction. The Zero
+// Hour source body is empty; BFME's inherited data layout constructs the
+// upgrade and die-mux blocks after initializing the reference fields.
+
+class Snapshot
 {
 public:
-	OTD_BaseModuleData();
-	~OTD_BaseModuleData();
+	virtual ~Snapshot() {}
+};
+
+class ThingRef
+{
+public:
+	ThingRef() : m_ptr(0) {}
+	__declspec(nothrow) ~ThingRef();
+
+private:
+	void *m_ptr;
+};
+
+class UpgradeModuleDataSub
+{
+public:
+	UpgradeModuleDataSub();
+	~UpgradeModuleDataSub();
 
 private:
 	unsigned char m_data[0x68];
 };
 
-class OTD_CleanupBase
+class Rva002551A0DieMuxData
 {
 public:
-	OTD_CleanupBase() {}
-	~OTD_CleanupBase();
-};
-
-class OTD_InnerData
-{
-public:
-	OTD_InnerData() : m_unknown00(0), m_enabled(true) {}
-	~OTD_InnerData();
+	Rva002551A0DieMuxData();
+	~Rva002551A0DieMuxData();
 
 private:
-	unsigned int m_unknown00;
-	bool m_enabled;
-	unsigned char m_pad05[3];
-	OTD_BaseModuleData m_baseData;
+	unsigned char m_data[0x2c];
 };
 
-class OTD_DieMuxData
-{
-public:
-	OTD_DieMuxData();
-	~OTD_DieMuxData();
-};
-
-class W3DOverlordTankDrawModuleData : public OTD_CleanupBase
+class W3DOverlordTankDrawModuleData : public Snapshot
 {
 public:
 	W3DOverlordTankDrawModuleData();
-	virtual void moduleDataAnchor();
+	virtual ~W3DOverlordTankDrawModuleData();
 
 private:
-	unsigned int m_unknown04;
-	unsigned int m_unknown08;
-	OTD_InnerData m_innerData;
-	OTD_DieMuxData m_dieMuxData;
+	unsigned char m_gap04[4];
+	ThingRef m_ref;
+	unsigned int m_value0c;
+	bool m_enabled;
+	unsigned char m_gap11[3];
+	UpgradeModuleDataSub m_upgradeData;
+	Rva002551A0DieMuxData m_dieMuxData;
 };
 
+// ??0W3DOverlordTankDrawModuleData@@QAE@XZ
 W3DOverlordTankDrawModuleData::W3DOverlordTankDrawModuleData()
-	: m_unknown08(0)
+	: m_value0c(0),
+	  m_enabled(true)
 {
 }
