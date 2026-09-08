@@ -86367,3 +86367,5 @@ ___security_cookie,0x012DBDB0,MSVC 7.1 /GS cookie; absolute data VA read by exac
 ?Release_Ref@Rva009EB7A0RefOwner@@QAEXXZ,0x009EB7A0,generic counted owner release leaf; raw36B; historical type unproven
 ?Rva00D3E7ECPrefixWord@@3GB,0x00D3E7EC,readonly hierarchy lookup prefix word 0x2A68; image VA113E7EC
 ?Rva00D3E7EEPrefixByte@@3EB,0x00D3E7EE,readonly hierarchy lookup prefix terminator byte0; image VA113E7EE
+?Rva00F4FAACRegistry@@3PAVRva009EEC60Registry@@A,0x00F4FAAC,registry pointer at image VA134FAAC; historical name unproven
+?Rva009EEC60_FindAsset@Rva009EEC60Registry@@QAE?AVRva009EBCE0AssetReference@@PBD@Z,0x009EEC60,counted aggregate lookup; full188B through ret8 at+B9; critical section and bucket ownership audited
