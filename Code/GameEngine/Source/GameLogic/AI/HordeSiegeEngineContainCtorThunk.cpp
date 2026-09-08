@@ -1,323 +1,110 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
+
+// Open-BFME5: HordeSiegeEngineContain constructor.  The named factory and
+// destructor fix the HordeTransport base and three STLport members.
+
+#include <list>
+#include <map>
 
 class Thing;
 class ModuleData;
 
-class HordeSiegeEngineContain
+class Object
 {
 public:
-    HordeSiegeEngineContain(Thing *, const ModuleData *);
+	void notifyModelConditionChanged();
+private:
+	unsigned char m_pad[0x128];
+public:
+	union
+	{
+		unsigned int m_status;
+		unsigned char m_statusByte;
+	};
 };
 
-__declspec(naked) HordeSiegeEngineContain::HordeSiegeEngineContain(Thing *, const ModuleData *)
+class BehaviorModule
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 062h
-        _emit 0E2h
-        _emit 000h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 08Bh
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 053h
-        _emit 056h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 01Ch
-        _emit 050h
-        _emit 051h
-        _emit 08Bh
-        _emit 0CEh
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 010h
-        _emit 0E8h
-        _emit 0EFh
-        _emit 058h
-        _emit 0DDh
-        _emit 0FFh
-        _emit 033h
-        _emit 0DBh
-        _emit 0C7h
-        _emit 006h
-        _emit 0A8h
-        _emit 002h
-        _emit 00Bh
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 00Ch
-        _emit 0E0h
-        _emit 001h
-        _emit 00Bh
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 010h
-        _emit 0D0h
-        _emit 001h
-        _emit 00Bh
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 020h
-        _emit 028h
-        _emit 000h
-        _emit 00Bh
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 024h
-        _emit 008h
-        _emit 000h
-        _emit 00Bh
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 028h
-        _emit 004h
-        _emit 000h
-        _emit 00Bh
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 02Ch
-        _emit 0F4h
-        _emit 0FFh
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 030h
-        _emit 0B8h
-        _emit 0FFh
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 034h
-        _emit 0A8h
-        _emit 0FFh
-        _emit 00Ah
-        _emit 001h
-        _emit 0C7h
-        _emit 086h
-        _emit 0D4h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0A4h
-        _emit 0FFh
-        _emit 00Ah
-        _emit 001h
-        _emit 06Ah
-        _emit 00Ch
-        _emit 089h
-        _emit 05Ch
-        _emit 024h
-        _emit 018h
-        _emit 089h
-        _emit 09Eh
-        _emit 0ECh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 056h
-        _emit 03Fh
-        _emit 05Eh
-        _emit 000h
-        _emit 089h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 004h
-        _emit 089h
-        _emit 086h
-        _emit 0ECh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 06Ah
-        _emit 018h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 01Ch
-        _emit 001h
-        _emit 089h
-        _emit 09Eh
-        _emit 0F8h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 039h
-        _emit 03Fh
-        _emit 05Eh
-        _emit 000h
-        _emit 089h
-        _emit 086h
-        _emit 0F8h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 0FCh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 018h
-        _emit 08Bh
-        _emit 096h
-        _emit 0F8h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 05Ah
-        _emit 004h
-        _emit 08Bh
-        _emit 086h
-        _emit 0F8h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 008h
-        _emit 08Bh
-        _emit 086h
-        _emit 0F8h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 00Ch
-        _emit 06Ah
-        _emit 00Ch
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 020h
-        _emit 002h
-        _emit 089h
-        _emit 09Eh
-        _emit 004h
-        _emit 001h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 0FEh
-        _emit 03Eh
-        _emit 05Eh
-        _emit 000h
-        _emit 089h
-        _emit 000h
-        _emit 089h
-        _emit 040h
-        _emit 004h
-        _emit 083h
-        _emit 0C4h
-        _emit 00Ch
-        _emit 089h
-        _emit 086h
-        _emit 004h
-        _emit 001h
-        _emit 000h
-        _emit 000h
-        _emit 08Bh
-        _emit 04Eh
-        _emit 008h
-        _emit 089h
-        _emit 09Eh
-        _emit 0F0h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 09Eh
-        _emit 0F4h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 08Ah
-        _emit 091h
-        _emit 028h
-        _emit 001h
-        _emit 000h
-        _emit 000h
-        _emit 0B8h
-        _emit 040h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 084h
-        _emit 0D0h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 014h
-        _emit 003h
-        _emit 075h
-        _emit 00Bh
-        _emit 009h
-        _emit 081h
-        _emit 028h
-        _emit 001h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 09Fh
-        _emit 072h
-        _emit 0DDh
-        _emit 0FFh
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 00Ch
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 05Bh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C2h
-        _emit 008h
-        _emit 000h
-    }
+public:
+	virtual void behaviorModuleAnchor();
+protected:
+	unsigned int m_04;
+	Object *m_object;
+};
+
+template <int Number> class __declspec(novtable) HordeTransportIface
+{ public: virtual void slot() = 0; };
+
+class __declspec(novtable) HordeTransportWideIface
+{
+public:
+	virtual void slot() = 0;
+private:
+	unsigned int m_14;
+	unsigned int m_18;
+	unsigned int m_1c;
+};
+
+class __declspec(novtable) HordeTransportPaddedIface
+{
+public:
+	virtual void slot() = 0;
+private:
+	unsigned char m_pad[0x9c];
+};
+
+class HordeTransportContainBase : public BehaviorModule
+{
+public:
+	HordeTransportContainBase(Thing *, const ModuleData *);
+};
+
+class HordeTransportContain : public HordeTransportContainBase,
+	public HordeTransportIface<1>, public HordeTransportWideIface,
+	public HordeTransportIface<2>, public HordeTransportIface<3>,
+	public HordeTransportIface<4>, public HordeTransportIface<5>,
+	public HordeTransportIface<6>, public HordeTransportPaddedIface,
+	public HordeTransportIface<7>
+{
+public:
+	HordeTransportContain(Thing *, const ModuleData *);
+	virtual ~HordeTransportContain();
+protected:
+	unsigned char m_unreconstructed_d8[0x0c];
+	int m_e4;
+	bool m_e8;
+};
+
+struct Gen_t_00223550_p4pod { int a[1]; };
+bool operator==(const Gen_t_00223550_p4pod&, const Gen_t_00223550_p4pod&);
+bool operator<(const Gen_t_00223550_p4pod&, const Gen_t_00223550_p4pod&);
+
+class HordeSiegeEngineContain : public HordeTransportContain
+{
+public:
+	HordeSiegeEngineContain(Thing *, const ModuleData *);
+	virtual ~HordeSiegeEngineContain();
+private:
+	_STL::list<int> m_listA;
+	int m_f0;
+	bool m_f4;
+	unsigned char m_padf5[3];
+	_STL::map<int, Gen_t_00223550_p4pod> m_map;
+	_STL::list<int> m_listB;
+};
+
+// ??0HordeSiegeEngineContain@@QAE@PAVThing@@PBVModuleData@@@Z
+HordeSiegeEngineContain::HordeSiegeEngineContain(Thing *thing, const ModuleData *data)
+	: HordeTransportContain(thing, data)
+{
+	Object *object = m_object;
+	m_f0 = 0;
+	m_f4 = false;
+	unsigned int statusBit = 0x40;
+	if ((object->m_statusByte & statusBit) == 0)
+	{
+		object->m_status |= statusBit;
+		object->notifyModelConditionChanged();
+	}
 }
