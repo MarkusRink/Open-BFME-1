@@ -4723,7 +4723,7 @@ name,address,notes
 ??1Gen_dtor_000d4030@@UAE@XZ,0x00023218,gen-dtor class destructor
 ??1Gen_dtor_000d7480@@UAE@XZ,0x000272D2,gen-dtor class destructor
 ??1Gen_dtor_000dddf0@@UAE@XZ,0x0003C038,gen-dtor class destructor
-??1Gen_dtor_000dfca0@@UAE@XZ,0x00032EED,gen-dtor class destructor
+??1PlayerList@@UAE@XZ,0x00032EED,ILT to the matched PlayerList destructor at RVA 0x000DF9A0
 ??1Gen_dtor_000e4b80@@UAE@XZ,0x0002F99B,gen-dtor class destructor
 ??1ResourceGatheringManager@@UAE@XZ,0x000386BD,ILT to the matched ResourceGatheringManager destructor at RVA 0x000E6140
 ??1Gen_dtor_000e9fe0@@UAE@XZ,0x0002CD7C,gen-dtor class destructor
