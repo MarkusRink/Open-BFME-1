@@ -1,113 +1,65 @@
 // cl: /DNDEBUG /MD /EHsc
+// Open-BFME5: FloatingTextData constructor from InGameUI.cpp.
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/InGameUI.h
+class UnicodeString
+{
+public:
+	UnicodeString() : m_data(0) {}
+	~UnicodeString();
+	void clear();
+
+private:
+	void *m_data;
+};
+
+class DisplayString;
+
+class DisplayStringManager
+{
+public:
+	virtual void slot00();
+	virtual void slot04();
+	virtual void slot08();
+	virtual void slot0c();
+	virtual void slot10();
+	virtual void slot14();
+	virtual void slot18();
+	virtual void slot1c();
+	virtual void slot20();
+	virtual DisplayString *newDisplayString();
+};
+
+extern DisplayStringManager *TheDisplayStringManager;
+
+struct Coord3D
+{
+	float x;
+	float y;
+	float z;
+	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
+};
+
 class FloatingTextData
 {
 public:
-    FloatingTextData();
+	FloatingTextData();
+	virtual ~FloatingTextData();
+
+private:
+	unsigned int m_color;
+	UnicodeString m_text;
+	DisplayString *m_dString;
+	Coord3D m_pos3D;
+	int m_frameTimeOut;
+	int m_frameCount;
 };
 
-__declspec(naked) FloatingTextData::FloatingTextData()
+FloatingTextData::FloatingTextData()
 {
-    __asm _emit(0x6A);
-    __asm _emit(0xFF);
-    __asm _emit(0x68);
-    __asm _emit(0x0B);
-    __asm _emit(0x2A);
-    __asm _emit(0x02);
-    __asm _emit(0x01);
-    __asm _emit(0x64);
-    __asm _emit(0xA1);
-    __asm _emit(0x00);
-    __asm _emit(0x00);
-    __asm _emit(0x00);
-    __asm _emit(0x00);
-    __asm _emit(0x50);
-    __asm _emit(0x64);
-    __asm _emit(0x89);
-    __asm _emit(0x25);
-    __asm _emit(0x00);
-    __asm _emit(0x00);
-    __asm _emit(0x00);
-    __asm _emit(0x00);
-    __asm _emit(0x51);
-    __asm _emit(0x56);
-    __asm _emit(0x8B);
-    __asm _emit(0xF1);
-    __asm _emit(0x8D);
-    __asm _emit(0x4E);
-    __asm _emit(0x08);
-    __asm _emit(0x33);
-    __asm _emit(0xC0);
-    __asm _emit(0xC7);
-    __asm _emit(0x06);
-    __asm _emit(0xC8);
-    __asm _emit(0x58);
-    __asm _emit(0x0F);
-    __asm _emit(0x01);
-    __asm _emit(0x89);
-    __asm _emit(0x74);
-    __asm _emit(0x24);
-    __asm _emit(0x04);
-    __asm _emit(0x89);
-    __asm _emit(0x01);
-    __asm _emit(0x89);
-    __asm _emit(0x46);
-    __asm _emit(0x04);
-    __asm _emit(0x89);
-    __asm _emit(0x46);
-    __asm _emit(0x20);
-    __asm _emit(0x89);
-    __asm _emit(0x46);
-    __asm _emit(0x1C);
-    __asm _emit(0x89);
-    __asm _emit(0x44);
-    __asm _emit(0x24);
-    __asm _emit(0x10);
-    __asm _emit(0x89);
-    __asm _emit(0x46);
-    __asm _emit(0x10);
-    __asm _emit(0x89);
-    __asm _emit(0x46);
-    __asm _emit(0x14);
-    __asm _emit(0x89);
-    __asm _emit(0x46);
-    __asm _emit(0x18);
-    __asm _emit(0xE8);
-    __asm _emit(0xBB);
-    __asm _emit(0x8C);
-    __asm _emit(0x44);
-    __asm _emit(0x00);
-    __asm _emit(0x8B);
-    __asm _emit(0x0D);
-    __asm _emit(0xCC);
-    __asm _emit(0x12);
-    __asm _emit(0x2F);
-    __asm _emit(0x01);
-    __asm _emit(0x8B);
-    __asm _emit(0x01);
-    __asm _emit(0xFF);
-    __asm _emit(0x50);
-    __asm _emit(0x24);
-    __asm _emit(0x8B);
-    __asm _emit(0x4C);
-    __asm _emit(0x24);
-    __asm _emit(0x08);
-    __asm _emit(0x89);
-    __asm _emit(0x46);
-    __asm _emit(0x0C);
-    __asm _emit(0x8B);
-    __asm _emit(0xC6);
-    __asm _emit(0x5E);
-    __asm _emit(0x64);
-    __asm _emit(0x89);
-    __asm _emit(0x0D);
-    __asm _emit(0x00);
-    __asm _emit(0x00);
-    __asm _emit(0x00);
-    __asm _emit(0x00);
-    __asm _emit(0x83);
-    __asm _emit(0xC4);
-    __asm _emit(0x10);
-    __asm _emit(0xC3);
+	m_color = 0;
+	m_frameCount = 0;
+	m_frameTimeOut = 0;
+	m_pos3D.zero();
+	m_text.clear();
+	m_dString = TheDisplayStringManager->newDisplayString();
 }
