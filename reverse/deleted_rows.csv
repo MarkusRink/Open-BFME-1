@@ -25035,3 +25035,5 @@ tg_000bc760,0x000BC760,Generated 50-byte push body replaced by a descriptive Xfe
 ?d_00674a40@@YAXXZ,0x00674A40,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
 ?d_00670920@@YAXXZ,0x00670920,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
 ?d_00670f10@@YAXXZ,0x00670F10,Generated placeholder retired for verified real C++ identity; prevent union rebase resurrection
+??1NetCommandRef@@MAE@XZ,0x007851D0,False network identity retired for proven counted-resource handle owner
+??_GNetCommandRef@@MAEPAXI@Z,0x007851A0,False network identity retired for proven counted-resource handle owner
