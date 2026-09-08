@@ -1,97 +1,95 @@
-// ?getPerUnitSound@ThingTemplate@@QBEPBVAudioEventRTS@@ABVAsciiString@@@Z
-// partial score=0.85 date=2026-09-02
-// cl: /DNDEBUG /MD /EHs-c-
-
-class AsciiString;
+// ?d_00416fe0@@YAXXZ
+// partial score=0.85 date=2026-09-08
 class AudioEventRTS;
-
-class BfmeSoundLookup
-{
-public:
-	virtual void bfmeLookupSlot00(void);
-	virtual const AudioEventRTS *bfmeFind(const AsciiString &name);
-};
-
-class BfmeSoundProvider
-{
-public:
-	virtual void bfmeSlot00(void);
-	virtual void bfmeSlot04(void);
-	virtual void bfmeSlot08(void);
-	virtual void bfmeSlot0C(void);
-	virtual void bfmeSlot10(void);
-	virtual void bfmeSlot14(void);
-	virtual void bfmeSlot18(void);
-	virtual void bfmeSlot1C(void);
-	virtual void bfmeSlot20(void);
-	virtual void bfmeSlot24(void);
-	virtual void bfmeSlot28(void);
-	virtual BfmeSoundLookup *bfmeGetLookup(void);
-};
-
-class BfmeOverridable
-{
-public:
-	BfmeOverridable *friend_getFinalOverride(void);
-	const AudioEventRTS *bfmeLookupPerUnitSound(const AsciiString &name);
-
-	char m_bfmeHead[0x04];
-	BfmeOverridable *m_bfmeNextOverride;
-};
+class AsciiStringTU;
+class BfmeSubTU;
+class BfmeParentTU;
 
 extern AudioEventRTS BfmeTheEmptyAudioEvent;
 
-class ThingTemplate
+class BfmeFinderTU
 {
 public:
-	const AudioEventRTS *getPerUnitSound(const AsciiString &name) const;
-
-private:
-	char m_bfmeHead[0x04];
-	BfmeOverridable *m_bfmeOverride;
-	char m_bfmeMid[0x158 - 0x08];
-	BfmeSoundProvider **m_bfmeProviders;
+	virtual void bfmeSlotB00TU();
+	virtual const AudioEventRTS *bfmeFindTU(const AsciiStringTU &name);
 };
 
-const AudioEventRTS *ThingTemplate::getPerUnitSound(const AsciiString &name) const
+class BfmeEntryTU
 {
-	BfmeSoundProvider **provider = m_bfmeProviders;
+public:
+	virtual void bfmeSlotA00TU();
+	virtual void bfmeSlotA01TU();
+	virtual void bfmeSlotA02TU();
+	virtual void bfmeSlotA03TU();
+	virtual void bfmeSlotA04TU();
+	virtual void bfmeSlotA05TU();
+	virtual void bfmeSlotA06TU();
+	virtual void bfmeSlotA07TU();
+	virtual void bfmeSlotA08TU();
+	virtual void bfmeSlotA09TU();
+	virtual void bfmeSlotA10TU();
+	virtual BfmeFinderTU *bfmeGetFinderTU();
+};
 
-	if (provider)
+BfmeParentTU *__fastcall bfmeResolveTU(BfmeSubTU *sub);
+
+class BfmeParentTU
+{
+public:
+	const AudioEventRTS *bfmeLookupTU(const AsciiStringTU &name);
+
+	int m_bfmeHeadTU;
+	BfmeSubTU *m_bfmeSubTU;
+};
+
+__forceinline BfmeParentTU *bfmeBaseTU(BfmeParentTU *p)
+{
+	if (p->m_bfmeSubTU != 0)
+		return bfmeResolveTU(p->m_bfmeSubTU);
+
+	return p;
+}
+
+class BfmeTemplateTU
+{
+public:
+	const AudioEventRTS *bfmeGetSoundTU(const AsciiStringTU &name) const;
+
+	int m_bfmeHeadTU;
+	BfmeParentTU *m_bfmeParentTU;
+	unsigned char m_bfmePadTU[0x150];
+	BfmeEntryTU **m_bfmeSoundsTU;
+};
+
+const AudioEventRTS *BfmeTemplateTU::bfmeGetSoundTU(const AsciiStringTU &name) const
+{
+	BfmeEntryTU **p = m_bfmeSoundsTU;
+
+	if (p != 0)
 	{
-		do
+		while (*p != 0)
 		{
-			BfmeSoundProvider *entry = *provider;
+			BfmeFinderTU *f = (*p)->bfmeGetFinderTU();
 
-			if (entry == 0)
-				break;
-
-			BfmeSoundLookup *lookup = entry->bfmeGetLookup();
-
-			if (lookup)
+			if (f != 0)
 			{
-				const AudioEventRTS *sound = lookup->bfmeFind(name);
+				const AudioEventRTS *r = f->bfmeFindTU(name);
 
-				if (sound)
-					return sound;
+				if (r != 0)
+					return r;
 			}
+
+			p++;
 		}
-		while (++provider);
 	}
 
-	BfmeOverridable *o = m_bfmeOverride;
-	if (o)
-	{
-		if (o->m_bfmeNextOverride)
-			o = o->m_bfmeNextOverride->friend_getFinalOverride();
-	}
-	else
-		o = 0;
+	BfmeParentTU *parent = m_bfmeParentTU;
+	BfmeParentTU *base = parent != 0 ? bfmeBaseTU(parent) : 0;
 
-	const AudioEventRTS *sound = o->bfmeLookupPerUnitSound(name);
+	const AudioEventRTS *r = base->bfmeLookupTU(name);
 
-	if (sound)
-		return sound;
+	if (r != 0)
+		return r;
 
 	return &BfmeTheEmptyAudioEvent;
 }
