@@ -85979,3 +85979,4 @@ _bfmeVftEAZ,0x00CFA338,pin vftable for BfmeConv2016
 ?bfmeSetMatrixTN@BfmeThingTN@@QAEXPBVMatrix3DTN@@@Z,0x000361CE,pin set matrix for BfmeConv2024
 ?bfmeMarkTN@BfmeThingTN@@QAEXI@Z,0x0002BB43,pin mark for BfmeConv2024
 ?bfmeFlagTN@BfmeXTN@@QAEXH@Z,0x00034C3E,pin flag for BfmeConv2024
+?clearSideStorageAt0019B4C0@Rva0019BE80SidesList@@AAEXXZ,0x0019B4C0,Descriptive reconstruction: proven same-this side storage cleanup called by the two SidesList reset/clear bodies through ILT 0x00017BAC; full 296-byte body clears counts +0x28/+0x32C and 32 paired 0x18-byte side records; original method spelling unknown
