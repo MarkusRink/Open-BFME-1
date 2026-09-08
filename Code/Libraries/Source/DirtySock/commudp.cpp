@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX /Od /GZ
 
 // EA's DirtySock CommUDP transport, which BFME uses for its GameSpy/online
 // traffic. It has no counterpart in the vendored Zero Hour reference, and no
@@ -19,30 +19,14 @@ extern "C" {
 	int CommUDPResolve(void *ref, const char *addr, char *buffer, int length, char divider);
 }
 
+int Rva007FE780Printf(const char *format, ...);
+
 // Always fails: it logs "CommUDPResolve: Resolve functionality not supported by
 // CommUDP" and returns the error.
-__declspec(naked) int CommUDPResolve(void *ref, const char *addr, char *buffer, int length, char divider)
+int CommUDPResolve(void *ref, const char *addr, char *buffer, int length, char divider)
 {
-	__asm {
-		push ebp
-		mov ebp, esp
-		push 12C4F90h
-		__emit 0E8h
-		__emit 063h
-		__emit 075h
-		__emit 0FEh
-		__emit 0FFh   // call 0x7FE780
-		add esp, 4h
-		or eax, 0FFFFFFFFh
-		cmp ebp, esp
-		__emit 0E8h
-		__emit 0D8h
-		__emit 002h
-		__emit 01Eh
-		__emit 000h   // call 0x9F7502
-		pop ebp
-		ret
-	}
+	Rva007FE780Printf("CommUDPResolve: Resolve functionality not supported by CommUDP\n");
+	return -1;
 }
 
 // Hands a datagram to the socket layer, logging "CommUDPWrite: SocketSendto
