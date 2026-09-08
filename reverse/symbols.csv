@@ -86116,3 +86116,5 @@ __imp_??0BfmeBaseGL@@QAE@XZ,0x00F59214,pin base ctor for BfmeConv2066
 ?bfmeSwapSubGQ@@YAXPAVBfmeSubGQ@@0@Z,0x00025176,pin sub swap for BfmeConv2068
 ?bfmeApplyGR@BfmeThingGR@@QAEXH@Z,0x0090C9E0,pin apply for BfmeConv2069
 _bfmeVftGS,0x00C968B0,pin vftable for BfmeConv2070
+?g_bfmeDivGT@@3HA,0x00EBB1CC,pin divisor for BfmeConv2071
+?bfmeStartGT@BfmeSubGT@@QAEXHHM@Z,0x0002A1B2,pin start for BfmeConv2071
