@@ -86144,3 +86144,6 @@ _bfmeVftGS,0x00C968B0,pin vftable for BfmeConv2070
 ?removeLastChar@UnicodeString@@QAEXXZ,0x00888840,BFME UnicodeString trim helper called by HostDirectConnectGame
 ?GadgetTextEntryGetText@@YA?AVUnicodeString@@PAVGameWindow@@@Z,0x000220B1,HostDirectConnectGame calls the incremental-link thunk
 ?UnicodeStringToQuotedPrintable@@YA?AVAsciiString@@VUnicodeString@@@Z,0x0003F4DB,HostDirectConnectGame calls the incremental-link thunk
+??0?$StringBase@G@@IAE@ABV0@@Z,0x00888400,BFME display-name getter UnicodeString forwarding-base copy constructor
+??0?$StringBase@G@@IAE@PBG@Z,0x00888DE0,BFME display-name getter UnicodeString forwarding-base wide-text constructor
+??1?$StringBase@G@@IAE@XZ,0x008881D0,BFME display-name getter UnicodeString forwarding-base destructor
