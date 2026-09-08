@@ -5880,7 +5880,7 @@ name,address,notes
 ??1ParticleInfo@@UAE@XZ,0x00029BF9,authentic virtual destructor callee; vtable 0x0110FE78 and FXParticleInfo name slot prove identity
 ??1Gen_dtor_005cf050@@UAE@XZ,0x00005556,gen-dtor class destructor
 ??1Gen_dtor_005d2300@@UAE@XZ,0x00030652,gen-dtor class destructor
-??1Gen_dtor_005d2bd0@@UAE@XZ,0x0003B719,gen-dtor class destructor
+??1Image@@UAE@XZ,0x0003B719,authentic virtual Image destructor callee; Image vtable 0x0110FFEC and constructor 0x005D2260 prove identity
 ??1Gen_dtor_005d37c0@@UAE@XZ,0x00018467,gen-dtor class destructor
 ??1Gen_dtor_005d4210@@UAE@XZ,0x00020B67,gen-dtor class destructor
 ??1Gen_dtor_005d42f0@@UAE@XZ,0x000056D7,gen-dtor class destructor
