@@ -470,71 +470,20 @@ __declspec(naked) Coord2D &Coord2D::Rotate(float angle)
     }
 }
 
-__declspec(naked) Coord2D &Coord2D::Rotate(const Coord2D &source, float angle)
+Coord2D &Coord2D::Rotate(const Coord2D &source, float angle)
 {
+    float sine;
+    float cosine;
     __asm {
-        __emit 0x83
-        __emit 0xec
-        __emit 0x08
-        __emit 0x8b
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x44
-        __emit 0x24
-        __emit 0x10
-        __emit 0xd9
-        __emit 0xfb
-        __emit 0xd9
-        __emit 0x1c
-        __emit 0x24
-        __emit 0xd9
-        __emit 0x5c
-        __emit 0x24
-        __emit 0x04
-        __emit 0xd9
-        __emit 0x04
-        __emit 0x24
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x0c
-        __emit 0xd8
-        __emit 0x09
-        __emit 0xd9
-        __emit 0x44
-        __emit 0x24
-        __emit 0x04
-        __emit 0xd8
-        __emit 0x49
-        __emit 0x04
-        __emit 0xde
-        __emit 0xe9
-        __emit 0xd9
-        __emit 0x18
-        __emit 0xd9
-        __emit 0x04
-        __emit 0x24
-        __emit 0xd8
-        __emit 0x49
-        __emit 0x04
-        __emit 0xd9
-        __emit 0x44
-        __emit 0x24
-        __emit 0x04
-        __emit 0xd8
-        __emit 0x09
-        __emit 0xde
-        __emit 0xc1
-        __emit 0xd9
-        __emit 0x58
-        __emit 0x04
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x08
-        __emit 0xc2
-        __emit 0x08
-        __emit 0x00
+        fld angle
+        fsincos
+        fstp cosine
+        fstp sine
     }
+
+    x = cosine * source.x - sine * source.y;
+    y = cosine * source.y + sine * source.x;
+    return *this;
 }
 
 Coord2D &Coord2D::Scale(float scale)
