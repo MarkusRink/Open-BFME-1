@@ -14,7 +14,6 @@ extern "C" {
 	void *GetPreviewFromMap(void *out, void *path);
 	void *GetArtPreviewFromMap(void *out, void *path);
 	void *GetPicPreviewFromMap(void *out, void *path);
-	void *GetSoloINIFromMap(void *out, void *path);
 	void *GetAssetUsageFromMap(void *out, void *path);
 	void *GetReadmeFromMap(void *out, void *path);
 	int doFileTransfer(void *filename, void *ls, int mask);
@@ -456,105 +455,6 @@ L03_66DA4B:
 // has the same function building the same string.
 // Builds "%s\\solo.ini" from the map path's directory. Retail's name: the ZH reference
 // has the same function building the same string.
-__declspec(naked) void *GetSoloINIFromMap(void *out, void *path)
-{
-	__asm {
-		push 0FFFFFFFFh
-		push 1044B71h
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		sub esp, 10h
-		push esi
-		xor esi, esi
-		mov dword ptr [esp+0Ch], esi
-		push ecx
-		lea eax,  [esp+2Ch]
-		mov dword ptr [esp+0Ch], esp
-		mov ecx, esp
-		push eax
-		mov dword ptr [esp+24h], 1h
-		__emit 0E8h
-		__emit 0E8h
-		__emit 09Dh
-		__emit 021h
-		__emit 000h   // call 0x887B60
-		lea ecx,  [esp+0Ch]
-		push ecx
-		__emit 0E8h
-		__emit 09Dh
-		__emit 063h
-		__emit 099h
-		__emit 0FFh   // call 0x411F
-		add esp, 8h
-		mov dword ptr [esp+4h], esi
-		mov eax, dword ptr [esp+8h]
-		cmp eax, esi
-		mov byte ptr [esp+1Ch], 3h
-		je L00_66DD9B
-		add eax, 8h
-		jmp L01_66DDA0
-L00_66DD9B:
-		mov eax, 107388Bh
-L01_66DDA0:
-		push eax
-		push ecx
-		mov dword ptr [esp+18h], esp
-		mov ecx, esp
-		push 10EAEE0h
-		__emit 0E8h
-		__emit 00Eh
-		__emit 0AEh
-		__emit 021h
-		__emit 000h   // call 0x888BC0
-		lea edx,  [esp+0Ch]
-		push edx
-		__emit 0E8h
-		__emit 034h
-		__emit 0B2h
-		__emit 021h
-		__emit 000h   // call 0x888FF0
-		mov esi, dword ptr [esp+30h]
-		add esp, 0Ch
-		lea eax,  [esp+4h]
-		push eax
-		mov ecx, esi
-		__emit 0E8h
-		__emit 091h
-		__emit 09Dh
-		__emit 021h
-		__emit 000h   // call 0x887B60
-		lea ecx,  [esp+4h]
-		mov dword ptr [esp+0Ch], 1h
-		mov byte ptr [esp+1Ch], 2h
-		__emit 0E8h
-		__emit 05Bh
-		__emit 09Bh
-		__emit 021h
-		__emit 000h   // call 0x887940
-		lea ecx,  [esp+8h]
-		mov byte ptr [esp+1Ch], 1h
-		__emit 0E8h
-		__emit 04Dh
-		__emit 09Bh
-		__emit 021h
-		__emit 000h   // call 0x887940
-		lea ecx,  [esp+28h]
-		mov byte ptr [esp+1Ch], 0h
-		__emit 0E8h
-		__emit 03Fh
-		__emit 09Bh
-		__emit 021h
-		__emit 000h   // call 0x887940
-		mov ecx, dword ptr [esp+14h]
-		mov eax, esi
-		mov dword ptr fs:[0h], ecx
-		pop esi
-		add esp, 1Ch
-		ret
-	}
-}
-
 // Builds "%s\\assetusage.txt" from the map path's directory. Retail's name: the ZH reference
 // has the same function building the same string.
 __declspec(naked) void *GetAssetUsageFromMap(void *out, void *path)
