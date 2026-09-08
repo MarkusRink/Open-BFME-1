@@ -86418,3 +86418,6 @@ __imp__GetClientRect@8,0x0135901C,Open-BFME5 USER32 GetClientRect import the 0x0
 ?bfmeRangeABB@BfmeSubABB@@QAEXPAUBfmeIterABB@@0@Z,0x0004833D,Open-BFME5 ILT range fill the 0x000A1310 accessor calls
 ?bfmeDiagABB@@YGPAUBfmeNodeABB@@PAUBfmeIterABB@@PBX@Z,0x009F6D00,Open-BFME5 checked-iterator diagnostic the 0x000A1310 accessor calls when the range is empty
 ?g_bfmeDescABB@@3PBXB,0x011E0004,Open-BFME5 descriptor the 0x000A1310 accessor passes to the diagnostic
+?reset@Transport@@QAEXXZ,0x0003A48B,route=0x00683450; fullLANAPISetLocalIP199 actualretailcall through verifiedILT to matchedcanonicalbody; campaign=astra36h-20260908
+?init@Transport@@QAE_NPBUTransportAddress@@@Z,0x0001B103,route=0x00684200; fullLANAPISetLocalIP199 actualretailcall through verifiedILT to matchedcanonicalbody; campaign=astra36h-20260908
+?AllowBroadcasts@UDP@@QAEH_N@Z,0x00004F6B,route=0x006848C0; fullLANAPISetLocalIP199 actualretailcall through verifiedILT to matchedcanonicalbody; campaign=astra36h-20260908
