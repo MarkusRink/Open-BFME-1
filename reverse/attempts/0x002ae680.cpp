@@ -1,65 +1,76 @@
-// ?d_002ae680@@YAXXZ
-// partial score=0.8 date=2026-09-08
-class GeometryInfo
+// ?getCollapseHeight@StructureCollapseRetailLayout@@QAEMXZ
+// partial score=0.98 date=2026-09-08
+class BfmeGeomTH
 {
 public:
-	float getMaxHeightAbovePosition() const;
-
-	unsigned char m_bfmeBodySC[0x10];
+	float bfmeMaxHeightTH() const;
 };
 
-class BfmeSubSC;
-class BfmeThingSC;
-
-BfmeThingSC *__fastcall bfmeResolveSC(BfmeSubSC *sub);
-
-class BfmeThingSC
+class BfmeTmplTH
 {
 public:
-	int m_bfmeHeadSC;
-	BfmeSubSC *m_bfmeSubSC;
-	unsigned char m_bfmePadSC[0x58];
-	GeometryInfo m_bfmeGeomSC;
+	const BfmeTmplTH *bfmeFinalTH() const;
+
+	const BfmeTmplTH *bfmeResolveTH() const
+	{
+		if (this == 0)
+			return 0;
+
+		if (m_bfmeOverTH == 0)
+			return this;
+
+		return m_bfmeOverTH->bfmeFinalTH();
+	}
+
+	void *m_bfmeVfTH;
+	BfmeTmplTH *m_bfmeOverTH;
+	unsigned char m_bfmePadTH[0x58];
+	BfmeGeomTH m_bfmeGeomTH;
 };
 
-class BfmeListSC
+class BfmeOwnerTH
 {
 public:
-	int m_bfmeHeadSC;
-	BfmeThingSC *m_bfmeThingSC;
+	void *m_bfmeHeadTH;
+	BfmeTmplTH *m_bfmeTmplTH;
 };
 
-class BfmeOwnerSC
+class BfmeObjTH
 {
 public:
-	unsigned char m_bfmeHeadSC[0xf4];
-	float m_bfmeHeightSC;
+	unsigned char m_bfmeHeadTH[0xf4];
+	float m_bfmeHeightTH;
 };
 
-class BfmeHostSC
+class BfmeHolderTH
 {
 public:
-	float bfmeCollapseHeightSC();
+	float bfmeCollapseHeightTH() const;
 
-	int m_bfmeHeadSC;
-	BfmeOwnerSC *m_bfmeOwnerSC;
-	BfmeListSC *m_bfmeListSC;
+	void *m_bfmeVfTH;
+	BfmeObjTH *m_bfmeObjTH;
+	BfmeOwnerTH *m_bfmeOwnerTH;
 };
 
-__forceinline float bfmeGeomHeightSC(BfmeListSC *list)
+__forceinline const BfmeTmplTH *bfmeResolveTH(BfmeTmplTH *volatile *pp)
 {
-	BfmeThingSC *t = list->m_bfmeThingSC;
+	BfmeTmplTH *o = *pp;
 
-	if (t != 0 && t->m_bfmeSubSC != 0)
-		t = bfmeResolveSC(t->m_bfmeSubSC);
+	if (o == 0)
+		return 0;
 
-	return t->m_bfmeGeomSC.getMaxHeightAbovePosition();
+	if (o->m_bfmeOverTH == 0)
+		return o;
+
+	return o->m_bfmeOverTH->bfmeFinalTH();
 }
 
-float BfmeHostSC::bfmeCollapseHeightSC()
+float BfmeHolderTH::bfmeCollapseHeightTH() const
 {
-	if (bfmeGeomHeightSC(m_bfmeListSC) < m_bfmeOwnerSC->m_bfmeHeightSC)
-		return m_bfmeOwnerSC->m_bfmeHeightSC;
+	BfmeObjTH *o = m_bfmeObjTH;
 
-	return bfmeGeomHeightSC(m_bfmeListSC);
+	if (bfmeResolveTH((BfmeTmplTH *volatile *)&m_bfmeOwnerTH->m_bfmeTmplTH)->m_bfmeGeomTH.bfmeMaxHeightTH() < o->m_bfmeHeightTH)
+		return m_bfmeObjTH->m_bfmeHeightTH;
+
+	return bfmeResolveTH((BfmeTmplTH *volatile *)&m_bfmeOwnerTH->m_bfmeTmplTH)->m_bfmeGeomTH.bfmeMaxHeightTH();
 }
