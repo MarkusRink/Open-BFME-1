@@ -1,461 +1,113 @@
-// cl: /DNDEBUG /MD /EHsc
-// Open-BFME5: lift the retail DefaultModuleTemplate<2, FXParticleSystem>::writeINI MASM body into a C++ thunk.
+// cl: /DNDEBUG /MD /EHsc /O2 /Ob2
 
-extern "C" __declspec(naked) void bfme_DefaultModuleTemplate02WriteINI_5FE210()
+class File {};
+class INI {};
+
+namespace _STL {
+template <class T> class char_traits {};
+template <class T> class allocator {};
+template <bool threads, int instance> class __node_alloc {
+public: static void _M_deallocate(void *, unsigned int);
+};
+template <class C, class T, class A> class basic_string {
+public:
+	~basic_string() {
+		unsigned int bytes = (unsigned int)(m_storageEnd - m_start) * sizeof(C);
+		if (m_start) {
+			if (bytes > 128) ::operator delete(m_start);
+			else __node_alloc<true, 0>::_M_deallocate(m_start, bytes);
+		}
+	}
+	C *m_start; C *m_finish; C *m_storageEnd;
+};
+class ios_base {
+protected: ios_base();
+public: virtual ~ios_base();
+};
+template <class C, class T> class basic_streambuf {
+public: virtual ~basic_streambuf();
+};
+template <class C, class T> class basic_ios : public ios_base {
+public: basic_ios(); virtual ~basic_ios() {}
+protected: void init(basic_streambuf<C, T> *);
+private: char padding_[0x50]; C fill_; basic_streambuf<C, T> *streambuf_; basic_ios<C, T> *tie_;
+};
+template <class C, class T> class basic_ostream : virtual public basic_ios<C, T> {
+public: basic_ostream(basic_streambuf<C, T> *); virtual ~basic_ostream();
+};
+template <class C, class T> class basic_filebuf : public basic_streambuf<C, T> {
+public: basic_filebuf(int); virtual ~basic_filebuf();
+private: char padding_[0x68];
+};
+template <class C, class T> class basic_ofstream : public basic_ostream<C, T> {
+public: basic_ofstream(int); virtual ~basic_ofstream();
+private: basic_filebuf<C, T> buf_;
+};
+}
+
+typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > StreamText;
+typedef _STL::basic_ofstream<char, _STL::char_traits<char> > OutputStream;
+
+class StreamTextAccessor { public: StreamText getText(); };
+class FileWriteShim {
+public:
+	virtual ~FileWriteShim(); virtual void open(); virtual void close(); virtual void read();
+	virtual int write(const void *buffer, int bytes);
+};
+__forceinline void writeStreamText(File &file, const StreamText &text)
 {
-    __asm {
-        __emit 0x6a;
-        __emit 0xff;
-        __emit 0x68;
-        __emit 0x56;
-        __emit 0xcb;
-        __emit 0x3;
-        __emit 0x1;
-        __emit 0x64;
-        __emit 0xa1;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x50;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0x25;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x81;
-        __emit 0xec;
-        __emit 0xdc;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x56;
-        __emit 0x57;
-        __emit 0x8b;
-        __emit 0xbc;
-        __emit 0x24;
-        __emit 0xf4;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x8d;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xf8;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x50;
-        __emit 0x8b;
-        __emit 0xf1;
-        __emit 0x57;
-        __emit 0x56;
-        __emit 0xe8;
-        __emit 0x73;
-        __emit 0xb8;
-        __emit 0xa3;
-        __emit 0xff;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0xc;
-        __emit 0x6a;
-        __emit 0x1;
-        __emit 0x6a;
-        __emit 0x10;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x1c;
-        __emit 0xe8;
-        __emit 0x8a;
-        __emit 0x0;
-        __emit 0xa3;
-        __emit 0xff;
-        __emit 0xd9;
-        __emit 0x5;
-        __emit 0x50;
-        __emit 0x53;
-        __emit 0x7;
-        __emit 0x1;
-        __emit 0xd9;
-        __emit 0x46;
-        __emit 0x18;
-        __emit 0x8d;
-        __emit 0x4e;
-        __emit 0x18;
-        __emit 0xda;
-        __emit 0xe9;
-        __emit 0xc7;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xec;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0xdf;
-        __emit 0xe0;
-        __emit 0xf6;
-        __emit 0xc4;
-        __emit 0x44;
-        __emit 0x7b;
-        __emit 0x1b;
-        __emit 0x51;
-        __emit 0x8b;
-        __emit 0x8c;
-        __emit 0x24;
-        __emit 0xfc;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x68;
-        __emit 0x2c;
-        __emit 0xb9;
-        __emit 0x7;
-        __emit 0x1;
-        __emit 0x51;
-        __emit 0x8d;
-        __emit 0x54;
-        __emit 0x24;
-        __emit 0x20;
-        __emit 0x52;
-        __emit 0xe8;
-        __emit 0xfd;
-        __emit 0x19;
-        __emit 0xa2;
-        __emit 0xff;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x10;
-        __emit 0xd9;
-        __emit 0x5;
-        __emit 0x50;
-        __emit 0x53;
-        __emit 0x7;
-        __emit 0x1;
-        __emit 0x8d;
-        __emit 0x4e;
-        __emit 0x1c;
-        __emit 0xd9;
-        __emit 0x41;
-        __emit 0x4;
-        __emit 0xda;
-        __emit 0xe9;
-        __emit 0xdf;
-        __emit 0xe0;
-        __emit 0xf6;
-        __emit 0xc4;
-        __emit 0x44;
-        __emit 0x7a;
-        __emit 0x12;
-        __emit 0xd9;
-        __emit 0x5;
-        __emit 0x50;
-        __emit 0x53;
-        __emit 0x7;
-        __emit 0x1;
-        __emit 0xd9;
-        __emit 0x41;
-        __emit 0x8;
-        __emit 0xda;
-        __emit 0xe9;
-        __emit 0xdf;
-        __emit 0xe0;
-        __emit 0xf6;
-        __emit 0xc4;
-        __emit 0x44;
-        __emit 0x7b;
-        __emit 0x1b;
-        __emit 0x8b;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xf8;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x51;
-        __emit 0x68;
-        __emit 0x9c;
-        __emit 0x45;
-        __emit 0x11;
-        __emit 0x1;
-        __emit 0x50;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x20;
-        __emit 0x51;
-        __emit 0xe8;
-        __emit 0xb5;
-        __emit 0x50;
-        __emit 0xa3;
-        __emit 0xff;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x10;
-        __emit 0xd9;
-        __emit 0x5;
-        __emit 0x50;
-        __emit 0x53;
-        __emit 0x7;
-        __emit 0x1;
-        __emit 0x8d;
-        __emit 0x4e;
-        __emit 0xc;
-        __emit 0xd9;
-        __emit 0x1;
-        __emit 0xda;
-        __emit 0xe9;
-        __emit 0xdf;
-        __emit 0xe0;
-        __emit 0xf6;
-        __emit 0xc4;
-        __emit 0x44;
-        __emit 0x7a;
-        __emit 0x24;
-        __emit 0xd9;
-        __emit 0x5;
-        __emit 0x50;
-        __emit 0x53;
-        __emit 0x7;
-        __emit 0x1;
-        __emit 0xd9;
-        __emit 0x41;
-        __emit 0x4;
-        __emit 0xda;
-        __emit 0xe9;
-        __emit 0xdf;
-        __emit 0xe0;
-        __emit 0xf6;
-        __emit 0xc4;
-        __emit 0x44;
-        __emit 0x7a;
-        __emit 0x12;
-        __emit 0xd9;
-        __emit 0x5;
-        __emit 0x50;
-        __emit 0x53;
-        __emit 0x7;
-        __emit 0x1;
-        __emit 0xd9;
-        __emit 0x41;
-        __emit 0x8;
-        __emit 0xda;
-        __emit 0xe9;
-        __emit 0xdf;
-        __emit 0xe0;
-        __emit 0xf6;
-        __emit 0xc4;
-        __emit 0x44;
-        __emit 0x7b;
-        __emit 0x1b;
-        __emit 0x8b;
-        __emit 0x94;
-        __emit 0x24;
-        __emit 0xf8;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x51;
-        __emit 0x68;
-        __emit 0x8c;
-        __emit 0x45;
-        __emit 0x11;
-        __emit 0x1;
-        __emit 0x52;
-        __emit 0x8d;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x20;
-        __emit 0x50;
-        __emit 0xe8;
-        __emit 0xc2;
-        __emit 0x9f;
-        __emit 0xa3;
-        __emit 0xff;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x10;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x8;
-        __emit 0x51;
-        __emit 0x8d;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0xe8;
-        __emit 0xf3;
-        __emit 0xe6;
-        __emit 0xa1;
-        __emit 0xff;
-        __emit 0x8b;
-        __emit 0x8;
-        __emit 0x8b;
-        __emit 0x40;
-        __emit 0x4;
-        __emit 0x8b;
-        __emit 0x17;
-        __emit 0x2b;
-        __emit 0xc1;
-        __emit 0x50;
-        __emit 0x51;
-        __emit 0x8b;
-        __emit 0xcf;
-        __emit 0xc6;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xf4;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x1;
-        __emit 0xff;
-        __emit 0x52;
-        __emit 0x10;
-        __emit 0x8b;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x8;
-        __emit 0x8b;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x10;
-        __emit 0x2b;
-        __emit 0xc1;
-        __emit 0x85;
-        __emit 0xc9;
-        __emit 0xc6;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xec;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x74;
-        __emit 0x1c;
-        __emit 0x3d;
-        __emit 0x80;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x76;
-        __emit 0xb;
-        __emit 0x51;
-        __emit 0xe8;
-        __emit 0x42;
-        __emit 0x3b;
-        __emit 0x28;
-        __emit 0x0;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x4;
-        __emit 0xeb;
-        __emit 0xa;
-        __emit 0x50;
-        __emit 0x51;
-        __emit 0xe8;
-        __emit 0x76;
-        __emit 0x2;
-        __emit 0x23;
-        __emit 0x0;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x8;
-        __emit 0x8d;
-        __emit 0x8c;
-        __emit 0x24;
-        __emit 0xf8;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x51;
-        __emit 0x57;
-        __emit 0xe8;
-        __emit 0x1;
-        __emit 0x7e;
-        __emit 0xa4;
-        __emit 0xff;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x8;
-        __emit 0x8d;
-        __emit 0x8c;
-        __emit 0x24;
-        __emit 0x84;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0xc7;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0xec;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0xff;
-        __emit 0xe8;
-        __emit 0xd5;
-        __emit 0xb4;
-        __emit 0xa2;
-        __emit 0xff;
-        __emit 0x8d;
-        __emit 0x8c;
-        __emit 0x24;
-        __emit 0x84;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0xc7;
-        __emit 0x84;
-        __emit 0x24;
-        __emit 0x84;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0xc4;
-        __emit 0xeb;
-        __emit 0x12;
-        __emit 0x1;
-        __emit 0xe8;
-        __emit 0x74;
-        __emit 0x13;
-        __emit 0x24;
-        __emit 0x0;
-        __emit 0x8b;
-        __emit 0x8c;
-        __emit 0x24;
-        __emit 0xe4;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x5f;
-        __emit 0x5e;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0xd;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x81;
-        __emit 0xc4;
-        __emit 0xe8;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0x0;
-        __emit 0xc2;
-        __emit 0x8;
-        __emit 0x0;
-    }
+	reinterpret_cast<FileWriteShim *>(&file)->write(text.m_start, (int)(text.m_finish - text.m_start));
+}
+
+extern const float BfmeZeroRange;
+
+namespace FXParticleSystem {
+
+struct RandomVariableWriteView {
+	unsigned int distribution;
+	float minimum;
+	float maximum;
+};
+
+void writeDefaultPhysicsHeader(const void *self, File *file, unsigned int *flags);
+void writePhysicsScalar(INI *stream, void *flags, const void *name, const float *value);
+void writePhysicsPair(void *stream, void *flags, const void *name, RandomVariableWriteView *value);
+void writePhysicsVector(INI *stream, void *flags, const void *name, const float *value);
+void writeINI_part2(File *file, unsigned int *flags);
+
+template <int Category> class DefaultModuleTemplate {};
+template <> class DefaultModuleTemplate<3> {
+public:
+	virtual void writeINI(File &file, unsigned int flags) const;
+private:
+	unsigned char padding_[0x08];
+	float driftVelocity_[3];
+	float gravity_;
+	RandomVariableWriteView velocityDamping_;
+};
+
+// ?writeINI@?$DefaultModuleTemplate@$02@FXParticleSystem@@UBEXAAVFile@@I@Z
+void DefaultModuleTemplate<3>::writeINI(File &file, unsigned int flags) const
+{
+	writeDefaultPhysicsHeader(this, &file, &flags);
+	OutputStream stream(0x10);
+
+	if (gravity_ != BfmeZeroRange)
+		writePhysicsScalar((INI *)&stream, (void *)flags, (const void *)0x0107b92c, &gravity_);
+
+	RandomVariableWriteView *damping =
+		(RandomVariableWriteView *)((unsigned char *)this + 0x1c);
+	if (damping->minimum != BfmeZeroRange || damping->maximum != BfmeZeroRange)
+		writePhysicsPair((void *)&stream, (void *)flags, (const void *)0x0111459c,
+			damping);
+
+	float *drift = (float *)((unsigned char *)this + 0x0c);
+	if (drift[0] != BfmeZeroRange || drift[1] != BfmeZeroRange ||
+		drift[2] != BfmeZeroRange)
+		writePhysicsVector((INI *)&stream, (void *)flags, (const void *)0x0111458c,
+			drift);
+
+	writeStreamText(file, reinterpret_cast<StreamTextAccessor *>(&stream)->getText());
+	writeINI_part2(&file, &flags);
+}
 }

@@ -86131,3 +86131,7 @@ _bfmeVftGS,0x00C968B0,pin vftable for BfmeConv2070
 ??1?$basic_filebuf@DV?$char_traits@D@_STL@@@_STL@@UAE@XZ,0x00044459,default alpha writer inlined ofstream member teardown ILT
 ?getFileName@MapMetaData@@QBE?AVUnicodeString@@XZ,0x00451350,MapMetaData file-name getter inferred from m_fileName at +0x50 and the UnicodeString translation body called by Q4Sort004566F0
 ?bfmeBlockedHN@BfmeAiHelperHN@@QAE_NPAVBfmeObjHN@@PAVBfmeVec3HN@@@Z,0x00033E06,pin blocked for BfmeConv2072
+?writeDefaultPhysicsHeader@FXParticleSystem@@YAXPBXPAVFile@@PAI@Z,0x00039AB8,DefaultModuleTemplate physics writer header ILT
+?writePhysicsScalar@FXParticleSystem@@YAXPAVINI@@PAXPBXPBM@Z,0x0001FC8A,DefaultModuleTemplate Gravity writer ILT
+?writePhysicsPair@FXParticleSystem@@YAXPAX0PBXPAURandomVariableWriteView@1@@Z,0x00033384,DefaultModuleTemplate VelocityDamping writer ILT
+?writePhysicsVector@FXParticleSystem@@YAXPAVINI@@PAXPBXPBM@Z,0x000382E4,DefaultModuleTemplate DriftVelocity writer ILT
