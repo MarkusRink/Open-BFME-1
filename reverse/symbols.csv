@@ -86306,7 +86306,5 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-??1Condition@@UAE@XZ,0x000461B9,route=0x00352D20; actual Condition scalar deleting wrapper355CE0 calls proven complete destructor through this ILT; campaign=36h-20260908-1018
-?validUnderCursor@@YAPAVObject@@PBUICoord2D@@PBVCommandButton@@W4PickType@@@Z,0x005B15A0,static cursor target validator defined in GUICommandTranslator.cpp
 ??1TeamPrototype@@MAE@XZ,0x00023641,route=0x000F6E40; actual TeamPrototype scalar wrapper F7580 calls canonical protected complete destructor through this ILT; campaign=36h-20260908-1018
 ?releaseBuffer@?$StringBase@D@@AAEXXZ,0x00887940,Canonical private StringBase<char> releaseBuffer; matched134B real body in WWLib/string_base.cpp; target3C0110 direct call
