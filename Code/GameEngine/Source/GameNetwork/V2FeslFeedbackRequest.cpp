@@ -8,6 +8,7 @@ typedef __int64 FeslInt64;
 
 extern "C" int __cdecl sprintf( char *buffer, const char *format, ... );
 
+extern const char g_Rva012DAC04[];
 extern const char g_Rva012DAC14[];
 extern const char g_Rva012DAC20[];
 extern const char g_Rva012DAC30[];
@@ -50,6 +51,21 @@ public:
 		const Rva007F2080ChatLog *chatLog, int chatLogCount,
 		const char *extraFeedbackDetail );
 };
+
+void Rva007F1F60Feedback::addTargetIds( Rva007E8810Message *msg,
+	const Rva007F2010TargetId *targetIds, int count )
+{
+	char key[ 32 ];
+	Rva007E8810Message *message = msg;
+	const Rva007F2010TargetId *ids = targetIds;
+	int limit = count;
+	for ( int i = 0; i < limit; ++i )
+	{
+		sprintf( key, g_Rva012DAC04, i );
+		message->addInt( key, ids[ i ].id );
+	}
+	message->addInt( "targetIds.[]", count );
+}
 
 void Rva007F1F60Feedback::addChatLog( Rva007E8810Message *msg,
 	const Rva007F2080ChatLog *chatLog, int count )

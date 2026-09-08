@@ -10538,6 +10538,7 @@ name,address,notes
 ?Compute_Caps@DX8Caps@@AAEXW4WW3DFormat@@ABU_D3DADAPTER_IDENTIFIER8@@@Z,0x0091C230
 ?Compute_Current_Frame@Animatable3DObjClass@@IBEMPAM@Z,0x00982540,called by Simple_Evaluate_Bone
 ?Compute_Ram_Size@AABTreeClass@@QAEHXZ,0x0096A630,callee of byte-verified MeshGeometryClass::Compute_Ram_Size
+g_Rva012DAC04,0x012DAC04,targetIds.%d format string used by addTargetIds at 0x007F2010
 ?Compute_Ram_Size@MeshMatDescClass@@QAEHXZ,0x00929BE0,called by MeshModelClass::Compute_Ram_Size at 0x0096C9B0; identity follows MeshMatDesc fields and direct calls
 ?Compute_Texture_Coordinate@MatrixMapperClass@@QAEXABVVector3@@PAV2@@Z,0x00924C30,pinharvest x1 (body)
 ?Cons0013A700@@YAXPAUElem00000128@@PBU1@@Z,0x0013A700,per-element callee of the 51-byte strided copy walks in BigStridedCopyWalks.cpp
