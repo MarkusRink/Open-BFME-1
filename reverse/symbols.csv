@@ -2580,6 +2580,7 @@ name,address,notes
 ??0ElvenWoodSpecialPowerModuleDataBase@@QAE@XZ,0x00015C44,ElvenWood SpecialPower base (shared 0x15c44)
 ??0Emotion@@QAE@PAVObject@@PAVEmotionTrackerUpdateEntry@@@Z,0x0002DD08,EmotionSystem::createEmotion allocates 0x34-byte Emotion and calls this Object-first constructor through its ILT; body at 0x0037BF60
 ??0EmotionNugget@@QAE@XZ,0x0001193C,derived from the REL32 displacement at 0x0037B8A0
+??0EmotionTrackerUpdateName@@QAE@XZ,0x0003747A,EmotionTrackerUpdateModuleData owned handle constructor at +0x10 through +0x1C paired with the exact named destructor
 ??0EstablishConnectionsMenu@@QAE@XZ,0x004B2C80,NAT establish672A60 calls via ILT0000F529; base vtable010FD79C slots4/5 route to matched setPlayerName004B2D10 and setPlayerStatus004B2DC0; derived menus6709F0/670A10 use same base
 ??0EvacuateDamage@@QAE@PAVThing@@PBVModuleData@@@Z,0x0003BD40,link thunk to the EvacuateDamage constructor; named from the ModuleFactory registration that pairs "EvacuateDamage" with factory 0x0011EA10
 ??0EvacuateDamageModuleData@@QAE@XZ,0x00018BC9,module-data constructor called by EvacuateDamage::friend_newModuleData at 0x0011EA90
@@ -84001,6 +84002,7 @@ name,address,notes
 ?setPlayerTimeoutTime@DisconnectMenu@@QAEXHH@Z,0x00020EB4,DisconnectManager status update percentage setter through ILT to the existing 0x0050ED70 body
 ?setPoints@SkirmishBattleHonors@@QAEXVAsciiString@@H@Z,0x0009C370,BFME per-side variant of ZH SkirmishBattleHonors::setPoints: concat("Points" at VA 0x01080498) onto the by-value AsciiString side prefix (the callers pass Gondor/Rohan/Isengard/Mordor) then setInt ILT 0x00009B3D (pinned) -> 0x000A96F0; ret 8
 ?setPolicies@RespawnPolicyMember@@QAEXURespawnPolicy@@0@Z,0x0000D3E1,RespawnBody policy assignment ILT
+?setPolicies@EmotionTrackerUpdateName@@QAEXVKindOfMask@@0@Z,0x0000D3E1,EmotionTrackerUpdateModuleData assigns the two 181-bit kind masks to each owned handle through this retail ILT
 ?setPortraitByObject@ControlBar@@AAEXPAVObject@@@Z,0x0002262E,incremental-link thunk read out of the call displacement in populateOCLTimer
 ?setPosition@BfmeThingPositionSetter@@QAEXPBUCoord3D@@@Z,0x0003A1A7,Open-BFME5 Thing setPosition thunk alias
 ?setPosition@Drawable@@QAEXPBUCoord3D@@@Z,0x0001742C
