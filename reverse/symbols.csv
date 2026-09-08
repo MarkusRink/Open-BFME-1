@@ -6596,7 +6596,6 @@ name,address,notes
 ??1Gen_dtorv_005d7f70@@UAE@XZ,0x00042F28,gen-dtor class destructor
 ??1Gen_dtorv_005d8140@@UAE@XZ,0x000271A6,gen-dtor class destructor
 ??1Gen_dtorv_005d84c0@@UAE@XZ,0x0001E952,gen-dtor class destructor
-??1Gen_dtorv_005d8ad0@@UAE@XZ,0x000459F8,gen-dtor class destructor
 ??1Gen_dtorv_005d8d80@@UAE@XZ,0x0003BE8A,gen-dtor class destructor
 ??1Gen_dtorv_005d9230@@UAE@XZ,0x00011A3B,gen-dtor class destructor
 ??1Gen_dtorv_005d9e30@@UAE@XZ,0x00040FDE,gen-dtor class destructor
