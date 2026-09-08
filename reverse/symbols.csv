@@ -77023,7 +77023,6 @@ name,address,notes
 ?bfmeStepFFF@BfmeThingFFF@@QAEXPAUBfmeSubFFF@@PAX@Z,0x00016C3E,pin
 ?bfmeStepJW@@YAXPAX@Z,0x009A85F0,pin step for BfmeConv2080
 ?bfmeStepRZ@BfmeThingRZ@@QAEXPAX@Z,0x00029311,pin
-?bfmeStepTAA@@YAXH@Z,0x0081B830,pin
 ?bfmeStepTDB@@YAXXZ,0x00904BA0,pin
 ?bfmeStepTKD@@YAXNH@Z,0x0002E90B,pin
 ?bfmeStepTWA@BfmeThingTWA@@QAEXXZ,0x007F8940,pin
