@@ -84,7 +84,8 @@ int __cdecl strncmp( const char *left, const char *right,
 	unsigned int count );
 }
 
-extern void d_0081b700( void );
+struct Rva0081BD40Comm;
+extern "C" void __cdecl Rva0081B700( struct Rva0081BD40Comm *comm );
 
 extern "C" int Rva0081B010( struct Rva0081B010Comm *comm, char *argument )
 {
@@ -114,7 +115,7 @@ extern "C" int Rva0081B010( struct Rva0081B010Comm *comm, char *argument )
 		return -8;
 
 	if ( comm->m_state == 1 )
-		((void (__cdecl *)( struct Rva0081B010Comm * ))d_0081b700)( comm );
+		Rva0081B700( reinterpret_cast< struct Rva0081BD40Comm * >( comm ) );
 
 	strncpy( temp, argument, 0x20 );
 	if ( strchr( temp, ':' ) != 0 )
