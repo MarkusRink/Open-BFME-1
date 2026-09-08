@@ -180,9 +180,12 @@ void _bfme_debugRecordCallsite(int);
 class GameLogic
 {
 public:
+    void setDefaults(bool);
     void friend_awakenUpdateModule(Object *, UpdateModule *, unsigned);
 
-    char pad00[0x3C];
+    char pad00[0x34];
+    float width;
+    float height;
     unsigned frame;
     char pad40[0x68];
     Object *objList;
@@ -190,9 +193,37 @@ public:
     _STL::vector<UpdateModule *> phaseUpdates[4];
     _STL::vector<UpdateModule *> sleeping;
     UpdateModule *current;
+    char pad104[4];
+    unsigned nextObjectID;
 };
 
 extern GameLogic *TheBfmeGameLogic;
+
+void GameLogic::setDefaults(bool loadingSaveGame)
+{
+    frame = 0;
+    width = 64.0f;
+    height = 64.0f;
+    objList = 0;
+    for (int i = 0; i != 4; ++i)
+    {
+        for (_STL::vector<UpdateModule *>::iterator it = phaseUpdates[i].begin();
+             it != phaseUpdates[i].end(); ++it)
+        {
+            (*it)->friend_setIndexInLogic(-1);
+        }
+        phaseUpdates[i].clear();
+    }
+    for (_STL::vector<UpdateModule *>::iterator it = sleeping.begin();
+         it != sleeping.end(); ++it)
+    {
+        (*it)->friend_setIndexInLogic(-1);
+    }
+    sleeping.clear();
+    current = 0;
+    if (!loadingSaveGame)
+        nextObjectID = 1;
+}
 
 void GameLogic::friend_awakenUpdateModule(Object *obj, UpdateModule *u, unsigned when)
 {
