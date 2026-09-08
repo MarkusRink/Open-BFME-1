@@ -86059,37 +86059,4 @@ g_theNameKeyGenerator,0x012ED600,TheNameKeyGenerator
 g_theWaypointNameDict,0x012A77A8,MapObject setWaypointName Dict global
 g_windGlobalA,0x012F7004,WindModuleInfo ctor global
 g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
-?begin@?$hashtable@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@@2@XZ,0x006115A0,LivingWorldManager BfmeThingNA map begin at this+0x194 through ILT 0x00009561
-?_M_bkt_num_key@?$hashtable@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@U?$_Select1st@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@U?$equal_to@VAsciiString@@@2@V?$allocator@U?$pair@$$CBVAsciiString@@PAVBfmeThingNA@@@_STL@@@2@@_STL@@ABEIABVAsciiString@@I@Z,0x00611CA0,LivingWorldManager BfmeThingNA map iterator bucket helper at this+0x194
-?erase@Rva0076F980Mid@@QAEPAVAsciiString@@PAV2@0@Z,0x00065960,typed neutral vector<AsciiString> erase; LivingWorldRegion resets reach this body through ILT 0x00024C17
-??1Rva0076F980Mid@@QAE@XZ,0x000658A0,neutral vector<AsciiString> destructor used by constructor EH cleanup; retail ILT 0x00026AB2 reaches body 0x000658A0
-?reset@Mouse@@UAEXXZ,0x0001E259,DirectInputMouse::reset at 0x006BB8D0 tail-jumps to this ILT; target body 0x005A4410 is the shared Mouse reset implementation
-__imp__BfmeFloorER,0x00F593B8,pin floor import for BfmeConv2039
-?g_bfmeFallbackET@@3MB,0x0069CECC,pin fallback ratio for BfmeConv2041
-?bfmeFinalET@BfmeTmplET@@QBEPBV1@XZ,0x000022BB,pin override walk for BfmeConv2041
-?bfmeMaxTurnET@BfmeHostET@@QBEMPAVBfmeThingET@@@Z,0x00024EA6,pin max turn rate for BfmeConv2041
-?_M_erase@?$_Rb_tree@V?$StringBase@D@@V1@U?$_Identity@V?$StringBase@D@@@_STL@@URva006AEE00Less@@V?$allocator@V?$StringBase@D@@@3@@_STL@@AAEXPAU?$_Rb_tree_node@V?$StringBase@D@@@2@@Z,0x0002900F,Rva006AEE00::init tree clear callee at retail 0x0002900F
-?begin@Rva006AEE00Hashtable@@QAE?AUIterator@1@XZ,0x0000AF6F,Rva006AEE00::init hash-table begin callee at retail 0x0000AF6F
-?bucketNumber@Rva006AEE00Hashtable@@QBEIABV?$StringBase@D@@I@Z,0x0004004D,Rva006AEE00::init hash-table bucket callee at retail 0x0004004D
-?insert_unique@Rva006AEE00Tree@@QAE?AUInsertResult@1@ABV?$StringBase@D@@@Z,0x0001BC02,Rva006AEE00::init tree insertion callee at retail 0x0001BC02
-?insert_unique@?$_Rb_tree@V?$StringBase@D@@V1@U?$_Identity@V?$StringBase@D@@@_STL@@URva006AEE00Less@@V?$allocator@V?$StringBase@D@@@3@@_STL@@QAE?AU?$pair@U?$_Rb_tree_iterator@V?$StringBase@D@@U?$_Nonconst_traits@V?$StringBase@D@@@_STL@@@_STL@@_N@2@ABV?$StringBase@D@@@Z,0x0001BC02,Rva006AEE00::init STL set insertion callee at retail 0x0001BC02
-?insert_unique@Rva006AEE00Tree@@QAEXPAUInsertResult@1@ABV?$StringBase@D@@@Z,0x0001BC02,Rva006AEE00::init insertion output callee at retail 0x0001BC02
-_BfmeAtomicSwap,0x0082AD60,STLport atomic-exchange helper; three call operands in _STLP_mutex_spin<0>::_M_do_lock resolve to this body
-_BfmeSpinSleep,0x0082BE10,STLport nanosecond backoff helper; final call operand in _STLP_mutex_spin<0>::_M_do_lock resolves to this body
-?__max@?$_STLP_mutex_spin@$0A@@_STL@@2IA,0x00EC7380,STLport mutex-spin maximum iteration count; absolute operand is image VA 0x012C7380
-?__last@?$_STLP_mutex_spin@$0A@@_STL@@2IA,0x00F0B258,STLport mutex-spin last successful spin count; absolute operand is image VA 0x0130B258
-?rva000E7C20SciencePrereqMemo@ScienceStore@@ABE_NPBVPlayer@@W4ScienceType@@PAX@Z,0x000E7C20,retail E8040 and E7D30 call the verified recursive three-argument ScienceStore memo helper at 0x000E7C20 through its image ILT; original spelling unproven; campaign=luna36h-20260907;lane=expand36;model=gpt-5.6-luna-max
-??1?$_Rb_tree@W4ScienceType@@U?$pair@$$CBW4ScienceType@@_N@_STL@@U?$_Select1st@U?$pair@$$CBW4ScienceType@@_N@_STL@@@3@U?$less@W4ScienceType@@@3@V?$allocator@U?$pair@$$CBW4ScienceType@@_N@_STL@@@3@@_STL@@QAE@XZ,0x000E74C0,E8040 destroys its temporary STLport map through the verified ILT 0x0001D462; E74C0 is the matching retail tree destructor body; campaign=luna36h-20260907;lane=expand36;model=gpt-5.6-luna-max
-??1MeshMatDescClass@@QAE@XZ,0x0092A3D0,MeshModelClass destructor and assignment directly call this body for DefMatDesc and AlternateMatDesc; body calls exact MeshMatDescClass Reset 0x00929310
-?call_002234A0@Rva0021B200ListOwner@@QAEXP6AXPAX0@Z0I@Z,0x002234A0,neutral body pin for 0x0021B200 continuation; retail ILT=0x0003D0D7 resolves to this body; campaign=luna36h-20260907;lane=shaders;model=gpt-5.6-luna
-_gsiSocketInterface,0x0130E628,GameSpy common socket interface global; exact ciSocketConnect local-bind setup loads it before htonl
-?bfmeFindEY@BfmeMapEY@@QBE?AVBfmeIterEY@@PAX@Z,0x0094C5E0,pin map find for BfmeConv2045
-?bfmeRefreshEY@BfmeHostEY@@QAEXXZ,0x0094D450,pin refresh for BfmeConv2045
-_j_0003b75a,0x0003B75A,COFF C-linkage alias for the existing incremental-link thunk
-_j_0003b971,0x0003B971,COFF C-linkage alias for the existing incremental-link thunk
-?gadgetComboBoxReset@@YAXPAVGameWindow@@@Z,0x00007004,OnlineQuickMatch InitGadgets reset call uses the existing incremental-link thunk
-?setup@OnlineQuickMatchColorSetup@@QAEXXZ,0x00005F3D,OnlineQuickMatch InitGadgets color setup call uses the existing incremental-link thunk
-?refreshLayout@GameWindowManager@@QAEXPAX@Z,0x000412C2,OnlineQuickMatch InitGadgets layout refresh call uses the existing incremental-link thunk
-?bfmeTryZZ@BfmeOwnerZZ@@QAEDPAVBfmeItemZZ@@@Z,0x000441A2,Bfme owner scan remove callee uses the verified AIGroup remove ILT
-?finish@Rva0006AB90FunctionCurve@@QAEXXZ,0x0006ACF0,typed thiscall curve accumulator finalization body; retail0006AF00 calls viaILT00024000; receiver layout proven by adjacent0006AB90 and0006ACF0; campaign=luna36h-20260907
 ?_M_fill_insert@?$list@URva003C15C0Element@@V?$allocator@URva003C15C0Element@@@_STL@@@_STL@@QAEXU?$_List_iterator@URva003C15C0Element@@U?$_Nonconst_traits@URva003C15C0Element@@@_STL@@@2@IABURva003C15C0Element@@@Z,0x003C0000,retail call from 0x003C15C0 resolves to matched 12-byte list fill_insert body at 0x003C0000
