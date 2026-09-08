@@ -86362,3 +86362,8 @@ ___security_cookie,0x012DBDB0,MSVC 7.1 /GS cookie; absolute data VA read by exac
 ?j_000030bc@?$vector@PAVSoundKeyPair@@V?$allocator@PAVSoundKeyPair@@@_STL@@@_STL@@IAEXPAPAVSoundKeyPair@@ABQAV3@ABU__true_type@2@I_N@Z,0x000030BC,LargeGroupAudioMap SoundKeyPair pointer vector overflow call uses retail ILT 0x000030BC
 ?Rva0051A5D0Advance@Rva0051A5D0Receiver@@QAEXXZ,0x0051A5D0,OnGameCreate actual80-byte thiscall state-advance helper; ILT2A5B8
 ?chatSystemColor@@3HB,0x00EBA0D4,Const LAN chat color; imageVA12BA0D4 rawFFFFFFFF; canonical LANAPICallbacks constColor
+?Rva009EBCE0_GetPrototype@@YA?AVRva009EBCE0AssetReference@@PBD@Z,0x009EBCE0,counted aggregate return through hidden storage plus const char name; raw body 211B
+??0Rva00971730HierarchyReference@@QAE@ABVRva009EBCE0AssetReference@@@Z,0x00971730,hierarchy reference constructor from counted aggregate; raw73B calls HIER-checked assignment
+?Release_Ref@Rva009EB7A0RefOwner@@QAEXXZ,0x009EB7A0,generic counted owner release leaf; raw36B; historical type unproven
+?Rva00D3E7ECPrefixWord@@3GB,0x00D3E7EC,readonly hierarchy lookup prefix word 0x2A68; image VA113E7EC
+?Rva00D3E7EEPrefixByte@@3EB,0x00D3E7EE,readonly hierarchy lookup prefix terminator byte0; image VA113E7EE
