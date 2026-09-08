@@ -1,6 +1,28 @@
 // Open-BFME5 conversions.
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
+
+#include <vector>
 
 void __cdecl operator delete(void *p);
+
+class Rva0048EC80Manager
+{
+public:
+	virtual void bfmeSlot00E927B();
+	virtual void bfmeSlot01E927B();
+	virtual void bfmeSlot02E927B();
+	virtual void bfmeSlot03E927B();
+	virtual void bfmeSlot04E927B();
+	virtual void bfmeSlot05E927B();
+	virtual void bfmeSlot06E927B();
+	virtual void bfmeSlot07E927B();
+	virtual void bfmeSlot08E927B();
+	virtual void bfmeSlot09E927B();
+	virtual void bfmeRelease927B(void *item);
+};
+
+extern Rva0048EC80Manager *Rva0048EC80TheManager;
 
 class BfmeSub927A
 {
@@ -26,11 +48,42 @@ void BfmeThing927A::bfmeGo927A()
 		operator delete(p);
 }
 
+class BfmeObj927BEntry
+{
+public:
+	unsigned char m_bfmePad[4];
+	void *m_bfmeDisplayString;
+};
+
 class BfmeObj927B
 {
 public:
+	~BfmeObj927B();
 	void bfmeDtor927B();
+
+private:
+	_STL::vector<BfmeObj927BEntry *> m_bfmeEntries;
 };
+
+BfmeObj927B::~BfmeObj927B()
+{
+	for (unsigned int i = 0; i < m_bfmeEntries.size(); ++i)
+	{
+		BfmeObj927BEntry *entry = m_bfmeEntries[i];
+		if (entry != 0)
+		{
+			if (entry->m_bfmeDisplayString != 0)
+			{
+				Rva0048EC80TheManager->bfmeRelease927B(entry->m_bfmeDisplayString);
+				entry->m_bfmeDisplayString = 0;
+			}
+
+			operator delete(entry);
+		}
+	}
+
+	m_bfmeEntries.clear();
+}
 
 void __stdcall bfmeGo927B(BfmeObj927B *p)
 {
