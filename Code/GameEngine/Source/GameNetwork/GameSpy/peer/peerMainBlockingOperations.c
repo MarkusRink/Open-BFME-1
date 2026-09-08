@@ -29,9 +29,13 @@ typedef struct piConnection
 	void *players;
 	int numPlayers[3];
 	int alwaysRequestPlayerInfo;
-	char reservedStay[0xAF0 - 0xAC8];
+	char reservedStay[0xAD0 - 0xAC8];
+	int pingRoom[3];
+	int xpingRoom[3];
+	char reservedPingRooms[0xAF0 - 0xAE8];
 	void *queryReporting;
-	char qrSecretKey[0xB38 - 0xAF4];
+	char qrSecretKey[0xB34 - 0xAF4];
+	int natNegotiate;
 	int reportingOptions;
 	char reservedReportingOptions[0xB40 - 0xB3C];
 	int hosting;
@@ -40,7 +44,11 @@ typedef struct piConnection
 	int passwordedRoom;
 	void *hostServer;
 	int ready;
-	char reservedReady[0x1784 - 0xB58];
+	char sbName[32];
+	char sbSecretKey[32];
+	int sbGameVersion;
+	int sbMaxUpdates;
+	char reservedReady[0x1784 - 0xBA0];
 	void *gameListCallback;
 	void *gameListParam;
 	int initialGameList;
@@ -166,6 +174,8 @@ void piRoomsCleanup(PEER peer);
 void piPlayersCleanup(PEER peer);
 void piPingCleanup(PEER peer);
 void piStopAutoMatch(PEER peer);
+int piSBInit(PEER peer);
+void peerClearTitle(PEER peer);
 void piOperationsCleanup(PEER peer);
 void piCallbacksCleanup(PEER peer);
 void SocketShutDown(void);
@@ -304,6 +314,73 @@ PEER peerInitialize(void *callbacks)
 	connection->shutdown = 0;
 	return connection;
 }
+
+#pragma inline_depth(0)
+int peerSetTitleA(PEER peer, const char *title, const char *qrSecretKey,
+	const char *sbName, const char *sbSecretKey, int sbGameVersion,
+	int sbMaxUpdates, int natNegotiate, int *pingRooms, int *crossPingRooms)
+{
+	static int noPings[3];
+	piConnection *connection = (piConnection *)peer;
+	int pingTitleRoom;
+	int xpingTitleRoom;
+
+	if (connection->title[0])
+	{
+		piStopHosting(peer, 1);
+		piSBCleanup(peer);
+		piRoomsCleanup(peer);
+		piPlayersCleanup(peer);
+		piPingCleanup(peer);
+		piStopAutoMatch(peer);
+		connection->title[0] = '\0';
+		connection->qrSecretKey[0] = '\0';
+	}
+	strcpy(connection->title, title);
+	if (!pingRooms)
+		pingRooms = noPings;
+	if (!crossPingRooms)
+		crossPingRooms = noPings;
+	if (connection->stayInTitleRoom)
+	{
+		pingTitleRoom = connection->pingRoom[0];
+		xpingTitleRoom = connection->xpingRoom[0];
+	}
+	memcpy(connection->pingRoom, pingRooms, sizeof(connection->pingRoom));
+	memcpy(connection->xpingRoom, crossPingRooms,
+		sizeof(connection->xpingRoom));
+	if (connection->stayInTitleRoom)
+	{
+		connection->pingRoom[0] = pingTitleRoom;
+		connection->xpingRoom[0] = xpingTitleRoom;
+	}
+	strncpy(connection->sbName, sbName, sizeof(connection->sbName));
+	connection->sbName[sizeof(connection->sbName) - 1] = '\0';
+	strncpy(connection->sbSecretKey, sbSecretKey,
+		sizeof(connection->sbSecretKey));
+	connection->sbSecretKey[sizeof(connection->sbSecretKey) - 1] = '\0';
+	connection->sbGameVersion = sbGameVersion;
+	connection->sbMaxUpdates = sbMaxUpdates;
+	if (piSBInit(peer))
+	{
+		if (!connection->connected ||
+			(piRoomsInit(peer) && piPlayersInit(peer) &&
+				(piPingInit(peer), 1)))
+		{
+			strcpy(connection->qrSecretKey, qrSecretKey);
+			piStopHosting(peer, 1);
+			connection->hosting = 0;
+			connection->playing = 0;
+			connection->natNegotiate = natNegotiate;
+			connection->ready = 0;
+			connection->stayInTitleRoom = 0;
+			return 1;
+		}
+		peerClearTitle(peer);
+	}
+	return 0;
+}
+#pragma inline_depth(255)
 
 void peerClearTitle(PEER peer)
 {
