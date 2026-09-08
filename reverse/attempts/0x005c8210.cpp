@@ -1,30 +1,30 @@
-// ?u1FormatPair_005C8210@@YAPAVINI@@PAV1@PAVU1Pair@@@Z
-// partial score=0.95 date=2026-09-06
-// MSVC 7.1 emits the same field loads and formatter calls, but uses a 66-byte
-// volatile-register layout instead of retail's saved EDI layout.
-
-class INI
+// ?bfmeWriteXZ@@YAPAVStreamWriter@@PAV1@PAUBfmeVecXZ@@@Z
+// partial score=0.98 date=2026-09-08
+// pin needed: ?bfmePutXZ@StreamWriter@@QAEXH@Z,0x0002408C
+class StreamWriter
 {
 public:
-	void u4Finish( int radix );
+	void bfmePutXZ(int ch);
 };
 
-class U1Pair
+struct BfmeVecXZ
 {
-public:
-	char m_pad[ 4 ];
-	float m_x;
-	float m_y;
+	unsigned char m_bfmeHeadXZ[4];
+	float m_bfme04XZ;
+	float m_bfme08XZ;
 };
 
-INI *__cdecl u4FormatFloat( INI *ini, double value );
+StreamWriter *formatReal(StreamWriter *w, double v);
 
-INI *u1FormatPair_005C8210( INI *ini, U1Pair *pair )
+StreamWriter *bfmeWriteXZ(StreamWriter *w, BfmeVecXZ *v)
 {
-	U1Pair *other = pair;
-	const float *values = &other->m_x;
-	float second = values[ 1 ];
-	INI *next = u4FormatFloat( ini, values[ 0 ] );
-	next->u4Finish( 32 );
-	return u4FormatFloat( next, second );
+	float x = v->m_bfme04XZ;
+	float y = v->m_bfme08XZ;
+	StreamWriter *out;
+
+	out = formatReal(w, x);
+	out->bfmePutXZ(0x20);
+	formatReal(out, y);
+
+	return w;
 }
