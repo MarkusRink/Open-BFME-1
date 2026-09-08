@@ -276,6 +276,8 @@ void Particle::computeAlphaRate( void )
 	m_alphaRate = delta/time;
 }
 
+
+
 // ------------------------------------------------------------------------------------------------
 /** Compute color rate to get to next key on given frame */
 // ------------------------------------------------------------------------------------------------
@@ -749,6 +751,7 @@ void Particle::xfer( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
+#if 0
 // ?loadPostProcess@Particle@@MAEXXZ present-unmatched
 void Particle::loadPostProcess( void )
 {
@@ -780,6 +783,7 @@ void Particle::loadPostProcess( void )
 	}  // end if
 
 }  // end loadPostProcess
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3850,4 +3854,3 @@ static Real angleBetween(const Coord2D *vecA, const Coord2D *vecB)
 	
 	return -theta;
 }
-
