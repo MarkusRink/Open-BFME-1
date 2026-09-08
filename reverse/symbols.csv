@@ -2558,7 +2558,6 @@ name,address,notes
 ??0DieModuleData@@QAE@XZ,0x0004A426,ModuleFactory ILT thunk to 0x001F7810; the byte-verified retail caller encodes it
 ??0DieMuxData@@QAE@XZ,0x000057B8,pinharvest x1 (thunk)
 ??0DirectInputKeyboard@@QAE@XZ,0x000120D0,DirectInputKeyboard ctor thunk; createKeyboard@W3DGameClient factory REL32
-??0Display@@QAE@XZ,0x000110FE,ILT to Display ctor body 0x005CBF60
 ??0DisplayString@@QAE@XZ,0x00020C25,W3DDisplayString constructor calls the DisplayString constructor through this retail ILT
 ??0DisplayStringManager@@QAE@XZ,0x0000F7A9
 ??0DistLODClass@@QAE@ABV0@@Z,0x00030EE0,DistLOD copy constructor
@@ -4440,7 +4439,6 @@ name,address,notes
 ??1DetailedArchivedDirectoryInfo@@QAE@XZ,0x009D0730,site-decoded from ~ArchiveFile: lea ecx,[esi+8] then call -- m_rootDirectory is the DetailedArchivedDirectoryInfo member at ArchiveFile+8 and the type is already named by its copy ctor
 ??1DevastateSpecialPower@@MAE@XZ,0x000313D6,destructor ILT to 0x0025A810
 ??1DieModuleDataBase@@UAE@XZ,0x00887940,Open-BFME5 base dtor pin
-??1Display@@UAE@XZ,0x000314BC,ILT to Display dtor body 0x005CB360
 ??1DisplayString@@MAE@XZ,0x0000D823,W3DDisplayString dtor call target
 ??1DisplayString@@UAE@XZ,0x0000D823,W3DDisplayString dtor call target; same thunk as the MAE spelling (access level differs between our header and retail)
 ??1DisplayStringManager@@UAE@XZ,0x000472E9,BFME DisplayStringManager destructor ILT called by exact W3DDisplayStringManager destructor
@@ -6226,7 +6224,7 @@ name,address,notes
 ??1Gen_dtor_006f6380@@UAE@XZ,0x00001776,gen-dtor class destructor
 ??1Gen_dtor_006f8910@@UAE@XZ,0x00011C3E,gen-dtor class destructor
 ??1Gen_dtor_006f92a0@@UAE@XZ,0x00004D7C,gen-dtor class destructor
-??1Gen_dtor_006fa930@@UAE@XZ,0x000290AA,gen-dtor class destructor
+??1W3DParticleSystemManager@@UAE@XZ,0x000290AA,authentic destructor callee; scalar-deleting wrapper vtable identity and ILT target prove the class
 ??1Gen_dtor_006fb6e0@@UAE@XZ,0x0003FCE7,gen-dtor class destructor
 ??1Gen_dtor_006fbd70@@UAE@XZ,0x0002EB77,gen-dtor class destructor
 ??1Gen_dtor_006fc3c0@@UAE@XZ,0x0004A610,gen-dtor class destructor
