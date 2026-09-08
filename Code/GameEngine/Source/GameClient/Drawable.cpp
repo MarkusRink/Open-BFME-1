@@ -196,7 +196,7 @@ static DynamicAudioEventInfo  * getNoSoundMarker()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableIconInfoLifecycle.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableVisualState.cpp
 // ??0DrawableIconInfo@@QAE@XZ present-unmatched
 DrawableIconInfo::DrawableIconInfo()
 {
@@ -209,7 +209,7 @@ DrawableIconInfo::DrawableIconInfo()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableIconInfoLifecycle.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableVisualState.cpp
 // ??1DrawableIconInfo@@MAE@XZ present-unmatched
 DrawableIconInfo::~DrawableIconInfo()
 {
@@ -218,7 +218,7 @@ DrawableIconInfo::~DrawableIconInfo()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableIconInfoLifecycle.cpp
+// byte-exact reconstruction: Code/GameEngine/Source/GameClient/DrawableVisualState.cpp
 // ?clear@DrawableIconInfo@@QAEXXZ present-unmatched
 void DrawableIconInfo::clear()
 {
@@ -5104,7 +5104,7 @@ void Drawable::setEmoticon( const AsciiString &name, Int duration )
 
 //------------------------------------------------------------------------------------------------
 // ?drawEmoticon@Drawable@@AAEXPBUIRegion2D@@@Z
-// BFME no-argument reconstruction: Code/GameEngine/Source/GameClient/Drawable_drawEmoticon.cpp (191 B at 0x00414AF0).
+// BFME no-argument reconstruction: Code/GameEngine/Source/GameClient/DrawableVisualState.cpp (191 B at 0x00414AF0).
 
 
 // ------------------------------------------------------------------------------------------------

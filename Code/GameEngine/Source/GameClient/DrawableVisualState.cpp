@@ -1,4 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
+// readable body of ??0DrawableIconInfo@@QAE@XZ: Code/GameEngine/Source/GameClient/Drawable.cpp
+// readable body of ?clear@DrawableIconInfo@@QAEXXZ: Code/GameEngine/Source/GameClient/Drawable.cpp
+// readable body of ??1DrawableIconInfo@@MAE@XZ: Code/GameEngine/Source/GameClient/Drawable.cpp
 // readable body of ?applyTint@Drawable@@QAEXURGBColor@@IIIMM@Z: Code/GameEngine/Source/GameClient/Drawable.cpp
 // readable body of ?setShadowsEnabled@Drawable@@QAEX_N@Z: Code/GameEngine/Source/GameClient/Drawable.cpp
 // readable body of ?setEmoticon@Drawable@@QAEXABVAsciiString@@H@Z: Code/GameEngine/Source/GameClient/Drawable.cpp
@@ -59,6 +62,9 @@ class Anim2D
 public:
 	Anim2D(Anim2DTemplate *, Anim2DCollection *);
 	virtual ~Anim2D();
+	UnsignedInt getCurrentFrameWidth() const;
+	UnsignedInt getCurrentFrameHeight() const;
+	void draw(Int x, Int y, Int width, Int height);
 	void deleteInstance() { delete this; }
 
 private:
@@ -139,6 +145,9 @@ enum { ICON_EMOTICON = 10 };
 class DrawableIconInfo
 {
 public:
+	DrawableIconInfo();
+	__declspec(noinline) void clear();
+
 	Anim2D *m_icon[14];
 	UnsignedInt m_keepTillFrame[14];
 
@@ -174,6 +183,7 @@ public:
 		UnsignedInt forceReplace, UnsignedInt b );
 
 private:
+	void drawEmoticon();
 	void updateHiddenStatus();
 	// This no-argument member is the retail callee reached through ILT
 	// 0x0002E564. Its identity is not present in the surviving symbols.
@@ -204,6 +214,11 @@ private:
 	Bool m_hidden;						// this+0x3b0
 	unsigned char m_pad3b1[2];
 	Bool m_isModelDirty;					// this+0x3b3
+	char m_pad3b4[0x3C4 - 0x3B4];
+	Int m_emoticonRegionLeft;				// this+0x3c4
+	char m_pad3c8[4];
+	Int m_emoticonRegionRight;			// this+0x3cc
+	Int m_emoticonRegionBottom;			// this+0x3d0
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/Anim2D.h
@@ -332,4 +347,48 @@ void Drawable::replaceModelConditionState( const ModelConditionFlags &flags,
 	}
 	else
 		m_isModelDirty = true;
+}
+
+// BFME releases unpooled icons through virtual delete; the pooled reference calls freeBlock.
+DrawableIconInfo::DrawableIconInfo()
+{
+    for (int i = 0; i < 14; ++i) {
+        m_icon[i] = 0;
+        m_keepTillFrame[i] = 0;
+    }
+}
+void DrawableIconInfo::clear()
+{
+    for (int i = 0; i < 14; ++i) {
+        delete m_icon[i];
+        m_icon[i] = 0;
+        m_keepTillFrame[i] = 0;
+    }
+}
+DrawableIconInfo::~DrawableIconInfo() { clear(); }
+
+// The linker stub forwards ECX unchanged to the out-of-line clear body.
+void __fastcall rva0000DBA7ClearIcons(DrawableIconInfo *icons) { icons->clear(); }
+
+// BFME's dispatcher calls the no-argument Drawable::drawEmoticon body.
+// ?drawEmoticon@Drawable@@AAEXXZ
+void Drawable::drawEmoticon()
+{
+    if (m_iconInfo != 0 && getIconInfo()->m_icon[ICON_EMOTICON] != 0)
+    {
+        UnsignedInt now = TheGameLogic->m_frame;
+        if (getIconInfo()->m_keepTillFrame[ICON_EMOTICON] >= now)
+        {
+            Int barWidth = m_emoticonRegionRight - m_emoticonRegionLeft;
+            Int frameWidth = getIconInfo()->m_icon[ICON_EMOTICON]->getCurrentFrameWidth();
+            Int frameHeight = getIconInfo()->m_icon[ICON_EMOTICON]->getCurrentFrameHeight();
+            Int screenX = (Int)(m_emoticonRegionLeft + (barWidth * 0.5f) - (frameWidth * 0.5f));
+            Int screenY = m_emoticonRegionBottom - frameHeight;
+            getIconInfo()->m_icon[ICON_EMOTICON]->draw(screenX, screenY, frameWidth, frameHeight);
+        }
+        else
+        {
+            clearEmoticon();
+        }
+    }
 }
