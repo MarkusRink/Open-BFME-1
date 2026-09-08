@@ -1,5 +1,7 @@
 // cl: /O2
 
+class AsciiString;
+
 class Rva0019A260Owned
 {
 public:
@@ -16,12 +18,12 @@ private:
 	char m_padding[4];
 };
 
-class SpawnBehaviorModuleDataMemberA
+class Rva0076F980Mid
 {
 public:
-	void erase(unsigned int *first, unsigned int *last);
-	unsigned int *m_first;
-	unsigned int *m_last;
+	AsciiString *erase(AsciiString *first, AsciiString *last);
+	AsciiString *m_first;
+	AsciiString *m_last;
 };
 
 class Rva0019A260State
@@ -33,7 +35,7 @@ private:
 	Rva0019A260Owned *m_first;
 	BfmeMapObjectExtra m_extra;
 	Rva0019A260Owned *m_second;
-	SpawnBehaviorModuleDataMemberA m_range;
+	Rva0076F980Mid m_range;
 };
 
 void Rva0019A260State::cleanup(void *object)
@@ -46,7 +48,7 @@ void Rva0019A260State::cleanup(void *object)
 	if (m_second != 0)
 		delete m_second;
 	m_second = 0;
-	SpawnBehaviorModuleDataMemberA *range = &m_range;
+	Rva0076F980Mid *range = &m_range;
 	range->erase(range->m_first, range->m_last);
 
 	if (object != 0)

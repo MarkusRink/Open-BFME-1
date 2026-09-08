@@ -3173,7 +3173,6 @@ name,address,notes
 ??0Rva006FB500Base@@QAE@XZ,0x00020004,Open-BFME5 fresh thiscall ctor at ILT of derived ctor 0x006FB500
 ??0Rva006FB780Product@@QAE@P6AXXZ00@Z,0x0003574C,ILT to product ctor body 0x007E3A80
 ??0Rva00740BC0Elem@@QAE@XZ,0x0003ABCF,element constructor of the 0x14-byte arrays built at 0x00740AE0
-??0Rva0076F980Mid@@QAE@ABV0@@Z,0x00007A63,Open-BFME5 fresh thiscall copy ctor at ILT of 12-byte mid member of 0x0076F980
 ??0Rva00770CB0Base@@QAE@ABV0@@Z,0x00887B60,offset-zero base copy called by the aggregate copy ctor at 0x00770CB0
 ??0Rva00770CB0Member12@@QAE@ABV0@@Z,0x00037934,12-byte member copy called by the aggregate copy ctor at 0x00770CB0
 ??0Rva00784560StringBase@@IAE@ABV0@@Z,0x00888400,retail Unicode string copy-constructor thunk for the assigned 0x00784560 viewport setup
@@ -77354,7 +77353,6 @@ name,address,notes
 ?erase@PrereqVector@@QAEPAXPAX0@Z,0x00010BB3,ThingTemplate parsePrerequisites vector range-erase helper (jmp thunk)
 ?erase@Rva00137E80Map@@QAEIABVAsciiString@@@Z,0x417c7,Retail ThingFactory lookup helper at proven call site
 ?erase@Rva006DF050Slot@@QAEIABH@Z,0x0002F0EA,ILT thunk of STLport _Rb_tree<int pair p12cd>::erase used by Rva006DF050::eraseKey
-?erase@SpawnBehaviorModuleDataMemberA@@QAEXPAI0@Z,0x00024C17,Open-BFME5 range-erase callee pin
 ?erase@UnicodeStringTreeEraseShim@_STL@@QAEXPAU?$_Rb_tree_node@U?$pair@$$CBVUnicodeString@@_N@_STL@@@2@@Z,0x0044D6F0,_STL _Rb_tree _M_erase UnicodeString incremental-link thunk target through a TU-local forwarding shim
 ?erase@UnsignedPairTreeEraseShim@_STL@@QAEXPAU?$_Rb_tree_node@U?$pair@$$CBGE@_STL@@@2@@Z,0x007612D0,_STL unsigned pair tree incremental-link thunk target through a TU-local forwarding shim
 ?erase@WindowVideoHashtableEraseShim@_STL@@QAEXPBX@Z,0x00498A90,_STL hashtable erase GameWindowVideo incremental-link thunk target through a TU-local forwarding shim
@@ -82693,7 +82691,6 @@ name,address,notes
 ?step@Gen0035F050@@QAEHXZ,0x00049AE4,poll loop callee returns int so test eax eax
 ?step@Gen0035F050@@QAE_NXZ,0x00049AE4,poll loop callee via ILT thunk to FUN_0075ee70
 ?step@Gen003BBA40Member@@QAEXPAVGenXferInterface@@@Z,0x000650C0,member at +0xC handed the interface by the transfer sequence at 0x003BBA40; address-derived name
-?step@Gen003C75A0Item@@QAEXXZ,0x0000C18A,call target used by the caller-proven owner step at 0x003C75A0
 ?step@Gen003C75A0Owner@@QAEXXZ,0x003C75A0,niladic member called on the pointer at +0x28 by 0x003BCA30; address-derived name
 ?step@Gen003C7B10Item@@QAEXPAVGen003C7B10Context@@@Z,0x000484FA,ILT call target used by the pointer-vector walk at 0x003C7B10
 ?step@Gen_0093D0F0_Item@@QAEXXZ,0x00934820,address-derived helper call recovered from 0x0093D0F0
@@ -86016,3 +86013,5 @@ __imp__BfmeDecTQ@4,0x00F58E54,pin decrement import for BfmeConv2026
 ?TheThingFactory@@3PAVThingFactory@@A,0x012EF1D8,canonical global proven by ThingFactory vtable 0x01090E6C and GameEngine initSubsystem<ThingFactory>
 ?rva00132200@Thing@@QAEXPBVMatrix3D@@@Z,0x00132200,Thing owner proven by setPosition setPositionZ and Drawable loadPostProcess callers; body copies Matrix3D to Thing+0x08 refreshes +0x38/+0x3C/+0x40/+0x44 clears +0x5C and calls virtual +0x14; lexical identity debt distinct from published setTransformMatrix body 0x00132350 via ILT 0x00023D49; campaign=luna36h-20260907;lane=expand27;model=gpt-5.6-sol-ultra
 ??1TextureMapperClass@@UAE@XZ,0x00921380,constructor 0x009645D0 installs vtable 0x0113BFB4 whose first slot is deleting wrapper 0x00921430; that wrapper directly calls this scalar body
+?erase@Rva0076F980Mid@@QAEPAVAsciiString@@PAV2@0@Z,0x00065960,typed neutral vector<AsciiString> erase; LivingWorldRegion resets reach this body through ILT 0x00024C17
+??1Rva0076F980Mid@@QAE@XZ,0x000658A0,neutral vector<AsciiString> destructor used by constructor EH cleanup; retail ILT 0x00026AB2 reaches body 0x000658A0

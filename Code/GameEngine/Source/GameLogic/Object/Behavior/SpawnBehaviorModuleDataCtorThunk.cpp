@@ -1,51 +1,53 @@
 // cl: /DNDEBUG /MD /EHsc
 // Open-BFME5: SpawnBehaviorModuleData constructor lifted from the retail body.
 
-class SpawnBehaviorModuleDataMemberAFirst
+class AsciiString;
+
+class Rva0076F980MidFirst
 {
 public:
-	SpawnBehaviorModuleDataMemberAFirst()
+	Rva0076F980MidFirst()
 	{
 		m_begin = 0;
 		m_end = 0;
 	}
 
 	public:
-	unsigned int *m_begin;
-	unsigned int *m_end;
+	AsciiString *m_begin;
+	AsciiString *m_end;
 };
 
-class SpawnBehaviorModuleDataMemberAEnd
+class Rva0076F980MidEnd
 {
 public:
-	SpawnBehaviorModuleDataMemberAEnd()
+	Rva0076F980MidEnd()
 		: m_capacity(0)
 	{
 	}
 
 private:
-	unsigned int *m_capacity;
+	AsciiString *m_capacity;
 };
 
-class SpawnBehaviorModuleDataMemberA
+class Rva0076F980Mid
 {
 public:
-	SpawnBehaviorModuleDataMemberA()
+	Rva0076F980Mid()
 	{
 	}
 
-	~SpawnBehaviorModuleDataMemberA();
+	~Rva0076F980Mid();
 
 	void clear()
 	{
 		erase(m_first.m_begin, m_first.m_end);
 	}
 
-	void erase(unsigned int *first, unsigned int *last);
+	AsciiString *erase(AsciiString *first, AsciiString *last);
 
 private:
-	SpawnBehaviorModuleDataMemberAFirst m_first;
-	SpawnBehaviorModuleDataMemberAEnd m_end;
+	Rva0076F980MidFirst m_first;
+	Rva0076F980MidEnd m_end;
 };
 
 class SpawnBehaviorModuleDataMemberC
@@ -94,7 +96,7 @@ private:
 	unsigned char m_spawnedRequireSpawner;
 	unsigned char m_slavesHaveFreeWill;
 	unsigned int m_alignment;
-	SpawnBehaviorModuleDataMemberA m_spawnTemplateNameData;
+	Rva0076F980Mid m_spawnTemplateNameData;
 	SpawnBehaviorModuleDataMemberC m_damageTypesToPropagateToSlaves;
 	UpgradeModuleDataSub m_dieMuxData;
 };
