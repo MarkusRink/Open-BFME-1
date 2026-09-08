@@ -1,135 +1,71 @@
 // cl: /DNDEBUG /MD /EHsc
 
+// Open-BFME5: DefaultModuleTemplate (N=3) copy constructor.
+
 namespace FXParticleSystem
 {
-template<int Category>
-class DefaultModuleTemplate
+
+class ModuleTemplate
 {
 public:
-    DefaultModuleTemplate(const DefaultModuleTemplate<Category> &);
+	virtual ~ModuleTemplate();
 };
 
-template<int Category>
-__declspec(naked) DefaultModuleTemplate<Category>::DefaultModuleTemplate(const DefaultModuleTemplate<Category> &)
+template <int Category>
+class CategoryModuleInfo
 {
-    __asm {
-        _emit 08Bh
-        _emit 0C1h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 004h
-        _emit 085h
-        _emit 0C9h
-        _emit 0C7h
-        _emit 040h
-        _emit 004h
-        _emit 0E4h
-        _emit 0F9h
-        _emit 010h
-        _emit 001h
-        _emit 0C7h
-        _emit 000h
-        _emit 0C0h
-        _emit 0FBh
-        _emit 010h
-        _emit 001h
-        _emit 0C7h
-        _emit 040h
-        _emit 004h
-        _emit 0BCh
-        _emit 0FBh
-        _emit 010h
-        _emit 001h
-        _emit 074h
-        _emit 005h
-        _emit 083h
-        _emit 0C1h
-        _emit 008h
-        _emit 0EBh
-        _emit 002h
-        _emit 033h
-        _emit 0C9h
-        _emit 0C7h
-        _emit 040h
-        _emit 008h
-        _emit 0F8h
-        _emit 00Bh
-        _emit 011h
-        _emit 001h
-        _emit 08Bh
-        _emit 051h
-        _emit 004h
-        _emit 089h
-        _emit 050h
-        _emit 00Ch
-        _emit 08Bh
-        _emit 051h
-        _emit 008h
-        _emit 089h
-        _emit 050h
-        _emit 010h
-        _emit 08Bh
-        _emit 051h
-        _emit 00Ch
-        _emit 089h
-        _emit 050h
-        _emit 014h
-        _emit 08Bh
-        _emit 051h
-        _emit 010h
-        _emit 089h
-        _emit 050h
-        _emit 018h
-        _emit 083h
-        _emit 0C1h
-        _emit 014h
-        _emit 056h
-        _emit 08Bh
-        _emit 031h
-        _emit 08Dh
-        _emit 050h
-        _emit 01Ch
-        _emit 089h
-        _emit 032h
-        _emit 08Bh
-        _emit 071h
-        _emit 004h
-        _emit 089h
-        _emit 072h
-        _emit 004h
-        _emit 08Bh
-        _emit 049h
-        _emit 008h
-        _emit 089h
-        _emit 04Ah
-        _emit 008h
-        _emit 0C7h
-        _emit 000h
-        _emit 024h
-        _emit 00Ch
-        _emit 011h
-        _emit 001h
-        _emit 0C7h
-        _emit 040h
-        _emit 004h
-        _emit 020h
-        _emit 00Ch
-        _emit 011h
-        _emit 001h
-        _emit 0C7h
-        _emit 040h
-        _emit 008h
-        _emit 00Ch
-        _emit 00Ch
-        _emit 011h
-        _emit 001h
-        _emit 05Eh
-        _emit 0C2h
-        _emit 004h
-        _emit 000h
-    }
+public:
+	virtual void unusedVirtual();
+};
+
+template <int Category>
+class CategoryModuleTemplateBase : public ModuleTemplate, public CategoryModuleInfo<Category>
+{
+};
+
+template <int Category>
+class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>
+{
+};
+
+struct GameClientRandomVariable
+{
+	unsigned int m_type;
+	float m_low;
+	float m_high;
+};
+
+class DefaultPhysicsModuleInfo
+{
+public:
+	DefaultPhysicsModuleInfo(const DefaultPhysicsModuleInfo &that)
+		: m_field0(that.m_field0), m_field1(that.m_field1), m_field2(that.m_field2),
+		  m_field3(that.m_field3), m_var1(that.m_var1)
+	{
+	}
+	virtual ~DefaultPhysicsModuleInfo();
+
+private:
+	float m_field0;
+	float m_field1;
+	float m_field2;
+	int m_field3;
+	GameClientRandomVariable m_var1;
+};
+
+template <int Category>
+class DefaultModuleTemplate : public CategoryModuleTemplate<Category>, public DefaultPhysicsModuleInfo
+{
+public:
+	DefaultModuleTemplate(const DefaultModuleTemplate &that);
+};
+
+template <int Category>
+DefaultModuleTemplate<Category>::DefaultModuleTemplate(const DefaultModuleTemplate &that)
+	: CategoryModuleTemplate<Category>(that), DefaultPhysicsModuleInfo(that)
+{
 }
 
-template class DefaultModuleTemplate<3>;
+template DefaultModuleTemplate<3>::DefaultModuleTemplate(const DefaultModuleTemplate &);
+
 }
