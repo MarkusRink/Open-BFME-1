@@ -1,129 +1,66 @@
 // cl: /DNDEBUG /MD /EHsc
+// Open-BFME5: TooltipUpgrade module-data constructor.
+//
+// The named friend_newModuleData factory at retail 0x0012BC30 allocates 0x78
+// bytes and calls this constructor. Its matched destructor at 0x0012BBB0
+// independently fixes the UpgradeModuleData subobject at +0x08 and the two
+// adjacent string members at +0x70 and +0x74.
 
-class TooltipUpgradeModuleData
+class UpgradeModuleDataSub
 {
 public:
-    TooltipUpgradeModuleData();
+	UpgradeModuleDataSub();
+	~UpgradeModuleDataSub();
+
+private:
+	unsigned char m_data[ 0x68 ];
 };
 
-__declspec(naked) TooltipUpgradeModuleData::TooltipUpgradeModuleData()
+class AsciiString
 {
-    __asm {
-        __emit 0x6a;
-        __emit 0xff;
-        __emit 0x68;
-        __emit 0x8e;
-        __emit 0x25;
-        __emit 0x00;
-        __emit 0x01;
-        __emit 0x64;
-        __emit 0xa1;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x50;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0x25;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x51;
-        __emit 0x56;
-        __emit 0x8b;
-        __emit 0xf1;
-        __emit 0x57;
-        __emit 0x8d;
-        __emit 0x4e;
-        __emit 0x08;
-        __emit 0x89;
-        __emit 0x74;
-        __emit 0x24;
-        __emit 0x08;
-        __emit 0xe8;
-        __emit 0xa0;
-        __emit 0x35;
-        __emit 0xee;
-        __emit 0xff;
-        __emit 0x8d;
-        __emit 0x4e;
-        __emit 0x70;
-        __emit 0xc7;
-        __emit 0x06;
-        __emit 0x50;
-        __emit 0xf6;
-        __emit 0x08;
-        __emit 0x01;
-        __emit 0xc7;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x14;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0xc7;
-        __emit 0x01;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x8d;
-        __emit 0x7e;
-        __emit 0x74;
-        __emit 0xc7;
-        __emit 0x07;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x68;
-        __emit 0x50;
-        __emit 0x6e;
-        __emit 0x33;
-        __emit 0x01;
-        __emit 0xc6;
-        __emit 0x44;
-        __emit 0x24;
-        __emit 0x18;
-        __emit 0x02;
-        __emit 0xe8;
-        __emit 0x5b;
-        __emit 0xc1;
-        __emit 0x75;
-        __emit 0x00;
-        __emit 0x68;
-        __emit 0x50;
-        __emit 0x6e;
-        __emit 0x33;
-        __emit 0x01;
-        __emit 0x8b;
-        __emit 0xcf;
-        __emit 0xe8;
-        __emit 0x4f;
-        __emit 0xc1;
-        __emit 0x75;
-        __emit 0x00;
-        __emit 0x8b;
-        __emit 0x4c;
-        __emit 0x24;
-        __emit 0x0c;
-        __emit 0x5f;
-        __emit 0x8b;
-        __emit 0xc6;
-        __emit 0x5e;
-        __emit 0x64;
-        __emit 0x89;
-        __emit 0x0d;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x00;
-        __emit 0x83;
-        __emit 0xc4;
-        __emit 0x10;
-        __emit 0xc3;
-    }
+public:
+	AsciiString() : m_data( 0 ) {}
+	~AsciiString() { releaseBuffer(); }
+	void set( const AsciiString &other );
+
+private:
+	void releaseBuffer();
+	char *m_data;
+};
+
+extern AsciiString TheEmptyString;
+
+class __declspec(novtable) TooltipUpgradeModuleDataPrimaryBase
+{
+public:
+	virtual ~TooltipUpgradeModuleDataPrimaryBase() {}
+
+private:
+	unsigned int m_moduleData;
+};
+
+class __declspec(novtable) TooltipUpgradeModuleDataIntermediateBase
+	: public TooltipUpgradeModuleDataPrimaryBase
+{
+protected:
+	UpgradeModuleDataSub m_upgradeData;
+};
+
+class TooltipUpgradeModuleData
+	: public TooltipUpgradeModuleDataIntermediateBase
+{
+public:
+	TooltipUpgradeModuleData();
+	virtual ~TooltipUpgradeModuleData();
+
+private:
+	AsciiString m_tooltipName;
+	AsciiString m_disabledTooltipName;
+};
+
+// ??0TooltipUpgradeModuleData@@QAE@XZ
+TooltipUpgradeModuleData::TooltipUpgradeModuleData()
+{
+	m_tooltipName.set( TheEmptyString );
+	m_disabledTooltipName.set( TheEmptyString );
 }
