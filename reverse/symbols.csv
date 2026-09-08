@@ -3149,6 +3149,7 @@ name,address,notes
 ??0ParticleSystemTemplateZA@@QAE@ABVAsciiStringZA@@@Z,0x0002677E,Open-BFME5 the particle-system template constructor used by 0x005CFF50
 ??0ParticleSystemZA@@QAE@PAVParticleSystemTemplateZA@@HH@Z,0x0002E3C0,Open-BFME5 the particle-system constructor used by 0x005CFF50
 ??0ParticleUplinkCannonUpdateModuleData@@QAE@XZ,0x0002DE75,pinharvest x1 (thunk)
+??0PartitionFilterAcceptByKindOf@@QAE@ABV?$BitFlags@$0MA@@@0@Z,0x000382FD,finishReset kind-filter constructor ILT at retail 0x00329B3E
 ??0PassiveAreaEffectBehaviorRoot@@QAE@PAVThing@@PBVModuleData@@@Z,0x000170E4,ObjectModule constructor via ILT thunk
 ??0Path@@QAE@XZ,0x000335B4,ILT to the Path default constructor reached from Pathfinder::buildActualPath at 0x003E10F0
 ??0PeerRequest@@QAE@ABV0@@Z,0x0003C308,ILT reached by GameSpyPeerMessageQueue addRequest at 0x0064D880
@@ -9346,6 +9347,7 @@ name,address,notes
 ??1T2Vb0084B580@@UAE@XZ,0x0084B580,T2 lane: same body as ??1Rva0084B580 in R4VirtualBaseDestructors.cpp
 ??1TTreeType@@QAE@XZ,0x00032CF9,W3DTreeBuffer 64-element m_treeTypes destructor ILT
 ??1TaintSpecialPower@@MAE@XZ,0x00020202,destructor ILT to 0x0026B6A0
+??1TeamPrototype@@MAE@XZ,0x00023641,route=0x000F6E40; actual TeamPrototype scalar wrapper F7580 calls canonical protected complete destructor through this ILT; campaign=36h-20260908-1018
 ??1TeamsInfo@@QAE@XZ,0x00008CBA,pinharvest x1 (thunk)
 ??1TensileFormationUpdateMember@@QAE@XZ,0x0003D2C1,TensileFormationUpdate member destructor call target
 ??1TexBufferClass@@UAE@XZ,0x0092BAC0,matched 0x0092BA60 constructor vtable and tail jump to texture ShareBuffer base; 0x0092C0B0 wrapper call proves identity
@@ -9504,6 +9506,7 @@ name,address,notes
 ??4?$VectorClass@VTangentsClass@HermiteSpline3DClass@@@@QAEAAV0@ABV0@@Z,0x00905C80,pinharvest x1 (body)
 ??4?$_Rb_tree@HU?$pair@$$CBHI@_STL@@U?$_Select1st@U?$pair@$$CBHI@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHI@_STL@@@2@@_STL@@QAEAAV01@ABV01@@Z,0x00013B33,ILT thunk; real body 0x4A4BB0
 ??4?$_Rb_tree@HU?$pair@$$CBHVAsciiString@@@_STL@@U?$_Select1st@U?$pair@$$CBHVAsciiString@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVAsciiString@@@_STL@@@2@@_STL@@QAEAAV01@ABV01@@Z,0x000046DD,SavedIgnoreMap assignment helper pin
+??4?$list@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAEAAV01@ABV01@@Z,0x00049382,retail finishReset list assignment call through the existing ILT thunk j_00049382
 ??4?$vector@U?$pair@W4ObjectID@@I@_STL@@V?$allocator@U?$pair@W4ObjectID@@I@_STL@@@2@@_STL@@QAEAAV01@ABV01@@Z,0x0002DC9F
 ??4?$vector@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAEAAV01@ABV01@@Z,0x0002E00F,Open-BFME5 ILT thunk to body 0x00152530; the STLport vector assignment ?aiFollowExitProductionPath@AICommandInterface@@... at 0x00165C30 uses to copy the caller path into AICommandParms m_coords
 ??4?$vector@UICoord2D@@V?$allocator@UICoord2D@@@_STL@@@_STL@@QAEAAV01@ABV01@@Z,0x00018A70
@@ -83273,6 +83276,7 @@ name,address,notes
 ?release@W3DShadowContainerShim@@QAEXXZ,0x0001E344,W3DProjectedShadowManager ReleaseResources container helper shim
 ?releaseBuffer@?$BFMERetailStringBase@D@@AAEXXZ,0x00887940,WeaponFireSpecialAbilityUpdate special-weapon string release body
 ?releaseBuffer@?$NATProbeStringBase@D@@IAEXXZ,0x00887940,NAT sendAProbe string release body
+?releaseBuffer@?$StringBase@D@@AAEXXZ,0x00887940,Canonical private StringBase<char> releaseBuffer; matched134B real body in WWLib/string_base.cpp; target3C0110 direct call
 ?releaseBuffer@AsciiString@@AAEXXZ,0x00887940,same body already pinned as ?releaseBuffer@BFMERetailAsciiString and ??1AsciiString; BFMERetailAsciiString is this tree's stand-in name for the same class
 ?releaseBuffer@AsciiString@@IAEXXZ,0x00887940,Ghidra GrabWindowInfo direct callee
 ?releaseBuffer@AsciiString@@QAEXXZ,0x00887940,same body already pinned as ?releaseBuffer@AsciiString@@AAEXXZ; Rva0034E2E0Destructor.cpp made the member public
