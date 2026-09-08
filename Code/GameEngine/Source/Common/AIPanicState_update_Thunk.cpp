@@ -1,411 +1,304 @@
-// cl: /DNDEBUG /MD /EHsc
-// readable body of ?update@AIPanicState@@UAE?AW4StateReturnType@@XZ: Code/GameEngine/Source/GameLogic/AI/AIStates.cpp
-// Open-BFME5: lift MASM dump to standalone C++ thunk.
+// cl: /O2 /Ob1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// BFME layout for AIPanicState::update at retail RVA 0x0017B840.
 
-enum StateReturnType {};
-class AIPanicState { public: virtual StateReturnType update(); };
-// ?update@AIPanicState@@UAE?AW4StateReturnType@@XZ
-__declspec(naked) StateReturnType AIPanicState::update()
+typedef unsigned char Bool;
+typedef unsigned int UnsignedInt;
+
+extern "C" __declspec(dllimport) double __cdecl floor(double);
+
+__forceinline long fast_float2long_round(float value)
 {
+	long result;
 	__asm {
-		__emit 0x83
-		__emit 0xec
-		__emit 0x08
-		__emit 0x53
-		__emit 0x55
-		__emit 0x56
-		__emit 0x57
-		__emit 0x8b
-		__emit 0xf1
-		__emit 0xe8
-		__emit 0xa8
-		__emit 0xd0
-		__emit 0xec
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x7e
-		__emit 0x1c
-		__emit 0x8b
-		__emit 0x5f
-		__emit 0x10
-		__emit 0x8b
-		__emit 0xe8
-		__emit 0x8b
-		__emit 0x43
-		__emit 0x04
-		__emit 0x85
-		__emit 0xc0
-		__emit 0x74
-		__emit 0x0c
-		__emit 0x8b
-		__emit 0x48
-		__emit 0x04
-		__emit 0x85
-		__emit 0xc9
-		__emit 0x74
-		__emit 0x05
-		__emit 0xe8
-		__emit 0x52
-		__emit 0x6a
-		__emit 0xe8
-		__emit 0xff
-		__emit 0x8b
-		__emit 0x88
-		__emit 0xcc
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xf6
-		__emit 0xc5
-		__emit 0x20
-		__emit 0x74
-		__emit 0x36
-		__emit 0xff
-		__emit 0x4e
-		__emit 0x70
-		__emit 0x79
-		__emit 0x31
-		__emit 0x8b
-		__emit 0x46
-		__emit 0x6c
-		__emit 0x89
-		__emit 0x46
-		__emit 0x70
-		__emit 0x8b
-		__emit 0x7f
-		__emit 0x10
-		__emit 0x8b
-		__emit 0xcb
-		__emit 0xe8
-		__emit 0xc2
-		__emit 0x92
-		__emit 0xe9
-		__emit 0xff
-		__emit 0x51
-		__emit 0x8b
-		__emit 0x0d
-		__emit 0x14
-		__emit 0xf2
-		__emit 0x2e
-		__emit 0x01
-		__emit 0xd9
-		__emit 0x1c
-		__emit 0x24
-		__emit 0x57
-		__emit 0xe8
-		__emit 0x1b
-		__emit 0x05
-		__emit 0xeb
-		__emit 0xff
-		__emit 0x85
-		__emit 0xc0
-		__emit 0x74
-		__emit 0x0d
-		__emit 0x5f
-		__emit 0x5e
-		__emit 0x5d
-		__emit 0xb8
-		__emit 0xfe
-		__emit 0xff
-		__emit 0xff
-		__emit 0xff
-		__emit 0x5b
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0xc3
-		__emit 0x83
-		__emit 0xfd
-		__emit 0xff
-		__emit 0x0f
-		__emit 0x85
-		__emit 0x12
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x4e
-		__emit 0x1c
-		__emit 0x8b
-		__emit 0x51
-		__emit 0x10
-		__emit 0x8b
-		__emit 0xba
-		__emit 0x04
-		__emit 0x02
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0xce
-		__emit 0xe8
-		__emit 0x58
-		__emit 0xf2
-		__emit 0xe8
-		__emit 0xff
-		__emit 0x85
-		__emit 0xc0
-		__emit 0x89
-		__emit 0x46
-		__emit 0x60
-		__emit 0x75
-		__emit 0x15
-		__emit 0x8b
-		__emit 0x46
-		__emit 0x64
-		__emit 0x50
-		__emit 0x8b
-		__emit 0xcf
-		__emit 0xe8
-		__emit 0x77
-		__emit 0x19
-		__emit 0xeb
-		__emit 0xff
-		__emit 0x5f
-		__emit 0x5e
-		__emit 0x0b
-		__emit 0xc5
-		__emit 0x5d
-		__emit 0x5b
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0xc3
-		__emit 0x8b
-		__emit 0xbf
-		__emit 0xcc
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x85
-		__emit 0xff
-		__emit 0x0f
-		__emit 0x84
-		__emit 0xa5
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x8b
-		__emit 0x47
-		__emit 0x04
-		__emit 0x85
-		__emit 0xc0
-		__emit 0x74
-		__emit 0x0c
-		__emit 0x8b
-		__emit 0x48
-		__emit 0x04
-		__emit 0x85
-		__emit 0xc9
-		__emit 0x74
-		__emit 0x05
-		__emit 0xe8
-		__emit 0xb8
-		__emit 0x69
-		__emit 0xe8
-		__emit 0xff
-		__emit 0xd9
-		__emit 0x80
-		__emit 0xec
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0xd8
-		__emit 0x1d
-		__emit 0x50
-		__emit 0x53
-		__emit 0x07
-		__emit 0x01
-		__emit 0xdf
-		__emit 0xe0
-		__emit 0xf6
-		__emit 0xc4
-		__emit 0x41
-		__emit 0x75
-		__emit 0x7f
-		__emit 0x8b
-		__emit 0xcf
-		__emit 0xe8
-		__emit 0xa0
-		__emit 0x75
-		__emit 0xe9
-		__emit 0xff
-		__emit 0xd8
-		__emit 0x05
-		__emit 0x3c
-		__emit 0x53
-		__emit 0x07
-		__emit 0x01
-		__emit 0x83
-		__emit 0xec
-		__emit 0x08
-		__emit 0xdd
-		__emit 0x1c
-		__emit 0x24
-		__emit 0xff
-		__emit 0x15
-		__emit 0xb8
-		__emit 0x93
-		__emit 0x35
-		__emit 0x01
-		__emit 0xd9
-		__emit 0x5c
-		__emit 0x24
-		__emit 0x18
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0xd9
-		__emit 0x44
-		__emit 0x24
-		__emit 0x10
-		__emit 0xdb
-		__emit 0x5c
-		__emit 0x24
-		__emit 0x14
-		__emit 0x8b
-		__emit 0x5c
-		__emit 0x24
-		__emit 0x14
-		__emit 0x83
-		__emit 0xfb
-		__emit 0x01
-		__emit 0x7d
-		__emit 0x05
-		__emit 0xbb
-		__emit 0x01
-		__emit 0x00
-		__emit 0x00
-		__emit 0x00
-		__emit 0x68
-		__emit 0x88
-		__emit 0x26
-		__emit 0x00
-		__emit 0x00
-		__emit 0x68
-		__emit 0x9c
-		__emit 0x76
-		__emit 0x09
-		__emit 0x01
-		__emit 0x8b
-		__emit 0xfb
-		__emit 0xf7
-		__emit 0xdf
-		__emit 0x53
-		__emit 0x57
-		__emit 0xe8
-		__emit 0x4d
-		__emit 0x62
-		__emit 0xe8
-		__emit 0xff
-		__emit 0x8d
-		__emit 0x0c
-		__emit 0x80
-		__emit 0x68
-		__emit 0x89
-		__emit 0x26
-		__emit 0x00
-		__emit 0x00
-		__emit 0xd1
-		__emit 0xe1
-		__emit 0x89
-		__emit 0x4c
-		__emit 0x24
-		__emit 0x28
-		__emit 0xdb
-		__emit 0x44
-		__emit 0x24
-		__emit 0x28
-		__emit 0x68
-		__emit 0x9c
-		__emit 0x76
-		__emit 0x09
-		__emit 0x01
-		__emit 0x53
-		__emit 0x57
-		__emit 0xd9
-		__emit 0x5e
-		__emit 0x50
-		__emit 0xe8
-		__emit 0x2c
-		__emit 0x62
-		__emit 0xe8
-		__emit 0xff
-		__emit 0x8d
-		__emit 0x14
-		__emit 0x80
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x20
-		__emit 0xd1
-		__emit 0xe2
-		__emit 0x89
-		__emit 0x54
-		__emit 0x24
-		__emit 0x14
-		__emit 0xdb
-		__emit 0x44
-		__emit 0x24
-		__emit 0x14
-		__emit 0xd9
-		__emit 0x5e
-		__emit 0x54
-		__emit 0x6a
-		__emit 0x00
-		__emit 0x8b
-		__emit 0xce
-		__emit 0xe8
-		__emit 0x23
-		__emit 0xe4
-		__emit 0xe9
-		__emit 0xff
-		__emit 0xa0
-		__emit 0x39
-		__emit 0x02
-		__emit 0x2f
-		__emit 0x01
-		__emit 0x84
-		__emit 0xc0
-		__emit 0x74
-		__emit 0x17
-		__emit 0xa1
-		__emit 0xfc
-		__emit 0xd4
-		__emit 0x2e
-		__emit 0x01
-		__emit 0x85
-		__emit 0xc0
-		__emit 0x74
-		__emit 0x0e
-		__emit 0x68
-		__emit 0x88
-		__emit 0xa0
-		__emit 0x09
-		__emit 0x01
-		__emit 0x50
-		__emit 0xe8
-		__emit 0xbf
-		__emit 0xe7
-		__emit 0xeb
-		__emit 0xff
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0x8b
-		__emit 0x06
-		__emit 0x8b
-		__emit 0xce
-		__emit 0xff
-		__emit 0x50
-		__emit 0x44
-		__emit 0x5f
-		__emit 0x5e
-		__emit 0x5d
-		__emit 0x33
-		__emit 0xc0
-		__emit 0x5b
-		__emit 0x83
-		__emit 0xc4
-		__emit 0x08
-		__emit 0xc3
+		fld [value]
+		fistp [result]
 	}
+	return result;
+}
+
+#define REAL_TO_INT_FLOOR(x) (fast_float2long_round((float)floor((double)(x))))
+
+enum StateReturnType
+{
+	STATE_CONTINUE = 0,
+	STATE_SUCCESS = -1,
+	STATE_FAILURE = -2
+};
+
+struct Coord2D
+{
+	float x;
+	float y;
+};
+
+class Object;
+class Waypoint;
+
+extern void j_000022bb();
+extern void j_0000ab1e();
+extern void j_00012ebd();
+extern void j_00014b4b();
+extern void j_00019dc1();
+extern void j_0002bdb4();
+extern void j_0002d24f();
+extern void j_0003a17a();
+extern int GetGameLogicRandomValue(int, int, char *, int);
+
+class StateMachine
+{
+public:
+	Object *getOwner() const
+	{
+		return m_owner;
+	}
+
+private:
+	virtual void bfmeVSlot0() {}
+	void *m_stateMap[3];
+	Object *m_owner;
+};
+
+class State
+{
+public:
+	virtual void bfmeVSlot00() {}
+	virtual void bfmeVSlot01() {}
+	virtual void bfmeVSlot02() {}
+	virtual StateReturnType update();
+	virtual void bfmeVSlot04() {}
+	virtual void bfmeVSlot05() {}
+	virtual void bfmeVSlot06() {}
+	virtual void bfmeVSlot07() {}
+	virtual void bfmeVSlot08() {}
+	virtual void bfmeVSlot09() {}
+	virtual void bfmeVSlot10() {}
+	virtual void bfmeVSlot11() {}
+	virtual void bfmeVSlot12() {}
+	virtual void bfmeVSlot13() {}
+	virtual void bfmeVSlot14() {}
+	virtual void bfmeVSlot15() {}
+	virtual void bfmeVSlot16() {}
+
+protected:
+	UnsignedInt m_stateID;
+	UnsignedInt m_successStateID;
+	UnsignedInt m_failureStateID;
+	void *m_transitions[3];
+	StateMachine *m_machine;
+};
+
+class BfmeThingTemplate
+{
+public:
+	void *m_vptr;
+	BfmeThingTemplate *m_nextOverride;
+	unsigned char m_pad08[0xc4];
+	UnsignedInt m_kindOfFlags;
+};
+
+class BfmeLocomotorTemplate
+{
+public:
+	void *m_vptr;
+	BfmeLocomotorTemplate *m_nextOverride;
+	unsigned char m_pad08[0xe4];
+	float m_wanderWidthFactor;
+
+	float getWanderWidthFactor() const
+	{
+		return m_wanderWidthFactor;
+	}
+};
+
+class BfmeLocomotor
+{
+public:
+	void *m_vptr;
+	BfmeLocomotorTemplate *m_template;
+
+	float getWanderWidthFactor()
+	{
+		typedef float (BfmeLocomotor::*WanderWidthCall)();
+		union { void *asVoid; WanderWidthCall asMember; } widthCast;
+		widthCast.asVoid = (void *)j_00012ebd;
+		return (this->*widthCast.asMember)();
+	}
+};
+
+class BfmeAIUpdateInterface
+{
+public:
+	BfmeLocomotor *getCurLocomotor() const
+	{
+		return m_curLocomotor;
+	}
+
+private:
+	unsigned char m_pad00[0x1cc];
+	BfmeLocomotor *m_curLocomotor;
+};
+
+class Object
+{
+public:
+	BfmeAIUpdateInterface *getAI() const
+	{
+		return m_ai;
+	}
+
+	float getVisionRange() const;
+
+	void *m_vptr;
+	BfmeThingTemplate *m_template;
+	unsigned char m_pad08[0x1fc];
+	BfmeAIUpdateInterface *m_ai;
+};
+
+class AI
+{
+public:
+	Object *findClosestRepulsor(const Object *object, float visionRange);
+};
+
+class AIInternalMoveToState : public State
+{
+public:
+	virtual StateReturnType update();
+	virtual Bool computePath();
+
+	Object *getMachineOwner() const
+	{
+		return m_machine->getOwner();
+	}
+
+protected:
+	unsigned char m_pad20[0x30];
+};
+
+class BfmeAIFollowWaypointPathState : public AIInternalMoveToState
+{
+protected:
+	Coord2D m_groupOffset;
+	float m_angle;
+	int m_framesSleeping;
+	const Waypoint *m_currentWaypoint;
+	const Waypoint *m_priorWaypoint;
+	Bool m_appendGoalPosition;
+	Bool m_moveAsGroup;
+	Bool m_isFollowWaypointPathState;
+
+	void computeGoal(Bool useGroupOffsets)
+	{
+		typedef void (BfmeAIFollowWaypointPathState::*ComputeGoalCall)(Bool);
+		union { void *asVoid; ComputeGoalCall asMember; } goalCast;
+		goalCast.asVoid = (void *)j_00019dc1;
+		(this->*goalCast.asMember)(useGroupOffsets);
+	}
+
+	const Waypoint *getNextWaypoint()
+	{
+		typedef const Waypoint *(BfmeAIFollowWaypointPathState::*NextWaypointCall)();
+		union { void *asVoid; NextWaypointCall asMember; } nextCast;
+		nextCast.asVoid = (void *)j_0000ab1e;
+		return (this->*nextCast.asMember)();
+	}
+};
+
+class AIPanicState : public BfmeAIFollowWaypointPathState
+{
+public:
+	virtual StateReturnType update();
+
+protected:
+	int m_waitFrames;
+	int m_timer;
+};
+
+#define TheAI (*(AI **)0x012EF214)
+#define CritterDesyncFlag (*(unsigned char *)0x012F0239)
+#define CritterDesyncSink (*(void **)0x012ED4FC)
+#define BfmeZeroRange (*(const float *)0x01075350)
+#define BfmeK1253 (*(const float *)0x0107533C)
+#define BfmeRandomFile ((char *)0x0109769C)
+#define BfmePanicMessage ((const char *)0x0109A088)
+
+typedef void (__cdecl *DebugLogFunction)(void *, const char *);
+
+StateReturnType AIPanicState::update()
+{
+	StateReturnType status = AIInternalMoveToState::update();
+
+	StateMachine *machine = m_machine;
+	Object *obj = machine->getOwner();
+	BfmeThingTemplate *thing = obj->m_template;
+	if (thing != 0 && thing->m_nextOverride != 0)
+	{
+		typedef BfmeThingTemplate *(BfmeThingTemplate::*FinalOverrideCall)();
+		union { void *asVoid; FinalOverrideCall asMember; } overrideCast;
+		overrideCast.asVoid = (void *)j_000022bb;
+		thing = (thing->m_nextOverride->*overrideCast.asMember)();
+	}
+	if ((thing->m_kindOfFlags & 0x00002000) != 0)
+	{
+		--m_timer;
+		if (m_timer < 0)
+		{
+			m_timer = m_waitFrames;
+			Object *enemy = TheAI->findClosestRepulsor(
+				machine->getOwner(), obj->getVisionRange());
+			if (enemy)
+				return STATE_FAILURE;
+		}
+	}
+
+	if (status == STATE_SUCCESS)
+	{
+		Object *obj = getMachineOwner();
+		BfmeAIUpdateInterface *ai = obj->getAI();
+
+		m_currentWaypoint = getNextWaypoint();
+		if (m_currentWaypoint == 0)
+		{
+			typedef void (BfmeAIUpdateInterface::*CompletedWaypointCall)(const Waypoint *);
+			union { void *asVoid; CompletedWaypointCall asMember; } completedCast;
+			completedCast.asVoid = (void *)j_0002d24f;
+			(ai->*completedCast.asMember)(m_priorWaypoint);
+			return STATE_SUCCESS;
+		}
+
+		BfmeLocomotor *curLoco = ai->getCurLocomotor();
+		if (curLoco)
+		{
+			BfmeLocomotorTemplate *locoTemplate = curLoco->m_template;
+			if (locoTemplate != 0 && locoTemplate->m_nextOverride != 0)
+			{
+				typedef BfmeLocomotorTemplate *(BfmeLocomotorTemplate::*FinalOverrideCall)();
+				union { void *asVoid; FinalOverrideCall asMember; } overrideCast;
+				overrideCast.asVoid = (void *)j_000022bb;
+				locoTemplate = (locoTemplate->m_nextOverride->*overrideCast.asMember)();
+			}
+			if (locoTemplate->getWanderWidthFactor() > BfmeZeroRange)
+			{
+				int delta = REAL_TO_INT_FLOOR(
+					curLoco->getWanderWidthFactor() + BfmeK1253);
+				if (delta < 1)
+					delta = 1;
+				int negativeDelta = -delta;
+				int offsetX = GetGameLogicRandomValue(
+					negativeDelta, delta, BfmeRandomFile, 0x2688);
+				m_groupOffset.x = (float)(offsetX * 10);
+				int offsetY = GetGameLogicRandomValue(
+					negativeDelta, delta, BfmeRandomFile, 0x2689);
+				m_groupOffset.y = (float)(offsetY * 10);
+			}
+		}
+
+		computeGoal(0);
+		if (CritterDesyncFlag && CritterDesyncSink)
+			((DebugLogFunction)j_0003a17a)(CritterDesyncSink, BfmePanicMessage);
+		computePath();
+		return STATE_CONTINUE;
+	}
+
+	return STATE_CONTINUE;
 }
