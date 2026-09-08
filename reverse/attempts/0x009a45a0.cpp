@@ -1,60 +1,55 @@
-// ??0Rva009A45A0CollisionData@@QAE@XZ
-// partial score=0.8 date=2026-09-03
-// cl: /DNDEBUG /MD /EHsc
+// ??0BfmeBigJU@@QAE@XZ
+// partial score=0.95 date=2026-09-08
+extern "C" void *__cdecl memset(void *d, int c, unsigned int n);
 
-extern "C" void *__cdecl memset(void *destination, int value, unsigned int count);
-#pragma intrinsic(memset)
-
-class Rva009A45A0CollisionData
+class BfmeBigJU
 {
 public:
-	Rva009A45A0CollisionData();
+	BfmeBigJU();
 
-private:
-	struct TripleZero
-	{
-		TripleZero() : first(0), second(0), third(0) {}
-		unsigned int first;
-		unsigned int second;
-		unsigned int third;
-	};
-	struct PairZero
-	{
-		PairZero() : first(0), second(0) {}
-		unsigned int first;
-		unsigned int second;
-	};
-
-	TripleZero m_firstThree;
-	unsigned int m_000c;
-	unsigned int m_0010;
-	unsigned int m_0014;
-	unsigned int m_first[0x2b7c];
-	PairZero m_ae08;
-	unsigned int m_second[0x494];
-	unsigned int m_c060;
-	unsigned int m_c064;
-	unsigned int m_c068;
-	unsigned char m_c06c;
-	unsigned char m_c06d;
-	unsigned char m_c06e[2];
+	volatile int m_bfme00JU;
+	volatile int m_bfme04JU;
+	volatile int m_bfme08JU;
+	int m_bfme0cJU;
+	int m_bfme10JU;
+	int m_bfme14JU;
+	int m_bfmeA1JU[0x2b7c];
+	volatile int m_bfmeAe08JU;
+	volatile int m_bfmeAe0cJU;
+	int m_bfmeA2JU[0x494];
+	int m_bfmeC060JU;
+	int m_bfmeC064JU;
+	int m_bfmeC068JU;
+	char m_bfmeC06cJU;
+	char m_bfmeC06dJU;
+	unsigned char m_bfmePadJU[2];
 };
 
-Rva009A45A0CollisionData::Rva009A45A0CollisionData()
+BfmeBigJU::BfmeBigJU()
 {
-	unsigned int *first = m_first;
-	memset(first, 0, sizeof(m_first) - sizeof(*first));
-	first[0x2b7b] = 0;
-	m_c060 = 0;
-	m_c064 = 0;
+	m_bfme00JU = 0;
+	m_bfme04JU = 0;
+	m_bfme08JU = 0;
+	m_bfmeAe08JU = 0;
+	m_bfmeAe0cJU = 0;
 
-	unsigned int *second = m_second;
-	memset(second, 0, sizeof(m_second) - sizeof(*second));
-	second[0x493] = 0;
-	m_c06c = 0;
-	m_c06d = 0;
-	m_c068 = 3;
-	m_000c = 0;
-	m_0010 = 0;
-	m_0014 = 0;
+	int *a1 = m_bfmeA1JU;
+
+	memset(a1, 0, 0x2b7b * 4);
+
+	a1[0x2b7b] = 0;
+	m_bfmeC060JU = 0;
+	m_bfmeC064JU = 0;
+
+	int *a2 = m_bfmeA2JU;
+
+	memset(a2, 0, 0x493 * 4);
+
+	a2[0x493] = 0;
+	m_bfmeC06cJU = 0;
+	m_bfmeC06dJU = 0;
+	m_bfmeC068JU = 3;
+	m_bfme0cJU = 0;
+	m_bfme10JU = 0;
+	m_bfme14JU = 0;
 }
