@@ -4737,7 +4737,7 @@ name,address,notes
 ??1Gen_dtor_000f3c20@@UAE@XZ,0x00003661,gen-dtor class destructor
 ??1Gen_dtor_000f7280@@UAE@XZ,0x00003201,gen-dtor class destructor
 ??1Gen_dtor_000f7580@@UAE@XZ,0x00023641,gen-dtor class destructor
-??1Gen_dtor_000f7760@@UAE@XZ,0x00013502,gen-dtor class destructor
+??1TeamFactory@@UAE@XZ,0x00013502,ILT to the matched TeamFactory destructor at RVA 0x000F74C0
 ??1Gen_dtor_000f8d50@@UAE@XZ,0x0002A19E,gen-dtor class destructor
 ??1Gen_dtor_000fc6f0@@UAE@XZ,0x00021D14,gen-dtor class destructor
 ??1Gen_dtor_000fc720@@UAE@XZ,0x0003BC78,gen-dtor class destructor
