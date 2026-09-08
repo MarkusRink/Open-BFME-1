@@ -17,6 +17,14 @@ enum ciConnectState
 	ciDisconnected
 };
 
+enum CILoginType
+{
+	CINoLogin,
+	CIUniqueNickLogin,
+	CIProfileLogin,
+	CIPreAuthLogin
+};
+
 struct ciBuffer
 {
 	char *buffer;
@@ -67,6 +75,17 @@ int __stdcall WSAGetLastError(void);
 void GSISocketSelect(unsigned int socket, int *readFlag, int *writeFlag, int *exceptFlag);
 void gs_crypt(unsigned char *buffer, int length, gs_crypt_key *key);
 
+static CHATBool ciBufferInit(ciBuffer *buffer)
+{
+	buffer->length = 0;
+	buffer->size = 8192;
+	buffer->buffer = (char *)malloc(8192 + 1);
+	if (buffer->buffer == NULL)
+		return CHATFalse;
+	buffer->buffer[0] = '\0';
+	return CHATTrue;
+}
+
 static void ciBufferFree(ciBuffer *buffer)
 {
 	free(buffer->buffer);
@@ -92,6 +111,19 @@ static void ciBufferClipFront(ciBuffer *buffer, int length)
 	buffer->length -= length;
 	memmove(buffer->buffer, buffer->buffer + length, (unsigned int)buffer->length);
 	buffer->buffer[buffer->length] = '\0';
+}
+
+CHATBool ciSocketInit(ciSocket *socket, CILoginType loginType)
+{
+	(void)loginType;
+	memset(socket, 0, sizeof(*socket));
+	socket->sock = ~0U;
+	if (ciBufferInit(&socket->inputQueue)) {
+		if (ciBufferInit(&socket->outputQueue))
+			return CHATTrue;
+		ciBufferFree(&socket->inputQueue);
+	}
+	return CHATFalse;
 }
 
 static void ciSocketSelect(unsigned int socket, CHATBool *readFlag, CHATBool *writeFlag, CHATBool *exceptFlag)

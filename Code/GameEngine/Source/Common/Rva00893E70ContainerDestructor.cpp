@@ -1,28 +1,50 @@
 // cl: /DNDEBUG /MD /EHsc
 
-struct Rva00893E70Element
+struct BfmeStringData3AF0
 {
-    unsigned m_first;
-    unsigned m_second;
-    ~Rva00893E70Element(void);
+	unsigned short m_refs;
 };
 
-extern void b_00893b30(void);
+struct BfmeStringPool3AF0
+{
+	void *m_pad;
+	void (__cdecl *m_destroy)(BfmeStringData3AF0 *);
+};
+
+extern BfmeStringData3AF0 g_bfmeDefaultString1284;
+extern BfmeStringPool3AF0 *g_bfmeStringPool1284;
+
+struct Rva00892640Item
+{
+	Rva00892640Item();
+	Rva00892640Item &operator=(const Rva00892640Item &other);
+	~Rva00892640Item();
+
+	BfmeStringData3AF0 *m_handle;
+	void *m_extra;
+};
 
 class Gen_uw_00893e70
 {
 public:
-    ~Gen_uw_00893e70(void);
+	Gen_uw_00893e70();
+	~Gen_uw_00893e70();
+
+	void Rva00895050(Gen_uw_00893e70 *other);
+	void Rva00895340();
 
 private:
-    unsigned m_pad0;
-    unsigned m_pad4;
-    Rva00893E70Element *m_data;
-    Rva00893E70Element m_inline[2];
+	unsigned int m_count;
+	unsigned int m_capacity;
+	Rva00892640Item *m_data;
+	Rva00892640Item m_inline[2];
 };
 
-Gen_uw_00893e70::~Gen_uw_00893e70(void)
+extern Rva00892640Item *Rva00893B30ResizeItems(
+	Rva00892640Item *data, int logical_count, int new_capacity);
+
+Gen_uw_00893e70::~Gen_uw_00893e70()
 {
-    if (m_data != m_inline)
-        ((void (__cdecl *)(void *, void *, void *))b_00893b30)(m_data, 0, 0);
+	if (m_data != m_inline)
+		Rva00893B30ResizeItems(m_data, 0, 0);
 }

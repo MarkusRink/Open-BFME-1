@@ -90,8 +90,8 @@ private:
 class W3DShadowGeometry;
 
 // Only the two virtual slots reached by this body are named.  The class-id
-// slot is +0x0c and the mesh model accessor is +0x14 in BFME's RenderObjClass
-// vtable.
+// slot is +0x0c.  Mesh slot +0x14 is a borrowed identity view: its MeshClass
+// implementation returns the receiver unchanged (mov eax,ecx; ret).
 class RenderObjClass
 {
 public:
@@ -100,7 +100,7 @@ public:
 	virtual void slot08(void);
 	virtual int Class_ID(void);
 	virtual void slot10(void);
-	virtual RenderObjClass *Get_Model(int lod, W3DShadowGeometry *owner);
+	virtual RenderObjClass *Mesh_View_14(void);
 };
 
 class W3DShadowGeometry : public RefCountClass, public HashableClass
@@ -112,7 +112,8 @@ public:
 	virtual const char *Get_Key(void) { return m_namebuf.str(); }
 
 	int initFromHLOD(RenderObjClass *robj);
-	int initFromMesh(RenderObjClass *robj);
+	int initFromMesh(RenderObjClass *robj, int mesh_index,
+		W3DShadowGeometry *parent_geometry);
 
 	const char *Get_Name(void) const { return m_namebuf.str(); }
 	void Set_Name(const char *name)
@@ -177,7 +178,7 @@ int W3DShadowGeometryManager::Load_Geom(RenderObjClass *robj, const char *name)
 			res = newgeom->initFromHLOD(robj);
 			break;
 		case 0:
-			res = newgeom->initFromMesh(robj->Get_Model(-1, newgeom));
+			res = newgeom->initFromMesh(robj->Mesh_View_14(), -1, newgeom);
 			break;
 		default:
 			break;
