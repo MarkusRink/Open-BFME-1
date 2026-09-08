@@ -86107,3 +86107,9 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?bfmeCheckGK@BfmeMgrGK@@QAEDPAVBfmeObjGK@@HH@Z,0x000481FD,pin check for BfmeConv2065
 _bfmeVftGL,0x00D2E8B8,pin vftable for BfmeConv2066
 __imp_??0BfmeBaseGL@@QAE@XZ,0x00F59214,pin base ctor for BfmeConv2066
+?setStatus@Rva226800StatusObject@@QAEXABV?$BitFlags@$0FG@@@_N@Z,0x000307E7,Rva226800 removal helper status clear ILT
+?nameToKey@Rva226800NameKeyGenerator@@QAE?AW4NameKeyType@@PBD@Z,0x0003ADD7,Rva226800 StealthUpdate key ILT
+?setLayer@Rva226800LayerObject@@QAEXW4PathfindLayerEnum@@@Z,0x00035E0E,Rva226800 removed-object layer ILT
+?getFinalOverride@Rva226800Overridable@@QAEPAV1@XZ,0x000022BB,Rva226800 template override ILT
+?clearModelConditionState@Object@@QAEXH@Z,0x00031F7A,Rva00227B60ContainDispatch dependency pin
+?step@BfmeFinishDispatcherAGA@@QAEXPAVObject@@_N@Z,0x00014F51,Rva00227B60ContainDispatch dependency pin
