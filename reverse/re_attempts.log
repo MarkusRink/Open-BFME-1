@@ -15184,3 +15184,4 @@ __RTC_CheckEsp	0x009F7502	3	blocked	t=5min model=gpt-5.6-sol-ultra; body is only
 ?d_003720f0@@YAXXZ	0x003720F0	222	blocked	t=2m model=gpt-5; tools/find_emitter.py reports no built object defines 0x003720F0; identity detectors provide no trustworthy real owner, so no honest C++ body can be attempted.
 ?d_00372670@@YAXXZ	0x00372670	288	blocked	t=2m model=gpt-5; tools/find_emitter.py reports no built object defines 0x00372670; identity detectors provide no trustworthy real owner, so no honest C++ body can be attempted.
 ?d_00372e40@@YAXXZ	0x00372E40	280	blocked	t=2m model=gpt-5; tools/find_emitter.py reports no built object defines 0x00372E40; identity detectors provide no trustworthy real owner, so no honest C++ body can be attempted.
+?d_00373090@@YAXXZ	0x00373090	317	blocked	t=2m model=gpt-5; tools/find_emitter.py reports no built object defines 0x00373090; identity detectors provide no trustworthy real owner, so no honest C++ body can be attempted.
