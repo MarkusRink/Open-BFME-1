@@ -1,28 +1,22 @@
-// ??0ExperienceLevelSystem@@QAE@XZ
-// partial score=0.98 date=2026-09-08
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /ICode/Libraries/Source/WWVegas/WWLib
 // stlport
 //
-// ExperienceLevelSystem constructor, retail 0x00381480.
+// ExperienceLevelSystem constructor, retail RVA 0x00381480.
+// GameEngine::init registers TheExperienceLevelSystem at this constructor, as
+// recorded in reverse/gameengine_init_subsystems.tsv. The constructor vtable
+// and member offsets also agree with the matched ExperienceLevelSystem bodies.
 
 #define _STLP_NO_EXCEPTIONS 1
+#define _STLP_USE_STATIC_LIB 1
 #include <hash_map>
 #include <list>
 #include <vector>
 
+#include "ascii_string.h"
+
 typedef bool Bool;
 typedef int Int;
 typedef float Real;
-
-class AsciiString
-{
-public:
-	AsciiString(const char *text);
-	~AsciiString();
-
-private:
-	void *m_data;
-};
 
 class SubsystemInterface
 {
@@ -36,11 +30,12 @@ public:
 	virtual void draw() {}
 
 private:
-	void *m_name;
+	AsciiString m_name;
 };
 
-struct ExperienceLevel
+class ExperienceLevel
 {
+public:
 	char m_data[0xd8];
 };
 
@@ -60,7 +55,6 @@ class ExperienceScalarTable
 {
 public:
 	ExperienceScalarTable(const AsciiString &name);
-
 	std::vector<Real> m_scalars;
 	AsciiString m_name;
 };
@@ -90,6 +84,5 @@ ExperienceLevelSystem::ExperienceLevelSystem()
 {
 	m_defaultLevel = new ExperienceScalarTable(
 		AsciiString((const char *)0x010EA974));
-	if (m_defaultLevel != 0)
-		m_defaultLevel->m_scalars.push_back(1.0f);
+	m_defaultLevel->m_scalars.push_back(1.0f);
 }
