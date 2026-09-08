@@ -157,10 +157,8 @@ HeaderTemplateManager *TheHeaderTemplateManager = NULL;
 //-----------------------------------------------------------------------------
 // PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
-// ?parseHeaderTemplateDefinition@INI@@SAXPAV1@@Z body in
-// Code/GameEngine/Source/Common/INI_parseHeaderTemplateDefinitionMethodThunk.cpp
-// (0x0048CBD0/195). The parser uses the BFME StringBase ABI and the
-// HeaderTemplate Font/Point/Bold FieldParse table below.
+// ?parseHeaderTemplateDefinition@INI@@SAXPAV1@@Z
+// Readable body in Code/GameEngine/Source/GameClient/GUI/HeaderTemplateCreation.cpp.
 
 // ??0HeaderTemplate@@QAE@XZ present-unmatched
 HeaderTemplate::HeaderTemplate( void ) :
@@ -220,10 +218,8 @@ void HeaderTemplateManager::init( void )
 	populateGameFonts();
 }
 
-// ?newHeaderTemplate@HeaderTemplateManager@@QAEPAVHeaderTemplate@@VAsciiString@@@Z body in
-// Code/GameEngine/Source/Common/HeaderTemplateManager_newHeaderTemplate_Thunk.cpp
-// (0x0048CAD0/204). The parser reaches this real factory through ILT
-// 0x000470E6; its STLport list and BFME StringBase ABI are defined in that TU.
+// ?newHeaderTemplate@HeaderTemplateManager@@QAEPAVHeaderTemplate@@VAsciiString@@@Z
+// Readable body in Code/GameEngine/Source/GameClient/GUI/HeaderTemplateCreation.cpp.
 
 HeaderTemplate *HeaderTemplateManager::getFirstHeader( void )
 {
