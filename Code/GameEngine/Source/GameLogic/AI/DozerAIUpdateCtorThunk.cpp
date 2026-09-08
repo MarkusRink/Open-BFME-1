@@ -1,290 +1,111 @@
 // cl: /DNDEBUG /MD /EHsc
-// readable body of ??0DozerAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z: Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdate.cpp
+
+// Open-BFME5: DozerAIUpdate constructor.  The factory and matched destructor
+// fix the AI base, AudioEventRTS member, and 3x3 dock-point array.
 
 class Thing;
 class ModuleData;
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/DozerAIUpdate.h
-class DozerAIUpdate
+class Object;
+class BehaviorModule
 {
-public:
-    DozerAIUpdate(Thing *, const ModuleData *);
+public: virtual void slot();
+private: unsigned int m_04; Object *m_object;
 };
 
-__declspec(naked) DozerAIUpdate::DozerAIUpdate(Thing *, const ModuleData *)
+template <int Number> class __declspec(novtable) DozerIface { public: virtual void slot() = 0; };
+class __declspec(novtable) DozerWideIface
 {
-    __asm {
-        _emit 06Ah
-        _emit 0FFh
-        _emit 068h
-        _emit 0CEh
-        _emit 034h
-        _emit 001h
-        _emit 001h
-        _emit 064h
-        _emit 0A1h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 050h
-        _emit 064h
-        _emit 089h
-        _emit 025h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 051h
-        _emit 08Bh
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 053h
-        _emit 056h
-        _emit 057h
-        _emit 08Bh
-        _emit 0F1h
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 020h
-        _emit 050h
-        _emit 051h
-        _emit 08Bh
-        _emit 0CEh
-        _emit 089h
-        _emit 074h
-        _emit 024h
-        _emit 014h
-        _emit 0E8h
-        _emit 0F3h
-        _emit 00Bh
-        _emit 0D7h
-        _emit 0FFh
-        _emit 0C7h
-        _emit 086h
-        _emit 040h
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 0A8h
-        _emit 068h
-        _emit 00Ch
-        _emit 001h
-        _emit 033h
-        _emit 0DBh
-        _emit 053h
-        _emit 068h
-        _emit 050h
-        _emit 06Eh
-        _emit 033h
-        _emit 001h
-        _emit 08Dh
-        _emit 08Eh
-        _emit 064h
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 05Ch
-        _emit 024h
-        _emit 020h
-        _emit 0C7h
-        _emit 006h
-        _emit 090h
-        _emit 06Ah
-        _emit 00Ch
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 00Ch
-        _emit 0C8h
-        _emit 069h
-        _emit 00Ch
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 010h
-        _emit 0B8h
-        _emit 069h
-        _emit 00Ch
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 020h
-        _emit 0B4h
-        _emit 069h
-        _emit 00Ch
-        _emit 001h
-        _emit 0C7h
-        _emit 046h
-        _emit 024h
-        _emit 098h
-        _emit 069h
-        _emit 00Ch
-        _emit 001h
-        _emit 0C7h
-        _emit 086h
-        _emit 040h
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 020h
-        _emit 069h
-        _emit 00Ch
-        _emit 001h
-        _emit 0E8h
-        _emit 009h
-        _emit 0CCh
-        _emit 0D6h
-        _emit 0FFh
-        _emit 068h
-        _emit 00Fh
-        _emit 0EAh
-        _emit 042h
-        _emit 000h
-        _emit 068h
-        _emit 0B6h
-        _emit 088h
-        _emit 043h
-        _emit 000h
-        _emit 06Ah
-        _emit 009h
-        _emit 06Ah
-        _emit 010h
-        _emit 08Dh
-        _emit 096h
-        _emit 0D8h
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 052h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 02Ch
-        _emit 001h
-        _emit 0E8h
-        _emit 0C8h
-        _emit 0E7h
-        _emit 073h
-        _emit 000h
-        _emit 0C6h
-        _emit 044h
-        _emit 024h
-        _emit 018h
-        _emit 002h
-        _emit 08Dh
-        _emit 086h
-        _emit 0E4h
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 08Dh
-        _emit 08Eh
-        _emit 048h
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 0BFh
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 059h
-        _emit 0FCh
-        _emit 089h
-        _emit 019h
-        _emit 0BAh
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 08Dh
-        _emit 064h
-        _emit 024h
-        _emit 000h
-        _emit 088h
-        _emit 058h
-        _emit 0F4h
-        _emit 089h
-        _emit 058h
-        _emit 0F8h
-        _emit 089h
-        _emit 058h
-        _emit 0FCh
-        _emit 089h
-        _emit 018h
-        _emit 083h
-        _emit 0C0h
-        _emit 010h
-        _emit 04Ah
-        _emit 075h
-        _emit 0EFh
-        _emit 083h
-        _emit 0C1h
-        _emit 008h
-        _emit 04Fh
-        _emit 075h
-        _emit 0DBh
-        _emit 08Bh
-        _emit 0CEh
-        _emit 0C7h
-        _emit 086h
-        _emit 060h
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 0FFh
-        _emit 0FFh
-        _emit 0FFh
-        _emit 0FFh
-        _emit 089h
-        _emit 09Eh
-        _emit 068h
-        _emit 004h
-        _emit 000h
-        _emit 000h
-        _emit 089h
-        _emit 09Eh
-        _emit 05Ch
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 088h
-        _emit 09Eh
-        _emit 0D4h
-        _emit 003h
-        _emit 000h
-        _emit 000h
-        _emit 0E8h
-        _emit 0B9h
-        _emit 0A8h
-        _emit 0D6h
-        _emit 0FFh
-        _emit 08Bh
-        _emit 04Ch
-        _emit 024h
-        _emit 010h
-        _emit 05Fh
-        _emit 08Bh
-        _emit 0C6h
-        _emit 05Eh
-        _emit 05Bh
-        _emit 064h
-        _emit 089h
-        _emit 00Dh
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 000h
-        _emit 083h
-        _emit 0C4h
-        _emit 010h
-        _emit 0C2h
-        _emit 008h
-        _emit 000h
-    }
+public: virtual void slot() = 0;
+private: unsigned int m_14, m_18, m_1c;
+};
+class __declspec(novtable) DozerPaddedIface
+{
+public: virtual void slot() = 0;
+private: unsigned char m_pad[0x318];
+};
+class DozerAIInterface
+{
+public:
+	virtual ~DozerAIInterface();
+	virtual void slot();
+};
+
+class AnimalAIUpdateBase : public BehaviorModule
+{
+public:
+	AnimalAIUpdateBase(Thing *, const ModuleData *);
+};
+
+class AsciiString {};
+extern const AsciiString Rva01336E50Str;
+
+class AudioEventRTS
+{
+public:
+	AudioEventRTS(const AsciiString &, int);
+	virtual ~AudioEventRTS();
+private:
+	unsigned char m_pad[0x6c];
+};
+
+struct DozerTaskInfo
+{
+	unsigned int m_targetObjectID;
+	unsigned int m_taskOrderFrame;
+};
+
+struct Coord3D
+{
+	void zero() { x = 0; y = 0; z = 0; }
+	unsigned int x, y, z;
+};
+
+struct DozerDockPointInfo
+{
+	DozerDockPointInfo();
+	~DozerDockPointInfo();
+	bool valid;
+	unsigned char m_pad[3];
+	Coord3D location;
+};
+
+class DozerAIUpdate : public AnimalAIUpdateBase,
+	public DozerIface<1>, public DozerWideIface, public DozerIface<2>,
+	public DozerPaddedIface, public DozerAIInterface
+{
+public:
+	DozerAIUpdate(Thing *, const ModuleData *);
+	virtual ~DozerAIUpdate();
+private:
+	DozerTaskInfo m_task[3];
+	void *m_dozerMachine;
+	int m_currentTask;
+	AudioEventRTS m_buildingSound;
+	bool m_isRebuild;
+	unsigned char m_pad3d5[3];
+	DozerDockPointInfo m_dockPoint[3][3];
+	unsigned int m_buildSubTask;
+	void createMachines();
+};
+
+// ??0DozerAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z
+DozerAIUpdate::DozerAIUpdate(Thing *thing, const ModuleData *data)
+	: AnimalAIUpdateBase(thing, data), m_buildingSound(Rva01336E50Str, 0)
+{
+	for (int i = 0; i != 3; ++i)
+	{
+		m_task[i].m_targetObjectID = 0;
+		m_task[i].m_taskOrderFrame = 0;
+		for (int j = 0; j != 3; ++j)
+		{
+			m_dockPoint[i][j].valid = false;
+			m_dockPoint[i][j].location.zero();
+		}
+	}
+	m_currentTask = -1;
+	m_buildSubTask = 0;
+	m_dozerMachine = 0;
+	m_isRebuild = false;
+	createMachines();
 }
