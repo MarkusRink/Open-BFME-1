@@ -86114,3 +86114,4 @@ __imp_??0BfmeBaseGL@@QAE@XZ,0x00F59214,pin base ctor for BfmeConv2066
 ?clearModelConditionState@Object@@QAEXH@Z,0x00031F7A,Rva00227B60ContainDispatch dependency pin
 ?step@BfmeFinishDispatcherAGA@@QAEXPAVObject@@_N@Z,0x00014F51,Rva00227B60ContainDispatch dependency pin
 ?bfmeSwapSubGQ@@YAXPAVBfmeSubGQ@@0@Z,0x00025176,pin sub swap for BfmeConv2068
+?bfmeApplyGR@BfmeThingGR@@QAEXH@Z,0x0090C9E0,pin apply for BfmeConv2069
