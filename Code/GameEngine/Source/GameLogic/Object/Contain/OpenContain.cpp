@@ -210,27 +210,8 @@ void OpenContain::containReactToTransformChange()
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?update@OpenContain@@ present-unmatched
-UpdateSleepTime OpenContain::update( void )
-{
-	m_playerEnteredMask = 0;
-
-	// we need to monitor changes in the art and position
-	monitorConditionChanges();
-
-	if( m_doorCloseCountdown )
-	{
-		/// @todo srj -- for now, OpenContain assumes at most one door
-		--m_doorCloseCountdown;
-		if( m_doorCloseCountdown == 0 )
-			getObject()->clearAndSetModelConditionState( MODELCONDITION_DOOR_1_OPENING, MODELCONDITION_DOOR_1_CLOSING );
-	}
-
-	if (!m_objectEnterExitInfo.empty())
-		pruneDeadWanters();
-
-	return UPDATE_SLEEP_NONE;
-}
+// OpenContain::update lives in OpenContainUpdate.cpp so its BFME field offsets
+// stay independent of the shared Zero Hour header layout.
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -1313,25 +1294,7 @@ void OpenContain::onObjectWantsToEnterOrExit(Object* obj, ObjectEnterExitType wa
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?pruneDeadWanters@OpenContain@@ present-unmatched
-void OpenContain::pruneDeadWanters()
-{
-	for (ObjectEnterExitMap::iterator it = m_objectEnterExitInfo.begin(); it != m_objectEnterExitInfo.end(); /*++it*/)
-	{
-		ObjectID id = (*it).first;
-		Object* obj = TheGameLogic->findObjectByID(id);
-		if (obj == NULL || obj->isEffectivelyDead())
-		{
-			ObjectEnterExitMap::iterator tmp = it;
-			++it;
-			m_objectEnterExitInfo.erase(tmp);
-		}
-		else
-		{
-			++it;
-		}
-	}
-}
+// OpenContain::pruneDeadWanters is retained by the retail thunk at 0x00004953.
 
 //-------------------------------------------------------------------------------------------------
 // ?markAllPassengersDetected@OpenContain@@ present-unmatched
