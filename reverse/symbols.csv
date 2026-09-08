@@ -4672,7 +4672,7 @@ name,address,notes
 ??1Gen_dtor_00075b70@@UAE@XZ,0x000479D3,gen-dtor class destructor
 ??1Gen_dtor_00075d40@@UAE@XZ,0x00008797,gen-dtor class destructor
 ??1Gen_dtor_00076c50@@UAE@XZ,0x00015C62,gen-dtor class destructor
-??1Gen_dtor_00076e90@@UAE@XZ,0x00004BEC,gen-dtor class destructor
+??1ScienceStore@@UAE@XZ,0x00004BEC,authentic virtual destructor callee; vtable 0x01075F14 and matched constructor/destructor prove identity
 ??1Gen_dtor_00077530@@UAE@XZ,0x000079DC,gen-dtor class destructor
 ??1Gen_dtor_00078480@@UAE@XZ,0x00022390,gen-dtor class destructor
 ??1Gen_dtor_00078d60@@UAE@XZ,0x0002CEE9,gen-dtor class destructor
