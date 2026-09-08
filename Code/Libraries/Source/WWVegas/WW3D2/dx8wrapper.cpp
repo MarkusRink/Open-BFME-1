@@ -4103,7 +4103,6 @@ const char* DX8Wrapper::Get_DX8_Texture_Stage_State_Name(D3DTEXTURESTAGESTATETYP
 	}
 }
 
-// ?Get_DX8_Render_State_Value_Name@DX8Wrapper@@ present-unmatched
 void DX8Wrapper::Get_DX8_Render_State_Value_Name(StringClass& name, D3DRENDERSTATETYPE state, unsigned value)
 {
 	switch (state) {
@@ -4119,7 +4118,6 @@ void DX8Wrapper::Get_DX8_Render_State_Value_Name(StringClass& name, D3DRENDERSTA
 		name=Get_DX8_Shade_Mode_Name(value);
 		break;
 
-	case D3DRS_LINEPATTERN:
 	case D3DRS_FOGCOLOR:
 	case D3DRS_ALPHAREF:
 	case D3DRS_STENCILMASK:
@@ -4140,13 +4138,11 @@ void DX8Wrapper::Get_DX8_Render_State_Value_Name(StringClass& name, D3DRENDERSTA
 	case D3DRS_SPECULARENABLE:
 	case D3DRS_STENCILENABLE:
 	case D3DRS_RANGEFOGENABLE:
-	case D3DRS_EDGEANTIALIAS:
 	case D3DRS_CLIPPING:
 	case D3DRS_LIGHTING:
 	case D3DRS_COLORVERTEX:
 	case D3DRS_LOCALVIEWER:
 	case D3DRS_NORMALIZENORMALS:
-	case D3DRS_SOFTWAREVERTEXPROCESSING:
 	case D3DRS_POINTSPRITEENABLE:
 	case D3DRS_POINTSCALEENABLE:
 	case D3DRS_MULTISAMPLEANTIALIAS:
@@ -4169,10 +4165,6 @@ void DX8Wrapper::Get_DX8_Render_State_Value_Name(StringClass& name, D3DRENDERSTA
 		name=Get_DX8_Cmp_Func_Name(value);
 		break;
 
-	case D3DRS_ZVISIBLE:
-		name="NOTSUPPORTED";
-		break;
-
 	case D3DRS_FOGTABLEMODE:
 	case D3DRS_FOGVERTEXMODE:
 		name=Get_DX8_Fog_Mode_Name(value);
@@ -4186,13 +4178,13 @@ void DX8Wrapper::Get_DX8_Render_State_Value_Name(StringClass& name, D3DRENDERSTA
 	case D3DRS_POINTSCALE_A:
 	case D3DRS_POINTSCALE_B:
 	case D3DRS_POINTSCALE_C:
-	case D3DRS_PATCHSEGMENTS:
 	case D3DRS_POINTSIZE_MAX:
 	case D3DRS_TWEENFACTOR:
 		name.Format("%f",*(float*)&value);
 		break;
 
-	case D3DRS_ZBIAS:
+	// BFME's Direct3D 9 headers call this state D3DRS_DEPTHBIAS (195).
+	case (D3DRENDERSTATETYPE)195:
 	case D3DRS_STENCILREF:
 		name.Format("%d",value);
 		break;
