@@ -11501,7 +11501,6 @@ g_Rva012DAC04,0x012DAC04,targetIds.%d format string used by addTargetIds at 0x00
 ?TheBfmeGenAE@@3PAVBfmeGenAE@@A,0x00EED600
 ?TheBfmeGhostAH@@3PAVBfmeGhostAH@@A,0x00EEF4FC
 ?TheBfmeImeManager@@3PAVBfmeImeManager@@A,0x012F3344,IME manager notified by OnlineLogin destructor
-?TheBfmeLogicXF@@3PAVBfmeLogicXF@@A,0x00EF0898
 ?TheBfmeLogicXG@@3PAVBfmeLogicXG@@A,0x00EF0898
 ?TheBfmeLogicYO@@3PAVBfmeLogicYO@@A,0x00EF0898
 ?TheBfmeManagerZE@@3PAVBfmeManagerZE@@A,0x00EF1B40
@@ -76184,7 +76183,6 @@ g_Rva012DAC04,0x012DAC04,targetIds.%d format string used by addTargetIds at 0x00
 ?bfmeNoteGK@BfmeAgentGK@@QAEXPAVBfmeItemGK@@@Z,0x00015D02,pin
 ?bfmeNoteVJI@BfmeSubVJI@@QAEXPBD@Z,0x00808BF0,pin
 ?bfmeNoteWD@BfmeThingWD@@QAEXXZ,0x0002191D,pin
-?bfmeNoteXF@BfmeLogicXF@@QAEXPAX@Z,0x0001F253
 ?bfmeNoteXG@BfmeHookXG@@QAEXXZ,0x00025BFD
 ?bfmeNotify1280@BfmeA1280@@QAEXH@Z,0x00019574,pin
 ?bfmeNotify1281@BfmeA1281@@QAEXH@Z,0x0003E85B,pin
@@ -77022,7 +77020,6 @@ g_Rva012DAC04,0x012DAC04,targetIds.%d format string used by addTargetIds at 0x00
 ?bfmeStepVOY@@YAXPAX0H0@Z,0x0003CEED,pin
 ?bfmeStepVOZ@@YAXPAX0H0@Z,0x00008FCB,pin
 ?bfmeStepWB@BfmeThingWB@@QAEXPAX@Z,0x00012D82,pin
-?bfmeStepXF@BfmeOwnerXF@@QAEXPAX0@Z,0x0002F1CB
 ?bfmeStepYD@BfmeThingYD@@QAEXXZ,0x00048D6A,pin
 ?bfmeStepZH@BfmeSubZH@@QAEXXZ,0x000107C6
 ?bfmeStop1003@BfmeStop1003@@QAEXXZ,0x00020C84,pin
@@ -86428,3 +86425,5 @@ __imp__GetClientRect@8,0x0135901C,Open-BFME5 USER32 GetClientRect import the 0x0
 ?g_bfmeTableABF@@3PAUFieldParse@@A,0x012AC188,Open-BFME5 field-parse table the 0x001245F0 builder patches and adds
 ?g_bfmeGuardByteABF@@3EA,0x012EF1C4,Open-BFME5 one-time guard byte the 0x001245F0 builder tests
 ?g_bfmeGuardDwordABF@@3IA,0x012EF1C4,Open-BFME5 same guard as a dword the 0x001245F0 builder sets
+?g_bfmeGameCW@@3PAVBfmeGameCW@@A,0x012F706C,Actual C++ COFF spelling of the singleton loaded by reviewed 0x00618740; pointer owner view BfmeGameCW
+_g_bfmeStateDF,0x012F7048,Actual C COFF spelling of the state singleton loaded by reviewed 0x00618740; vslot20 point output
