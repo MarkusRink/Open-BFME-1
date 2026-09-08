@@ -94,6 +94,8 @@ public:
 #include "GameLogic/Module/WorkerAIUpdate.h"
 #undef BFME_WORKER_AIUPDATE_MACHINE_LAYOUT
 
+extern "C" void _WriteBarrier( void );
+#pragma intrinsic(_WriteBarrier)
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -276,6 +278,64 @@ static __forceinline void bfmeInitDefaultState( StateMachine *machine )
 {
 	reinterpret_cast<BfmeStateMachineVirtuals *>( machine )->initDefaultState();
 }
+
+struct BfmeWorkerUpdateMachineVtable
+{
+	virtual void slot00() = 0;
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0C() = 0;
+	virtual StateReturnType updateStateMachine() volatile = 0;
+};
+
+struct BfmeWorkerUpdateMachine : BfmeWorkerUpdateMachineVtable
+{
+	unsigned char m_padding[0x1c - 4];
+	State *m_currentState;
+};
+
+struct BfmeWorkerUpdateFields
+{
+	unsigned char m_padding[0x420];
+	BfmeWorkerUpdateMachine *m_workerMachine;
+	BfmeWorkerUpdateMachine *m_dozerMachine;
+	BfmeWorkerUpdateMachine *m_supplyMachine;
+};
+
+struct BfmeWorkerDozerInterface
+{
+	virtual void slot00() = 0;
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0C() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual ObjectID getTaskTarget( DozerTask task ) = 0;
+	virtual void slot20() = 0;
+	virtual DozerTask getCurrentTask() const = 0;
+	virtual void slot28() = 0;
+	virtual void slot2C() = 0;
+	virtual void slot30() = 0;
+	virtual void cancelTask( DozerTask task );
+};
+
+typedef CommandSourceType (__fastcall *BfmeGetLastCommandSource)( void * );
+typedef ObjectID (__fastcall *BfmeGetTaskTarget)( void *, void *, DozerTask );
+
+static __forceinline CommandSourceType bfmeGetLastCommandSource( char *self )
+{
+	void **vtable = *reinterpret_cast<void ***>( self + 0x04 );
+	return reinterpret_cast<BfmeGetLastCommandSource>( vtable[0x80] )( self + 0x04 );
+}
+
+typedef void (__fastcall *BfmeUpdateStateMachine)( void * );
+
+static __forceinline void bfmeUpdateStateMachine( BfmeWorkerUpdateMachine *machine )
+{
+	void **vtable = *reinterpret_cast<void ***>( machine );
+	reinterpret_cast<BfmeUpdateStateMachine>( vtable[0x10 / sizeof(void *)] )( machine );
+}
 }
 
 void WorkerAIUpdate::createMachines( void )
@@ -355,72 +415,60 @@ Real WorkerAIUpdate::getWarehouseScanDistance() const
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?update@WorkerAIUpdate@@UAE?AW4UpdateSleepTime@@XZ present-unmatched
 UpdateSleepTime WorkerAIUpdate::update( void )
 {
-
-	//
-	// NOTE: Any changes to DozerAIUpdate::* you probably want to reflect and copy into
-	// WorkerAIUPdate:* as well ... sigh
-	//
-
-	//
-	// now that we're really executing we have all the necessary object modules in place to
-	// correctly create a state machine and set the default state
-	//
-	// create all the machines if they don't yet exist
-	createMachines();
-
-	// DO NOT set us as being to able to move with super precision off grid locations
-	// Causes workers to get stuck.  jba.
-	//if( getCurLocomotor() )
-		//getCurLocomotor()->setUltraAccurate( TRUE );
-
-	// extend the normal AI system
+	char *self = reinterpret_cast<char *>( this );
+	reinterpret_cast<WorkerAIUpdate *>( self + 0x04 )->createMachines();
 	AIUpdateInterface::update();
 
-	// do nothing if we're dead
-	///@todo shouldn't this be at a higher level?
-	if( getObject()->isEffectivelyDead() )
+	if( ( *reinterpret_cast<const UnsignedByte *>(
+			 reinterpret_cast<const char *>( *reinterpret_cast<Object **>( self + 0x0C ) ) + 0x344 ) & 1 ) != 0 )
 		return UPDATE_SLEEP_NONE;
 
-	// run our own state machine, and the appropriate sub machine
-	m_workerMachine->updateStateMachine();
+	if( *reinterpret_cast<const UnsignedByte *>( self + 0x33E ) != 0 )
+		return UPDATE_SLEEP_NONE;
 
-	if( m_workerMachine->getCurrentStateID() == AS_DOZER )
+	reinterpret_cast<BfmeWorkerUpdateFields *>( self )->m_workerMachine->updateStateMachine();
+
+	if( reinterpret_cast<BfmeWorkerUpdateFields *>( self )->m_workerMachine == NULL )
+		return UPDATE_SLEEP_NONE;
+
+	State *currentState = reinterpret_cast<BfmeWorkerUpdateFields *>( self )->m_workerMachine->m_currentState;
+	if( currentState != NULL &&
+		*reinterpret_cast<const StateID *>( reinterpret_cast<const char *>( currentState ) + 0x04 ) == AS_DOZER )
 	{
-
-		// get and validate our current task
-		DozerTask currentTask = getCurrentTask();
+		BfmeWorkerDozerInterface *dozerInterface =
+			reinterpret_cast<BfmeWorkerDozerInterface *>( self + 0x344 );
+		DozerTask currentTask = dozerInterface->getCurrentTask();
 		if( currentTask != DOZER_TASK_INVALID )
 		{
-			ObjectID taskTarget = getTaskTarget( currentTask );
-			Object *targetObject = TheGameLogic->findObjectByID( taskTarget );
-			Bool invalidTask = FALSE;
+			Object *targetObject;
+			void **dozerVtable = *reinterpret_cast<void ***>( dozerInterface );
+			ObjectID taskTarget = reinterpret_cast<BfmeGetTaskTarget>(
+				dozerVtable[0x1c / sizeof(void *)] )( dozerInterface, dozerVtable, currentTask );
+			targetObject = TheGameLogic->findObjectByID( taskTarget );
+			if( currentTask == DOZER_TASK_REPAIR )
+			{
+				Object *object = *reinterpret_cast<Object **>( self + 0x0C );
+				CommandSourceType commandSource = bfmeGetLastCommandSource( self );
+				if( TheActionManager->canRepairObject( object, targetObject, commandSource ) == FALSE )
+				{
+					_WriteBarrier();
+					dozerInterface->cancelTask( currentTask );
+				}
+			}
+		}
 
-			// validate the task and the target
-			if( currentTask == DOZER_TASK_REPAIR &&
-					TheActionManager->canRepairObject( getObject(), targetObject, getLastCommandSource() ) == FALSE )
-				invalidTask = TRUE;
-			
-			// cancel the task if it's now invalid
-			if( invalidTask == TRUE )
-				cancelTask( currentTask );
-
-		}  // end if
-
-		// update dozer behavior
-		m_dozerMachine->updateStateMachine();
-
-	}  // end if
+		bfmeUpdateStateMachine( reinterpret_cast<BfmeWorkerUpdateMachine *>(
+			reinterpret_cast<BfmeWorkerUpdateFields *>( self )->m_dozerMachine ) );
+	}
 	else
 	{
-		m_supplyTruckStateMachine->updateStateMachine();
-		// If we are harvesting, we can be diverted to clear mines.  jba.
-		getObject()->setWeaponSetFlag(WEAPONSET_MINE_CLEARING_DETAIL);//maybe go clear some mines, if I feel like it
+		reinterpret_cast<BfmeWorkerUpdateMachine *>(
+			reinterpret_cast<BfmeWorkerUpdateFields *>( self )->m_supplyMachine )->updateStateMachine();
 	}
 	return UPDATE_SLEEP_NONE;
-} 
+}
 
 
 // ------------------------------------------------------------------------------------------------
