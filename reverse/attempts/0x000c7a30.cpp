@@ -18,11 +18,13 @@ public:
 class PlayerList
 {
 public:
-    int countPlayers(Bool includeObservers);
+    int unidentified_000df510(Bool includeObservers);
     Player *getNthPlayer(Int index);
 };
 
-class GameLogic
+class GameLogic;
+
+class GameLogicPortraitShim
 {
 public:
     Bool isInMultiplayerOrSkirmishGame();
@@ -50,16 +52,21 @@ public:
     int m_valueEAC;
 };
 
-class BfmeMapAdjustment
+class Glo012F1028Type
 {
 public:
-    Bool apply();
 };
 
-extern PlayerList * volatile ThePlayers;
+extern PlayerList * volatile Rva002EE330ThePlayers;
 extern GameLogic *TheBfmeGameLogic;
 extern BfmeGlobalState *TheWritableGlobalData;
-extern BfmeMapAdjustment *TheBfmeMapAdjustment;
+extern Glo012F1028Type *Glo012F1028;
+extern void j_0000353f(void);
+
+static __forceinline PlayerList *readPlayersForNewMap()
+{
+    return *(PlayerList * volatile *)0x012ED748;
+}
 
 class BfmePlayerMapState
 {
@@ -78,15 +85,15 @@ void BfmePlayerMapState::bfmeNewMap(Int field, Bool flag)
 {
     if (field < 0 || field >= 0x20)
         return;
-    if (!ThePlayers)
+    if (!Rva002EE330ThePlayers)
         return;
     if (!TheBfmeGameLogic)
         return;
 
     m_field = field;
-    if (TheBfmeGameLogic->isInMultiplayerOrSkirmishGame())
+    if (((GameLogicPortraitShim *)TheBfmeGameLogic)->isInMultiplayerOrSkirmishGame())
     {
-        int count = ThePlayers->countPlayers(true);
+        int count = Rva002EE330ThePlayers->unidentified_000df510(true);
         int x;
         int y;
         if (count >= 7)
@@ -122,24 +129,25 @@ void BfmePlayerMapState::bfmeNewMap(Int field, Bool flag)
             m_value04 = x;
         else
             m_value04 = y;
-        m_value04 += m_value14 * x;
-        m_value04 += m_value10 * y;
+        m_value04 = m_value04 + x * m_value14;
+        m_value04 = m_value04 + y * m_value10;
         return;
     }
 
-    Player *player = ThePlayers->getNthPlayer(m_field);
+    Player *player = readPlayersForNewMap()->getNthPlayer(m_field);
     if (!player)
         return;
 
-    if (player->m_mapState)
+    if (!player->m_mapState)
+    {
+        m_value04 = flag ? TheWritableGlobalData->m_valueE74
+                         : TheWritableGlobalData->m_valueE70;
+        if (Glo012F1028)
+            m_value04 += ((int (__cdecl *)(void))j_0000353f)();
+    }
+    else
     {
         m_value04 = flag ? TheWritableGlobalData->m_valueE84
                          : TheWritableGlobalData->m_valueE80;
-        return;
     }
-
-    m_value04 = flag ? TheWritableGlobalData->m_valueE74
-                     : TheWritableGlobalData->m_valueE70;
-    if (TheBfmeMapAdjustment)
-        m_value04 += TheBfmeMapAdjustment->apply();
 }
