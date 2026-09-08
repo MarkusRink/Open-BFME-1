@@ -73973,6 +73973,7 @@ name,address,notes
 ?bfmeAt@BfmeThingEFE@@QAEMH@Z,0x0001FEEC,ExperienceTracker scalar-table helpers call this retail BfmeThingEFE lookup through its ILT
 ?bfmeAtEQV@BfmeMapEQV@@QAEPAPAVBfmeItemEQV@@PAX@Z,0x000059B6,pin
 ?bfmeAtRT@BfmeMapRT@@QAEPAVBfmeSlotRT@@PAX0@Z,0x0002D74A,pin
+?bfmeAtRT@BfmeMapRT@@QAEPAVBfmeSlotRT@@PAX@Z,0x0002D74A,GameSpyLoginPreferences getNicksForEmail map subscript
 ?bfmeAtVLH@BfmeVecVLH@@QAEPAUBfmeElemVLH@@H@Z,0x00025347,route=0x000F94B0; retail 0x000F9675 calls this ILT which jumps to the matched 0x60-byte checked accessor body; campaign=luna36h-20260907;lane=expand07;model=gpt-5.6-sol-ultra
 ?bfmeAtXK@BfmeMapXK@@QAEAAPAUBfmeRecXK@@ABH@Z,0x0000C3B0,Open-BFME5 ILT map subscript the 0x0065BF40 http start uses
 ?bfmeAttach1010@BfmeHeld1010@@QAEXPAUBfmeOwner1010@@@Z,0x0000FED4,pin
