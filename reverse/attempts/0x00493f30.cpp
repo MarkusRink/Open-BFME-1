@@ -30,13 +30,14 @@ private:
 
 Bool Rva00493F30TransitionState::updateState(void)
 {
+	const unsigned int previousFlags = m_previousFlags;
 	const unsigned int transitionFlag = 0x10;
-	if ((m_previousFlags & transitionFlag) == 0)
+	if ((previousFlags & transitionFlag) == 0)
 	{
-		if ((m_flags & transitionFlag) != 0 && (m_mode & 1) != 0)
+		if ((*(unsigned char *)&m_flags & transitionFlag) != 0 && (m_mode & 1) != 0)
 			m_controller.begin();
 	}
-	else if ((m_flags & transitionFlag) == 0)
+	else if ((*(unsigned char *)&m_flags & transitionFlag) == 0)
 	{
 		finishTransition();
 	}

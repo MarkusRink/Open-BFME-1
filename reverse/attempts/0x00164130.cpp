@@ -5,6 +5,8 @@
 
 #include <math.h>
 
+#pragma comment(linker, "/alternatename:?getFinalOverride@Overridable@@QBEPBV1@XZ=?j_000022bb@@YAXXZ")
+
 typedef bool Bool;
 typedef int Int;
 typedef float Real;
@@ -267,6 +269,7 @@ public:
 };
 
 extern PlayerList *ThePlayerList;
+extern Real g_bfmeDefaultBU;
 
 class AIPlayer
 {
