@@ -1503,20 +1503,35 @@ FontCharsClass::Store_GDI_Char (WCHAR ch)
 //	Update_Current_Buffer
 //
 ////////////////////////////////////////////////////////////////////////////////////
+struct BfmeFontCharsBuffer
+{
+	BfmeFontCharsBuffer (int buffer_size)
+	{
+		BufferMax = buffer_size;
+		BufferPosition = 0;
+		Buffer = new uint16[buffer_size];
+	}
+
+	uint16 *		Buffer;
+	int				BufferMax;
+	int				BufferPosition;
+};
+
 void
-// ?Update_Current_Buffer@FontCharsClass@@AAEXH@Z present-unmatched
 FontCharsClass::Update_Current_Buffer (int char_width)
 {
 	//
 	//	Check to see if we need to allocate a new buffer
 	//
 	bool needs_new_buffer = (BufferList.Count () == 0);
+	int buffer_size = char_width * CharHeight;
 	if (needs_new_buffer == false) {
+		BfmeFontCharsBuffer *current_buffer = reinterpret_cast<BfmeFontCharsBuffer *>(BufferList[BufferList.Count () - 1]);
 		
 		//
 		//	Would we extend past this buffer?
 		//
-		if ( (CurrPixelOffset + (char_width * CharHeight)) > CHAR_BUFFER_LEN ) {
+		if ( (CurrPixelOffset + buffer_size) > current_buffer->BufferMax ) {
 			needs_new_buffer = true;
 		}
 	}
@@ -1526,8 +1541,11 @@ FontCharsClass::Update_Current_Buffer (int char_width)
 	//
 	if (needs_new_buffer) 
 	{
-		FontCharsBuffer* new_buffer = W3DNEW FontCharsBuffer;
-		BufferList.Add( new_buffer );
+		if (buffer_size < CHAR_BUFFER_LEN) {
+			buffer_size = CHAR_BUFFER_LEN;
+		}
+		BfmeFontCharsBuffer* new_buffer = W3DNEW BfmeFontCharsBuffer (buffer_size);
+		BufferList.Add( reinterpret_cast<FontCharsBuffer *>(new_buffer) );
 		CurrPixelOffset = 0;
 	}
 
