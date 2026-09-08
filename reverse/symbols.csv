@@ -74758,6 +74758,7 @@ g_Rva012DAC04,0x012DAC04,targetIds.%d format string used by addTargetIds at 0x00
 ?bfmeDone1038@BfmeB1038@@QAEXXZ,0x000142A9,pin
 ?bfmeDone1045@BfmeSub1045@@QAEXXZ,0x007E86C0,pin
 ?bfmeDoneCN@BfmeUnitCN@@QAEXXZ,0x00020E9B
+?bfmeDoneCN@BfmeUnitCN@@QAE_NXZ,0x00020E9B,Boolean spelling used by BfmeHostCN::bfmeTickCN; body target is 0x001CADC0
 ?bfmeDoneESC@BfmeHostESC@@QAEXH@Z,0x0003DA46,pin
 ?bfmeDoneVJK@BfmeMsgVJK@@QAEXXZ,0x007E86C0,pin
 ?bfmeDoneVJL@BfmeMsgVJL@@QAEXXZ,0x007E86C0,pin
