@@ -5873,7 +5873,7 @@ name,address,notes
 ??1Gen_dtor_005c1c40@@UAE@XZ,0x000490B7,gen-dtor class destructor
 ??1Gen_dtor_005c2a10@@UAE@XZ,0x00013994,gen-dtor class destructor
 ??1Gen_dtor_005c2d50@@UAE@XZ,0x00030FDF,gen-dtor class destructor
-??1Gen_dtor_005ceab0@@UAE@XZ,0x00007CBB,gen-dtor class destructor
+??1ParticleSystem@@MAE@XZ,0x00007CBB,authentic protected virtual destructor callee; ParticleSystem vtable 0x0110FE48 and scalar wrapper prove identity
 ??1Gen_dtor_005cf020@@UAE@XZ,0x00029BF9,gen-dtor class destructor
 ??1Gen_dtor_005cf050@@UAE@XZ,0x00005556,gen-dtor class destructor
 ??1Gen_dtor_005d2300@@UAE@XZ,0x00030652,gen-dtor class destructor
@@ -8849,7 +8849,6 @@ name,address,notes
 ??1ParticleSystemTemplateBase@FXParticleSystem@@UAE@XZ,0x00002F5E,Open-BFME5 pin
 ??1ParticleSystemTemplateMemberA@FXParticleSystem@@QAE@XZ,0x000244BF,Open-BFME5 pin
 ??1ParticleSystemTemplateZA@@QAE@XZ,0x0002083D,Open-BFME5 the template destructor the 0x005CFF50 atexit thunk calls
-??1ParticleSystemZA@@QAE@XZ,0x00007CBB,Open-BFME5 the particle-system destructor the 0x005CFF50 atexit thunk calls
 ??1ParticleUplinkCannonUpdateModuleDataMemberA@@QAE@XZ,0x0001A401,Open-BFME5 pin
 ??1ParticleUplinkCannonUpdateModuleDataMemberB@@QAE@XZ,0x0001FD43,Open-BFME5 pin
 ??1PartitionCell@@QAE@XZ,0x00032C95,Open-BFME5 retail PartitionCell destructor
