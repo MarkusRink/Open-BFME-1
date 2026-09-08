@@ -10,6 +10,7 @@ class BfmeThingNA
 {
 public:
 	void bfmeTwoNA();
+	void bfmeOneNA();
 };
 
 class Rva00087750Counted;
@@ -90,7 +91,7 @@ LivingWorldSound &LivingWorldSound::operator=( const LivingWorldSound &that )
 		m_hasPlayed = that.m_hasPlayed;
 
 		if ( static_cast<unsigned int>( that.m_playState ) >= 5 && m_sound.m_ptr != 0 )
-			Rva0061C060();
+			reinterpret_cast<BfmeThingNA *>( this )->bfmeOneNA();
 	}
 
 	return *this;
