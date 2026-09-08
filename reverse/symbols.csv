@@ -4686,6 +4686,7 @@ name,address,notes
 ??1Gen_dtor_000cf8e0@@UAE@XZ,0x00044B39,gen-dtor class destructor
 ??1Gen_dtor_000cf910@@UAE@XZ,0x00032FC4,gen-dtor class destructor
 ??1Gen_dtor_000d17c0@@UAE@XZ,0x00036610,gen-dtor class destructor
+??1Gen_dtor_000d4030@@QAE@XZ,0x00023218,Open-BFME5 entry value vector destructor called by 0x000D5F30
 ??1Gen_dtor_000d4030@@UAE@XZ,0x00023218,gen-dtor class destructor
 ??1Gen_dtor_000d7480@@UAE@XZ,0x000272D2,gen-dtor class destructor
 ??1Gen_dtor_000dddf0@@UAE@XZ,0x0003C038,gen-dtor class destructor
