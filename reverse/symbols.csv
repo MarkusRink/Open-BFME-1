@@ -86031,3 +86031,7 @@ __imp__BfmeFloorER,0x00F593B8,pin floor import for BfmeConv2039
 ?insert_unique@Rva006AEE00Tree@@QAE?AUInsertResult@1@ABV?$StringBase@D@@@Z,0x0001BC02,Rva006AEE00::init tree insertion callee at retail 0x0001BC02
 ?insert_unique@?$_Rb_tree@V?$StringBase@D@@V1@U?$_Identity@V?$StringBase@D@@@_STL@@URva006AEE00Less@@V?$allocator@V?$StringBase@D@@@3@@_STL@@QAE?AU?$pair@U?$_Rb_tree_iterator@V?$StringBase@D@@U?$_Nonconst_traits@V?$StringBase@D@@@_STL@@@_STL@@_N@2@ABV?$StringBase@D@@@Z,0x0001BC02,Rva006AEE00::init STL set insertion callee at retail 0x0001BC02
 ?insert_unique@Rva006AEE00Tree@@QAEXPAUInsertResult@1@ABV?$StringBase@D@@@Z,0x0001BC02,Rva006AEE00::init insertion output callee at retail 0x0001BC02
+_BfmeAtomicSwap,0x0082AD60,STLport atomic-exchange helper; three call operands in _STLP_mutex_spin<0>::_M_do_lock resolve to this body
+_BfmeSpinSleep,0x0082BE10,STLport nanosecond backoff helper; final call operand in _STLP_mutex_spin<0>::_M_do_lock resolves to this body
+?__max@?$_STLP_mutex_spin@$0A@@_STL@@2IA,0x00EC7380,STLport mutex-spin maximum iteration count; absolute operand is image VA 0x012C7380
+?__last@?$_STLP_mutex_spin@$0A@@_STL@@2IA,0x00F0B258,STLport mutex-spin last successful spin count; absolute operand is image VA 0x0130B258
