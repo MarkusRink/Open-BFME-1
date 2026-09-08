@@ -14770,3 +14770,4 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_0090df10@@YAXXZ	0x0090DF10	281	blocked	served file Code/gen_asm/d_00904510.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
 ?d_009064f0@@YAXXZ	0x009064F0	287	blocked	served file Code/gen_asm/d_00904510.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
 ?d_00905140@@YAXXZ	0x00905140	358	blocked	served file Code/gen_asm/d_00904510.asm; no standalone source emitted for this dump body after identity sweep; t=5min model=gpt-5.6-sol
+?rva00551C80@BfmeAptScreenOnlineLogin@@QAEX_N@Z	0x00551C80	240	blocked	t=33min model=Luna; clean C++ body matches the nickname removal write refresh and clear semantics but MSVC 7.1 reserves 0x24 stack bytes and assigns ESI to this instead of retail EDI after several source-shape and optimization-flag attempts

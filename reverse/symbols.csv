@@ -73873,6 +73873,8 @@ name,address,notes
 ?bfmeApplyXC@BfmeStateXC@@QAEXPAXH@Z,0x00047807
 ?bfmeApplyXJ@BfmeOwnerXJ@@QAEXPAXPAVBfmeThingXJ@@@Z,0x0003392E
 ?bfmeApplyXS@BfmeThingXS@@QAEXPAX0@Z,0x008D2E20
+?bfmeApplyXT@BfmeHostXT@@QAEXPAVObject@@H@Z,0x000157DA,Open-BFME5 ILT apply the 0x001FAEE0 refresh tail-calls
+?bfmeApplyXW@BfmeHostXW@@QAEXPAVObject@@H@Z,0x000157DA,Open-BFME5 ILT apply the 0x00256CD0 setter calls
 ?bfmeApplyYP@BfmeThingYP@@QAEXPAX0@Z,0x00022BBA
 ?bfmeApplyYV@BfmeOwnerYV@@QAEXPAX@Z,0x00024A9B
 ?bfmeAptLevel00465CE0@@YAHPAVBfmeH1065@@@Z,0x00010901,"Lead traced85B465CE0: returns -1,null;12,no ancestor;otherwise ancestor+250 APT level"
@@ -74854,6 +74856,7 @@ name,address,notes
 ?bfmeEmit1281@BfmeNodeDX@@QAEXHPAXH@Z,0x008D22C0,address-derived node emitter; argument shape decoded from the 0x008BC090 retail call site
 ?bfmeEmit@Gen_00417cb0@@AAEXPAX0@Z,0x0002CB79,Open-BFME5 ILT thunk to body 0x00417710; Gen_00417cb0::tail at 0x00417A70 calls it on this with the source result and its own argument; address-derived name in the same synthetic family as the class
 ?bfmeEnable@BfmeElemW@@QAEXHH@Z,0x000482AC,Open-BFME5 the ICF thunk (to 0x004482AC) the clear at 0x004B1720 calls on each element with a pair of ones
+?bfmeEnabledXY@AudioEventRTS@@QAE_NXZ,0x0000F380,Open-BFME5 ILT enabled test the 0x00695F80 position getter calls
 ?bfmeEnd1100@BfmeZ1100@@QAEXH@Z,0x0003D578,pin
 ?bfmeEnd1111@BfmeK1111@@QAEXXZ,0x000097BE,pin
 ?bfmeEnd1236@BfmeA1236@@QAEXXZ,0x008D2B80,pin
@@ -77809,6 +77812,7 @@ name,address,notes
 ?clearAt@Rva0028EF00Clear@@QAEXH@Z,0x0004B443,Open-BFME5 ILT thunk to exact body 0x0028EF00; BfmeSubAED chain-tail forwarder at 0x001C1FF0 calls it with the original integer argument
 ?clearCellForDiameter@Pathfinder@@QAEHHHHHHH@Z,0x00048D29,ILT to the body at 0x003DC810; called by the member-ified groundPathPassable callback at 0x003DEDA0 with a literal 0 crusher and a trailing literal 1
 ?clearCommandsExceptFrom@Connection@@QAEXH@Z,0x00661C30,ZH twin exact: walks m_netCommandList(+0x18)->first; keeps refs whose msg->playerID(+0xC)==arg; removeMessage 0x00672EC0 then ~NetCommandRef 0x00676280 + operator delete; sole caller beginPlayerLeave 0x0066735F (local-leave branch) via ILT 0x00022A61
+?clearCondition@Object@@QAEXH@Z,0x000348EC,Open-BFME5 ILT condition clear the 0x001FAEE0 refresh calls
 ?clearCondition@Rva0025FA10Object@@QAEXH@Z,0x000348EC,address-derived condition clear target read from retail RVA 0x0025FA10
 ?clearCurrentVictim@BfmeAIUpdateVictimThunk@@QAEXPBVObject@@@Z,0x0004AB4C,unique ILT view for AIIdleState::doInitIdleState; the retail call targets the setCurrentVictim ILT rather than its resolved body
 ?clearDisabled@Object@@QAE_NW4DisabledType@@@Z,0x0003C06A,ILT thunk used by setScriptStatus call site
@@ -78669,7 +78673,6 @@ name,address,notes
 ?findHeaderTemplate@HeaderTemplateManager@@QAEPAVHeaderTemplate@@VAsciiString@@@Z,0x0048C8C0,direct body pin: HeaderTemplateManager list lookup proven by 0x00487F80 caller and retail manager/template offsets; resolver derives ILT 0x0004881A; campaign=luna36h-20260907;lane=mid
 ?findImageByName@ImageCollection@@QAEPBVImage@@ABVAsciiString@@@Z,0x0001D606
 ?findImageByName@MappedImageCollection@@QAEPBVImage@@ABVAsciiString@@@Z,0x0001D606
-?resolveNames@ProductionPrerequisite@@QAEXXZ,0x0002DFBF,ThingTemplate resolveNames prerequisite loop through the retail ILT
 ?findImageByName@MappedImageCollectionPortraitShim@@QAEPBVImage@@ABVAsciiString@@@Z,0x0001D606,BFME portrait selector image lookup ILT
 ?findImageByName@Open2Images143730@@QAEPBVImage@@ABVAsciiString@@@Z,0x0001D606,Open2 0x00143730 portrait twin callee
 ?findLadderByIndex@LadderList@@QAEPBVLadderInfo@@H@Z,0x00028E93
@@ -78785,6 +78788,7 @@ name,address,notes
 ?finishState16@Rva56E070StateOwner@@QAEXXZ,0x00018A2A,incremental-link call target in the 0x0056E070 late-state dispatcher
 ?finishTail@Rva56E070StateOwner@@QAEXXZ,0x0004895F,address-scoped state-owner tail ILT observed in both exits of retail 0x0056FD30
 ?finishTransition@Rva00493F30TransitionState@@QAEXXZ,0x00005925,Rva00493F30 transition completion thunk to assigned 0x00493EA0 body
+?finishUpdate@OpenContain@@QAEXXZ,0x0000BA50,OpenContain update helper reached through the retail thunk at 0x00224340
 ?fire@BezierLaunchHelper@@QAE_NPAVObject@@00PAX@Z,0x00048D06,ILT 0x00048D06 -> 0x001E63A0; last thiscall from BezierProjectileBehavior::handle 0x001F08B0
 ?fire@Rva00579160Manager@@QAEXPAXPBDHHHHHH@Z,0x00015235,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x00511260 calls; autopin
 ?first@BfmeRvaCD10Base@@QAEXXZ,0x0000F510,assigned-body helper for Rva0024CD10
@@ -83088,6 +83092,7 @@ name,address,notes
 ?processTimeout@BfmeAptScreenMapTransfer@@QAEXH@Z,0x00510130,FileTransfer 0x0066CE60 calls through ILT 0x000362B9 on singleton 0x012F496C; same this as exact BfmeAptScreenMapTransfer::processProgress and ZH timeout semantic twin
 ?produceStoredValue@@YGHH@Z,0x0000C7FC,Open-BFME5 produced value implementation thunk
 ?propagateMessages@MessageStream@@QAEXXZ,0x0008ADF0,ZH MessageStream::propagateMessages line for line: for each translator (+0x10 list) for each message (+0x08 list) call translator->translateGameMessage (vslot 0) and deleteInstance on DESTROY_MESSAGE(1); then TheCommandList 0x012ED5F0 ->appendMessage (vcall +0x24) for every remaining message and clear +0x08/+0x0C; ecx=TheMessageStream 0x012ED5EC at 0x0006B9CE
+?pruneDeadWanters@OpenContain@@QAEXXZ,0x00004953,OpenContain update helper reached through the retail thunk at 0x00224560
 ?pubimbue@?$basic_streambuf@DV?$char_traits@D@_STL@@@_STL@@QAE?AVlocale@2@ABV32@@Z,0x0083FC10,retail callee decoded from assigned basic_ios imbue at 0x0053F690
 ?publish@Rva005A41F0@@QAEXXZ,0x00039671,Open2 0x005A41F0 tail callee (ILT -> 0x005A3EF0)
 ?publishLanEndpoint@@YAXPAVLANGameInfo@@PADPAXH@Z,0x00049E86,LAN endpoint publisher thunk
@@ -83510,6 +83515,7 @@ name,address,notes
 ?resolve@RvaC4390Second@@QAEPAURvaC4390First@@H@Z,0x00035995,Open-BFME5 relation resolver call pin
 ?resolveBlockZones@@YAXHHPAGH@Z,0x00402760,Open-BFME5 pin: cdecl-mangled static alias of resolveBlockZones used by bfmeApplyBlockZoneRaw
 ?resolveMeleeTarget@BfmeTargetObject@@QAEPAV1@D@Z,0x0000FAA6,BannerCarrier target predicate resolves contained melee targets through the retail object helper
+?resolveNames@ProductionPrerequisite@@QAEXXZ,0x0002DFBF,ThingTemplate resolveNames prerequisite loop through the retail ILT
 ?resolveOwnerPosition@AudioEventRTS@@QAEXPAUCoord3D@@PA_N@Z,0x00029AE1,AudioEventRTS owner-position resolve ILT to 0x000B4020 used by the ObjectID constructor
 ?resolvePlayerMask@ScriptEngine@@QAEHHH@Z,0x0004B290,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002EE330 calls; autopin
 ?resolvePlayerMask@ScriptEngine@@QAEHPAXH@Z,0x0004B290,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002F0F60 calls; autopin
