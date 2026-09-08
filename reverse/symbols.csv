@@ -9356,6 +9356,7 @@ name,address,notes
 ??1TexBufferClass@@UAE@XZ,0x0092BAC0,matched 0x0092BA60 constructor vtable and tail jump to texture ShareBuffer base; 0x0092C0B0 wrapper call proves identity
 ??1TextureMapperClass@@UAE@XZ,0x00921380,constructor 0x009645D0 installs vtable 0x0113BFB4 whose first slot is deleting wrapper 0x00921430; that wrapper directly calls this scalar body
 ??1TextureRef@@QAE@XZ,0x00975010,BfmeThingVGX texture-reference destructor call target
+?Render@BfmeThingVGX@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z,0x00975100,Bitmap2DObjClass::Render direct callee identified by the BfmeThingVGX copy constructor layout and seven pushed render arguments
 ??1ThreadClass@@QAE@XZ,0x009DB530,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0063CF10 calls; autopin
 ??1ThreadClass@@UAE@XZ,0x009DB530,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x0010BC80 calls; autopin
 ??1TimeCodedMorphKeysClass@@QAE@XZ,0x0002BFF3,exact retail rel32 target of ??_ETimeCodedMorphKeysClass@@QAEPAXI@Z -- a deleting destructor calls its own class's scalar body and nothing else; replaces a pinharvest x1 guess at 0x00029BEA whose body 0x005D6280 is ??1SphereEmissionVolumeModuleTemplate@FXParticleSystem@@UAE@XZ

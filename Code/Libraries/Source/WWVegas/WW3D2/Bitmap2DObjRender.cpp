@@ -1,5 +1,3 @@
-// ?Render@Bitmap2DObjClass@@UAEXAAVRenderInfoClass@@@Z
-// partial score=0.95 date=2026-09-07
 // cl: /DNDEBUG /MD /EHsc /Ireference/shims/sweep /ICode/Libraries/Source/WWVegas/WWLib /ICode/Libraries/Source/WWVegas/WW3D2 /ICode/Libraries/Source/WWVegas/WWMath /ICode/Libraries/Source/WWVegas/WWSaveLoad /ICode/Libraries/Source/WWVegas/Wwutil /ICode/Libraries/Source/WWVegas/WWDownload /ICode/Libraries/Source/Compression /ICode/Libraries/Source/WWVegas/WWDebug
 //
 // Bitmap2DObjClass::Render, retail 0x00955C40 (171 bytes).
@@ -8,8 +6,8 @@
 // lays out the two SimpleDynVecClass members at +0xC8/+0xD8, followed by the
 // BFME renderer object at +0xE8.  The table's Render slot is +0x30, while the
 // calls at +0x108 and +0x180 are RenderObjClass's bounding-sphere and hidden
-// predicates in the BFME ABI.  This is therefore the BFME Bitmap2D renderer,
-// not the stock DynamicMeshClass body (whose Model/PolyCount layout is absent).
+// predicates in the BFME ABI.  The call at 0x00975100 receives that renderer
+// object and its seven render arguments, which identifies BfmeThingVGX::Render.
 
 #include "rendobj.h"
 #include "rinfo.h"
@@ -26,9 +24,6 @@ class TextureRef
 class BfmeThingVGX
 {
 public:
-	// The six-argument BFME renderer follows the copy constructor at 0x00975090.
-	// Its field use matches this object at +0/+4/+8/+C/+18/+1C/+20; the retail
-	// body at 0x00975100 remains an unresolved backend identity and is not pinned.
 	void Render(RenderInfoClass &, const Matrix3D &, unsigned int, Vector3 *, float *,
 		const SphereClass &);
 	ShaderClass Get_Shader() const { return m_shader; }
