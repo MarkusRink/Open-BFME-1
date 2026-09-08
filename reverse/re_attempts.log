@@ -13398,3 +13398,18 @@ _bfmeReload1221	0x008D3AE0	275	partial	t=18min model=gpt-5.6-sol clean C++ match
 ?d_002103a0@@YAXXZ	0x002103A0	592	blocked	Active-body/gameplay body depends on unresolved BFME FAA/finder and thunk callees plus opaque globals; no exact clean owner; t=10min model=Codex-GPT-5.6
 ?d_00216d90@@YAXXZ	0x00216D90	1138	blocked	Large gameplay body depends on unresolved AI/level/holder/finder/weapon callees and exception-frame/layout details; no exact clean source reconstruction; t=12min model=Codex-GPT-5.6
 ?d_00210bf0@@YAXXZ	0x00210BF0	1574	blocked	Large active-body/weapon body depends on many unresolved BFME holder/path/log/finder callees and frame/layout shape; no exact clean C++ reconstruction; t=12min model=Codex-GPT-5.6
+?d_008a0ba0@@YAXXZ	0x008A0BA0	112	blocked	Apt/object helper is tied to unresolved array-move helper 0x009F6EC6 and has no independently proven clean method identity; t=8min model=Codex-GPT-5.6
+?d_008a18c0@@YAXXZ	0x008A18C0	128	blocked	Apt/object state helper depends on unresolved BfmeNode1285/BfmeNode1236 callees and lacks independent owner identity; t=8min model=Codex-GPT-5.6
+?d_008a11e0@@YAXXZ	0x008A11E0	184	blocked	Apt integer/value constructor family has unresolved Create/value callees and vtable ownership; exact source owner not independently proven; t=9min model=Codex-GPT-5.6
+?d_008a4cd0@@YAXXZ	0x008A4CD0	184	blocked	Apt math value helper depends on unresolved BFME float constructors and shared value globals; no exact clean owner identity; t=9min model=Codex-GPT-5.6
+?d_008a6100@@YAXXZ	0x008A6100	235	blocked	Apt registry helper depends on an unledgered callee and opaque registry/string layout; no independent source owner; t=8min model=Codex-GPT-5.6
+?d_008a62a0@@YAXXZ	0x008A62A0	235	blocked	Apt registry helper shares unresolved truncation/registry/append callees and has no independent method identity; t=8min model=Codex-GPT-5.6
+?d_008a2f30@@YAXXZ	0x008A2F30	246	blocked	BfmeThingUEW destructor identity is pinned, but exact body depends on unresolved array-delete and child destructors; clean source layout remains incomplete; t=9min model=Codex-GPT-5.6
+?d_008a09d0@@YAXXZ	0x008A09D0	291	blocked	Apt/object helper depends twice on unresolved array-move helper and has no independent named owner; t=8min model=Codex-GPT-5.6
+?d_008a4960@@YAXXZ	0x008A4960	305	blocked	Apt registry body depends on unresolved BFME fill helper and opaque vtable/global lifetime layout; exact clean identity unresolved; t=9min model=Codex-GPT-5.6
+?d_008a12c0@@YAXXZ	0x008A12C0	381	blocked	Apt named-slot helper calls a matched findNamedSlot body but owner layout and independent method identity remain unresolved; t=8min model=Codex-GPT-5.6
+?d_008a1e80@@YAXXZ	0x008A1E80	483	blocked	Apt/object aggregate body depends on matched helpers but opaque +0x129C layout and no independent named owner prevent exact clean reconstruction; t=9min model=Codex-GPT-5.6
+?d_008a1940@@YAXXZ	0x008A1940	621	blocked	Apt broadcast body depends on unresolved BFME add/Create/state and another dump body; no exact clean source owner; t=10min model=Codex-GPT-5.6
+?d_008a15f0@@YAXXZ	0x008A15F0	718	blocked	Apt broadcast body depends on unresolved dump 0x008CF740 and opaque state/value-stack layout; exact clean source identity unresolved; t=10min model=Codex-GPT-5.6
+?d_008a25c0@@YAXXZ	0x008A25C0	1454	blocked	Apt object run body has unresolved dump 0x008D3610 and opaque value/object ownership despite one named pin; no exact clean reconstruction; t=12min model=Codex-GPT-5.6
+?d_008a3190@@YAXXZ	0x008A3190	1511	blocked	Apt hash/value body has pinned callers but depends on unresolved BFME fill and opaque hash-table/exception layout; exact clean source unresolved; t=12min model=Codex-GPT-5.6
