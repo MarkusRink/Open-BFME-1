@@ -1,5 +1,3 @@
-// ?bfmeWalkGE@@YAXXZ
-// partial score=0.72 date=2026-09-08
 extern char *g_bfmeTwoSJA;
 
 class BfmeNodeGE
@@ -34,6 +32,24 @@ public:
 	BfmePairGE bfmeFirstGE();
 };
 
+static __forceinline BfmeNodeGE *bfmeNextGE(BfmeVecGE *v, BfmeNodeGE *p)
+{
+	BfmeNodeGE *q = p->m_bfmeNextGE;
+
+	if (q != 0)
+		return q;
+
+	int *key = &p->m_bfmeKeyGE;
+	int i = v->bfmeIndexGE(key, (v->m_bfmeEndGE - v->m_bfmeBeginGE) >> 2);
+	int m = (v->m_bfmeEndGE - v->m_bfmeBeginGE) >> 2;
+	BfmeNodeGE *r = 0;
+
+	while ((unsigned int)++i < (unsigned int)m && (r = ((BfmeNodeGE **)*(volatile int *)&v->m_bfmeBeginGE)[i]) == 0)
+		;
+
+	return r;
+}
+
 void bfmeWalkGE()
 {
 	BfmePairGE it = ((BfmeSrcGE *)&g_bfmeTwoSJA)->bfmeFirstGE();
@@ -46,24 +62,7 @@ void bfmeWalkGE()
 		do
 		{
 			p->m_bfmeFlagGE = 0;
-
-			BfmeNodeGE *q = p->m_bfmeNextGE;
-
-			if (q != 0)
-			{
-				p = q;
-				continue;
-			}
-
-			int n = (v->m_bfmeEndGE - v->m_bfmeBeginGE) >> 2;
-			int *key = &p->m_bfmeKeyGE;
-			int i = v->bfmeIndexGE(key, n);
-			int m = (v->m_bfmeEndGE - v->m_bfmeBeginGE) >> 2;
-
-			p = 0;
-
-			while ((unsigned int)++i < (unsigned int)m && (p = ((BfmeNodeGE **)*(volatile int *)&v->m_bfmeBeginGE)[i]) == 0)
-				;
+			p = bfmeNextGE(v, p);
 		}
 		while (p != 0);
 	}
