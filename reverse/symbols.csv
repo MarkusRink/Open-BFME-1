@@ -5884,7 +5884,7 @@ name,address,notes
 ??1Image@@UAE@XZ,0x0003B719,authentic virtual Image destructor callee; Image vtable 0x0110FFEC and constructor 0x005D2260 prove identity
 ??1RayEffectSystem@@UAE@XZ,0x00018467,authentic virtual RayEffectSystem destructor callee; vtable 0x01110130 and matched constructor/destructor prove identity
 ??1Gen_dtor_005d4210@@UAE@XZ,0x00020B67,gen-dtor class destructor
-??1Gen_dtor_005d42f0@@UAE@XZ,0x000056D7,gen-dtor class destructor
+??1SmudgeSet@@UAE@XZ,0x000056D7,authentic virtual SmudgeSet destructor callee; vtable 0x0111017C and matched constructor/destructor prove identity
 ??1Gen_dtor_005d5230@@UAE@XZ,0x0003F783,gen-dtor class destructor
 ??1Gen_dtor_005d55f0@@UAE@XZ,0x0004791F,gen-dtor class destructor
 ??1Gen_dtor_005d56c0@@UAE@XZ,0x00008CBA,gen-dtor class destructor
