@@ -459,7 +459,6 @@ void DirectInputMouse::init( void )
 //-------------------------------------------------------------------------------------------------
 /** Reset direct input mouse */
 //-------------------------------------------------------------------------------------------------
-// ?reset@DirectInputMouse@@UAEXXZ present-unmatched
 void DirectInputMouse::reset( void )
 {
 
