@@ -1,5 +1,5 @@
 // ?d_006ecfe0@@YAXXZ
-// partial score=0.9 date=2026-09-07
+// partial score=0.92 date=2026-09-08
 class TextureEVG
 {
 public:
@@ -71,7 +71,7 @@ void BfmeHostEVG::bfmeClearEVG()
 			tex->bfmeReleaseRefEVG();
 
 		r->m_bfmeTexEVG = 0;
-		r->m_bfmeFlagEVG = -(r->m_bfmeTexEVG != 0);
+		r->m_bfmeFlagEVG = r->m_bfmeTexEVG != 0 ? -1 : 0;
 	}
 
 	m_bfmeR2DEVG->bfmeResetEVG();
