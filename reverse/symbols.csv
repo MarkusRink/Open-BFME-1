@@ -818,6 +818,7 @@ name,address,notes
 ??$__copy@PAUPayload@DeliverPayloadNugget@@PAU12@H@_STL@@YAPAUPayload@DeliverPayloadNugget@@PAU12@00ABUrandom_access_iterator_tag@0@PAH@Z,0x000097CD,rel32 pin for exact-ambiguous landing
 ??$__copy@PAUPrereqUnitRec@ProductionPrerequisite@@PAU12@H@_STL@@YAPAUPrereqUnitRec@ProductionPrerequisite@@PAU12@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00027598,retail target of vector<PrereqUnitRec>::erase call to __copy over pointer-to-PrereqUnitRec
 ??$__copy@PAUQuantityModifier@@PAU1@H@_STL@@YAPAUQuantityModifier@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00021DEB,"exact retail rel32 target of the byte-verified caller; replaces a harvested pin at 0x00003378, which is __copy<FXBoneInfo*>'s own body"
+??$__copy@PAURva00244A80Element@@PAU1@H@_STL@@YAPAURva00244A80Element@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00047960,Open-BFME5 28-byte vector resize shrink copy ILT to the existing Rva00244A80Element copy body at 0x00233A20
 ??$__copy@PAURva004262F0Elem@@PAU1@H@_STL@@YAPAURva004262F0Elem@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x0001B888,address-derived __copy<Rva004262F0Elem*> shift helper for vector::erase at 0x004262F0
 ??$__copy@PAUVideo@@PAU1@H@_STL@@YAPAUVideo@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x000112FC
 ??$__copy@PAV?$BitFlags@$0HB@@@PAV1@H@_STL@@YAPAV?$BitFlags@$0HB@@@PAV1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00024BE5,BFME PathfindZoneManager pending-cell vector clear ILT
@@ -3681,6 +3682,7 @@ name,address,notes
 ??0TileData@@QAE@XZ,0x0003B6B5
 ??0TimeCodedBitChannelClass@@QAE@XZ,0x00977AF0
 ??0TintDrawableFXNugget@@QAE@XZ,0x00429CC0,constructor run on the 0xD4-byte allocation in TintDrawableFXNugget::parse at 0x0042C740; the INI keyword table at 0x00CF2130 names that parse callback TintDrawable
+??0TintEnvelope@@QAE@XZ,0x00412140,Drawable::colorFlash allocation call identifies the existing 71-byte TintEnvelope constructor body at this address
 ??0ToggleHiddenSpecialAbilityUpdateModuleData@@QAE@XZ,0x00039F6D,ToggleHiddenSpecialAbilityUpdate ModuleData ctor
 ??0ToppleUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00006780,pinharvest x1 (thunk)
 ??0ToppleUpdateModuleData@@QAE@XZ,0x00010B2C,derived-ICF
@@ -9030,6 +9032,7 @@ name,address,notes
 ??1Rva00740BC0Elem@@QAE@XZ,0x0001DF2A,element destructor of the 0x14-byte arrays destroyed at 0x00740BC0
 ??1Rva00740BC0Member@@QAE@XZ,0x000063DE,ILT thunk to the Rva00740BC0 two-array destructor called by 0x007461B0
 ??1Rva0076F980Mid@@QAE@XZ,0x000658A0,neutral vector<AsciiString> destructor used by constructor EH cleanup; retail ILT 0x00026AB2 reaches body 0x000658A0
+??1Rva00785FD0Renderer@@QAE@XZ,0x00039F45,Open-BFME5 ILT renderer destructor the 0x00783F60 shutdown deletes through
 ??1Rva007E86B0Base@@UAE@XZ,0x007E86C0,neutral base destructor paired with the held direct constructor pin at 0x007E86B0; both complete bodies install vtable 0x01129358 and retail 0x00809100 invokes this cleanup for the naturally scoped BfmeC994 derived message; campaign=luna36h-20260907;lane=netpacket_next;model=gpt-5.6-sol-ultra
 ??1Rva007E8810Message@@QAE@XZ,0x007E86C0,FESL message dtor used by 0x007FA170 nonblock timeout
 ??1Rva00800780Addr@@QAE@XZ,0x007E86C0,jabba demangler connect-reply Addr dtor alias of 0x7E86C0
@@ -12406,6 +12409,7 @@ name,address,notes
 ?_M_fill_insert@?$vector@UGen_t_0074d9c0_p128pod@@V?$allocator@UGen_t_0074d9c0_p128pod@@@_STL@@@_STL@@QAEXPAUGen_t_0074d9c0_p128pod@@IABU3@@Z,0x00033BA9,typed helper for the 36-byte vector resize at 0x0074E710
 ?_M_fill_insert@?$vector@UICoord2D@@V?$allocator@UICoord2D@@@_STL@@@_STL@@QAEXPAUICoord2D@@IABU3@@Z,0x000160C2,Open-BFME5 ILT the ICoord2D vector resize uses; it jumps to the _M_fill_insert body at 0x00452450
 ?_M_fill_insert@?$vector@UQ3SortElem4@@V?$allocator@UQ3SortElem4@@@_STL@@@_STL@@QAEXPAUQ3SortElem4@@IABU3@@Z,0x009CD390
+?_M_fill_insert@?$vector@URva00244A80Element@@V?$allocator@URva00244A80Element@@@_STL@@@_STL@@QAEXPAURva00244A80Element@@IABU3@@Z,0x00036AC5,Open-BFME5 28-byte vector resize growth fill ILT to the existing Rva00244A80Element fill body at 0x002403E0
 ?_M_fill_insert@?$vector@_NV?$allocator@_N@_STL@@@_STL@@QAEXU?$_Bit_iter@U_Bit_reference@_STL@@PAU12@@2@I_N@Z,0x0000886E
 ?_M_find@ControlBarOverrideMapABI@@QBEPAUBfmeControlBarOverrideNode@@ABVAsciiString@@@Z,0x00043054,ILT to hashtable _M_find at 0x0038BF10 used by GameLogic findControlBarOverride
 ?_M_find@Rva00137E20ThingNameRegistry@@QAEPAXABVRva00137E20String@@@Z,0x0001460A,ILT for thing-name registry lookup reached from ParseObjectDataChunk predicate
@@ -13010,8 +13014,6 @@ name,address,notes
 ?_M_insert_overflow@?$vector@URva001D28F0Element@@V?$allocator@URva001D28F0Element@@@_STL@@@_STL@@IAEXPAURva001D28F0Element@@ABU3@ABU__false_type@2@I_N@Z,0x0002AA8B,Open-BFME5 a callee of a vector push_back
 ?_M_insert_overflow@?$vector@URva001E9020Element@@V?$allocator@URva001E9020Element@@@_STL@@@_STL@@IAEXPAURva001E9020Element@@ABU3@ABU__false_type@2@I_N@Z,0x001E9020,existing exact STLport vector overflow body at the proven constructor target
 ?_M_insert_overflow@?$vector@URva00244A80Element@@V?$allocator@URva00244A80Element@@@_STL@@@_STL@@IAEXPAURva00244A80Element@@ABU3@ABU__false_type@2@I_N@Z,0x0000C5D6,Open-BFME5 a callee of a vector push_back
-??$__copy@PAURva00244A80Element@@PAU1@H@_STL@@YAPAURva00244A80Element@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z,0x00047960,Open-BFME5 28-byte vector resize shrink copy ILT to the existing Rva00244A80Element copy body at 0x00233A20
-?_M_fill_insert@?$vector@URva00244A80Element@@V?$allocator@URva00244A80Element@@@_STL@@@_STL@@QAEXPAURva00244A80Element@@IABU3@@Z,0x00036AC5,Open-BFME5 28-byte vector resize growth fill ILT to the existing Rva00244A80Element fill body at 0x002403E0
 ?_M_insert_overflow@?$vector@URva00253630Element@@V?$allocator@URva00253630Element@@@_STL@@@_STL@@IAEXPAURva00253630Element@@ABU3@ABU__false_type@2@I_N@Z,0x000492AB,Open-BFME5 a callee of a vector push_back
 ?_M_insert_overflow@?$vector@URva0025CB00Element@_STL@@V?$allocator@URva0025CB00Element@_STL@@@2@@_STL@@IAEXPAURva0025CB00Element@2@ABU32@ABU__false_type@2@I_N@Z,0x0025CB00,existing exact STLport vector overflow body at the proven constructor target
 ?_M_insert_overflow@?$vector@URva002DC6D0Entry@@V?$allocator@URva002DC6D0Entry@@@_STL@@@_STL@@IAEXPAURva002DC6D0Entry@@ABU3@ABU__false_type@2@I_N@Z,0x000031CF,Open-BFME7 retail REL32 target (ILT thunk) the body at 0x002DC6D0 calls; autopin
@@ -77339,6 +77341,7 @@ name,address,notes
 ?bfmeUnguardedInsertAT@@YAXPAPAVBfmeRecAT@@PAV1@VBfmeCompAT@@@Z,0x0001F1FE,Open-BFME5 the ICF thunk (to 0x0041F1FE) the ranked linear insert at 0x003CE420 hands its unguarded arm to
 ?bfmeUnguardedInsertAU@@YAXPAPAVBfmeRecAU@@PAV1@VBfmeCompAU@@@Z,0x00016275,Open-BFME5 the ICF thunk (to 0x00416275) the linear insert at 0x005134A0 hands its unguarded arm to
 ?bfmeUnguardedInsertAV@@YAXPAPAVBfmeRecAU@@PAV1@VBfmeCompAU@@@Z,0x000044EE,Open-BFME5 the ICF thunk (to 0x004044EE) the linear insert at 0x0052FF70 hands its unguarded arm to
+?bfmeUnhookYQ@Gen009F5040Node@@QAEXXZ,0x009F2B60,Open-BFME5 node unhook the 0x009F5170 drop calls
 ?bfmeUninitializedFillN2@@YAPAUGen_t_003c1800_p2pod@@PAU1@IABU1@@Z,0x0000F943,"Independent full retail helper review: 2-byte copy/backward/fill/placement-fill and existing 3C16A0 overflow; RVA-derived POD type, no guessed game owner"
 ?bfmeUninitializedFillN36@@YAPAUGen_t_0074d9c0_p128pod@@PAU1@IABU1@@Z,0x00023817,typed helper for 36-byte vector fill insert
 ?bfmeUnitAngle@@YAMPBUCoord3D@@0@Z,0x00022C6E,cdecl acos(dot) of two unit Coord3D; ILT to FUN_007fd650 at 0x003FD650; called from Path::bfmeBuildTurnArc 0x003FFB50
@@ -78484,7 +78487,9 @@ name,address,notes
 ?erase@BfmeVec60@@QAEXPAUBfmeElem60@@0@Z,0x0087FB90,Open-BFME5 shrink erase of 0x00880260
 ?erase@CRCParameterList@@QAEXPAVAsciiString@@0@Z,0x00024C17,CRCParameterCheck clear at 0x00065A40 passes its begin/end pointers to this exact ILT target; body 0x00065960 destroys each AsciiString and moves finish to begin
 ?erase@IntPairTreeEraseShim@_STL@@QAEXPAU?$_Rb_tree_node@U?$pair@$$CBHI@_STL@@@2@@Z,0x000AA7B0,_STL int pair tree incremental-link thunk target through a TU-local forwarding shim
+?erase@PlayerUpgradeRange@@QAEXPAX0@Z,0x00024C17,PlayerUpgrade vector<AsciiString> clear passes its begin and end through this proven ILT to 0x00065960
 ?erase@PrereqVector@@QAEPAXPAX0@Z,0x00010BB3,ThingTemplate parsePrerequisites vector range-erase helper (jmp thunk)
+?erase@ProductionSpeedBonusRange@@QAEXPAX0@Z,0x00024C17,ProductionSpeedBonus vector<AsciiString> clear passes its begin and end through this proven ILT to 0x00065960
 ?erase@Rva000F75B0HashMember@@QAEXABVBfmeTeamCall2440Iterator@@@Z,0x000F6B50,implementation=0x000F6B50; retail ILT=0x00035F71; F75B0+2F; actual two-word node/map iterator reference; ctorF7790 proves embedded20-byte map+1C; campaign=luna36h-20260907;lane=expand07
 ?erase@Rva00137E80Map@@QAEIABVAsciiString@@@Z,0x417c7,Retail ThingFactory lookup helper at proven call site
 ?erase@Rva006DF050Slot@@QAEIABH@Z,0x0002F0EA,ILT thunk of STLport _Rb_tree<int pair p12cd>::erase used by Rva006DF050::eraseKey
@@ -83441,6 +83446,7 @@ name,address,notes
 ?resetAll@Y3ResetTail_005C5A00@@QAEXXZ,0x005C5A00,Y4 lane: restored pin a concurrent whole-file rewrite of reverse/symbols.csv dropped; address is the one the Y3 lane encodes in its own address-derived name and the byte gate confirms it
 ?resetGrid@BfmeTaintManager@@QAEXXZ,0x00880E30,callee pin used by Rva00727050TaintBuf init
 ?resetHelper4949a@@YAXXZ,0x0004949A,TerrainLogic::reset free-function ILT to 0x0018EE40
+?resetHpState@Rva007F5D10HostLookup@@QAEXPAVRva008022A0Owner@@@Z,0x008014F0,gamebrowser pending-active reply calls the existing reset thunk through its host-lookup object
 ?resetLanGameState@@YAXXZ,0x0001C9D6,LAN current-game reset thunk
 ?resetModes@LookAtTranslator@@QAEXXZ,0x00048626,Open-BFME5 the tail call of doDisableInput with ecx = TheLookAtTranslator at 0x012F4C84; jumps to 0x005B5440
 ?resetNextMoodCheckTime@AIUpdateInterface@@QAEXXZ,0x00022C82,Open-BFME5 retail AI mood-check reset thunk

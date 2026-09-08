@@ -1047,27 +1047,6 @@ void Drawable::friend_clearSelected( void )
 // ------------------------------------------------------------------------------------------------
 /** Flash the drawable with the color */
 // ------------------------------------------------------------------------------------------------
-// ?colorFlash@Drawable@@QAEXPBURGBColor@@III@Z present-unmatched
-void Drawable::colorFlash( const RGBColor* color, UnsignedInt decayFrames, UnsignedInt attackFrames, UnsignedInt sustainAtPeak )
-{
-	if (m_colorTintEnvelope == NULL)
-		m_colorTintEnvelope = newInstance(TintEnvelope);
-
-	if( color )
-	{
-		m_colorTintEnvelope->play( color, attackFrames, decayFrames, sustainAtPeak);
-	}
-	else
-	{
-		RGBColor white;
-		white.setFromInt(0xffffffff);
-		m_colorTintEnvelope->play( &white );
-	}
-
-	// make sure the tint color is unlocked so we "fade back down" to normal
-	clearDrawableStatus( DRAWABLE_STATUS_TINT_COLOR_LOCKED );
-} 
-
 // ------------------------------------------------------------------------------------------------
 /** Tint a drawable a specified color */
 // ------------------------------------------------------------------------------------------------
