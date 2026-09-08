@@ -1,106 +1,53 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /O2 /Ob2
 
-extern "C" __declspec(naked) void bfme_export_7bbaca43()
+// Open-BFME5: TerrainCollision ConcreteModuleTemplate::clone
+
+namespace FXParticleSystem
 {
-    __asm {
-        __emit 0x6a
-        __emit 0xff
-        __emit 0x68
-        __emit 0x8b
-        __emit 0xb5
-        __emit 0x03
-        __emit 0x01
-        __emit 0x64
-        __emit 0xa1
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x50
-        __emit 0x64
-        __emit 0x89
-        __emit 0x25
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x51
-        __emit 0x56
-        __emit 0x57
-        __emit 0x6a
-        __emit 0x28
-        __emit 0x8b
-        __emit 0xf9
-        __emit 0xe8
-        __emit 0xff
-        __emit 0xfd
-        __emit 0x29
-        __emit 0x00
-        __emit 0x8b
-        __emit 0xf0
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x04
-        __emit 0x89
-        __emit 0x74
-        __emit 0x24
-        __emit 0x08
-        __emit 0x33
-        __emit 0xc0
-        __emit 0x3b
-        __emit 0xf0
-        __emit 0x89
-        __emit 0x44
-        __emit 0x24
-        __emit 0x14
-        __emit 0x74
-        __emit 0x1e
-        __emit 0x57
-        __emit 0x8b
-        __emit 0xce
-        __emit 0xe8
-        __emit 0x7b
-        __emit 0xa2
-        __emit 0xa4
-        __emit 0xff
-        __emit 0xc7
-        __emit 0x06
-        __emit 0x50
-        __emit 0x14
-        __emit 0x11
-        __emit 0x01
-        __emit 0xc7
-        __emit 0x46
-        __emit 0x04
-        __emit 0x4c
-        __emit 0x14
-        __emit 0x11
-        __emit 0x01
-        __emit 0xc7
-        __emit 0x46
-        __emit 0x0c
-        __emit 0x38
-        __emit 0x14
-        __emit 0x11
-        __emit 0x01
-        __emit 0x8b
-        __emit 0xc6
-        __emit 0x8b
-        __emit 0x4c
-        __emit 0x24
-        __emit 0x0c
-        __emit 0x5f
-        __emit 0x5e
-        __emit 0x64
-        __emit 0x89
-        __emit 0x0d
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x00
-        __emit 0x83
-        __emit 0xc4
-        __emit 0x10
-        __emit 0xc3
+class TerrainCollisionModule {};
+class TerrainCollisionModuleTemplate {};
+class ParticleTerrainCollisionModule {};
+class ParticleTerrainCollisionModuleTemplate {};
+extern const char TERRAIN_COLLISION_MODULE_KEY[1];
+extern const char TERRAIN_COLLISION_MODULE_NAME[1];
+template <int Category, const char (&Key)[1], const char (&Name)[1], class Module,
+    class ModuleTemplate, class ParticleModule, class ParticleModuleTemplate>
+class ModuleTag {};
+typedef ModuleTag<8, TERRAIN_COLLISION_MODULE_KEY, TERRAIN_COLLISION_MODULE_NAME,
+    TerrainCollisionModule, TerrainCollisionModuleTemplate,
+    ParticleTerrainCollisionModule, ParticleTerrainCollisionModuleTemplate> TerrainCollisionModuleTag;
+void *__cdecl operator new(unsigned int);
+void __cdecl operator delete(void *);
+class TerrainCollisionTemplateCopyCtorShim
+{
+public:
+    void construct(const void *source);
+};
+extern "C" char TerrainCollisionConcrete_vtbl0;
+extern "C" char TerrainCollisionConcrete_vtbl4;
+extern "C" char TerrainCollisionConcrete_vtbl12;
+class TerrainCollisionTemplateAllocation
+{
+public:
+    __forceinline TerrainCollisionTemplateAllocation(const void *source)
+    {
+        ((TerrainCollisionTemplateCopyCtorShim *)this)->construct(source);
+        *(void **)((char *)this + 0) = &TerrainCollisionConcrete_vtbl0;
+        *(void **)((char *)this + 4) = &TerrainCollisionConcrete_vtbl4;
+        *(void **)((char *)this + 12) = &TerrainCollisionConcrete_vtbl12;
     }
+private:
+    unsigned char m_bytes[0x28];
+};
+template <class Tag> class ConcreteModuleTemplate;
+template <>
+class ConcreteModuleTemplate<TerrainCollisionModuleTag>
+{
+public:
+    virtual TerrainCollisionModuleTemplate *clone() const;
+};
+TerrainCollisionModuleTemplate *ConcreteModuleTemplate<TerrainCollisionModuleTag>::clone() const
+{
+    return (TerrainCollisionModuleTemplate *)new TerrainCollisionTemplateAllocation(this);
+}
 }
