@@ -2011,8 +2011,22 @@ void W3DRoadBuffer::insertTee(Vector2 loc, Int index1, Real scale)
 //=============================================================================
 // byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBufferInsertYThunk.cpp
 // ?insertY@W3DRoadBuffer@@IAE_NVVector2@@HM@Z present-unmatched
-Bool W3DRoadBuffer::insertY(Vector2 loc, Int index1, Real scale)
+// The public W3DRoadBuffer symbol is an incremental-link thunk.  Retail keeps
+// the implementation under this adjacent class identity; deriving preserves
+// the exact W3DRoadBuffer layout and protected-member access used by the
+// authentic source body below.
+class W3DRoadBufferInsertYShim : public W3DRoadBuffer
 {
+public:
+	Bool insertY(Vector2 loc, Int index1, Real scale);
+};
+
+Bool W3DRoadBufferInsertYShim::insertY(Vector2 loc, Int index1, Real scale)
+{
+	if (!m_initialized) {
+		return false;
+	}
+
 	// pr1-3 point to the points on the segments that form the tee.
 	// They are the points on the segments that are != loc.
 	TRoadPt *pr1=NULL;
