@@ -3458,46 +3458,6 @@ VeterancyLevel Object::getVeterancyLevel() const
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?friend_bindToDrawable@Object@@QAEXPAVDrawable@@@Z present-unmatched
-void Object::friend_bindToDrawable( Drawable *draw ) 
-{ 
-	m_drawable = draw;
-	if (m_drawable)
-	{
-		ModelConditionFlags set;
-		ModelConditionFlags clr;
-		for (int i = 0; i < WEAPONSET_COUNT; ++i)
-		{
-			ModelConditionFlagType mcs = TheWeaponSetTypeToModelConditionTypeMap[i];
-			if( mcs != MODELCONDITION_INVALID )
-			{
-				if (m_curWeaponSetFlags.test(i))
-					set.set(mcs);
-				else
-					clr.set(mcs);
-			}
-		}
-		if (TheGlobalData)
-		{
-			if (TheGlobalData->m_forceModelsToFollowTimeOfDay)
-			{
-				set.set(MODELCONDITION_NIGHT, (TheGlobalData->m_timeOfDay == TIME_OF_DAY_NIGHT) ? 1 : 0);
-			}
-
-			if (TheGlobalData->m_forceModelsToFollowWeather)
-			{
-				set.set(MODELCONDITION_SNOW, (TheGlobalData->m_weather == WEATHER_SNOWY) ? 1 : 0);
-			}
-		}
-		m_drawable->clearAndSetModelConditionFlags(clr, set);
-	}
-
-	for (BehaviorModule** b = m_behaviors; *b; ++b)
-	{
-		(*b)->onDrawableBoundToObject();
-	}
-}	
-
 //-------------------------------------------------------------------------------------------------
 // BFME: m_isSelectable lives at +0x340.
 void Object::setSelectable(Bool selectable) 
