@@ -84319,7 +84319,6 @@ name,address,notes
 ?update@Radar@@UAEXXZ,0x00030E77,W3DRadar update retail base thunk
 ?update@RadiusDecal@@QAEXXZ,0x0003FC15,BFME RadiusDecal update ILT called by InGameUI handleRadiusCursor
 ?update@Rva00367810Entry@@QAEXXZ,0x0000E0AC,REL32 target read from the retail call at RVA 0x0036786D; ILT thunk to RVA 0x00367330
-?update@Rva003D2E00Element@@QAEXPAURegion3D_003D2E00@@@Z,0x0002588D,retail incremental-link thunk to the Y1 bounds element callback
 ?update@Rva005CCA10Particle@@QAE_NXZ,0x00018F43,outlined particle update call through the incremental-link thunk to retail body 0x005CC6C0
 ?update@Rva0060A240Element@@QAEXXZ,0x00011D10,element update ILT called by the exact counted loop at 0x0060FFF0
 ?update@Rva0060A470Element@@QAEXXZ,0x0001D2BE,element update ILT called by the exact counted loop at 0x0060FF60
@@ -86327,3 +86326,5 @@ g_windGlobalB,0x012B8E00,WindModuleInfo ctor global
 ?erase@EnragedBehaviorRange@@QAEXPAX0@Z,0x00024C17,EnragedBehavior vector<AsciiString> clear passes its begin and end through this proven ILT to 0x00065960
 ?bfmeCheckYX@BFMEActionManager@@QAE_NPAVBfmeObjYX@@PAVBfmeThingYX@@H@Z,0x000338D4,Open-BFME5 ILT action check the 0x002C9A70 apply calls
 ?bfmeGetIdYX@BfmeThingYX@@QAEHXZ,0x000029D7,Open-BFME5 ILT id getter the 0x002C9A70 apply calls
+?g_Va013385F8@@3EA,0x013385F8,Neutral Apt lookup key; absolute data VA from target899C20 operand+0C
+?g_Va013387D8@@3PAURva00899C20Registry@@A,0x013387D8,Neutral Apt registry pointer; absolute data VA from target899C20 operands+07/+21; table subobject at+8
