@@ -14,7 +14,6 @@ extern "C" {
 	void *GetPreviewFromMap(void *out, void *path);
 	void *GetArtPreviewFromMap(void *out, void *path);
 	void *GetPicPreviewFromMap(void *out, void *path);
-	void *GetINIFromMap(void *out, void *path);
 	void *GetStrFileFromMap(void *out, void *path);
 	void *GetSoloINIFromMap(void *out, void *path);
 	void *GetAssetUsageFromMap(void *out, void *path);
@@ -454,105 +453,6 @@ L03_66DA4B:
 
 // Builds "%s\\map.ini" from the map path's directory. Retail's name: the ZH reference
 // has the same function building the same string.
-__declspec(naked) void *GetINIFromMap(void *out, void *path)
-{
-	__asm {
-		push 0FFFFFFFFh
-		push 1044AD1h
-		mov eax, dword ptr fs:[0h]
-		push eax
-		mov dword ptr fs:[0h], esp
-		sub esp, 10h
-		push esi
-		xor esi, esi
-		mov dword ptr [esp+0Ch], esi
-		push ecx
-		lea eax,  [esp+2Ch]
-		mov dword ptr [esp+0Ch], esp
-		mov ecx, esp
-		push eax
-		mov dword ptr [esp+24h], 1h
-		__emit 0E8h
-		__emit 008h
-		__emit 0A0h
-		__emit 021h
-		__emit 000h   // call 0x887B60
-		lea ecx,  [esp+0Ch]
-		push ecx
-		__emit 0E8h
-		__emit 0BDh
-		__emit 065h
-		__emit 099h
-		__emit 0FFh   // call 0x411F
-		add esp, 8h
-		mov dword ptr [esp+4h], esi
-		mov eax, dword ptr [esp+8h]
-		cmp eax, esi
-		mov byte ptr [esp+1Ch], 3h
-		je L00_66DB7B
-		add eax, 8h
-		jmp L01_66DB80
-L00_66DB7B:
-		mov eax, 107388Bh
-L01_66DB80:
-		push eax
-		push ecx
-		mov dword ptr [esp+18h], esp
-		mov ecx, esp
-		push 10EAEF0h
-		__emit 0E8h
-		__emit 02Eh
-		__emit 0B0h
-		__emit 021h
-		__emit 000h   // call 0x888BC0
-		lea edx,  [esp+0Ch]
-		push edx
-		__emit 0E8h
-		__emit 054h
-		__emit 0B4h
-		__emit 021h
-		__emit 000h   // call 0x888FF0
-		mov esi, dword ptr [esp+30h]
-		add esp, 0Ch
-		lea eax,  [esp+4h]
-		push eax
-		mov ecx, esi
-		__emit 0E8h
-		__emit 0B1h
-		__emit 09Fh
-		__emit 021h
-		__emit 000h   // call 0x887B60
-		lea ecx,  [esp+4h]
-		mov dword ptr [esp+0Ch], 1h
-		mov byte ptr [esp+1Ch], 2h
-		__emit 0E8h
-		__emit 07Bh
-		__emit 09Dh
-		__emit 021h
-		__emit 000h   // call 0x887940
-		lea ecx,  [esp+8h]
-		mov byte ptr [esp+1Ch], 1h
-		__emit 0E8h
-		__emit 06Dh
-		__emit 09Dh
-		__emit 021h
-		__emit 000h   // call 0x887940
-		lea ecx,  [esp+28h]
-		mov byte ptr [esp+1Ch], 0h
-		__emit 0E8h
-		__emit 05Fh
-		__emit 09Dh
-		__emit 021h
-		__emit 000h   // call 0x887940
-		mov ecx, dword ptr [esp+14h]
-		mov eax, esi
-		mov dword ptr fs:[0h], ecx
-		pop esi
-		add esp, 1Ch
-		ret
-	}
-}
-
 // Builds "%s\\map.str" from the map path's directory. Retail's name: the ZH reference
 // has the same function building the same string.
 __declspec(naked) void *GetStrFileFromMap(void *out, void *path)
